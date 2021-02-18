@@ -1,2 +1,5197 @@
 ---
-pf2e_spells: {}
+pf2e_spells: {
+  abyssal plague:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+acid arrow:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+acid splash:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+aerial form:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+agonizing despair:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+air bubble:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+air walk:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+alarm:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+alter reality:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+anathematic reprisal:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+ancestral defense:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+ancestral form:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+ancestral touch:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+animal feature:
+  is_cantrip: false
+  is_focus: true
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+animal form:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+animal messenger:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+animal vision:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+animate dead:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+animate rope:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+animated assault:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+ant haul:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+antimagic field:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+aqueous orb:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+armor of bones:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+augury:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+avatar:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+baleful polymorph:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+bane:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+banishment:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+barkskin:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+battlefield persistence:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+bestial curse:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+bind soul:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+bind undead:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+black tentacles:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+blade barrier:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+blanket of stars:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  - primal
+  traits:
+  - ''
+bless:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+blinding beauty:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+blinding fury:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+blindness:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+blink:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+blister:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+blistering invective:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+blood vendetta:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+blood ward:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+blur:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+brain drain:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+breath of life:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+burning hands:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+cackle:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+call to arms:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+calm emotions:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+cataclysm:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+chain lightning:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+chameleon coat:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+charitable urge:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+charm:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+chill touch:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+chilling darkness:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+chilling spray:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+chroma leach:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+chromatic wall:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+circle of protection:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+claim undead:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+clairaudience:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+clairvoyance:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+clinging ice:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+clinging shadows stance:
+  is_cantrip: false
+  is_focus: true
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+cloak of colors:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+cloudkill:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+collective transposition:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+color spray:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+command:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+comprehend language:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+cone of cold:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+confusion:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+consuming darkness:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+contingency:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+continual flame:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+control water:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+countless eyes:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+cozy cabin:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+crashing wave:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+create food:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+create water:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+creation:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+crisis of faith:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+crusade:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+crushing despair:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+curse of lost time:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+curse of death:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+dancing lights:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+darkness:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+darkvision:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+daze:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+deafness:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+death knell:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+death ward:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+debilitating dichotomy:
+  is_cantrip: false
+  is_focus: true
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+deceiver's cloak:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+deja vu:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+delay affliction:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+detect alignment:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+detect magic:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+detect poison:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+detect scrying:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+dim the light:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+dimension door:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+dimensional anchor:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+dimensional lock:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+dinosaur form:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+disappearance:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+discern lies:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+discern location:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+discern secrets:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+disintegrate:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+disjunction:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+dismantle:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+dispel magic:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+disrupt undead:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+disrupting weapons:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+divine aura:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+divine decree:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+divine inspiration:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+divine lance:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+divine vessel:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+divine wrath:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+dominate:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+dragon form:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+dread secret:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+dream council:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+dream message:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+dreaming potential:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+drop dead:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  traits:
+  - ''
+dull ambition:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+duplicate foe:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+earthbind:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+earthquake:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+eclipse burst:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+electric arc:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+elemental betrayal:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+elemental form:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+endure elements:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+energy aegis:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+enervation:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+enhance victuals:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+enlarge:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+enlarge companion:
+  is_cantrip: false
+  is_focus: true
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+entangle:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+enthrall:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+ephemeral tracking:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+establish ward:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+ethereal jaunt:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+evil eye:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+fabricated truth:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+faerie fire:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+false life:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+false vision:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+familiar's face:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+fear:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+feather fall:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+feeblemind:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+feet to fins:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+field of life:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+fiery body:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+final sacrifice:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+finger of death:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+fire seeds:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+fire shield:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+fireball:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+flame strike:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+flaming fusillade:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+flaming sphere:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+fleet step:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+flesh to stone:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+floating disk:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+fly:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+forbidding ward:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+force cage:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+foresight:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+freedom of movement:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+fungal infestation:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+gaseous form:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+gate:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+genie's veil:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+gentle repose:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+ghost sound:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+ghostly tragedy:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult cast (1 minute) material
+  - somatic
+  - verbal
+  traits:
+  - ''
+ghostly weapon:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+ghoulish cravings:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+glibness:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+glitterdust:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+globe of invulnerability:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+glyph of warding:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+goblin pox:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+gravity weapon:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+grease:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+grim tendrils:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+grisly growths:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+guidance:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+gust of wind:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+hallucination:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+hallucinatory terrain:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+harm:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+haste:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+heal:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+heal companion:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+heart's desire:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+heat metal:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+heroic feat:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+heroism:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+hideous laughter:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+holy cascade:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+horrid wilting:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+humanoid form:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+hunter's luck:
+  is_cantrip: false
+  is_focus: true
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+hunter's vision:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+hydraulic push:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+hydraulic torrent:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+hymn of healing:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+hypercognition:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+hypnotic pattern:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+ice storm:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+ill omen:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+illusory creature:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+illusory disguise:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+illusory object:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+illusory scene:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+immunity:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+impaling spike:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+implosion:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+imprint message:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+incendiary aura:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+indestructibility:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+insect form:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+interstellar void:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+invisibility:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+invisibility sphere:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+invisible item:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+item facade:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+jump:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+ki form:
+  is_cantrip: false
+  is_focus: true
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+knock:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+know direction:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+levitate:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+life boost:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+life link:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+life-giving form:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+light:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+lightning bolt:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+lightning storm:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+litany of depravity:
+  is_cantrip: false
+  is_focus: true
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+litany of self-interest:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+locate:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+lock:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+longstrider:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+mad monkeys:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+mage armor:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+mage hand:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+magic aura:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+magic fang:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+magic hide:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+magic missile:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+magic mouth:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+magic stone:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+magic weapon:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+magnificent mansion:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+malicious shadow:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+mariner's curse:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+mask of terror:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+massacre:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+maze:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+medusa's wrath:
+  is_cantrip: false
+  is_focus: true
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+meld into stone:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+mending:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+message:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+meteor swarm:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+mind blank:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+mind probe:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+mind reading:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+mindlink:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+miracle:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+mirror image:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+misdirection:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+mislead:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+modify memory:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+moment of renewal:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+monstrosity form:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+moon frenzy:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+moonlight bridge:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+nature incarnate:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+nature's enmity:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+needle of vengeance:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+negate aroma:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+neutralize poison:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+nightmare:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+nondetection:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+noxious vapors:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+nudge fate:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+nymph's token:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+object reading:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+obscuring mist:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+ode to ouroboros:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+oracle access lore:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+outcast's curse:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+overwhelming presence:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+paralyze:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+paranoia:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+pass without trace:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+passwall:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+personal blizzard:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+pest form:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+pet cache:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+phantasmal calamity:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+phantasmal killer:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+phantasmal treasure:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+phantom pain:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+phantom steed:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+phase familiar:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+pied piping:
+  is_cantrip: false
+  is_focus: true
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+plane shift:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+plant form:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+polar ray:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+possession:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+power word blind:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+power word kill:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+power word stun:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+prestidigitation:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+primal herd:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+primal phenomenon:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+prismatic sphere:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+prismatic spray:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+prismatic wall:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+private sanctum:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+produce flame:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+project image:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+protection:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+prying eye:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+pummeling rubble:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+punishing winds:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+purify food and drink:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+purple worm sting:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+quench:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+raise dead:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+ranger's bramble:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+ray of enfeeblement:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+ray of frost:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+read aura:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+read omens:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+reaper's lantern:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+regenerate:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+remake:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+remove curse:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+remove disease:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+remove fear:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+remove paralysis:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+repulsion:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+resilient sphere:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+resist energy:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+resplendent mansion:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+restoration:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+restorative moment:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+restore senses:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+retrocognition:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+reverse gravity:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+revival:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+righteous might:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+rope trick:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+rusting grasp:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+safe passage:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+sanctified ground:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+sanctuary:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+scintillating pattern:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+scintillating safeguard:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+scrying:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+sculpt sound:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+seal fate:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+searing light:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+secret chest:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+secret page:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+see invisibility:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+sending:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+sepulchral mask:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+shadow blast:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+shadow siphon:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+shadow walk:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+shadow's web:
+  is_cantrip: false
+  is_focus: true
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+shape stone:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+shape wood:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+shapechange:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+shatter:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  - primal
+  traits:
+  - ''
+shepherd of souls:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+shield:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+shield other:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+shillelagh:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+shocking grasp:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+shrink:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+shrink item:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+shroud of night:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+sigil:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+silence:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+sleep:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+slow:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+snare hopping:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+solid fog:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+song of marching:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+song of strength:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+soothe:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+soothing mist:
+  is_cantrip: false
+  is_focus: true
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+soul siphon:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+sound burst:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+speak with animals:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+speak with plants:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+spectral hand:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+spellwrack:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+spider climb:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+spider sting:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+spike stones:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+spirit blast:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+spirit link:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+spirit sense:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+spirit song:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+spirit veil:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+spiritual epidemic:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+spiritual guardian:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+spiritual weapon:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+spray of stars:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+stabilize:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+status:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+steal shadow:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+stinking cloud:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+stoke the heart:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+stone tell:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+stone to flesh:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+stoneskin:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+storm of vengeance:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+strange geometry:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+subconscious suggestion:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+sudden blight:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+suggestion:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+summon animal:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+summon celestial:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+summon construct:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+summon dragon:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+summon elemental:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+summon entity:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+summon fey:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  - primal
+  traits:
+  - ''
+summon fiend:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+summon giant:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+summon instrument:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+summon plant or fungus:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+sunburst:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+symphony of the unfettered heart:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+synaptic pulse:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+synesthesia:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+talking corpse:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+tanglefoot:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+tangling creepers:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+telekinetic haul:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+telekinetic maneuver:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+telekinetic projectile:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+telepathic bond:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+telepathic demand:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+telepathy:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+teleport:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+tempest form:
+  is_cantrip: false
+  is_focus: true
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+tempest touch:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+terrain transposition:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+thoughtful gift:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+threefold aspect:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  - primal
+  traits:
+  - ''
+thunderburst:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+time stop:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+tongues:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+touch of corruption:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+touch of idiocy:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+transmute rock and mud:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+tree shape:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+tree stride:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+true seeing:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+true strike:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+true target:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+turning:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+uncontrollable dance:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+undetectable alignment:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+unfathomable song:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+unfettered pack:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+unrelenting observation:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+unseen servant:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+vampiric exsanguination:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+vampiric maiden:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+vampiric touch:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  traits:
+  - ''
+veil:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+veil of dreams:
+  is_cantrip: false
+  is_focus: true
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+ventriloquism:
+  is_cantrip: false
+  is_focus: false
+  level: '1'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+vibrant pattern:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+vision of weakness:
+  is_cantrip: false
+  is_focus: true
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+visions of danger:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - occult
+  traits:
+  - ''
+vital beacon:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - primal
+  traits:
+  - ''
+volcanic eruption:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+vomit swarm:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  - primal
+  traits:
+  - ''
+wail of the banshee:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+wall of flesh:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  - primal
+  traits:
+  - ''
+wall of fire:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+wall of force:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+wall of ice:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+wall of stone:
+  is_cantrip: false
+  is_focus: false
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+wall of thorns:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+wall of wind:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+wanderer's guide:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+warp mind:
+  is_cantrip: false
+  is_focus: false
+  level: '7'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+water breathing:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+water walk:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - divine
+  - primal
+  traits:
+  - ''
+weapon storm:
+  is_cantrip: false
+  is_focus: false
+  level: '4'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+weapon of judgment:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  traits:
+  - ''
+web:
+  is_cantrip: false
+  is_focus: false
+  level: '2'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - primal
+  traits:
+  - ''
+weird:
+  is_cantrip: false
+  is_focus: false
+  level: '9'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  - occult
+  traits:
+  - ''
+whirling flames:
+  is_cantrip: false
+  is_focus: true
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+wilding word:
+  is_cantrip: false
+  is_focus: false
+  level: '0'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+wind walk:
+  is_cantrip: false
+  is_focus: false
+  level: '8'
+  shortdesc: ''
+  spell_trad:
+  - primal
+  traits:
+  - ''
+wish:
+  is_cantrip: false
+  is_focus: false
+  level: '10'
+  shortdesc: ''
+  spell_trad:
+  - arcane
+  traits:
+  - ''
+wish-twisted form:
+  is_cantrip: false
+  is_focus: true
+  level: '5'
+  shortdesc: ''
+  spell_trad:
+  - ''
+  traits:
+  - ''
+zealous conviction:
+  is_cantrip: false
+  is_focus: false
+  level: '6'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+zone of truth:
+  is_cantrip: false
+  is_focus: false
+  level: '3'
+  shortdesc: ''
+  spell_trad:
+  - divine
+  - occult
+  traits:
+  - ''
+}
