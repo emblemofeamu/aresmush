@@ -1,2 +1,196 @@
 ---
-pf2e_feats: {}
+  pf2e_feats: {
+    Alechemist:
+      Feat Name: Alchemical Familiar
+        level: 1
+        traits: null
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You have used alchemy to create life, a simple creature formed from alchemical materials, reagents, and a bit of your own blood."
+        is_action: false
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Alchemical Savant
+        level: 1
+        traits: null
+        prereq: 
+          ability: null
+          skill: Crafting/trained
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You can identify alchemical items quickly."
+        is_action: false
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Far Lobber
+        level: 1
+        traits: null
+        prereq: 
+          ability: null
+          skill: Crafting/trained
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You’ve learned how to throw alchemical bombs a longer distance."
+        is_action: false
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Quick Bomber
+        level: 1
+        traits: null
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You keep your bombs in easy-to-reach pouches from which you draw without thinking."
+        is_action: true
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Subtle Delivery
+        level: 1
+        traits: null
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You can capably deliver toxins with a blowgun."
+        is_action: false
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Demolition Charge
+        level: 2
+        traits: null
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You can rig your bombs to inanimate objects in order to cause destruction to the surrounding area."
+        is_action: true
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Poison Resistance
+        level: 2
+        traits: null
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "Repeated exposure to toxic reagents has fortified your body against poisons of all kinds."
+        is_action: false
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Revivifying Mutagen
+        level: 2
+        traits: null
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "While under the effect of a mutagen, you can metabolize that mutagen’s power to heal yourself."
+        is_action: true
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      Feat Name: Smoke Bomb
+        level: 2
+        traits: Additive
+        prereq: 
+          ability: null
+          skill: null
+          specialize: null
+          has_focus_pool: true
+          charclass: null
+          feat: null
+          lore: null
+          heritage: null
+        shortdesc: "You cause the bomb to create a cloud of thick smoke, in addition to its normal effects."
+        is_action: true
+        is_reaction: false
+        spell: null
+        cantrip: null
+        focus_spell/focus_cantrip: null
+      
+    # charclass:
+    # Feat Name:
+    #   level: <integer>
+    #   traits: <array>
+    #   prereq: 
+    #     ability: Strength/16
+    #     skill: Medicine/trained
+    #     specialize: Maestro
+    #     has_focus_pool: true
+    #     charclass: arcane bond
+    #     feat:
+    #     - "Feat Name"
+    #     lore: Lore Name/trained
+    #     heritage: "<heritage>"
+    #   shortdesc: <string>
+    #   is_action: <Boolean>
+    #   is_reaction: <Boolean>
+    #   spell: <string if present, used if it adds a spell> 
+    #   cantrip: <string if present, used if it adds a cantrip>
+    #   focus_spell/focus_cantrip: <string if present, used if it adds a focus spell or cantrip respectively>
+
+  # ancestry:
+  #   Feat Name:
+  #     (same stuff)
+  # general:
+  #   Feat Name:
+  #     (same stuff)
+  #   Feat Name: 
+  #     (same stuff)
+}
