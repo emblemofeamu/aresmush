@@ -80,8 +80,7 @@ module AresMUSH
 
       # Calculate all the focus pool points that the character could have available.
       # From character class
-
-      mstat_class = Global.read_config('pf2e_class', char.pf2_base_info['charclass'], chargen)['magic_stats']
+      mstat_class = Global.read_config('pf2e_class', char.pf2_base_info['charclass'], "chargen")['magic_stats']
 
       if mstat_class
         fp_from_charclass = mstat_class['focus_pool'] ? mstat_class['focus_pool'] : 0
