@@ -116,7 +116,7 @@ module AresMUSH
             focus_spells = magic.focus_spells
 
             value.each_pair do |fstype, spell_list|
-              fs_by_type = focus_spells[stype] ? focus_spells[stype] : []
+              fs_by_type = focus_spells[fstype] ? focus_spells[fstype] : []
               fs_by_type = (fs_by_type - spell_list).uniq
               focus_spells[fstype] = fs_by_type
             end
@@ -128,7 +128,7 @@ module AresMUSH
             focus_cantrips = magic.focus_cantrips
 
             value.each_pair do |fstype, spell_list|
-              fs_by_type = focus_cantrips[stype] ? focus_cantrips[stype] : []
+              fs_by_type = focus_cantrips[fstype] ? focus_cantrips[fstype] : []
               fs_by_type = (fs_by_type - spell_list).uniq
               focus_cantrips[fstype] = fs_by_type
             end
@@ -253,7 +253,7 @@ module AresMUSH
             focus_spells = magic.focus_spells
 
             value.each_pair do |fstype, spell_list|
-              fs_by_type = focus_spells[stype] ? focus_spells[stype] : []
+              fs_by_type = focus_spells[fstype] ? focus_spells[fstype] : []
               fs_by_type = (fs_by_type + spell_list).uniq
               focus_spells[fstype] = fs_by_type
             end
@@ -265,7 +265,7 @@ module AresMUSH
             focus_cantrips = magic.focus_cantrips
 
             value.each_pair do |fstype, spell_list|
-              fs_by_type = focus_cantrips[stype] ? focus_cantrips[stype] : []
+              fs_by_type = focus_cantrips[fstype] ? focus_cantrips[fstype] : []
               fs_by_type = (fs_by_type + spell_list).uniq
               focus_cantrips[fstype] = fs_by_type
             end
