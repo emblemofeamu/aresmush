@@ -55,14 +55,19 @@ module AresMUSH
             return nil
           end
 
-          options = Global.read_config('pf2e_heritages', heritage, 'lineages').sort
+          if heritage.blank?
+            client.emit_failure t('pf2e.heritage_not_set')
+            return nil
+          end
+        
+          options = Global.read_config('pf2e_heritages', heritage, 'lineages')
 
           if !options
             client.emit_failure t('pf2e.no_lineages')
             return
           end
-
-          selected_option = options.find { |o| o.downcase.include? self.value.downcase }
+          
+          selected_option = options.sort.find { |o| o.downcase.include? self.value.downcase }
         elsif selected_element == "specialize"
           charclass = base_info['charclass']
 
