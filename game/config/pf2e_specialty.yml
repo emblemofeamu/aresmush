@@ -1851,7 +1851,8 @@ pf2e_specialty:
             hex:
             - Evil Eye
           addspell:
-            1: Ray of Enfeeblement
+            1: 
+            - Ray of Enfeeblement
       advance:
         7:
           magic_stats:
@@ -1879,7 +1880,8 @@ pf2e_specialty:
             hex:
             - Nudge Fate
           addspell:
-            1: True Strike
+            1: 
+            - True Strike
       advance:
         7:
           magic_stats:
@@ -1907,7 +1909,8 @@ pf2e_specialty:
             hex:
             - Stoke the Heart
           addspell:
-            1: Command
+            1: 
+            - Command
       advance:
         7:
           magic_stats:
@@ -1935,7 +1938,8 @@ pf2e_specialty:
             hex:
             - Shroud of Night
           addspell:
-            1: Sleep
+            1: 
+            - Sleep
       advance:
         7:
           magic_stats:
@@ -1963,7 +1967,8 @@ pf2e_specialty:
             hex:
             - Discern Secrets
           addspell:
-            1: Magic Weapon
+            1: 
+            - Magic Weapon
       advance:
         7:
           magic_stats:

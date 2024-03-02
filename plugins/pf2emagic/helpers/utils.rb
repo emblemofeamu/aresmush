@@ -10,7 +10,7 @@ module AresMUSH
 
     def self.generate_spells_today(char)
 
-      magic = char.magic 
+      magic = char.magic
 
       return t('pf2emagic.not_caster') unless magic
 
@@ -53,7 +53,7 @@ module AresMUSH
       if !enactor.is_admin?
         return t('pf2emagic.cant_refresh_pool') unless current.zero?
 
-        last_refocus, current_time = magic.last_refocus, Time.now 
+        last_refocus, current_time = magic.last_refocus, Time.now
 
         # Last refocus can be nil, use 0 epoch if it is
 
@@ -80,11 +80,12 @@ module AresMUSH
 
       # Calculate all the focus pool points that the character could have available.
       # From character class
-      mstat_class = Global.read_config('pf2e_class', char.pf2_base_info['charclass'], "chargen")['magic_stats']
+
+      mstat_class = Global.read_config('pf2e_class', char.pf2_base_info['charclass'], 'chargen')['magic_stats']
 
       if mstat_class
         fp_from_charclass = mstat_class['focus_pool'] ? mstat_class['focus_pool'] : 0
-      else 
+      else
         fp_from_charclass = 0
       end
 
@@ -96,7 +97,7 @@ module AresMUSH
       all_feats.each do |feat|
         details = Pf2e.get_feat_details(feat)
         (values << 0 && next) if details.is_a? String
-          
+
         mstats = details[1]['magic_stats']
         (values << 0 && next) unless mstats
 

@@ -324,6 +324,7 @@ module AresMUSH
 
         # Most characters will be casters in some capacity at some point in their development,
         # so everyone gets one to avoid create/delete repeatedly.
+        client.emit_ooc "Checking for magic..."
         magic = PF2Magic.get_create_magic_obj(enactor)
 
         class_mstats = class_features_info['magic_stats'] ? class_features_info['magic_stats'] : {}
