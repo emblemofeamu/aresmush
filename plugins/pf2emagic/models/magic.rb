@@ -298,7 +298,7 @@ module AresMUSH
             value.each do |level, spell_list|
               list = csb[level] ? csb[level] : []
 
-              spell_list.each { |s| list << s }
+              list << spell_list
 
               csb[level] = list
             end
