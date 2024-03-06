@@ -3,7 +3,6 @@ module AresMUSH
 
     class PF2ChargenInfoCmd
       include CommandHandler
-      include CommonTemplateFields
 
       attr_accessor :element
 
@@ -85,29 +84,24 @@ module AresMUSH
 
         # Format the list to be paginated.
 
-        fmt_options = []
 
-        options.sort.each_with_index do |option, i|
-          fmt_options << Pf2e.format_cginfo_options(option, i)
-        end
+        # paginator = Paginator.paginate(options, cmd.page, 30)
 
-        paginator = Paginator.paginate(fmt_options, cmd.page, 30)
+        # if (paginator.out_of_bounds?)
+        #   client.emit_failure paginator.out_of_bounds_msg
+        #   return
+        # end
 
-        if (paginator.out_of_bounds?)
-          client.emit_failure paginator.out_of_bounds_msg
-          return
-        end
+        #title = "Chargen Options for #{self.element.capitalize}"
 
-        title = "Chargen Options for #{self.element.capitalize}"
+        # template = PF2CGInfoTemplate.new(paginator, title)
 
-        template = PF2CGInfoTemplate.new(paginator, title)
+        # client.emit template.render
 
-        client.emit template.render
-
-        # client.emit t('pf2e.cg_info',
-        #   :element=>"%x24#{self.element}%xn",
-        #   :options=>"#{item_color}#{options.join(", ")}"
-        # )
+        client.emit t('pf2e.cg_info',
+          :element=>"%x24#{self.element}%xn",
+          :options=>"#{item_color}#{options.join(", ")}"
+        )
       end
 
     end
