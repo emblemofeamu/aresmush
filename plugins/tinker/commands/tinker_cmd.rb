@@ -10,13 +10,20 @@ module AresMUSH
       
       def handle
       
-        arg_raw = "Test=6"
+        char = Character.find_one_by_name("Davi")
+        value = { "cantrip" => 5, 1 => 3, 2 => 1} 
         
-        args = trimmed_list_arg(arg_raw, "=")
-        
-        args.unshift(nil) unless args[2]
-        
-        client.emit args
+        to_assign = char.pf2_to_assign
+
+        assignment_list = {}
+        value.each_pair do |level, num|
+            ary = Array.new(num, "open")
+            assignment_list[level] = ary
+        end
+
+        to_assign["repertoire"] = assignment_list
+
+        char.update(pf2_to_assign: to_assign)
         
       end
 
