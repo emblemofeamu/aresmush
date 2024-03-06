@@ -84,9 +84,10 @@ module AresMUSH
 
     end
 
-    def self.cg_edge_cases(char, charclass, heritage, background)
+    def self.cg_edge_cases(char, charclass, heritage, background, deity_info)
       case charclass
       when "Cleric"
+
         dfont_choice = deity_info['divine_font']
 
         if dfont_choice.size > 1
@@ -410,7 +411,7 @@ module AresMUSH
       # Most characters will be casters in some capacity at some point in their development,
       # so everyone gets one to avoid create/delete repeatedly.
       client.emit_ooc "Checking for magic..."
-      magic = PF2Magic.get_create_magic_obj(enactor)
+      PF2Magic.get_create_magic_obj(enactor)
 
       class_mstats = class_features_info['magic_stats'] ? class_features_info['magic_stats'] : {}
       if subclass_features_info
@@ -422,13 +423,17 @@ module AresMUSH
       if class_mstats.empty?
         client.emit_ooc "This combination of options does not have magical abilities to set up. Continuing."
       else
-        PF2Magic.update_magic(enactor, charclass, class_mstats, client)
+        # An unfortunate consequence of update_magic is taking to_assign out behind the toolshed and giving it
+        # the Ol' Yeller. Luckily, this is a computer and not a traumatic Disney movie. We can save Ol' Yeller
+        # to a temporary variable and merge it back in with the results of update_magic.
+        to_assign_pre_update_magic = to_assign
+        to_assign = to_assign_pre_update_magic.merge(PF2Magic.update_magic(enactor, charclass, class_mstats, client))
         client.emit_ooc "Setting up magic..."
       end
 
-      magic.save
-
       # Languages
+
+      client.emit_ooc "Assessing languages...."
       languages = enactor.pf2_lang
 
       ancestry_info['languages'].each { |l| languages << l }
@@ -499,7 +504,7 @@ module AresMUSH
       enactor.pf2_actions = char_actions
 
       # Check for and handle weird edge cases
-      Pf2e.cg_edge_cases(enactor, charclass, heritage, background)
+      Pf2e.cg_edge_cases(enactor, charclass, heritage, background, deity_info)
 
       # Put everything together, lock it, record the checkpoint, and save to database
       enactor.pf2_to_assign = to_assign
@@ -603,6 +608,12 @@ module AresMUSH
 
     def self.restore_checkpoint(char, checkpoint)
 
+    end
+
+    def self.format_cginfo_options(option,i)
+      linebreak = i % 3 == 0 ? "%r" : ""
+
+      "#{linebreak}#{left(option, 25)}%b"
     end
 
   end

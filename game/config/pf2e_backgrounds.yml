@@ -589,6 +589,18 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Courier (Ala'i):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Ala'i Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
   Courier (Alexandria):
     abl_boosts:
     - [ Dexterity, Intelligence ]
@@ -596,6 +608,18 @@ pf2e_background:
     skills:
     - Society
     - Alexandria Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Amity):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Amity Lore
     feat:
     - Glean Contents
     special: []
@@ -613,6 +637,42 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Courier (Chiuin Chathair):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Chiuin Chathair Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Citadel of Potarakaumi):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Citadel of Potarakaumi Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Duama):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Duama Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
   Courier (Dun Mordren):
     abl_boosts:
     - [ Dexterity, Intelligence ]
@@ -620,6 +680,210 @@ pf2e_background:
     skills:
     - Society
     - Dun Mordren Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Fiore di Mar):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Fiore di Mar Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Flehzya):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Flehzya Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Keykavous):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Keykavous Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Marniar'nir):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Marniar'nir Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Matewa):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Matewa Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Mohebi):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Mohebi Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Mosta'An):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Mosta'An Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (New Hextus):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - New Hextus Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Nohem):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Nohem Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Nouzari):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Nouzari Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (O'rondessa):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - O'rondessa Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Promise):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Promise Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Rune):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Rune Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Sarzana):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Sarzana Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Shamshir):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Shamshir Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Taeao):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Taeao Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Tamatou):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Tamatou Lore
     feat:
     - Glean Contents
     special: []
@@ -637,13 +901,13 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Courier (Hextus):
+  Courier (Temirkan):
     abl_boosts:
     - [ Dexterity, Intelligence ]
     - open
     skills:
     - Society
-    - Hextus Lore
+    - Temirkan Lore
     feat:
     - Glean Contents
     special: []
@@ -656,6 +920,18 @@ pf2e_background:
     skills:
     - Society
     - Vandalheim Lore
+    feat:
+    - Glean Contents
+    special: []
+    action: []
+    reaction: []
+  Courier (Volstengrad):
+    abl_boosts:
+    - [ Dexterity, Intelligence ]
+    - open
+    skills:
+    - Society
+    - Volstengrad Lore
     feat:
     - Glean Contents
     special: []
@@ -949,6 +1225,18 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Emissary (Ala'i):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Ala'i Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
   Emissary (Alexandria):
     abl_boosts:
     - [ Intelligence, Charisma ]
@@ -956,6 +1244,18 @@ pf2e_background:
     skills:
     - Society
     - Alexandria Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Amity):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Amity Lore
     feat:
     - Multilingual
     special: []
@@ -973,6 +1273,42 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Emissary (Chiuin Chathair):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Chiuin Chathair Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Citadel of Potarakaumi):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Citadel of Potarakaumi Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Duama):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Duama Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
   Emissary (Dun Mordren):
     abl_boosts:
     - [ Intelligence, Charisma ]
@@ -980,6 +1316,210 @@ pf2e_background:
     skills:
     - Society
     - Dun Mordren Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Fiore di Mar):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Fiore di Mar Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Flehzya):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Flehzya Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Keykavous):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Keykavous Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Marniar'nir):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Marniar'nir Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Matewa):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Matewa Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Mohebi):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Mohebi Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Mosta'An):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Mosta'An Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (New Hextus):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - New Hextus Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Nohem):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Nohem Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Nouzari):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Nouzari Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (O'rondessa):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - O'rondessa Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Promise):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Promise Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Rune):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Rune Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Sarzana):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Sarzana Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Shamshir):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Shamshir Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Taeao):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Taeao Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Tamatou):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Tamatou Lore
     feat:
     - Multilingual
     special: []
@@ -997,13 +1537,13 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Emissary (Hextus):
+  Emissary (Temirkan):
     abl_boosts:
     - [ Intelligence, Charisma ]
     - open
     skills:
     - Society
-    - Hextus Lore
+    - Temirkan Lore
     feat:
     - Multilingual
     special: []
@@ -1016,6 +1556,18 @@ pf2e_background:
     skills:
     - Society
     - Vandalheim Lore
+    feat:
+    - Multilingual
+    special: []
+    action: []
+    reaction: []
+  Emissary (Volstengrad):
+    abl_boosts:
+    - [ Intelligence, Charisma ]
+    - open
+    skills:
+    - Society
+    - Volstengrad Lore
     feat:
     - Multilingual
     special: []
@@ -1101,7 +1653,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Guard (Legal Lore):
+  Guard (Legal):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -1113,7 +1665,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Guard (Warfare Lore):
+  Guard (Warfare):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -1233,7 +1785,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Noble (Genealogy Lore):
+  Noble (Genealogy):
     abl_boosts:
     - [ Intelligence, Charisma ]
     - open
@@ -1245,7 +1797,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Noble (Heraldry Lore):
+  Noble (Heraldry):
     abl_boosts:
     - [ Intelligence, Charisma ]
     - open
@@ -1257,7 +1809,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Aquatic Terrain Lore):
+  Nomad (Aquatic Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1269,7 +1821,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Arctic Lore):
+  Nomad (Arctic Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1281,7 +1833,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Desert Terrain Lore):
+  Nomad (Desert Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1293,7 +1845,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Forest Terrain Lore):
+  Nomad (Forest Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1305,7 +1857,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Mountain Terrain Lore):
+  Nomad (Mountain Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1317,7 +1869,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Plains Terrain Lore):
+  Nomad (Plains Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1329,7 +1881,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Sky Terrain Lore):
+  Nomad (Sky Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1341,7 +1893,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Swamp Terrain Lore):
+  Nomad (Swamp Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1353,7 +1905,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Nomad (Underground Terrain Lore):
+  Nomad (Underground Terrain):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1377,7 +1929,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Althean Lore):
+  Pilgrim (Althean):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1391,7 +1943,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Angorite Lore):
+  Pilgrim (Angorite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1405,7 +1957,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-#  Pilgrim (Animusian Lore): SPOILER
+#  Pilgrim (Animusian): SPOILER
 #    abl_boosts:
 #    - [ Wisdom, Charisma ]
 #    - open
@@ -1419,7 +1971,7 @@ pf2e_background:
 #    special: []
 #    action: []
 #    reaction: []
-  Pilgrim (Caracorothan Lore):
+  Pilgrim (Caracorothan):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1433,7 +1985,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Ceinaran Lore):
+  Pilgrim (Ceinaran):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1447,7 +1999,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Daeusite Lore):
+  Pilgrim (Daeusite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1461,7 +2013,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Danan Lore):
+  Pilgrim (Danan):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1475,7 +2027,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Deimosian Lore):
+  Pilgrim (Deimosian):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1489,7 +2041,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Elunan Lore):
+  Pilgrim (Elunan):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1503,7 +2055,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Gileadean Lore):
+  Pilgrim (Gileadean):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1517,7 +2069,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Gunakharan Lore):
+  Pilgrim (Gunakharan):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1531,7 +2083,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Illothan Lore):
+  Pilgrim (Illothan):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1545,7 +2097,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Korite Lore):
+  Pilgrim (Korite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1559,7 +2111,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Maugrimite Lore):
+  Pilgrim (Maugrimite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1573,7 +2125,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Navosian Lore):
+  Pilgrim (Navosian):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1587,7 +2139,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Radan Lore):
+  Pilgrim (Radan):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1601,7 +2153,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Reosian Lore):
+  Pilgrim (Reosian):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1615,7 +2167,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Serrielite Lore):
+  Pilgrim (Serrielite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1629,7 +2181,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Taaran Lore):
+  Pilgrim (Taaran):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1643,7 +2195,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Tarienite Lore):
+  Pilgrim (Tarienite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1657,7 +2209,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Pilgrim (Thulite Lore):
+  Pilgrim (Thulite):
     abl_boosts:
     - [ Wisdom, Charisma ]
     - open
@@ -1683,7 +2235,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Alexandros Lore):
+  Refugee (Alexandros):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1695,7 +2247,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Am'shere Lore):
+  Refugee (Am'shere):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1707,7 +2259,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Bludgun Lore):
+  Refugee (Bludgun):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1719,7 +2271,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Charn Lore):
+  Refugee (Charn):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1731,7 +2283,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Dragonier Lore):
+  Refugee (Dragonier):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1743,7 +2295,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Dran Lore):
+  Refugee (Dran):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1755,7 +2307,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Desolation Lore):
+  Refugee (Desolation):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1767,7 +2319,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Greatwoods Lore):
+  Refugee (Greatwoods):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1779,7 +2331,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Jade Islands Lore):
+  Refugee (Jade Islands):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1791,7 +2343,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Khazad Duin Lore):
+  Refugee (Khazad Duin):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1803,7 +2355,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Myrddion Lore):
+  Refugee (Myrddion):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1815,7 +2367,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Rune Lore):
+  Refugee (Rune):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1827,7 +2379,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Skyhaldborg Lore):
+  Refugee (Skyhaldborg):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1839,7 +2391,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Refugee (Veyshan Lore):
+  Refugee (Veyshan):
     abl_boosts:
     - [ Constitution, Wisdom ]
     - open
@@ -1887,7 +2439,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Alexandros Lore):
+  Scavenger (Alexandros):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1899,7 +2451,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Am'shere Lore):
+  Scavenger (Am'shere):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1911,7 +2463,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Bludgun Lore):
+  Scavenger (Bludgun):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1923,7 +2475,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Charn Lore):
+  Scavenger (Charn):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1935,7 +2487,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Dragonier Lore):
+  Scavenger (Dragonier):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1947,7 +2499,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Dran Lore):
+  Scavenger (Dran):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1959,7 +2511,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Desolation Lore):
+  Scavenger (Desolation):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1971,7 +2523,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Greatwoods Lore):
+  Scavenger (Greatwoods):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1983,7 +2535,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Jade Islands Lore):
+  Scavenger (Jade Islands):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -1995,7 +2547,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Khazad Duin Lore):
+  Scavenger (Khazad Duin):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -2007,7 +2559,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Myrddion Lore):
+  Scavenger (Myrddion):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -2019,7 +2571,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Rune Lore):
+  Scavenger (Rune):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -2031,7 +2583,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Skyhaldborg Lore):
+  Scavenger (Skyhaldborg):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -2043,7 +2595,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Veyshan Lore):
+  Scavenger (Veyshan):
     abl_boosts:
     - [ Intelligence, Wisdom ]
     - open
@@ -2103,7 +2655,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Aquatic Terrain Lore):
+  Scout (Aquatic Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2115,7 +2667,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Arctic Lore):
+  Scout (Arctic Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2127,7 +2679,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Desert Terrain Lore):
+  Scout (Desert Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2139,7 +2691,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Forest Terrain Lore):
+  Scout (Forest Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2151,7 +2703,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Mountain Terrain Lore):
+  Scout (Mountain Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2163,7 +2715,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Plains Terrain Lore):
+  Scout (Plains Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2175,7 +2727,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Sky Terrain Lore):
+  Scout (Sky Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2187,7 +2739,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scout (Swamp Terrain Lore):
+  Scout (Swamp Terrain):
     abl_boosts:
     - [ Dexterity, Wisdom ]
     - open
@@ -2211,7 +2763,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Squire (Heraldry Lore):
+  Squire (Heraldry):
     abl_boosts:
     - [ Strength, Constitution ]
     - open
@@ -2223,7 +2775,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Squire (Warfare Lore):
+  Squire (Warfare):
     abl_boosts:
     - [ Strength, Constitution ]
     - open
@@ -2235,7 +2787,19 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Street Urchin (Alexandria Lore):
+  Street Urchin (Ala'i):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Ala'i Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Alexandria):
     abl_boosts:
     - [ Dexterity, Constitution ]
     - open
@@ -2247,7 +2811,19 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Street Urchin (Bryn Myridorn Lore):
+  Street Urchin (Amity):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Amity Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Bryn Myridorn):
     abl_boosts:
     - [ Dexterity, Constitution ]
     - open
@@ -2259,7 +2835,43 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Street Urchin (Dun Mordren Lore):
+  Street Urchin (Chiuin Chathair):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Chiuin Chathair Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Citadel of Potarakaumi):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Citadel of Potarakaumi Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Duama):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Duama Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Dun Mordren):
     abl_boosts:
     - [ Dexterity, Constitution ]
     - open
@@ -2271,7 +2883,223 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Street Urchin (Tashraan Lore):
+  Street Urchin (Fiore di Mar):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Fiore di Mar Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Flehzya):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Flehzya Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Keykavous):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Keykavous Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Marniar'nir):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Marniar'nir Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Matewa):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Matewa Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Mohebi):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Mohebi Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Mosta'An):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Mosta'An Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (New Hextus):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - New Hextus Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Nohem):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Nohem Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Nouzari):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Nouzari Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (O'rondessa):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - O'rondessa Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (O'rondessa):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - O'rondessa Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Promise):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Promise Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Rune):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Rune Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Sarzana):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Sarzana Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Shamshir):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Shamshir Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Taeao):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Taeao Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Tamatou):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Tamatou Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Street Urchin (Tashraan):
     abl_boosts:
     - [ Dexterity, Constitution ]
     - open
@@ -2283,19 +3111,19 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Street Urchin (Hextus Lore):
+  Street Urchin (Temirkan):
     abl_boosts:
     - [ Dexterity, Constitution ]
     - open
     skills:
     - Thievery
-    - Hextus Lore
+    - Temirkan Lore
     feat:
     - Pickpocket
     special: []
     action: []
     reaction: []
-  Street Urchin (Vandalheim Lore):
+  Street Urchin (Vandalheim):
     abl_boosts:
     - [ Dexterity, Constitution ]
     - open
@@ -2307,7 +3135,19 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Alexandros Lore):
+  Street Urchin (Volstengrad):
+    abl_boosts:
+    - [ Dexterity, Constitution ]
+    - open
+    skills:
+    - Thievery
+    - Volstengrad Lore
+    feat:
+    - Pickpocket
+    special: []
+    action: []
+    reaction: []
+  Tax Collector (Alexandros):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2319,7 +3159,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Am'shere Lore):
+  Tax Collector (Am'shere):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2331,7 +3171,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Bludgun Lore):
+  Tax Collector (Bludgun):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2343,7 +3183,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Charn Lore):
+  Tax Collector (Charn):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2355,7 +3195,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Dragonier Lore):
+  Tax Collector (Dragonier):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2367,7 +3207,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Dran Lore):
+  Tax Collector (Dran):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2379,7 +3219,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Desolation Lore):
+  Tax Collector (Desolation):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2391,7 +3231,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Greatwoods Lore):
+  Tax Collector (Greatwoods):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2403,7 +3243,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Jade Islands Lore):
+  Tax Collector (Jade Islands):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2415,7 +3255,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Khazad Duin Lore):
+  Tax Collector (Khazad Duin):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2427,7 +3267,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Myrddion Lore):
+  Tax Collector (Myrddion):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2439,7 +3279,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Rune Lore):
+  Tax Collector (Rune):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2451,7 +3291,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Skyhaldborg Lore):
+  Tax Collector (Skyhaldborg):
     abl_boosts:
     - [ Strength, Charisma ]
     - open
@@ -2463,7 +3303,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Tax Collector (Veyshan Lore):
+  Tax Collector (Veyshan):
     abl_boosts:
     - [ Strength, Charisma ]
     - open

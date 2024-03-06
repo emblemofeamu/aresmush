@@ -300,8 +300,35 @@ module AresMUSH
           end
         else
           messages << t('pf2emagic.cg_magic_ok')
-        end
 
+          # Count repertoire spells to assign.
+          rep = @to_assign['repertoire']
+
+          if rep
+            rlist = []
+            rep.each_pair do |k,v|
+              rlist << "#{k}: #{v.count("open")}"
+            end
+            rcount = rlist.join(", ")
+
+            messages << t('pf2emagic.cg_rep_spells', :rcount => rcount)
+          end
+
+          # Count spellbook spells to assign.
+
+          sbook = @to_assign['spellbook']
+
+          if sbook
+            slist = []
+            sbook.each_pair do |k,v|
+              slist << "#{k}: #{v.count("open")}"
+            end
+            scount = slist.join(", ")
+
+            messages << t('pf2emagic.cg_spellbook_spells', :rcount => scount)
+          end
+
+        end
 
         messages.join("%r")
       end

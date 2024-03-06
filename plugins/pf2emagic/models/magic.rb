@@ -296,6 +296,9 @@ module AresMUSH
 
       magic = char.magic
 
+      # Don't do anything unless magic is created.
+      return nil unless magic
+
       magic.focus_cantrips = {}
       magic.focus_spells = {}
       magic.focus_pool = { "max"=>0, "current"=>0 }

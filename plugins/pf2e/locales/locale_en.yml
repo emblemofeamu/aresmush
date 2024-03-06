@@ -96,7 +96,7 @@ en:
     formula_disp_title: "Available Formulas"
 
     has_code: "This character is required to abide by a code of behavior. See profile for details."
-    healing_applied_ok: "You heal %{damage} points of damage to %{list}."
+    healing_applied_ok: "You heal %{amount} points of damage to %{list}."
     heritage_not_set: "You cannot set a lineage until you set your heritage."
 
     initiative_view_title: "Initiative Table for Encounter %{id}"

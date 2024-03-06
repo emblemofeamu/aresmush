@@ -29,7 +29,7 @@ module AresMUSH
     end
 
     def self.select_spell(char, charclass, level, old_spell, new_spell, common_only=false)
-      # Do they get to pick a spell for this class at this time?   
+      # Do they get to pick a spell for this class at this time?
       to_assign = char.pf2_to_assign
       caster_type = get_caster_type(charclass)
       sp_list_type = (caster_type == "prepared" ? "spellbook" : "repertoire")
@@ -38,10 +38,10 @@ module AresMUSH
 
       return t('pf2emagic.no_new_spells') unless new_spells_to_assign
 
-      # Is new_spell a valid, unique choice? 
+      # Is new_spell a valid, unique choice?
       # Only common spells are available in cg/advancement, set last argument to true to enforce
 
-      hash = common_only ? PF2emagic.find_common_spells : Global.read_config('pf2e_spells')
+      hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       list = hash.keys.map { |s| s.upcase }
       to_find = new_spell.upcase
       match = list.select { |s| s == to_find }
@@ -52,7 +52,7 @@ module AresMUSH
       to_add = match.first
       deets = hash[to_add]
 
-      # Can the class they specified cast the spell they want? 
+      # Can the class they specified cast the spell they want?
       magic = char.magic
       charclass_trad = magic.tradition[charclass]
 
@@ -61,8 +61,8 @@ module AresMUSH
       charclass_can_cast = deets['tradition'].include? charclass_trad[0]
       return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
 
-      # Can they learn that level of spell? 
-      # This is assumed to be true if the base level of the spell is a key in either the to_assign hash for the list type 
+      # Can they learn that level of spell?
+      # This is assumed to be true if the base level of the spell is a key in either the to_assign hash for the list type
       # OR in the character's personal list.
 
       spbl = deets["base_level"].to_i
@@ -92,7 +92,7 @@ module AresMUSH
       return nil
     end
 
-    def self.find_common_spells 
+    def self.find_common_spells
       Global.read_config('pf2e_spells').select { |k,v| v['traits'].include? 'common' }
     end
 

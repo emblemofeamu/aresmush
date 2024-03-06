@@ -20,10 +20,17 @@ module AresMUSH
     def self.can_join_encounter?(char, encounter)
       scene = encounter.scene
       active_encounter = PF2Encounter.in_active_encounter? char
+
+      return "In another encounter" if active_encounter
+
       is_participant = scene.participants.include? char
+
+      return "Not a scene participant" unless is_participant
+
       encounter_is_active = encounter.is_active
 
-      !active_encounter && is_participant && encounter_is_active
+      return "Not an active encounter" unless encounter_is_active
+      return nil
     end
 
     def self.can_damage_pc?(char, target_list)

@@ -98,6 +98,8 @@ chargen:
       help: pf2e_chargen_feats
     sheet_magic:
       help: pf2e_chargen_magic
+    sheet_formulas:
+      help: pf2e_chargen_formulas
     desc:
       help: descriptions
     hooks:

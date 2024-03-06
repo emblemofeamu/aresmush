@@ -15,7 +15,7 @@ module AresMUSH
       def title
         t('pf2e.encounter_start_title')
       end
-    
+
       def init_stat
         @encounter.init_stat
       end
@@ -25,8 +25,8 @@ module AresMUSH
       end
 
       def organizer
-        @encounter.organizer.name
-      end 
+        @encounter.organizer
+      end
 
       def roll_init_cmd
         "init/join #{encounter_id}[=<alternate stat>]"

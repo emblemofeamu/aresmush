@@ -20,7 +20,7 @@ For all commands, "initiative" and "init" are aliases for "encounter".
 
 ## For Participants
 
-`encounter/join [<encounter ID>][=<stat>]`: Joins an encounter in progress, using the stat specified by the organizer by default. If the organizer tells you that you should use a different stat, specify <stat>. 
+`encounter/join <encounter ID>[=<stat>]`: Joins an encounter in progress, using the stat specified by the organizer by default. If the organizer tells you that you should use a different stat, specify <stat>. 
 `encounter/view [<encounter ID>]`: View the initiative table for the encounter in question. (Alias `tinit <encounter ID>`)
 
 ## For Organizers

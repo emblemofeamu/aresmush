@@ -412,7 +412,7 @@ a.nav-link.active {
   
 .nav-tabs {
     background: linear-gradient(to right, #000000 80%, transparent 100%);
-    height: 40px;
+    height: auto;
 }
 
 .nav-link.nav-link:hover, a.nav-link.active:hover {

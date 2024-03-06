@@ -47,7 +47,7 @@ module AresMUSH
         # Do it.
 
         encounter = PF2Encounter.create(
-          organizer: enactor,
+          organizer: enactor.name,
           scene: scene,
           init_stat: init_stat
         )

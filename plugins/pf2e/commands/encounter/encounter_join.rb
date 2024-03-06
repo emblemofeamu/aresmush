@@ -14,31 +14,31 @@ module AresMUSH
 
       end
 
+      def required_args
+        [ self.encounter_id ]
+      end
+
       def handle
-        # If they didn't specify encounter ID, go get it. 
+        # If they didn't specify encounter ID, go get it.
 
-        scene = enactor_room.scene
-
-        encounter = self.encounter_id ? 
-          PF2Encounter[self.encounter_id] : 
-          PF2Encounter.get_encounter_ID(enactor, scene)
+        encounter = PF2Encounter[self.encounter_id]
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
           return
         end
 
-        # Can the character join this encounter? 
+        # Can the character join this encounter?
 
-        can_join = Pf2e.can_join_encounter?(enactor, encounter)
+        cannot_join = Pf2e.can_join_encounter?(enactor, encounter)
 
-        if !can_join
-          client.emit_failure t('pf2e.cannot_join_encounter', :reason => cannot_join.join(", "))
+        if cannot_join
+          client.emit_failure t('pf2e.cannot_join_encounter', :reason => cannot_join)
           return
         end
 
         # If they specified an init stat, error if invalid, otherwise use the one
-        # specified by the organizer. 
+        # specified by the organizer.
 
         init_stat = self.init_stat ? self.init_stat : encounter.init_stat
 
@@ -58,22 +58,24 @@ module AresMUSH
         enactor.encounters.add encounter
         encounter.characters.add enactor
 
-        message t('pf2e.encounter_joined_ok', 
-          :roll => initiative, 
-          :encounter => encounter.id, 
+        message t('pf2e.encounter_joined_ok',
+          :roll => initiative,
+          :encounter => encounter.id,
           :name => enactor.name
         )
 
-        # Emit to the room. 
+        # Emit to the room.
         enactor_room.emit message
 
         # Log to the encounter.
         PF2Encounter.send_to_encounter(encounter, message)
 
-        # Log to the scene as an OOC message. 
+        # Log to the scene as an OOC message.
+
+        scene = encounter.scene
         Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
 
-      end 
-    end 
+      end
+    end
   end
 end

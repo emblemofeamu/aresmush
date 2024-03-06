@@ -104,22 +104,91 @@ pf2e_skills:
     key_abil: Intelligence
     recall_knowledge: true
 # City Lores
+  Ala'i Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
   Alexandria Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
+  Amity Lore:
     key_abil: Intelligence
     recall_knowledge: true
   Bryn Myridorn Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+  Chiuin Chathair:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Citadel of Potarakaumi Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Duama Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
   Dun Mordren Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
+  Fiore di Mar Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Flehzya Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Keykavous Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Marniar'nir Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Matewa Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Mohebi Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Mosta'An Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  New Hextus Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
+  Nohem Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Nouzari Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  O'rondessa Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Promise Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Qutamo Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Sarzana Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Shamshir Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Taeao Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Tamatou Lore:
     key_abil: Intelligence
     recall_knowledge: true
   Tashraan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
-  Hextus Lore: 
+  Temirkan Lore:
     key_abil: Intelligence
     recall_knowledge: true
   Vandalheim Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
+  Volstengrad Lore: 
     key_abil: Intelligence
     recall_knowledge: true
 # Region Lores

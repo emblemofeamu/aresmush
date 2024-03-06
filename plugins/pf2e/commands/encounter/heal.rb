@@ -35,7 +35,7 @@ module AresMUSH
         ok_char_list = []
         bad_char_list = []
 
-        target_list.each do |item|
+        target.each do |item|
           char = ClassTargetFinder.find(item, Character, enactor)
 
           if (char.found?)
