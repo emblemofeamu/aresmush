@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2ChargenInfoCmd
       include CommandHandler
+      include CommonTemplateFields
 
       attr_accessor :element
 
