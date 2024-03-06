@@ -98,6 +98,8 @@ module AresMUSH
 
         # client.emit template.render
 
+        item_color = Global.read_config('pf2e', 'item_color')
+
         client.emit t('pf2e.cg_info',
           :element=>"%x24#{self.element}%xn",
           :options=>"#{item_color}#{options.join(", ")}"
