@@ -28,7 +28,9 @@ module AresMUSH
 
         target_list = self.target.map { |t| Pf2e.get_character(t, enactor).name }.compact
 
-        can_damage_pc = Pf2e.can_damage_pc?(enactor, target_list)
+        encounter = PF2Encounter.get_encounter_id(enactor, enactor.scene)
+
+        can_damage_pc = Pf2e.can_damage_pc?(enactor, target_list, encounter)
 
         if !can_damage_pc
           client.emit_failure t('pf2e.cannot_damage_pc')

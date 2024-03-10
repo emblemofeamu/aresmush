@@ -25,6 +25,7 @@ en:
     bad_feat_name: "I didn't find a feat named %{name} in my list. Check to be sure that you have the correct spelling."
     bad_feat_type: "Invalid feat type '%{type}''. Choose one of: %{keys}"
     bad_id: "Invalid %{type} ID."
+    bad_instruction: "Instruction must be one of 'add' or 'delete'."
     bad_option: "Not a valid option. Valid options for %{element}: %{options}."
     bad_section: "Section %{section} is not a valid section."
     bad_skill: "No skill named %{name} in the list of valid skills. See %x172help skills%xn for a list of valid skills."
@@ -50,6 +51,7 @@ en:
     cg_issues: "There is a problem with your choices. Review and resolve the messages in `cg/review` before running this command."
     cg_options_locked: "Your chargen options are already locked. Use `cg/reset` to clear your sheet if you need to make changes."
     cg_options_ok: "%xgNo errors or issues detected with your CG options."
+    cg_reset_ok_cuddles: "Cuddles the Otyugh wanders up and munches your sheet, then gives you a big hug and leaves you to start over."
     cg_reset_ok: "Your sheet has been cleared."
     char_has_code: "%xhEdicts:%xn%r%{edicts}%r%r%xhAnathema%xn:%r%{anathema}"
     char_not_all_found: "Not all characters in your list were found. Please check your spelling."
@@ -80,6 +82,7 @@ en:
     encounter_start_title: "*** ENCOUNTER STARTED ***"
     encounter_complete: "*** END OF ENCOUNTER %{id} ***"
     encounter_add_ok: "You add %{name} to encounter %{encounter} at initiative %{roll}."
+    encounter_paused: "Encounter %{id} %{status}."
     encounter_remove_ok: "You remove %{name} from encounter %{encounter}."
     encounter_restarted: "*** ENCOUNTER %{id} RESTARTED ***"
     encounter_joined_ok: "%{name} joins encounter %{encounter} at initiative %{roll}."
@@ -92,10 +95,12 @@ en:
     feats_are_ok: "%xgYou have no unassigned feats."
     feat_search_classlevel_wrong_number_of_variables: "Wrong number of variables. Example: feat/search classlevel = Fighter < 2"
     feat_set_ok: "Feat %{name} added to list %{type}."
+    feat_wrong_type: "This feat cannot be chosen with that feat type."
     formula_char_title: "Formulas Known By %{char}"
     formula_disp_title: "Available Formulas"
 
     has_code: "This character is required to abide by a code of behavior. See profile for details."
+    has_gated_feats: "This combination of character options has at least one feat where you are limited in what you can choose. %xchelp feat/set%xn will help you set these. Options: %{options}"
     healing_applied_ok: "You heal %{amount} points of damage to %{list}."
     heritage_not_set: "You cannot set a lineage until you set your heritage."
 
@@ -105,7 +110,7 @@ en:
 
     lock_info_first: "This command cannot be used until your base chargen options are committed."
     lock_abil_first: "This command cannot be used until you have set and committed your ability scores."
-    lock_skills_first: "This command cannot be used until you have set and committed your ability scores."
+    lock_skills_first: "This command cannot be used until you have set and committed your skills."
 
     missing_base_info: "%xrYour base info is not yet complete.%xn"
     missing_subclass: "%xrYour class requires a specialization, please choose one.%xn"
@@ -117,6 +122,7 @@ en:
     must_be_in_scene: "You must be in a scene to use this command."
     must_be_word: "The first character of your alias must be a letter."
     must_confirm: "Type 'cg/reset confirm' to confirm that you want to wipe your sheet."
+    must_specify_gate: "You need to specify which special feat you want to take. Options: %{options}"
 
     no_cginfo_available: "The option you chose for %{prereq} does not have options for %{element}."
     no_double_mojo: "%xrYour base options include too many restricted elements. See wiki for details.%xr"
@@ -169,6 +175,8 @@ en:
     unassigned_title: "Unassigned Character Options: %{name}"
     unassigned_class_feat: "%xrYou still need to choose a class feat.%xn"
     unassigned_ancestry_feat: "%xrYou still need to choose an ancestry feat.%xn"
+    unassigned_school_feat: "%xrYou still need to choose your extra wizard feat.%xn"
+    unassigned_gated_feat: "%xrYou have other unassigned feats. Assign using 'feat/set special/<option> = <feat>'. Options: %{options}%xn"
     updated_ok: "%{element} updated for %{char}."
     use_focus_keyword: "The named class grants focus spells. Use the 'focus' keyword."
 

@@ -13,3 +13,9 @@ For most classes and ancestries, there isn't a lot to do for magic in character 
 `addspell <class>/<level> = <old spell>/<new spell>`: Swaps `<old spell>` for `<new spell>` in that class and level. 
 
 All spells selected must be common spells to be selected in character generation or advancement. Uncommon and rare spells require a request to the game admins.
+
+Clerics get a divine font. This is populated automagically for some deities, but clerics of select deities must choose. `cg/review` will tell you if you need to choose. To do so: 
+
+`dfont <heal or harm>`: Chooses your divine font.
+
+**Once you are done selecting spells, you will have to input `rest` to see your spells on the magic section of your sheet.** You cannot `rest` until your character is approved.

@@ -89,7 +89,7 @@ pf2e_spells:
     effect: "In your mind's eye, you see a path northward. You immediately know which direction is north (if it exists at your current location)."
     heighten:
     - 7: You can instead know the direction to a familiar location, such as a previous home or a favorite tavern.
-    base_level: 1
+    base_level: cantrip
     school: Divination
     tradition:
     - divine
@@ -270,7 +270,7 @@ pf2e_spells:
     effect: The object glows, casting bright light in a 20-foot radius (and dim light for the next 20 feet) like a torch. If you cast this spell again on a second object, the light spell on the first object ends.
     heighten:
       4: The object sheds bright light in a 60-foot radius (and dim light for the next 60 feet).
-    base_level: 1
+    base_level: cantrip
     range: touch
     school: Evocation
     target: 1 object of 1 Bulk or less, either unattended or possessed by you or a willing ally
@@ -643,7 +643,7 @@ pf2e_spells:
       3: You can target an unattended object with a Bulk of 1 or less.
       5: The range increases to 60 feet, and you can target an unattended object with a Bulk of 1 or less.
       7: The range increases to 60 feet, and you can target an unattended object with a Bulk of 2 or less.
-    base_level: 1
+    base_level: cantrip
     range: 30 feet
     school: Evocation
     target: 1 unattended object of light Bulk or less
@@ -950,7 +950,7 @@ pf2e_spells:
     effect: You mouth words quietly, but instead of coming out of your mouth, they're transferred directly to the ears of the target. While others can't hear your words any better than if you normally mouthed them, the target can hear your words as if they were standing next to you. The target can give a brief response as a reaction, or as a free action on their next turn if they wish, but they must be able to see you and be within range to do so. If they respond, their response is delivered directly to your ear, just like the original message.
     heighten:
       3: The spell's range increases to 500 feet.
-    base_level: 1
+    base_level: cantrip
     range: 120 feet
     school: Illusion
     target: 1 creature
@@ -1444,7 +1444,7 @@ pf2e_spells:
     - verbal
     duration: 1 minute
     effect: You read slightly into the future and give fate a tiny push to achieve the result you desire. Once during the duration, when the target fails an attack roll, skill check, or saving throw and a +1 status bonus would turn a critical failure into a failure, or failure into a success, you grant the target a +1 status bonus to the check retroactively, changing the outcome appropriately. The spell then ends, and the target is temporarily immune for 1 minute. If you cast _nudge fate_ while a previous casting of this hex is still in effect, the previous effect ends.
-    base_level: 1
+    base_level: cantrip
     range: 30 feet
     save: Will
     school: Divination

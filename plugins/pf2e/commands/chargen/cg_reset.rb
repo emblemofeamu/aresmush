@@ -35,7 +35,11 @@ module AresMUSH
 
         Pf2e.reset_character(enactor)
 
-        client.emit_success t('pf2e.cg_reset_ok')
+        cuddles = rand(0..20)
+
+        message = cuddles.zero? ? t('pf2e.cg_reset_ok_cuddles') : t('pf2e.cg_reset_ok')
+
+        client.emit_success message
 
       end
 

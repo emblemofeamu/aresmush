@@ -19,9 +19,7 @@ module AresMUSH
 
       def handle
 
-        spell_list = Global.read_config('pf2e_spells').keys
-
-        spells = spell_list.select {|spell| spell.downcase.match? self.search_term }
+        spells = Pf2emagic.get_spells_by_name(self.search_term)
 
         if spells.size > 1
           template = PF2DisplayManySpellTemplate.new(spells, client)

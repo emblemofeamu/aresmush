@@ -4,6 +4,7 @@
 <% spell_details_by_charclass.each do |charclass| %>
 <%= charclass %>
 <% end %>
+
 <% if has_focus_spells %>
 <%= textline("Focus Spells") %>
 <%= revelation_lock_msg if revelation_locked -%>

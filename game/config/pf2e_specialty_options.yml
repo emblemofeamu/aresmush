@@ -52,3 +52,60 @@ pf2e_subclass:
     Silver:
       element: cold
       shape: cone
+  wizard_school_spells:
+    Abjuration:
+      magic_stats:
+        addspellbook: 
+          1: 
+          - Protective Ward
+        school_spell: abjuration
+    Conjuration: 
+      magic_stats:
+        addspellbook: 
+          1: 
+          - Augment Summoning
+        school_spell: conjuration
+    Divination:
+      magic_stats:
+        addspellbook:
+          1: 
+          - Diviner's Sight
+        school_spell: divination
+    Enchantment:
+      magic_stats:
+        addspellbook:
+          1: 
+          - Charming Words
+        school_spell: enchantment
+    Evocation:
+      magic_stats:
+        addspellbook: 
+          1: 
+          - Force Bolt
+        school_spell: evocation
+    Illusion:
+      magic_stats:
+        addspellbook:
+          1:
+          - Warped Terrain
+        school_spell: illusion
+    Necromancy:
+      magic_stats:
+        addspellbook:
+          1:
+          - Call Of The Grave
+        school_spell: necromancy
+    Transmutation:
+      magic_stats:
+        addspellbook:
+          1:
+          - Physical Boost
+        school_spell: transmutation
+    Universalist:
+      magic_stats:
+      # This key overwrites the base wizard class key for this, this is intentional
+        spellbook:
+          cantrip: 10
+          1: 6
+        gated_feat: universalist
+

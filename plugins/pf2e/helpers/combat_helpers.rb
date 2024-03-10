@@ -17,7 +17,7 @@ module AresMUSH
       return true
     end
 
-    def self.can_join_encounter?(char, encounter)
+    def self.can_join_encounter(char, encounter)
       scene = encounter.scene
       active_encounter = PF2Encounter.in_active_encounter? char
 
@@ -33,28 +33,20 @@ module AresMUSH
       return nil
     end
 
-    def self.can_damage_pc?(char, target_list)
+    def self.can_damage_pc?(char, target_list, encounter=nil)
 
-      encounter = PF2Encounter.active_encounter(char)
-      is_dm = char.has_permission?('kill_pc')
+      return true if char.has_permission?('kill_pc')
 
-      if is_dm
-        can_damage_pc = true
-      elsif encounter
-        is_organizer = encounter.organizer == char.name
-        participants = encounter.participants.collect { |p| p[1] }
-        targets_in_encounter = target_list.all? { |t| participants.include? t }
+      encounter = PF2Encounter[encounter]
 
-        can_damage_pc = is_organizer && targets_in_encounter
-      else
-        can_damage_pc = false
-      end
+      return false unless encounter
 
-      can_damage_pc
+      is_organizer = encounter.organizer == char.name
+      participants = encounter.participants.collect { |p| p[1] }
+      targets_in_encounter = target_list.all? { |t| participants.include? t }
+
+      is_organizer && targets_in_encounter
     end
-
-
-
 
   end
 end

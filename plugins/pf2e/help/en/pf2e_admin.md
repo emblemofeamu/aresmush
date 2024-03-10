@@ -13,7 +13,7 @@ Game admins and those they designate can make some modifications to characters' 
 
 `admin/set <character>/<keyword> = <value>`
 
-Keyword can be one of: feat skill spell ability feature focus
+Keyword can be one of: feat skill spellbook repertoire ability feature focus divine font
 
 The syntax of `<value>` depends on the keyword.
 
@@ -25,13 +25,15 @@ For skills: `<skill name> <proficiency level>`
 
 where proficiency level is one of: untrained trained expert master legendary
 
-For spells: `<charclass> [add|delete] <spell name> <spell level>`
+For spellbook or repertoire: `<charclass> [add|delete] <spell name> <spell level>`
 
 For ability: `<ability name> <new value>` Value needs to be an integer, command will charf if not
 
-For feature: `<character class> [add|delete] <feature name>`
+For feature: `[add|delete] <feature name>`
 
-For focus: `<charclass> [add|delete] <spell name>`
+For focus: `add|delete <charclass> cantrip|spell <spell name>`
+
+For divine font: `heal|harm`
 
 (Validate all data)
 

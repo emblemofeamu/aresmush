@@ -8,7 +8,7 @@ module AresMUSH
 
       magic = char.magic
 
-      cc = castclass.downcase
+      cc = castclass.capitalize
       tradition = magic.tradition[cc]
 
       return t('pf2emagic.not_casting_class', :cc => cc) if !tradition
@@ -21,9 +21,15 @@ module AresMUSH
         end
       end
 
-      spell_details = Global.read_config('pf2e_spells', spell)
+      spells = get_spells_by_name(spell)
 
-      return t('pf2emagic.no_such_spell') unless spell_details
+      if spells.is_a? Array
+        return t('pf2emagic.no_such_spell') if spells.empty?
+        return t('pf2emagic.multiple_matches', :item => 'spell') if spells.size > 1
+        spells = spells.first
+      end
+
+      spell_details = Global.read_config('pf2e_spells', spells)
 
       needs_spellbook = spell_details['traits'].intersect?('rare', 'uncommon', 'unique')
 
@@ -42,7 +48,7 @@ module AresMUSH
 
       if make_signature
         signature_spells = magic.signature_spells
-        signature_spells["Arcane Evolution"] = [ spell ]
+        signature_spells["Arcane Evolution"] = [ spells ]
         magic.update(signature_spells: signature_spells)
 
         return return_msg
@@ -61,7 +67,7 @@ module AresMUSH
 
       if use_arcane_evo
         repertoire = obj.repertoire
-        repertoire['Arcane Evolution'] = [ spell ]
+        repertoire['Arcane Evolution'] = [ spells ]
         magic.update(repertoire: repertoire)
 
         return return_msg
@@ -77,7 +83,7 @@ module AresMUSH
 
       # If all checks succeed, prepare the spell and return a hash.
 
-      spell_list_for_level[open_slot] = spell
+      spell_list_for_level[open_slot] = spells
 
       magic.spells_prepared[level] = spell_list_for_level
       magic.save

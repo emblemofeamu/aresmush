@@ -84,23 +84,6 @@ module AresMUSH
 
     end
 
-    def self.cg_edge_cases(char, charclass, heritage, background, deity_info)
-      case charclass
-      when "Cleric"
-
-        dfont_choice = deity_info['divine_font']
-
-        if dfont_choice.size > 1
-          to_assign['divine font'] = dfont_choice
-        else
-          magic = char.magic
-          magic.update(divine_font: dfont_choice)
-        end
-      else
-        nil
-      end
-    end
-
     def self.cg_lock_base_options(enactor, client)
       # Did they do this already?
       return t('pf2e.cg_locked', :cp => 'base options') if enactor.pf2_baseinfo_locked
@@ -218,16 +201,18 @@ module AresMUSH
 
       ## Determine what skills come with the character's base info, and set those.
 
-      bg_skills = background_info["skills"] ? background_info["skills"] : []
+      bg_skills = background_info["skills"] || []
 
       if bg_skills.size == 0
         client.emit_ooc t('pf2e.bg_no_options', :element => "skills")
       end
 
-      heritage_skills = heritage_info['skills']
-      class_skills = class_features_info['skills']
-      subclass_skills = subclass_features_info.blank? ? [] : subclass_features_info['skills']
-      subclassopt_skills = subclassopt_features_info.blank? ? [] : subclassopt_features_info['skills']
+      # Allowing for any of these to potentially be empty.
+
+      heritage_skills = heritage_info['skills'] || []
+      class_skills = class_features_info['skills'] || []
+      subclass_skills = subclass_features_info.blank? ? [] : subclass_features_info['skills'] || []
+      subclassopt_skills = subclassopt_features_info.blank? ? [] : subclassopt_features_info['skills'] || []
 
       skills = bg_skills + heritage_skills + class_skills + subclass_skills + subclassopt_skills
 
@@ -272,7 +257,7 @@ module AresMUSH
 
       feats = enactor.pf2_feats
 
-      bg_feats = background_info["feat"]
+      bg_feats = background_info["feat"] || []
 
       if bg_feats.size > 1
         client.emit_ooc t('pf2e.multiple_options', :element=>"feat")
@@ -283,9 +268,9 @@ module AresMUSH
       end
 
       class_feats = class_features_info["feat"] ? class_features_info["feat"] : []
-      subclass_feats = subclass_features_info.blank? ? [] : subclass_features_info["feat"]
+      subclass_feats = subclass_features_info.blank? ? [] : subclass_features_info["feat"] || []
       heritage_feats = heritage_info["feat"] ? heritage_info["feat"] : []
-      subclass_info_feats = subclassopt_features_info.blank? ? [] : subclassopt_features_info["feat"]
+      subclass_info_feats = subclassopt_features_info.blank? ? [] : subclassopt_features_info["feat"] || []
 
       feats['general'] = bg_feats
       feats['ancestry'] = heritage_feats
@@ -298,6 +283,25 @@ module AresMUSH
       end
 
       enactor.pf2_feats = feats
+
+      # Check for gated feats.
+      # I use an array for this because there could be more than one in play at a time.
+
+      gated_feats = []
+      class_gated_feats = class_features_info["gated_feat"]
+      subclass_gated_feats = subclass_features_info.blank? ? nil : subclass_features_info["gated_feat"]
+      subclass_info_gated_feats = subclassopt_features_info.blank? ? nil : subclassopt_features_info["gated_feat"]
+
+      gated_feats << class_gated_feats if class_gated_feats
+      gated_feats << subclass_gated_feats if subclass_gated_feats
+      gated_feats << subclass_info_gated_feats if subclass_info_gated_feats
+
+      unless gated_feats.empty?
+        client.emit_ooc t('pf2e.has_gated_feats', :options => gated_feats.sort.join(", "))
+
+        to_assign['special feat'] = gated_feats
+      end
+
 
       # Calculate and set base HP excluding CON mod
       # Final HP is calculated and set on chargen lock
@@ -420,6 +424,20 @@ module AresMUSH
         class_mstats = class_mstats.merge(subclass_mstats) if subclass_mstats
       end
 
+      # Handle class specific junk.
+      if charclass == 'Cleric'
+        deity_mstats = deity_info['magic_stats']
+
+        class_mstats = class_mstats.merge(deity_mstats) if deity_mstats
+      elsif charclass == 'Wizard'
+        # Note: The universalist wizard will overwrite the existing 'spellbook' key from the class.
+        # This is planned behavior.
+        wizard_school = Global.read_config('pf2e_subclass', 'wizard_school_spells', subclass_option)
+        school_mstats = wizard_school&.fetch('magic_stats')
+
+        class_mstats = class_mstats.merge(school_mstats) if school_mstats
+      end
+
       if class_mstats.empty?
         client.emit_ooc "This combination of options does not have magical abilities to set up. Continuing."
       else
@@ -492,19 +510,16 @@ module AresMUSH
       c_actions = class_features_info['action']
       c_reactions = class_features_info['reaction']
 
-      s_actions = subclass_features_info.blank? ? {} : subclass_features_info['action']
-      s_reactions = subclass_features_info.blank? ? {} : subclass_features_info['reaction']
+      s_actions = subclass_features_info.blank? ? [] : subclass_features_info['action'] || []
+      s_reactions = subclass_features_info.blank? ? [] : subclass_features_info['reaction'] || []
 
-      actions = h_actions + b_actions + c_actions + s_actions.uniq.sort
-      reactions = h_reactions + b_reactions + c_reactions + s_reactions.uniq.sort
+      actions = (h_actions + b_actions + c_actions + s_actions).uniq.sort
+      reactions = (h_reactions + b_reactions + c_reactions + s_reactions).uniq.sort
 
       char_actions['actions'] = actions
       char_actions['reactions'] = reactions
 
       enactor.pf2_actions = char_actions
-
-      # Check for and handle weird edge cases
-      Pf2e.cg_edge_cases(enactor, charclass, heritage, background, deity_info)
 
       # Put everything together, lock it, record the checkpoint, and save to database
       enactor.pf2_to_assign = to_assign
@@ -608,12 +623,6 @@ module AresMUSH
 
     def self.restore_checkpoint(char, checkpoint)
 
-    end
-
-    def self.format_cginfo_options(option,i)
-      linebreak = i % 3 == 0 ? "%r" : ""
-
-      "#{linebreak}#{left(option, 25)}%b"
     end
 
   end

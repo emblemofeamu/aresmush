@@ -292,7 +292,7 @@ pf2e_spells:
     heighten:
       3: You can specify criteria for which creatures sound the alarm spell — for instance, orcs or masked people.
   Allegro:
-    base_level: 7
+    base_level: cantrip
     school: Enchantment
     traits:
     - bard
@@ -1829,7 +1829,7 @@ pf2e_spells:
     duration: 10 minutes
     effect: You create an invisible floating eye at a location within range (even if it's outside your line of sight or line of effect). The eye can't move, but you can see in all directions from that point as if using your normal visual senses.
   Clinging Ice:
-    base_level: 1
+    base_level: cantrip
     school: Conjuration
     traits:
     - cantrip
@@ -3031,7 +3031,7 @@ pf2e_spells:
       5: Your battle form is Huge and your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. You instead gain 20 temporary HP, an attack modifier of +18, a damage bonus of +6, double the damage dice, and Athletics +21.
       7: Your battle form is Huge and your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. You instead gain 20 temporary HP, an attack modifier of +18, a damage bonus of +6, double the damage dice, and Athletics +21.
   Dirge of Doom:
-    base_level: 3
+    base_level: cantrip
     school: Enchantment
     traits:
     - bard
@@ -3104,7 +3104,7 @@ pf2e_spells:
     target: 1 creature or object
     effect: You learn the name of the target's exact location (including the building, community, and country) and plane of existence.%r%rYou can target a creature only if you've seen it in person, have one of its significant belongings, or have a piece of its body. To target an object, you must have touched it or have a fragment of it. *Discern location* automatically overcomes protections against detection and divination of lower level than this spell, even if they would normally have a chance to block it.
   Discern Secrets:
-    base_level: 1
+    base_level: cantrip
     school: Divination
     traits:
     - cantrip
@@ -4362,7 +4362,7 @@ pf2e_spells:
     heighten:
       9: You can target up to five additional willing creatures at a range of 30 feet. The duration is up to 10 minutes.
   Evil Eye:
-    base_level: 1
+    base_level: cantrip
     school: Enchantment
     traits:
     - cantrip

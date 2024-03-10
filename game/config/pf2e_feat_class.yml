@@ -431,6 +431,7 @@ pf2e_feats:
       - Wizard
     feat_type:
       - Charclass
+      - School
     prereq:
       level: 1
     shortdesc: When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.
@@ -848,6 +849,7 @@ pf2e_feats:
       - Wizard
     feat_type:
       - Charclass
+      - School
     prereq:
       level: 1
     shortdesc: You can use clever workarounds to replicate the arcane essence of certain materials.
@@ -1053,6 +1055,7 @@ pf2e_feats:
       - Wizard
     feat_type:
       - Charclass
+      - School
     prereq:
       level: 1
     shortdesc: You can magically hurl your weapon at your foe.
@@ -1786,6 +1789,7 @@ pf2e_feats:
       - Wizard
     feat_type:
       - Charclass
+      - School
     prereq:
       level: 1
     shortdesc: You can extend your spells’ range.
@@ -2065,6 +2069,7 @@ pf2e_feats:
       - Wizard
     feat_type:
       - Charclass
+      - School
     prereq:
       level: 1
       skill: Arcana/trained
@@ -2469,6 +2474,7 @@ pf2e_feats:
       - Wizard
     feat_type:
       - Charclass
+      - School
     prereq:
       level: 1
     shortdesc: You manipulate the energy of your spell, causing it to spread out and affect a wider area.

@@ -97,8 +97,6 @@ module AresMUSH
 
           to_assign["repertoire"] = assignment_list
 
-          char.pf2_to_assign = to_assign
-
         when "focus_pool"
           pool = magic.focus_pool
 
@@ -183,7 +181,6 @@ module AresMUSH
 
           to_assign["spellbook"] = assignment_list
 
-          char.pf2_to_assign = to_assign
         when "addspellbook"
           # Addspellbook means to add a specific spell to the spellbook. Adding spells to be chosen
           # should be the "spellbook" key.
@@ -217,7 +214,6 @@ module AresMUSH
 
           to_assign["signature"] = assignment_list
 
-          char.pf2_to_assign = to_assign
         when "innate_spell"
           # Structure of innate spells: {spell name => { 'level' => <level>, 'tradition' => tradition, 'cast_stat' => cast_stat}}
 
@@ -227,6 +223,24 @@ module AresMUSH
           ilist[key] = value
 
           magic.innate_spells = ilist
+        when "divine_font"
+          if value.size > 1
+
+            to_assign['divine font'] = value
+          else
+            magic.update(divine_font: value.first)
+          end
+        when 'school_spell'
+          # Value in this case is sent to to_assign as { school spell => school }
+
+          to_assign["school spell"] = value['school_spell']
+        when 'gated_feat'
+          # Gated or special feats can be acquired by wizard schools and so can be populated under magic stats.
+          list = to_assign["special feat"] || []
+
+          value << list
+
+          to_assign['special feat'] = list
         else
           client.emit_ooc "Unknown key #{key} in update_magic. Please inform staff."
         end
@@ -237,7 +251,6 @@ module AresMUSH
       char.save
 
       to_assign
-
     end
 
     def self.get_spell_dc(char, charclass, is_focus=false)

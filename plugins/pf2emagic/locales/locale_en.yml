@@ -8,19 +8,21 @@ en:
     cant_refocus_time: "You last refocused at %{time} and can only refocus once per hour. Wait longer."
     cg_magic_ok: "%xgNo issues seen with magic options.%xn"
     cg_rep_spells: "%xcYou have repertoire spells. Left to choose: %{rcount}%xn"
+    cg_spell_select_ok: "Spell added successfully."
     cg_spellbook_spells: "%xcYou have spells to put in your spellbook. Left to choose: %{scount}%xn"
     char_not_caster: "%{char} is not a spellcaster and should not be requesting spells in a job."
+    choose_divine_font: "%xrYou need to choose your divine font."
     class_does_not_get_spell: "The character class you specified does not have access to that spell."    
     config_error: "%xrYour magic is not configured correctly. Please see staff. Code: %{code}%xn"
 
     does_not_prepare: "Specified class does not prepare spells."
-
-    has_pending_magic: "%xcThe following items grant you magic changes that will appear on your sheet when completed: %{items}%xn"
+    dfont_updated: "You set your divine font to %{font}."
 
     multiple_matches: "More than one %{item} matches your search. Please choose one."
 
     no_available_slots: "No available slots at specified level."
     no_focus_pool: "This character does not have focus spells."
+    no_font_option: "You do not need to choose your divine font."
     no_match: "I didn't find any %{item} matching your terms."
     no_new_spells: "This character class does not get new spells at this level."
     no_new_spells_at_level: "You have no new spells to learn at the level you specified."

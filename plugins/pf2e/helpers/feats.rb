@@ -60,7 +60,7 @@ module AresMUSH
 
     end
 
-    def self.can_take_feat?(char, feat)                                                                                                             
+    def self.can_take_feat?(char, feat)
       msg = []
 
       find_feat = Pf2e.get_feat_details(feat)
@@ -90,7 +90,7 @@ module AresMUSH
 
         ancestry << cinfo['ancestry']
         ancestry << cinfo['adopted ancestry'] if cinfo['adopted ancestry']
-      
+
         # # Add allowances for Half-Sil and Half-Oruch
         ancestry << "Sildanyar" if cinfo['heritage'].include? "Half-Sil"
         ancestry << "Oruch" if cinfo['heritage'].include? "Half-Oruch"
@@ -313,11 +313,15 @@ module AresMUSH
       to_assign = char.pf2_to_assign
 
       if to_assign['charclass feat']
-        msgs << t('pf2e.unassigned_class_feat') if to_assign['charclass feat'] == 'unassigned'
+        msgs << t('pf2e.unassigned_class_feat') if to_assign['charclass feat'].include? 'open'
       end
 
       if to_assign['ancestry feat']
-        msgs << t('pf2e.unassigned_ancestry_feat') if to_assign['ancestry feat'] == 'unassigned'
+        msgs << t('pf2e.unassigned_ancestry_feat') if to_assign['ancestry feat'].include? 'open'
+      end
+
+      if to_assign['special feat']
+        msgs << t('pf2e.unassigned_gated_feat', :options => to_assign['special feat'].sort.join(", "))
       end
 
       return nil if msgs.empty?
@@ -338,7 +342,10 @@ module AresMUSH
           to_assign = char.pf2_to_assign
 
           value.each do |item|
-            to_assign[item] = 'open'
+            to_assign_subitem = to_assign[item] ? to_assign[item] : []
+            to_assign_subitem << 'open'
+            to_assign[item] = to_assign_subitem
+
             return_msg << t('pf2e.feat_grants_addl', :element => assign_key)
           end
 
@@ -349,6 +356,13 @@ module AresMUSH
           value.each { |item| feats << item }
 
           char.update(pf2_feats: feats.sort)
+        when 'gated_feat'
+          to_assign = char.pf2_to_assign
+          gated_feats = to_assign['special feat'] || []
+
+          gated_feats << value
+          to_assign['special feat'] = gated_feats
+          char.update(pf2_to_assign: to_assign)
         when 'reagents'
           return_msg << "This feat grants reagents."
           Pf2e.update_reagents(char, value)
@@ -362,10 +376,95 @@ module AresMUSH
 
           combat.update(unarmed_attacks: unarmed_attacks)
           return_msg << "This feat grants an unarmed attack."
+        when "skill"
+          # The value of the skill subkey is an array.
+          # Skills should check to see if the character already has training in that skill and grant a
+          # free one if so.
+
+          value.each do |skill|
+            has_skill = Pf2eSkills.get_skill_prof(char, skill) == 'untrained' ? false : true
+
+            if has_skill
+              if (char.advancing || !char.is_approved?)
+                to_assign = char.pf2_to_assign
+                open_skills = to_assign['open skills'] || []
+                open_skills << 'open'
+                to_assign['open skills'] = open_skills
+                char.update(pf2_to_assign: to_assign)
+                return_msg << "You already had a skill granted by this feat, so you have another free skill to assign."
+              else
+                return_msg << "#{char.name} needs to choose a free skill."
+              end
+            else
+              skill_obj = Pf2eSkills.find_skill(skill, char)
+
+              Pf2eSkills.create_skill_for_char(skill, char) if !skill_obj
+
+              Pf2eSkills.update_skill_for_char(skill, char, 'trained')
+              return_msg << "This feat grants the skill #{skill}."
+            end
+
+          end
         else
           return_msg << "Unknown key '#{key}' in do_feat_grants. Please inform code staff."
         end
+
       end
+
+      return_msg
+    end
+
+    def self.can_take_gated_feat?(char, feat, gate)
+      # This function is called whenever the gated_feat key is present. It is used for any
+      # feat that has specific limits on what can be taken.
+
+      qualifies = can_take_feat?(char, feat)
+
+      # If you don't meet the prereqs for the feat, don't bother processing the gate.
+      return false unless qualifies
+
+      find_feat = Pf2e.get_feat_details(feat)
+
+      fdeets = find_feat[1]
+
+      case gate.downcase
+      when 'universalist'
+        # This key is for the extra wizard feat universalists get at first level.
+        charclass = fdeets['assoc_charclass']
+
+        passes_gate = charclass.include? 'Wizard'
+      when 'metamagic'
+        # Some feats grant an extra metamagic feat. Test this gate for those.
+
+        traits = fdeets['traits'].map {|t| t.downcase }
+
+        passes_gate = traits.include? 'metamagic'
+      else
+        # If it doesn't recognize the key for the gate, fail it.
+        passes_gate = false
+      end
+
+      # I've already checked qualifies for truth, so now it's a matter of checking whether the
+      # feat meets the gate requirements.
+
+      passes_gate
+    end
+
+    def self.get_gated_feat_options(char, gate)
+      feats = Global.read_config('pf2e_feats')
+
+      list = []
+
+      feats.each_pair do |name, details|
+
+        can_take = can_take_gated_feat?(char, name, gate)
+        has_feat = has_feat?(char, name)
+
+        list << name if (can_take && !has_feat)
+
+      end
+
+      list.sort
     end
 
   end

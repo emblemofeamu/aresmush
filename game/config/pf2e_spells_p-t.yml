@@ -515,7 +515,7 @@ pf2e_spells:
     heighten:
       8: Add *adamantine* and *mithral* to the list of metals you can transform the item into.
   Prestidigitation:
-    base_level: 1
+    base_level: cantrip
     school: Evocation
     traits:
     - cantrip
@@ -663,9 +663,8 @@ pf2e_spells:
       8: Increase the damage tp 8d4 and the persistent damage on a critical hit to 8d4.
       9: Increase the damage to 9d4 and the persistent damage on a critical hit to 9d4.
       10: Increase the damage to 10d4 and the persistent damage on a critical hit to 10d4.
-    base_level: 1
+    base_level: cantrip
     mystery:
-    - Ash
     - flames
     range: 30 feet
     school: Evocation
@@ -1032,7 +1031,7 @@ pf2e_spells:
     - 8d4
     - 9d4
     - 10d4
-    base_level: 1
+    base_level: cantrip
     range: 120 feet
     school: Evocation
     target: 1 creature
@@ -1056,7 +1055,7 @@ pf2e_spells:
     heighten:
       3: You can target up to 10 objects.
       6: You can target any number of objects.
-    base_level: 1
+    base_level: cantrip
     mystery:
     - lore
     range: 30 feet
@@ -2139,7 +2138,7 @@ pf2e_spells:
       5: The shield has Hardness 15.
       7: The shield has Hardness 20.
       9: The shield has Hardness 25.
-    base_level: 1
+    base_level: cantrip
     mystery:
     - battle
     school: Abjuration
@@ -2264,7 +2263,7 @@ pf2e_spells:
     - somatic
     duration: 1 minute
     effect: Drawing your hand in a sweeping gesture, you shroud the target in a veil of night. The target's eyes are blanketed in darkness. If you cast this hex on a willing ally (for instance, one with light blindness), the ally can choose which result it gets without rolling. Regardless of the outcome, the target is then temporarily immune for 1 minute.%r**Success** The target is unaffected.%r**Failure** The target is shrouded in murky darkness. Unless the target has darkvision, other creatures are concealed to it.
-    base_level: 1
+    base_level: cantrip
     range: 30 feet
     save: Will
     school: Evocation
@@ -2286,7 +2285,7 @@ pf2e_spells:
       3: The sigil instead fades after 1 month.
       5: The sigil instead fades after 1 year.
       7: The sigil never fades.
-    base_level: 1
+    base_level: cantrip
     range: touch
     school: Transmutation
     target: 1 creature or object
@@ -2412,7 +2411,7 @@ pf2e_spells:
     heighten:
       6: You can Sustain the Spell for up to 2 hours.
       9: You can Sustain the Spell for up to 4 hours.
-    base_level: 3
+    base_level: cantrip
     school: Enchantment
     traits:
     - bard
@@ -2428,7 +2427,7 @@ pf2e_spells:
     - verbal
     duration: 1 round
     effect: You bolster your allies' physical strength with a hearty exhortation. You and your allies gain a +1 status bonus to Athletics checks and to their DCs against Athletics skill actions such as Disarm, Shove, and Trip.%r %r**Special** If you have the *inspire heroics* composition spell, you can use that composition to improve the bonus granted by *song of strength* in the same way as *inspire courage* or *inspire defense*.
-    base_level: 1
+    base_level: cantrip
     school: Enchantment
     traits:
     - bard
@@ -2988,7 +2987,7 @@ pf2e_spells:
     - somatic
     - verbal
     effect: Positive energy shuts death's door. The target loses the dying condition, though it remains unconscious at 0 Hit Points.
-    base_level: 1
+    base_level: cantrip
     mystery:
     - life
     range: 30 feet
@@ -3075,11 +3074,11 @@ pf2e_spells:
     duration: 1 minute
     effect: Intense fervor fills the target creature, empowering their blows. The target gains a +2 status bonus to damage rolls. Once this spell ends, the target becomes temporarily immune for 1 minute.
     heighten:
-    - +3
-    - +4
-    - +5
-    - +6
-    base_level: 1
+      2: The status bonus to damage increases by 1.
+      4: The status bonus to damage increases by 2.
+      6: The status bonus to damage increases by 3.
+      8: The status bonus to damage increases by 4.
+    base_level: cantrip
     range: 30 feet
     school: Enchantment
     target: 1 creature
@@ -3518,7 +3517,7 @@ pf2e_spells:
     effect: You materialize a handheld musical instrument in your grasp. The instrument is typical for its type, but it plays only for you. The instrument vanishes when the spell ends. If you cast *summon instrument* again, any instrument you previously summoned disappears.
     heighten:
       5: The instrument is instead a virtuoso handheld instrument.
-    base_level: 1
+    base_level: cantrip
     school: Conjuration
     tradition:
     - divine
@@ -3722,7 +3721,7 @@ pf2e_spells:
     heighten:
       2: The effects last for 2 rounds.
       4: The effects last for 1 minute.
-    base_level: 1
+    base_level: cantrip
     range: 30 feet
     school: Conjuration
     target: 1 creature
@@ -3802,7 +3801,7 @@ pf2e_spells:
     - 8d6
     - 9d6
     - 10d6
-    base_level: 1
+    base_level: cantrip
     range: 30 feet
     school: Evocation
     target: 1 creature
@@ -4314,7 +4313,7 @@ pf2e_spells:
     - somatic
     duration: 1 round
     effect: You dance at a lively tempo, speeding your allies' movement. You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.
-    base_level: 2
+    base_level: cantrip
     school: Enchantment
     traits:
     - bard

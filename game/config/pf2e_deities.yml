@@ -7,8 +7,9 @@ pf2e_deities:
     - CG
     - LN
     - N
-    divine_font:
-    - heal
+    magic_stats:
+      divine_font:
+      - heal
     divine_ability:
     - Intelligence
     - Charisma
@@ -39,9 +40,10 @@ pf2e_deities:
     - N
     - CN
     - LN
-    divine_font:
-    - harm
-    - heal
+    magic_stats:
+      divine_font:
+      - harm
+      - heal
     divine_ability: Strength
     divine_skill: Athletics
     fav_weapon: maul
@@ -68,9 +70,10 @@ pf2e_deities:
 #    - LN
 #    - N
 #    - CN
-#    divine_font:
-#    - heal
-#    - harm
+#    magic_stats:
+#      divine_font:
+#      - heal
+#      - harm
 #    divine_ability: Wisdom
 #    divine_skill: Arcana
 #    fav_weapon: quarterstaff
@@ -94,8 +97,9 @@ pf2e_deities:
   Caracoroth:
     allowed_alignments:
     - CN
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability:
     - Strength
     - Charisma
@@ -124,9 +128,10 @@ pf2e_deities:
     - CG
     - CN
     - N
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Charisma
     divine_skill: Performance
     fav_weapon: rapier
@@ -152,8 +157,9 @@ pf2e_deities:
     - LG
     - NG
     - LN
-    divine_font:
-    - heal
+    magic_stats:
+      divine_font:
+      - heal
     divine_ability:
     - Intelligence
     - Charisma
@@ -182,9 +188,10 @@ pf2e_deities:
     - LN
     - N
     - CN
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Charisma
     divine_skill: Nature
     fav_weapon: scimitar
@@ -209,9 +216,10 @@ pf2e_deities:
     allowed_alignments:
     - LN
     - N
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Charisma
     divine_skill: Deception
     fav_weapon: light hammer
@@ -239,8 +247,9 @@ pf2e_deities:
     - CG
     - LN
     - N
-    divine_font:
-    - heal
+    magic_stats:
+      divine_font:
+      - heal
     divine_ability:
     - Intelligence
     - Wisdom
@@ -268,9 +277,10 @@ pf2e_deities:
     - NG
     - CG
     - N
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Dexterity
     divine_skill: Survival
     fav_weapon: longbow
@@ -295,8 +305,9 @@ pf2e_deities:
     allowed_alignments:
     - N
     - CN
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability: Constitution
     divine_skill: Survival
     fav_weapon: guisarme
@@ -321,8 +332,9 @@ pf2e_deities:
     allowed_alignments:
     - LN
     - CN
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability: Constitution
     divine_skill: Society
     fav_weapon: kukri
@@ -348,8 +360,9 @@ pf2e_deities:
     - CG
     - CN
     - N
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability: Strength
     divine_skill: Intimidation
     fav_weapon: greataxe
@@ -374,8 +387,9 @@ pf2e_deities:
     allowed_alignments:
     - LN
     - N
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability: Constitution
     divine_skill: Intimidation
     fav_weapon: greatsword
@@ -402,8 +416,9 @@ pf2e_deities:
     - NG
     - LN
     - N
-    divine_font:
-    - heal
+    magic_stats:
+      divine_font:
+      - heal
     divine_ability: Wisdom
     divine_skill: Acrobatics
     fav_weapon: unarmed
@@ -429,9 +444,10 @@ pf2e_deities:
     - CG
     - LN
     - CN
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Wisdom
     divine_skill: Diplomacy
     fav_weapon: trident
@@ -458,9 +474,10 @@ pf2e_deities:
     - NG
     - LN
     - N
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Wisdom
     divine_skill: Crafting
     fav_weapon: warhammer
@@ -487,9 +504,10 @@ pf2e_deities:
     - LN
     - NG
     - N
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Intelligence
     divine_skill: Society
     fav_weapon: lance
@@ -514,8 +532,9 @@ pf2e_deities:
     allowed_alignments:
     - N
     - CN
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability: Wisdom
     divine_skill: Deception
     fav_weapon: spiked chain
@@ -542,8 +561,9 @@ pf2e_deities:
     - CG
     - CN
     - N
-    divine_font:
-    - heal
+    magic_stats:
+      divine_font:
+      - heal
     divine_ability: Charisma
     divine_skill: Stealth
     fav_weapon: Short Sword
@@ -569,8 +589,9 @@ pf2e_deities:
     - LN
     - N
     - CN
-    divine_font:
-    - harm
+    magic_stats:
+      divine_font:
+      - harm
     divine_ability: Wisdom
     divine_skill: Occultism
     fav_weapon: scythe
@@ -597,9 +618,10 @@ pf2e_deities:
     - NG
     - LN
     - N
-    divine_font:
-    - heal
-    - harm
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
     divine_ability: Intelligence
     divine_skill: Medicine
     fav_weapon: khopesh

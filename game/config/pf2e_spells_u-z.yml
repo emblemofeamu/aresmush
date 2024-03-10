@@ -1009,7 +1009,7 @@ pf2e_spells:
     - verbal
     duration: 1 minute
     effect: With a few words, you convince a wild creature you are a kindred spirit, making it reluctant to harm you. The target must attempt a Will save. Regardless of the outcome, the target is then temporarily immune for 1 minute.%r**Critical Success** The target is unaffected.%r**Success** When the target attempts an attack roll or skill check that would harm you, it takes a –2 status penalty to its roll.%r**Failure** As success, but the target also becomes sickened 1 each time it damages you.%r**Critical Failure** As success, but the target also becomes sickened 2 each time it damages you.
-    base_level: 1
+    base_level: cantrip
     range: 30 feet
     save: Will
     school: Enchantment

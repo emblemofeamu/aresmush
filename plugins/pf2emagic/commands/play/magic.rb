@@ -5,7 +5,7 @@ module AresMUSH
 
       attr_accessor :character
 
-      def parse_args 
+      def parse_args
         self.character = trim_arg(cmd.args)
       end
 
@@ -18,6 +18,11 @@ module AresMUSH
 
       def handle
         char = Pf2e.get_character(self.character, enactor)
+
+        unless char
+          client.emit_failure t('pf2e.not_found')
+          return
+        end
 
         if !(Pf2emagic.is_caster?(char))
           client.emit_failure t('pf2emagic.not_caster')

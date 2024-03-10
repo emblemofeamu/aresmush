@@ -33,6 +33,8 @@ For all commands, "initiative" and "init" are aliases for "encounter".
 `encounter/scan`: Allows the organizer to view details on all PC's who have joined the encounter. (Alias: `tscan`)
 `encounter/bonus [<encounter ID> =] <bonus description>/<list of people to whom it applies>`: Records a bonus that is available to players in the list. Helps keep track of buffs. 
 `encounter/penalty [<encounter ID> =] <penalty description>/<list of people to whom it applies>`: Records penalties applicable to players in the list. 
+`encounter/end [<encounter ID>]`: Ends an encounter. 
+`encounter/restart [<encounter ID>]`: Restarts an encounter, so long as the scene has not ended.
 
 ## Healing and Damage Commands
 

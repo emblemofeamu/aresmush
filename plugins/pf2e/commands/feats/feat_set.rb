@@ -3,12 +3,14 @@ module AresMUSH
     class PF2FeatSetCmd
       include CommandHandler
 
-      attr_accessor :feat_type, :feat_name
+      attr_accessor :feat_type, :feat_name, :gate
 
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_equals_arg2)
 
-        self.feat_type = downcase_arg(args.arg1)
+        find_gate = args.arg1.split("/")
+        self.feat_type = downcase_arg(find_gate[0])
+        self.gate = downcase_arg(find_gate[1])
         self.feat_name = upcase_arg(args.arg2)
       end
 
@@ -27,7 +29,7 @@ module AresMUSH
       end
 
       def check_valid_feat_type
-        feat_types = [ "general", "skill", "archetype", "dedication", "charclass", "ancestry"]
+        feat_types = [ "general", "skill", "archetype", "dedication", "charclass", "ancestry", "special" ]
 
         return nil if feat_types.include?(self.feat_type)
 
@@ -42,7 +44,6 @@ module AresMUSH
       def handle
 
         ##### VALIDATION SECTION START #####
-
         # Is this actually a feat?
 
         feat_check = Pf2e.get_feat_details(self.feat_name)
@@ -71,41 +72,70 @@ module AresMUSH
 
         key = self.feat_type + " feat"
 
-        if !(to_assign[key] == 'open')
-          client.emit_failure t('pf2e.no_free', :element => key)
-          return
+        # Special feats or 'gated feats' are feats granted by other feats that have specific limits
+        # on what you can take.
+
+        if key == 'special feat'
+          # If it's a special feat, you have to specify which special.
+
+          gate_options = to_assign[key]
+
+          unless self.gate
+            client.emit_failure t('pf2e.must_specify_gate', :options => gate_options.sort.join(", "))
+            return
+          end
+
+          # Does that option exist in the list?
+          has_gate_option = gate_options.include? self.gate
+
+          unless has_gate_option
+            client.emit_failure t('pf2e.no_such_gate', :gate => self.gate)
+            return
+          end
+
+          # These feats have an additional qualify check based on the specific gate.
+          qualify = Pf2e.can_take_gated_feat?(enactor, fname, self.gate)
+        else
+          unless (to_assign[key].include? 'open')
+            client.emit_failure t('pf2e.no_free', :element => key)
+            return
+          end
+
+          qualify = Pf2e.can_take_feat?(enactor, fname)
         end
 
         # Does the enactor qualify to take this feat?
-
-        qualify = Pf2e.can_take_feat?(enactor, fname)
 
         unless qualify
           client.emit_failure t('pf2e.does_not_qualify')
           return nil
         end
 
-        # If the feat slot is granted by another feat, that feat may be restricted. Check for that.
-        old_value = to_assign[key]
-
-        if old_value.match? "Basic"
-
-        elsif old_value.match? "Expert"
-
-        elsif old_value.match? "Master"
-
-        end
-
         ##### VALIDATION SECTION END #####
 
-        sublist = feat_list[self.feat_type]
+        # Add to the feat list. Special feats again get their own processing.
 
-        sublist << fname
-        to_assign[key] = fname
+        if key == 'special feat'
+          use_ftype = fdeets['feat_type'].first.downcase
+
+          sublist = feat_list[use_ftype] || []
+
+          sublist << fname
+
+          feat_list[use_ftype] = sublist
+
+          new_gated_list = gate_options - [ self.gate ]
+          to_assign[key] = new_gated_list
+        else
+          sublist = feat_list[self.feat_type] || []
+
+          sublist << fname
+
+          feat_list[self.feat_type] = sublist
+          to_assign[key] = fname
+        end
 
         enactor.update(pf2_to_assign: to_assign)
-
-        feat_list[self.feat_type] = sublist
 
         enactor.update(pf2_feats: feat_list)
 

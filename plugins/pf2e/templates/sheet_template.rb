@@ -191,7 +191,7 @@ module AresMUSH
         ancestry_list = @char.pf2_feats['ancestry']
         general_list = @char.pf2_feats['general']
         skill_list = @char.pf2_feats['skill']
-        dedication_list = @char.pf2_feats.has_key?('dedication') ?  @char.pf2_feats['dedication'] : []
+        dedication_list = @char.pf2_feats['dedication'] || []
 
         list = []
 

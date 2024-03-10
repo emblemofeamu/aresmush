@@ -33,8 +33,8 @@ module AresMUSH
       scene_active_encounter(scene)
     end
 
-    def self.active_encounter(char)
-      char.encounters.select { |e| e.is_active }.first
+    def self.active_encounters(char)
+      char.encounters.select { |e| e.is_active }
     end
 
     def self.send_to_encounter(enc, msg)

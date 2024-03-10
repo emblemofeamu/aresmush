@@ -1,6 +1,6 @@
 ---
 alttracker:
-  max_alts_allowed: 2
+  max_alts_allowed: 10
   permissions:
     manage_alts: "Determines who may view registered alts."
   shortcuts:

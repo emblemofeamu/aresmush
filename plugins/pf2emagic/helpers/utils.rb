@@ -4,13 +4,22 @@ module AresMUSH
     def self.is_caster?(char)
       magic = char.magic
       return false unless magic
-      return false if magic.tradition.empty?
+
+      trad = magic.tradition
+      trad = trad.delete('innate')
+      innate_only = trad.empty?
+
+      innate_spells = magic.innate_spells
+
+      return false if innate_only && innate_spells.empty?
       return true
     end
 
     def self.generate_spells_today(char)
 
       magic = char.magic
+
+      spells_today = {}
 
       return t('pf2emagic.not_caster') unless magic
 
@@ -22,17 +31,19 @@ module AresMUSH
 
       class_list.each do |cc|
         case cc
-        when "wizard", "druid", "cleric", "witch"
+        when "Wizard", "Druid", "Cleric", "Witch"
           prepared_list = magic.spells_prepared
 
-          magic.update(spells_today: prepared_list)
-        when "bard", "oracle", "sorcerer"
-          spells_today = generate_blank_spell_list(magic)
+          spells_today[cc] = prepared_list
+        when "Bard", "Oracle", "Sorcerer"
+          spontlist = generate_blank_spell_list(magic)
 
-          magic.update(spells_today: spells_today)
+          spells_today[cc] = spontlist
         else
           return nil
         end
+
+        magic.update(spells_today: spells_today)
       end
 
     end

@@ -31,6 +31,8 @@ module AresMUSH
           return
         end
 
+      valid_instructions = %w{add delete}
+
         case self.item
         when "feat"
           # Expected structure of self.value: <feat type> add|delete <feat name>
@@ -39,7 +41,15 @@ module AresMUSH
           instruction = self.value[1].downcase
           details = Pf2e.get_feat_details(self.value[2])
 
-          return t('pf2e.not_unique') if details.is_a? String
+          unless valid_instructions.include? instruction
+            client.emit_failure t('pf2e.bad_instruction')
+            return
+          end
+
+          if details.is_a? String
+            client.emit_failure t('pf2e.not_unique')
+            return
+          end
 
           feat_name = details.first
           fdeets = details[1]
@@ -66,21 +76,29 @@ module AresMUSH
           char_feat_list[feat_type] = feat_sublist.sort
           char.update(pf2_feats: char_feat_list)
 
-          client.emit_success t('pf2e.feat_set_ok', :name => feat_name, :type => feat_type)
+          client.emit_success t('pf2e.updated_ok', :element => "Feat #{feat_name}", :char => char.name)
 
           feat_grants_stuff = fdeets['grants']
 
           if feat_grants_stuff
-            charclass = fdeets['assoc_charclass'] ? fdeets['assoc_charclass'] : char.pf2_base_info['charclass']
-            Pf2e.do_feat_grants(enactor, feat_grants_stuff, charclass, client)
-            client.emit_ooc "The assigned feat grants extra stuff. Processing."
+            if instruction == 'add'
+              charclass = fdeets['assoc_charclass'] ? fdeets['assoc_charclass'] : char.pf2_base_info['charclass']
+              Pf2e.do_feat_grants(enactor, feat_grants_stuff, charclass, client)
+              client.emit_ooc "The assigned feat grants extra stuff. Processing."
+            else
+              client.emit_ooc "The assigned feat grants other things. You may need to do manual cleanup on the sheet."
+            end
           end
         when "skill"
           # Expected structure of self.value: `<skill name> <proficiency level>`
-          skname = self.value[0]
+
+          # Skills can be multi-word names, but prof is always the last word, so pop it off the end and the rest
+          # is the skill name.
+
+          new_prof = self.value.pop
+          skname = self.value.join
 
           skill = Pf2eSkills.find_skill(skname, char)
-          new_prof = self.value[1].downcase
 
           levels = %w(untrained trained expert master legendary)
 
@@ -110,8 +128,13 @@ module AresMUSH
           # No validation of the feature in question is done.
 
           features = char.pf2_features
-          instruction = value[0]
+          instruction = value[0].downcase
           ftoadd = titlecase_arg(value[1])
+
+          unless valid_instructions.include? instruction
+            client.emit_failure t('pf2e.bad_instruction')
+            return
+          end
 
           if instruction == "add"
             features << ftoadd
@@ -129,7 +152,7 @@ module AresMUSH
           char.update(pf2_features: features.sort)
 
           client.emit_success t('pf2e.updated_ok', :element => "Feature", :char => char.name)
-        when "spell"
+        when "spellbook"
           # Expected structure of self.value: <charclass> [add|delete] <spell name> <spell level>
 
           castclass = self.value[0].downcase
@@ -140,23 +163,115 @@ module AresMUSH
             return
           end
 
-          instruction = self.value[1]
-          spell = self.value[2]
-          spell_level = self.value[3].downcase
+          instruction = self.value[1].downcase
 
-
-          if caster_type == 'prepared'
-            # Spells for prepared casters go in a spellbook.
-
-
-          else
-            # Spells for spontaneous casters go in a repertoire.
-
+          unless valid_instructions.include? instruction
+            client.emit_failure t('pf2e.bad_instruction')
+            return
           end
 
-        when "focus"
-          # Expected structure of value: add|delete <cantrip or spell> <spell name>
+          spell_level = self.value[3].downcase
+          spell = Pf2emagic.get_spells_by_name(self.value[2])
 
+          unless spell.size == 1
+            client.emit_failure t('pf2e.not_unique')
+            return
+          end
+
+          spell = spell.first
+
+          # Now it's time to do the adding.
+
+          info = { 'addspellbook' => { spell_level => [ spell ]} }
+
+          PF2Magic.update_magic(char, charclass, info, client)
+
+        when 'repertoire'
+          # Expected structure of self.value: <charclass> [add|delete] <spell name> <spell level>
+          charclass = self.value[0].capitalize
+          caster_type = Pf2emagic.get_caster_type(charclass.downcase)
+
+          if !caster_type
+            client.emit_failure t('pf2e.use_focus_keyword')
+            return
+          end
+
+          instruction = self.value[1].downcase
+
+          unless valid_instructions.include? instruction
+            client.emit_failure t('pf2e.bad_instruction')
+            return
+          end
+
+          spell_level = self.value[3].to_i.zero? ? 'cantrip' : self.value[3].to_i
+          spell = Pf2emagic.get_spells_by_name(self.value[2])
+
+          unless spell.size == 1
+            client.emit_failure t('pf2e.not_unique')
+            return
+          end
+
+          spell = spell.first
+
+          if instruction == 'add'
+            info = { 'addrepertoire' => { spell_level => spell }}
+            PF2Magic.update_magic(char, charclass, info, client)
+          elsif instruction == 'delete'
+            magic = char.magic
+            repertoire = magic.repertoire
+            charclass_rep = repertoire[charclass]
+            rep_level = charclass_rep[spell_level]
+            rep_level.delete spell
+            charclass_rep[spell_level] = rep_level
+            repertoire[charclass] = charclass_rep
+            magic.update(repertoire: repertoire)
+          end
+
+          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Repertoire')
+        when "focus"
+          # Expected structure of value: add|delete <charclass> cantrip|spell <spell name>
+
+          charclass = self.value[1].capitalize
+          instruction = self.value[0].downcase
+          spell_type = self.value[2].downcase
+          spell_name = titlecase_arg(self.value[3])
+
+          unless valid_instructions.include? instruction
+            client.emit_failure t('pf2e.bad_instruction')
+            return
+          end
+
+          fspell_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+
+          unless fspell_type
+            client.emit_failure t('pf2e.bad_value', :item => 'character class')
+            return
+          end
+
+          key = "focus_" + spell_type
+
+          if instruction == 'add'
+            value = { fspell_type => [ spell_name ]}
+            spell_info = { key => value }
+            PF2Magic.update_magic(char, charclass, spell_info, client)
+          elsif instruction == 'delete'
+            magic = char.magic
+            if key == 'focus_cantrip'
+              focus_list = magic.focus_cantrips
+              fspell_list = focus_list[fspell_type]
+              fspell_list.delete spell_name
+              focus_list[fspell_type] = fspell_list
+              magic.update(focus_cantrips: focus_list)
+            else
+              focus_list = magic.focus_spells
+              fspell_list = focus_list[fspell_type]
+              fspell_list.delete spell_name
+              focus_list[fspell_type] = fspell_list
+              magic.update(focus_cantrips: focus_list)
+            end
+          end
+
+          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => key.capitalize.gsub("_", " "))
         when "ability"
           # Expected structure of self.value: <ability name> <new score>
 
@@ -180,6 +295,14 @@ module AresMUSH
           abil_obj.update(base_val: score)
 
           client.emit_success t('pf2e.updated_ok', :char => char.name, :element => abil_obj.name)
+        when 'divine font'
+          # Expected structure of self.value = 'heal' or 'harm'
+
+          font_info = { 'divine_font' => [ self.value ]}
+
+          PF2Magic.update_magic(char, 'charclass', font_info, client)
+
+          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Divine font')
         else
           client.emit_failure t('pf2e.bad_value', :item => 'keyword')
         end

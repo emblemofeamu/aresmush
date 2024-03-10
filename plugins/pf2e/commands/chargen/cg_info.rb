@@ -24,7 +24,7 @@ module AresMUSH
           options = Global.read_config('pf2e_ancestry').keys
         when 'heritage'
           if ancestry.blank?
-            client.emit_failure t('pf2e.cannot_find_info', :element=>self.element, :prereq=>'ancestry')
+            client.emit_failure t('pf2e.cannot_find_cginfo', :element=>self.element, :prereq=>'ancestry')
             return
           end
 
@@ -35,7 +35,7 @@ module AresMUSH
           options = Global.read_config('pf2e_class').keys
         when 'specialize'
           if charclass.blank?
-            client.emit_failure t('pf2e.cannot_find_info', :element=>self.element, :prereq=>'character class')
+            client.emit_failure t('pf2e.cannot_find_cginfo', :element=>self.element, :prereq=>'character class')
             return
           end
 

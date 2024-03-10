@@ -25,10 +25,8 @@ module AresMUSH
       def spell_details_by_charclass
         tradition = @magic.tradition
 
-        charclass_list = tradition.keys.sort
-
+        charclass_list = tradition.keys.sort - [ 'innate ']
         spells_today = @magic.spells_today
-
         list = []
 
         charclass_list.each do |charclass|
@@ -37,13 +35,15 @@ module AresMUSH
           caster_type = Pf2emagic.get_caster_type(charclass)
 
           if caster_type == 'prepared'
-            spell_list = spells_today[charclass]
+            # Can be blank prior to first rest.
+            spell_list = spells_today[charclass] || {}
 
             list << format_prepared_spells(@char, charclass, spell_list, trad_info)
           elsif caster_type == 'spontaneous'
-            spell_list = spells_today[charclass]
+            repertoire = @magic.repertoire
+            spell_list = repertoire[charclass] || {}
 
-            list << format_spont_spells(@char, charclass, spell_list, trad_info)
+            list << format_spont_spells(@char, charclass, spell_list, spells_today, trad_info)
           else next
           end
         end
@@ -132,7 +132,7 @@ module AresMUSH
         "#{trad_string}#{list.join("%r")}"
       end
 
-      def format_spont_spells(char, charclass, spell_list, trad_info)
+      def format_spont_spells(char, charclass, spell_list, spells_today, trad_info)
         # Stat Block
         trad = Pf2e.pretty_string(trad_info[0])
         prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
@@ -140,17 +140,25 @@ module AresMUSH
 
         trad_string = "#{title_color}#{charclass}%xn: #{trad} (#{prof})%b%b%bBonus: #{atk}%r%r"
 
+        # Spells Remaining Block
+        remaining = []
+        remaining_msg = "#{item_color}Remaining Today:%xn"
+
+        # Spells_today can be an empty hash prior to first rest / approval.
+        today_list = spells_today[charclass] || {}
+
+        today_list.each_pair do |level, amt|
+          remaining << "%xh#{level}:%xn #{amt}"
+        end
+
         # Spell List Block
-        level_displ = []
         splist_displ = []
 
         spell_list.each_pair do |level, splist|
-          level_displ << "#{item_color}#{level}"
-          splist_displ << splist
-
+          splist_displ << "#{item_color}#{level.capitalize}:%xn #{splist.sort.join(", ")}"
         end
 
-        "#{trad_string}#{level_displ.join("%b%b%b")}%r#{splist_displ.join("%b%b%b")}"
+        "#{trad_string}#{remaining_msg} #{remaining.join("%b%b")}%r%r%b%b#{splist_displ.join("%r%b%b")}"
       end
 
       def format_focus_spells(char, charclass, fstype, trad_info, spell_list=nil, cantrip_list=nil)

@@ -1831,6 +1831,19 @@ pf2e_specialty:
               divine: legendary
   Wizard:
     Improved Familiar Attunement:
+      choose:
+        choice_name: School
+        choice_description: Choose your school.
+        options:
+          Abjuration:
+          Conjuration:
+          Divination:
+          Enchantment:
+          Evocation:
+          Illusion:
+          Necromancy:
+          Transmutation:
+          Universalist:
       chargen:
         feat:
         - Familiar
@@ -1848,14 +1861,64 @@ pf2e_specialty:
         18:
           familiar_ability: true
     Metamagical Experimentation:
+      choose:
+        choice_name: School
+        choice_description: Choose your school.
+        options:
+          Abjuration:
+          Conjuration:
+          Divination:
+          Enchantment:
+          Evocation:
+          Illusion:
+          Necromancy:
+          Transmutation:
+          Universalist:
       chargen:
-        choose_feat:
-        - metamagic
+        gated_feat: metamagic
     # The code for this option is under spell preparation.
-    Spell Blending: {}
-    Spell Substitution: {}
-    # Staff Nexus is managed under items.
-    Staff Nexus: {}
+    Spell Blending: 
+      choose:
+        choice_name: School
+        choice_description: Choose your school.
+        options:
+          Abjuration:
+          Conjuration:
+          Divination:
+          Enchantment:
+          Evocation:
+          Illusion:
+          Necromancy:
+          Transmutation:
+          Universalist:
+    Spell Substitution: 
+      choose:
+        choice_name: School
+        choice_description: Choose your school.
+        options:
+          Abjuration:
+          Conjuration:
+          Divination:
+          Enchantment:
+          Evocation:
+          Illusion:
+          Necromancy:
+          Transmutation:
+          Universalist:
+    Staff Nexus: 
+      choose:
+        choice_name: School
+        choice_description: Choose your school.
+        options:
+          Abjuration:
+          Conjuration:
+          Divination:
+          Enchantment:
+          Evocation:
+          Illusion:
+          Necromancy:
+          Transmutation:
+          Universalist:
   Witch:
     Curse:
       chargen:

@@ -292,7 +292,7 @@ module AresMUSH
 
         # Magic
 
-        magic_msgs = Pf2emagic.cg_magic_warnings(@magic)
+        magic_msgs = Pf2emagic.cg_magic_warnings(@magic, @to_assign)
 
         if magic_msgs
           magic_msgs.each do |msg|
@@ -325,7 +325,7 @@ module AresMUSH
             end
             scount = slist.join(", ")
 
-            messages << t('pf2emagic.cg_spellbook_spells', :rcount => scount)
+            messages << t('pf2emagic.cg_spellbook_spells', :scount => scount)
           end
 
         end

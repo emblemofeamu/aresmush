@@ -19,8 +19,6 @@ module AresMUSH
       end
 
       def handle
-        # If they didn't specify encounter ID, go get it.
-
         encounter = PF2Encounter[self.encounter_id]
 
         if !encounter
@@ -30,7 +28,7 @@ module AresMUSH
 
         # Can the character join this encounter?
 
-        cannot_join = Pf2e.can_join_encounter?(enactor, encounter)
+        cannot_join = Pf2e.can_join_encounter(enactor, encounter)
 
         if cannot_join
           client.emit_failure t('pf2e.cannot_join_encounter', :reason => cannot_join)
