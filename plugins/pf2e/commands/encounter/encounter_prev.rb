@@ -11,14 +11,14 @@ module AresMUSH
       end
 
       def handle
-      
+
         # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? 
-          PF2Encounter[self.encounter_id] : 
-          PF2Encounter.get_encounter_ID(enactor, scene)
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
+          PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -39,7 +39,7 @@ module AresMUSH
           this_init = initlist.size
           next_init = 0
           encounter.update(round: round)
-        else 
+        else
           round = encounter.round
           this_init = encounter.next_init - 1
           next_init = (this_init + 1) % initlist.size
@@ -51,22 +51,22 @@ module AresMUSH
 
         # Generate and send the message.
 
-        message = t('pf2e.advance_init', 
-          :current => this_name, 
-          :next => next_name, 
+        message = t('pf2e.advance_init',
+          :current => this_name,
+          :next => next_name,
           :init => initlist[this_init][0].to_i,
           :round => round_text
         )
 
         enactor_room.emit message
 
-        # Log to the encounter. 
+        # Log to the encounter.
         PF2Encounter.send_to_encounter(encounter, message)
 
-        # Log the initiative message to the scene as an OOC message. 
+        # Log the initiative message to the scene as an OOC message.
         Scenes.add_to_scene(encounter.scene, message, Game.master.system_character, false, true)
 
-        # If the current initiative is a PC, shoot them a global notifier. 
+        # If the current initiative is a PC, shoot them a global notifier.
 
         current_is_char = Character.named("#{this_name}")
 
@@ -81,7 +81,7 @@ module AresMUSH
 
         encounter.update(next_init: next_init)
 
-      end 
+      end
 
 
     end

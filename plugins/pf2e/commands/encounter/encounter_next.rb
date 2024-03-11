@@ -11,14 +11,14 @@ module AresMUSH
       end
 
       def handle
-      
+
         # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? 
-          PF2Encounter[self.encounter_id] : 
-          PF2Encounter.get_encounter_ID(enactor, scene)
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
+          PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -37,36 +37,36 @@ module AresMUSH
         round_text = "Initiative advances!"
         next_init = (this_init + 1) % initlist.size
 
-        new_round = this_init.zero? 
+        new_round = this_init.zero?
 
         if new_round
           round = round + 1
           round_text = "%xh%xyNEW ROUND!%xn Round #{round}"
           encounter.update(round: round)
-        end 
+        end
 
         this_name = initlist[this_init][1]
         next_name = initlist[next_init][1]
 
         # Generate and send the message.
 
-        message = t('pf2e.advance_init', 
-          :current => this_name, 
-          :next => next_name, 
+        message = t('pf2e.advance_init',
+          :current => this_name,
+          :next => next_name,
           :init => initlist[this_init][0].to_i,
           :round => round_text
         )
 
-        # Emit to the room. 
+        # Emit to the room.
         enactor_room.emit message
 
-        # Log message to the encounter. 
+        # Log message to the encounter.
         PF2Encounter.send_to_encounter(encounter, message)
 
-        # Log the message to the scene as an OOC message. 
+        # Log the message to the scene as an OOC message.
         Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
 
-        # If the current initiative is a PC, shoot them a global notifier. 
+        # If the current initiative is a PC, shoot them a global notifier.
 
         current_is_char = Character.named("#{this_name}")
 
@@ -81,7 +81,7 @@ module AresMUSH
 
         encounter.update(next_init: next_init)
 
-      end 
+      end
 
 
     end

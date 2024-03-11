@@ -28,13 +28,28 @@ module AresMUSH
 
         target_list = self.target.map { |t| Pf2e.get_character(t, enactor).name }.compact
 
-        encounter = PF2Encounter.get_encounter_id(enactor, enactor.scene)
+        # Admins can damage anyone, anytime, anywhere. Everyone else needs to be in an encounter.
+        unless enactor.is_admin?
+          scene = enactor_room.scene
 
-        can_damage_pc = Pf2e.can_damage_pc?(enactor, target_list, encounter)
+          if !scene
+            client.emit_failure t('pf2e.must_be_in_scene')
+            return
+          end
 
-        if !can_damage_pc
-          client.emit_failure t('pf2e.cannot_damage_pc')
-          return
+          encounter = PF2Encounter.get_encounter_id(enactor, scene)
+
+          if !encounter
+            client.emit_failure t('pf2e.bad_id', :type => 'encounter')
+            return
+          end
+
+          can_damage_pc = Pf2e.can_damage_pc?(enactor, target_list, encounter)
+
+          if !can_damage_pc
+            client.emit_failure t('pf2e.cannot_damage_pc')
+            return
+          end
         end
 
         # Check for the /ndc switch, which has no meaning unless the enactor is a DM or admin.

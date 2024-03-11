@@ -22,7 +22,7 @@ module AresMUSH
       end
 
       def handle
-        # If they didn't specify encounter ID, go get it. 
+        # If they didn't specify encounter ID, go get it.
 
         scene = enactor_room.scene
 
@@ -33,18 +33,18 @@ module AresMUSH
           return
         end
 
-        # Enactor must be the organizer for the encounter in question. 
-  
+        # Enactor must be the organizer for the encounter in question.
+
         if !PF2Encounter.is_organizer?(enactor, encounter)
           client.emit_failure t('pf2e.not_organizer')
           return
         end
 
-        initlist = encounter.participants 
+        initlist = encounter.participants
 
         index = initlist.index { |i| i[1].downcase.match? self.name }
 
-        if !index 
+        if !index
           client.emit_failure t('pf2e.not_found')
           return
         end
@@ -53,12 +53,12 @@ module AresMUSH
 
         PF2Encounter.add_to_initiative(encounter, enactor.name, self.init)
 
-        client.emit_success t('pf2e.encounter_mod_ok', 
+        client.emit_success t('pf2e.encounter_mod_ok',
           :name => initlist[index][1],
           :encounter => encounter.id,
           :init => self.init
         )
-        
+
       end
 
 

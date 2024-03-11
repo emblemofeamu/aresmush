@@ -26,9 +26,9 @@ module AresMUSH
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? 
-          PF2Encounter[self.encounter_id] : 
-          PF2Encounter.get_encounter_ID(enactor, scene)
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
+          PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -42,23 +42,23 @@ module AresMUSH
           return
         end
 
-        initlist = encounter.participants 
+        initlist = encounter.participants
 
         index = initlist.index { |i| i[1].downcase.match? self.name }
 
-        if !index 
+        if !index
           client.emit_failure t('pf2e.not_found')
           return
         end
 
         PF2Encounter.remove_from_initiative(encounter, index)
 
-        client.emit_success t('pf2e.encounter_remove_ok', 
-          :encounter => encounter.id, 
+        client.emit_success t('pf2e.encounter_remove_ok',
+          :encounter => encounter.id,
           :name => initlist[index][1]
         )
 
-      end 
+      end
 
     end
   end

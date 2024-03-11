@@ -230,15 +230,11 @@ module AresMUSH
           else
             magic.update(divine_font: value.first)
           end
-        when 'school_spell'
-          # Value in this case is sent to to_assign as { school spell => school }
-
-          to_assign["school spell"] = value['school_spell']
         when 'gated_feat'
           # Gated or special feats can be acquired by wizard schools and so can be populated under magic stats.
           list = to_assign["special feat"] || []
 
-          value << list
+          list << value
 
           to_assign['special feat'] = list
         else

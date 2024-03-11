@@ -27,7 +27,7 @@ module AresMUSH
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? PF2Encounter[self.encounter_id] : PF2Encounter.get_encounter_ID(enactor, scene)
+        encounter = self.encounter_id ? PF2Encounter[self.encounter_id] : PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -45,9 +45,9 @@ module AresMUSH
 
         PF2Encounter.add_to_initiative(encounter, self.name, initiative, true)
 
-        client.emit_success t('pf2e.encounter_add_ok', 
-          :roll => initiative.to_i, 
-          :encounter => encounter.id, 
+        client.emit_success t('pf2e.encounter_add_ok',
+          :roll => initiative.to_i,
+          :encounter => encounter.id,
           :name => self.name
         )
       end

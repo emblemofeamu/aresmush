@@ -11,13 +11,13 @@ module AresMUSH
       end
 
       def handle
-      
+
         # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? 
-          PF2Encounter[self.encounter_id] : 
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
           PF2Encounter.get_encounter_ID(enactor, scene)
 
         if !encounter
@@ -36,15 +36,15 @@ module AresMUSH
 
         message = t('pf2e.encounter_complete', :id => encounter.id)
 
-        # Emit to the room. 
+        # Emit to the room.
         enactor_room.emit message
 
-        # Log message to the encounter. 
+        # Log message to the encounter.
         PF2Encounter.send_to_encounter(encounter, message)
 
-        # Log the message to the scene as an OOC message. 
+        # Log the message to the scene as an OOC message.
         Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
-        
+
         # Notify all participants.
         Global.notifier.notify_ooc(:pf2_combat, message) do |char|
           char && scene.participants.include?(char)
