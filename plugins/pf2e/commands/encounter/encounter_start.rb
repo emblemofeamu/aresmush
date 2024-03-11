@@ -55,19 +55,19 @@ module AresMUSH
 
         template = PF2EncounterStart.new(encounter)
 
-        message = template.render
+        @message = template.render
 
         # Emit to the room.
-        enactor_room.emit message
+        enactor_room.emit @message
 
         # Log the init start in the encounter.
-        PF2Encounter.send_to_encounter(encounter, message)
+        PF2Encounter.send_to_encounter(encounter, @message)
 
         # Log the initiative message to the scene as an OOC message.
-        Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
+        Scenes.add_to_scene(scene, @message, Game.master.system_character, false, true)
 
         # Notify all participants that an encounter has started.
-        Global.notifier.notify_ooc(:pf2_combat, message) do |char|
+        Global.notifier.notify_ooc(:pf2_combat, @message) do |char|
           char && scene.participants.include?(char)
         end
 

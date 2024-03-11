@@ -18,7 +18,7 @@ module AresMUSH
 
         encounter = self.encounter_id ?
           PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter_ID(enactor, scene)
+          PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -30,23 +30,30 @@ module AresMUSH
           return
         end
 
+        # It shouldn't allow an encounter that has already ended to end again.
+
+        unless encounter.is_active
+          client.emit_failure t('pf2e.encounter_already_ended', :id => encounter.id)
+          return
+        end
+
         # Do it.
 
         encounter.update(is_active: false)
 
-        message = t('pf2e.encounter_complete', :id => encounter.id)
+        @message = t('pf2e.encounter_complete', :id => encounter.id)
 
         # Emit to the room.
-        enactor_room.emit message
+        enactor_room.emit @message
 
         # Log message to the encounter.
-        PF2Encounter.send_to_encounter(encounter, message)
+        PF2Encounter.send_to_encounter(encounter, @message)
 
         # Log the message to the scene as an OOC message.
-        Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
+        Scenes.add_to_scene(scene, @message, Game.master.system_character, false, true)
 
         # Notify all participants.
-        Global.notifier.notify_ooc(:pf2_combat, message) do |char|
+        Global.notifier.notify_ooc(:pf2_combat, @message) do |char|
           char && scene.participants.include?(char)
         end
 

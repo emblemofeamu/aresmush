@@ -5,12 +5,16 @@
 <% initiative_list.each do |i| %>
 <%= i %>
 <% end %>
-<%= section_line("Bonuses") %>
+<% if has_bonuses %>
+<%= section_line("Applicable Bonuses")%>
 <% bonuses.each do |bonus| %>
 <%= bonus %>
 <% end %>
-<%= section_line("Penalties") %>
-<%= penalties.each do |penalty| %>
-<%= penalty %>
+<% end %>
+<% if has_penalties %>
+<%= section_line("Applicable Pens")%>
+<% penalties.each do |item| %>
+<%= item %>
+<% end %>
 <% end %>
 <%= footer %>

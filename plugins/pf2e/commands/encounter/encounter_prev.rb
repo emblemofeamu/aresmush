@@ -51,28 +51,28 @@ module AresMUSH
 
         # Generate and send the message.
 
-        message = t('pf2e.advance_init',
+        @message = t('pf2e.advance_init',
           :current => this_name,
           :next => next_name,
           :init => initlist[this_init][0].to_i,
           :round => round_text
         )
 
-        enactor_room.emit message
+        enactor_room.emit @message
 
         # Log to the encounter.
-        PF2Encounter.send_to_encounter(encounter, message)
+        PF2Encounter.send_to_encounter(encounter, @message)
 
         # Log the initiative message to the scene as an OOC message.
-        Scenes.add_to_scene(encounter.scene, message, Game.master.system_character, false, true)
+        Scenes.add_to_scene(encounter.scene, @message, Game.master.system_character, false, true)
 
         # If the current initiative is a PC, shoot them a global notifier.
 
         current_is_char = Character.named("#{this_name}")
 
         if current_is_char
-          init_msg = t('pf2e.your_init', :id => encounter.id)
-          Global.notifier.notify_ooc(:char_init, init_msg) do |c|
+          @init_msg = t('pf2e.your_init', :id => encounter.id)
+          Global.notifier.notify_ooc(:char_init, @init_msg) do |c|
             c & c == current_is_char
           end
         end

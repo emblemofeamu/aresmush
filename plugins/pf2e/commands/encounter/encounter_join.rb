@@ -31,7 +31,7 @@ module AresMUSH
         cannot_join = Pf2e.can_join_encounter(enactor, encounter)
 
         if cannot_join
-          client.emit_failure t('pf2e.cannot_join_encounter', :reason => cannot_join)
+          client.emit_failure t('pf2e.encounter_cannot_join', :reason => cannot_join, :id => self.encounter_id)
           return
         end
 
@@ -46,8 +46,9 @@ module AresMUSH
         end
 
         # Calculate initiative and add the enactor to the encounter participants list.
+        roll = [ "1d20", init_stat ]
 
-        initiative = Pf2e.parse_roll_string(enactor, "1d20+#{init_stat}")['total']
+        initiative = Pf2e.parse_roll_string(enactor, roll)['total']
 
         PF2Encounter.add_to_initiative(encounter, enactor.name, initiative)
 
@@ -56,22 +57,22 @@ module AresMUSH
         enactor.encounters.add encounter
         encounter.characters.add enactor
 
-        message t('pf2e.encounter_joined_ok',
+        @message = t('pf2e.encounter_joined_ok',
           :roll => initiative,
           :encounter => encounter.id,
           :name => enactor.name
         )
 
         # Emit to the room.
-        enactor_room.emit message
+        enactor_room.emit @message
 
         # Log to the encounter.
-        PF2Encounter.send_to_encounter(encounter, message)
+        PF2Encounter.send_to_encounter(encounter, @message)
 
         # Log to the scene as an OOC message.
 
         scene = encounter.scene
-        Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
+        Scenes.add_to_scene(scene, @message, Game.master.system_character, false, true)
 
       end
     end

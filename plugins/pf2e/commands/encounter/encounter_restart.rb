@@ -11,7 +11,7 @@ module AresMUSH
       end
 
       # Most of the encounter commands will try to fish for an encounter ID if none is given.
-      # For this one, the encounter ID must be explicitly specified. 
+      # For this one, the encounter ID must be explicitly specified.
 
       def required_args
         [ self.encounter_id ]
@@ -31,30 +31,37 @@ module AresMUSH
           return
         end
 
-        # You cannot restart an encounter if the scene to which it is tied is not running. 
+        # You cannot restart an encounter that is already running.
+
+        if encounter.is_active
+          client.emit_failure t('pf2e.encounter_cant_restart', :id => encounter.id, :reason => "Already running")
+          return
+        end
+
+        # You cannot restart an encounter if the scene to which it is tied is not running.
 
         scene = encounter.scene
 
-        if scene.completed 
-          client.emit_failure t('pf2e.encounter_cant_restart')
+        if (scene.completed)
+          client.emit_failure t('pf2e.encounter_cant_restart', :id => encounter.id, :reason => "Scene not running")
           return
         end
 
         encounter.update(is_active: true)
 
-        message = t('pf2e.encounter_restarted', :id => encounter.id)
+        @message = t('pf2e.encounter_restarted', :id => encounter.id)
 
-        # Emit to the room. 
-        enactor_room.emit message
+        # Emit to the room.
+        enactor_room.emit @message
 
-        # Log the init start in the encounter. 
-        PF2Encounter.send_to_encounter(encounter, message)
+        # Log the init start in the encounter.
+        PF2Encounter.send_to_encounter(encounter, @message)
 
-        # Log the initiative message to the scene as an OOC message. 
-        Scenes.add_to_scene(scene, message, Game.master.system_character, false, true)
-        
+        # Log the initiative message to the scene as an OOC message.
+        Scenes.add_to_scene(scene, @message, Game.master.system_character, false, true)
+
         # Notify all participants that an encounter has started.
-        Global.notifier.notify_ooc(:pf2_combat, message) do |char|
+        Global.notifier.notify_ooc(:pf2_combat, @message) do |char|
           char && scene.participants.include?(char)
         end
 
