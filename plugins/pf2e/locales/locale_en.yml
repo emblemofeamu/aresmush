@@ -29,6 +29,7 @@ en:
     bad_option: "Not a valid option. Valid options for %{element}: %{options}."
     bad_section: "Section %{section} is not a valid section."
     bad_skill: "No skill named %{name} in the list of valid skills. See %x172help skills%xn for a list of valid skills."
+    bad_target_list: "Your target list should be a list of names separated by spaces, if more than one."
     bad_value: "That is not a valid value for %{item}."
     bad_value_in_list: "WARNING: I didn't find the following %{items}: %{list}"
     bg_no_options: "Your background does not have any %{element} to set. Moving on..."
@@ -90,6 +91,7 @@ en:
     encounter_restarted: "*** ENCOUNTER %{id} RESTARTED ***"
     encounter_joined_ok: "%{name} joins encounter %{encounter} at initiative %{roll}."
     encounter_mod_ok: "You change the initiative for %{name} to %{init} in encounter %{encounter}."
+    encounter_notes_ok: "%{mod} notes applied to encounter %{id}."
     encounter_table_title: "Encounter Information for Encounter %{id}"
     
     feat_available_options: "You qualify to take the following feats in that category: %{options}"

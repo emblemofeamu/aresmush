@@ -21,7 +21,6 @@ module AresMUSH
       end
 
       def handle
-
         # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
@@ -35,10 +34,11 @@ module AresMUSH
           return
         end
 
-        # The enactor needs to be the organizer.
+        # Verify that this character can modify the encounter.
 
-        if !PF2Encounter.is_organizer?(enactor, encounter)
-          client.emit_failure t('pf2e.not_organizer')
+        cannot_modify = Pf2e.can_modify_encounter(enactor, encounter)
+        if cannot_modify
+          client.emit_failure cannot_modify
           return
         end
 

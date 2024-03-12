@@ -31,10 +31,15 @@ For all commands, "initiative" and "init" are aliases for "encounter".
 `encounter/next`: Moves the initiative forward one turn. (Alias: `ninit`)
 `encounter/prev`: Moves the initiative backwards one turn. (Alias: `pinit`)
 `encounter/scan`: Allows the organizer to view details on all PC's who have joined the encounter. (Alias: `tscan`)
-`encounter/bonus [<encounter ID> =] <bonus description>/<list of people to whom it applies>`: Records a bonus that is available to players in the list. Helps keep track of buffs. 
-`encounter/penalty [<encounter ID> =] <penalty description>/<list of people to whom it applies>`: Records penalties applicable to players in the list. 
 `encounter/end [<encounter ID>]`: Ends an encounter. 
 `encounter/restart [<encounter ID>]`: Restarts an encounter, so long as the scene has not ended.
+
+## Tracking Bonuses and Penalties
+`encounter/bonus [<encounter ID> =] <bonus description>/<list of people to whom it applies>`: Records a bonus that is available to players in the list. Helps keep track of buffs. 
+`encounter/penalty [<encounter ID> =] <penalty description>/<list of people to whom it applies>`: Records penalties applicable to players in the list. 
+`encounter/expire <description>`: Clears all bonuses and penalties whose descriptions match `<description>`.
+
+**TIP** Consider including the name of the spell that invoked the bonus or penalty in the description. That way, `encounter/expire` can clear all bonuses / penalties associated to the spell with one command. 
 
 ## Healing and Damage Commands
 

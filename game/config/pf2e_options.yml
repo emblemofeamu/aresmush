@@ -32,7 +32,6 @@ pf2e:
     csheet: sheet/combat
     formulalist: formulas/list
     boog: boost # Just for Whirlpool
-    init: encounter/join
     tinit: encounter/view
     pinit: encounter/prev
     ninit: encounter/next

@@ -113,6 +113,8 @@ module AresMUSH
           return PF2EncounterEndCmd
         when "restart"
           return PF2EncounterRestartCmd
+        when "bonus", "penalty"
+          return PF2EncounterBonusPenaltyCmd
         else
           return PF2InitiateCombatCmd
         end

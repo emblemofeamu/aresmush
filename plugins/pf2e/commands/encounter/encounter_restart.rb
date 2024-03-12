@@ -26,26 +26,17 @@ module AresMUSH
           return
         end
 
-        if !PF2Encounter.is_organizer?(enactor, encounter)
-          client.emit_failure t('pf2e.not_organizer')
-          return
-        end
+        # Verify that this character can modify the encounter.
 
-        # You cannot restart an encounter that is already running.
-
-        if encounter.is_active
-          client.emit_failure t('pf2e.encounter_cant_restart', :id => encounter.id, :reason => "Already running")
+        cannot_modify = Pf2e.can_modify_encounter(enactor, encounter)
+        if cannot_modify
+          client.emit_failure cannot_modify
           return
         end
 
         # You cannot restart an encounter if the scene to which it is tied is not running.
 
-        scene = encounter.scene
 
-        if (scene.completed)
-          client.emit_failure t('pf2e.encounter_cant_restart', :id => encounter.id, :reason => "Scene not running")
-          return
-        end
 
         encounter.update(is_active: true)
 

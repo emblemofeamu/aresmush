@@ -53,5 +53,19 @@ module AresMUSH
       is_organizer && targets_in_encounter
     end
 
+    def self.can_modify_encounter(char, encounter)
+      # Enactor needs to be the organizer for the encounter in question.
+      return t('pf2e.not_organizer') unless !PF2Encounter.is_organizer?(char, encounter)
+
+      # You cannot modify an encounter if its associated scene is completed.
+      scene = encounter.scene
+      return t('pf2e.encounter_cant_restart', :id => encounter.id, :reason => "Scene not running") if (scene.completed)
+
+      # Encounter should not be modifiable if not active.
+      return t('pf2e.encounter_already_ended', :id => encounter.id) unless encounter.is_active
+
+      return nil
+    end
+
   end
 end

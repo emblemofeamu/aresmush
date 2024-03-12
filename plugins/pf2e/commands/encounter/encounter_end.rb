@@ -25,15 +25,11 @@ module AresMUSH
           return
         end
 
-        if !PF2Encounter.is_organizer?(enactor, encounter)
-          client.emit_failure t('pf2e.not_organizer')
-          return
-        end
+        # Verify that this character can modify the encounter.
 
-        # It shouldn't allow an encounter that has already ended to end again.
-
-        unless encounter.is_active
-          client.emit_failure t('pf2e.encounter_already_ended', :id => encounter.id)
+        cannot_modify = Pf2e.can_modify_encounter(enactor, encounter)
+        if cannot_modify
+          client.emit_failure cannot_modify
           return
         end
 

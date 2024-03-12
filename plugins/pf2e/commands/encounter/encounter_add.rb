@@ -27,17 +27,28 @@ module AresMUSH
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? PF2Encounter[self.encounter_id] : PF2Encounter.get_encounter_id(enactor, scene)
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
+          PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
           return
         end
 
-        # The enactor needs to be the organizer.
+        # Verify that this character can modify the encounter.
 
-        if !PF2Encounter.is_organizer?(enactor, encounter)
-          client.emit_failure t('pf2e.not_organizer')
+        cannot_modify = Pf2e.can_modify_encounter(enactor, encounter)
+        if cannot_modify
+          client.emit_failure cannot_modify
+          return
+        end
+
+        # Verify that this character can modify the encounter.
+
+        cannot_modify = Pf2e.can_modify_encounter(enactor, encounter)
+        if cannot_modify
+          client.emit_failure cannot_modify
           return
         end
 

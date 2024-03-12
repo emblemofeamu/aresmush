@@ -22,21 +22,24 @@ module AresMUSH
       end
 
       def handle
-        # If they didn't specify encounter ID, go get it.
+        # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
 
-        encounter = self.encounter_id ? PF2Encounter[self.encounter_id] : PF2Encounter.get_encounter_ID(enactor, scene)
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
+          PF2Encounter.get_encounter_id(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
           return
         end
 
-        # Enactor must be the organizer for the encounter in question.
+        # Verify that this character can modify the encounter.
 
-        if !PF2Encounter.is_organizer?(enactor, encounter)
-          client.emit_failure t('pf2e.not_organizer')
+        cannot_modify = Pf2e.can_modify_encounter(enactor, encounter)
+        if cannot_modify
+          client.emit_failure cannot_modify
           return
         end
 
