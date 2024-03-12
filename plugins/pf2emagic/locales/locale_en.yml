@@ -18,6 +18,8 @@ en:
     does_not_prepare: "Specified class does not prepare spells."
     dfont_updated: "You set your divine font to %{font}."
 
+    incorrect_spelllevel_specified: "%{spell} is not a level %{level} spell."
+
     multiple_matches: "More than one %{item} matches your search. Please choose one."
 
     no_available_slots: "No available slots at specified level."

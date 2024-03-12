@@ -26,12 +26,19 @@ module AresMUSH
 
                 # Cycle through the args and populate the arguments
                 args.each do |v|
-                    # Check if it's a spell level, then check if it's a charclass, then populate the values of spell_level and charclass
                     if ("0".."10").include? v
                         self.spell_level = v
                     end
-                    if charclasses.include? v
-                        self.charclass = v
+                    if v == "0"
+                        self.spell_level = "cantrip"
+                    end
+                    # if charclasses v.downcase
+                    #     self.charclass = v.capitalize
+                    # end
+                    charclasses.each do |c|
+                        if !v.nil? and c.downcase ==  v.downcase
+                            self.charclass = c.capitalize
+                        end
                     end
                 end
 
@@ -63,6 +70,10 @@ module AresMUSH
                 # If character came out of the argparsing, get that character, else get the enactor's character
                 char = Pf2e.get_character(self.character, enactor)
 
+                Global.logger.debug self.character
+                Global.logger.debug self.spell_level
+                Global.logger.debug self.charclass
+
                 # Check if character is a caster
                 if !(Pf2emagic.is_caster?(char))
                     client.emit_failure t('pf2emagic.not_caster')
@@ -82,20 +93,247 @@ module AresMUSH
                     return
                 end
                 
-                if !("0".."10").include? self.spell_level || !char.spell_level != "all"
-                    client.emit_failure t('pf2emagic.spellbook_invalid_level')
-                    return
-                end
+                # if !("0".."10").include? self.spell_level or !self.spell_level == "all"
+                #     client.emit_failure t('pf2emagic.spellbook_invalid_level')
+                #     return
+                # end
+                
 
-                if !csb[self.charclass].keys.include? self.charclass
-                    options = csb[self.charclass].keys.join(", ")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                if self.spell_level == "cantrip" and !csb[self.charclass].keys.include? "cantrip"
+                    options = csb[self.charclass].keys.map { |v| v == "cantrip" ? "0" : v }.join(", ")
+                    client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options=>options)
+                    return
+                elsif !csb[self.charclass].keys.include? self.spell_level
+                    options = csb[self.charclass].keys.map { |v| v == "cantrip" ? "0" : v }.join(", ")
+                    client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options=>options)
+                    return
+                elsif self.spell_level == "0" and !csb[self.charclass].keys.include? "cantrip"
+                    options = csb[self.charclass].keys.map { |v| v == "cantrip" ? "0" : v }.join(", ")
                     client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options=>options)
                     return
                 end
 
-                if spell_level == "all"
+                if self.spell_level == "all"
                     # Send everything
                     template = PF2SpellbookTemplate.new(char, csb, client)
+                elsif self.spell_level == "0"
+                    book_by_level = { self.charclass=>{ self.spell_level=>csb[self.charclass.to_s]["cantrip"]} }
+                    template = PF2SpellbookTemplate.new(char, book_by_level, client)
                 else
                     # Send only one level of the spellbook
                     book_by_level = { self.charclass=>{ self.spell_level=>csb[self.charclass.to_s][self.spell_level.to_s]} }
