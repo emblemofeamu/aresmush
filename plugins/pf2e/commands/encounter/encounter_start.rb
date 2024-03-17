@@ -30,7 +30,7 @@ module AresMUSH
         active_encounter = PF2Encounter.scene_active_encounter(scene)
 
         if active_encounter
-          client.emit_failure t('pf2e.scene_has_active_encounter')
+          client.emit_failure t('pf2e.scene_has_active_encounter', :id => active_encounter.id)
           return
         end
 
@@ -65,12 +65,6 @@ module AresMUSH
 
         # Log the initiative message to the scene as an OOC message.
         Scenes.add_to_scene(scene, @message, Game.master.system_character, false, true)
-
-        # Notify all participants that an encounter has started.
-        Global.notifier.notify_ooc(:pf2_combat, @message) do |char|
-          char && scene.participants.include?(char)
-        end
-
       end
 
     end

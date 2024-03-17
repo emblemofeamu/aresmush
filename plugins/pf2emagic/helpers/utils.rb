@@ -123,5 +123,18 @@ module AresMUSH
       (fp_from_charclass + fp_from_feats + change).clamp(0,3)
     end
 
+    def self.get_spell_details(term)
+      result = get_spells_by_name(term)
+
+      return t('pf2emagic.no_match', :item => "spells") if result.empty?
+      return t('pf2e.multiple_matches', :element => 'spell') if result.size > 1
+
+      spell_name = result.first
+
+      spell_details = Global.read_config('pf2e_spells', spell_name)
+
+      [ spell_name, spell_details ]
+    end
+
   end
 end

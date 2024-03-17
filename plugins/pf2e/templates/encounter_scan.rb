@@ -12,25 +12,23 @@ module AresMUSH
       end
 
       def title
-        t('pf2e.encounter_table_title', :id => encounter.id)
-      end 
+        t('pf2e.encounter_table_title', :id => @encounter.id)
+      end
 
       def header_line
-        "%b#{item_color}#{left("Name", 20)}%b#{left("Class", 15)}%b#{left("HP", 10)}%b#{left("AC", 4)} \
-        %b#{left("Per", 4)}%b#{left("Fort", 4)}%b#{left("Ref", 4)}%b#{left("Will", 4)} \
-        %b#{left("AOO?", 4)}"
-      end 
+        "%b#{item_color}#{left("Name", 18)}%b#{left("Class", 10)}%b#{left("HP", 15)}%b#{left("AC", 4)}%b#{left("Per", 4)}%b#{left("Fort", 4)}%b#{left("Ref", 4)}%b#{left("Will", 4)}%b#{left("AOO?", 4)}%xn"
+      end
 
       def player_list
         list = []
 
-        @encounter.characters.sort_by { |c| c.name }.each do |char|
+        @encounter.characters.sort{ |a, b| a.name <=> b.name }.each do |char|
           list << format_player(char)
         end
 
         list
 
-      end 
+      end
 
       def format_player(char)
         name = char.name
@@ -41,14 +39,12 @@ module AresMUSH
         fortitude = Pf2eCombat.get_save_bonus(char, "fortitude")
         reflex = Pf2eCombat.get_save_bonus(char, "reflex")
         will = Pf2eCombat.get_save_bonus(char, "will")
-        aoo = PF2e.has_feat?(char, "Attack of Opportunity") ? "Y" : "N"
+        aoo = Pf2e.has_feat?(char, "Attack of Opportunity") ? "Y" : "N"
 
-        "%b#{left(name, 20)}%b#{left(charclass, 15)}%b#{left(hp, 10)}%b#{left(ac, 4)} \
-        %b#{left(perception, 4)}%b#{left(fortitude, 4)}%b#{left(reflex, 4)}%b#{left(will, 4)} \
-        %b#{left(aoo, 4)}"
+        "%b#{left(name, 18)}%b#{left(charclass, 10)}%b#{left(hp, 15)}%b#{left(ac, 4)}%b#{left(perception, 4)}%b#{left(fortitude, 4)}%b#{left(reflex, 4)}%b#{left(will, 4)}%b#{left(aoo, 4)}"
       end
-       
-      
+
+
     end
   end
 end

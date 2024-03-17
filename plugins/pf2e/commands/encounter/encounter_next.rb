@@ -18,7 +18,7 @@ module AresMUSH
 
         encounter = self.encounter_id ?
           PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter_id(enactor, scene)
+          PF2Encounter.get_encounter(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -76,7 +76,7 @@ module AresMUSH
         if current_is_char
           @init_msg = t('pf2e.your_init', :id => encounter.id)
           Global.notifier.notify_ooc(:char_init, @init_msg) do |c|
-            c & c == current_is_char
+            c && c == current_is_char
           end
         end
 

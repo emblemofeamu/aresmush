@@ -21,6 +21,7 @@ module AresMUSH
           self.new_spell = spells[0]
           self.old_spell = false
         end
+
       end
 
       def check_in_chargen
@@ -43,11 +44,9 @@ module AresMUSH
         [ self.caster_class, self.spell_level, self.new_spell]
       end
 
-
-
       def handle
 
-        level = self.spell_level.zero? ? "cantrip" : self.spell_level
+        level = self.spell_level.zero? ? 'cantrip' : self.spell_level.to_s
 
         msg = Pf2emagic.select_spell(enactor, self.caster_class, level, self.old_spell, self.new_spell, true)
 

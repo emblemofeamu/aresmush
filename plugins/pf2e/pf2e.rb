@@ -91,6 +91,11 @@ module AresMUSH
         end
       when "knownfor"
         return PF2KnownForCmd
+      when "condition"
+        case cmd.switch
+        when "set"
+          return PF2ConditionSetCmd
+        end
       when "encounter", "initiative", "init"
         case cmd.switch
         when "start"
@@ -115,6 +120,8 @@ module AresMUSH
           return PF2EncounterRestartCmd
         when "bonus", "penalty"
           return PF2EncounterBonusPenaltyCmd
+        when "expire"
+          return PF2EncounterExpireBonusesCmd
         else
           return PF2InitiateCombatCmd
         end

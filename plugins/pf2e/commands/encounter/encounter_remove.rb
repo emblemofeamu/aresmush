@@ -27,7 +27,7 @@ module AresMUSH
 
         encounter = self.encounter_id ?
           PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter_id(enactor, scene)
+          PF2Encounter.get_encounter(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')

@@ -3035,8 +3035,6 @@ pf2e_class:
       - Arcana
       - open
       - open
-      choose_feat:
-      - charclass
       charclass:
       - Arcane Bond
       combat_stats:

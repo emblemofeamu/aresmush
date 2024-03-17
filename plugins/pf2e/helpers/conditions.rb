@@ -12,11 +12,25 @@ module AresMUSH
       return v
     end
 
-    def self.set_condition(char, condition, value=0, duration=false)
+    def self.set_condition(char, condition, value=nil, duration=false)
       list = char.pf2_conditions
 
-      list[condition]['value'] = value
-      list[condition]['duration'] = duration
+      condition = condition.capitalize
+
+      # Setting the value
+      if value.zero?
+        remove_condition(char, condition)
+        return
+      end
+
+      cv = list[condition] || {}
+
+      cv['value'] = value if value
+      cv['duration'] = duration if duration
+      # Placeholder so that if it doesn't have a value, it just exists on its own.
+      cv['status'] = true
+
+      list[condition] = cv
 
       char.update(pf2_conditions: list)
     end

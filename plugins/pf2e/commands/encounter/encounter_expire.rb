@@ -11,7 +11,6 @@ module AresMUSH
 
         if args.arg2
           self.encounter_id = integer_arg(args.arg1)
-          list = trimmed_list_arg(args.arg2, "/")
           self.term = downcase_arg(args.arg2)
         else
           self.encounter_id = nil
@@ -31,7 +30,7 @@ module AresMUSH
 
         encounter = self.encounter_id ?
           PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter_id(enactor, scene)
+          PF2Encounter.get_encounter(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -64,7 +63,7 @@ module AresMUSH
         encounter.update(bonuses: bonuses)
         encounter.update(penalties: penalties)
 
-        client.emit_success client.emit_success t('pf2e.encounter_notes_ok', :mod => 'Updated', :id => encounter.id)
+        client.emit_success t('pf2e.encounter_notes_ok', :mod => 'Updated', :id => encounter.id)
 
       end
     end

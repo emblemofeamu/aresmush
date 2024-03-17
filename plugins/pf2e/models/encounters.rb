@@ -27,7 +27,7 @@ module AresMUSH
       scene.encounters.select { |e| e.is_active }.first
     end
 
-    def self.get_encounter_id(char, scene=nil)
+    def self.get_encounter(char, scene=nil)
       return nil unless scene
       return nil unless scene.participants.include? char
       scene_active_encounter(scene)
@@ -67,7 +67,7 @@ module AresMUSH
     end
 
     def self.is_organizer?(char, encounter)
-      char.name == encounter.organizer
+      char.is_admin? || (char.name == encounter.organizer)
     end
 
   end

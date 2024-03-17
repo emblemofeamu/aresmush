@@ -7,19 +7,38 @@ module AresMUSH
       attr_accessor :encounter_id, :init_stat
 
       def parse_args
-        args = trimmed_list_arg(cmd.args, "=")
+        # Another command that Faraday's argparser doesn't touch, so we roll our own.
 
-        self.encounter_id = integer_arg(args[0])
-        self.init_stat = args[1]
+        if cmd.args
+          args = trimmed_list_arg(cmd.args, "=")
 
-      end
+          if args.size >= 2
+            self.encounter_id = integer_arg(args[0])
+            self.init_stat = trim_arg(args[1])
+            # And throw out anything else.
+          else
+            # If only one option is given, if it translates to a number, interpret as an encounter ID.
+            # Otherwise, interpret as an init stat.
 
-      def required_args
-        [ self.encounter_id ]
+            unknown = args[0]
+
+            if (unknown.to_i.to_s == unknown)
+              self.encounter_id = integer_arg(unknown)
+            else
+              self.init_stat = unknown
+            end
+          end
+
+        end
+
       end
 
       def handle
-        encounter = PF2Encounter[self.encounter_id]
+        scene = enactor_room.scene
+
+        encounter = self.encounter_id ?
+          PF2Encounter[self.encounter_id] :
+          PF2Encounter.get_encounter(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -31,7 +50,7 @@ module AresMUSH
         cannot_join = Pf2e.can_join_encounter(enactor, encounter)
 
         if cannot_join
-          client.emit_failure t('pf2e.encounter_cannot_join', :reason => cannot_join, :id => self.encounter_id)
+          client.emit_failure t('pf2e.encounter_cannot_join', :reason => cannot_join, :id => encounter.id)
           return
         end
 

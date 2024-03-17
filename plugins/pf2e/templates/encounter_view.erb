@@ -1,20 +1,27 @@
 <%= header %>
 <%= center("#{title_color}#{title}%xn", 78)%>
+
 <%= header_line %>
 <%= divider %>
+
 <% initiative_list.each do |i| %>
 <%= i %>
 <% end %>
+
 <% if has_bonuses %>
 <%= section_line("Applicable Bonuses")%>
+
 <% bonuses.each do |bonus| %>
 <%= bonus %>
 <% end %>
+
 <% end %>
 <% if has_penalties %>
-<%= section_line("Applicable Pens")%>
+<%= section_line("Applicable Pens")%> 
+
 <% penalties.each do |item| %>
 <%= item %>
 <% end %>
+
 <% end %>
 <%= footer %>

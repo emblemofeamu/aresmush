@@ -23,7 +23,7 @@ module AresMUSH
 
       return "Not an active encounter" unless encounter_is_active
 
-      is_organizer = char.name == encounter.organizer
+      is_organizer = PF2Encounter.is_organizer?(char, encounter)
 
       return "You are the organizer" if is_organizer
 
@@ -46,16 +46,15 @@ module AresMUSH
 
       return false unless encounter
 
-      is_organizer = encounter.organizer == char.name
       participants = encounter.participants.collect { |p| p[1] }
       targets_in_encounter = target_list.all? { |t| participants.include? t }
 
-      is_organizer && targets_in_encounter
+      PF2Encounter.is_organizer?(char, encounter) && targets_in_encounter
     end
 
     def self.can_modify_encounter(char, encounter)
       # Enactor needs to be the organizer for the encounter in question.
-      return t('pf2e.not_organizer') unless !PF2Encounter.is_organizer?(char, encounter)
+      return t('pf2e.not_organizer') unless PF2Encounter.is_organizer?(char, encounter)
 
       # You cannot modify an encounter if its associated scene is completed.
       scene = encounter.scene

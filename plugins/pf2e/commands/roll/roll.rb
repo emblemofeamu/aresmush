@@ -60,7 +60,7 @@ module AresMUSH
             Scenes.add_to_scene(scene, roll_msg)
 
             # Add to the encounter, if in an active encounter in the scene.
-            active_encounter = PF2Encounter.active_encounter_in_scene(enactor, scene)
+            active_encounter = PF2Encounter.scene_active_encounter(scene)
             if active_encounter
               PF2Encounter.send_to_encounter(active_encounter, roll_msg)
             end

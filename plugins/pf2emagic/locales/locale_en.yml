@@ -12,13 +12,14 @@ en:
     cg_spellbook_spells: "%xcYou have spells to put in your spellbook. Left to choose: %{scount}%xn"
     char_not_caster: "%{char} is not a spellcaster and should not be requesting spells in a job."
     choose_divine_font: "%xrYou need to choose your divine font."
-    class_does_not_get_spell: "The character class you specified does not have access to that spell."    
+    class_does_not_get_spell: "The character class you specified does not have access to that spell."   
     config_error: "%xrYour magic is not configured correctly. Please see staff. Code: %{code}%xn"
 
     does_not_prepare: "Specified class does not prepare spells."
     dfont_updated: "You set your divine font to %{font}."
 
-    incorrect_spelllevel_specified: "%{spell} is not a level %{level} spell."
+    invalid_level: "Base level of spell higher than level specified."
+    invalid_signature_level: "You cannot cast that spell as a signature spell at that level."
 
     multiple_matches: "More than one %{item} matches your search. Please choose one."
 
@@ -31,7 +32,9 @@ en:
     no_such_spell: "Spell not available on this game."
     not_caster: "This character has no magical ability."
     not_casting_class: "Cannot cast as %{cc}."
+    not_enough_focus_points: "You are out of focus points."
     not_in_list: "The spell you specified is not in your current list."
+    not_in_innate_list: "You do not have %{name} as an innate spell."
     not_prepared: "Spell not currently prepared."
     not_prepared_at_level: "Spell not prepared at specified level."
 
@@ -40,11 +43,13 @@ en:
 
     specify_level: "You have that spell prepared at more than one level. Specify which level to replace."
     spell_exceeds_max_level: "That spell is of a higher level than you can cast."
+    spell_already_on_list_to_assign: "You already picked that spell. Try another."
+    spell_to_delete_not_found: "Spell specified for replacement not found in your list."
     spell_prepare_ok: "You prepare %{name} as a %{as} at level %{level}."
     spell_prepare_as_signature_ok: "You prepare %{name} as a signature spell at level %{level}."
     spell_unprepare_ok: "You unprepare %{name} from your %{as} spell list."
+    no_spellbook: "No spellbook exists for %{item}."
     spellbook_no_args: "You must specify a class and, optionally, a spell level. Possible options are: %{options}"
-    spellbook_invalid_class: "No spellbook exists for %{invalid_class}"
     spellbook_invalid_level: "Invalid spell levels. Please choose a spell level betwen 0 and 10."
     spellbook_no_spells_at_level: "No spells at that level for this spellbook. Options: %{options}"
-    spellbook_title: "%{charclass} Spellbook of %{name}"
+    spellbook_title: "Spellbook for %{name}"

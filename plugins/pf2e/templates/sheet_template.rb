@@ -335,8 +335,8 @@ module AresMUSH
         colors = Global.read_config('pf2e', 'condition_colors')
         cond_color = colors[condition.to_s]
         name = "#{cond_color}#{condition}"
-        value = value ? "%b#{value}" : ""
-        "#{name}#{value}%xn"
+        cv = value['value'] ? "/#{value['value']}" : ""
+        "#{name}#{cv}%xn"
       end
 
       def format_known_for(string, i)

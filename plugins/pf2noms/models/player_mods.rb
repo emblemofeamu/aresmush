@@ -7,6 +7,7 @@ module AresMUSH
     attribute :rpp_spent_by_char, :type => DataType::Hash, :default => {}
     attribute :nomlist, :type => DataType::Array, :default => []
     attribute :totalnoms, :type => DataType::Integer, :default => 0
+    attribute :boons, :type => DataType::Hash, :default => {}
 
     ##### CLASS METHODS FOR RPP #####
 
@@ -38,7 +39,7 @@ module AresMUSH
       player.total_rpp = total_rpp
       player.available_rpp = available_rpp
 
-      player.save 
+      player.save
 
       return nil
     end
@@ -54,7 +55,7 @@ module AresMUSH
 
       return t('pf2noms.not_a_number') if spend.zero?
 
-      # Do they have enough RPP? 
+      # Do they have enough RPP?
 
       available_rpp = player.available_rpp - spend
 
@@ -92,6 +93,41 @@ module AresMUSH
       return nil
     end
 
-    
+    def self.char_has_boon?(char, boon)
+      # Character must be registered to access the boon tracker.
+      player = char.player
+      return false unless player
+
+      # If the character has that boon assigned to them, the boon name is the key and the character name is the value.
+      boons = player.boons
+      target = boon.downcase
+
+      key = boons.has_key? target
+      return false unless key
+
+      # The value of a boon is always an array.
+
+      value = (boons[target].include? char.name)
+
+      value
+    end
+
+    def self.has_unassigned_boon?(char, boon)
+      # This function looks to see if that boon has been granted to the player.
+      # Character must be registered to access the boon tracker.
+      player = char.player
+      return false unless player
+
+      # If the key exists,
+      boons = player.boons
+      target = boon.downcase
+
+      key = boons.has_key? target
+      return false unless key
+
+      boons[target].include? "open"
+    end
+
+
   end
 end

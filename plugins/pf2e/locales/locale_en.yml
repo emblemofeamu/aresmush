@@ -21,6 +21,7 @@ en:
     autorest_done: "Daily rest done at %{time}."
 
     bad_ability: "That is not a valid ability for %{char}."
+    bad_charclass: "%{cc} is not a valid character class on this game."
     bad_element: "'%{invalid}' cannot be set with this command. Choose one of: %{options}"
     bad_feat_name: "I didn't find a feat named %{name} in my list. Check to be sure that you have the correct spelling."
     bad_feat_type: "Invalid feat type '%{type}''. Choose one of: %{keys}"
@@ -32,6 +33,7 @@ en:
     bad_target_list: "Your target list should be a list of names separated by spaces, if more than one."
     bad_value: "That is not a valid value for %{item}."
     bad_value_in_list: "WARNING: I didn't find the following %{items}: %{list}"
+    bad_switch: "Invalid switch for command %{cmd}."
     bg_no_options: "Your background does not have any %{element} to set. Moving on..."
     bg_options_set: "Your background does not require any choices. Moving on..."
     boost_bad_type: "Boost type %{type} cannot be changed with this command."
@@ -167,7 +169,8 @@ en:
     rollalias_title: "Roll Aliases for %{name}"
 
     show_skills_list: "Your base info grants you %{open} open skills plus these skills: %{defined}"
-    skill_options_ok: "%xgNo issues detected with your skills.%xn"
+    scene_has_active_encounter: "This scene already has encounter %{id} active. Please end this encounter before starting another."
+    skill_options_ok: "%xgNo issues detected with your skills.%xn" 
     skill_issues: "Your skills are not yet complete. Use %x172cg/review%xn to see what is missing."
     specialty_not_set: "You have not yet chosen a specialty."
     specialty_no_info: "Your specialty does not have further options, this command is not needed."

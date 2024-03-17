@@ -21,17 +21,17 @@ module AresMUSH
         end
       end
 
-      spells = get_spells_by_name(spell)
+      # Get the spell info.
+      spells = get_spell_details(spell)
 
-      if spells.is_a? Array
-        return t('pf2emagic.no_such_spell') if spells.empty?
-        return t('pf2emagic.multiple_matches', :item => 'spell') if spells.size > 1
-        spells = spells.first
-      end
+      return spells if spells.is_a? String
 
-      spell_details = Global.read_config('pf2e_spells', spells)
+      spell_name = spells[0]
+      spell_details = spells[1]
 
       needs_spellbook = spell_details['traits'].intersect?('rare', 'uncommon', 'unique')
+      # Initialize make_signature
+      make_signature = false
 
       if use_arcane_evo || needs_spellbook || castclass == 'wizard'
         is_in_spellbook = spellbook_check(magic, spell)
@@ -41,14 +41,14 @@ module AresMUSH
 
       return_msg = {
         "level" => spell_level,
-        "name" => spell,
+        "name" => spell_name,
         "caster class" => cc,
         "is_signature" => make_signature
       }
 
       if make_signature
         signature_spells = magic.signature_spells
-        signature_spells["Arcane Evolution"] = [ spells ]
+        signature_spells["Arcane Evolution"] = [ spell_name ]
         magic.update(signature_spells: signature_spells)
 
         return return_msg
@@ -83,7 +83,7 @@ module AresMUSH
 
       # If all checks succeed, prepare the spell and return a hash.
 
-      spell_list_for_level[open_slot] = spells
+      spell_list_for_level[open_slot] = spell_name
 
       magic.spells_prepared[level] = spell_list_for_level
       magic.save

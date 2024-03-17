@@ -2,6 +2,11 @@ module AresMUSH
   module Pf2noms
 
     def self.calculate_max_alts(player)
+      # Alt tracker can override the alt tiers thing if present.
+      # To disable the override, remove the key max_alts_allowed from alttracker.yml.
+      override = Global.read_config('alttracker', 'max_alts_allowed')
+      return override if override
+
       tierlist = Global.read_config('pf2noms', 'rpp_alt_tiers')
       base_alts = 2
       player_rpp = player.total_rpp

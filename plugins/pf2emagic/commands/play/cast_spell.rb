@@ -14,7 +14,7 @@ module AresMUSH
 
         spelltarget = trimmed_list_arg(args.arg2, "at")
         self.spell = spelltarget[0]
-        self.target = spelltarget[1].split
+        self.target = spelltarget[1] ? spelltarget[1].split : []
       end
 
       def required_args
@@ -27,13 +27,15 @@ module AresMUSH
       end
 
       def handle
-        # Can they cast as this class?
 
-        Pf2emagic.get_spells_by_name(self.spell)
+        msg = Pf2emagic.cast_spell(enactor, self.charclass, self.spell, self.target, self.level, cmd.switch)
 
-
-
-
+        if msg.is_a? String
+          client.emit_failure msg
+          return
+        else
+          client.emit msg
+        end
 
       end
 

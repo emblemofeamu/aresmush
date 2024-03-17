@@ -24,24 +24,22 @@ module AresMUSH
 
     end
 
-    def deep_merge(second)
-      merger = proc { |_, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : Array === v1 && Array === v2 ? v1 | v2 : [:undefined, nil, :nil].include?(v2) ? v1 : v2 }
-      merge(second.to_h, &merger)
-    end
-
     def self.select_spell(char, charclass, level, old_spell, new_spell, common_only=false)
+
+      # This command is only used by full spellcasting classes.
+      caster_type = get_caster_type(charclass)
+
+      return t('pf2emagic.no_new_spells') unless caster_type
+
       # Do they get to pick a spell for this class at this time?
       to_assign = char.pf2_to_assign
-      caster_type = get_caster_type(charclass)
       sp_list_type = (caster_type == "prepared" ? "spellbook" : "repertoire")
-
       new_spells_to_assign = to_assign[sp_list_type]
 
       return t('pf2emagic.no_new_spells') unless new_spells_to_assign
 
       # Is new_spell a valid, unique choice?
       # Only common spells are available in cg/advancement, set last argument to true to enforce
-
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == new_spell.downcase }
 
@@ -51,9 +49,6 @@ module AresMUSH
       to_add = match.first
       deets = hash[to_add]
 
-      # Is new_spell of the level specified in level?
-      return t('pf2emagic.incorrect_spelllevel_specified', :spell => to_add, :level => level ) if !deets["base_level"].to_i == level.to_i
-
       # Can the class they specified cast the spell they want?
       magic = char.magic
       charclass_trad = magic.tradition[charclass]
@@ -61,6 +56,7 @@ module AresMUSH
       return t('pf2emagic.cant_cast_as_class') unless (charclass_trad && caster_type)
 
       charclass_can_cast = deets['tradition'].include? charclass_trad[0]
+
       return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
 
       # Can they learn that level of spell?
@@ -68,71 +64,81 @@ module AresMUSH
       # OR in the character's personal list.
 
       spbl = deets["base_level"].to_i
-      new_spells_for_level = new_spells_to_assign[level.to_s]
-
+      new_spells_for_level = new_spells_to_assign[level]
 
       return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
       return t('pf2emagic.no_new_spells_at_level') unless new_spells_for_level
 
-      # Do they already have that spell on their list of to_assign
-      return t('pf2emagic.cg_spell_spell_already_on_list_to_assign') if new_spells_to_assign[level.to_s].include? to_add
+      # Do they already have that spell on their list of to_assign?
+      return t('pf2emagic.spell_already_on_list_to_assign') if new_spells_to_assign[level].include? to_add
 
       # At this point, the spell choice is deemed valid. If old_spell is true, they're swapping. Can they do that?
 
-      if old_spell
-        list = hash.keys
-        to_replace = old_spell.upcase
-        to_remove = list.select { |s| s.upcase == to_replace.upcase }
-        i = new_spells_for_level.index to_remove.first
+      if !(old_spell.blank?)
+        # Find the correct name for the old spell.
+        # This will fall to not_in_list if they got the wrong match due to lack of specificity.
+        old_spname = get_spells_by_name(old_spell).first
+
+        return t('pf2emagic.spell_to_delete_not_found') unless old_spname
+
+        i = new_spells_for_level.index old_spname
         return t('pf2emagic.not_in_list') unless i
       else
+        old_spname = nil
         i = new_spells_for_level.index "open"
         return t('pf2emagic.no_available_slots') unless i
       end
 
-      # Okay. Do the swap or assignment.
-      # new_spells_for_level.delete_at(i).push(to_add).sort
+      # If we have reached this point, it's time to add the spell.
+      # Stuff into to_assign for tracking of what got bought when.
       new_spells_for_level[i] = to_add
       new_spells_for_level.sort
       new_spells_to_assign[level] = new_spells_for_level
       to_assign[sp_list_type] = new_spells_to_assign
       char.update(pf2_to_assign: to_assign)
 
-      # Also add to magic spellbook object
-      csb = char.magic.spellbook
-      old_csb = char.magic.spellbook
-      Global.logger.debug csb
-      Global.logger.debug old_csb
+      # Stuff into spellbook or repertoire as appropriate.
+      # Note that this function should not be used for uncommon or rare spells going in a spellbook.
+      # That is expected to be handled by admin/set.
 
+      if caster_type == "prepared"
+        csb = magic.spellbook
+        csb_cc = csb[charclass] || {}
+        csb_level = csb_cc[level] || []
+        # There might be a spell swap.
+        if old_spname
+          csb_i = csb_level.index old_spname
+          # Probably an unnecessary check, but it flags if spells are not being added properly.
+          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
 
-      # Build spellbook, if needed.
-      csb[charclass].nil? ? csb = { charclass => {} } : {}
-      csb[charclass][level].nil? ? csb[charclass] = { level => [] } : {}
-    
+          csb_level[csb_i] = to_add
+        else
+          csb_level << to_add
+        end
 
-      # If spell already exists within the level, send it packing
-      if old_spell
-          list = hash.keys
-          to_replace = old_spell.upcase
-          to_remove = list.select { |s| s.upcase == to_replace.upcase }
-          csb[charclass][level].delete(to_remove.first)
+        csb_cc[level] = csb_level
+        csb[charclass] = csb_cc
+        magic.update(spellbook: csb)
+      else
+        csb = magic.repertoire
+        csb_cc = csb[charclass] || {}
+        csb_level = csb_cc[level] || []
+        if old_spname
+          csb_i = csb_level.index old_spname
+          # Probably an unnecessary check, but it flags if spells are not being added properly.
+          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
+
+          csb_level[csb_i] = to_add
+        else
+          csb_level << to_add
+        end
+
+        csb_cc[level] = csb_level
+        csb[charclass] = csb_cc
+        magic.update(repertoire: csb)
       end
 
-      # Add the spell to the level in spellbook
-      current_spells_at_level = csb[charclass][level]
-      current_spells_at_level.append(to_add)
-      current_spells_at_level.sort
-      csb[charclass][level] = current_spells_at_level
-
-      # Create the new spellbook
-      Global.logger.debug csb
-      Global.logger.debug old_csb
-    
-      new_spellbook = old_csb.deep_merge(csb)
-      Global.logger.debug new_spellbook
-
-      # Commit the change to the character
-      char.magic.update(spellbook: new_spellbook)
+      # The calling handler should interpret a nil response as a successful add and a String as a failure.
       return nil
     end
 

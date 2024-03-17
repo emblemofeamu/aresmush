@@ -1,346 +1,122 @@
 module AresMUSH
-    module Pf2emagic
-        class PF2MagicSpellbookCmd
-            include CommandHandler
-  
-            attr_accessor :character, :charclass, :spell_level, :noargs
-    
-            def parse_args 
-                # Faraday's Argparser isn't touching this one
-                # Usage: spellbook [character=][class/level]
-                charclasses = Global.read_config('pf2e_class').keys
-                args = !cmd.args.nil? ? cmd.args.split("/").map {|e| e.split("=")}.flatten : []
-                args.append(nil)
-                
-                #Initialize some default values for the command
-                self.character = nil
-                self.charclass = nil
-                self.spell_level = "all"
+  module Pf2emagic
+    class PF2MagicSpellbookCmd
+      include CommandHandler
 
-                if args[0].nil?
-                    self.noargs = true
-                    return
-                else
-                    self.noargs = false
-                end
+      attr_accessor :character, :charclass, :charclasses, :spell_level
 
-                # Cycle through the args and populate the arguments
-                args.each do |v|
-                    if ("0".."10").include? v
-                        self.spell_level = v
-                    end
-                    if v == "0"
-                        self.spell_level = "cantrip"
-                    end
-                    # if charclasses v.downcase
-                    #     self.charclass = v.capitalize
-                    # end
-                    charclasses.each do |c|
-                        if !v.nil? and c.downcase ==  v.downcase
-                            self.charclass = c.capitalize
-                        end
-                    end
-                end
+      def parse_args
+        # Usage: spellbook [character=][class/level]
+        # Faraday's argparser isn't going to touch this one, so we roll our own.
 
-                # Delete previously set values from args
-                args.delete(self.charclass)
-                args.delete(self.spell_level)
+        self.charclasses = Global.read_config('pf2e_class').keys
 
-                # and whatever is left over should be a character name, if one is set, or remain nil
-                # added additional validation to check if someone put a number outside normal spell levels,
-                # which would stay in there and mess up the name being the last one there
-                args[0].to_i == 0 ? self.character = args[0] : nil
+        if cmd.args
+          # Use the size of the arrays to work out what args were supplied.
+          args = cmd.args.split("=")
+
+          if args.size == 2
+            self.character = trim_arg(args[0])
+
+            classlevel = args[1].split("/").flatten
+
+            # Coder decision: self.spell_level does not make sense without self.charclass, therefore disallow
+            self.charclass = titlecase_arg(classlevel[0])
+            self.spell_level = classlevel[1] ? integer_arg(classlevel[1]) : nil
+            self.spell_level = 'cantrip' if (self.spell_level && self.spell_level.zero?)
+          else
+            # Args could be a character name or a class/level split with or without the level in this case.
+            # Work out which.
+            unknown = args[0].split("/").flatten
+
+            # If unknown splits here, we can assume it's a class/level split and that character name is absent.
+            if unknown[1]
+              self.spell_level = integer_arg(unknown[1])
+              self.charclass = titlecase_arg(unknown[0])
+            else
+              # If not, unknown[0] is either a character class or a character name, and spell_level is 'all'.
+
+              cc_test = titlecase_arg(unknown[0])
+
+              if charclasses.include? cc_test
+                self.charclass = cc_test
+              else
+                self.character = cc_test
+              end
             end
+          end
 
-            def check_permissions
-                # Any character may modify their own; only people who can see alts can modify others'.
-                if !self.character.nil? # Player provided their own name?
-                    return nil if self.character.downcase == enactor.name.downcase
-                else
-                    return nil # self.character is nil, meaning it's performed on self
-                end
-                # Check for allowed roles 
-                ["admin", "coder"].each do |r|
-                    return nil if enactor.has_role?(r)
-                end
-                return t('dispatcher.not_allowed') 
-            end
-
-            def handle
-                # If character came out of the argparsing, get that character, else get the enactor's character
-                char = Pf2e.get_character(self.character, enactor)
-
-                Global.logger.debug self.character
-                Global.logger.debug self.spell_level
-                Global.logger.debug self.charclass
-
-                # Check if character is a caster
-                if !(Pf2emagic.is_caster?(char))
-                    client.emit_failure t('pf2emagic.not_caster')
-                    return
-                end
-
-                csb = char.magic.spellbook
-
-                # Cut the music if no args were given, or a name was given with no class
-                if noargs || (!self.character.nil? && self.charclass.nil?)
-                    client.emit_failure t('pf2emagic.spellbook_no_args', :options=>csb.keys.join(","))
-                    return
-                end
-
-                if !self.charclass.nil? && (!csb.keys.include? self.charclass)
-                    client.emit_failure t('pf2emagic.spellbook_invalid_class', :invalid_class=>self.charclass)
-                    return
-                end
-                
-                # if !("0".."10").include? self.spell_level or !self.spell_level == "all"
-                #     client.emit_failure t('pf2emagic.spellbook_invalid_level')
-                #     return
-                # end
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-                if self.spell_level == "cantrip" and !csb[self.charclass].keys.include? "cantrip"
-                    options = csb[self.charclass].keys.map { |v| v == "cantrip" ? "0" : v }.join(", ")
-                    client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options=>options)
-                    return
-                elsif !csb[self.charclass].keys.include? self.spell_level
-                    options = csb[self.charclass].keys.map { |v| v == "cantrip" ? "0" : v }.join(", ")
-                    client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options=>options)
-                    return
-                elsif self.spell_level == "0" and !csb[self.charclass].keys.include? "cantrip"
-                    options = csb[self.charclass].keys.map { |v| v == "cantrip" ? "0" : v }.join(", ")
-                    client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options=>options)
-                    return
-                end
-
-                if self.spell_level == "all"
-                    # Send everything
-                    template = PF2SpellbookTemplate.new(char, csb, client)
-                elsif self.spell_level == "0"
-                    book_by_level = { self.charclass=>{ self.spell_level=>csb[self.charclass.to_s]["cantrip"]} }
-                    template = PF2SpellbookTemplate.new(char, book_by_level, client)
-                else
-                    # Send only one level of the spellbook
-                    book_by_level = { self.charclass=>{ self.spell_level=>csb[self.charclass.to_s][self.spell_level.to_s]} }
-                    template = PF2SpellbookTemplate.new(char, book_by_level, client)
-                end
-                client.emit template.render
-            end
+        else
+          # If no args, the enactor is asking to see their whole spellbook. All three are nil.
         end
+
+      end
+
+      def check_permissions
+        return nil if enactor.has_permission? "manage_alts"
+        return nil unless self.character
+        return t('dispatcher.not_allowed')
+      end
+
+      def check_invalid_admin_syntax
+        # This check catches the intuitive but invalid syntax `spellbook <character>/<class>`
+        return nil unless enactor.has_permission? "manage_alts"
+        return nil if self.character
+        return nil if self.charclasses.include? self.charclass
+        return t('pf2emagic.no_spellbook', :item => self.charclass)
+      end
+
+      def handle
+        # If character came out of the argparsing, get that character, else get the enactor's character
+        char = Pf2e.get_character(self.character, enactor)
+
+        unless char
+          client.emit_failure t('pf2e.not_found')
+          return
+        end
+
+        # Check if character is a caster
+        unless Pf2emagic.is_caster?(char)
+          client.emit_failure t('pf2emagic.not_caster')
+          return
+        end
+
+        csb = char.magic.spellbook
+
+        # Cut the music if there is nothing in the spellbook at all.
+        if csb.empty?
+          client.emit_failure t('pf2emagic.no_spellbook', :item => char.name)
+          return
+        end
+
+        # If a charclass was specified, is there anything in the spellbook for that charclass?
+        if self.charclass && !(csb.keys.include? self.charclass)
+          client.emit_failure t('pf2emagic.no_spellbook', :item => self.charclass)
+          return
+        end
+
+        book = self.charclass ? csb[self.charclass] : csb
+
+        # If a spell level was specified, send just that level. Remember that self.charclass
+        # has been validated as a charclass at this point in the code.
+
+        if self.spell_level
+          # If they specified level, check to make sure they have spells at the specified level.
+          levelbook = book[self.spell_level.to_s]
+
+          unless levelbook
+            client.emit_failure t('pf2emagic.spellbook_no_spells_at_level', :options => book.keys.join(", "))
+            return
+          end
+
+          book = levelbook
+        end
+
+        template = PF2SpellbookTemplate.new(char, cc, book, client)
+
+        client.emit template.render
+      end
+
     end
+  end
 end

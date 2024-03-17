@@ -19,7 +19,7 @@ module AresMUSH
 
       def handle
 
-        encounter = self.encounter_id ? PF2Encounter[self.encounter_id] : PF2Encounter.get_encounter_id(enactor, enactor_room.scene)
+        encounter = self.encounter_id ? PF2Encounter[self.encounter_id] : PF2Encounter.get_encounter(enactor, enactor_room.scene)
 
         # You need to either specify the encounter to view by ID or be in an active encounter.
 
@@ -28,7 +28,7 @@ module AresMUSH
           return
         end
 
-        template = PF2EncounterViewTemplate.new(encounter)
+        template = PF2EncounterViewTemplate.new(encounter, client)
 
         client.emit template.render
 

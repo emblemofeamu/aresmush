@@ -35,8 +35,8 @@ For all commands, "initiative" and "init" are aliases for "encounter".
 `encounter/restart [<encounter ID>]`: Restarts an encounter, so long as the scene has not ended.
 
 ## Tracking Bonuses and Penalties
-`encounter/bonus [<encounter ID> =] <bonus description>/<list of people to whom it applies>`: Records a bonus that is available to players in the list. Helps keep track of buffs. 
-`encounter/penalty [<encounter ID> =] <penalty description>/<list of people to whom it applies>`: Records penalties applicable to players in the list. 
+`encounter/bonus [<encounter ID> =] <bonus description>/<comma-separated list of people to whom it applies>`: Records a bonus that is available to players in the list. Helps keep track of buffs. 
+`encounter/penalty [<encounter ID> =] <penalty description>/<comma-separated list of people to whom it applies>`: Records penalties applicable to players in the list. 
 `encounter/expire <description>`: Clears all bonuses and penalties whose descriptions match `<description>`.
 
 **TIP** Consider including the name of the spell that invoked the bonus or penalty in the description. That way, `encounter/expire` can clear all bonuses / penalties associated to the spell with one command. 
@@ -47,5 +47,5 @@ Any approved player may use a heal command at any time. To damage a player, you 
 
 `heal <player list> = <amount>`: Heals each character in `<player list>` for `<amount>`, up to their maximum HP.
 `damage[/ndc] <player list> = <amount>`: Damages each character in `<player list>` for `<amount>`. The optional `/ndc` is for DM's and admins only, and disables the check to see if a character is dead. It has no effect for organizers without admin or DM roles.
-`condition/set <player>=<condition>[/<value>]`: Sets `<condition>` on `<player>`.
+`condition/set <player>=<condition>[/<value>]`: Sets `<condition>` on `<player>`. `<value>` can be 1-5 to set it. Setting value to 0 for any condition clears it. 
 

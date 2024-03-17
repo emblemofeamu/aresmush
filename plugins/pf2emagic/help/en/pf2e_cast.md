@@ -12,11 +12,13 @@ Casting a spell in Pathfinder 2E depends on what type of spell it is. Spellcaste
 
 Commands for casting:
 
-`cast[/<type>] <casting class>[/<level>] = <spell name>[ at <target>]`: Casts a spell from a spellcaster's daily spell allotment. If `at <target>` is included, `<target>` is a string, a character or NPC name. It may be a list of names.
+`cast[/<type>] <casting class>[/<level>] = <spell name>[ at <target>]`: Casts a spell from a spellcaster's daily spell allotment. If `at <target>` is included, `<target>` is a string, a character or NPC name. It may be a list of names. 
 
-* `<casting class>` is the class from which the spell pool comes.
-* `<type>` is specified if this is a focus spell, focus cantrip, innate, or signature spell, and have the values 'focus', 'focusc', 'innate', and 'signature' respectively. 
+* `<casting class>` is the class from which the spell comes. For innate spells, `<casting class>` should be the word 'innate' with no level.
+* `<type>` is specified if this is a focus spell, focus cantrip, or signature spell, and have the values 'focus', 'focusc', and 'signature' respectively. 
 * `<level>`, if present, is an integer, or the word _cantrip_. If the spell is to be cast at its base level, you may omit this term. 
+
+**TIP**: For lazy typers, a '0' for level will be interpreted as a cantrip.
 
 `refocus`: Runs the code for the Refocus activity. This may be done only if your focus pool is zero, and then only once an hour in OOC time. 
 

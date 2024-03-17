@@ -6,8 +6,9 @@ module AresMUSH
 
       attr_accessor :encounter
 
-      def initialize(encounter)
+      def initialize(encounter, client)
         @encounter = encounter
+        @client = client
 
         super File.dirname(__FILE__) + "/encounter_view.erb"
       end
@@ -27,6 +28,8 @@ module AresMUSH
       def initiative_list
 
         list = []
+
+        return list if @encounter.participants.empty?
 
         @encounter.participants.each do |p|
           list << format_init_list_item(p)
@@ -81,7 +84,7 @@ module AresMUSH
       end
 
       def format_bonus_penalty_item(name, people_list)
-        "%b%b#{item_color}#{name.capitalize}:%xn #{people_list.sort.join(", ")}"
+        "%b%b#{item_color}#{name.capitalize}:%xn #{people_list}"
       end
 
     end

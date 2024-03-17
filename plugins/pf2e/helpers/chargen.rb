@@ -282,6 +282,10 @@ module AresMUSH
         to_assign['charclass feat'] = 'open'
       end
 
+      if class_features_info['choose_feat']&.include? 'skill'
+        to_assign['skill feat'] = 'open'
+      end
+
       enactor.pf2_feats = feats
 
       # Check for gated feats.
@@ -418,10 +422,18 @@ module AresMUSH
       PF2Magic.get_create_magic_obj(enactor)
 
       class_mstats = class_features_info['magic_stats'] ? class_features_info['magic_stats'] : {}
+
+      # Some classes will have stuff in specialty_options. too.
       if subclass_features_info
         subclass_mstats = subclass_features_info['magic_stats']
 
         class_mstats = class_mstats.merge(subclass_mstats) if subclass_mstats
+      end
+
+      if subclassopt_features_info
+        subclassopt_mstats = subclassopt_features_info['magic_stats']
+
+        class_mstats = class_mstats.merge(subclassopt_mstats) if subclassopt_mstats
       end
 
       # Handle class specific junk.

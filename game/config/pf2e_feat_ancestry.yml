@@ -750,6 +750,8 @@ pf2e_feats:
     shortdesc: You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field.
     prereq:
       level: 1
+    grants:
+      gated_feat: Natural Ambition
   Natural Skill:
     feat_type: 
     - Ancestry

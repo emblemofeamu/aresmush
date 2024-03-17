@@ -18,7 +18,7 @@ module AresMUSH
 
         encounter = self.encounter_id ?
           PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter_id(enactor, scene)
+          PF2Encounter.get_encounter(enactor, scene)
 
         if !encounter
           client.emit_failure t('pf2e.bad_id', :type => 'encounter')
@@ -47,11 +47,6 @@ module AresMUSH
 
         # Log the message to the scene as an OOC message.
         Scenes.add_to_scene(scene, @message, Game.master.system_character, false, true)
-
-        # Notify all participants.
-        Global.notifier.notify_ooc(:pf2_combat, @message) do |char|
-          char && scene.participants.include?(char)
-        end
 
       end
     end

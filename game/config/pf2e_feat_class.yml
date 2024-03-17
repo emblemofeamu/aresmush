@@ -1750,6 +1750,9 @@ pf2e_feats:
       level: 1
     shortdesc: Your fury fills your foes with fear.
     traits: []
+    grants:
+      feat:
+      - Intimidating Glare
   Raging Thrower:
     assoc_charclass:
       - Barbarian

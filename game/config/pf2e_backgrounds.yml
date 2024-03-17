@@ -2751,6 +2751,18 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Scout (Underground Terrain):
+    abl_boosts:
+    - [ Dexterity, Wisdom ]
+    - open
+    skills:
+    - Survival
+    - Underground Terrain Lore
+    feat:
+    - Forager
+    special: []
+    action: []
+    reaction: []
   Servant:
     abl_boosts:
     - [ Dexterity, Charisma ]
