@@ -3254,7 +3254,8 @@ pf2e_spells:
     traits:
     - necromancy
     - positive
-    tradition: divine
+    tradition: 
+    - divine
     cast:
     - somatic
     - verbal
@@ -3308,7 +3309,8 @@ pf2e_spells:
     - attack
     - cantrip
     - evocation
-    tradition: divine
+    tradition: 
+    - divine
     cast:
     - somatic
     - verbal

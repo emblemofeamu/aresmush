@@ -4,6 +4,7 @@ summary: Preparing spells.
 aliases:
 - prepare
 - unprepare
+- prepared
 ---
 
 # Preparing Spells in Pathfinder Second Edition
@@ -14,7 +15,7 @@ Some classes are required to, or may wish to, record spells in a spellbook.
 `unprepare <caster class>[/<level>] = <spell name>`: Removes `<spell name>` from your prepared list.
 `prepare <caster class>/<cantrip> = <spell name>`: Prepares the cantrip `<spell name>`.
 `unprepare <caster class>/<cantrip> = <spell name>`: Removes the cantrip `<spell name>` from your prepared list.
-`prepare/list`: Shows your currently prepared spell list. (Alias: `prepared`)
+`prepared [<caster class>]`: Shows your currently prepared spell list. If `<caster class>` is omitted, it will show you all spell lists. 
 
 Prepared casters may also choose to prepare standard sets, or many spells at once.
 

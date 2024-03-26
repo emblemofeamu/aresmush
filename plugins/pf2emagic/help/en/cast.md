@@ -12,7 +12,7 @@ Casting a spell in Pathfinder 2E depends on what type of spell it is. Spellcaste
 
 Commands for casting:
 
-`cast[/<type>] <casting class>[/<level>] = <spell name>[ at <target>]`: Casts a spell from a spellcaster's daily spell allotment. If `at <target>` is included, `<target>` is a string, a character or NPC name. It may be a list of names. 
+`cast[/<type>] <casting class>[/<level>] = <spell name>[]/<target list>]`: Casts a spell from a spellcaster's daily spell allotment. If `at <target>` is included, `<target>` is a string, a character or NPC name. It may be a list of names, separated by commas. 
 
 * `<casting class>` is the class from which the spell comes. For innate spells, `<casting class>` should be the word 'innate' with no level.
 * `<type>` is specified if this is a focus spell, focus cantrip, or signature spell, and have the values 'focus', 'focusc', and 'signature' respectively. 

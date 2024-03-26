@@ -13,6 +13,7 @@ module AresMUSH
     attribute :weapon_prof, :type => DataType::Hash, :default => {}
 
     attribute :unarmed_attacks, :type => DataType::Hash, :default => {}
+    attribute :defense, :type => DataType::Hash, :default => {}
 
     reference :character, "AresMUSH::Character"
 
@@ -39,11 +40,54 @@ module AresMUSH
       return obj
     end
 
-    def self.update_combat_stats(char, info)
+    def self.init_combat_stats(char, info)
+      # Used only when initially populating combat.
       combat = get_create_combat_obj(char)
 
       info.each_pair do |key, value|
         combat.update("#{key}": value)
+      end
+
+      return combat
+    end
+
+    def self.modify_combat_stats(char, info)
+      # Used when something taken later modifies initial combat stats.
+      combat = get_create_combat_obj(char)
+
+      info.each_pair do |key, value|
+        case key
+        when 'saves'
+          saves = combat.saves
+          value.each_pair do |save, new_value|
+            saves[save] = new_value
+          end
+          combat.update(saves: saves)
+        when 'armor_prof'
+          profs = combat.armor_prof
+          value.each_pair do |type, new_prof|
+            profs[type] = new_prof
+          end
+          combat.update(armor_prof: profs)
+        when 'perception'
+          combat.update("#{key}": value)
+        when 'class_dc'
+          combat.update("#{key}": value)
+        when 'weapon_prof'
+          profs = combat.weapon_prof
+          value.each_pair do |type, new_prof|
+            profs[type] = new_prof
+          end
+          combat.update(weapon_prof: profs)
+        when 'unarmed_attacks'
+          unarmed = combat.unarmed_attacks
+
+          value.each_pair do |attack, info|
+            unarmed[attack] = info
+          end
+
+          combat.update(unarmed_attacks: unarmed)
+        end
       end
 
       return combat
@@ -139,6 +183,18 @@ module AresMUSH
       if charclass_list
         if charclass_list.include?(char.pf2_base_info['charclass'])
           prof_list << char_wp_prof['charclass']
+        end
+      end
+
+      # Check for ancestry weapon familiarity.
+      ancestry_list = wp_info['ancestry']
+
+      if ancestry_list
+        char_ancestry = char.pf2_base_info['ancestry']
+        anc_wp_feat = char_ancestry + " Weapon Familiarity"
+
+        if (Pf2e.has_feat?(char, anc_wp_feat) && ancestry_list.include?(char_ancestry))
+          prof_list << char_wp_prof['ancestry']
         end
       end
 

@@ -15,12 +15,19 @@ module AresMUSH
       case cmd.root
       when "addspell"
         return PF2ChargenSpellsCmd
+      when "prepared"
+        return PF2DisplayPreparedCmd
       when "prepare"
         return PF2PrepareSpellCmd
       when "unprepare"
         return PF2UnprepareSpellCmd
       when "spell"
-        return PF2DisplaySpellCmd
+        case cmd.switch
+        when "search"
+          return PF2SearchSpellCmd
+        when nil
+          return PF2DisplaySpellCmd
+        end
       when "magic"
         return PF2MagicDisplayCmd
       when "refocus"
@@ -29,6 +36,8 @@ module AresMUSH
         return PF2MagicSpellbookCmd
       when 'dfont'
         return PF2DivineFontCmd
+      when "cast"
+        return PF2CastSpellsCmd
       end
     end
 

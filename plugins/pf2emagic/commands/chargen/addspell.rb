@@ -14,7 +14,10 @@ module AresMUSH
 
         spells = trimmed_list_arg(args.arg3, "/")
 
-        if spells[1]
+        if !spells
+          self.new_spell = nil
+          self.old_spell = nil
+        elsif spells && spells[1]
           self.new_spell = spells[1]
           self.old_spell = spells[0]
         else
@@ -22,6 +25,10 @@ module AresMUSH
           self.old_spell = false
         end
 
+      end
+
+      def required_args
+        [ self.caster_class, self.spell_level, self.new_spell]
       end
 
       def check_in_chargen
@@ -40,15 +47,16 @@ module AresMUSH
         return t('pf2e.lock_info_first')
       end
 
-      def required_args
-        [ self.caster_class, self.spell_level, self.new_spell]
-      end
-
       def handle
 
         level = self.spell_level.zero? ? 'cantrip' : self.spell_level.to_s
 
-        msg = Pf2emagic.select_spell(enactor, self.caster_class, level, self.old_spell, self.new_spell, true)
+        # A switch on this command indicates a gate on the spell. Divert to different processing.
+        if cmd.switch
+          msg = Pf2emagic.select_gated_spell(enactor, self.caster_class, level, self.old_spell, self.new_spell, cmd.switch, false, true)
+        else
+          msg = Pf2emagic.select_spell(enactor, self.caster_class, level, self.old_spell, self.new_spell, false, true)
+        end
 
         if msg
           client.emit_failure msg

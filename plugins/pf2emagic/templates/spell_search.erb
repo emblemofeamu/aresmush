@@ -1,0 +1,9 @@
+<%= header %>
+<%= center("#{title_color}#{title}%xn", 78)-%>
+<% paginator.page_items.each do |spell| -%>
+<%= divider %>
+<%= spell -%>
+
+<% end %>
+<%= paginator.page_footer %>
+<%= footer %>

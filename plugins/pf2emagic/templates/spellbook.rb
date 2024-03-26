@@ -32,6 +32,9 @@ module AresMUSH
           else
             sublist = []
 
+            # Value being a hash, sometimes it can be out of order. Normalize that prior to processing.
+            value = Pf2emagic.sort_level_spell_list(value)
+
             value.each_pair do |level, spell_list|
               header = "#{item_color}#{level}:%xn"
               data = "#{spell_list.sort.join(", ")}"

@@ -58,49 +58,49 @@ pf2e_subclass:
         addspellbook: 
           1: 
           - Protective Ward
-        school_spell: abjuration
+        gated_spell: school
     Conjuration: 
       magic_stats:
         addspellbook: 
           1: 
           - Augment Summoning
-        school_spell: conjuration
+        gated_spell: school
     Divination:
       magic_stats:
         addspellbook:
           1: 
           - Diviner's Sight
-        school_spell: divination
+        gated_spell: school
     Enchantment:
       magic_stats:
         addspellbook:
           1: 
           - Charming Words
-        school_spell: enchantment
+        gated_spell: school
     Evocation:
       magic_stats:
         addspellbook: 
           1: 
           - Force Bolt
-        school_spell: evocation
+        gated_spell: school
     Illusion:
       magic_stats:
         addspellbook:
           1:
           - Warped Terrain
-        school_spell: illusion
+        gated_spell: school
     Necromancy:
       magic_stats:
         addspellbook:
           1:
           - Call Of The Grave
-        school_spell: necromancy
+        gated_spell: school
     Transmutation:
       magic_stats:
         addspellbook:
           1:
           - Physical Boost
-        school_spell: transmutation
+        gated_spell: school
     Universalist:
       magic_stats:
       # This key overwrites the base wizard class key for this, this is intentional

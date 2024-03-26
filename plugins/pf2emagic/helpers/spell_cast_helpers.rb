@@ -116,7 +116,6 @@ module AresMUSH
       caster_stats['spell type'] = 'signature'
       caster_stats['targets'] = target_list unless target_list.empty?
       caster_stats['spell name'] = spname
-      caster_stats['spell details'] = spdeets
 
       caster_stats
     end
@@ -136,18 +135,12 @@ module AresMUSH
       spname = find_spell[0]
       spdeets = find_spell[1]
 
-      base = spdeets['base_level'].to_i
-
-      splevel = level ? level : base
-
-      # If specified, level must be at least the base level of the spell. Level is an integer here.
-      return t('pf2emagic.invalid_level') if splevel < base
-
-      splevel = 'cantrip' if splevel.zero?
+      splevel = level ? level : spdeets['base_level']
 
       # Is that spell available at that level today?
       cc_spells = magic.spells_today
       cc_spells_2day = cc_spells[charclass]
+
       return t('pf2emagic.no_available_slots') unless cc_spells_2day
 
       splist = cc_spells_2day[splevel]
@@ -156,17 +149,22 @@ module AresMUSH
       available = splist.include? spname
       return t('pf2emagic.not_prepared_at_level') unless available
 
-      # Deduct the spell from today's prepared list and return a caster hash.
-      splist = splist - [ spname ]
-      cc_spells_2day[splevel] = splist
-      cc_spells[charclass] = cc_spells_2day
-      magic.update(spells_today: cc_spells)
+      # Unless it's a cantrip, deduct the spell from today's prepared list and return a caster hash.
+
+      if splevel == 'cantrip'
+        # Oh, and, if it is a cantrip, don't forget to auto-heighten.
+        hlevel = get_auto_heighten_level(char).to_s
+        splevel = splevel + "/#{hlevel}"
+      else
+        splist = splist - [ spname ]
+        cc_spells_2day[splevel] = splist
+        cc_spells[charclass] = cc_spells_2day
+        magic.update(spells_today: cc_spells)
+      end
 
       caster_stats['spell level'] = splevel
-      caster_stats['spell type'] = 'prepared'
       caster_stats['targets'] = target_list unless target_list.empty?
       caster_stats['spell name'] = spname
-      caster_stats['spell details'] = spdeets
 
       caster_stats
     end
@@ -188,12 +186,12 @@ module AresMUSH
 
       base = spdeets['base_level'].to_i
 
-      splevel = level ? level : base
+      splevel = level ? level.to_i : base
 
       # If specified, level must be at least the base level of the spell. Level is an integer here.
       return t('pf2emagic.invalid_level') if splevel < base
 
-      splevel = 'cantrip' if splevel.zero?
+      splevel = splevel.zero? ? 'cantrip' : splevel.to_s
 
       # Got a spell open at that level?
       cc_spells = magic.spells_today
@@ -206,18 +204,21 @@ module AresMUSH
       available = (slots > 0)
       return t('pf2emagic.no_available_slots') unless available
 
-      # Do the cast and return a caster hash.
+      # Do the cast and return a caster hash. Cantrip recalculates level for auto-heightening.
 
-      slots = slots - 1
-      cc_spells_2day[splevel] = slots
-      cc_spells[charclass] = cc_spells_2day
-      magic.update(spells_today: cc_spells)
+      if splevel == 'cantrip'
+        hlevel = get_auto_heighten_level(char).to_s
+        splevel = splevel + "/#{hlevel}"
+      else
+        slots = slots - 1
+        cc_spells_2day[splevel] = slots
+        cc_spells[charclass] = cc_spells_2day
+        magic.update(spells_today: cc_spells)
+      end
 
       caster_stats['spell level'] = splevel
-      caster_stats['spell type'] = 'signature'
       caster_stats['targets'] = target_list unless target_list.empty?
       caster_stats['spell name'] = spname
-      caster_stats['spell details'] = spdeets
 
       caster_stats
     end
@@ -235,7 +236,6 @@ module AresMUSH
       return find_spell if find_spell.is_a? String
 
       spname = find_spell[0]
-      spdeets = find_spell[1]
 
       # Is that spell name in their list of innate spells?
 
@@ -253,7 +253,6 @@ module AresMUSH
       caster_stats['modifier'] = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char,spinfo['cast_stat']))
       caster_stats['targets'] = target_list unless target_list.empty?
       caster_stats['spell name'] = spname
-      caster_stats['spell details'] = spdeets
 
       caster_stats
     end
@@ -320,6 +319,17 @@ module AresMUSH
         'modifier' => modifier
       }
 
+    end
+
+    def self.get_auto_heighten_level(char)
+      # Some spells, such as cantrips, autoheighten to half the character's level.
+
+      # Ruby's rounding functions act wacky when rounding a return that is a float.
+      # So, we do the half calculation first, and then beat the rounding into submission with a crowbar.
+
+      half_level = char.pf2_level / 2
+
+      half_level.round(half: :up).clamp(1,10)
     end
 
   end

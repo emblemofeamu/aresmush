@@ -67,7 +67,9 @@ module AresMUSH
           if instruction == 'add'
             feat_sublist << feat_name
           elsif instruction == 'delete'
-            feat_sublist.delete(feat_name)
+            # Feats can be duplicated, so it is necessary to delete only one at a time.
+            i = feat_sublist.index(feat_name)
+            feat_sublist.delete_at[i] if i
           else
             client.emit_failure t('pf2e.bad_value', :item => 'instruction')
             return
@@ -95,8 +97,8 @@ module AresMUSH
           # Skills can be multi-word names, but prof is always the last word, so pop it off the end and the rest
           # is the skill name.
 
-          new_prof = self.value.pop
-          skname = self.value.join
+          new_prof = self.value.pop.downcase
+          skname = self.value.join(" ")
 
           skill = Pf2eSkills.find_skill(skname, char)
 

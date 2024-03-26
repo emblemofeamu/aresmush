@@ -1285,6 +1285,7 @@ pf2e_feats:
   Angelkin:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1370,6 +1371,7 @@ pf2e_feats:
   Lawbringer:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1392,6 +1394,7 @@ pf2e_feats:
   Musetouched:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1607,6 +1610,7 @@ pf2e_feats:
   Brine May:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1629,6 +1633,7 @@ pf2e_feats:
   Callow May:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1672,6 +1677,7 @@ pf2e_feats:
   Dream May:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1736,6 +1742,7 @@ pf2e_feats:
   Slag May:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1843,6 +1850,7 @@ pf2e_feats:
   Straveika:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -1865,6 +1873,7 @@ pf2e_feats:
   Svetocher:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -2173,6 +2182,7 @@ pf2e_feats:
   Grimspawn:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -2195,6 +2205,7 @@ pf2e_feats:
   Hellspawn:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin
@@ -2238,6 +2249,7 @@ pf2e_feats:
   Pitborn:
     feat_type: 
     - Ancestry
+    - Lineage
     assoc_ancestry: 
     - Arvek
     - Bassin

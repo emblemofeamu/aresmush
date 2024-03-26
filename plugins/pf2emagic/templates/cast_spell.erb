@@ -1,25 +1,20 @@
-<%= textline("Spellcasting!") %>
-<%= "#{caster_name} casts #{spell_name} at level #{cast_level}!" %>
-<% if range %>
-<%= left("#{item_color}Range%xn: #{range}", 39) -%>
-<% end %>
-<% if area %>
-<%= left("#{item_color}Area%xn: #{area}", 39) %>
-<% end %>
-<% if duration %>
-<%= "#{item_color}Duration%xn: #{duration}" %>
-<% end %>
-<% if target %>
-<%= "#{item_color}Target(s):%xn #{target}" %>
-<% end %>
-<% if save %>
-<%= "#{item_color}Saving Throw:%xn #{save}, DC #{save_dc}" %>
-<% end %>
-<% if damage %>
-<%= "#{item_color}Damage(s):%xn #{damage}" -%>
-<% if damage_type %>
-<%= "#{damage_type}" -%>
-<%= "(#{dam_roll} total damage)" %>
+<%= textline("Spellcasting: #{caster_name}") %>
+<%= left("#{item_color}Spell%xn: #{spell_name}", 26) -%>
+<%= left("#{item_color}Spell Level%xn: #{cast_level}", 26) -%>
+<%= left("#{item_color}Tradition%xn: #{tradition}", 26) %>
+<% if spell_type %>
+<%= left("#{item_color}Spell Type%xn: #{spell_type}", 39) -%>
+<% if is_focus_spell %>
+<%= left("#{item_color}Focus Spell Type%xn: #{focus_type}", 39) %>
+<% else %>
+<%= left("",39) %>
 <% end %>
 <% end %>
+<%= left("#{item_color}Spell DC%xn: #{dc}", 39) -%>
+<%= left("#{item_color}Attack Bonus%xn: #{atk}", 39) %>
+<% if targets %>
+<%= "#{item_color}Targets%xn: #{targets}" %>
+<% end %>
+<%= divider %>
+<%= "Type #{title_color}spell #{spell_name}%xn for more information on the spell." %>
 <%= footer %>

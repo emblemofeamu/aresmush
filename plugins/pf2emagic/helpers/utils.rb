@@ -23,24 +23,21 @@ module AresMUSH
 
       return t('pf2emagic.not_caster') unless magic
 
-      pclass = magic.spells_prepared.keys.map { |c| c.downcase }
-
-      sclass = magic.repertoire.keys.map { |c| c.downcase }
-
-      class_list = (pclass + sclass).uniq
+      class_list = magic.tradition.keys
+      class_list.delete('innate')
 
       class_list.each do |cc|
         case cc
         when "Wizard", "Druid", "Cleric", "Witch"
           prepared_list = magic.spells_prepared
 
-          spells_today[cc] = prepared_list
+          spells_today[cc] = prepared_list[cc]
         when "Bard", "Oracle", "Sorcerer"
-          spontlist = generate_blank_spell_list(magic)
+          spontlist = generate_blank_spell_list(magic, cc)
 
           spells_today[cc] = spontlist
         else
-          return nil
+          next
         end
 
         magic.update(spells_today: spells_today)
@@ -134,6 +131,45 @@ module AresMUSH
       spell_details = Global.read_config('pf2e_spells', spell_name)
 
       [ spell_name, spell_details ]
+    end
+
+    def self.search_spells(search_type, term, operator='=')
+      spell_info = Global.read_config('pf2e_spells')
+
+      case search_type
+      when 'name'
+        match = spell_info.select { |k,v| k.upcase.match? term.upcase }
+      when 'traits'
+        match = spell_info.select { |k,v| v['traits'].include? term.downcase }
+      when 'level'
+        # Invalid operator defaults to ==.
+        case operator
+        when '<'
+          match = spell_info.select { |k,v| (v['base_level'].to_i < term.to_i) && v['tradition'] }
+        when '>'
+          match = spell_info.select { |k,v| (v['base_level'].to_i > term.to_i) && v['tradition'] }
+        else
+          match = spell_info.select { |k,v| (v['base_level'].to_i == term.to_i) && v['tradition'] }
+        end
+      when 'tradition'
+        match = spell_info.select { |k,v| v['tradition'] && (v['tradition'].include? term.downcase) }
+      when 'school'
+        match = spell_info.select { |k,v| v['school']&.include?(term.capitalize) }
+      when 'bloodline'
+        match = spell_info.select { |k,v| v['bloodline']&.include?(term.downcase) }
+      when 'cast'
+        match = spell_info.select { |k,v| v['cast']&.include? term.downcase }
+      when 'description', 'desc', 'effect'
+        match = spell_info.select { |k,v| v['effect'].upcase.match? term.upcase }
+      end
+
+      match.keys
+
+    end
+
+    def self.sort_level_spell_list(spells)
+      # This function takes a hash and sorts it by integer-converted key.
+      spells.sort {|a,b| a.first.to_i <=> b.first.to_i}.to_h
     end
 
   end

@@ -166,7 +166,7 @@ module AresMUSH
       boosts['charclass'] = key_ability
 
       # If key ability has multiple options, I need a nested array for future checks.
-      if key_ability.is_a?(Array)
+      if key_ability.size > 1
         client.emit_ooc t('pf2e.multiple_options', :element=>"key ability")
         boosts['charclass'] = Array.new(1,key_ability)
       end
@@ -286,6 +286,15 @@ module AresMUSH
         to_assign['skill feat'] = 'open'
       end
 
+      if heritage_info['choose_feat']
+        heritage_info['choose_feat'].each do |entry|
+          type_key = entry + " feat"
+          list = to_assign[type_key] || []
+          list << "open"
+          to_assign[type_key] = list
+        end
+      end
+
       enactor.pf2_feats = feats
 
       # Check for gated feats.
@@ -382,16 +391,18 @@ module AresMUSH
 
       # Combat information - attacks, defenses, perception, class DC, saves
 
-      client.emit_ooc "Initiating combat stats...
-      "
+      client.emit_ooc "Initiating combat stats..."
       combat_stats = class_features_info['combat_stats']
 
-      combat = Pf2eCombat.update_combat_stats(enactor,combat_stats)
+      combat = Pf2eCombat.init_combat_stats(enactor,combat_stats)
 
       # Some classes have a choice of key ability
       # If so, set at ability commit, if not, set here
 
-      combat.update(key_abil: key_ability) if key_ability.is_a?(String)
+      if key_ability.size == 1
+        combat.update(key_abil: key_ability.first)
+        Pf2eAbilities.update_base_score(enactor, key_ability.first)
+      end
 
       # Collate and record unarmed attacks. Everyone starts with a fist.
       # A monk's fist does 1d6, everyone else's does 1d4.
@@ -413,6 +424,12 @@ module AresMUSH
       end
 
       combat.update(unarmed_attacks: unarmed_attacks)
+
+      # Collate and record any special defenses or resistances.
+      if heritage_info['defense']
+        defenses = heritage_info['defense']
+        combat.update(defense: defenses)
+      end
 
       # Starting Magic
 
@@ -459,6 +476,17 @@ module AresMUSH
         to_assign_pre_update_magic = to_assign
         to_assign = to_assign_pre_update_magic.merge(PF2Magic.update_magic(enactor, charclass, class_mstats, client))
         client.emit_ooc "Setting up magic..."
+      end
+
+      # Heritages needs a second processing run of update_magic so that it doesn't overwrite the class.
+      heritage_magic = heritage_info['magic_stats']
+
+      if heritage_magic
+        heritage_add_to_assign = PF2Magic.update_magic(enactor, charclass, heritage_magic, client)
+
+        unless heritage_add_to_assign.empty?
+
+        end
       end
 
       # Languages

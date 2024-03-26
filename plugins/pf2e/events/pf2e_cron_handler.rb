@@ -4,7 +4,7 @@ module AresMUSH
 
       def on_event(event)
 
-        if (Cron.is_cron_match?(Global.read_config("pf2es", "daily_prep_cron"), event.time))
+        if (Cron.is_cron_match?(Global.read_config("pf2e", "daily_prep_cron"), event.time))
           Character.all.each do |char|
             if !(char.is_admin) && char.is_approved? && char.pf2_auto_refresh
 

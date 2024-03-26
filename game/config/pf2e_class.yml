@@ -2805,8 +2805,6 @@ pf2e_class:
       - open
       - open
       - open
-      choose_feat:
-      - charclass
       combat_stats:
         weapon_prof:
           simple: trained

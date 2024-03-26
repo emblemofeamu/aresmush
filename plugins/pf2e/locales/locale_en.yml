@@ -183,6 +183,7 @@ en:
     unassigned_title: "Unassigned Character Options: %{name}"
     unassigned_class_feat: "%xrYou still need to choose a class feat.%xn"
     unassigned_ancestry_feat: "%xrYou still need to choose an ancestry feat.%xn"
+    unassigned_skill_feat: "%xrYou still need to choose a skill feat.%xn"
     unassigned_school_feat: "%xrYou still need to choose your extra wizard feat.%xn"
     unassigned_gated_feat: "%xrYou have other unassigned feats. Assign using 'feat/set special/<option> = <feat>'. Options: %{options}%xn"
     updated_ok: "%{element} updated for %{char}."

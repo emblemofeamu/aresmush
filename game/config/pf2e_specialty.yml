@@ -1010,8 +1010,10 @@ pf2e_specialty:
           tradition:
             occult: trained
           addrepertoire:
-            cantrip: Daze
-            1: Spider Sting
+            cantrip: 
+            - Daze
+            1: 
+            - Spider Sting
           focus_spell:
             bloodline:
             - Tentacular Limbs
@@ -1025,39 +1027,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Touch of Idiocy
+              2:
+              - Touch of Idiocy
         5:
           magic_stats:
             addrepertoire:
-              3: Vampiric Touch
+              3:
+              - Vampiric Touch
         7:
           magic_stats:
             addrepertoire:
-              4: Confusion
+              4:
+              - Confusion
             tradition:
               occult: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Black Tentacles
+              5:
+              - Black Tentacles
         11:
           magic_stats:
             addrepertoire:
-              6: Feeblemind
+              6:
+              - Feeblemind
         13:
           magic_stats:
             addrepertoire:
-              7: Warp Mind
+              7:
+              - Warp Mind
         15:
           magic_stats:
             addrepertoire:
-              8: Uncontrollable Dance
+              8:
+              - Uncontrollable Dance
             tradition:
               occult: master
         17:
           magic_stats:
             addrepertoire:
-              9: Unfathomable Song
+              9:
+              - Unfathomable Song
         19:
           magic_stats:
             tradition:
@@ -1068,8 +1078,10 @@ pf2e_specialty:
           tradition:
             divine: trained
           addrepertoire:
-            cantrip: Light
-            1: Heal
+            cantrip:
+            - Light
+            1:
+            - Heal
           focus_spell:
             bloodline:
             - Angelic Halo
@@ -1083,39 +1095,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Spiritual Weapon
+              2:
+              - Spiritual Weapon
         5:
           magic_stats:
             addrepertoire:
-              3: Searing Light
+              3:
+              - Searing Light
         7:
           magic_stats:
             addrepertoire:
-              4: Divine Wrath
+              4:
+              - Divine Wrath
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Flame Strike
+              5:
+              - Flame Strike
         11:
           magic_stats:
             addrepertoire:
-              6: Blade Barrier
+              6:
+              - Blade Barrier
         13:
           magic_stats:
             addrepertoire:
-              7: Divine Decree
+              7:
+              - Divine Decree
         15:
           magic_stats:
             addrepertoire:
-              8: Divine Aura
+              8:
+              - Divine Aura
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
-              9: Foresight
+              9:
+              - Foresight
         19:
           magic_stats:
             tradition:
@@ -1126,8 +1146,10 @@ pf2e_specialty:
           tradition:
             divine: trained
           addrepertoire:
-            cantrip: Acid Splash
-            1: Fear
+            cantrip:
+            - Acid Splash
+            1:
+            - Fear
           focus_spell:
             bloodline:
             - Glutton's Law
@@ -1141,39 +1163,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Enlarge
+              2:
+              - Enlarge
         5:
           magic_stats:
             addrepertoire:
-              3: Slow
+              3:
+              - Slow
         7:
           magic_stats:
             addrepertoire:
-              4: Divine Wrath
+              4:
+              - Divine Wrath
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Abyssal Plague
+              5:
+              - Abyssal Plague
         11:
           magic_stats:
             addrepertoire:
-              6: Disintegrate
+              6:
+              - Disintegrate
         13:
           magic_stats:
             addrepertoire:
-              7: Divine Decree
+              7:
+              - Divine Decree
         15:
           magic_stats:
             addrepertoire:
-              8: Divine Aura
+              8:
+              - Divine Aura
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
-              9: Implosion
+              9:
+              - Implosion
         19:
           magic_stats:
             tradition:
@@ -1184,8 +1214,10 @@ pf2e_specialty:
           tradition:
             divine: trained
           addrepertoire:
-            cantrip: Produce Flame
-            1: Charm
+            cantrip:
+            - Produce Flame
+            1:
+            - Charm
           focus_spell:
             bloodline:
             - Diabolic Edict
@@ -1199,39 +1231,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Flaming Sphere
+              2:
+              - Flaming Sphere
         5:
           magic_stats:
             addrepertoire:
-              3: Enthrall
+              3:
+              - Enthrall
         7:
           magic_stats:
             addrepertoire:
-              4: Suggestion
+              4:
+              - Suggestion
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Crushing Despair
+              5:
+              - Crushing Despair
         11:
           magic_stats:
             addrepertoire:
-              6: True Seeing
+              6:
+              - True Seeing
         13:
           magic_stats:
             addrepertoire:
-              7: Divine Decree
+              7:
+              - Divine Decree
         15:
           magic_stats:
             addrepertoire:
-              8: Divine Aura
+              8: 
+              - Divine Aura
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
-              9: Meteor Swarm
+              9:
+              - Meteor Swarm
         19:
           magic_stats:
             tradition:
@@ -1256,8 +1296,10 @@ pf2e_specialty:
           tradition:
             arcane: trained
           addrepertoire:
-            cantrip: Shield
-            1: True Strike
+            cantrip:
+            - Shield
+            1:
+            - True Strike
           focus_spell:
             bloodline:
             - Dragon Claws
@@ -1271,39 +1313,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Resist Energy
+              2:
+              - Resist Energy
         5:
           magic_stats:
             addrepertoire:
-              3: Haste
+              3:
+              - Haste
         7:
           magic_stats:
             addrepertoire:
-              4: Spell Immunity
+              4:
+              - Spell Immunity
             tradition:
               arcane: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Chromatic Wall
+              5:
+              - Chromatic Wall
         11:
           magic_stats:
             addrepertoire:
-              6: Dragon Form
+              6:
+              - Dragon Form
         13:
           magic_stats:
             addrepertoire:
-              7: Mask of Terror
+              7:
+              - Mask of Terror
         15:
           magic_stats:
             addrepertoire:
-              8: Prismatic Wall
+              8:
+              - Prismatic Wall
             tradition:
               arcane: master
         17:
           magic_stats:
             addrepertoire:
-              9: Overwhelming Presence
+              9:
+              - Overwhelming Presence
         19:
           magic_stats:
             tradition:
@@ -1322,8 +1372,10 @@ pf2e_specialty:
           tradition:
             primal: trained
           addrepertoire:
-            cantrip: Produce Flame
-            1: Burning Hands
+            cantrip:
+            - Produce Flame
+            1:
+            - Burning Hands
           focus_spell:
             bloodline:
             - Elemental Toss
@@ -1337,39 +1389,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Resist Energy
+              2:
+              - Resist Energy
         5:
           magic_stats:
             addrepertoire:
-              3: Fireball
+              3:
+              - Fireball
         7:
           magic_stats:
             addrepertoire:
-              4: Freedom of Movement
+              4:
+              - Freedom of Movement
             tradition:
               primal: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Elemental Form
+              5:
+              - Elemental Form
         11:
           magic_stats:
             addrepertoire:
-              6: Repulsion
+              6:
+              - Repulsion
         13:
           magic_stats:
             addrepertoire:
-              7: Energy Aegis
+              7:
+              - Energy Aegis
         15:
           magic_stats:
             addrepertoire:
-              8: Prismatic Wall
+              8:
+              - Prismatic Wall
             tradition:
               primal: master
         17:
           magic_stats:
             addrepertoire:
-              9: Storm of Vengeance
+              9:
+              - Storm of Vengeance
         19:
           magic_stats:
             tradition:
@@ -1380,8 +1440,10 @@ pf2e_specialty:
           tradition:
             primal: trained
           addrepertoire:
-            cantrip: Ghost Sound
-            1: Charm
+            cantrip:
+            - Ghost Sound
+            1:
+            - Charm
           focus_spell:
             bloodline:
             - Faerie Dust
@@ -1395,39 +1457,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Hideous Laughter
+              2:
+              - Hideous Laughter
         5:
           magic_stats:
             addrepertoire:
-              3: Enthrall
+              3:
+              - Enthrall
         7:
           magic_stats:
             addrepertoire:
-              4: Suggestion
+              4:
+              - Suggestion
             tradition:
               primal: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Cloak of Colors
+              5:
+              - Cloak of Colors
         11:
           magic_stats:
             addrepertoire:
-              6: Mislead
+              6:
+              - Mislead
         13:
           magic_stats:
             addrepertoire:
-              7: Visions of Danger
+              7:
+              - Visions of Danger
         15:
           magic_stats:
             addrepertoire:
-              8: Uncontrollable Dance
+              8:
+              - Uncontrollable Dance
             tradition:
               primal: master
         17:
           magic_stats:
             addrepertoire:
-              9: Resplendent Mansion
+              9:
+              - Resplendent Mansion
         19:
           magic_stats:
             tradition:
@@ -1447,8 +1517,10 @@ pf2e_specialty:
           tradition:
             arcane: trained
           addrepertoire:
-            cantrip: Detect Magic
-            1: Illusory Disguise
+            cantrip:
+            - Detect Magic
+            1:
+            - Illusory Disguise
           focus_spell:
             bloodline:
             - Genie's Veil
@@ -1465,11 +1537,13 @@ pf2e_specialty:
         5:
           magic_stats:
             addrepertoire:
-              3: Enthrall
+              3:
+              - Enthrall
         7:
           magic_stats:
             addrepertoire:
-              4: Creation
+              4:
+              - Creation
             tradition:
               arcane: expert
         9:
@@ -1478,11 +1552,13 @@ pf2e_specialty:
         11:
           magic_stats:
             addrepertoire:
-              6: True Seeing
+              6:
+              - True Seeing
         13:
           magic_stats:
             addrepertoire:
-              7: Energy Aegis
+              7:
+              - Energy Aegis
         15:
           magic_stats:
             get_genie_addrepertoire: 8
@@ -1491,7 +1567,8 @@ pf2e_specialty:
         17:
           magic_stats:
             addrepertoire:
-              9: Resplendent Mansion
+              9:
+              - Resplendent Mansion
         19:
           magic_stats:
             tradition:
@@ -1502,8 +1579,10 @@ pf2e_specialty:
           tradition:
             occult: trained
           addrepertoire:
-            cantrip: Daze
-            1: Illusory Disguise
+            cantrip:
+            - Daze
+            1:
+            - Illusory Disguise
           focus_spell:
             bloodline:
             - Jealous Hex
@@ -1517,39 +1596,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Touch of Idiocy
+              2:
+              - Touch of Idiocy
         5:
           magic_stats:
             addrepertoire:
-              3: Blindness
+              3:
+              - Blindness
         7:
           magic_stats:
             addrepertoire:
-              4: Outcast's Curse
+              4:
+              - Outcast's Curse
             tradition:
               occult: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Mariner's Curse
+              5:
+              - Mariner's Curse
         11:
           magic_stats:
             addrepertoire:
-              6: Baleful Polymorph
+              6:
+              - Baleful Polymorph
         13:
           magic_stats:
             addrepertoire:
-              7: Warp Mind
+              7:
+              - Warp Mind
         15:
           magic_stats:
             addrepertoire:
-              8: Spiritual Epidemic
+              8:
+              - Spiritual Epidemic
             tradition:
               occult: master
         17:
           magic_stats:
             addrepertoire:
-              9: Nature's Enmity
+              9:
+              - Nature's Enmity
         19:
           magic_stats:
             tradition:
@@ -1560,8 +1647,10 @@ pf2e_specialty:
           tradition:
             arcane: trained
           addrepertoire:
-            cantrip: Detect Magic
-            1: Magic Missile
+            cantrip:
+            - Detect Magic
+            1:
+            - Magic Missile
           focus_spell:
             bloodline:
             - Ancestral Memories
@@ -1575,39 +1664,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Dispel Magic
+              2:
+              - Dispel Magic
         5:
           magic_stats:
             addrepertoire:
-              3: Haste
+              3:
+              - Haste
         7:
           magic_stats:
             addrepertoire:
-              4: Dimension Door
+              4:
+              - Dimension Door
             tradition:
               arcane: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Prying Eye
+              5:
+              - Prying Eye
         11:
           magic_stats:
             addrepertoire:
-              6: Disintegrate
+              6:
+              - Disintegrate
         13:
           magic_stats:
             addrepertoire:
-              7: Prismatic Spray
+              7:
+              - Prismatic Spray
         15:
           magic_stats:
             addrepertoire:
-              8: Maze
+              8:
+              - Maze
             tradition:
               arcane: master
         17:
           magic_stats:
             addrepertoire:
-              9: Prismatic Sphere
+              9:
+              - Prismatic Sphere
         19:
           magic_stats:
             tradition:
@@ -1618,8 +1715,10 @@ pf2e_specialty:
           tradition:
             primal: trained
           addrepertoire:
-            cantrip: Tanglefoot
-            1: Charm
+            cantrip:
+            - Tanglefoot
+            1:
+            - Charm
           focus_spell:
             bloodline:
             - Nymph's Token
@@ -1633,39 +1732,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Calm Emotions
+              2:
+              - Calm Emotions
         5:
           magic_stats:
             addrepertoire:
-              3: Animal Vision
+              3:
+              - Animal Vision
         7:
           magic_stats:
             addrepertoire:
-              4: Vital Beacon
+              4:
+              - Vital Beacon
             tradition:
               primal: trained
         9:
           magic_stats:
             addrepertoire:
-              5: Crushing Despair
+              5:
+              - Crushing Despair
         11:
           magic_stats:
             addrepertoire:
-              6: Repulsion
+              6:
+              - Repulsion
         13:
           magic_stats:
             addrepertoire:
-              7: Unfettered Pack
+              7:
+              - Unfettered Pack
         15:
           magic_stats:
             addrepertoire:
-              8: Moment of Renewal
+              8:
+              - Moment of Renewal
             tradition:
               primal: master
         17:
           magic_stats:
             addrepertoire:
-              9: Overwhelming Presence
+              9:
+              - Overwhelming Presence
         19:
           magic_stats:
             tradition:
@@ -1676,8 +1783,10 @@ pf2e_specialty:
           tradition:
             divine: trained
           addrepertoire:
-            cantrip: Disrupt Undead
-            1: Heal
+            cantrip:
+            - Disrupt Undead
+            1:
+            - Heal
           focus_spell:
             bloodline:
             - Sepulchral Mask
@@ -1691,39 +1800,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Calm Emotions
+              2:
+              - Calm Emotions
         5:
           magic_stats:
             addrepertoire:
-              3: Searing Light
+              3:
+              - Searing Light
         7:
           magic_stats:
             addrepertoire:
-              4: Dimensional Anchor
+              4:
+              - Dimensional Anchor
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Death Ward
+              5:
+              - Death Ward
         11:
           magic_stats:
             addrepertoire:
-              6: Spirit Blast
+              6:
+              - Spirit Blast
         13:
           magic_stats:
             addrepertoire:
-              7: Finger of Death
+              7:
+              - Finger of Death
         15:
           magic_stats:
             addrepertoire:
-              8: Spirit Song
+              8:
+              - Spirit Song
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
-              9: Massacre
+              9:
+              - Massacre
         19:
           magic_stats:
             tradition:
@@ -1734,8 +1851,10 @@ pf2e_specialty:
           tradition:
             occult: trained
           addrepertoire:
-            cantrip: Chill Touch
-            1: Grim Tendrils
+            cantrip:
+            - Chill Touch
+            1:
+            - Grim Tendrils
           focus_spell:
             bloodline:
             - Dim the Light
@@ -1749,39 +1868,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: Darkness
+              2:
+              - Darkness
         5:
           magic_stats:
             addrepertoire:
-              3: Chilling Darkness
+              3:
+              - Chilling Darkness
         7:
           magic_stats:
             addrepertoire:
-              4: Phantasmal Killer
+              4:
+              - Phantasmal Killer
             tradition:
               occult: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Shadow Siphon
+              5:
+              - Shadow Siphon
         11:
           magic_stats:
             addrepertoire:
-              6: Collective Transposition
+              6:
+              - Collective Transposition
         13:
           magic_stats:
             addrepertoire:
-              7: Duplicate Foe
+              7:
+              - Duplicate Foe
         15:
           magic_stats:
             addrepertoire:
-              8: Disappearance
+              8:
+              - Disappearance
             tradition:
               occult: master
         17:
           magic_stats:
             addrepertoire:
-              9: Weird
+              9:
+              - Weird
         19:
           magic_stats:
             tradition:
@@ -1792,8 +1919,10 @@ pf2e_specialty:
           tradition:
             divine: trained
           addrepertoire:
-            cantrip: Chill Touch
-            1: Harm
+            cantrip:
+            - Chill Touch
+            1:
+            - Harm
           focus_spell:
             bloodline:
             - Undeath's Blessing
@@ -1807,39 +1936,47 @@ pf2e_specialty:
         3:
           magic_stats:
             addrepertoire:
-              2: False Life
+              2:
+              - False Life
         5:
           magic_stats:
             addrepertoire:
-              3: Bind Undead
+              3:
+              - Bind Undead
         7:
           magic_stats:
             addrepertoire:
-              4: Talking Corpse
+              4:
+              - Talking Corpse
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
-              5: Cloudkill
+              5:
+              - Cloudkill
         11:
           magic_stats:
             addrepertoire:
-              6: Vampiric Exsanguination
+              6:
+              - Vampiric Exsanguination
         13:
           magic_stats:
             addrepertoire:
-              7: Finger of Death
+              7:
+              - Finger of Death
         15:
           magic_stats:
             addrepertoire:
-              8: Horrid Wilting
+              8:
+              - Horrid Wilting
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
-              9: Wail of the Banshee
+              9:
+              - Wail of the Banshee
         19:
           magic_stats:
             tradition:

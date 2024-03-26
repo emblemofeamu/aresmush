@@ -27,9 +27,9 @@ module AresMUSH
         @details["actions"]
       end
 
-      def traits 
+      def traits
         @details["traits"].sort.join(", ")
-      end 
+      end
 
       def cast
         @details["cast"].join(", ")
@@ -60,7 +60,7 @@ module AresMUSH
           end
         else
           string.each_with_index do |v,i|
-            h << "#{i + base_level}: #{v}"
+            h << "#{i + base_level.to_i}: #{v}"
           end
         end
 
@@ -75,7 +75,9 @@ module AresMUSH
       def trads
         t = @details["tradition"]
 
-        trads = t.is_a?(Array) ? t.sort.join(", ") : t
+        return nil unless t
+
+        t.sort.join(", ")
       end
 
       def effect

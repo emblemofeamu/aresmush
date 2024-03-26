@@ -16,19 +16,24 @@ module AresMUSH
       end
 
       def required_args
-        [ self.caster_class, self.spell_name ]
+        [ self.caster_class, self.spell_name, self.spell_level ]
       end
 
       def check_is_approved
         return t('pf2e.not_approved') unless enactor.is_approved?
+        return nil
       end
 
       def handle
 
-        fail_msg = unprepare_spell(self.spell_name, enactor, self.caster_class, self.spell_level)
+        # A spell level is either a cantrip or a number. Validate and normalize spell level expression.
 
-        if fail_msg
-          client.emit_failure fail_msg
+        level = self.spell_level.zero? ? "cantrip" : self.spell_level.to_s
+
+        msg = Pf2emagic.unprepare_spell(self.spell_name, enactor, self.caster_class, level)
+
+        if msg
+          client.emit_failure msg
           return
         else
           client.emit_success t('pf2emagic.spell_unprepare_ok', :name => self.spell_name, :as => self.caster_class)

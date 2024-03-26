@@ -80,6 +80,20 @@ module AresMUSH
       cinfo = char.pf2_base_info
       feat_type = details['feat_type']
 
+      # Lineage feats are explicitly for select heritages and can only be taken at level 1.
+      if feat_type.include? 'Lineage'
+
+        heritage = cinfo['heritage'].downcase
+        traits = details['traits']
+
+        msg << 'lineage' unless traits.include?(heritage) && (char.pf2_level == 1)
+      end
+
+      # No double-dipping on base class / dedication, per Paizo RAW.
+      if feat_type.include? 'Dedication'
+        msg << 'dedication' if feat.downcase.include? cinfo['charclass'].downcase
+      end
+
       if feat_type.include? 'Charclass'
         charclass = cinfo['charclass']
         allowed_charclasses = details['assoc_charclass']
@@ -94,8 +108,6 @@ module AresMUSH
         # # Add allowances for Half-Sil and Half-Oruch
         ancestry << "Sildanyar" if cinfo['heritage'].include? "Half-Sil"
         ancestry << "Oruch" if cinfo['heritage'].include? "Half-Oruch"
-
-        Global.logger.debug ancestry
 
         allowed_ancestry = details['assoc_ancestry']
 
@@ -320,6 +332,10 @@ module AresMUSH
         msgs << t('pf2e.unassigned_ancestry_feat') if to_assign['ancestry feat'].include? 'open'
       end
 
+      if to_assign['skill feat']
+        msgs << t('pf2e.unassigned_skill_feat') if to_assign['skill feat'].include? 'open'
+      end
+
       if to_assign['special feat']
         msgs << t('pf2e.unassigned_gated_feat', :options => to_assign['special feat'].sort.join(", "))
       end
@@ -427,6 +443,10 @@ module AresMUSH
             end
 
           end
+        when "combat_stats"
+          # The value of the combat_stats subkey should always be a hash.
+          Pf2eCombat.modify_combat_stats(char, value)
+          return_msg << "This feat modifies your combat proficiencies."
         else
           return_msg << "Unknown key '#{key}' in do_feat_grants. Please inform code staff."
         end

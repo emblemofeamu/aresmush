@@ -32,7 +32,7 @@ module AresMUSH
       end
 
       def format_matching_spells(spell, i)
-        linebreak = i % 3 == 1 ? "" : "%r"
+        linebreak = i % 3 == 0 ? "%r" : ""
         "#{linebreak}#{left(spell,26)}"
 
       end
