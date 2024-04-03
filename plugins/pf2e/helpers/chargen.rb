@@ -1,6 +1,5 @@
 module AresMUSH
   module Pf2e
-
     def self.check_alignment(align, charclass, subclass, deity=nil)
       return nil if !(Global.read_config('pf2e', 'use_alignment'))
 
@@ -497,8 +496,10 @@ module AresMUSH
       ancestry_info['languages'].each { |l| languages << l }
 
       clang = class_features_info['languages']
-
       clang.each { |l| languages << l } if clang
+
+      hlang = heritage_info['languages']
+      hlang.each { |l| languages << l } if hlang
 
       unique_lang = languages.uniq
 
@@ -571,39 +572,6 @@ module AresMUSH
       Pf2e.record_checkpoint(enactor, 'info')
 
       return nil
-    end
-
-    def self.update_sheet(char, info)
-      # This is called by the advancement code and should be called by commit info. Fix commit info to do this.
-
-      info.each_pair do |key, value|
-        case key
-        when "choose_feat"
-          to_assign = char.pf2_to_assign
-          to_assign['feat_by_type'] = value
-          char.update(pf2_to_assign: to_assign)
-        when "charclass"
-          features = char.pf2_features
-
-          value.each { |f| features << f }
-
-          char.update(pf2_features: features.uniq.sort)
-        when "combat_stats"
-          PF2eCombat.update_combat_stats(char, value)
-        when "magic_stats"
-          Pf2eMagic.update_magic_stats(char, value)
-        when "skill"
-        when "feat"
-        when "action"
-        when "reaction"
-        when "familiar"
-        when "animal companion"
-        when "raise"
-        when "choose"
-        else
-          client.emit_ooc "Unknown key in update_sheet: #{key}. Please raise this to code staff."
-        end
-      end
     end
 
     def self.assignments_complete?(char)

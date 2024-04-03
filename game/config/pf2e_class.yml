@@ -1827,7 +1827,10 @@ pf2e_class:
         choose:
           choice_name: Third Path to Perfection
           choice_description: "Choose your save for Third Path to Perfection."
-          options: []
+          options: 
+          - Fortitude
+          - Reflex
+          - Will
       16:
         choose_feat:
         - charclass
@@ -1910,7 +1913,7 @@ pf2e_class:
       3:
         choose_feat:
         - general
-        boost:
+        raise:
         - skill
         charclass:
         magic_stats:

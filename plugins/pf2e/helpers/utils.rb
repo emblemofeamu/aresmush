@@ -282,6 +282,7 @@ module AresMUSH
       # I am aware of Faraday's suggestion for using .update, but when I am changing many things at once,
       # I may as well do one DB write instead of two dozen.
 
+      char.chargen_stage = 0
       char.pf2_baseinfo_locked = false
       char.pf2_abilities_locked = false
       char.pf2_reset = false
@@ -333,6 +334,7 @@ module AresMUSH
         Roles.remove_role(char, "approved")
       end
 
+      char.chargen_stage = 0
       char.pf2_baseinfo_locked = false
       char.pf2_abilities_locked = false
       char.pf2_skills_locked = false

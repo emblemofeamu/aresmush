@@ -37,6 +37,7 @@ module AresMUSH
       # Handle Swaps
 
       # Invest items
+      do_daily_investiture(char)
 
       # Reset revelations
       magic.update(revelation_locked: false) if magic
@@ -114,6 +115,23 @@ module AresMUSH
       char.update(pf2_auto_refresh: autorest)
 
       autorest
+    end
+
+    def self.do_daily_investiture(char)
+
+      char_wp_list = Pf2egear.items_in_inventory(char.weapons.to_a)
+      char_a_list = Pf2egear.items_in_inventory(char.armor.to_a)
+      char_mi_list = Pf2egear.items_in_inventory(char.magic_items.to_a)
+
+      investable_list = char_wp_list + char_a_list + char_mi_list
+
+      investable_list.each { |item| item.update(invested: false) }
+
+      to_invest = investable_list.select {|i| i.invest_on_refresh }
+
+      to_invest.each { |item| item.update(invested: true) }
+
+      return nil
     end
 
   end

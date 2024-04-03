@@ -29,7 +29,6 @@ module AresMUSH
 
     def self.get_encounter(char, scene=nil)
       return nil unless scene
-      return nil unless scene.participants.include? char
       scene_active_encounter(scene)
     end
 
@@ -44,13 +43,12 @@ module AresMUSH
     end
 
     def self.add_to_initiative(encounter, name, roll, is_adversary=false)
-      list = encounter.participants
+      list = encounter.participants || []
 
-      return unless list
-
+        # Float is used here to account for the Paizo RAW that if a PC and an adversary tie, tie adversary goes first.
       adversary_mod = is_adversary ? 0.2 : 0
 
-      init = roll + adversary_mod
+      init = (roll + adversary_mod).to_f
 
       list << [ init, name ]
 
@@ -61,9 +59,11 @@ module AresMUSH
 
     def self.remove_from_initiative(encounter,index)
 
-      new_list = encounter.participants.delete_at(index)
+      list = encounter.participants
 
-      encounter.update(participants: new_list)
+      list.delete_at(index)
+
+      encounter.update(participants: list)
     end
 
     def self.is_organizer?(char, encounter)

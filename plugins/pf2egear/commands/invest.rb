@@ -20,7 +20,7 @@ module AresMUSH
 
         valid_cats = %w(weapons weapon armor magicitem)
 
-        # Check for correct format. 
+        # Check for correct format.
 
         format_check = []
 
@@ -37,9 +37,9 @@ module AresMUSH
           format_check << "bad category" unless valid_cats.include? category
         end
 
-        # Mark objects for investment at next refresh. 
-        
-        if !format_check.empty? 
+        # Mark objects for investment at next refresh.
+
+        if !format_check.empty?
           client.emit_failure t('pf2egear.bad_format')
           return
         end
@@ -75,6 +75,11 @@ module AresMUSH
 
           if item_id&.traits.include? 'invested'
 
+            if item_id.invest_on_refresh
+              client.emit_failure t('pf2egear.already_set_for_investment')
+              return
+            end
+
             counter = counter + 1
 
             if counter > max_investable
@@ -84,7 +89,7 @@ module AresMUSH
 
             item_id.update(invest_on_refresh: true)
 
-          else   
+          else
             client.emit_ooc t('pf2egear.not_investible_item', :item => Pf2egear.get_item_name(item_id))
           end
 
@@ -95,7 +100,7 @@ module AresMUSH
 
 
       end
-    
+
     end
   end
 end

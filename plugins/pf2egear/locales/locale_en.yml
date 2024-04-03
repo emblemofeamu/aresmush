@@ -3,6 +3,7 @@ en:
   pf2egear:
     ambiguous_item: "I have more than one item matching that name. Please be more specific."
     approved_players_only: "You must be approved for play to use this command."
+    already_set_for_investment: "That item is already set for investment."
 
     bad_category: "Invalid category. See help for assistance."
     bad_cointype: "Invalid coin type. Use one of: pp gp sp cp"

@@ -25,7 +25,7 @@ module AresMUSH
 
     end
 
-    def self.select_gated_spell(char, charclass, level, old_spell, new_spell, gate, is_dedication=false, common_only=false)
+    def self.select_gated_spell(char, charclass, level, old_spell, new_spell, gate, is_dedication=false, common_only=false, check_only=false)
       # Caster type check.
       caster_type = get_caster_type(charclass)
 
@@ -51,6 +51,11 @@ module AresMUSH
 
       pass_gate = can_take_gated_spell?(char, charclass, level, to_add, gate, is_dedication)
       return t('pf2emagic.spell_not_eligible', :gate => gate) unless pass_gate
+
+      # Some uses of this handler are only checking to see if they're allowed to add the spell. In this case.
+      # it returns the spell deets as an Array. This is the only case where this handler returns an array.
+
+      return [ to_add, {} ] if check_only
 
       # If we have reached this point, it's time to add the spell.
       # Stuff into to_assign for tracking of what got bought when.
@@ -113,7 +118,7 @@ module AresMUSH
       return nil
     end
 
-    def self.select_spell(char, charclass, level, old_spell, new_spell, is_gated=false, common_only=false)
+    def self.select_spell(char, charclass, level, old_spell, new_spell, is_gated=false, common_only=false, check_only=false)
       # Handling for gated spells is diverted to another function. is_gated is either
       # false or the name of the gate.
 
@@ -187,6 +192,11 @@ module AresMUSH
         i = new_spells_for_level.index "open"
         return t('pf2emagic.no_available_slots') unless i
       end
+
+      # Some uses of this handler are only checking to see if they're allowed to add the spell. In this case.
+      # select_spell returns the spell deets as an Array. This is the only case where this handler returns an array.
+
+      return [ to_add, deets ] if check_only
 
       # If we have reached this point, it's time to add the spell.
       # Stuff into to_assign for tracking of what got bought when.

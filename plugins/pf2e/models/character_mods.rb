@@ -14,6 +14,7 @@ module AresMUSH
     attribute :pf2_base_info, :type => DataType::Hash, :default => { 'ancestry'=>"", 'heritage'=>"", 'background'=>"", 'charclass'=>"", "specialize"=>"", 'specialize_info'=>""}
     attribute :pf2_level, :type => DataType::Integer, :default => 1
     attribute :pf2_xp, :type => DataType::Integer, :default => 0
+    attribute :pf2_advancement, :type => DataType::Hash, :default => {}
     attribute :pf2_conditions, :type => DataType::Hash, :default => {}
     attribute :pf2_features, :type => DataType::Array, :default => []
     attribute :pf2_traits, :type => DataType::Array, :default => []

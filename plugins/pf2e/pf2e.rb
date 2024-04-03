@@ -122,6 +122,8 @@ module AresMUSH
           return PF2EncounterBonusPenaltyCmd
         when "expire"
           return PF2EncounterExpireBonusesCmd
+        when "remove"
+          return PF2EncounterRemoveCmd
         else
           return PF2InitiateCombatCmd
         end

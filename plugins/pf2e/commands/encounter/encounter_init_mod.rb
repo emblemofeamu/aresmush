@@ -7,14 +7,16 @@ module AresMUSH
       attr_accessor :encounter_id, :name, :init
 
       def parse_args
-        args = trimmed_list_arg(cmd.args, "=")
+        if cmd.args
+          args = trimmed_list_arg(cmd.args, "=")
 
-        # If only two args are given, encounter_id is the nil.
-        args.unshift(nil) unless args[2]
+          # If only two args are given, encounter_id is the nil.
+          args.unshift(nil) unless args[2]
 
-        self.encounter_id = integer_arg(args[0])
-        self.name = downcase_arg(args[1])
-        self.init = integer_arg(args[2])
+          self.encounter_id = args[0] ? integer_arg(args[0]) : nil
+          self.name = downcase_arg(args[1])
+          self.init = integer_arg(args[2])
+        end
       end
 
       def required_args
@@ -52,9 +54,17 @@ module AresMUSH
           return
         end
 
+        # Fix goofy behavior where it was possible to modify the name by modding the init.
+
+        name = initlist[index][1]
+
         PF2Encounter.remove_from_initiative(encounter, index)
 
-        PF2Encounter.add_to_initiative(encounter, enactor.name, self.init)
+        # If the character is not a PC, give them the adversary bonus.
+
+        is_adversary = !(Character.find_one_by_name(name))
+
+        PF2Encounter.add_to_initiative(encounter, name, self.init, is_adversary)
 
         client.emit_success t('pf2e.encounter_mod_ok',
           :name => initlist[index][1],

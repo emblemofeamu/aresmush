@@ -12,7 +12,7 @@ module AresMUSH
         # If only two args are given, encounter_id is the nil.
         args.unshift(nil) unless args[2]
 
-        self.encounter_id = integer_arg(args[0])
+        self.encounter_id = args[0] ? integer_arg(args[0]) : nil
         self.name = titlecase_arg(args[1])
         self.mod = integer_arg(args[2])
       end

@@ -39,6 +39,55 @@ module AresMUSH
       return obj
     end
 
+    def self.assess_magic_stats(char, info)
+      magic_stats = {}
+      magic_options = {}
+
+      info.each_pair do |key, value|
+        case key
+        when "repertoire"
+
+          assignment_list = {}
+          value.each_pair do |level, num|
+            ary = Array.new(num, "open")
+            assignment_list[level] = ary
+          end
+
+          magic_options["repertoire"] = assignment_list
+        when "spellbook"
+          assignment_list = {}
+          value.each_pair do |level, num|
+            ary = Array.new(num, "open")
+            assignment_list[level] = ary
+          end
+
+          magic_options["spellbook"] = assignment_list
+        when "signature_spell"
+          # This key means that the character needs to pick a spell from their repertoire as a signature spell.
+          # Structure of value: { level to pick from => number of spells to add }
+          # Use to_assign["signature"]
+
+          assignment_list = {}
+          value.each_pair do |level, num|
+            ary = Array.new(num, "open")
+            assignment_list[level] = ary
+          end
+
+          magic_options["signature"] = assignment_list
+        else
+          magic_stats[key] = value
+        end
+      end
+
+      # Return a hash comprised of the two keys.
+      hash = {}
+
+      hash['magic_stats'] = magic_stats
+      hash['magic_options'] = magic_options
+
+      hash
+    end
+
     def self.update_magic(char, charclass, info, client)
       magic = get_create_magic_obj(char)
 
