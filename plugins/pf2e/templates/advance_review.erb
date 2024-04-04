@@ -1,7 +1,13 @@
 <%= header %>
 <%= center("#{title_color}#{title}", 78) %>%xn
 <%= divider %>
-<% cnote_list.each do |item| %>
+<% advancement.each do |item| %>
 <%= item %>
+<% end %>
+<% if has_options %>
+<%= section_line("Options To Choose") %>
+<% options.each do |item| %>
+<%= item %>
+<% end %>
 <% end %>
 <%= footer %>

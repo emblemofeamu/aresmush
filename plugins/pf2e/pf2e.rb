@@ -124,7 +124,7 @@ module AresMUSH
           return PF2EncounterExpireBonusesCmd
         when "remove"
           return PF2EncounterRemoveCmd
-        else
+        when nil
           return PF2InitiateCombatCmd
         end
       when "admin"
@@ -136,6 +136,12 @@ module AresMUSH
         when "respec"
           return PF2AdminRespecCmd
         end
+      when "advance"
+        case cmd.switch
+        when nil
+          return PF2ADvancementStartCmd
+        when "review"
+          return PF2AdvanceReviewCmd
       when "listxp"
         return PF2ListXPCmd
       when "refresh"
@@ -148,7 +154,7 @@ module AresMUSH
           return PF2FormulaAddCmd
         when "remove"
           return PF2FormulaRemoveCmd
-        else
+        when nil
           return PF2DisplayFormulasCmd
         end
       when "autorest"
