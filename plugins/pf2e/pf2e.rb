@@ -41,6 +41,8 @@ module AresMUSH
           return PF2ResetChargenCmd
         when "info"
           return PF2ChargenInfoCmd
+        when "feat"
+          return PF2FeatSetCmd
         end
       when "roll"
         case cmd.switch
@@ -60,12 +62,14 @@ module AresMUSH
         when "unset"
           return PF2BoostUnsetCmd
         end
-      when "skill"
+      when "skill", "skills"
         case cmd.switch
         when "set"
           return PF2SkillSetCmd
         when "unset"
           return PF2SkillUnSetCmd
+        when nil
+          return PF2SkillListCmd
         end
       when "lang"
         case cmd.switch
@@ -78,8 +82,6 @@ module AresMUSH
         end
       when "feat"
         case cmd.switch
-        when "set"
-          return PF2FeatSetCmd
         when "info"
           return PF2FeatInfoCmd
         when "options"
@@ -142,6 +144,14 @@ module AresMUSH
           return PF2ADvancementStartCmd
         when "review"
           return PF2AdvanceReviewCmd
+        when "raise"
+          return PF2AdvanceRaiseCmd
+        when "reset"
+          return PF2AdvanceResetCmd
+        when "feat"
+          return PF2AdvanceFeatCmd
+        when "spell"
+          return PF2AdvanceSpellCmd
         end
       when "listxp"
         return PF2ListXPCmd

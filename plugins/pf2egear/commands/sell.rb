@@ -63,7 +63,7 @@ module AresMUSH
         when "bags"
           item_id = enactor.bags.to_a[index]
         when "magicitem", "magicitems"
-          item_id = Pf2egear.items_in_inventory(enactor.magicitem).to_a[index]
+          item_id = Pf2egear.items_in_inventory(enactor.magic_items).to_a[index]
         when "consumables"
           item_id = Pf2egear.items_in_inventory(enactor.consumables).to_a[index]
           item_qty = item_id.quantity

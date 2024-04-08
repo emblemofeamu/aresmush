@@ -116,10 +116,7 @@ pf2e_skills:
   Bryn Myridorn Lore: 
     key_abil: Intelligence
     recall_knowledge: true
-  Chiuin Chathair:
-    key_abil: Intelligence
-    recall_knowledge: true
-  Citadel of Potarakaumi Lore:
+  Chiuin Chathair Lore:
     key_abil: Intelligence
     recall_knowledge: true
   Duama Lore:
@@ -159,6 +156,9 @@ pf2e_skills:
     key_abil: Intelligence
     recall_knowledge: true
   O'rondessa Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+  Potarakaumi Lore:
     key_abil: Intelligence
     recall_knowledge: true
   Promise Lore:

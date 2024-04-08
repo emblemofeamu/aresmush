@@ -173,7 +173,11 @@ module AresMUSH
             msg << "specialize" if required.upcase != kit
           end
         when "has_focus_pool"
-          nil
+          magic = char.magic
+          msg << "focus_pool" && next unless magic
+
+          pool = magic.focus_pool['max']
+          msg << "focus_pool" if pool.zero?
         when "feat"
           feats = char.pf2_feats.values.flatten.map { |word| word.upcase }
           req = required.map { |word| word.upcase }
@@ -344,6 +348,25 @@ module AresMUSH
       return msgs
     end
 
+    def self.assess_feat_grants(info)
+      assign = {}
+      advance = {}
+
+      info.each_pair do |k,v|
+        case k
+        when "assign", "gated_feat"
+          assign[k] = v
+        else
+          advance[k] = value
+        end
+      end
+
+      hash['assign'] = assign
+      hash['advance'] = advance
+
+      hash
+    end
+
     def self.do_feat_grants(char, info, charclass, client)
       # Processes cases where taking a feat grants something else.
 
@@ -481,7 +504,7 @@ module AresMUSH
         traits = fdeets['traits'].map {|t| t.downcase }
 
         passes_gate = traits.include? 'metamagic'
-      when "Natural Ambition"
+      when "natural ambition"
         level = fdeets['prereq']['level'] == 1
 
         char_base_class = char.pf2_base_info['charclass']
@@ -491,6 +514,8 @@ module AresMUSH
         feat_charclass = fdeets['assoc_charclass']&.include? char_base_class
 
         passes_gate = level && feat_type && feat_charclass
+      when "charclass", "ancestry", "general", "skill"
+        passes_gate = fdeets['feat_type']&.include? gate.capitalize
       else
         # If it doesn't recognize the key for the gate, fail it.
         passes_gate = false

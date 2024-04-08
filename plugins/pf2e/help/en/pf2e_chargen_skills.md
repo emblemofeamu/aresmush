@@ -21,6 +21,7 @@ In this step, you will choose your open skills. Your choice of ancestry, heritag
 `sheet`: Shows your sheet so far.
 
 ### Skills
+`skills [<term>]`: Searches available skills on the game, if term is specified. Displays all if not. 
 `skill/set <type>=<skill>`: Sets an open skill. Types are **background** or **free**.
 `skill/unset <type>=<skill>`: Deletes a skill selected with `skill/set`. You cannot delete skills granted by your base info.
 

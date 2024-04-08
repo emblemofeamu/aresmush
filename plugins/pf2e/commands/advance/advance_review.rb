@@ -10,7 +10,7 @@ module AresMUSH
       end
 
       def handle
-        template = PF2AdvanceReviewTemplate.new(enactor)
+        template = PF2AdvanceReviewTemplate.new(enactor, client)
         client.emit template.render
       end
 

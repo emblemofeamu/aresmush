@@ -55,13 +55,9 @@ module AresMUSH
 
           magic_options["repertoire"] = assignment_list
         when "spellbook"
-          assignment_list = {}
-          value.each_pair do |level, num|
-            ary = Array.new(num, "open")
-            assignment_list[level] = ary
-          end
+          ary = Array.new(value, "open")
 
-          magic_options["spellbook"] = assignment_list
+          magic_options["spellbook"] = ary
         when "signature_spell"
           # This key means that the character needs to pick a spell from their repertoire as a signature spell.
           # Structure of value: { level to pick from => number of spells to add }

@@ -14,9 +14,9 @@ Your choice of ancestry, the region you come from, and possibly your character c
 
 ## Commands
 
-`cg/review`: Lists the base skills you have available to you.
+`cg/review`: Lists the base languages you have available to you.
 `sheet`: Shows your sheet so far.
 
-`lang/set <skill>`: Chooses an extra language.
-`lang/unset <lang>`: Deletes a skill selected with `lang/set`. You cannot delete languages granted by your base info.
+`lang/set <lang>`: Chooses an extra language.
+`lang/unset <lang>`: Deletes a language selected with `lang/set`. You cannot delete languages granted by your base info.
 `lang/info <type>`: Shows you a list of languages of type <type>.

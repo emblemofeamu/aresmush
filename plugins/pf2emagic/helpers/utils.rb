@@ -33,7 +33,7 @@ module AresMUSH
 
           spells_today[cc] = prepared_list[cc]
         when "Bard", "Oracle", "Sorcerer"
-          spontlist = generate_blank_spell_list(magic, cc)
+          spontlist = magic.spells_per_day[cc]
 
           spells_today[cc] = spontlist
         else

@@ -19,6 +19,10 @@ module AresMUSH
         subclass = base_info['specialize']
         deity = faith_info['deity']
 
+        # This diversion to an optional paginator is defined because Emblem of Ea accepts approximately
+        # 3.84 metric fucktons of backgrounds. It's here in case anything else needs it later.
+        needs_paginate = false
+
         case self.element
         when 'ancestry'
           options = Global.read_config('pf2e_ancestry').keys
@@ -31,6 +35,7 @@ module AresMUSH
           options = Global.read_config('pf2e_ancestry', ancestry, 'heritages')
         when 'background', 'backgrounds'
           options = Global.read_config('pf2e_background').keys
+          needs_paginate = true
         when 'class', 'charclass'
           options = Global.read_config('pf2e_class').keys
         when 'specialize'
@@ -80,30 +85,22 @@ module AresMUSH
           return
         end
 
-        # Some of these have approximately 3.84 metric fucktons of output, so pagination ended up being required.
+        if needs_paginate
+          paginator = Paginator.paginate(options, cmd.page, 40)
+          if (paginator.out_of_bounds?)
+            client.emit_failure paginator.out_of_bounds_msg
+            return
+          end
 
-        # Format the list to be paginated.
+          template = PF2CGInfoTemplate.new(paginator)
 
-
-        # paginator = Paginator.paginate(options, cmd.page, 30)
-
-        # if (paginator.out_of_bounds?)
-        #   client.emit_failure paginator.out_of_bounds_msg
-        #   return
-        # end
-
-        #title = "Chargen Options for #{self.element.capitalize}"
-
-        # template = PF2CGInfoTemplate.new(paginator, title)
-
-        # client.emit template.render
-
-        item_color = Global.read_config('pf2e', 'item_color')
-
-        client.emit t('pf2e.cg_info',
-          :element=>"%x24#{self.element}%xn",
-          :options=>"#{item_color}#{options.join(", ")}"
-        )
+          client.emit template.render
+        else
+          client.emit t('pf2e.cg_info',
+            :element=> self.element,
+            :options=> options.join(", ")
+          )
+        end
       end
 
     end

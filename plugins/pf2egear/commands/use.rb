@@ -6,10 +6,10 @@ module AresMUSH
       attr_accessor :category, :item_num, :use_option
 
       def parse_args
-        args = cmd.parse_args(ArgParser.arg1_slash_arg2)
+        args = cmd.parse_args(ArgParser.arg1_equals_arg2)
 
         self.category = downcase_arg(args.arg1)
-        second_parse = trimmed_list_arg(args.arg2, "=")
+        second_parse = trimmed_list_arg(args.arg2, "/")
         self.item_num = second_parse ? integer_arg(second_parse[0]) : nil
         self.use_option = second_parse ? trim_arg(second_parse[1]) : nil
 
@@ -59,8 +59,9 @@ module AresMUSH
         # Is this a usable item?
 
         use = item.use
+        # Consumables are always usable. Check other categories.
 
-        if use.empty?
+        if use.empty? && !(self.category.match? 'consumable')
           client.emit_failure t('pf2egear.not_usable')
           return
         end
@@ -79,11 +80,8 @@ module AresMUSH
             client.emit_failure t('pf2egear.cannot_use_now', :action => 'invested')
             return
           end
-        end
-
-        # Consumables get their own, much simpler, handling.
-
-        if item.instance_of? PF2Consumable
+        else
+          # Consumables get their own, much simpler, handling.
 
           template = PF2UseItemTemplate.new(enactor, item, {})
           message = template.render
@@ -108,7 +106,7 @@ module AresMUSH
 
         # Some items have more than one use. Expect a valid self.use_option if this is the case.
 
-        uses = use.keys
+        uses = use.keys || []
 
         if uses.size > 1 && !self.use_option
           client.emit_failure t('pf2egear.needs_use_option', :options => uses.keys.sort.join(", "))

@@ -11,12 +11,12 @@ module AresMUSH
         self.value = titlecase_arg(args.arg2)
       end
 
-      def required_args 
+      def required_args
         [ self.type, self.value ]
       end
 
       def check_chargen_or_advancement
-        if enactor.chargen_locked && !enactor.advancing || enactor.is_admin?
+        if enactor.chargen_locked || enactor.is_admin?
           return t('pf2e.only_in_chargen')
         elsif enactor.chargen_stage.zero?
           return t('chargen.not_started')

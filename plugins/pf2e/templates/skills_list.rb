@@ -1,6 +1,6 @@
 module AresMUSH
   module Pf2e
-    class PF2CGInfoTemplate < ErbTemplateRenderer
+    class PF2SkillsListTemplate < ErbTemplateRenderer
       include CommonTemplateFields
 
       attr_accessor :paginator
@@ -8,27 +8,26 @@ module AresMUSH
       def initialize(paginator)
         @paginator = paginator
 
-        super File.dirname(__FILE__) + "/cg_info.erb"
+        super File.dirname(__FILE__) + "/skills_list.erb"
       end
 
       def title
-        "Available Options"
+        t('pf2e.skills_list_title')
       end
 
-      def cg_info_list
+      def page_items
         list = []
 
         @paginator.page_items.each_with_index do |item, i|
-          list << format_cginfo_options(item, i)
+          list << format_page_items(item, i)
         end
 
         list
       end
 
-      def format_cginfo_options(item, i)
-        linebreak = i % 2 == 0 ? "%r" : ""
-
-        "#{linebreak}#{left(item, 37)}%b"
+      def format_page_items(item, i)
+        linebreak = i % 3 == 0 ? "%r" : ""
+        "#{linebreak}#{left(item,26)}"
       end
 
     end

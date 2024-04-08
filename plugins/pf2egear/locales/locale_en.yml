@@ -7,7 +7,7 @@ en:
 
     bad_category: "Invalid category. See help for assistance."
     bad_cointype: "Invalid coin type. Use one of: pp gp sp cp"
-    bad_format: "Invalid format. Syntax: invest <category>/<num>"
+    bad_format: "Invalid format. Syntax: %{cmd} <category>/<num>"
     bad_item_in_list: "One or more of the items you specified were not found. Check your list."
     bad_quantity: "Invalid quantity. If specified, it should be a number greater than zero."
     bad_value: "Invalid monetary value."

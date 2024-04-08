@@ -2,7 +2,7 @@ module AresMUSH
   module Pf2emagic
 
     def self.generate_blank_spell_list(obj, charclass)
-      prepared_list = {}
+
       spells_per_day = obj.spells_per_day
       class_spells_per_day = spells_per_day[charclass]
 
@@ -12,7 +12,6 @@ module AresMUSH
         prepared_list[level] = list
       end
 
-      prepared_list
     end
 
     def self.get_caster_type(charclass)
@@ -25,7 +24,40 @@ module AresMUSH
 
     end
 
-    def self.select_gated_spell(char, charclass, level, old_spell, new_spell, gate, is_dedication=false, common_only=false, check_only=false)
+    def self.check_spell(char, charclass, level, term, common_only=false)
+
+      hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
+      match = hash.keys.select { |s| s.downcase == term.downcase }
+
+      return t('pf2emagic.no_such_spell') if match.empty?
+      return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
+
+      spell = match.first
+      deets = hash[spell]
+
+      # Can the class they specified cast the spell they want?
+      magic = char.magic
+      charclass_trad = magic.tradition[charclass]
+      caster_type = get_caster_type(charclass)
+
+      return t('pf2emagic.cant_cast_as_class') unless (charclass_trad && caster_type)
+
+      # A spell that does not have a tradition key cannot be put in a spellbook.
+      return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
+
+      charclass_can_cast = deets['tradition'].include? charclass_trad[0]
+
+      return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
+
+      # Can they take the spell at the level specified?
+
+      spbl = deets["base_level"].to_i
+      return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
+
+      [ spell, deets ]
+    end
+
+    def self.select_gated_spell(char, charclass, level, old_spell, new_spell, gate, is_dedication=false, common_only=false)
       # Caster type check.
       caster_type = get_caster_type(charclass)
 
@@ -51,11 +83,6 @@ module AresMUSH
 
       pass_gate = can_take_gated_spell?(char, charclass, level, to_add, gate, is_dedication)
       return t('pf2emagic.spell_not_eligible', :gate => gate) unless pass_gate
-
-      # Some uses of this handler are only checking to see if they're allowed to add the spell. In this case.
-      # it returns the spell deets as an Array. This is the only case where this handler returns an array.
-
-      return [ to_add, {} ] if check_only
 
       # If we have reached this point, it's time to add the spell.
       # Stuff into to_assign for tracking of what got bought when.
@@ -118,7 +145,7 @@ module AresMUSH
       return nil
     end
 
-    def self.select_spell(char, charclass, level, old_spell, new_spell, is_gated=false, common_only=false, check_only=false)
+    def self.select_spell(char, charclass, level, old_spell, new_spell, is_gated=false, common_only=false)
       # Handling for gated spells is diverted to another function. is_gated is either
       # false or the name of the gate.
 
@@ -171,6 +198,7 @@ module AresMUSH
       new_spells_for_level = new_spells_to_assign[level]
 
       return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
+
       return t('pf2emagic.no_new_spells_at_level') unless new_spells_for_level
 
       # Do they already have that spell on their list of to_assign?
@@ -192,11 +220,6 @@ module AresMUSH
         i = new_spells_for_level.index "open"
         return t('pf2emagic.no_available_slots') unless i
       end
-
-      # Some uses of this handler are only checking to see if they're allowed to add the spell. In this case.
-      # select_spell returns the spell deets as an Array. This is the only case where this handler returns an array.
-
-      return [ to_add, deets ] if check_only
 
       # If we have reached this point, it's time to add the spell.
       # Stuff into to_assign for tracking of what got bought when.

@@ -40,7 +40,7 @@ module AresMUSH
         # Mark objects for investment at next refresh.
 
         if !format_check.empty?
-          client.emit_failure t('pf2egear.bad_format')
+          client.emit_failure t('pf2egear.bad_format', :cmd => "invest")
           return
         end
 

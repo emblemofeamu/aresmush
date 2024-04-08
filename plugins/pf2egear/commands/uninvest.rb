@@ -20,7 +20,7 @@ module AresMUSH
 
         valid_cats = %w(weapons weapon armor magicitem)
 
-        # Check for correct format. 
+        # Check for correct format.
 
         format_check = []
 
@@ -38,9 +38,9 @@ module AresMUSH
         end
 
         # Assemble list of object ID's to be uninvested.
-        
-        if !format_check.empty? 
-          client.emit_failure t('pf2egear.bad_format')
+
+        if !format_check.empty?
+          client.emit_failure t('pf2egear.bad_format', :cmd => "uninvest")
           return
         end
 
@@ -73,7 +73,7 @@ module AresMUSH
         client.emit_success t('pf2egear.items_uninvested_ok', :count => uninvest_list.size)
 
       end
-    
+
     end
   end
 end

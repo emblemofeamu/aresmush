@@ -3,7 +3,7 @@ module AresMUSH
 
     def self.can_advance(char)
       # Are they already advancing?
-      return ('pf2e.already_advancing') if char.advancing
+      return t('pf2e.already_advancing') if char.advancing
 
       # Do they have enough XP?
       xp = char.pf2_xp
@@ -29,7 +29,7 @@ module AresMUSH
       return_msg = []
 
       advancement = {}
-      to_assign = char.pf2_to_assign || {}
+      to_assign = {}
 
       info.each_pair do |key, value|
         case key
@@ -38,22 +38,21 @@ module AresMUSH
           value.each do |feat|
             key = feat + ' feat'
 
-            list = to_assign[key] || []
+            to_assign[key] = "open"
 
-            list << "open"
-
-            to_assign[key] = list
-
-            return_msg << t('pf2e.adv_item_feat', :value => value)
+            return_msg << t('pf2e.adv_item_feat', :value => feat)
           end
         when "magic_stats"
           assess_magic = PF2Magic.assess_magic_stats(char, value)
 
           advancement[key] = assess_magic['magic_stats']
-          magic_options = assess_magic['options']
+          magic_options = assess_magic['magic_options']
 
           if magic_options
-            to_assign.merge(magic_options)
+            # Merge is acting funky, so we brute force.
+            magic_options.each_pair do |k,v|
+              to_assign[k] = v
+            end
             return_msg << t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(", "))
           end
         when "raise"
@@ -61,9 +60,7 @@ module AresMUSH
           # In this case, we put into to_assign what is to be raised as a key with an empty value.
 
           value.each do |item|
-            key = "raise " + item
-
-            to_assign[key]
+            to_assign["raise #{item}"] = "open"
             return_msg << t('pf2e.adv_item_raise', :item => item)
           end
         when "choose"
@@ -80,6 +77,7 @@ module AresMUSH
 
       char.update(pf2_to_assign: to_assign)
       char.update(pf2_advancement: advancement)
+      char.update(advancing: true)
 
       return_msg
     end
@@ -142,22 +140,21 @@ module AresMUSH
           # Value is the ability to be raised as a String.
         when "raise skill"
         when "charclass feat", "ancestry feat", "general feat", "skill feat"
-          type = key - " feat"
+          type = key.delete_suffix " feat"
 
           char_feats = char.pf2_feats
 
-          value.each do |feat|
+          # I have to do this here to account for the classification of a dedication feat.
+          type = "dedication" if value.include? "Dedication"
 
-            # I have to do this here to account for the classification of a dedication feat.
-            type = "dedication" if feat.include? "Dedication"
+          char_feats_type = char_feats[type]
 
-            char_feats_type = char_feats[type]
+          char_feats_type << value
+          char_feats_type.sort
 
-            char_feats_type << feat
-            char_feats_type.sort
+          char_feats[type] = char_feats_type
 
-            char_feats[type] = char_feats_type
-          end
+          # Remember to do grants.
 
           char.pf2_feats = char_feats
         when "Path to Perfection"
@@ -174,6 +171,7 @@ module AresMUSH
 
       char.pf2_adv_assigned = advancement
       char.pf2_to_assign = {}
+      char.pf2_advancement = {}
 
       char.save
     end
@@ -181,24 +179,19 @@ module AresMUSH
     def self.advancement_messages(char)
       msg = []
 
-      # This is a canary that advancement didn't populate properly when they ran the advance command.
-      # This error is never normal.
-      advancement = char.pf2_advancement
-      msg << t('pf2e.adv_wrong') if advancement.empty?
-
       to_assign = char.pf2_to_assign
 
       to_assign.each_pair do |item, info|
         case item
         when "charclass feat", "ancestry feat", "skill feat", "general feat"
-          type = item - " feat"
+          type = item.delete_suffix " feat"
 
-          if info.include? "open"
-            msg << t('pf2e.adv_item_feat', :value => type)
+          if info == "open"
+            msg << t('pf2e.adv_item_feat', :value => type.gsub("charclass", "class"))
           end
 
         when "raise skill", "raise ability"
-          type = item - "raise "
+          type = item.delete_prefix "raise "
 
           # Info is blank if the item has not yet been selected.
           unless info
@@ -208,8 +201,8 @@ module AresMUSH
           msg << t('pf2e.adv_item_magic', :options => item) if info.include? "open"
         when "signature"
           msg << t('pf2e.adv_item_magic', :options => item) unless info.values.first.zero?
-        when "grants"
-
+        else
+          msg << t('pf2e.adv_item_other', :item => item)
         end
 
       end
