@@ -24,6 +24,7 @@ en:
     item_rename_ok: "You rename %{name} to %{nickname}."
     item_sold_ok: "You sell %{quantity} of %{item} for %{cost}."
     item_unequip_ok: "You unequip %{name}."
+    item_use_ok: "%{name} uses a %{item}."
     item_view_title: "Detailed Item View for %{name}"
     items_invested_ok: "Successful. %{count} items successfully invested."
     items_uninvested_ok: "Successful. %{count} items successfully uninvested."
@@ -49,5 +50,7 @@ en:
     shields_dont_have_magic: "%xh%xmShields do not have magical properties.%xn"
 
     too_many_invested: "You can only invest %{max} items at a time."
+
+    use_option: "Use selected: %{use}"
 
     you_got_money: "%{from} paid you %{value} %{cointype}."

@@ -56,12 +56,34 @@ module AresMUSH
           return
         end
 
+        # Consumables get their own, much simpler, handling, and do not require a use entry.
+        if self.category.match? "consumable"
+
+          message = t('pf2egear.item_use_ok', :name => enactor.name, :item => item.name)
+
+          enactor_room.emit message
+
+          scene = enactor_room.scene
+          if scene
+            Scenes.add_to_scene(scene, message)
+          end
+
+          new_quantity = item.quantity - 1
+
+          if new_quantity.zero?
+            Pf2egear.destroy_item(item)
+          else
+            item.update(quantity: new_quantity)
+          end
+
+          return
+        end
+
         # Is this a usable item?
 
         use = item.use
-        # Consumables are always usable. Check other categories.
 
-        if use.empty? && !(self.category.match? 'consumable')
+        if use.empty?
           client.emit_failure t('pf2egear.not_usable')
           return
         end
@@ -80,28 +102,6 @@ module AresMUSH
             client.emit_failure t('pf2egear.cannot_use_now', :action => 'invested')
             return
           end
-        else
-          # Consumables get their own, much simpler, handling.
-
-          template = PF2UseItemTemplate.new(enactor, item, {})
-          message = template.render
-
-          enactor_room.emit message
-
-          scene = enactor_room.scene
-          if scene
-            Scenes.add_to_scene(scene, message)
-          end
-
-          new_quantity = item.quantity - 1
-
-          if new_quantity.zero?
-            Pf2egear.destroy_item(item)
-          else
-            item.update(quantity: new_quantity)
-          end
-
-          return
         end
 
         # Some items have more than one use. Expect a valid self.use_option if this is the case.
@@ -122,8 +122,10 @@ module AresMUSH
 
         details = use[selected_use]
 
-        template = PF2UseItemTemplate.new(enactor, item, details)
-        message = template.render
+        base_msg = t('pf2egear.item_use_ok', :name => char.name, :item => item.name)
+        use_option_msg = t('pf2egear.use_option', :use => selected_use)
+
+        message = base_msg + "%b" + use_option_msg
 
         enactor_room.emit message
 
