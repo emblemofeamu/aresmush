@@ -242,6 +242,7 @@ module AresMUSH
       char.advancing = false
 
       char.save
+      return nil
     end
 
     def self.advancement_messages(char)
