@@ -15,6 +15,7 @@ en:
     adv_item_feat: "You have a %{value} feat to select."
     adv_item_magic: "You need to make magic choices for: %{options}"
     adv_item_grants: "Feat %{feat} grants something else that you need to choose."
+    adv_item_other: "You have missed something that needs to be selected. Check 'advance/review'."
     adv_raise_selected: "You select %{name} to raise."
     adv_feat_selected: "You select %{feat} as a %{type}."
     adv_option_selected: "You select %{option} for %{feature}."

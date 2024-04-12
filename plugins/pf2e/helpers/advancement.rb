@@ -260,8 +260,6 @@ module AresMUSH
           info.keys.each do |feat|
             msg << t('pf2e.adv_item_grants', :options => feat)
           end
-        else
-          msg << t('pf2e.adv_item_other', :item => item)
         end
 
       end
