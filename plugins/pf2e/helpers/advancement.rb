@@ -192,27 +192,35 @@ module AresMUSH
 
           csb = magic.spellbook
 
+          class_csb = csb[charclass]
+
           value.each do |spell|
             sp = Pf2emagic.get_spell_details(spell)
             spdeets = sp[1]
 
             level = spdeets['base_level'].to_s
 
-            splist = csb[level] || []
+            splist = class_csb[level] || []
             splist << spell
-            csb[level] = splist
+            class_csb[level] = splist
           end
+
+          csb[charclass] = class_csb
 
           magic.update(spellbook: csb)
         when "repertoire"
           magic = char.magic
           repertoire = magic.repertoire
 
-          value.each_pair do |level, spells|
-            splist = (repertoire[level] + spells).sort
+          class_rep = repertoire[charclass]
 
-            repertoire[level] = splist
+          value.each_pair do |level, spells|
+            splist = (class_rep + spells).sort
+
+            class_rep[level] = splist
           end
+
+          repertoire[charclass] = class_rep
 
           magic.update(repertoire: repertoire)
         when "signature"
