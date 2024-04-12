@@ -35,7 +35,7 @@ module AresMUSH
 
         # Validate the value given.
         if self.type = 'ability'
-          abilities = char.abilities
+          abilities = enactor.abilities
           object = abilities.select { |a| a.name_upcase == self.value }.first
 
           unless object
