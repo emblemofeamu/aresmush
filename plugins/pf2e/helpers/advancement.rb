@@ -113,7 +113,7 @@ module AresMUSH
 
           char.pf2_features = features.uniq.sort
         when "combat_stats"
-          PF2eCombat.update_combat_stats(char, value)
+          Pf2eCombat.update_combat_stats(char, value)
         when "magic_stats"
           # Ignore any return, this key only includes items that do not populate to_assign.
           PF2Magic.update_magic(char, charclass, value, client)
