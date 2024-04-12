@@ -12,7 +12,12 @@ module AresMUSH
       end
 
       def handle
-        Pf2e.do_advancement(enactor, client)
+        msg = Pf2e.do_advancement(enactor, client)
+
+        if msg
+          client.emit_failure msg
+          return
+        end
 
         client.emit_success t('pf2e.advance_done')
 

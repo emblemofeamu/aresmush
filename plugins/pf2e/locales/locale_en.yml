@@ -9,6 +9,7 @@ en:
     advance_init: "%{round} Current initiative: %xh%xc%{init}%xn %rCurrent turn: %x172%{current}%xn Next turn: %xc%{next}%xn"
     advance_no_messages: "%xgEverything is selected. Look over your choices and type 'advance/done' to finalize.%xn"
     advance_started: "You start advancement to level %{level} as a %{charclass}."
+    advance_done: "You complete advancement! *confetti*"
     adv_item_raise: "You have an %{item} to raise."
     adv_item_choose: "You need to make a class choice for %{name}. Options: %{options}"
     adv_item_feat: "You have a %{value} feat to select."
