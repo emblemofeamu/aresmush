@@ -20,7 +20,7 @@ module AresMUSH
 
       def handle
 
-        char = Pf2e.get_character(self.target, enactor)
+        char = Pf2e.get_character(self.character, enactor)
 
         msg = Pf2emagic.do_refocus(char, enactor)
 
