@@ -123,6 +123,7 @@ module AresMUSH
         cl = char.pf2_level
         cl = 2 if Global.read_config('pf2e','basic_mc_feats').include? feat
         cl = cl/2 if Global.read_config('pf2e','adv_mc_feats').include? feat
+        cl = cl + 1 if char.advancing
 
         meets_prereqs = Pf2e.meets_prereqs?(char, prereqs, cl)
       else
