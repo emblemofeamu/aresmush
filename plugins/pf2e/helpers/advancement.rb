@@ -37,7 +37,7 @@ module AresMUSH
           # Value is an array of types to choose.
           hash = to_assign['feats'] || {}
           value.each do |feat|
-            feat_list[feat] = [ "open" ]
+            hash[feat] = [ "open" ]
 
             return_msg << t('pf2e.adv_item_feat', :value => feat)
           end
