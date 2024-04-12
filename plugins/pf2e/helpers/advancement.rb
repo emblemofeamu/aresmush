@@ -193,10 +193,15 @@ module AresMUSH
           csb = magic.spellbook
 
           value.each do |spell|
-            spdeets = Pf2emagic.get_spell_details(spell)[1]
+            sp = Pf2emagic.get_spell_details(spell)
+            spdeets = sp[1]
+
+            client.emit spdeets
 
             level = spdeets['base_level']
-            splist = csb[level]
+
+            client.emit level
+            splist = csb[level] || []
             splist << spell
             csb[level] = splist
           end
