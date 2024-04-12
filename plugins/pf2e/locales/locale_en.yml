@@ -16,6 +16,7 @@ en:
     adv_item_grants: "Feat %{feat} grants something else that you need to choose."
     adv_raise_selected: "You select %{name} to raise."
     adv_feat_selected: "You select %{feat} as a %{type}."
+    adv_option_selected: "You select %{option} for %{feature}."
     adv_wrong: "Something is wrong with your advancement setup. Open a request to code staff for assistance."
     adv_not_an_option: "You don't have that item to upgrade this level."
     adv_reset_ok: "You back out of advancement."
@@ -134,6 +135,7 @@ en:
     lock_abil_first: "This command cannot be used until you have set and committed your ability scores."
     lock_skills_first: "This command cannot be used until you have set and committed your skills."
 
+    missing_charclass_option_code: "Friend Spider has a quest for you. Your mission, should you choose to accept it, is to go smack your local coder and tell them to program the handling for class option %{feature} into do_advancement."
     missing_base_info: "%xrYour base info is not yet complete.%xn"
     missing_subclass: "%xrYour class requires a specialization, please choose one.%xn"
     missing_subclass_info: "%xrYour specialty requires an additional choice that you have not yet set.%xn"

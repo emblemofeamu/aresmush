@@ -35,13 +35,13 @@ module AresMUSH
         case key
         when "choose_feat"
           # Value is an array of types to choose.
+          hash = to_assign['feats'] || {}
           value.each do |feat|
-            key = feat + ' feat'
-
-            to_assign[key] = "open"
+            feat_list[feat] = [ "open" ]
 
             return_msg << t('pf2e.adv_item_feat', :value => feat)
           end
+          to_assign['feats'] = hash
         when "magic_stats"
           assess_magic = PF2Magic.assess_magic_stats(char, value)
 
@@ -65,11 +65,12 @@ module AresMUSH
           end
         when "choose"
           name = value['choice_name']
-          options = value['options']
-          to_choose = to_assign['choose'] || {}
-          to_choose[name] = options
+          to_choose = to_assign['class option'] || {}
+          to_choose[name] = value['options']
 
           return_msg << t('pf2e_adv_item_choose', :name => name, :options =>  options.sort.join(", "))
+
+          to_assign['class option'] = to_choose
         else
           advancement[key] = value
         end
@@ -137,30 +138,86 @@ module AresMUSH
           all_actions['reactions'] = reactions.uniq.sort
           char.pf2_actions = all_actions
         when "raise ability"
-          # Value is the ability to be raised as a String.
+          Pf2eAbilities.update_base_score(char,value)
         when "raise skill"
-        when "charclass feat", "ancestry feat", "general feat", "skill feat"
-          type = key.delete_suffix " feat"
+          progression = %w(untrained trained expert master legendary)
 
+          skill = Pf2eSkills.find_skill(value, enactor)
+          current_prof = skill.prof_level
+          index = progression.index(current_prof)
+
+          new_prof = progression[index + 1]
+
+          skill.update(prof_level: new_prof)
+        when "feats"
           char_feats = char.pf2_feats
+          value.each_pair do |type, feat_list|
 
-          # I have to do this here to account for the classification of a dedication feat.
-          type = "dedication" if value.include? "Dedication"
+            # Account for the classification of a dedication feat.
+            list = char_feats[type]
+            dedication_list = char_feats['dedication']
 
-          char_feats_type = char_feats[type]
-
-          char_feats_type << value
-          char_feats_type.sort
-
-          char_feats[type] = char_feats_type
-
-          # Remember to do grants.
+            feat_list.each do |feat|
+              if feat.match? 'Dedication'
+                dedication_list << feat
+              else
+                list << feat
+              end
+            end
+          end
 
           char.pf2_feats = char_feats
-        when "Path to Perfection"
+        when "charclass option"
+          value.each_pair do |feature, option|
+            case feature
+            when "Path to Perfection"
+              combat = char.combat
+              saves = combat.saves
+              path = saves['Path to Perfection'] || []
+              value = (path.size == 2) ? 'master' : 'legendary'
+
+              path << option
+
+              saves[option] = value
+              saves['Path to Perfection'] = path
+
+              combat.update(saves: saves)
+            else
+              client.emit_ooc t('pf2e.missing_charclass_option_code', :feature => feature)
+              next
+            end
+          end
         when "spellbook"
+          magic = char.magic
+
+          csb = magic.spellbook
+
+          value.each do |spell|
+            spdeets = Pf2emagic.get_spell_details(spell)[1]
+
+            level = spdeets['base_level']
+            splist = csb[level]
+            splist << spell
+            csb[level] = splist
+          end
+
+          magic.update(spellbook: csb)
         when "repertoire"
+          magic = char.magic
+          repertoire = magic.repertoire
+
+          value.each_pair do |level, spells|
+            splist = (repertoire[level] + spells).sort
+
+            repertoire[level] = splist
+          end
+
+          magic.update(repertoire: repertoire)
         when "signature"
+        when "grants"
+          value.each_pair do |feat, info|
+            do_feat_grants(char, info, charclass, client)
+          end
         else
           client.emit_ooc "Unknown key #{key} in do_advancement. Please put in a request to code staff."
         end
@@ -172,6 +229,7 @@ module AresMUSH
       char.pf2_adv_assigned = advancement
       char.pf2_to_assign = {}
       char.pf2_advancement = {}
+      char.advancing = false
 
       char.save
     end
@@ -183,13 +241,10 @@ module AresMUSH
 
       to_assign.each_pair do |item, info|
         case item
-        when "charclass feat", "ancestry feat", "skill feat", "general feat"
-          type = item.delete_suffix " feat"
-
-          if info == "open"
-            msg << t('pf2e.adv_item_feat', :value => type.gsub("charclass", "class"))
+        when "feats"
+          info.each_pair do |k,v|
+            msg << t('pf2e.adv_item_feat', :value => k.gsub("charclass", "class")) if v.include? "open"
           end
-
         when "raise skill", "raise ability"
           type = item.delete_prefix "raise "
 
@@ -201,6 +256,10 @@ module AresMUSH
           msg << t('pf2e.adv_item_magic', :options => item) if info.include? "open"
         when "signature"
           msg << t('pf2e.adv_item_magic', :options => item) unless info.values.first.zero?
+        when "grants"
+          info.keys.each do |feat|
+            msg << t('pf2e.adv_item_grants', :options => feat)
+          end
         else
           msg << t('pf2e.adv_item_other', :item => item)
         end
@@ -209,6 +268,30 @@ module AresMUSH
 
       return nil if msg.empty?
       return msg
+    end
+
+    def self.valid_class_option?(char, feature, option)
+      passes_check = false
+
+      case feature
+      when "Path to Perfection"
+        valid_values = %w(fortitude reflex will)
+
+        return false unless valid_values.include? option
+
+        saves = char.combat.saves
+        path = saves['Path to Perfection'] || []
+
+        return true if path.empty?
+
+        if path.size == 1
+          passes_check = true unless path.include? option
+        else
+          passes_check = true if path.include? option
+        end
+      end
+
+      passes_check
     end
 
   end
