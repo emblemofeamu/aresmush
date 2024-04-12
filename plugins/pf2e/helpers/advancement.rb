@@ -142,7 +142,7 @@ module AresMUSH
         when "raise skill"
           progression = %w(untrained trained expert master legendary)
 
-          skill = Pf2eSkills.find_skill(value, enactor)
+          skill = Pf2eSkills.find_skill(value, char)
           current_prof = skill.prof_level
           index = progression.index(current_prof)
 
