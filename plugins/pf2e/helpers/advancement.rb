@@ -138,7 +138,9 @@ module AresMUSH
           all_actions['reactions'] = reactions.uniq.sort
           char.pf2_actions = all_actions
         when "raise ability"
-          Pf2eAbilities.update_base_score(char, value)
+          value.each do |ability|
+            Pf2eAbilities.update_base_score(char, ability)
+          end
         when "raise skill"
           new_prof = Pf2eSkills.get_next_prof(char, value)
 
