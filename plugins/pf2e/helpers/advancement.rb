@@ -88,16 +88,6 @@ module AresMUSH
       messages = advancement_messages(char)
       return messages.join("%r") if messages
 
-      # Deduct the XP.
-      xp = char.pf2_xp
-      xp = xp - 1000
-      char.pf2_xp = xp
-
-      # Update level.
-      level = char.pf2_level
-      level = level + 1
-      char.pf2_level = level
-
       # In advancement, to_process holds everything to be added to the sheet.
       # As with commit info, char.update is not used here generally because it would mean many separate writes, quickly.
       # Kinder to the database to make a whole bunch of changes and write the lot in one go at the end.
@@ -232,6 +222,17 @@ module AresMUSH
       advancement = char.pf2_adv_assigned || {}
       advancement[level] = to_process
 
+      # Deduct the XP.
+      xp = char.pf2_xp
+      xp = xp - 1000
+      char.pf2_xp = xp
+
+      # Update level.
+      level = char.pf2_level
+      level = level + 1
+      char.pf2_level = level
+
+      # Record everything and kick out of advancement mode.
       char.pf2_adv_assigned = advancement
       char.pf2_to_assign = {}
       char.pf2_advancement = {}
