@@ -55,50 +55,65 @@ pf2e_subclass:
   wizard_school_spells:
     Abjuration:
       magic_stats:
+        focus_pool: 1
         focus_spell: 
-        - Protective Ward
+          school:
+          - Protective Ward
         gated_spell: school
     Conjuration: 
       magic_stats:
+        focus_pool: 1
         focus_spell: 
-        - Augment Summoning
+          school:
+          - Augment Summoning
         gated_spell: school
     Divination:
       magic_stats:
+        focus_pool: 1
         focus_spell:
-        - Diviner's Sight
+            school:
+          - Diviner's Sight
         gated_spell: school
     Enchantment:
       magic_stats:
+        focus_pool: 1
         focus_spell:
-
-        - Charming Words
+          school:
+          - Charming Words
         gated_spell: school
     Evocation:
       magic_stats:
+        focus_pool: 1
         focus_spell: 
-        - Force Bolt
+          school:
+          - Force Bolt
         gated_spell: school
     Illusion:
       magic_stats:
+        focus_pool: 1
         focus_spell:
-        - Warped Terrain
+          school:
+          - Warped Terrain
         gated_spell: school
     Necromancy:
       magic_stats:
+        focus_pool: 1
         focus_spell:
-        - Call Of The Grave
+          school:
+          - Call Of The Grave
         gated_spell: school
     Transmutation:
       magic_stats:
+        focus_pool: 1
         focus_spell:
-        - Physical Boost
+          school:
+          - Physical Boost
         gated_spell: school
     Universalist:
       magic_stats:
       # This key overwrites the base wizard class key for this, this is intentional
         spellbook:
           cantrip: 10
-          1: 6
+          1:6
         gated_feat: universalist
 
