@@ -55,51 +55,44 @@ pf2e_subclass:
   wizard_school_spells:
     Abjuration:
       magic_stats:
-        addspellbook: 
-          1: 
-          - Protective Ward
+        focus_spell: 
+        - Protective Ward
         gated_spell: school
     Conjuration: 
       magic_stats:
-        addspellbook: 
-          1: 
-          - Augment Summoning
+        focus_spell: 
+        - Augment Summoning
         gated_spell: school
     Divination:
       magic_stats:
-        addspellbook:
-          1: 
-          - Diviner's Sight
+        focus_spell:
+        - Diviner's Sight
         gated_spell: school
     Enchantment:
       magic_stats:
-        addspellbook:
-          1: 
-          - Charming Words
+        focus_spell:
+
+        - Charming Words
         gated_spell: school
     Evocation:
       magic_stats:
-        addspellbook: 
-          1: 
-          - Force Bolt
+        focus_spell: 
+        - Force Bolt
         gated_spell: school
     Illusion:
       magic_stats:
-        addspellbook:
-          1:
-          - Warped Terrain
+        focus_spell:
+        - Warped Terrain
         gated_spell: school
     Necromancy:
       magic_stats:
-        addspellbook:
-          1:
-          - Call Of The Grave
+        focus_spell:
+        - Call Of The Grave
         gated_spell: school
     Transmutation:
       magic_stats:
-        addspellbook:
-          1:
-          - Physical Boost
+        focus_spell:
+        - Physical Boost
         gated_spell: school
     Universalist:
       magic_stats:
