@@ -59,6 +59,16 @@ module AresMUSH
           end
 
           item = skill_list[index]
+
+          # Minimum level check for higher proficiencies.
+          min_level = Pf2eSkills.min_level_for_prof(Pf2eSkills.get_next_prof(enactor, item))
+
+          char_level = enactor.pf2_level + 1
+
+          if char_level < min_level
+            client.emit_failure t('pf2e.not_minimum_level', :level => min_level)
+            return
+          end
         else
           client.emit_failure t('pf2e.adv_not_an_option')
           return
