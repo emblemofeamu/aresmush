@@ -152,6 +152,10 @@ module AresMUSH
           return PF2AdvanceFeatCmd
         when "spell"
           return PF2AdvanceSpellCmd
+        when "option"
+          return PF2AdvanceOptionCmd
+        when "done"
+          return PF2AdvanceFinishCmd
         end
       when "listxp"
         return PF2ListXPCmd

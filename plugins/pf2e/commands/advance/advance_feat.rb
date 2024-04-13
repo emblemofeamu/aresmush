@@ -25,18 +25,26 @@ module AresMUSH
       def handle
         # Do they have one of that feat type to select?
         to_assign = enactor.pf2_to_assign
+        feats_to_assign = to_assign['feats']
 
-        key = self.type + " feat"
+        key = self.type
 
-        # Available type is either "open" or something they already chose.
-        feat_slot = to_assign[key]
+        # Do they get one of that feat type this level?
+        feat_slot = feats_to_assign[key]
 
         unless feat_slot
           client.emit_failure t('pf2e.adv_not_an_option')
           return
         end
 
-        # I do not check to see if they have an open one, and that is intentional here, because they should be able to replace it freely.
+        # Do they have an open slot?
+
+        open_slot = feat_slot.index("open")
+
+        unless open_slot
+          client.emit_failure t('pf2e.no_free', :element => key + " feat")
+          return
+        end
 
         # Qualification checks for all kinds of stuff, including whether the feat in question exists.
 
@@ -54,31 +62,40 @@ module AresMUSH
         fname = feat[0]
         fdetails = feat[1]
 
-        grants = to_assign[fname]  || {}
-        adv_grants = advancement[fname] || {}
+        # Do the thing.
+
+        # Assignment hash.
+        feat_slot.delete_at open_slot
+        feat_slot << fname
+        feats_to_assign[key] = feat_slot
+        to_assign['feats'] = feats_to_assign
+
+        # Advancement hash.
+        feats_to_do = advancement['feats'] || {}
+        type_feats_to_do = feats_to_do[key] || []
+        type_feats_to_do << fname
+
+        feats_to_do[key] = type_feats_to_do
+        advancement['feats'] = feats_to_do
 
         # Check the new feat for any grants.
         has_grants = fdetails['grants']
 
         if has_grants
           client.emit_ooc t('pf2e.feat_grants_addl', :element => 'item. Check advance/review for details')
+          grants = to_assign['grants']  || {}
+          adv_grants = advancement['grants'] || {}
+
           assess = Pf2e.assess_feat_grants(has_grants)
-          adv_grants = assess['advance'] unless assess['advance'].empty?
-          grants = assess['assign'] unless assess['assign'].empty?
+          feat_adv_grants = assess['advance'] unless assess['advance'].empty?
+          feat_grants = assess['assign'] unless assess['assign'].empty?
+
+          grants[fname] = feat_grants if feat_grants
+          adv_grants[fname] = feat_adv_grants if feat_adv_grants
+
+          to_assign['grants'] = grants unless adv_grants.empty?
+          advancement['grants'] = adv_grants unless adv_grants.empty?
         end
-
-        # Remove any old stuff and update the hashes.
-
-        unless grants.empty?
-          to_assign.delete feat_slot if to_assign.has_key? feat_slot
-        end
-
-        unless adv_grants.empty?
-          advancement.delete feat_slot if advancement.has_key? feat_slot
-        end
-
-        to_assign[key] = fname
-        advancement[key] = fname
 
         enactor.pf2_advancement = advancement
         enactor.pf2_to_assign = to_assign

@@ -50,7 +50,8 @@ module AresMUSH
       # This is included because it validates the existence of a magic object.
       return t('pf2emagic.not_caster') unless is_caster?(target)
 
-      magic, focus_pool = target.magic, magic.focus_pool
+      magic = target.magic
+      focus_pool = magic.focus_pool
 
       current, max = focus_pool["current"], focus_pool["max"]
 

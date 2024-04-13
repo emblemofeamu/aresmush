@@ -51,7 +51,7 @@ module AresMUSH
       return combat
     end
 
-    def self.modify_combat_stats(char, info)
+    def self.update_combat_stats(char, info)
       # Used when something taken later modifies initial combat stats.
       combat = get_create_combat_obj(char)
 

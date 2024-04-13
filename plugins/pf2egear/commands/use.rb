@@ -58,7 +58,6 @@ module AresMUSH
 
         # Consumables get their own, much simpler, handling, and do not require a use entry.
         if self.category.match? "consumable"
-
           message = t('pf2egear.item_use_ok', :name => enactor.name, :item => item.name)
 
           enactor_room.emit message
@@ -71,7 +70,7 @@ module AresMUSH
           new_quantity = item.quantity - 1
 
           if new_quantity.zero?
-            Pf2egear.destroy_item(item)
+            Pf2egear.destroy_item(item, client, enactor)
           else
             item.update(quantity: new_quantity)
           end

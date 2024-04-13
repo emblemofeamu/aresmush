@@ -34,8 +34,8 @@ module AresMUSH
         end
 
         # Validate the value given.
-        if self.type = 'ability'
-          abilities = char.abilities
+        if self.type == 'ability'
+          abilities = enactor.abilities
           object = abilities.select { |a| a.name_upcase == self.value }.first
 
           unless object
@@ -47,7 +47,7 @@ module AresMUSH
           end
 
           item = object.name
-        elsif self.type = 'skill'
+        elsif self.type == 'skill'
           skill_list = Global.read_config('pf2e_skills').keys
           skill_list_up = skill_list.map { |s| s.upcase }
 
