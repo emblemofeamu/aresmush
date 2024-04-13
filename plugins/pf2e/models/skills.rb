@@ -93,6 +93,27 @@ module AresMUSH
       return nil
     end
 
+    def self.get_next_prof(char, value)
+      progression = Global.read_config('pf2e', 'prof_progression')
+
+      skill = Pf2eSkills.find_skill(value, char)
+      current_prof = skill.prof_level
+      index = progression.index(current_prof)
+
+      progression[index + 1]
+    end
+
+    def self.min_level_for_prof(prof)
+      progression = Global.read_config('pf2e', 'prof_progression')
+      min_levels = Global.read_config('pf2e', 'min_level_for_prof')
+
+      # Helper will return nil if invalid prof is given.
+      index = progression.index prof
+      return index unless index
+
+      min_levels[index]
+    end
+
     def self.factory_default(char)
       char.skills.each do |skill|
         skill.update(prof_level: 'untrained')

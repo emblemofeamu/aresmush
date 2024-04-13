@@ -114,6 +114,18 @@ pf2e:
   - Advanced Blood Potency
   - Advanced Witchcraft
   - Advanced Arcana
+  prof_progression:
+  - untrained
+  - trained
+  - expert
+  - master
+  - legendary
+  min_level_for_prof: 
+  - 1
+  - 1
+  - 1
+  - 7
+  - 15
   valid_feat_types:
   - ancestry
   - charclass

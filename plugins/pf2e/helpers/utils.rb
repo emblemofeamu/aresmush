@@ -312,6 +312,9 @@ module AresMUSH
       char.pf2_known_for = []
       char.pf2_alloc_reagents = 0
 
+      char.groups = {}
+      char.demographics = {}
+
       # Reset money and gear if that plugin is installed. Respec preserves money.
       Pf2egear.reset_gear(char, true) if AresMUSH.const_defined?("Pf2egear")
 
@@ -369,6 +372,9 @@ module AresMUSH
       char.pf2_is_dead = nil
       char.pf2_known_for = []
       char.pf2_alloc_reagents = 0
+
+      char.groups = {}
+      char.demographics = {}
 
       # Reset money and gear if that plugin is installed.
       Pf2egear.reset_gear(char) if AresMUSH.const_defined?("Pf2egear")

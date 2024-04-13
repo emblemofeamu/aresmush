@@ -88,16 +88,6 @@ module AresMUSH
       messages = advancement_messages(char)
       return messages.join("%r") if messages
 
-      # Deduct the XP.
-      xp = char.pf2_xp
-      xp = xp - 1000
-      char.pf2_xp = xp
-
-      # Update level.
-      level = char.pf2_level
-      level = level + 1
-      char.pf2_level = level
-
       # In advancement, to_process holds everything to be added to the sheet.
       # As with commit info, char.update is not used here generally because it would mean many separate writes, quickly.
       # Kinder to the database to make a whole bunch of changes and write the lot in one go at the end.
@@ -138,15 +128,11 @@ module AresMUSH
           all_actions['reactions'] = reactions.uniq.sort
           char.pf2_actions = all_actions
         when "raise ability"
-          Pf2eAbilities.update_base_score(char,value)
+          value.each do |ability|
+            Pf2eAbilities.update_base_score(char, ability)
+          end
         when "raise skill"
-          progression = %w(untrained trained expert master legendary)
-
-          skill = Pf2eSkills.find_skill(value, char)
-          current_prof = skill.prof_level
-          index = progression.index(current_prof)
-
-          new_prof = progression[index + 1]
+          new_prof = Pf2eSkills.get_next_prof(char, value)
 
           skill.update(prof_level: new_prof)
         when "feats"
@@ -236,6 +222,17 @@ module AresMUSH
       advancement = char.pf2_adv_assigned || {}
       advancement[level] = to_process
 
+      # Deduct the XP.
+      xp = char.pf2_xp
+      xp = xp - 1000
+      char.pf2_xp = xp
+
+      # Update level.
+      level = char.pf2_level
+      level = level + 1
+      char.pf2_level = level
+
+      # Record everything and kick out of advancement mode.
       char.pf2_adv_assigned = advancement
       char.pf2_to_assign = {}
       char.pf2_advancement = {}
@@ -260,7 +257,7 @@ module AresMUSH
           type = item.delete_prefix "raise "
 
           # Info is blank if the item has not yet been selected.
-          if info.blank?
+          if info == "open"
             msg << t('pf2e.adv_item_raise', :item => type)
           end
         when "spellbook", "repertoire"
