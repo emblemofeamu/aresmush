@@ -260,7 +260,7 @@ module AresMUSH
           type = item.delete_prefix "raise "
 
           # Info is blank if the item has not yet been selected.
-          if info.blank?
+          if info == "open"
             msg << t('pf2e.adv_item_raise', :item => type)
           end
         when "spellbook", "repertoire"
