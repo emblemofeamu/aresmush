@@ -88,7 +88,7 @@ module AresMUSH
           return PF2FeatOptionsCmd
         when "search"
           return PF2FeatSearchCmd
-        else
+        when nil
           return PF2FeatDisplayOneCmd
         end
       when "knownfor"

@@ -15,7 +15,7 @@ Many feats grant other things. They may grant attacks, daily healing changes, an
 `cg/review`: Lists the base feats you have available to you.
 `feat <name>`: Lists details of a feat.
 `feat/info`: Shows the details of all feats that you have so far. Be aware that this command paginates, there may be more than one page!
-`feat/set <type>=<feat>`: Sets an open feat.
+`cg/feat <type>=<feat>`: Sets an open feat.
 `sheet`: Shows your sheet so far.
 
 It is not possible to unset a feat at this time.
