@@ -29,7 +29,7 @@ module AresMUSH
 
         Pf2e.reset_character(char)
 
-        client.emit_success t('pf2e.admin_reset_ok')
+        client.emit_success t('pf2e.admin_reset_ok', :name => char.name)
 
       end
 

@@ -57,6 +57,9 @@ module AresMUSH
         fname = feat_check[0]
         fdeets = feat_check[1]
 
+        client.emit "Checkpoint 1 - Feat Name Validation"
+        client.emit feat_check
+
         # Is that feat of the type they asked for?
         feat_type_list = fdeets['feat_type'].map { |f| f.downcase }
 
@@ -83,6 +86,8 @@ module AresMUSH
         # Special feats or 'gated feats' are feats granted by other feats that have specific limits
         # on what you can take.
 
+        client.emit "Checkpoint 2 - Just Prior to Gates"
+
         if key == 'special feat'
           # If it's a special feat, you have to specify which special.
 
@@ -101,6 +106,8 @@ module AresMUSH
             return
           end
 
+          client.emit "Checkpoint 3a - I need a gate"
+
           # These feats have an additional qualify check based on the specific gate.
           qualify = Pf2e.can_take_gated_feat?(enactor, fname, self.gate)
         else
@@ -108,6 +115,8 @@ module AresMUSH
             client.emit_failure t('pf2e.no_free', :element => key)
             return
           end
+
+          client.emit "Checkpoint 3b - I don't need a gate"
 
           qualify = Pf2e.can_take_feat?(enactor, fname)
         end
@@ -118,6 +127,8 @@ module AresMUSH
           client.emit_failure t('pf2e.does_not_qualify')
           return nil
         end
+
+        client.emit "Checkpoint 4 - Prereqs Cleared"
 
         ##### VALIDATION SECTION END #####
 
