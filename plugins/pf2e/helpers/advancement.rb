@@ -180,6 +180,7 @@ module AresMUSH
 
           class_csb = csb[charclass]
 
+
           value.each do |spell|
             sp = Pf2emagic.get_spell_details(spell)
             spdeets = sp[1]
@@ -201,7 +202,7 @@ module AresMUSH
           class_rep = repertoire[charclass]
 
           value.each_pair do |level, spells|
-            splist = (class_rep + spells).sort
+            splist = (class_rep[level] + spells).sort
 
             class_rep[level] = splist
           end
