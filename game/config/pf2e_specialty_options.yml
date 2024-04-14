@@ -114,6 +114,6 @@ pf2e_subclass:
       # This key overwrites the base wizard class key for this, this is intentional
         spellbook:
           cantrip: 10
-          1:6
+          1: 6
         gated_feat: universalist
 
