@@ -71,7 +71,7 @@ pf2e_subclass:
       magic_stats:
         focus_pool: 1
         focus_spell:
-            school:
+          school:
           - Diviner's Sight
         gated_spell: school
     Enchantment:
