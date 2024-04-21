@@ -515,6 +515,18 @@ module AresMUSH
         feat_charclass = fdeets['assoc_charclass']&.include? char_base_class
 
         passes_gate = level && feat_type && feat_charclass
+      when "skillful lesson"
+        skills_hash = Global.read_config('pf2e_skills')
+        needed_key_abil = %w(Intelligence Wisdom Charisma)
+
+        good_skills = skills_hash.select { |name, detail| needed_key_abil.include? detail['key_abil'] }.keys
+
+        assoc_skill = fdeets['assoc_skill']
+
+        if assoc_skill
+          passes_gate = good_skills.include? assoc_skill
+        end
+
       when "charclass", "ancestry", "general", "skill"
         passes_gate = fdeets['feat_type']&.include? gate.capitalize
       else

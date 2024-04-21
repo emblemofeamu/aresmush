@@ -68,7 +68,13 @@ module AresMUSH
           to_assign['charclass option'] = feature_list
 
           advancement['charclass option'] = feature_list
+        when "skillful lesson"
+          # This is just a gated feat with the gate "Skillful Lesson". Make sure they have this.
 
+
+          # Is it open?
+
+          # Can they pick that feat for skillful lesson?
         when "grant"
           # Grants Piece
           #

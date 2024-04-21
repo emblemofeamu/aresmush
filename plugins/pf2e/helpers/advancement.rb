@@ -42,6 +42,11 @@ module AresMUSH
             return_msg << t('pf2e.adv_item_feat', :value => feat)
           end
           to_assign['feats'] = hash
+        when "gated_feat"
+          # Value in this case is the name of the gate.
+          # Stash into to_assign as is.
+
+          to_assign[value] = 'open'
         when "magic_stats"
           assess_magic = PF2Magic.assess_magic_stats(char, value)
 
@@ -180,6 +185,7 @@ module AresMUSH
 
           class_csb = csb[charclass]
 
+
           value.each do |spell|
             sp = Pf2emagic.get_spell_details(spell)
             spdeets = sp[1]
@@ -201,7 +207,7 @@ module AresMUSH
           class_rep = repertoire[charclass]
 
           value.each_pair do |level, spells|
-            splist = (class_rep + spells).sort
+            splist = (class_rep[level] + spells).sort
 
             class_rep[level] = splist
           end

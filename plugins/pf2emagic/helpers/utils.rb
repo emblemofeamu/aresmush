@@ -60,7 +60,7 @@ module AresMUSH
 
       # These checks are skipped if an admin is force-refocusing the target.
       if !enactor.is_admin?
-        return t('pf2emagic.cant_refresh_pool') unless current.zero?
+        return t('pf2emagic.cant_refocus_pool') unless current.zero?
 
         last_refocus, current_time = magic.last_refocus, Time.now
 
@@ -70,7 +70,7 @@ module AresMUSH
 
         elapsed = (current_time - last_refocus).to_i
 
-        return t('pf2emagic.cant_refresh_time') unless (elapsed > 3600)
+        return t('pf2emagic.cant_refocus_time') unless (elapsed > 3600)
       end
 
       current = max

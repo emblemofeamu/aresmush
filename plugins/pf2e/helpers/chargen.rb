@@ -314,6 +314,20 @@ module AresMUSH
         to_assign['special feat'] = gated_feats
       end
 
+      # Write to_assign back to the database, then handle feat grants and re-pull to_assign.
+
+      enactor.update(pf2_to_assign: to_assign)
+
+      feats.values.flatten.each do |feat|
+        info = Pf2e.get_feat_details(feat)
+        details = info[1]
+
+        if details['grants']
+          Pf2e.do_feat_grants(enactor, details['grants'], charclass, client)
+        end
+      end
+
+      to_assign = enactor.pf2_to_assign
 
       # Calculate and set base HP excluding CON mod
       # Final HP is calculated and set on chargen lock

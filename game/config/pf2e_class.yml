@@ -1523,7 +1523,7 @@ pf2e_class:
       3:
         choose_feat:
         - general
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
@@ -1541,7 +1541,7 @@ pf2e_class:
         - skill
         choose_feat:
         - ancestry
-        - skillful lesson
+        gated_feat: skillful lesson
         charclass:
         - Weapon Expertise
         combat_stats:
@@ -1558,7 +1558,7 @@ pf2e_class:
       7:
         choose_feat:
         - general
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
@@ -1575,7 +1575,7 @@ pf2e_class:
       9:
         choose_feat:
         - ancestry
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
@@ -1594,7 +1594,7 @@ pf2e_class:
       11:
         choose_feat:
         - general
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
@@ -1612,7 +1612,7 @@ pf2e_class:
       13:
         choose_feat:
         - ancestry
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
@@ -1631,7 +1631,7 @@ pf2e_class:
         - skill
         choose_feat:
         - general
-        - skillful lesson
+        gated_feat: skillful lesson
         charclass:
         - Evasion
         - Greater Weapon Specialization
@@ -1647,7 +1647,7 @@ pf2e_class:
       17:
         choose_feat:
         - ancestry
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
@@ -1664,7 +1664,7 @@ pf2e_class:
       19:
         choose_feat:
         - ancestry
-        - skillful lesson
+        gated_feat: skillful lesson
         raise:
         - skill
         charclass:
