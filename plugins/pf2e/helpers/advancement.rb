@@ -42,6 +42,11 @@ module AresMUSH
             return_msg << t('pf2e.adv_item_feat', :value => feat)
           end
           to_assign['feats'] = hash
+        when "gated_feat"
+          # Value in this case is the name of the gate.
+          # Stash into to_assign as is.
+
+          to_assign[value] = 'open'
         when "magic_stats"
           assess_magic = PF2Magic.assess_magic_stats(char, value)
 
