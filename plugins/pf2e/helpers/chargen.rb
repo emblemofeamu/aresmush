@@ -556,14 +556,14 @@ module AresMUSH
 
       char_actions = enactor.pf2_actions
 
-      h_actions = heritage_info['action']
-      h_reactions = heritage_info['reaction']
+      h_actions = heritage_info['action'].blank? ? [] : heritage_info['action']
+      h_reactions = heritage_info['reaction'].blank? ? [] : heritage_info['reaction']
 
-      b_actions = background_info['action']
-      b_reactions = background_info['reaction']
+      b_actions = background_info['action'].blank? ? [] : background_info['action']
+      b_reactions = background_info['reaction'].blank? ? [] : background_info['reaction']
 
-      c_actions = class_features_info['action']
-      c_reactions = class_features_info['reaction']
+      c_actions = class_features_info['action'].blank? ? [] : class_features_info['action']
+      c_reactions = class_features_info['reaction'].blank? ? [] : class_features_info['reaction']
 
       s_actions = subclass_features_info.blank? ? [] : subclass_features_info['action'] || []
       s_reactions = subclass_features_info.blank? ? [] : subclass_features_info['reaction'] || []

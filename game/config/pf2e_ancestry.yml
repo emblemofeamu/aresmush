@@ -154,6 +154,7 @@ pf2e_ancestry:
   Egalrin:
     HP: 6
     Size: M
+    Speed: 25
     abl_boosts:
     - open
     - open
