@@ -11,6 +11,8 @@ During chargen, you can assign your character to groups of affiliation.
 
 `group/set <input>=<option>` - Sets your option for a group type.
 
-Emblem of Ea has two groups: Faith and Region. In your MU client, you can input `group faith` or `group region` to see the relevant lists. You can set your character's Faith with `group/set Faith=<option>`, and you can set your character's Region with `group/set Region=<option>`.
+Emblem of Ea has two groups: Faith and Region. In your MU client, you can input `group faith` or `group region` to see the relevant lists. 
+
+You can set your character's Faith with `group/set Faith=<option>`, and you can set your character's Region with `group/set Region=<option>`.
 
 You can more about groups in the [Demographics and Groups Tutorial](/help/demographics_tutorial).
