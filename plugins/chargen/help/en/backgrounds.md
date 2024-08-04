@@ -19,6 +19,6 @@ When typing up your background in-client, please use %%r to separate paragraphs.
 `prologue/set <prologue>` - Sets your prologue. 
 `prologue` - Views your prologue.
 `prologue/edit` - Grabs the existing prologue text into your input buffer.
-                  (See [Edit Feature](/help/edit)).
+                (See [Edit Feature](/help/edit)).
 
 Once your character has been approved, you will no longer be able to edit your prologue.  Contact staff if you need to make changes after approval.
