@@ -66,15 +66,14 @@ chargen:
   stages:
     start:
       title: Chargen Commands
-      text: |-
-        You can do some of chargen either on the web portal (%xb%xchelp web portal%xn) or 
+      text: You can do some of chargen either on the web portal (%xb%xchelp web portal%xn) or 
         in-client. They both have the same information - it's just a matter of 
         preference. If you choose to use the in-client chargen, you will be walked 
         through the process with various commands. You can go back and forth through 
-        the steps of chargen as much as you want using %xb%xccg/next%xn and %xb%xccg/prev%cn.
+        the steps of chargen as much as you want using %xb%xccg/next%xn and %xb%xccg/prev%cn.%r
 
         At this time, Emblem of Ea does not support character sheet generation on the 
-        web; you'll need to log into the game in a supported client to do that part.
+        web; you'll need to log into the game in a supported client to do that part.%r
 
         The %xb%xcapp%xn command is your friend during chargen. It will alert you to things you 
         may have forgotten to set. %ch%crRed%cn issues will almost certainly prevent your 
