@@ -71,7 +71,7 @@ chargen:
         in-client. They both have the same information - it's just a matter of 
         preference. If you choose to use the in-client chargen, you will be walked 
         through the process with various commands. You can go back and forth through 
-        the steps of chargen as much as you want using %xb%xccg/next%xn and %xb%xccg/prev.
+        the steps of chargen as much as you want using %xb%xccg/next%xn and %xb%xccg/prev%cn.
 
         At this time, Emblem of Ea does not support character sheet generation on the 
         web; you'll need to log into the game in a supported client to do that part.
