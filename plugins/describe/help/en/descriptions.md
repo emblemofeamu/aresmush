@@ -25,3 +25,25 @@ Every character, room and exit has a description that tells you what your charac
 ## Outfits and Details
 
 You can store multiple descriptions with the [Outfits](/help/outfits) commands, and have expanded [Details](/help/details) (like jewelry or tattoos).
+
+## Outfit Commands
+
+`outfits`: Lists outfits
+`outfit <input>`: Views an outfit. <input> is the name of the outfit.
+`outfits/all`: View of all your outfits and descriptions.
+`outfit/set <input>=<description>`: Creates a new outfit, or replaces an old one.
+`outfit/delete <input>`: Deletes an outfit.
+
+`wear <list of outfits>`: Wear outfits.
+
+## Detail Commands
+
+Details can be set on either a character or a room. Use a character name, room name, 'me', or 'here' for the input.
+
+`detail/set <input>=<detail title>/<description>`: Detail title is the name of the detail you wish to set, the description is what it looks like.
+`detail/delete <input>/<detail title>`: Deletes an existing detail.
+`detail/edit <input>/<detail title>`: Grabs the existing detail into your input buffer.
+
+You view details using the regular `look` command:
+
+`look <input>/<detail title>`: Looks at a detail on something.
