@@ -66,7 +66,8 @@ chargen:
   stages:
     start:
       title: Chargen Commands
-      text: You can do some of chargen either on the web portal (%xb%xchelp web portal%xn) or 
+      text: |-
+      You can do some of chargen either on the web portal (%xb%xchelp web portal%xn) or 
       in-client. They both have the same information - it's just a matter of 
       preference. If you choose to use the in-client chargen, you will be walked 
       through the process with various commands. You can go back and forth through 
