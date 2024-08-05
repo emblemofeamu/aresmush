@@ -32,7 +32,7 @@ Skills
 `skill/set <input>=<skill>`: Sets a skill. <input> can be free or background. 
 `skill/unset <input>=<skill>`: Deletes your selected skill. You cannot delete skills granted by your ancestry, character class, and some background selections. <input> can be free or background.
 
-When you are satisfied with what you have, input commit skills. This locks your skills and allows you to choose your feats. If you want to change your ability scores or skills afterwards, you will need to start your sheet over using cg/reset.
+When you are satisfied with what you have, input `commit skills`. This locks your skills and allows you to choose your feats. If you want to change your ability scores or skills afterwards, you will need to start your sheet over using cg/reset.
 
 
 ### Lore Skills
