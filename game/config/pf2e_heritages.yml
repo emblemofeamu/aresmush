@@ -397,7 +397,7 @@ pf2e_heritage:
     traits: []
   Versatile:
     feat:
-    - ancestry
+    - skill
     action: []
     attack: {}
     defense: {}
