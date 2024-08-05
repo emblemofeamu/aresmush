@@ -1,7 +1,7 @@
 ---
 idle:
   arrivals_category: New Arrivals
-  days_before_idle: 180
+  days_before_idle: 365
   default_contact: Admin
   idle_category: Announcements
   idle_exempt_roles:
