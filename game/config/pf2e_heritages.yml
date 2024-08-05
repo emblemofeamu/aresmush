@@ -388,6 +388,7 @@ pf2e_heritage:
   Skilled:
     skills:
     - open
+    - open
     action: []
     attack: {}
     defense: {}
