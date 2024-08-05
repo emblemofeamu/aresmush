@@ -9,6 +9,7 @@ idle:
   - builder
   - coder
   - guest
+  - approved
   idle_warn_msg: You haven't played in awhile and your character is in danger of idling
     out.
   monthly_reminder: It's time to run the idle sweep!
