@@ -117,14 +117,15 @@ chargen:
       help: idle_out
     review:
       title: App Submission
-      text: You've completed chargen! Review your app one more time, and use `app/submit
-        [<optional notes>]` to submit your character when ready. The admins will
-        make sure it's a good fit for the game's theme, that your sheet is in line
-        with your prologue, and that you have not minmaxed or "dumpstatted". See
-        `help apps` for additional help on the app review process.%r%rWhile you're
-        waiting for approval, you can look at the `help vendor` file to learn about
-        buying gear, and you can interact with the community through the chat channels
-        and through our community Discord!
+      text: You've completed chargen! Review your app one more time, and use `app/submit 
+        <optional notes>` to submit your character when you’re ready. Staff will make 
+        sure it's a good fit for the game's theme and that your sheet is in line with 
+        your prologue. See `help apps` for additional commands if you’re asked to edit 
+        your application or if you wish to edit your application.
+
+        While you're waiting for approval, you can look at the `help vendor` file to 
+        learn about buying gear, and you can interact with the community through the chat 
+        channels and through our community Discord!
   welcome_message: |-
     Welcome to Emblem of Ea, %{name}! 
 
