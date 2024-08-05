@@ -209,7 +209,7 @@ en:
     unassigned_ancestry_feat: "%xrYou still need to choose an ancestry feat.%xn"
     unassigned_skill_feat: "%xrYou still need to choose a skill feat.%xn"
     unassigned_school_feat: "%xrYou still need to choose your extra wizard feat.%xn"
-    unassigned_gated_feat: "%xrYou have other unassigned feats. Assign using 'feat/set special/<option> = <feat>'. Options: %{options}%xn"
+    unassigned_gated_feat: "%xrYou have other unassigned feats. Assign using 'cg/feat special/<option> = <feat>'. Options: %{options}%xn"
     updated_ok: "%{element} updated for %{char}."
     use_focus_keyword: "The named class grants focus spells. Use the 'focus' keyword."
 
