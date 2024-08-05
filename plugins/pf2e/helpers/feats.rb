@@ -333,6 +333,10 @@ module AresMUSH
         msgs << t('pf2e.unassigned_class_feat') if to_assign['charclass feat'].include? 'open'
       end
 
+      if to_assign['general feat']
+        msgs << t('pf2e.unassigned_general_feat') if to_assign['general feat'].include? 'open'
+      end
+
       if to_assign['ancestry feat']
         msgs << t('pf2e.unassigned_ancestry_feat') if to_assign['ancestry feat'].include? 'open'
       end
