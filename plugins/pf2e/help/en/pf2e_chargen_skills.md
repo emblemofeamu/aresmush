@@ -9,11 +9,14 @@ aliases:
 
 # Pathfinder 2E Chargen - Skills
 
-In this step, you will choose your open skills. Your choice of ancestry, heritage, character class, and background have already given you a set of skills, but depending on your Intelligence score modifier, you may get more skills to assign. Here are some helpful tips to keep in mind:
+In this step, you will choose your free skills. Your choice of ancestry, heritage, character class, and background have already given you a set of skills, but depending on your Intelligence score modifier, you may get more skills to assign. Here are some helpful tips to keep in mind:
 
-1. Some backgrounds offer a choice of skills. If you chose a background with a choice of skills, you may want to make this selection before you assign your open skills, so that you do not duplicate or double-up on skills.
-2. If you get the same skill from multiple sources, such as from your background and your class, you must pick another skill to become trained in. 
+1. Some backgrounds offer a skill choice instead of a fixed skill. If you chose a background with a skill choice, you may want to make this selection before you assign your free skills, so that you do not duplicate or double-up on skills.
+
+2. If you get the same skill from multiple sources, such as from your background and your class, you must pick another skill.
+
 3. Lore skills count as skills.
+
 
 ## Commands
 
@@ -21,11 +24,16 @@ In this step, you will choose your open skills. Your choice of ancestry, heritag
 `sheet`: Shows your sheet so far.
 
 ### Skills
-`skills [<term>]`: Searches available skills on the game, if term is specified. Displays all if not. 
-`skill/set <type>=<skill>`: Sets an open skill. Types are **background** or **free**.
-`skill/unset <type>=<skill>`: Deletes a skill selected with `skill/set`. You cannot delete skills granted by your base info.
+`cg/review`: Lists the number of skills you can assign.
+`sheet`: Shows your character sheet.
 
-When you are done, and satisfied with what you have, type `commit skills`. This locks your skills and allows you to choose your feats. If you want to change your ability scores or skills after you do this, you will need to start your sheet over using `cg/reset`
+Skills
+`skills`: Displays all skills in a paginated format. skills <input> searches skills for your input. For example, skills lore returns all skills with ‘lore’ as part of their name.
+`skill/set <input>=<skill>`: Sets a skill. <input> can be free or background. 
+`skill/unset <input>=<skill>`: Deletes your selected skill. You cannot delete skills granted by your ancestry, character class, and some background selections. <input> can be free or background.
+
+When you are satisfied with what you have, input commit skills. This locks your skills and allows you to choose your feats. If you want to change your ability scores or skills afterwards, you will need to start your sheet over using cg/reset.
+
 
 ### Lore Skills
 
