@@ -42,7 +42,7 @@ en:
     bad_charclass: "%{cc} is not a valid character class on this game."
     bad_element: "'%{invalid}' cannot be set with this command. Choose one of: %{options}"
     bad_feat_name: "I didn't find a feat named %{name} in my list. Check to be sure that you have the correct spelling."
-    bad_feat_type: "Invalid feat type '%{type}''. Choose one of: %{keys}"
+    bad_feat_type: "Invalid feat type '%{type}'. Choose one of: %{keys}"
     bad_id: "Invalid %{type} ID."
     bad_instruction: "Instruction must be one of 'add' or 'delete'."
     bad_option: "Not a valid option. Valid options for %{element}: %{options}."
