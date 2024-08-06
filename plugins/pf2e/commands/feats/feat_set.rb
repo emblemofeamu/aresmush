@@ -95,9 +95,7 @@ module AresMUSH
           end
 
           # Does that option exist in the list?
-          has_gate_option = gate_options.map(&:downcase).include?
-          
-          self.gate
+          has_gate_option = gate_options.map(&:downcase).include? self.gate
 
           unless has_gate_option
             client.emit_failure t('pf2e.no_such_gate', :gate => self.gate)
