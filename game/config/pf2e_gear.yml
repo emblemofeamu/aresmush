@@ -343,7 +343,7 @@ pf2e_gear:
   Healer's Tools:
     bulk: 1
     level: 0
-    price: 500
+    price: 250
     traits: []
   Snare Kit:
     bulk: 2
