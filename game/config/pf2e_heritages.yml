@@ -388,6 +388,7 @@ pf2e_heritage:
   Skilled:
     skills:
     - open
+    - open
     action: []
     attack: {}
     defense: {}
@@ -396,8 +397,7 @@ pf2e_heritage:
     special: []
     traits: []
   Versatile:
-    feat:
-    - ancestry
+    feat: []
     action: []
     attack: {}
     defense: {}
@@ -405,6 +405,8 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
+    choose_feat:
+    - general
 # Kailli Heritages
   Deep Kailli:
     traits: []

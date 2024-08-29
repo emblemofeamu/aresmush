@@ -60,7 +60,8 @@ module AresMUSH
         # Is that feat of the type they asked for?
         feat_type_list = fdeets['feat_type'].map { |f| f.downcase }
 
-        unless feat_type_list.include? self.feat_type
+        # If feat_type is special, the feat_name specified will not be of that type, so skip this check.
+        unless feat_type_list.include? self.feat_type or feat_type.include? "special"
           client.emit_failure t('pf2e.bad_feat_type', :type => self.feat_type, :keys => feat_type_list.sort.join(", "))
           return
         end
@@ -94,7 +95,7 @@ module AresMUSH
           end
 
           # Does that option exist in the list?
-          has_gate_option = gate_options.include? self.gate
+          has_gate_option = gate_options.map(&:downcase).include? self.gate
 
           unless has_gate_option
             client.emit_failure t('pf2e.no_such_gate', :gate => self.gate)
@@ -132,7 +133,7 @@ module AresMUSH
 
           feat_list[use_ftype] = sublist
 
-          new_gated_list = gate_options - [ self.gate ]
+          new_gated_list = gate_options - [ self.gate.titleize ]
           to_assign[key] = new_gated_list
         else
           sublist = feat_list[self.feat_type] || []
