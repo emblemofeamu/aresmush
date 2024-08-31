@@ -23,7 +23,7 @@ module AresMUSH
       end
 
       def handle
-        Pf2e.restore_checkpoint(char, checkpoint)
+        Pf2e.restore_checkpoint(enactor, checkpoint)
         client.emit_success message
 
       end
