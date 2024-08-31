@@ -22,11 +22,11 @@ module AresMUSH
     attribute :pf2_faith, :type => DataType::Hash, :default => { 'deity'=>"", 'alignment'=>"" }
     attribute :pf2_special, :type => DataType::Array, :default => []
     attribute :pf2_boosts_working, :type => DataType::Hash, :default => { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=> [] }
-    attribute :pf2_checkpoint_boosts, :type => DataType::Hash, :default => {}
+    attribute :pf2_boosts, :type => DataType::Hash, :default => {}
     attribute :pf2_lang, :type => DataType::Array, :default => []
     attribute :pf2_viewsheet, :type => DataType::Hash, :default => {}
     attribute :pf2_to_assign, :type => DataType::Hash, :default => {}
-    attribute :pf2_checkpoint_cg_assigned, :type => DataType::Hash, :default => {}
+    attribute :pf2_cg_assigned, :type => DataType::Hash, :default => {}
     attribute :pf2_adv_assigned, :type => DataType::Hash, :default => {}
     attribute :pf2_size, :default => ""
     attribute :pf2_movement, :type => DataType::Hash, :default => {}

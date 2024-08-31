@@ -604,10 +604,10 @@ module AresMUSH
       case checkpoint
       when "info"
         to_assign = char.pf2_to_assign
-        char.pf2_checkpoint_cg_assigned = to_assign
+        char.pf2_cg_assigned = to_assign
 
         boosts = char.pf2_boosts_working
-        char.pf2_checkpoint_boosts = boosts
+        char.pf2_boosts = boosts
         char.pf2_checkpoint = 'info'
         char.save
 
@@ -667,11 +667,11 @@ module AresMUSH
           char.demographics = demographics
 
           # Restore to_assign
-          to_assign = char.pf2_checkpoint_pf2_to_assign
+          to_assign = char.pf2_cg_assigned
           char.pf2_to_assign = to_assign
           
           # Restore boosts
-          boosts = char.pf2_checkpoint_boosts
+          boosts = char.pf2_boosts
           char.pf2_boosts_working = boosts
 
           # Write the character object
