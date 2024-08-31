@@ -7,7 +7,6 @@ module AresMUSH
 
       def parse_args
         self.checkpoint = cmd.args
-        client.emit cmd.args
         if ![ "info", "abilities", "skills" ].include? self.checkpoint
           return nil
         end
@@ -24,8 +23,9 @@ module AresMUSH
       end
 
       def handle
-
-        Pf2e.restore_checkpoint(checkpoint)
+        client.emit char.name
+        client.emit checkpoint
+        Pf2e.restore_checkpoint(char, checkpoint)
         client.emit_success message
 
       end
