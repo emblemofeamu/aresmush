@@ -659,7 +659,9 @@ module AresMUSH
           groups = char.groups
           prologue = char.cg_background
           demographics = char.demographics
-
+          to_assign = char.pf2_cg_assigned
+          boosts = char.pf2_boosts
+          
           Pf2e.reset_character(char)
 
           char.groups = groups
@@ -667,11 +669,9 @@ module AresMUSH
           char.demographics = demographics
 
           # Restore to_assign
-          to_assign = char.pf2_cg_assigned
           char.pf2_to_assign = to_assign
           
           # Restore boosts
-          boosts = char.pf2_boosts
           char.pf2_boosts_working = boosts
 
           # Set the chargen stage
