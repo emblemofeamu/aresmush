@@ -39,6 +39,8 @@ module AresMUSH
           return PF2ReviewChargenCmd
         when "reset"
           return PF2ResetChargenCmd
+        when "restore"
+          return PF2RestoreChargenCmd
         when "info"
           return PF2ChargenInfoCmd
         when "feat"

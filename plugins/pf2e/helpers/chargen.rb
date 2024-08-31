@@ -604,10 +604,10 @@ module AresMUSH
       case checkpoint
       when "info"
         to_assign = char.pf2_to_assign
-        char.pf2_cg_assigned = to_assign
+        char.pf2_checkpoint_cg_assigned = to_assign
 
         boosts = char.pf2_boosts_working
-        char.pf2_boosts = boosts
+        char.pf2_checkpoint_boosts = boosts
         char.pf2_checkpoint = 'info'
         char.save
 
@@ -644,6 +644,46 @@ module AresMUSH
     end
 
     def self.restore_checkpoint(char, checkpoint)
+      # Check and ensure the player is beyond the requested checkpoint
+      # If not, return an error.
+      # Set the stage back to requested restore point
+      # pf2_baseinfo_locked must be unset as part of the restoration project
+      # Preserve groups and demographics
+      # # demographics, groups, prologue?
+      # Envoke function that resets character in cg
+      # Go through preserved attributes to the point requested, finalize what needs finalizing
+      # Between each checkpoint, run finalization for that section of CG
+      # Save the character
+      case checkpoint
+        when "info"
+          groups = char.groups
+          prologue = char.cg_background
+          demogrpaphics = char.demogrpaphics
+
+          Pf2e.reset_character(enactor)
+
+          char.groups = groups
+          char.cg_background = prologue
+          char.demographics = demographics
+
+          # Restore to_assign
+          to_assign = char.pf2_checkpoint_pf2_to_assign
+          char.pf2_to_assign = to_assign
+          
+          # Restore boosts
+          boosts = char.pf2_checkpoint_boosts
+          char.pf2_boosts_working = boosts
+
+          # Write the character object
+          char.save
+        end
+        when "abilities"
+
+        end
+        when "skills"
+
+        end
+      end
 
     end
 
