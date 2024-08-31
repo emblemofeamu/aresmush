@@ -7,6 +7,7 @@ module AresMUSH
 
       def parse_args
         self.checkpoint = cmd.args
+        client.emit cmd.args
         if ![ "info", "abilities", "skills" ].include? self.checkpoint
           return nil
         end
