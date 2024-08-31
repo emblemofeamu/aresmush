@@ -23,14 +23,6 @@ module AresMUSH
       end
 
       def handle
-        if !enactor.pf2_reset && self.confirm
-          client.emit_failure t('pf2e.reset_first')
-          return nil
-        elsif !enactor.pf2_reset && !self.confirm
-          client.emit_ooc t('pf2e.are_you_sure')
-          enactor.update(pf2_reset: true)
-          return nil
-        end
 
         Pf2e.restore_checkpoint(checkpoint)
         client.emit_success message
