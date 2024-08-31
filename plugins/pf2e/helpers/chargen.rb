@@ -660,7 +660,7 @@ module AresMUSH
           prologue = char.cg_background
           demogrpaphics = char.demographics
 
-          Pf2e.reset_character(enactor)
+          Pf2e.reset_character(char)
 
           char.groups = groups
           char.cg_background = prologue
