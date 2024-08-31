@@ -674,6 +674,9 @@ module AresMUSH
           boosts = char.pf2_boosts
           char.pf2_boosts_working = boosts
 
+          # Set the chargen stage
+          char.chargen_stage = "5"
+
           # Write the character object
           char.save
         when "abilities"
