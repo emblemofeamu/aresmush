@@ -658,7 +658,7 @@ module AresMUSH
         when "info"
           groups = char.groups
           prologue = char.cg_background
-          demogrpaphics = char.demogrpaphics
+          demogrpaphics = char.demographics
 
           Pf2e.reset_character(enactor)
 
