@@ -680,10 +680,7 @@ module AresMUSH
         when "skills"
         else
           return nil
-        end
       end
-
     end
-
   end
 end
