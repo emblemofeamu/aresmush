@@ -677,12 +677,12 @@ module AresMUSH
           # Write the character object
           char.save
         end
-        when "abilities"
+        # when "abilities"
 
-        end
-        when "skills"
+        # end
+        # when "skills"
 
-        end
+        # end
       end
 
     end
