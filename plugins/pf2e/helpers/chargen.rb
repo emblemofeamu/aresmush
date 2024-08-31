@@ -676,13 +676,11 @@ module AresMUSH
 
           # Write the character object
           char.save
+        when "abilities"
+        when "skills"
+        else
+          return nil
         end
-        # when "abilities"
-
-        # end
-        # when "skills"
-
-        # end
       end
 
     end
