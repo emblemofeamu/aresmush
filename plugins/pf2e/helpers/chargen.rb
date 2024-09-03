@@ -618,11 +618,12 @@ module AresMUSH
         char.save
 
       when "abilities" # Used by commit abilities
-        to_assign = char.pf2_to_assign
-        char.pf2_cg_assigned = to_assign
-
-        boosts = char.pf2_boosts_working
-        char.pf2_boosts = boosts
+        checkpoint_data = { 
+          "info" => { char.pf2_cg_assigned["info"] },
+          "abilities" => { 
+            "pf2_boosts_working" => char.pf2_boosts_working,
+          }
+        }
 
         char.abilities.each do |ability|
           cp_state = {}
@@ -631,6 +632,7 @@ module AresMUSH
           ability.update(checkpoint: cp_state)
         end
 
+        char.pf2_cg_assigned = checkpoint_info
         char.pf2_checkpoint = 'abilities'
 
         char.save
