@@ -620,7 +620,7 @@ module AresMUSH
       when "abilities" # Used by commit abilities
         checkpoint_info = { 
           "info" => char.pf2_cg_assigned["info"],
-          "abilities" => { "pf2_boosts_working" => char.pf2_boosts_working }
+          "abilities" => { "pf2_boosts_working" => char.pf2_boosts }
         }
 
         char.abilities.each do |ability|
