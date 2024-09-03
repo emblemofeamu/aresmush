@@ -685,7 +685,11 @@ module AresMUSH
           # Write the character object
           char.save
         when "abilities"
+          restore_checkpoint(char, "info")
+          char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
 
+          char.chargen_stage = "6"
+          char.save
         when "skills"
         else
           return nil
