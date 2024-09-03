@@ -23,7 +23,7 @@ module AresMUSH
       end
 
       def handle
-        Pf2e.restore_checkpoint(enactor, checkpoint)
+        Pf2e.restore_checkpoint(enactor, checkpoint, client)
         client.emit_success t('cg_restore_ok', :checkpoint=>checkpoint)
       end
 

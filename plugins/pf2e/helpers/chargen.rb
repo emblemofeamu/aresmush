@@ -649,7 +649,7 @@ module AresMUSH
       end
     end
 
-    def self.restore_checkpoint(char, checkpoint)
+    def self.restore_checkpoint(char, checkpoint, client)
       # Check and ensure the player is beyond the requested checkpoint
       # If not, return an error.
       # Set the stage back to requested restore point
