@@ -613,7 +613,8 @@ module AresMUSH
             "pf2_faith" => char.pf2_faith
           }
         }
-        char.pf2_cg_assigned = checkpoint_info
+        char.pf2_cg_assigned = checkpoint_info\
+        char.pf2_checkpoint = 'info'
         char.save
 
       when "abilities" # Used by commit abilities
