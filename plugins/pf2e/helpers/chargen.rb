@@ -618,7 +618,7 @@ module AresMUSH
         char.save
 
       when "abilities" # Used by commit abilities
-        checkpoint_data = { 
+        checkpoint_info = { 
           "info" => char.pf2_cg_assigned["info"],
           "abilities" => { "pf2_boosts_working" => char.pf2_boosts_working }
         }
