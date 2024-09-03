@@ -603,12 +603,17 @@ module AresMUSH
     def self.record_checkpoint(char, checkpoint)
       case checkpoint
       when "info"
-        to_assign = char.pf2_to_assign
-        char.pf2_cg_assigned = to_assign
-
-        boosts = char.pf2_boosts_working
-        char.pf2_boosts = boosts
-        char.pf2_checkpoint = 'info'
+      
+        checkpoint_info = { 
+          "info" => {
+            "pf2_base_info" => char.pf2_base_info,
+            "pf2_to_assign" => char.pf2_to_assign,
+            "pf2_traits" => char.pf2_traits,
+            "pf2_boosts" => char.pf2_boosts,
+            "pf2_faith" => char.pf2_faith
+          }
+        }
+        char.pf2_cg_assigned = checkpoint_info
         char.save
 
       when "abilities" # Used by commit abilities
