@@ -661,12 +661,11 @@ module AresMUSH
       # Between each checkpoint, run finalization for that section of CG
       # Save the character
       case checkpoint
+        groups = char.groups
+        prologue = char.cg_background
+        demographics = char.demographics
+        checkpoint_info = char.pf2_cg_assigned
         when "info"
-          groups = char.groups
-          prologue = char.cg_background
-          demographics = char.demographics
-          checkpoint_info = char.pf2_cg_assigned
-          
           Pf2e.reset_character(char)
 
           char.groups = groups
@@ -686,6 +685,7 @@ module AresMUSH
           # Write the character object
           char.save
         when "abilities"
+
         when "skills"
         else
           return nil
