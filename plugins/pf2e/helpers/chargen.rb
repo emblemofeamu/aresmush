@@ -660,11 +660,11 @@ module AresMUSH
       # Go through preserved attributes to the point requested, finalize what needs finalizing
       # Between each checkpoint, run finalization for that section of CG
       # Save the character
+      groups = char.groups
+      prologue = char.cg_background
+      demographics = char.demographics
+      checkpoint_info = char.pf2_cg_assigned
       case checkpoint
-        groups = char.groups
-        prologue = char.cg_background
-        demographics = char.demographics
-        checkpoint_info = char.pf2_cg_assigned
         when "info"
           Pf2e.reset_character(char)
 
