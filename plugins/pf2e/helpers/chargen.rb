@@ -686,6 +686,7 @@ module AresMUSH
           char.save
         when "abilities"
           restore_checkpoint(char, "info")
+          client = Global.client_monitor.find_client(char)
           Pf2e.cg_lock_base_options(char, client)
           char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
 
