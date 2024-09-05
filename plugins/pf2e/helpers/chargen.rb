@@ -703,7 +703,7 @@ module AresMUSH
           char.save
         when "skills"
           restore_checkpoint(char, "abilities")
-          Pf2eAbilities.cg_lock_abilities(enactor)
+          Pf2eAbilities.cg_lock_abilities(char)
           char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
           
           char.chargen_stage = "7"
