@@ -635,6 +635,12 @@ module AresMUSH
 
         char.save
       when "skills"
+        checkpoint_info = {
+          "info" => char.pf2_cg_assigned["info"],
+          "abilities" => char.pf2_cg_assigned["abilities"],
+          "skills" => { "pf2_to_assign" => char.pf2_to_assign }
+        }
+        
         char.skills.each do |skill|
           cp_state = {}
           cp_state['prof_level'] = skill.prof_level
@@ -642,7 +648,10 @@ module AresMUSH
           skill.update(checkpoint: cp_state)
         end
 
+        char.pf2_to_assigned = checkpoint_info
         char.update(pf2_checkpoint: 'skills')
+        char.save
+
       when "advance"
       else
         return nil
@@ -664,6 +673,7 @@ module AresMUSH
       prologue = char.cg_background
       demographics = char.demographics
       checkpoint_info = char.pf2_cg_assigned
+      client = Global.client_monitor.find_client(char)
       case checkpoint
         when "info"
           Pf2e.reset_character(char)
@@ -686,13 +696,19 @@ module AresMUSH
           char.save
         when "abilities"
           restore_checkpoint(char, "info")
-          client = Global.client_monitor.find_client(char)
           Pf2e.cg_lock_base_options(char, client)
           char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
 
           char.chargen_stage = "6"
           char.save
         when "skills"
+          restore_checkpoint(char, "abilities")
+          Pf2eAbilities.cg_lock_abilities(enactor)
+          char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
+          
+          char.chargen_stage = "7"
+          char.pf2_skills_locked = "false"
+          char.save
         else
           return nil
       end
