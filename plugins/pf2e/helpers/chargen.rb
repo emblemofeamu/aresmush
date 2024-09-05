@@ -707,7 +707,7 @@ module AresMUSH
           char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
           
           char.chargen_stage = "7"
-          char.pf2_skills_locked = "false"
+          char.pf2_skills_locked = false
           char.save
         else
           return nil
