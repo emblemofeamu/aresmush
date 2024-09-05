@@ -648,7 +648,7 @@ module AresMUSH
           skill.update(checkpoint: cp_state)
         end
 
-        char.pf2_to_assigned = checkpoint_info
+        char.pf2_cg_assigned = checkpoint_info
         char.update(pf2_checkpoint: 'skills')
         char.save
 
