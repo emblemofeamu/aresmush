@@ -716,6 +716,8 @@ module AresMUSH
           
           # name, char, prof, cg_skill=false
           skills_checkpoint.each do |skill|
+            client.emit skill["prof_level"]
+            client.emit skill["cg_skill"]
             prof_level = skill["prof_level"]
             cg_skill = skill["cg_skill"]
             Pf2eSkills.update_skill_for_char(skill, char, prof_level, cg_skill)
