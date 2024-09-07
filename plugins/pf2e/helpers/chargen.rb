@@ -635,7 +635,7 @@ module AresMUSH
 
         cp_state = {}
         char.skills.each do |skill|
-          if !(skill.prof_level == "untrained") do
+          if !(skill.prof_level == "untrained")
             cp_state[skill.name] = {
               "prof_level" => skill.prof_level,
               "cg_skill" => true
