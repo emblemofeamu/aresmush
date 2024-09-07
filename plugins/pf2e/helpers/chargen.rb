@@ -676,8 +676,10 @@ module AresMUSH
       checkpoint_info = char.pf2_cg_assigned
       skills_checkpoint = {}
       char.skills.each do |skill|
-        skills_checkpoint[skill] = skill.checkpoint
-      end
+        skills_checkpoint[skill.name] = {
+          "prof_level" => skill.checkpoint["prof_level"], 
+          "cg_skill" => skill.checkpoint["cg_skill"]
+      }
       client = Global.client_monitor.find_client(char)
       case checkpoint
         when "info"
@@ -711,9 +713,11 @@ module AresMUSH
           Pf2eAbilities.cg_lock_abilities(char)
           char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
           
-          skills_checkpoint.each do |skill| 
-            char.skills.skill.update(prof_level: skill.prof_level)
-            char.skills.skill.update(cg_skill: true)
+          # name, char, prof, cg_skill=false
+          skills_checkpoint.each do |skill|
+            prof_level = skill["prof_level"]
+            cg_skill = skill["cg_skill"]
+            Pf2eSkills.update_skill_for_char(skill, char, prof_level, cg_skill)
           end
 
           char.chargen_stage = "7"
