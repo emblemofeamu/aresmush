@@ -633,14 +633,6 @@ module AresMUSH
         char.pf2_cg_assigned = checkpoint_info
         char.pf2_checkpoint = 'abilities'
 
-        char.save
-      when "skills"
-        checkpoint_info = {
-          "info" => char.pf2_cg_assigned["info"],
-          "abilities" => char.pf2_cg_assigned["abilities"],
-          "skills" => { "pf2_to_assign" => char.pf2_to_assign }
-        }
-        
         cp_state = {}
         char.skills.each do |skill|
           if !(skill.prof_level == "untrained") do
@@ -652,6 +644,14 @@ module AresMUSH
         end
         skill.update(checkpoint: cp_state)
 
+        char.save
+      when "skills"
+        checkpoint_info = {
+          "info" => char.pf2_cg_assigned["info"],
+          "abilities" => char.pf2_cg_assigned["abilities"],
+          "skills" => { "pf2_to_assign" => char.pf2_to_assign }
+        }
+        
         char.pf2_cg_assigned = checkpoint_info
         char.update(pf2_checkpoint: 'skills')
         char.save
@@ -677,6 +677,7 @@ module AresMUSH
       prologue = char.cg_background
       demographics = char.demographics
       checkpoint_info = char.pf2_cg_assigned
+      skills_checkpoint = char.skills.checkpoint
       client = Global.client_monitor.find_client(char)
       case checkpoint
         when "info"
@@ -708,9 +709,13 @@ module AresMUSH
         when "skills"
           restore_checkpoint(char, "abilities")
           Pf2eAbilities.cg_lock_abilities(char)
-          #char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
-          char.pf2_to_assign = checkpoint_info["abilities"]["pf2_to_assign"]
+          char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
           
+          skills_checkpoint.each do |skill| 
+            char.skills.skill.update(prof_level: skill.prof_level)
+            char.skills.skill.update(cg_skill: true)
+          end
+
           char.chargen_stage = "7"
           char.pf2_skills_locked = false
           char.save
