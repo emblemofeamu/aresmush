@@ -633,14 +633,6 @@ module AresMUSH
         char.pf2_cg_assigned = checkpoint_info
         char.pf2_checkpoint = 'abilities'
 
-        char.skills.each do |skill|
-          cp_state = {}
-          cp_state = {
-            "prof_level" => skill.prof_level,
-            "cg_skill" => skill.cg_skill
-          }
-          skill.update(checkpoint: cp_state)
-        end
         char.save
       when "skills"
         checkpoint_info = {
@@ -649,6 +641,15 @@ module AresMUSH
           "skills" => { "pf2_to_assign" => char.pf2_to_assign }
         }
         
+        char.skills.each do |skill|
+          cp_state = {}
+          cp_state = {
+            "prof_level" => skill.prof_level,
+            "cg_skill" => skill.cg_skill
+          }
+          skill.update(checkpoint: cp_state)
+        end
+
         char.pf2_cg_assigned = checkpoint_info
         char.update(pf2_checkpoint: 'skills')
         char.save
@@ -719,7 +720,7 @@ module AresMUSH
           char.skills.each do |skill|
             prof_level = skills_checkpoint[skill.name]["prof_level"]
             cg_skill = skills_checkpoint[skill.name]["cg_skill"]
-            Pf2eSkills.update_skill_for_char(skill.name, char, prof_level, cg_skill)
+            Pf2eSkills.update_skill_for_char(skill, char, prof_level, cg_skill)
           end
 
           char.chargen_stage = "7"
