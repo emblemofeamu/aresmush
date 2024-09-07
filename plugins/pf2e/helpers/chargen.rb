@@ -642,7 +642,7 @@ module AresMUSH
             }
           end
         end
-        skill.update(checkpoint: cp_state)
+        char.skills.update(checkpoint: cp_state)
 
         char.save
       when "skills"
