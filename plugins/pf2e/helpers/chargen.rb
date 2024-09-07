@@ -710,9 +710,10 @@ module AresMUSH
           char.chargen_stage = "6"
           char.save
         when "skills"
+          checkpoint_info_backup = checkpoint_info
           restore_checkpoint(char, "abilities")
           Pf2eAbilities.cg_lock_abilities(char)
-          char.pf2_to_assign = checkpoint_info["skills"]["pf2_to_assign"]
+          char.pf2_to_assign = checkpoint_info_backup["skills"]["pf2_to_assign"]
           
           # name, char, prof, cg_skill=false
           skills_checkpoint.each do |skill|
