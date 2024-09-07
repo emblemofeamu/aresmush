@@ -679,7 +679,8 @@ module AresMUSH
         skills_checkpoint[skill.name] = {
           "prof_level" => skill.checkpoint["prof_level"], 
           "cg_skill" => skill.checkpoint["cg_skill"]
-      }
+        }
+      end
       client = Global.client_monitor.find_client(char)
       case checkpoint
         when "info"
