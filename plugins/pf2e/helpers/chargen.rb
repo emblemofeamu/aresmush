@@ -720,7 +720,7 @@ module AresMUSH
           char.skills.each do |skill|
             prof_level = skills_checkpoint[skill.name]["prof_level"]
             cg_skill = skills_checkpoint[skill.name]["cg_skill"]
-            Pf2eSkills.update_skill_for_char(skill, char, prof_level, cg_skill)
+            Pf2eSkills.update_skill_for_char(skill.name, char, prof_level, cg_skill)
           end
 
           char.chargen_stage = "7"
