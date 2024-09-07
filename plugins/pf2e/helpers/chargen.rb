@@ -633,17 +633,14 @@ module AresMUSH
         char.pf2_cg_assigned = checkpoint_info
         char.pf2_checkpoint = 'abilities'
 
-        cp_state = {}
         char.skills.each do |skill|
-          if !(skill.prof_level == "untrained")
-            cp_state[skill.name] = {
-              "prof_level" => skill.prof_level,
-              "cg_skill" => true
-            }
-          end
+          cp_state = {}
+          cp_state = {
+            "prof_level" => skill.prof_level,
+            "cg_skill" => skill.cg_skill
+          }
+          skill.update(checkpoint: cp_state)
         end
-        char.skills.update(checkpoint: cp_state)
-
         char.save
       when "skills"
         checkpoint_info = {
@@ -677,7 +674,10 @@ module AresMUSH
       prologue = char.cg_background
       demographics = char.demographics
       checkpoint_info = char.pf2_cg_assigned
-      skills_checkpoint = char.skills.checkpoint
+      skills_checkpoint = {}
+      char.skills.each do |skill|
+        skills_checkpoint[skill] = skill.checkpoint
+      end
       client = Global.client_monitor.find_client(char)
       case checkpoint
         when "info"
