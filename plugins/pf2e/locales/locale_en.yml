@@ -74,7 +74,7 @@ en:
     cg_options_ok: "%xgNo errors or issues detected with your CG options."
     cg_reset_ok_cuddles: "Cuddles the Otyugh wanders up and munches your sheet, then gives you a big hug and leaves you to start over."
     cg_reset_ok: "Your sheet has been cleared."
-    cg_restore_ok: "Your sheet has been restored to {checkpoint}"
+    cg_restore_ok: "Your sheet has been restored to %{checkpoint}"
     char_has_code: "%xhEdicts:%xn%r%{edicts}%r%r%xhAnathema%xn:%r%{anathema}"
     char_not_all_found: "Not all characters in your list were found. Please check your spelling."
     condition_not_found: "That is not a valid condition. Valid options: %{options}"
