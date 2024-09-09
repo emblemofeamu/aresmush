@@ -30,4 +30,4 @@ In the following commands, you must replace the <ability> value with one of the 
 
 `boost/unset <input>=<ability>`: Unassigns that ability for that boost type only. Does not affect other boosts you may have assigned.
 
-When you are satisfied with what you have, input `commit abilities`. This locks your ability scores and allows you to choose your skills and languages. If you want to change your base info, ability scores or skills afterwards, you will need to restore to the appropriate checkpoint with cg/restore <checkpoint> where checkpoint is `info`, `abilities`, or `skills`. If you would like to start your character over, please use `cg/reset`.
+When you are satisfied with what you have, input `commit abilities`. This locks your ability scores and allows you to choose your skills and languages. If you want to change your base info, ability scores or skills afterwards, you will need to restore to the appropriate checkpoint with `cg/restore <checkpoint>` where checkpoint is `info`, `abilities`, or `skills`. If you would like to start your character over, please use `cg/reset`.
