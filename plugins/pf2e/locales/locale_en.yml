@@ -65,6 +65,7 @@ en:
     cannot_find_cginfo: "You must choose %{prereq} before you can see options for %{element}."
     cannot_rest_time: "You can rest again at %{next}."
     cannot_view_sheet: "That character has not granted you permission to view their sheet."
+    cg_cant_restore_to_stage_youre_in: "You are already in the %{checkpoint} stage of chargen"
     cg_commit_failed: "Commit %{option} failed. Message: %{msg}"
     cg_commit_ok: "This %{option} message brought to you by enough coffee to fuel a daycare for a thousand years."
     cg_locked: "Your %{cp} are already locked. If you need to change them, you will need to cg/reset."
