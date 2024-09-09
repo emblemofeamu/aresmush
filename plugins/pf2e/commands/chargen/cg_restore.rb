@@ -13,12 +13,12 @@ module AresMUSH
       end
 
       def check_in_chargen
-        stages = { "6" => "skills", "5" => "abilities", "4" => "info" }
+        stages = { "skills" => "6", "abilities" => "5", "info" => "4" }
         if enactor.is_approved? || enactor.chargen_locked
           return t('pf2e.only_in_chargen')
         elsif !enactor.chargen_stage
           return t('chargen.not_started')
-        elsif stages[enactor.chargen_stage] == self.checkpoint
+        elsif stages[self.checkpoint] == enactor.chargen_stage
           return t('pf2e.cg_cant_restore_to_stage_youre_in', :checkpoint=>self.checkpoint)
         else
           return nil
