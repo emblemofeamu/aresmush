@@ -33,4 +33,6 @@ To set an option:
 
 `commit info`: Once you're happy with what you have, input this to finalize it and set up the next phase of chargen. BEWARE: If you change your mind on these later, you'll have to cg/reset and start your sheet over from the beginning.
 
+`cg/restore <checkpoint>`: If you would like to change your base info, ability scores or skills after you have committed them, this command will restore your character to the point just before the section was committed. Options are: `info`, `abilities`, and `skills`.
+
 `cg/reset`: If you change your mind and want to completely start over, you can do so with this command. This command wipes all options and starts you over at the very beginning.
