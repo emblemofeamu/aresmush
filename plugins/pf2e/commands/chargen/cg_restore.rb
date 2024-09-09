@@ -18,7 +18,7 @@ module AresMUSH
           return t('pf2e.only_in_chargen')
         elsif !enactor.chargen_stage
           return t('chargen.not_started')
-        elsif stage[enactor.chargen_stage] == self.checkpoint
+        elsif stages[enactor.chargen_stage] == self.checkpoint
           return t('pf2e.cg_cant_restore_to_stage_youre_in', :checkpoint=>self.checkpoint)
         else
           return nil
