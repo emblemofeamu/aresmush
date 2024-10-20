@@ -1,55 +1,122 @@
 ---
 pf2e_feats:
 # Level 1 General Feats
-  Adopted Ancestry:
-    feat_type: 
+  Adopted Ancestry (Arvek):
+    feat_type:
     - General
     traits: []
-    shortdesc: Gain access to ancestry feats from another ancestry.
+    grants:
+      assign:
+        feat:
+        - Arvek
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Bassin):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Egalrin):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Gnome):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Goblin):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Human):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Kailli):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Khazad):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Oruch):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
+    prereq:
+      level: 1
+  Adopted Ancestry (Sildanyar):
+    feat_type:
+    - General
+    traits: []
+    shortdesc: "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack."
     prereq:
       level: 1
   Armor Proficiency:
-    feat_type: 
+    feat_type:
     - General
     traits: []
-    shortdesc: Become trained in a type of armor.
+    shortdesc: You become trained in light armor. If you already were trained in light armor, you gain training in medium armor. If you were trained in both, you become trained in heavy armor.%r%r**Special** You can select this feat more than once. Each time, you become trained in the next type of armor above.
     prereq:
       level: 1
   Breath Control:
-    feat_type: 
+    feat_type:
     - General
     traits: []
-    shortdesc: Hold your breath longer and gain benefits against inhaled threats.
+    shortdesc: You have incredible breath control, which grants you advantages when air is hazardous or sparse. You can hold your breath for 25 times as long as usual before suffocating. You gain a +1 circumstance bonus to saving throws against inhaled threats, such as inhaled poisons, and if you roll a success on such a saving throw, you get a critical success instead.
     prereq:
       level: 1
   Canny Acumen:
-    feat_type: 
+    feat_type:
     - General
     traits: []
-    shortdesc: Become an expert in a saving throw or Perception.
+    shortdesc: Your avoidance or observation is beyond the ken of most in your profession. Choose Fortitude saves, Reflex saves, Will saves, or Perception. You become an expert in your choice. At 17th level, you become a master in your choice.
     prereq:
       level: 1
   Diehard:
-    feat_type: 
+    feat_type:
     - General
     traits: []
-    shortdesc: Die at dying 5, rather than dying 4.
+    shortdesc: It takes more to kill you than most. You die from the dying condition at dying 5, rather than dying 4.
     prereq:
       level: 1
   Fast Recovery:
-    feat_type: 
+    feat_type:
     - General
     traits: []
-    shortdesc: Regain more HP from rest, recover faster from disease and poisons.
+    shortdesc: Your body quickly bounces back from afflictions. You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.
     prereq:
       level: 1
       ability: 
       - Constitution/14
   Feather Step:
-    feat_type: 
+    feat_type:
     - General
     traits: []
-    shortdesc: Step into difficult terrain.
+    shortdesc: You step carefully and quickly. You can Step into difficult terrain.
     prereq:
       level: 1
       ability: 
@@ -58,42 +125,42 @@ pf2e_feats:
     feat_type: 
     - General
     traits: []
-    shortdesc: Increase your Speed by 5 feet.
+    shortdesc: You move more quickly on foot. Your Speed increases by 5 feet.
     prereq:
       level: 1
   Incredible Initiative:
     feat_type: 
     - General
     traits: []
-    shortdesc: +2 to initiative rolls.
+    shortdesc: You react more quickly than others can. You gain a +2 circumstance bonus to initiative rolls.
     prereq:
       level: 1
   Ride:
     feat_type: 
     - General
     traits: []
-    shortdesc: Automatically succeed at commanding your mount to move.
+    shortdesc: When you Command an Animal you're mounted on to take a move action (such as Stride), you automatically succeed instead of needing to attempt a check. Any animal you're mounted on acts on your turn, like a minion. If you Mount an animal in the middle of an encounter, it skips its next turn and then acts on your next turn.
     prereq:
       level: 1
   Shield Block:
     feat_type: 
     - General
     traits: []
-    shortdesc: Ward off a blow with your shield.
+    shortdesc: You snap your shield in place to ward off a blow. Your shield prevents you from taking an amount of damage up to the shield’s Hardness. You and the shield each take any remaining damage, possibly breaking or destroying the shield.
     prereq:
       level: 1
   Toughness:
     feat_type: 
     - General
     traits: []
-    shortdesc: Increase your maximum HP and reduce the DCs of recovery checks.
+    shortdesc: You can withstand more punishment than most before succumbing. Increase your maximum Hit Points by your level. The DC of recovery checks is equal to 9 + your dying condition value.
     prereq:
       level: 1
   Weapon Proficiency:
     feat_type: 
     - General
     traits: []
-    shortdesc: Become trained in a weapon type.
+    shortdesc: You become trained in all simple weapons. If you were already trained in all simple weapons, you become trained in all martial weapons. If you were already trained in all martial weapons, you become trained in one advanced weapon of your choice.%r%r**Special** You can select this feat more than once. Each time you do, you become trained in additional weapons as appropriate, following the above progression.
     prereq:
       level: 1
 # Level 3 General Feats
@@ -101,14 +168,14 @@ pf2e_feats:
     feat_type: 
     - General
     traits: []
-    shortdesc: Gain a 1st-level ancestry feat.
+    shortdesc: Whether through instinct, study, or magic, you feel a deeper connection to your ancestry. You gain a 1st-level ancestry feat.
     prereq:
       level: 3
-  Hireling Manager:
+  Hireling Manager: # Talk about in staff meeting
     feat_type: 
     - General
     traits: []
-    shortdesc: Hirelings gain +2 to skill checks.
+    shortdesc: You are able to find and secure better labor than most. When securing a hireling for a service, that hireling gains a +2 circumstance bonus to all skill checks. This circumstance bonus applies to both trained and untrained hirelings and has no effect on the cost of the service or labor provided.
     prereq:
       level: 3
       ability: 
@@ -117,21 +184,28 @@ pf2e_feats:
     feat_type: 
     - General
     traits: []
-    shortdesc: Quickly patch a broken item.
+    shortdesc: You are skilled at making quick fixes to damaged equipment, but your fixes aren't meant to last forever. You make a quick repair to a broken non-magical item in your possession. Until the item takes damage again, you can still use it as a shoddy item of its type. This repair restores no Hit Points, so the item is easy to destroy. Once the item is Repaired normally such that it is no longer broken, it is also no longer shoddy.
     prereq:
       level: 3
   Keen Follower:
     feat_type: 
     - General
     traits: []
-    shortdesc: Improve bonuses when you Follow the Expert.
+    shortdesc: Your keen observation of your allies has made you better at following their lead. When using the Follow the Expert activity in exploration mode, you gain a +3 circumstance bonus if the ally you are following is an expert and a +4 circumstance bonus if your ally is a master.
+    prereq:
+      level: 3
+  Prescient Planner: # Talk about with staff
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You regularly create convoluted plans and contingencies, using your resources to enact them. You take 1 minute to remove your backpack, then carefully remove an item you hadn't previously declared that you purchased—you intuited that you would come to need the item and purchased it at the latest opportunity. The item must be a piece of adventuring gear, and can't be a weapon, armor, alchemical item, magic item, or other treasure. It must be common with a level no higher than half your level, and its Bulk must be low enough that carrying it wouldn't have made you encumbered.
     prereq:
       level: 3
   Pick up the Pace:
     feat_type: 
     - General
     traits: []
-    shortdesc: Your group can Hustle for up to 20 minutes longer.
+    shortdesc: You lead by example and can help others push themselves beyond their normal limits. When Hustling in a group during exploration mode, your group can Hustle for up to 20 additional minutes, to a maximum of the amount of time the character with the highest Constitution modifier could Hustle alone.
     prereq:
       level: 3
       ability: 
@@ -140,7 +214,7 @@ pf2e_feats:
     feat_type: 
     - General
     traits: []
-    shortdesc: Crawl up to half your Speed.
+    shortdesc: You can scoot swiftly across the ground. You can Crawl up to half your Speed. 
     prereq:
       level: 3
       feat: 
@@ -151,7 +225,81 @@ pf2e_feats:
     feat_type: 
     - General
     traits: []
-    shortdesc: +2 to Perception when you spend twice as long Searching.
+    shortdesc: You take your time searching to ensure you find everything. When Searching, you can take twice as long to search. Normally this means you Search at up to one quarter of your Speed, to a maximum of 150 feet per minute to check everything, or 75 feet per minute to check everything before you walk into it. If you do, you gain a +2 circumstance bonus to your Perception checks to Seek.
     prereq:
       level: 3
       combat_stats: Perception/expert
+# Level 7 General Feats
+  Expeditious Retreat:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You have a system that lets you search at great speed, finding details and secrets twice as quickly as others can. When Searching, you take half as long as usual to Search a given area. This means that while exploring, you double the Speed you can move while ensuring you’ve Searched an area before walking into it (up to half your Speed). If you’re legendary in Perception, you instead Search areas four times as quickly.
+    prereq:
+      level: 7
+      skill: Perception/master
+  Prescient Consumable: # talk about with staff
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You can predict which consumables you might need in advance. When using Prescient Planner, you can procure a consumable item from your backpack, instead of a piece of adventuring gear. The consumable item must still be common with a level no higher than half your level, and its Bulk must be low enough that carrying it wouldn't have made you encumbered.
+    prereq:
+      level: 7
+      feat:
+      - Prescient Planner
+  Supertaster:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You have refined your palate and have a discerning sense of taste that can detect abnormalities in the flavor and texture of food and beverages. When eating food or drinking a beverage, you automatically attempt to identify the ingredients, which might alert you to the presence of alterations or additives, such as poisons. The GM rolls a secret Perception check using the poison's level to determine the DC; on a success, you learn that the food or drink was poisoned, but not the specific poison used.%r%rIf you lick or taste something while Investigating or attempting to Recall Knowledge to identify something, if the taste would provide relevant additional information (at the GM's discretion), you gain a +2 circumstance bonus to your check.
+    prereq:
+      level: 7
+      skill: Perception/master
+# Level 11 General Feats
+  A Home in Every Port: # talk about with staff
+    feat_type:
+    - General
+    traits:
+    - Downtime
+    shortdesc: You have a reputation in towns and villages you've visited, and residents are always willing to open their doors to you. When in a town or village, during downtime, you can spend 8 hours to locate a resident willing to provide lodging for you and up to six allies for up to 24 hours at no charge. The standard of living within the acquired lodging is comfortable, and square meals are provided at no cost. After 24 hours, you must pay standard prices for further lodging and meals or use this feat again to find a new resident willing to host you.
+    prereq:
+      level: 11
+      ability: 
+      - Charisma/16
+  Caravan Leader:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You know how to get the most effort out of your allies on the road. When Hustling in a group during exploration mode, your group can Hustle for as long as the member who could Hustle longest on their own, plus an additional 20 minutes beyond that.
+    prereq:
+      level: 11
+      feat:
+      - Pick up the Pace
+      ability: 
+      - Constitution/18
+  Incredible Investiture:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You have an incredible ability to invest more magic items. Increase your limit on invested items from 10 to 12.
+    prereq:
+      level: 11
+      ability:
+      - Charisma/18
+  Incredible Scout:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: When you scout, you are particularly alert for danger, granting your allies precious moments to prepare to fight. When using the Scout exploration activity, you grant your allies a +2 circumstance bonus to their initiative rolls instead of a +1 circumstance bonus.
+    prereq:
+      level: 11
+      skill: Perception/master
+# Level 19 General Feats
+  True Perception:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: Your perceptive abilities and ability to process sensory information are so far beyond the pale that you notice minute discrepancies in all sorts of illusions and transmutations. You are constantly under the effects of a 6th-level true seeing spell, using your Perception modifier for the counteract check.
+    prereq:
+      level: 19
+      skill: Perception/legendary
