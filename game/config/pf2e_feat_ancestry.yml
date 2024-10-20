@@ -7,7 +7,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You learn formulas more easily.
+    shortdesc: "You learn formulas more easily. You gain four common 1st-level alchemical formulas when you take this feat, and each time you gain a level, you gain a common alchemical formula of that level. You still need the Alchemical Crafting feat to Craft alchemical items.%r%r**Special**: You can take this feat only at 1st level, and you can’t retrain into or out of this feat."
     prereq:
       level: 1
   Arvek Lore:
@@ -16,7 +16,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You’ve studied traditional arvek exercises and fieldcraft, all of which have a militaristic bent.
+    grants:
+      skill:
+      - Athletics
+      - Crafting
+      - Arvek Lore
+    shortdesc: "You've studied traditional arvek exercises and fieldcraft, all of which have a militaristic bent. You become trained in Athletics and Crafting. For each of these skills in which you were already trained, you become trained in a skill of your choice. You also become trained in Arvek Lore."
     prereq:
       level: 1
   Arvek Weapon Familiarity:
@@ -25,7 +30,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You are trained with composite longbows, composite shortbows, glaives, longbows, longswords, and shortbows.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: "You are trained with composite longbows, composite shortbows, glaives, longbows, longswords, and shortbows. In addition, you gain access to all uncommon arvek weapons. For the purpose of determining your proficiency, martial arvek weapons are simple weapons and advanced arvek weapons are martial weapons."
     prereq:
       level: 1
   Leech-Clipper:
@@ -34,7 +43,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You are trained to capture deserters, or “leeches”.
+    shortdesc: "You are trained to capture deserters, or 'leeches.' If you critically hit a foe with a weapon from the flail weapon group, you can wrap the weapon around the target's legs and then drop it, causing the foe to take a –10-foot circumstance penalty to their Speeds until they or their allies disentangle the weapon, which takes a total of 2 Interact actions."
     prereq:
       level: 1
   Remorseless Lash:
@@ -43,7 +52,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: 'You’re skilled at beating a foe when their morale is already breaking.'
+    shortdesc: "You're skilled at beating a foe when their morale is already breaking. When you succeed at a melee weapon Strike against a frightened foe, that foe can't reduce their frightened condition below 1 until the beginning of your next turn."
     prereq:
       level: 1
   Vigorous Health:
@@ -52,7 +61,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc:
+    shortdesc: "Your physique is robust and can withstand blood loss startlingly well. Whenever you would gain the drained condition, you can attempt a DC 17 flat check. On a success, you don't gain the drained condition."
     prereq:
       level: 1
   Agonizing Rebuke:
@@ -61,7 +70,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: When you terrorize your enemies, you also cause them painful mental distress.
+    shortdesc: When you terrorize your enemies, you also cause them painful mental distress. When you successfully Demoralize a foe, that foe takes 1d4 mental damage at the start of each of its turns as long as it remains frightened and continues to engage in combat with you. If you have master proficiency in Intimidation, the damage increases to 2d4, and if you have legendary proficiency, the damage increases to 3d4.
     prereq:
       level: 5
   Arvek Weapon Discipline:
@@ -70,7 +79,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You know how to efficiently utilize the weapons soldiers use in close quarters.
+    shortdesc: "You know how to efficiently utilize the weapons soldiers use in close quarters. Whenever you score a critical hit using a weapon of the polearm, spear, or sword group, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
@@ -81,7 +90,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You know how to get the most out of your allies.
+    shortdesc: "You know how to get the most out of your allies. While exploring, when you are leading and allies are Following the Expert, you grant a +3 circumstance bonus instead of +2 if you're an expert in the applicable skill, and a +4 circumstance bonus if you're a master."
     prereq:
       level: 5
   Formation Training:
@@ -90,10 +99,46 @@ pf2e_feats:
     assoc_ancestry: 
     - Arvek
     traits: []
-    shortdesc: You know how to fight in formation with your brethren.
+    shortdesc: You know how to fight in formation with your brethren. When you are adjacent to at least two arvek allies, you gain a +1 circumstance bonus to AC and saving throws. This bonus increases to +2 on Reflex saves against area effects.
     prereq:
       level: 5
       combat_stats: wp_martial/trained
+  Pride in Arms:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    traits:
+    - auditory
+    shortdesc: "This feat grants you the Pride in Arms reaction, which has the trigger: 'An ally within 30 feet brings a foe to 0 Hit Points.'%r%rWith a shout of triumph, you grant inspiration to an ally to fight on. The triggering ally gains temporary Hit Points equal to their Constitution modifier until the end of their next turn."
+    prereq:
+      level: 9
+  Arvek Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    traits: []
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: expert
+    shortdesc: "You increase your training in battlefield weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency rank in all weapons you are trained in from the Arvek Weapon Familiarity feat.%r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Arvek Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Arvek Weapon Familiarity
+  Formation Master:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    traits: []
+    shortdesc: "You can assemble a formation even with members of ancestries that lack the arveks' military discipline, and you can extend these benefits to your arvek allies. When you are adjacent to at least two humanoid allies, you gain the benefits of the Formation Training feat, even if they aren't arvek allies. Arvek allies adjacent to you and at least one other arvek ally also gain the bonuses from your Formation Training feat."
+    prereq:
+      level: 13
+      feat:
+      - Formation Training
 # Bassin Ancestry Feats
   Bassin Lore:
     feat_type: 
@@ -101,7 +146,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You’ve dutifully learned important skills passed down through generations of halfling tradition.
+    grants:
+      skill:
+      - Acrobatics
+      - Stealth
+      - Bassin Lore
+    shortdesc: "You've dutifully learned how to keep your balance and how to stick to the shadows where it's safe, important skills passed down through generations of bassin tradition. You gain the trained proficiency rank in Acrobatics and Stealth. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Bassin Lore."
     prereq:
       level: 1
   Bassin Luck:
@@ -111,7 +161,7 @@ pf2e_feats:
     - Bassin
     traits:
     - fortune
-    shortdesc: Your happy-go-lucky nature makes it seem like misfortune avoids you.
+    shortdesc: "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true. As a free action, you can reroll the triggering check, but you must use the new result, even if it's worse than your first roll."
     prereq:
       level: 1
   Bassin Weapon Familiarity:
@@ -120,7 +170,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You favor traditional halfling weapons, so you’ve learned how to use them more effectively.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: "You favor traditional bassin weapons, so you've learned how to use them more effectively. You have the trained proficiency with the sling, bassin sling staff, and shortsword. You gain access to all uncommon bassin weapons. For the purpose of determining your proficiency, martial bassin weapons are simple weapons and advanced bassin weapons are martial weapons."
     prereq:
       level: 1
   Distracting Shadows:
@@ -129,7 +183,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You have learned to remain hidden by using larger folk as a distraction to avoid drawing attention to yourself.
+    shortdesc: You have learned to remain hidden by using larger folk as a distraction to avoid drawing attention to yourself. You can use creatures that are at least one size larger than you (usually Medium or larger) as cover for the Hide and Sneak actions, though you still can't use such creatures as cover for other uses, such as the Take Cover action.
     prereq:
       level: 1
   Folksy Patter:
@@ -138,7 +192,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You are adept at disguising coded messages as folksy idioms.
+    shortdesc: "You are adept at disguising coded messages as folksy idioms. Using slang, jokes, bassin loanwords, and the like, you convey a simple message consisting of three basic words (such as 'Danger assassin flee' or 'Meet me moonrise'). Your intended listener can attempt a Perception check to discern the message (DC 20 if an ally, DC 15 if a bassin ally, DC 10 if a bassin ally with Folksy Patter). Eavesdroppers can also attempt a Perception check against your Deception DC to discern your meaning. Any bonuses or penalties to Perception checks to Sense Motive apply."
     prereq:
       level: 1
   Prairie Rider:
@@ -147,7 +201,10 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You grew up riding your clan's shaggy ponies and riding dogs.
+    grants:
+      skill:
+      - Nature
+    shortdesc: "You grew up riding your clan's shaggy ponies and riding dogs. You become trained in Nature. If you would automatically become trained in Nature (from your background or class, for example), you instead become trained in a skill of your choice. You also get a +1 circumstance bonus to Command an Animal if the target is a traditional bassin mount, such as a pony or riding dog."
     prereq:
       level: 1
   Sure Feet:
@@ -157,7 +214,7 @@ pf2e_feats:
     - Bassin
     traits:
     - bassin
-    shortdesc: Whether keeping your balance or scrambling up a tricky climb, your hairy, calloused feet easily find purchase.
+    shortdesc: "Whether keeping your balance or scrambling up a tricky climb, your hairy, calloused feet easily find purchase. If you roll a success on an Acrobatics check to Balance or an Athletics check to Climb, you get a critical success instead. You're not flat-footed when you attempt to Balance or Climb."
     prereq:
       level: 1
   Titan Slinger:
@@ -166,7 +223,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You have learned how to use your sling to fell enormous creatures.
+    shortdesc: You have learned how to use your sling to fell enormous creatures. When you hit on an attack with a sling against a Large or larger creature, increase the size of the weapon damage die by one step (details on increasing weapon damage die sizes can be found here).
     prereq:
       level: 1
   Unfettered Bassin:
@@ -175,7 +232,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You were forced into service as a laborer, but you’ve since escaped and have trained to ensure you’ll never be caught again.
+    shortdesc: "You were forced into service as a laborer, either pressed into indentured servitude or shackled by the evils of slavery, but you've since escaped and have trained to ensure you'll never be caught again. Whenever you roll a success on a check to Escape or a saving throw against an effect that would impose the grabbed or restrained condition on you, you get a critical success instead. Whenever a creature rolls a failure on a check to Grapple you, they get a critical failure instead. If a creature uses the Grab ability on you, it must succeed at an Athletics check to grab you instead of automatically grabbing you."
     prereq:
       level: 1
   Watchful Bassin:
@@ -184,7 +241,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: Your communal lifestyle causes you to pay close attention to the people around you.
+    shortdesc: "Your communal lifestyle causes you to pay close attention to the people around you, allowing you to more easily notice when they act out of character. You gain a +2 circumstance bonus to Perception checks when using the Sense Motive basic action to notice enchanted or possessed characters. If you aren't actively using Sense Motive on an enchanted or possessed character, the GM rolls a secret check, without the usual circumstance and with a –2 circumstance penalty, for you to potentially notice the enchantment or possession anyway.%r%rIn addition to using it for skill checks, you can use the Aid basic action to grant a bonus to another creature's saving throw or other check to overcome enchantment or possession.%r%rAs usual for Aid, you need to prepare by using an action on your turn to encourage the creature to fight against the effect."
     prereq:
       level: 1
   Bassin Weapon Trickster:
@@ -193,18 +250,23 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You are particularly adept at fighting with your people’s favored weapons.
+    shortdesc: "You are particularly adept at fighting with your people's favored weapons. Whenever you critically succeed at an attack roll using a shortsword, a sling, or a bassin weapon, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
       - Bassin Weapon Familiarity
   Cultural Adaptability:
-    feat_type: 
+    feat_type:
     - Ancestry
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: During your adventures, you’ve honed your ability to adapt to the culture of the predominant ancestry around you.
+    grants:
+      feat:
+      - Adopted Ancestry
+      assign:
+      - ancestry feat
+    shortdesc: "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat, and you also gain one 1st-level ancestry feat from the ancestry you chose for the Adopted Ancestry feat."
     prereq:
       level: 5
   Step Lively:
@@ -213,9 +275,101 @@ pf2e_feats:
     assoc_ancestry: 
     - Bassin
     traits: []
-    shortdesc: You are an expert at avoiding the lumbering footsteps of larger creatures.
+    shortdesc: You are an expert at avoiding the lumbering footsteps of larger creatures. You Step to another space adjacent to the enemy.
     prereq:
       level: 5
+  Dance Underfoot:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    shortdesc: You dart under the legs of your enemies in combat. You can end a successful Tumble Through action in a Large or larger enemy's space. Also, when using the Step Lively feat, you can Step into the triggering enemy's space. The enemy must have limbs or otherwise leave you enough room for this maneuver, as determined by the GM. For instance, you could share space with a giant or dragon, but not an ooze.
+    prereq:
+      level: 9
+      feat: 
+      - Step Lively
+  Guiding Luck:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    shortdesc: "Your luck guides you to look the right way and aim your blows unerringly. You can use your Bassin Luck free action twice per day: once in response to its normal trigger, and once when you fail a Perception check or attack roll instead of the normal trigger."
+    prereq:
+      level: 9
+      feat: 
+      - Bassin Luck
+  Irrepressible:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    shortdesc: "You are easily able to ward off attempts to play on your fears and emotions. When you roll a success on a saving throw against an emotion effect, you get a critical success instead. If your heritage is gutsy halfling, when you roll a critical failure on a saving throw against an emotion effect, you get a failure instead."
+    prereq:
+      level: 9
+  Unhampered Passage:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    magic:
+      innate_spell:
+        4:
+        - Freedom of Movement
+        spell_trad: primal
+    shortdesc: "You won't allow others to restrain you. You can cast freedom of movement on yourself as a primal innate spell once per day."
+    prereq:
+      level: 9
+  Ceaseless Shadows:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    shortdesc: "You excel at going unnoticed, especially among a crowd. You no longer need to have cover or be concealed to Hide or Sneak. If you would have lesser cover from creatures, you gain cover and can Take Cover, and if you would have cover from creatures, you gain greater cover."
+    prereq:
+      level: 13
+      feat:
+      - Distracting Shadows
+  Bassin Weapon Expertise:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: expert
+    shortdesc: "Your bassin affinity blends with your class training, granting you great skill with bassin weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the sling, bassin sling staff, shortsword, and all bassin weapons in which you are trained.%r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Bassin Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Bassin Weapon Familiarity
+  Toppling Dance:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    shortdesc: "While sharing a creature's space using Dance Underfoot, your weapons and unarmed attacks gain the trip trait, but only against the creature whose space you share. You can be in the same space as a Large or larger prone creature, even if it's not your ally."
+    prereq:
+      level: 13
+      feat:
+      - Dance Underfoot
+  Shadow Self:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Bassin
+    traits: []
+    shortdesc: "With a powerful talent for misdirection, you slip from your adversaries' notice so thoroughly you appear to be somewhere else. You become invisible for 1 minute or until you take a hostile action, whichever comes first. Choose a location within 10 feet of you. Until your invisibility ends, you appear to be hidden in that location to anyone trying to find you. If the searcher gets clear evidence that you're not there, they no longer think you're hidden there, but they don't discover your actual location."
+    prereq:
+      level: 17
+      skill: Stealth/legendary
 # Ciith Ancestry Feats
   Ciith Lore:
     feat_type: 
@@ -223,7 +377,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You listened carefully to the tales passed down among your community.
+    grants:
+      skill:
+      - Nature
+      - Survival
+      - Ciith Lore
+    shortdesc: You listened carefully to the tales passed down among your community. You gain the trained proficiency rank in Nature and Survival. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Ciith Lore.
     prereq:
       level: 1
   Marsh Runner:
@@ -232,7 +391,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You are adept at moving through marshy terrain.
+    shortdesc: "You are adept at moving through marshy terrain. When you use the Step action, you can ignore difficult terrain caused by flooding, swamps, or quicksand. In addition, when you use the Acrobatics skill to Balance on narrow surfaces or uneven marshy ground, you aren't flat-footed, and if you roll a success on the Acrobatics check, you get a critical success instead."
     prereq:
       level: 1
   Parthenogenic Hatchling:
@@ -241,16 +400,16 @@ pf2e_feats:
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother.
+    shortdesc: You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother. You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.%r%r**Special** You can take this feat only at 1st level.
     prereq:
       level: 1
-  Razor Claws:
+  Razor Claws: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: Your have honed your claws to be deadly.
+    shortdesc: Your have honed your claws to be deadly. Your claw attack deals 1d6 slashing damage instead of 1d4 and gains the versatile (piercing) trait.
     prereq:
       level: 1
   Reptile Speaker:
@@ -259,25 +418,25 @@ pf2e_feats:
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You hear the sounds of reptiles as language.
+    shortdesc: You hear the sounds of reptiles as language. You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).
     prereq:
       level: 1
-  Sharp Fangs:
+  Sharp Fangs: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: Your teeth are formidable weapons.
+    shortdesc: Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.
     prereq:
       level: 1
-  Tail Whip:
+  Tail Whip: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: By birth or through training, your tail is strong enough to make for a powerful melee weapon.
+    shortdesc: By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.
     prereq:
       level: 1
   Ciith Unarmed Cunning:
@@ -286,27 +445,27 @@ pf2e_feats:
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You make the most of your unarmed attacks.
+    shortdesc: "You make the most of your ciith unarmed attacks. Whenever you score a critical hit with a claw or an unarmed attack you gained from a ciith ancestry feat, you apply the unarmed attack's critical specialization effect."
     prereq:
       level: 5
-  Envenom Fangs:
+  Envenom Fangs: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You envenom your fangs.
+    shortdesc: You envenom your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.
     prereq:
       level: 5
       feat: 
       - Sharp Fangs
-  Gecko's Grip:
+  Gecko's Grip: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You stick to walls with a preternatural grip.
+    shortdesc: You stick to walls with a preternatural grip. You gain a climb Speed of 15 feet.
     prereq:
       level: 5
       heritage: Cliffscale
@@ -316,21 +475,45 @@ pf2e_feats:
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You can shed your tail to escape.
+    shortdesc: "You can shed your tail to escape. You cease being grabbed, then Stride without triggering any reactions from the creature that grabbed you. It takes 1 week for your tail to fully grow back. Until it does, you can't use your tail unarmed attack, and you take a –2 circumstance penalty on checks to Balance."
     prereq:
       level: 5
       feat: 
       - Tail Whip 
-  Swift Swimmer:
+  Swift Swimmer: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Ciith
     traits: []
-    shortdesc: You swim faster than most ciith.
+    shortdesc: You swim faster than most ciith. Your swim Speed increases to 25 feet.
     prereq:
       level: 5
       heritage: Makar
+  Terrain Advantage:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Ciith
+    traits: []
+    shortdesc: "You can take advantage of the terrain to bypass foes' defenses. Non-ciith creatures in difficult terrain are flat-footed to you. If you have a swim Speed, non-ciith creatures that are in water and lack a swim Speed are also flat-footed to you."
+    prereq:
+      level: 9
+  Primal Rampage:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Ciith
+    traits: []
+    magic:
+      innate_spell:
+        4:
+        - Freedom of Movement
+        - Stoneskin
+        spell_trad: primal
+    shortdesc: "You tap into the unstoppable, primeval strength of your ancient kin. You gain _freedom of movement_ and _stoneskin_ as 4th-level primal innate spells that you can cast once per day. As a 3-action activity, you can Cast a Spell twice to cast both of these innate spells, as long as they are both still available for the day."
+    prereq:
+      level: 13
 # Egalrin Ancestry Feats
   Egalrin Lore:
     feat_type: 
@@ -338,7 +521,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: You learned skills for surviving in the place where your people were dispersed.
+    grants:
+      skill:
+      - Society
+      - Survival
+      - Egalrin Lore
+    shortdesc: You learned skills for surviving in the place where your people were dispersed. You gain the trained proficiency rank in Society and Survival. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Egalrin Lore.
     prereq:
       level: 1
   Egalrin Weapon Familiarity:
@@ -347,7 +535,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: You've trained with a blade and other tengu weapons ever since you hatched.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: "You've trained with a blade and other egalrin weapons ever since you hatched. You gain access to khakkaras. Additionally, choose two weapons from the sword group. You can choose from among all common martial swords, plus the katana, temple sword, and wakizashi. For the purpose of determining your proficiency, that weapon is a simple weapon, and if the weapon isn't common, you gain access to it. If you are trained in all martial weapons, you add common advanced swords to the swords you can choose from.%r%rYou also gain access to all uncommon egalrin weapons. For the purpose of determining your proficiency, martial egalrin weapons are simple weapons, and advanced egalrin weapons are martial weapons."
     prereq:
       level: 1
   Scavenger's Search:
@@ -356,7 +548,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: You're always on the lookout for supplies and valuables.
+    shortdesc: "You're always on the lookout for supplies and valuables. Each time you use the Seek action to search for objects (including secret doors and hazards), you can search for objects in your choice of a 10-foot emanation around you or an adjacent 15-foot-by-15-foot area, rather than a single adjacent 10-foot-by-10-foot area."
     prereq:
       level: 1
   Squawk!:
@@ -365,7 +557,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: You let out an awkward squawk, ruffle your feathers, or fake some other birdlike tic to cover up a social misstep or faux pas.
+    shortdesc: You let out an awkward squawk, ruffle your feathers, or fake some other birdlike tic to cover up a social misstep or faux pas. You get a failure on the triggering check, rather than a critical failure. All creatures that witnessed you Squawk are temporarily immune for 24 hours.
     prereq:
       level: 1
   Storm's Lash:
@@ -374,7 +566,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: Wind and lightning have always been close friends to you.
+    magic:
+      innate_spell:
+        cantrip:
+        - Electric Arc
+        spell_trad: primal
+    shortdesc: Wind and lightning have always been close friends to you. You can cast the _electric arc_ cantrip as a primal innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.
     prereq:
       level: 1
   Eat Fortune:
@@ -386,7 +583,7 @@ pf2e_feats:
     - concentrate
     - divination
     - divine
-    shortdesc: As someone tries to twist fate, you consume the interference.
+    shortdesc: "As someone tries to twist fate, you consume the interference. The triggering effect is disrupted. If it's a misfortune effect, Eat Fortune gains the fortune trait; if it's a fortune effect, Eat Fortune gains the misfortune trait. This fortune or misfortune applies to the same roll the triggering effect would have, so you couldn't negate a fortune effect with Eat Fortune and then apply a misfortune effect to the same roll."
     prereq:
       level: 5
   Egalrin Weapon Study:
@@ -395,7 +592,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: You've learned techniques for using blades and other egalrin weapons.
+    shortdesc: "You've learned techniques for using blades and other egalrin weapons. Whenever you critically hit using one of the weapons from your Egalrin Weapon Familiarity feat, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
@@ -410,16 +607,7 @@ pf2e_feats:
     - polymorph
     - primal
     - transmutation
-    shortdesc: You can transform into a specific, curious-looking human form.
-    prereq:
-      level: 5
-  Magpie Snatch:
-    feat_type: 
-    - Ancestry
-    assoc_ancestry: 
-    - Egalrin
-    traits: []
-    shortdesc: You move quickly, snatching a shiny item that catches your eye.
+    shortdesc: You can transform into a specific, curious-looking human form. This human form is the same age and body type as your egalrin form and has roughly analogous physical traits, such as height, though your nose remains as long as your beak and your complexion has red undertones, no matter the skin color of your human form. Using Long-Nosed Form counts as creating a disguise for the Impersonate use of Deception. Due to your imperfect transformation, your transformation doesn't automatically defeat Perception DCs to determine whether you are human, though you may be able to explain away or hide your egalrin traits. You lose your beak unarmed Strike in your human form, as well as any other unarmed Strikes you gained from a egalrin heritage or ancestry feat. You can remain in your human form indefinitely, and you can shift back to your egalrin form by using this action again.
     prereq:
       level: 5
   One-Toed Hop:
@@ -428,9 +616,57 @@ pf2e_feats:
     assoc_ancestry: 
     - Egalrin
     traits: []
-    shortdesc: Assuming a peculiar stance, you make a short hop on each toe.
+    shortdesc: Assuming a peculiar stance, you make a short hop on each toe. You make a vertical Leap without triggering reactions that can be triggered by move actions or upon leaving or entering a square.
     prereq:
       level: 5
+  Eclectic Sword Training: # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Egalrin
+    traits: []
+    shortdesc: You were always taught that you needed to be able to use whatever weapon came your way. You can change any of the swords designated in your Egalrin Weapon Familiarity to different swords that meet the same specifications. You have to practice with a sword during your daily preparations to designate it, and the designation only lasts until your next daily preparations. This changes only your proficiency; it doesn't change your access.
+    prereq:
+      level: 9
+  Soaring Flight:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Egalrin
+    traits:
+    - morph
+    - primal
+    - transformation
+    shortdesc: To be a egalrin is to be unburdened by the concerns of the world below. You grow a pair of magical wings or expand your existing ones. For 5 minutes, you gain a fly Speed equal to your land Speed or 20 feet, whichever is greater.
+    prereq:
+      level: 9
+      heritage: Skyborn
+  Egalrin Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Egalrin
+    traits: []
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: expert
+    shortdesc: "Study has made you an expert with egalrin weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency for the weapons from your Egalrin Weapon Familiarity feat.%r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Egalrin Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Egalrin Weapon Familiarity
+  Great Egalrin Form:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Egalrin
+    traits: []
+    shortdesc: You take on the imposing form of a large, winged oni. Once per day, as part of using Long-Nosed Form, you also gain the benefits of 4th-level enlarge and fly. This lasts for 5 minutes or until you shift out of your Long-Nosed Form, whichever happens first.
+    prereq:
+      level: 17
+      feat:
+      - Long-Nosed Form
 # Gnome Ancestry Feats
   Animal Accomplice:
     feat_type: 
@@ -438,7 +674,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You build a rapport with an animal, which becomes magically bonded to you.
+    shortdesc: You build a rapport with an animal, which becomes magically bonded to you. You gain a familiar. The type of animal is up to you, but most gnomes choose animals with a burrow Speed.
     prereq:
       level: 1
   Burrow Elocutionist:
@@ -447,7 +683,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You recognize the chittering of ground creatures as its own peculiar language.
+    shortdesc: You recognize the chittering of ground creatures as its own peculiar language. You can ask questions of, receive answers from, and use the Diplomacy skill with animals that have a burrow Speed, such as badgers, ground squirrels, moles, and prairie dogs. The GM determines which animals count for this ability.
     prereq:
       level: 1
   Empathetic Plea:
@@ -460,7 +696,7 @@ pf2e_feats:
     - emotion
     - mental
     - visual
-    shortdesc: The way you cringe or use those puppydog eyes you've been practicing elicits an empathetic response in the attacker.
+    shortdesc: "The way you cringe or use those puppydog eyes you've been practicing elicits an empathetic response in the attacker. Attempt a Diplomacy check against your attacker's Will DC.%r**Critical Success** The creature pulls its attack, wasting its action, and can't use hostile actions against you until the beginning of its next turn.%r**Success** The creature takes a –2 circumstance penalty to damage on the triggering Strike and all its Strikes against you until the beginning of its next turn. The penalty is –4 if you're an expert in Diplomacy, –6 if you're a master, and –8 if you're legendary.%r**Failure** The creature's attack is unaffected, and the creature is temporarily immune to your Empathic Pleas for 24 hours."
     prereq:
       level: 1
       skill: Diplomacy/trained
@@ -470,26 +706,31 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: Your enhanced fey connection affords you a warmer reception from creatures of the First World.
+    shortdesc: "Your enhanced fey connection affords you a warmer reception from creatures of the First World as well as tools to foil their tricks. You gain a +2 circumstance bonus to both Perception checks and saving throws against fey.%r%rIn addition, whenever you meet a fey creature in a social situation, you can immediately attempt a Diplomacy check to Make an Impression on that creature rather than needing to converse for 1 minute. You take a –5 penalty to the check. If you fail, you can engage in 1 minute of conversation and attempt a new check at the end of that time rather than accepting the failure or critical failure result.%r%r**Special** If you have the Glad-Hand skill feat, you don't take the penalty on your immediate Diplomacy check if the target is a fey."
     prereq:
       level: 1
-  First World Magic:
+  First World Magic: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: Your connection to the First World grants you a primal innate spell, much like those of the fey.
+    magic:
+      innate_spell:
+        cantrip:
+        - open
+        spell_trad: primal
+    shortdesc: Your connection to the First World grants you a primal innate spell, much like those of the fey. Choose one cantrip from the primal spell list. You can cast this spell as a primal innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.
     prereq:
       level: 1
     init_magic: true
-  Gnome Obsession:
+  Gnome Obsession: # Ask Land about this later # Skill proficiency
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You might have a flighty nature, but when a topic captures your attention, you dive into it headfirst.
+    shortdesc: You might have a flighty nature, but when a topic captures your attention, you dive into it headfirst. Pick a Lore skill. You gain the trained proficiency rank in that skill. At 2nd level, you gain expert proficiency in the chosen Lore as well as the Lore granted by your background, if any. At 7th level you gain master proficiency in these Lore skills, and at 15th level you gain legendary proficiency in them.
     prereq:
       level: 1
   Gnome Weapon Familiarity:
@@ -498,7 +739,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You favor unusual weapons tied to your people, such as blades with curved and peculiar shapes.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: You favor unusual weapons tied to your people, such as blades with curved and peculiar shapes. You are trained with the glaive and kukri.%r%rIn addition, you gain access to kukris and all uncommon gnome weapons. For the purpose of determining your proficiency, martial gnome weapons are simple weapons and advanced gnome weapons are martial weapons.
     prereq:
       level: 1
   Illusion Sense:
@@ -507,7 +752,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: Your ancestors spent their days cloaked and cradled in illusions, and as a result, sensing illusion magic is second nature to you.
+    shortdesc: Your ancestors spent their days cloaked and cradled in illusions, and as a result, sensing illusion magic is second nature to you. You gain a +1 circumstance bonus to both Perception checks and Will saves against illusions. When you come within 10 feet of an illusion that can be disbelieved, the GM rolls a secret check for you to disbelieve it, even if you didn't spend an action to Interact with the illusion.
     prereq:
       level: 1
   Razzle-Dazzle:
@@ -516,7 +761,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You've spent considerable time practicing the manipulation of light, weaponizing your blade's reflection or bolstering the luminosity of magical displays to unconventional heights.
+    shortdesc: "You've spent considerable time practicing the manipulation of light, weaponizing your blade's reflection or bolstering the luminosity of magical displays to unconventional heights. Extend the duration of the blinded or dazzled condition you give the target by 1 round."
     prereq:
       level: 1
   Animal Elocutionist:
@@ -525,18 +770,18 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You hear animal sounds as conversations instead of unintelligent noise, and can respond in turn.
+    shortdesc: You hear animal sounds as conversations instead of unintelligent noise, and can respond in turn. You can speak to all animals, not just animals with a burrow Speed. You gain a +1 circumstance bonus to Make an Impression on animals (which usually uses the Diplomacy skill).
     prereq:
       level: 5
       feat: 
       - Burrow Elocutionist
-  Energized Font:
+  Energized Font: # Focus Point # Ask Land about this later
     feat_type:
     - Ancestry
     assoc_ancestry:
     - Gnome
     traits: []
-    shortdesc: The magic within you provides increased energy you can use to focus.
+    shortdesc: The magic within you provides increased energy you can use to focus. You regain 1 Focus Point, up to your usual maximum.
     prereq:
       level: 5
     init_magic: true
@@ -546,7 +791,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Gnome
     traits: []
-    shortdesc: You produce outstanding results when wielding unusual weapons.
+    shortdesc: You produce outstanding results when wielding unusual weapons. Whenever you critically hit using a glaive, kukri, or gnome weapon, you apply the weapon's critical specialization effect.
     prereq:
       level: 5
       feat: 
@@ -561,9 +806,90 @@ pf2e_feats:
     - illusion
     - primal
     - visual
-    shortdesc: Where others etch their armor to serve as a conduit for their imaginations, your vivid mind and bold personality allow you to project a more fitting persona over your lackluster armor.
+    shortdesc: "Where others etch their armor to serve as a conduit for their imaginations, your vivid mind and bold personality allow you to project a more fitting persona over your lackluster armor. You change the shape and appearance of your armor to appear as ordinary or fine clothes of your imagining. The armor's statistics don't change. This effect lasts as long as you remain conscious and are wearing the armor. A creature can disbelieve the illusion by Seeking or touching your armor. The DC equals your Will DC."
     prereq:
       level: 5
+  Cautious Curiosity: # Ask Land about this later # weird magic prereqs # multi-tradition magic
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits: []
+    shortdesc: You've learned a few magical techniques for getting yourself both into and out of trouble unnoticed. You gain misdirection and silence as 2nd-level arcane or occult innate spells. The tradition of these spells must match the tradition you use for your gnome ancestry options. You can cast each spell once per day and can target only yourself.
+    prereq:
+      level: 9
+  First World Adept: # Ask Land about this later # weird magic prereqs
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits: []
+    magic:
+      innate_spell:
+        2:
+        - Faerie Fire
+        - Invisibility
+        spell_trad: primal
+    shortdesc: Over time your fey magic has grown stronger. You gain faerie fire and invisibility as 2nd-level primal innate spells. You can cast each of these primal innate spells once per day.
+    prereq:
+      level: 9
+  Life Leap:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits:
+    - move
+    - necromancy
+    - teleportation
+    shortdesc: "You phase through a space that a living creature occupies in a flash, spontaneously appearing on the opposite side of it in a vibrant display of colorful light. You move from your current location to another location that's still adjacent to the same living creature, but on the opposite side or corner of the creature's space. To determine whether a position is valid, use the same rules as for flanking: a line through the center of the two spaces must pass through opposite sides or corners of the creature's space.%r%rYou pass through the creature's life force, appearing in the selected location; this doesn't trigger reactions based on movement. You must be able to see your destination, and you can't move farther than your Speed would allow."
+    prereq:
+      level: 9
+  Vivacious Conduit:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits: []
+    shortdesc: Your connection to the First World has grown, and its positive energy flows into you rapidly. If you rest for 10 minutes, you gain Hit Points equal to your Constitution modifier × half your level. This is cumulative with any healing you receive from Treat Wounds.
+    prereq:
+      level: 9
+  Gnome Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits: []
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: expert
+    shortdesc: "Your gnome affinity blends with your class training, granting you great skill with gnome weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the glaive, kukri, and all gnome weapons in which you are trained.%r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Gnome Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Gnome Weapon Familiarity
+  Instinctive Obfuscation:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits:
+    - illusion
+    - visual
+    shortdesc: The magic within you manifests as a natural reaction to threats. You gain the effects of _mirror image_ but with two images instead of three. The tradition of this action matches the tradition of your gnome ancestry options.
+    prereq:
+      level: 13
+  Homeward Bound:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Gnome
+    traits:
+    - uncommon
+    shortdesc: "The connection between you and the First World resonates within your body stronger than it does for most gnomes, allowing you to cross the threshold between the Material Plane and the First World. You gain plane shift as a primal innate spell. You can cast it twice per week. This can be used only to travel back and forth between the First World and the Material Plane. Due to your body's natural resonance, you can act as the spell focus, and you don't require a tuning fork."
+    prereq:
+      level: 17
 # Goblin Ancestry Feats
   Burn It!:
     feat_type: 
@@ -571,7 +897,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: Fire fascinates you.
+    shortdesc: "Fire fascinates you. Your spells and alchemical items that deal fire damage gain a status bonus to damage equal to half the spell's level or one-quarter the item's level (minimum 1). You also gain a +1 status bonus to any persistent fire damage you deal."
     prereq:
       level: 1
   City Scavenger:
@@ -580,7 +906,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You know that the greatest treasures often look like refuse, and you scoff at those who throw away perfectly good scraps.
+    shortdesc: You know that the greatest treasures often look like refuse, and you scoff at those who throw away perfectly good scraps. You gain a +1 circumstance bonus to checks to Subsist, and you can use Society or Survival when you Subsist in a settlement.%r%rWhen you Subsist in a city, you also gather valuable junk that silly longshanks threw away. You can Earn Income using Society or Survival in the same time as you Subsist, without spending any additional days of downtime. You also gain a +1 circumstance bonus to this check.%r%r**Special** If you have the irongut goblin heritage, increase the bonuses to +2.
     prereq:
       level: 1
   Extra Squishy:
@@ -589,7 +915,10 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: Your rubbery physique makes it easier for you to wedge yourself into tight spaces and more difficult for your enemies to dislodge you.
+    grants:
+      skill:
+      - Acrobatics
+    shortdesc: Your rubbery physique makes it easier for you to wedge yourself into tight spaces and more difficult for your enemies to dislodge you. You become trained in Acrobatics. If you would automatically become trained in Acrobatics (from your background or class, for example), you instead become trained in a skill of your choice. If you roll a success to Squeeze, you get a critical success instead. While you're Squeezing, you gain a +4 circumstance bonus to your Fortitude or Reflex DCs against attempts to Shove you or otherwise move you from your space.
     prereq:
       level: 1
       heritage: Unbreakable
@@ -599,7 +928,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You’ve picked up skills and tales from your goblin community.
+    grants:
+      skill:
+      - Nature
+      - Stealth
+      - Goblin Lore
+    shortdesc: "You've picked up skills and tales from your goblin community. You gain the trained proficiency rank in Nature and Stealth. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Goblin Lore."
     prereq:
       level: 1
   Goblin Scuttle:
@@ -608,7 +942,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You take advantage of your ally’s movement to adjust your position.
+    shortdesc: "You take advantage of your ally's movement to adjust your position. You Step."
     prereq:
       level: 1
   Goblin Song:
@@ -617,7 +951,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You sing annoying goblin songs, distracting your foes with silly and repetitive lyrics.
+    shortdesc: You sing annoying goblin songs, distracting your foes with silly and repetitive lyrics. Attempt a Performance check against the Will DC of a single enemy within 30 feet. This has all the usual traits and restrictions of a Performance check. You can affect up to two targets within range if you have expert proficiency in Performance, four if you have master proficiency, and eight if you have legendary proficiency.%r%r**Critical Success** The target takes a –1 status penalty to Perception checks and Will saves for 1 minute.%r%r**Success** The target takes a –1 status penalty to Perception checks and Will saves for 1 round.%r%r**Critical Failure** The target is temporarily immune to attempts to use Goblin Song for 1 hour.
     prereq:
       level: 1
   Goblin Weapon Familiarity:
@@ -626,7 +960,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: Others might look upon them with disdain, but you know that the weapons of your people are as effective as they are sharp.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: Others might look upon them with disdain, but you know that the weapons of your people are as effective as they are sharp. You are trained with the dogslicer and horsechopper. In addition, you gain access to all uncommon goblin weapons. For the purpose of determining your proficiency, martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons. 
     prereq:
       level: 1
   Junk Tinker:
@@ -635,16 +973,19 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You can make useful tools out of even twisted or rusted scraps.
+    shortdesc: "You can make useful tools out of even twisted or rusted scraps. When using the Crafting skill to Craft, you can make level 0 items, including weapons but not armor, out of junk. This reduces the Price to one-quarter the usual amount but always results in a shoddy item. Shoddy items normally give a penalty, but you don't take this penalty when using shoddy items you made.%r%rYou can also incorporate junk to save money while you Craft any item. This grants you a discount on the item as if you had spent 1 additional day working to reduce the cost, but the item is obviously made of junk. At the GM's discretion, this might affect the item's resale value depending on the buyer's tastes."
     prereq:
       level: 1
-  Rough Rider:
+  Rough Rider: # Animal Companion
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You are especially good at riding traditional gobber mounts.
+    grants:
+      feat:
+      - Ride
+    shortdesc: "You are especially good at riding traditional goblin mounts. You gain the Ride feat, even if you don't meet the prerequisites. You gain a +1 circumstance bonus to Nature checks to use Command an Animal on a goblin dog or wolf mount. You can always select a wolf as your animal companion, even if you would usually select an animal companion with the mount special ability, such as for a champion's steed ally."
     prereq:
       level: 1
   Twitchy:
@@ -653,7 +994,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You are naturally suspicious and wary of danger, especially when you suspect someone might be leading you into an ambush.
+    shortdesc: You are naturally suspicious and wary of danger, especially when you suspect someone might be leading you into an ambush. You gain a +1 circumstance bonus to AC and saves against hazards, and to all of your initiative rolls. If at least one of your opponents is using Deception or Diplomacy to determine their initiative, your bonus to initiative from this feat increases to +4.
     prereq:
       level: 1
   Very Sneaky:
@@ -662,7 +1003,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: Taller folk rarely pay attention to the shadows at their feet, and you take full advantage of this.
+    shortdesc: "Taller folk rarely pay attention to the shadows at their feet, and you take full advantage of this. You can move 5 feet farther when you take the Sneak action, up to your Speed. In addition, as long as you continue to use Sneak actions and succeed at your Stealth check, you don't become observed if you don't have cover or greater cover and aren't concealed at the end of the Sneak action, as long as you have cover or greater cover or are concealed at the end of your turn."
     prereq:
       level: 1
   Goblin Weapon Frenzy:
@@ -671,16 +1012,18 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You know how to wield your people’s vicious weapons.
+    shortdesc: "You know how to wield your people's vicious weapons. Whenever you score a critical hit using a goblin weapon, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
+      feat:
+      - Goblin Weapon Familiarity
   Kneecap:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You deliver a punishing blow to an enemy's knee, shin, or other vulnerable anatomy within your reach.
+    shortdesc: "You deliver a punishing blow to an enemy's knee, shin, or other vulnerable anatomy within your reach. Make a Strike with one of your melee weapons or melee unarmed attacks. This attack doesn't deal damage. On a hit, the target takes a –10-foot status penalty to its Speed or a –15-foot status penalty on a critical hit. The penalty lasts for 1 round. This penalty applies only if the target has a land Speed and depends on legs or other targetable appendages to use its land Speed. As with all penalties to Speed, this can't reduce a creature's Speed below 5 feet."
     prereq:
       level: 5
   Loud Singer:
@@ -689,7 +1032,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: 'Staying on pitch, proper breath control, and remembering the words are all less important than the real measure of a good singer: volume! The range of your Goblin Song is increased to 60 feet, and you can target one additional enemy when you use it.'
+    shortdesc: "Staying on pitch, proper breath control, and remembering the words are all less important than the real measure of a good singer: volume! The range of your Goblin Song feat is increased to 60 feet, and you can target one additional enemy when you use it."
     prereq:
       level: 5
       feat: 
@@ -700,17 +1043,85 @@ pf2e_feats:
     assoc_ancestry: 
     - Goblin
     traits: []
-    shortdesc: You have a knack for breaking and dismantling things.
+    grants:
+      skill:
+      - Thievery
+    shortdesc: "You have a knack for breaking and dismantling things. Putting them back together is the boring part, so you largely don't bother with that. You become trained in Thievery. If you would automatically become trained in Thievery (from your background or class, for example), you instead become trained in a skill of your choice. In addition, whenever you hit with a Strike against a trap or an unattended object, you ignore the first 5 points of the object's Hardness."
     prereq:
       level: 5
+  Cave Climber: # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Goblin
+    traits: []
+    shortdesc: After years of crawling and climbing through caverns, you can climb easily anywhere you go. You gain a climb Speed of 10 feet.
+    prereq:
+      level: 9
+  Cling:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Goblin
+    traits: []
+    shortdesc: "You hang onto a foe to harry them into submission. If your target moves while you're hanging onto it, you can choose to move with the target. The target is released if you choose not to move with it, at the start of your next turn, or if the target Escapes. Attempts to Escape from a Cling follow the rules for Escape, but use your Acrobatics DC and end the Cling instead of the conditions normally ended by the Escape action.%r%r**Special** You can use this action without a free hand if your preceding Strike was made with your jaws or a similar unarmed attack you could use to hang on. The GM determines which unarmed attacks apply. Hanging on in this way prevents you from using that unarmed attack."
+    prereq:
+      level: 9
+  Skittering Scuttle:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Goblin
+    traits: []
+    shortdesc: You can scuttle farther and faster when maneuvering alongside allies. When you use your Goblin Scuttle feat, you can Stride up to half your Speed instead of Stepping.
+    prereq:
+      level: 9
+      feat:
+      - Goblin Scuttle
+  Goblin Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Goblin
+    traits: []
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: expert
+    shortdesc: "Your goblin affinity blends with your class training, granting you great skill with goblin weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the dogslicer, horsechopper, and all goblin weapons in which you are trained.%r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Goblin Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Goblin Weapon Familiarity
+  Very, Very Sneaky:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Goblin
+    traits: []
+    shortdesc: You can move up to your Speed when you use the Sneak action, and you no longer need to have cover or greater cover or be concealed to Hide or Sneak.
+    prereq:
+      level: 13
+      feat:
+      - Very Sneaky
+  Reckless Abandon (Goblin):
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Goblin
+    traits:
+    - fortune
+    shortdesc: "Despite a lifetime filled with questionable decisions, you've managed to survive, as though you have uncanny luck that lets you avoid the consequences of your own actions. For the remainder of your turn, if you roll a failure or critical failure on a saving throw against a harmful effect, you get a success instead. Further, enemies and hazards that would damage you this turn roll the minimum possible damage.%r%rThese benefits apply only to harmful effects incurred entirely during your turn in which you activate Reckless Abandon, such as running through a prismatic wall. Persistent damage and conditions that were applied prior to your turn proceed normally, and as soon as your turn ends you are subject to the full consequences of any dangers still threatening you."
+    prereq:
+      level: 17
 # Human Ancestry Feats
-  Adapted Cantrip:
+  Adapted Cantrip: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: Through study of multiple magical traditions, you’ve altered a spell to suit your spellcasting style.
+    shortdesc: "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you're a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class's tradition.%r%rIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one."
     prereq:
       level: 1
     init_magic: true
@@ -720,16 +1131,16 @@ pf2e_feats:
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: The short human life span lends perspective and has taught you from a young age to set aside differences and work with others to achieve greatness.
+    shortdesc: The short human life span lends perspective and has taught you from a young age to set aside differences and work with others to achieve greatness. You gain a +4 circumstance bonus on checks to Aid.
     prereq:
       level: 1
-  General Training:
+  General Training: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: Your adaptability manifests in your mastery of a range of useful abilities.
+    shortdesc: "Your adaptability manifests in your mastery of a range of useful abilities. You gain a 1st-level general feat. You must meet the feat's prerequisites, but if you select this feat during character creation, you can select the feat later in the process in order to determine which prerequisites you meet.%r%r**Special** You can select this feat multiple times, choosing a different feat each time."
     prereq:
       level: 1
   Haughty Obstinacy:
@@ -738,7 +1149,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: Your powerful ego makes it harder for others to order you around.
+    shortdesc: Your powerful ego makes it harder for others to order you around. If you roll a success on a saving throw against a mental effect that attempts to directly control your actions, you critically succeed instead. If a creature rolls a failure on a check to Coerce you using Intimidation, it gets a critical failure instead (so it can't try to Coerce you again for 1 week).
     prereq:
       level: 1
   Natural Ambition:
@@ -747,7 +1158,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field.
+    shortdesc: You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field. You gain a 1st-level class feat for your class. You must meet the prerequisites, but you can select the feat later in the character creation process in order to determine which prerequisites you meet.
     prereq:
       level: 1
     grants:
@@ -758,25 +1169,29 @@ pf2e_feats:
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: Your ingenuity allows you to learn a wide variety of skills.
+    grants:
+      assign:
+        - skill
+        - skill
+    shortdesc: Your ingenuity allows you to learn a wide variety of skills. You gain the trained proficiency rank in two skills of your choice.
     prereq:
       level: 1
-  Unconventional Weaponry:
+  Unconventional Weaponry: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: You’ve familiarized yourself with a particular weapon, potentially from another ancestry or culture.
+    shortdesc: "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. Choose an uncommon simple or martial weapon with a trait corresponding to an ancestry (such as khazad, goblin, or oruch) or that is common in another culture. You gain access to that weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.%r%rIf you are trained in all martial weapons, you can choose an uncommon advanced weapon with such a trait. You gain access to that weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon. "
     prereq:
       level: 1
-  Adaptive Adept:
+  Adaptive Adept: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: You’ve continued adapting your magic to blend your class’s tradition with your adapted tradition.
+    shortdesc: "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip or 1st-level spell from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition. If you choose a 1st-level spell, you don't gain access to the heightened versions of that spell, meaning you can't prepare them if you prepare spells and you can't learn them or select the spell as a signature spell if you have a spell repertoire."
     prereq:
       level: 5
       feat: 
@@ -787,7 +1202,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: Like many humans raised in a close-knit community, you have always been strongly attuned to the presence of others.
+    shortdesc: Like many humans raised in a close-knit community, you have always been strongly attuned to the presence of others. Willing allies that you are aware of within 60 feet that would otherwise be undetected by you are instead hidden from you. The flat check for you to target willing allies within 60 feet that are hidden from you is 5 instead of 11.
     prereq:
       level: 5
   Cooperative Soul:
@@ -796,17 +1211,93 @@ pf2e_feats:
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: You have developed a soul-deep bond with your comrades and maintain an even greater degree of cooperation with them.
+    shortdesc: You have developed a soul-deep bond with your comrades and maintain an even greater degree of cooperation with them. If you are at least an expert in the skill you are Aiding, you get a success on any outcome rolled to Aid other than a critical success.
     prereq:
       level: 9
+      feat:
+      - Cooperative Nature
+  Group Aid:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "Your upbringing emphasized teamwork and helping your allies comes naturally to you. After you Aid an ally at a skill check that doesn't have the attack trait, you can also Aid any other ally who attempts the same skill check for the same purpose that round. You do so as a free action rather than a reaction.%r%rThe preparation you did to help must still apply to the other allies, and you can Aid each ally only once. For example, if you helped lift up an ally to Aid them on an Athletics check to scale a wall, you could keep the same posture to give a boost to other allies attempting to scale the wall in the same round."
+    prereq:
+      level: 9
+  Hardy Traveler: # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "There's no journey too far or burden too heavy when your friends are at your side. Increase your maximum and encumbered Bulk limits by 1. In addition, you gain a +10-foot circumstance bonus to your Speed during overland travel."
+    prereq:
+      level: 9
+  Multitalented: # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "You've learned to split your focus between multiple classes with ease. You gain a 2nd-level multiclass dedication feat, even if you normally couldn't take another dedication feat until you take more feats from your current archetype.%r%rIf you're a half-sil, you don't need to meet the feat's ability score prerequisites."
+    prereq:
+      level: 9
+  Advanced General Training: # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "Over the course of adventuring, your adaptability has let you pick up numerous useful abilities. You gain a general feat of 7th level or lower. You must meet the feat's prerequisites.%r%r**Special** You can select this feat multiple times, choosing a different feat each time."
+    prereq:
+      level: 13
+  Bounce Back:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "You recover from near-death experiences with astounding resilience. Don't increase the value of your wounded condition due to losing the dying condition."
+    prereq:
+      level: 13
+  Stubborn Persistence:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "Humans are renowned for their ability to persist through the most grueling of trials. When you would become fatigued, attempt a DC 17 flat check. On a success, you aren't fatigued. If the fatigued condition has an underlying cause that you don't address, such as lack of rest, you must attempt the check again at an interval determined by the GM until you fail the flat check or address the underlying cause."
+    prereq:
+      level: 13
+  Unconventional Expertise: # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the weapon you chose for Unconventional Weaponry."
+    prereq:
+      level: 13
+      feat:
+      - Unconventional Expertise
+  Heroic Presence:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Human
+    traits: []
+    shortdesc: "The blood of heroes courses through your veins, and you inspire your allies to dig deep and find a new level of resolve. You grant up to 10 willing creatures within 30 feet the effects of a 6th-level _zealous conviction_, though the effect automatically ends on a target if you give that target a command they would normally find repugnant. This action has the auditory trait or visual trait, depending on how you inspire your allies."
+    prereq:
+      level: 17
 # Kailli Ancestry Feats
-  Cheek Pouches:
+  Cheek Pouches: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: Your cheeks are stretchy, and you can store up to four items of light Bulk or less in these cheek pouches.
+    shortdesc: Your cheeks are stretchy, and you can store up to four items of light Bulk or less in these cheek pouches. None of these items can have a dimension longer than 1 foot. As long as you have at least one item in your cheek pouches, your speech is noticeably difficult to understand. Placing an item in your cheek pouch or retrieving one is an Interact action. You can empty your mouth with a single action, causing everything you had stored in your cheek pouches to fall to the ground in your square.
     prereq:
       level: 1
   Pack Rat:
@@ -815,16 +1306,16 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: Years of packing for travel have taught you how to cram vast quantities into small spaces.
+    shortdesc: "Years of packing for travel have taught you how to cram vast quantities into small spaces. You can fit an additional 50% of the listed Bulk capacity into mundane storage containers or vehicles. For example, you can fit 6 Bulk in a backpack, or 12 Bulk in a chest. This doesn't alter the items' Bulk, nor does it change how much you can store in a magical or extradimensional storage space, such as a bag of holding."
     prereq:
       level: 1
-  Rat Familiar:
+  Rat Familiar: # Familiar
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: You have a pet rat that has become magically bonded to you.
+    shortdesc: You have a pet rat that has become magically bonded to you. You gain a familiar using the rules here, and this familiar must be a rat. It still gets the benefits of familiar abilities, but its base form remains a rat.
     prereq:
       level: 1
   Kailli Lore:
@@ -833,7 +1324,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: Years of experience among ratfolk communities have made you nimble, and you've learned to run and hide when enemies threaten.
+    grants:
+      skill:
+      - Acrobatics
+      - Stealth
+      - Kailli Lore
+    shortdesc: "Years of experience among kailli communities have made you nimble, and you've learned to run and hide when enemies threaten. You gain the trained proficiency rank in Acrobatics and Stealth. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Kailli Lore."
     prereq:
       level: 1
   Ratspeak:
@@ -842,7 +1338,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: To you, the squeaking of rats and other rodents makes a strange kind of sense.
+    shortdesc: To you, the squeaking of rats and other rodents makes a strange kind of sense. You can ask questions of, receive answers from, and use the Diplomacy skill with rodents, including beavers, mice, porcupines, rats, and squirrels, but not with other mammals, such as dogs or bats. The GM determines which animals count as rodents.
     prereq:
       level: 1
   Tinkering Fingers:
@@ -851,16 +1347,16 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: You're good with your hands and can quickly improvise a fix for broken or damaged equipment.
+    shortdesc: "You're good with your hands and can quickly improvise a fix for broken or damaged equipment. You're trained in Crafting. If you would automatically become trained in Crafting (from your background or class, for example), you instead become trained in a skill of your choice. You can Repair an item without using a repair kit without taking the –2 circumstance penalty, improvising tools from whatever you have at hand."
     prereq:
       level: 1
-  Vicious Incisors:
+  Vicious Incisors: # Ask Land about this later # Natural weapon
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: You've let your incisors grow long enough to serve as formidable weapons.
+    shortdesc: "You've let your incisors grow long enough to serve as formidable weapons. You gain a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse and unarmed traits. Unlike most creatures, you can file down your teeth and regrow them later on, enabling you to select this feat at any level, and to retrain into and out of this feat."
     prereq:
       level: 1
   Warren Navigator:
@@ -869,7 +1365,10 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: You're particularly good at solving mazes and navigating twists and turns.
+    grants:
+      skill:
+      - Survival
+    shortdesc: "You're particularly good at solving mazes and navigating twists and turns. You gain the trained proficiency rank in Survival. If you would automatically become trained in Survival (from your background or class, for example), you become trained in another skill of your choice. When you Sense Direction or attempt a roll against a maze spell, you get a result one degree of success better than you rolled. You don't take a penalty to Sense Direction when you lack a compass."
     prereq:
       level: 1
   Lab Rat:
@@ -878,7 +1377,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: You've spent more than your share of time in an alchemy lab.
+    shortdesc: "You've spent more than your share of time in an alchemy lab. You might have been an alchemist yourself, an assistant, or perhaps even a test subject. Either way, you have been exposed to a wide variety of alchemical poisons and elixirs, leaving you with increased tolerance of their effects. You have a +1 circumstance bonus to saves against poison and harmful effects from elixirs. If you roll a success on your saving throw against an elixir or poison, you get a critical success instead."
     prereq:
       level: 5
   Quick Stow (Kailli):
@@ -887,7 +1386,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: You are adept at quickly moving items into your cheek pouches.
+    shortdesc: You are adept at quickly moving items into your cheek pouches. You Interact to store one held item in your cheek pouches (provided it fits).
     prereq:
       level: 5
       feat: 
@@ -898,10 +1397,57 @@ pf2e_feats:
     assoc_ancestry: 
     - Kailli
     traits: []
-    shortdesc: There always seems to be a little rat around to carry messages for you.
+    magic:
+      innate_spell:
+        2:
+        - Animal Messenger
+        spell_trad: primal
+    shortdesc: There always seems to be a little rat around to carry messages for you. You can cast _animal messenger_ once per day as a primal innate spell. When you do, the animal that responds is always a rat. If there are no rats within range, the spell is lost.
     prereq:
       level: 5
     init_magic: true
+  Big Mouth:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Kailli
+    traits: []
+    shortdesc: Your cheek pouches are especially stretchy. Instead of storing up to four items of Light Bulk in your cheek pouches, you can store up to 1 Bulk worth of items. The maximum size of a given item is unchanged.
+    prereq:
+      level: 9
+      feat: 
+      - Cheek Pouches
+  Overcrowd:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Kailli
+    traits: []
+    shortdesc: Your physiology is slight, and you can pack into small spaces with others of similar stature. As long as you are Small, you can end your movement in the same square as a Small ally. Only two creatures total can share the same space when using this ability or a similar one.
+    prereq:
+      level: 9
+  Rat Form:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Kailli
+    traits:
+    - concentrate
+    - polymorph
+    - primal
+    - transformation
+    shortdesc: You can transform into an innocuous-looking rat to scout an area or slip through tight spaces. You gain the effects of a 1st-level _pest form_ spell, except that you must assume the battle form of a Tiny rat.
+    prereq:
+      level: 9
+  Warren Digger:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Kailli
+    traits: []
+    shortdesc: "You've learned to put your sturdy claws to work digging through the earth. You gain a burrow Speed of 15 feet."
+    prereq:
+      level: 13
 # Khazadi Ancestry Feats
   Eye for Treasure:
     feat_type: 
@@ -909,7 +1455,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You know good artisanship when you see it and can wax poetic about crafting techniques and forms.
+    grants:
+      skill:
+      - Crafting
+      feat:
+      - Crafter's Appraisal
+    shortdesc: You know good artisanship when you see it and can wax poetic about crafting techniques and forms. You become trained in Crafting and gain a +1 circumstance bonus on all Crafting checks made to Recall Knowledge. If you would automatically become trained in Crafting (from your background or class, for example), you instead become trained in a skill of your choice. In addition, you gain the Crafter's Appraisal skill feat, enabling you to identify magic items using the Crafting skill.
     prereq:
       level: 1
   Khazadi Doughtiness:
@@ -918,7 +1469,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You are either naturally calm and collected in the face of imminent danger, or you are very good at faking it.
+    shortdesc: You are either naturally calm and collected in the face of imminent danger, or you are very good at faking it. At the end of your turn, reduce your frightened condition by 2 instead of 1.
     prereq:
       level: 1
   Khazadi Lore:
@@ -927,7 +1478,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You eagerly absorbed the old stories and traditions of your ancestors, your gods, and your people.
+    grants:
+      skill:
+      - Crafting
+      - Religion
+      - Khazadi Lore
+    shortdesc: You eagerly absorbed the old stories and traditions of your ancestors, your gods, and your people, studying in subjects and techniques passed down for generation upon generation. You gain the trained proficiency rank in Crafting and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Khazadi Lore.
     prereq:
       level: 1
   Khazadi Weapon Familiarity:
@@ -936,7 +1492,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: Your kin have instilled in you an affinity for hard-hitting weapons, and you prefer these to more elegant arms.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: Your kin have instilled in you an affinity for hard-hitting weapons, and you prefer these to more elegant arms. You are trained with the battle axe, pick, and warhammer.%r%rYou also gain access to all uncommon khazad weapons. For the purpose of determining your proficiency, martial khazad weapons are simple weapons and advanced khazad weapons are martial weapons. 
     prereq:
       level: 1
   Rock Runner:
@@ -945,7 +1505,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: Your innate connection to stone makes you adept at moving across uneven surfaces.
+    shortdesc: "Your innate connection to stone makes you adept at moving across uneven surfaces. You can ignore difficult terrain caused by rubble and uneven ground made of stone and earth. In addition, when you use the Acrobatics skill to Balance on narrow surfaces or uneven ground made of stone or earth, you aren't flat-footed, and when you roll a success at one of these Acrobatics checks, you get a critical success instead."
     prereq:
       level: 1
   Stonecunning:
@@ -954,7 +1514,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You have a knack for noticing even small inconsistencies and craftsmanship techniques in the stonework around you.
+    shortdesc: "You have a knack for noticing even small inconsistencies and craftsmanship techniques in the stonework around you. You gain a +2 circumstance bonus to Perception checks to notice unusual stonework. This bonus applies to checks to discover mechanical traps made of stone or hidden within stone.%r%rIf you aren't using the Seek action or searching, the GM automatically rolls a secret check for you to notice unusual stonework anyway. This check doesn't gain the circumstance bonus, and it takes a –2 circumstance penalty."
     prereq:
       level: 1
   Unburdened Iron:
@@ -963,16 +1523,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You’ve learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor.
-    prereq:
-      level: 1
-  Vengeful Hatred:
-    feat_type: 
-    - Ancestry
-    assoc_ancestry: 
-    - Khazad
-    traits: []
-    shortdesc: Your heart aches for vengeance against those who have wronged your people.
+    shortdesc: "You've learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor. Ignore the reduction to your Speed from any armor you wear.%r%rIn addition, any time you're taking a penalty to your Speed from some other reason (such as from the encumbered condition or from a spell), deduct 5 feet from the penalty. For example, the encumbered condition normally gives a –10-foot penalty to Speed, but it gives you only a –5-foot penalty. If your Speed is taking multiple penalties, pick only one penalty to reduce."
     prereq:
       level: 1
   Boulder Roll:
@@ -981,18 +1532,19 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: Your dwarven build allows you to push foes around, just like a mighty boulder tumbles through a subterranean cavern. 
+    shortdesc: "Your khazadi build allows you to push foes around, just like a mighty boulder tumbles through a subterranean cavern. Take a Step into the square of a foe that is your size or smaller, and the foe must move into the empty space directly behind it. The foe must move even if doing so places it in harm's way. The foe can attempt a Fortitude saving throw against your Athletics DC to block your Step. If the foe attempts this saving throw, unless it critically succeeds, it takes bludgeoning damage equal to your level plus your Strength modifier.%r%rIf the foe can't move into an empty space (if it is surrounded by solid objects or other creatures, for example), your Boulder Roll has no effect."
     prereq:
       level: 5
       feat: 
       - Rock Runner
-  Defy The Darkness:
+  Defy The Darkness: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Khazad
-    traits: []
-    shortdesc: Using ancient dwarven methods developed to fight enemies wielding magical darkness, you've honed your darkvision and sworn not to use such magic yourself.
+    traits:
+    - uncommon
+    shortdesc: "Using ancient khazadi methods developed to fight enemies wielding magical darkness, you've honed your darkvision and sworn not to use such magic yourself. You gain greater darkvision, enabling you to see through magical darkness even if it normally hampers darkvision (such as the darkness created by a 4th-level darkness spell). You can't cast spells with the darkness trait, use item activations with the darkness trait, or use any other ability with the darkness trait."
     prereq:
       level: 5
       special: Darkvision
@@ -1002,7 +1554,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You can use your knowledge of engineering and metalwork to temporarily strengthen thick objects and structures.
+    shortdesc: "You can use your knowledge of engineering and metalwork to temporarily strengthen thick objects and structures. By spending 1 hour working on an item, you can give it a +1 circumstance bonus to its Hardness for 24 hours. If you're a master in Crafting, the bonus is +2, and if you're legendary, the bonus is +3. You can reinforce a portion of a structure, though 1 hour usually reinforces only a door, a few windows, or another section that fits within a 10-foot cube."
     prereq:
       level: 5
       skill: Crafting/expert
@@ -1012,7 +1564,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: You’ve learned cunning techniques to get the best effects out of your dwarven weapons.
+    shortdesc: "You've learned cunning techniques to get the best effects out of your dwarven weapons. Whenever you critically hit using a battle axe, pick, warhammer, or a khazad weapon, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
@@ -1023,9 +1575,102 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: The stone around you is your ally, and you have learned to use it to shore up your weaknesses.
+    shortdesc: "The stone around you is your ally, and you have learned to use it to shore up your weaknesses. As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall."
     prereq:
       level: 5
+  Echoes in Stone:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    shortdesc: "You pause a moment to attune your senses to the stone around you. Until the start of your next turn, you gain a new sense: imprecise tremorsense with a range of 20 feet."
+    prereq:
+      level: 9
+  Mountain's Stoutness:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    shortdesc: Your hardiness lets you withstand more punishment than most before going down. Increase your maximum Hit Points by your level. When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value).%r%rIf you also have the Toughness feat, the Hit Points gained from it and this feat are cumulative, and the DC of your recovery checks is equal to 6 + your dying value.
+    prereq:
+      level: 9
+  Returning Throw:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    actions: 2
+    shortdesc: You have mastered the technique of arcing a projectile so that it returns to your hand after being thrown, though this requires a moment to precisely calculate the trajectory and possible ricochets. Make a ranged Strike with a thrown weapon. Once the Strike is complete, the weapon arcs or ricochets back to your hand. If your hands are full when the weapon returns, it falls to the ground in your space.
+    prereq:
+      level: 9
+  Stone Bones:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    actions: reaction
+    trigger: You are struck by a critical hit that deals physical damage.
+    shortdesc: Your intractable nature can help you shrug off even the most grievous injuries. Attempt a DC 17 flat check. If you are successful, the attack becomes a normal hit.
+    prereq:
+      level: 9
+  Stonewalker:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    magic:
+      innate_spell:
+        3:
+        - Meld into Stone
+        spell_trad: divine
+    shortdesc: You have a deep reverence for and connection to stone. You gain meld into stone as a 3rd-level divine innate spell that you can cast once per day.%r%rIf you have the Stonecunning khazad ancestry feat, you can attempt to find unusual stonework and stonework traps that require legendary proficiency in Perception. If you have both Stonecunning and legendary proficiency in Perception, when you're not Seeking and the GM rolls a secret check for you to notice unusual stonework, you keep the bonus from Stonecunning and don't take the –2 circumstance penalty. 
+    prereq:
+      level: 9
+  Khazadi Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: expert
+    shortdesc: "Your khazadi affinity blends with your training, granting you great skill with khazadi weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency for battle axes, picks, warhammers, and all khazadi weapons in which you are trained. %r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Khazadi Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Khazadi Weapon Familiarity
+  Telluric Power:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits: []
+    shortdesc: You channel strength from the earth beneath your feet to pummel your enemies. When making a melee Strike against a target who is standing on the same earth or stone surface as you are, you gain a circumstance bonus to the damage roll equal to the number of weapon damage dice.
+    prereq:
+      level: 13
+  Stonegate:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Khazad
+    traits:
+    - uncommon
+    magic:
+      innate_spell:
+        7:
+        - Passwall
+        spell_trad: divine
+    shortdesc: Earthen barriers no longer impede your progress. You gain _passwall_ as a 7th-level divine innate spell that you can cast once per day. Unlike the spell, however, this ability can be used only to open passages through barriers of earth or stone.
+    prereq:
+      level: 17
+      feat: Stonewalker
 # Oruch Ancestry Feats
   Beast Trainer:
     feat_type: 
@@ -1033,16 +1678,21 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: You have an impressive innate ability to tame and command ferocious beasts.
+    grants:
+      skill:
+      - Nature
+      feat:
+      - Train Animal
+    shortdesc: You have an impressive innate ability to tame and command ferocious beasts. You become trained in the Nature skill and gain the Train Animal skill feat.
     prereq:
       level: 1
-  Iron Fists:
+  Iron Fists: # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: Your fists have been forged by battle, your naturally tough skin and dense bone further hardened by conflict.
+    shortdesc: Your fists have been forged by battle, your naturally tough skin and dense bone further hardened by conflict. Your fist unarmed attacks no longer have the nonlethal trait and gain the shove weapon trait.
     prereq:
       level: 1
   Oruch Ferocity:
@@ -1051,7 +1701,10 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: Fierceness in battle runs through your blood, and you refuse to fall from your injuries.
+    actions: reaction
+    frequency: once per day
+    trigger: You would be reduced to 0 Hit Points but not immediately killed.
+    shortdesc: Fierceness in battle runs through your blood, and you refuse to fall from your injuries. You avoid being knocked out and remain at 1 Hit Point, and your wounded condition increases by 1.
     prereq:
       level: 1
   Oruch Lore:
@@ -1060,7 +1713,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: The hold elders taught you your people's histories, told tales of great athletic feats, and shared with you the hardships your ancestors endured so that you can pass this wisdom down to future generations.
+    grants:
+      skill:
+      - Athletics
+      - Survival
+      - Oruch Lore
+    shortdesc: "The oruch elders taught you your people's histories, told tales of great athletic feats, and shared with you the hardships your ancestors endured so that you can pass this wisdom down to future generations. You become trained in Athletics and Survival. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Oruch Lore."
     prereq:
       level: 1
   Oruch Superstition:
@@ -1070,7 +1728,9 @@ pf2e_feats:
     - Oruch
     traits:
     - concentrate
-    shortdesc: You defend yourself against magic by relying on techniques derived from oruch cultural superstitions.
+    actions: reaction
+    trigger: You attempt a saving throw against a spell or magical effect, before rolling.
+    shortdesc: You defend yourself against magic by relying on techniques derived from oruch cultural superstitions. You gain a +1 circumstance bonus to your saving throw against the triggering spell or magical effect.
     prereq:
       level: 1
   Oruch Weapon Familiarity:
@@ -1079,16 +1739,20 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: In combat, you favor the brutal weapons that are traditional for your orc ancestors.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: In combat, you favor the brutal weapons that are traditional for your oruch ancestors. You are trained with the falchion and greataxe. In addition, you gain access to all uncommon oruch weapons. For the purpose of determining your proficiency, martial oruch weapons are simple weapons and advanced oruch weapons are martial weapons.
     prereq:
       level: 1
-  Tusks:
+  Tusks: # Ask Land about this later # Natural attack
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: You have particularly long, jagged tusks perfect for tearing meat from bone.
+    shortdesc: "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage. Your tusks are in the brawling group and have the finesse and unarmed traits.%r%r**Special** You can take this feat only at 1st level, and you can't retrain into this feat. You can retrain out of this feat only through drastic measures such as breaking or filing your tusks."
     prereq:
       level: 1
   Athletic Might:
@@ -1096,9 +1760,8 @@ pf2e_feats:
     - Ancestry
     assoc_ancestry: 
     - Oruch
-    traits:
-    - oruch
-    shortdesc: Surviving in hostile terrain has given you a great talent for mobility.
+    traits: []
+    shortdesc: Surviving in hostile terrain has given you a great talent for mobility. Whenever you roll a success on an Athletics check to Climb or Swim, you get a critical success instead.
     prereq:
       level: 5
   Bloody Blows:
@@ -1107,27 +1770,16 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: Your lethal unarmed attacks leave bloody gouges or cause severe internal bleeding.
+    shortdesc: "Your lethal unarmed attacks leave bloody gouges or cause severe internal bleeding. When you critically hit with a Strike using an unarmed attack that isn't nonlethal, the target takes 1d4 persistent bleed damage. This can be because you're taking the penalty to use a fist for a lethal attack or because you have an unarmed attack without the nonlethal trait due to Iron Fists, Tusks, or a similar ability."
     prereq:
       level: 5
-  Defy Death:
-    feat_type: 
-    - Ancestry
-    assoc_ancestry: 
-    - Oruch
-    traits: []
-    shortdesc: You're exceptionally difficult to kill.
-    prereq:
-      level: 5
-      feat: 
-      - Oruch Ferocity
   Hold Mark:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: You bear scars or tattoos enhanced by the mark of your community's prowess.
+    shortdesc: "You bear scars or tattoos enhanced by the mark of your community's prowess. When you select this feat, choose one of the options on the following page. When you critically hit using a weapon of the listed group, you apply the weapon's critical specialization effect. You gain a large brand or tattoo in the shape of the chosen emblem or a similar image (for example, the axe could be a bear or other symbol of ferocious strength, while the shield might be a turtle or another symbol associated with a strong defense) and gain the listed benefit.%r%r%t- **Axe** axe or pick%r%t- **Shield** hammer or shield%r%t- **Torch** bomb or knife"
     prereq:
       level: 5
   Oruch Weapon Carnage:
@@ -1136,7 +1788,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: You are brutally efficient with the weapons of your orc ancestors.
+    shortdesc: "You are brutally efficient with the weapons of your oruch ancestors. Whenever you critically hit using a falchion, a greataxe, or an oruch weapon, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
@@ -1147,26 +1799,116 @@ pf2e_feats:
     assoc_ancestry: 
     - Oruch
     traits: []
-    shortdesc: Your victories in battle fill you with pride and imbue you with the energy to fight a bit longer despite your wounds.
+    actions: reaction
+    trigger: You bring a foe to 0 Hit Points.
+    shortdesc: Your victories in battle fill you with pride and imbue you with the energy to fight a bit longer despite your wounds. You gain temporary Hit Points equal to your Constitution modifier until the end of your next turn.
     prereq:
       level: 5
+  Death's Drums:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: Your life has been spent challenging death itself, and proximity to that implacable foe only makes your heart beat harder. When you are taking persistent damage or your wounded value is 1 or greater, you gain a +2 circumstance bonus to Fortitude saving throws.
+    prereq:
+      level: 9
+  Pervasive Superstition:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: You steep yourself in superstition and practice ancient oruch mental exercises for shrugging off the effects of magic. You gain a +1 circumstance bonus to saving throws against spells and magical effects at all times.
+    prereq:
+      level: 9
+      feat: Oruch Superstition
+  Undying Ferocity:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: "You resist death's clutches with supernatural vigor. When you use Oruch Ferocity, you gain temporary Hit Points equal to your level."
+    prereq:
+      level: 9
+      feat:
+      - Oruch Ferocity
+  Ferocious Beasts: # Ask Land about this later # Animal Companion # Funny Prereq
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: "Since ancient times, the mightiest oruch beast tamers would draw out the true fighting spirit of their companion beasts by feeding the creatures a draft incorporating the oruch's own blood. Animal companions or bonded animals you have gain the Oruch Ferocity feat, and they gain a reaction they can use only for Oruch Ferocity. If you have the Undying Ferocity ancestry feat, all animal companions or bonded animals you have also gain the benefits of that feat when using the Oruch Ferocity reaction."
+    prereq:
+      level: 13
+      feat:
+      - Beast Trainer
+      - Oruch Ferocity
+  Incredible Ferocity:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: Given time to collect yourself after a near-death scrape, you can rebuild your ferocity and withstand additional finishing blows. You can use Oruch Ferocity with a frequency of once per hour, rather than once per day.
+    prereq:
+      level: 13
+      feat:
+      - Oruch Ferocity
+  Oruch Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: "Your oruch affinity blends with your class training, granting you great skill with oruch weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the falchion, the greataxe, and all oruch weapons in which you are trained.%r%rSTAFF NOTE: Please send in a request if and when your weapon proficiency advances beyond Expert, so staff can adjust your Oruch Weapon Familiarity weapon proficiencies accordingly."
+    prereq:
+      level: 13
+      feat:
+      - Oruch Weapon Familiarity
+  Spell Devourer:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    shortdesc: "You don't just resist magic; you devour it. Whenever you succeed at a saving throw against a spell or magical effect, you gain temporary Hit Points equal to double the spell's level, or equal to the level if the magical effect isn't a spell. These temporary Hit Points last until the end of your next turn.%r%rThe temporary Hit Points granted by the Spell Devourer oruch ancestry feat are applied as soon as the character succeeds at their saving throw; for an effect that causes Hit Point damage on a successful save, such as a fireball, this means that the character gains the temporary Hit Points before taking damage."
+    prereq:
+      level: 13
+      feat:
+      - Pervasive Superstition
+  Rampaging Ferocity:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Oruch
+    traits: []
+    actions: 0
+    trigger: You use Oruch Ferocity.
+    shortdesc: "You lash out viciously even as you fend off death. Make a single melee Strike. If this Strike brings a foe to 0 Hit Points, this activation of Oruch Ferocity doesn't count against its frequency."
+    prereq:
+      level: 17
+      feat: 
+      - Oruch Ferocity
 # Sildanyar Ancestry Feats
-  Ancestral Linguistics:
+  Ancestral Linguistics: # Prereq is a string # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Over your extensive lifespan, you've studied many languages.
+    shortdesc: "Over your extensive lifespan, you've studied many languages. During your daily preparations, you can recede into old memories to become fluent in one common language or one other language you have access to. You know this language until you prepare again. Since this knowledge is temporary, you can't use it as a prerequisite for a permanent character option."
     prereq:
       level: 1
-  Ancestral Longevity:
+  Ancestral Longevity: # Prereq is a string # Ask Land about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You have accumulated a vast array of lived knowledge over the years.
+    shortdesc: "You have accumulated a vast array of lived knowledge over the years. During your daily preparations, you can reflect upon your life experiences to gain the trained proficiency rank in one skill of your choice. This proficiency lasts until you prepare again. Since this proficiency is temporary, you can't use it as a prerequisite for a skill increase or a permanent character option like a feat."
     prereq:
       level: 1
   Forlorn:
@@ -1175,7 +1917,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Watching your friends age and die fills you with moroseness that protects you against harmful emotions.
+    shortdesc: Watching your friends age and die fills you with moroseness that protects you against harmful emotions. You gain a +1 circumstance bonus to saving throws against emotion effects. If you roll a success on a saving throw against an emotion effect, you get a critical success instead.
     prereq:
       level: 1
   Know Your Own:
@@ -1184,25 +1926,30 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You've spent countless hours studying the history of sil on your world and beyond and are a studied expert in your people's ways.
+    shortdesc: "You've spent countless hours studying the history of elves on your world and beyond and are a studied expert in your people's ways. If you critically fail a check to Recall Knowledge about elves, sildanyari society, or sildanyari history, you get a failure instead."
     prereq:
       level: 1
-  Nimble Sil:
+  Nimble Sil: # Ask Land about this later # Speed
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Your muscles are tightly honed.
+    shortdesc: Your muscles are tightly honed. Your Speed increases by 5 feet.
     prereq:
       level: 1
-  Otherworldly Magic:
+  Otherworldly Magic: # Innate Spell
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Your sildanyari magic manifests as a simple arcane spell, even if you aren’t formally trained in magic.
+    magic:
+      innate_spell:
+        cantrip:
+        - open
+        spell_trad: arcane
+    shortdesc: "Your sildanyari magic manifests as a simple arcane spell, even if you aren't formally trained in magic. Choose one cantrip from the arcane spell list. You can cast this cantrip as an arcane innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up."
     prereq:
       level: 1
     init_magic: true
@@ -1212,7 +1959,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: As much as you might care for them, you've come to terms with the ephemeral nature of non-sil, and it makes their threats feel less troublesome.
+    shortdesc: "As much as you might care for them, you've come to terms with the ephemeral nature of non-sildanyari, and it makes their threats feel less troublesome. If a non-sildanyar rolls a failure on a check to Coerce you using Intimidation, it gets a critical failure instead (and thus can't try to Coerce you again for 1 week). When a non-sildanyar attempts to Demoralize you, you become temporarily immune for 1 day, instead of 10 minutes."
     prereq:
       level: 1
   Sildanyari Lore:
@@ -1221,7 +1968,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You’ve studied in traditional sildanyari arts, learning about arcane magic and the world around you.
+    grants:
+      skill:
+      - Arcana
+      - Nature
+      - Sildanyari Lore
+    shortdesc: "You've studied in traditional sildanyari arts, learning about arcane magic and the world around you. You gain the trained proficiency rank in Arcana and Nature. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Sildanyari Lore."
     prereq:
       level: 1
   Sildanyari Weapon Familiarity:
@@ -1230,7 +1982,11 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You favor bows and other elegant weapons.
+    grants:
+      combat stats:
+        weapon_prof:
+          ancestry: trained
+    shortdesc: You favor bows and other elegant weapons. You are trained with longbows, composite longbows, longswords, rapiers, shortbows, and composite shortbows.%r%rIn addition, you gain access to all uncommon sildanyar weapons. For the purpose of determining your proficiency, martial sildanyar weapons are simple weapons and advanced sildanyar weapons are martial weapons.
     prereq:
       level: 1
   Unwavering Mien:
@@ -1239,7 +1995,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Your mystic control and meditations allow you to resist external influences upon your consciousness.
+    shortdesc: Your mystic control and meditations allow you to resist external influences upon your consciousness. Whenever you are affected by a mental effect that lasts at least 2 rounds, you can reduce the duration by 1 round.%r%rYou still require natural sleep, but you treat your saving throws against effects that would cause you to fall asleep as one degree of success better. This protects only against sleep effects, not against other forms of falling unconscious.
     prereq:
       level: 1
   Ageless Patience:
@@ -1248,7 +2004,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You work at a pace born from longevity that enhances your thoroughness.
+    shortdesc: "You work at a pace born from longevity that enhances your thoroughness. You can voluntarily spend twice as much time as normal on a Perception check or skill check to gain a +2 circumstance bonus to that check. You also don't treat a natural 1 as worse than usual on these checks; you get a critical failure only if your result is 10 lower than the DC. For example, you could get these benefits if you spent 2 actions to Seek, which normally takes 1 action. You can get these benefits during exploration by taking twice as long exploring as normal, or in downtime by spending twice as much downtime.%r%rThe GM might determine a situation doesn't grant you a benefit if a delay would be directly counterproductive to your success, such as a tense negotiation with an impatient creature."
     prereq:
       level: 5
   Ancestral Suspicion:
@@ -1257,7 +2013,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Long-lived elves have seen civilizations rise and fall, often at the hands of outside forces.
+    shortdesc: "Long-lived sildanyari have seen civilizations rise and fall, often at the hands of outside forces. As a result, they have developed a wariness of others who might seek to influence or control them. You've been trained to resist such manipulation, gaining a +2 circumstance bonus to saving throws against effects that would make you controlled, such as _dominate_, and to Perception checks to Sense Motive when trying to determine if a creature is under the influence of such an effect. When you roll a success on a saving throw against such an effect, you get a critical success instead."
     prereq:
       level: 5
   Martial Experience:
@@ -1266,7 +2022,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You've crossed blades with a wide variety of foes wielding a wide variety of weapons, and you've learned the basics of fighting with nearly any of them.
+    shortdesc: "You've crossed blades with a wide variety of foes wielding a wide variety of weapons, and you've learned the basics of fighting with nearly any of them. When wielding a weapon you aren't proficient with, treat your level as your proficiency bonus.%r%rAt 11th level, you become trained in all weapons."
     prereq:
       level: 5
   Sildanyari Weapon Elegance:
@@ -1275,14 +2031,98 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You are attuned to the weapons of your sil ancestors and are particularly deadly when using them.
+    shortdesc: You are attuned to the weapons of your sildanyari ancestors and are particularly deadly when using them. Whenever you critically hit using an elf weapon or one of the weapons listed in Sildanyari Weapon Familiarity, you apply the weapon's critical specialization effect.
     prereq:
       level: 5
       feat: 
       - Sildanyari Weapon Familiarity
+  Expert Longevity: # Ask Land about this later # Prepare/Rest code
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    shortdesc: "You've continued to refine the knowledge and skills you've gained through your life. When you choose a skill in which to become trained with Ancestral Longevity, you can also choose a skill in which you are already trained and become an expert in that skill. This lasts until your Ancestral Longevity expires.%r%rWhen the effects of Ancestral Longevity and Expert Longevity expire, you can retrain one of your skill increases. The skill increase you gain from this retraining must either make you trained in the skill you chose with Ancestral Longevity or make you an expert in the skill you chose with Expert Longevity."
+    prereq:
+      level: 9
+      feat:
+      - Ancestral Longevity
+  Otherworldly Acumen: # Ask Land about this later # Magic # Funky prereqs
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    shortdesc: The arcane magic you possess grows in power and complexity. Choose one common 2nd-level spell from the same tradition as an innate spell you previously gained from another elf ancestry feat (from the arcane list if you have Otherworldly Magic, for example). You can cast that spell as an innate spell once per day, using the same tradition as the list you chose the spell from.%r%rYour magic is adaptable. By spending 1 day of downtime, you can change the spell you chose to a different common 2nd-level spell from the same tradition.
+    prereq:
+      level: 9
+  Sildanyar Step:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    actions: 1
+    shortdesc: You move in a graceful dance, and even your steps are broad. You Step 5 feet twice.
+    prereq:
+      level: 9
+  Tree Climber (Sildanyar): # Ask Land about this later # Speed
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    shortdesc: You've spent much of your life among the treetops and have become an expert at quickly and safely climbing them. You gain a climb Speed of 10 feet.
+    prereq:
+      level: 9
+  Avenge Ally: # has requirements
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits:
+    - fortune
+    actions: 1
+    frequency: once every 10 minutes
+    shortdesc: Though you know that you will eventually outlive your companions, seeing them at death's door brings clarity to your attacks. Make a Strike. Roll twice on the attack roll and use the higher result.
+    prereq:
+      level: 13
+  Elven Weapon Expertise:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    shortdesc: Your elven affinity blends with your class training, granting you great skill with elven weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in longbows, composite longbows, longswords, rapiers, shortbows, composite shortbows, and all elf weapons in which you are trained.
+    prereq:
+      level: 13
+      feat:
+      - Elven Weapon Familiarity
+  Universal Longevity:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    actions: 1
+    frequency: once per day
+    shortdesc: "You've perfected your ability to keep up with all the skills you've learned over your long life, so you're almost never truly untrained at a skill. You reflect on your life experiences, changing the skills you selected with Ancestral Longevity and Expert Longevity."
+    prereq:
+      level: 13
+      feat:
+      - Expert Longevity
+  Magic Rider:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Sildanyar
+    traits: []
+    shortdesc: "Your people once used powerful magic to travel, and the remnants of that magic make such transportation easier for you. When you are the target of a spell with the Teleportation trait that transports more than one person, it can affect an additional person beyond the normal limit, chosen by the caster. Additionally, when you're the target of a _teleport_ spell, you and the other targets arrive no farther than 1 mile off target, regardless of distance traveled."
+    prereq:
+      level: 17
 # Heritage and Versatile Heritage Feats
 # Aesa Ancestry Feats
-  Angelkin:
+  Angelkin: # Flavor to discuss with staff
     feat_type: 
     - Ancestry
     - Lineage
@@ -1301,11 +2141,18 @@ pf2e_feats:
     traits:
     - aesa
     - lineage
-    shortdesc: You descend from an angel, which gives you a knack for cultures and languages.
+    grants:
+      skill:
+      - Society
+      language:
+      - Celestial
+      feat:
+      - Multilingual
+    shortdesc: You descend from an angel—a winged messenger from the celestial realms—which gives you a knack for cultures and languages. You gain the trained proficiency rank in Society. If you would automatically become trained in Society (from your background or class, for example), you instead become trained in a skill of your choice. You know the Celestial language, and you gain the Multilingual skill feat.
     prereq:
       level: 1
       heritage: Aesa
-  Celestial Eyes:
+  Celestial Eyes: # Senses # Special 1st-level
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1322,11 +2169,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    shortdesc: You can see through darkness.
+    shortdesc: "You can see through darkness. You gain darkvision.%r%rSpecial You can select this feat only at 1st level, and you can't retrain into or out of this feat."
     prereq:
       level: 1
       heritage: Aesa
-  Celestial Lore:
+  Celestial Lore: # Lore skill to discuss with staff
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1343,7 +2190,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    shortdesc: You were raised with an aesa or celestial relative, or you've devoted yourself to researching the secrets of the celestial realms.
+    grants:
+      skill:
+      - Diplomacy
+      - Religion
+    shortdesc: You were raised with an aasimar or celestial relative, or you've devoted yourself to researching the secrets of the celestial realms. You gain the trained proficiency rank in Diplomacy and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in a Lore skill related to the celestial realm from which you trace your lineage (usually Elysium Lore, Heaven Lore, or Nirvana Lore).
     prereq:
       level: 1
       heritage: Aesa
@@ -1364,11 +2215,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    shortdesc: You are surrounded by a halo of light and goodness at all times.
+    shortdesc: You are surrounded by a halo of light and goodness at all times. Your halo sheds light with the effects of a divine light cantrip. A cantrip is heightened to a spell level equal to half your level rounded up. You can suppress or reestablish the halo with a single action, which has the concentrate trait.
     prereq:
       level: 1
       heritage: Aesa
-  Lawbringer:
+  Lawbringer: # Flavor to discuss with staff
     feat_type: 
     - Ancestry
     - Lineage
@@ -1387,12 +2238,12 @@ pf2e_feats:
     traits:
     - aesa
     - lineage
-    shortdesc: 'You trace your lineage to archons: embodiments of heavenly virtues, guardians of the seven-tiered mountain of Heaven, and nurturers of law and virtue within mortals.'
+    shortdesc: "You trace your lineage to archons: embodiments of heavenly virtues, guardians of the seven-tiered mountain of Heaven, and nurturers of law and virtue within mortals. Your own virtue and orderly mind protect you from foes who would turn your emotions against you. You gain a +1 circumstance bonus to saves against emotion effects, and if you roll a success on a save against an emotion effect, you get a critical success instead."
     prereq:
       level: 1
       heritage: Aesa
-  Musetouched:
-    feat_type: 
+  Musetouched: # Flavor to discuss with staff
+    feat_type:
     - Ancestry
     - Lineage
     assoc_ancestry: 
@@ -1410,7 +2261,7 @@ pf2e_feats:
     traits:
     - aesa
     - lineage
-    shortdesc: Your blood sings with the liberating power of the azatas, living embodiments of freedom from the wild realm of Elysium.
+    shortdesc: Your blood sings with the liberating power of the azatas, living embodiments of freedom from the wild realm of Elysium. You gain a +1 circumstance bonus to Escape. When you roll a critical failure on a check to Escape, you get a failure instead, and when you roll a success, you get a critical success instead.
     prereq:
       level: 1
       heritage: Aesa
@@ -1431,11 +2282,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    shortdesc: Your freshly spilled blood is sanctified, and ingesting it causes effects similar to those of holy water.
+    shortdesc: Your freshly spilled blood is sanctified, and ingesting it causes effects similar to those of holy water. Whenever a fiend, undead, or creature with a weakness to good damage drinks your blood or deals piercing or slashing damage to you with jaws, fangs, or a similar attack, that creature takes 1d6 good damage. You gain a +4 circumstance bonus to Crafting checks to Craft holy water using your own blood as one of the ingredients.
     prereq:
       level: 5
       heritage: Aesa
-  Celestial Resistance:
+  Celestial Resistance: # Flavor to discuss with staff
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1452,7 +2303,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    shortdesc: Your growing connection to your celestial forebears has granted you one of their resistances as well.
+    shortdesc: "Your growing connection to your celestial forebears has granted you one of their resistances as well. Choose one of the following energy damage types: acid, cold, electricity, fire, or sonic. You gain resistance 5 to that damage type.%r%rThough you can choose any of these energy damage types, the damage type typically matches a celestial associated with your bloodline. For instance, an angelkin might choose resistance to cold or fire with a cassisian forebear, resistance to fire with a balisse forebear, or resistance to sonic with a choral forebear."
     prereq:
       level: 5
       heritage: Aesa
@@ -1473,9 +2324,199 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    shortdesc: You can call forth a benediction upon your allies, whether you pray to a deity of the celestial realms or just find the power within yourself.
+    magic:
+      innate_spell:
+        1:
+        - Bless
+        spell_trad: divine
+    shortdesc: You can call forth a benediction upon your allies, whether you pray to a deity of the celestial realms or just find the power within yourself. You can cast _bless_ once per day as a 1st-level divine innate spell.
     prereq:
       level: 5
+      heritage: Aesa
+  Angelic Magic:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    magic:
+      innate_spell:
+        2:
+        - Humanoid Form
+        - Remove Fear
+        spell_trad: divine
+    shortdesc: You can tap into the magic of angels that runs through your blood. You can cast _humanoid form_ and _remove fear_ each once per day as 2nd-level divine innate spells.
+    prereq:
+      level: 9
+      heritage: Aesa
+      lineage: Angelkin
+  Archon Magic:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    magic:
+      innate_spell:
+        2:
+        - Continual Flame
+        - Shield Other
+        spell_trad: divine
+    shortdesc: You can tap into the heavenly magic that is your birthright. You can cast _continual flame_ and _shield other_ each once per day as 2nd-level divine innate spells.
+    prereq:
+      level: 9
+      heritage: Aesa
+      lineage: Lawbringer
+  Azata Magic: # Flavor to discuss with staff
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    magic:
+      innate_spell:
+        2:
+        - Glitterdust
+        - Remove Paralysis
+        spell_trad: divine
+    shortdesc: Your lineage traces back to the realm of Elysium, and you can harness its magic using this connection. You can cast glitterdust and remove paralysis each once per day as 2nd-level divine innate spells.
+    prereq:
+      level: 9
+      heritage: Aesa
+      lineage: Musetouched
+  Celestial Wings: # Speed # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    - divine
+    - morph
+    - transmutation
+    shortdesc: With effort, you can call forth magical wings from your back, similar in appearance to those of your celestial forebears. These wings remain for 10 minutes. You gain a fly Speed equal to your Speed while you've manifested your wings.
+    prereq:
+      level: 9
+      heritage: Aesa
+  Divine Countermeasures:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    shortdesc: "You've studied your celestial heritage with the intent of better defending yourself, and you've found that your techniques are equally powerful against celestials, fiends, and other divine entities. You gain a +1 circumstance bonus to all saving throws against divine effects."
+    prereq:
+      level: 9
+      heritage: Aesa
+  Aesa's Mercy: # Casting is funky # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    magic:
+      innate_spell:
+        4:
+        - Neutralize Poison
+        - Remove Curse
+        - Remove Disease
+        spell_trad: primal
+    shortdesc: "Your celestial powers allow you to remove lesser afflictions with ease. Each day, you can cast two 4th-level divine innate spells. You can choose from the following spells each time you cast: remove curse, remove disease, and neutralize poison."
+    prereq:
+      level: 13
+      heritage: Aesa
+  Aesa's Mercy: # Casting is funky # Ask Land about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    magic:
+      innate_spell:
+        4:
+        - Neutralize Poison
+        - Remove Curse
+        - Remove Disease
+        spell_trad: primal
+    shortdesc: "Your celestial powers allow you to remove lesser afflictions with ease. Each day, you can cast two 4th-level divine innate spells. You can choose from the following spells each time you cast: remove curse, remove disease, and neutralize poison."
+    prereq:
+      level: 13
       heritage: Aesa
 # Ashen One Ancestry Feats
   Ashen Lore:
@@ -2067,7 +3108,7 @@ pf2e_feats:
     - Ancestry
     assoc_ancestry: 
     - Human
-    shortdesc: The elven magic in your blood manifests as a force you can use to become more appealing or alluring.
+    shortdesc: The sildanyari magic in your blood manifests as a force you can use to become more appealing or alluring.
     prereq:
       level: 5
       heritage: Half-Sil
@@ -2090,7 +3131,7 @@ pf2e_feats:
     - Sildanyar
     traits:
       - half-oruch
-    shortdesc: Your dual human and orc nature has given you a unique perspective.
+    shortdesc: Your dual human and oruch nature has given you a unique perspective.
     prereq:
       level: 1
       heritage: Half-Oruch
@@ -2111,7 +3152,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - half-oruch
-    shortdesc: Your orc blood is strong enough to grant you the keen vision of your orc forebears.
+    shortdesc: Your oruch blood is strong enough to grant you the keen vision of your oruch forebears.
     prereq:
       level: 1
       heritage: Half-Oruch
@@ -2311,6 +3352,3 @@ pf2e_feats:
     prereq:
       level: 5
       heritage: Niasa
-
-
-    

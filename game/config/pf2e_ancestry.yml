@@ -144,7 +144,7 @@ pf2e_ancestry:
       5:
       - Ciith Unarmed Cunning
       - Envenom Fangs
-      - "Gecko's Grip"
+      - Gecko's Grip
       - Shed Tail
       - Swift Swimmer
       9:
@@ -154,7 +154,6 @@ pf2e_ancestry:
   Egalrin:
     HP: 6
     Size: M
-    Speed: 25
     abl_boosts:
     - open
     - open
@@ -189,9 +188,9 @@ pf2e_ancestry:
       1:
       - Egalrin Lore
       - Egalrin Weapon Familiarity
-      - "Scavenger's Search"
+      - Scavenger's Search
       - Squawk!
-      - "Storm's Lash"
+      - Storm's Lash
       5:
       - Eat Fortune
       - Egalrin Weapon Study
@@ -205,59 +204,6 @@ pf2e_ancestry:
       - Egalrin Weapon Expertise
       17:
       - Great Egalrin Form
-  Gnome:
-    HP: 8
-    Size: S
-    Speed: 25
-    abl_boosts:
-    - open
-    - open
-    languages:
-    - Tradespeak
-    - Gnomish
-    - Sylvan
-    traits:
-    - gnome
-    - humanoid
-    special:
-    - Low-Light Vision
-    heritages:
-    - Aesa
-    - Ashen One
-    - Chameleon
-    - Changeling
-    - Dar
-    - Fey-Touched
-    - Niasa
-    - Sensate
-    - Umbral
-    - Wellspring
-    feats:
-      1:
-      - Animal Accomplice
-      - Burrow Elocutionist
-      - Empathetic Plea
-      - Fey Fellowship
-      - First World Magic
-      - Gnome Obsession
-      - Gnome Weapon Familiarity
-      - Illusion Sense
-      - Razzle-Dazzle
-      5:
-      - Animal Elocutionist
-      - Energized Font
-      - Gnome Weapon Innovator
-      - Project Persona
-      9:
-      - Cautious Curiosity
-      - First World Adept
-      - Life Leap
-      - Vivacious Conduit
-      13:
-      - Gnome Weapon Expertise
-      - Instinctive Obfuscation
-      17:
-      - Homeward Bound
   Goblin:
     HP: 6
     Size: S
@@ -308,9 +254,64 @@ pf2e_ancestry:
       - Skittering Scuttle
       13:
       - Goblin Weapon Expertise
-      - "Very, Very Sneaky"
+      - Very, Very Sneaky
       17:
-      - "Reckless Abandon (Goblin)"
+      - Reckless Abandon (Goblin)
+  Gnome:
+    HP: 8
+    Size: S
+    Speed: 25
+    abl_boosts:
+    - open
+    - open
+    languages:
+    - Tradespeak
+    - Gnomish
+    - Sylvan
+    traits:
+    - gnome
+    - humanoid
+    special:
+    - Low-Light Vision
+    heritages:
+    - Aesa
+    - Ashen One
+    - Chameleon
+    - Changeling
+    - Dar
+    - Fey-Touched
+    - Niasa
+    - Sensate
+    - Umbral
+    - Wellspring (Arcane)
+    - Wellspring (Divine)
+    - Wellspring (Occult)
+    feats:
+      1:
+      - Animal Accomplice
+      - Burrow Elocutionist
+      - Empathetic Plea
+      - Fey Fellowship
+      - First World Magic
+      - Gnome Obsession
+      - Gnome Weapon Familiarity
+      - Illusion Sense
+      - Razzle-Dazzle
+      5:
+      - Animal Elocutionist
+      - Energized Font
+      - Gnome Weapon Innovator
+      - Project Persona
+      9:
+      - Cautious Curiosity
+      - First World Adept
+      - Life Leap
+      - Vivacious Conduit
+      13:
+      - Gnome Weapon Expertise
+      - Instinctive Obfuscation
+      17:
+      - Homeward Bound
   Human:
     HP: 8
     Size: M
@@ -367,7 +368,6 @@ pf2e_ancestry:
     - Tradespeak
     - Kaillin
     traits:
-    - uncommon
     - humanoid
     - kailli
     special:
@@ -395,7 +395,7 @@ pf2e_ancestry:
       - Warren Navigator
       5:
       - Lab Rat
-      - "Quick Stow (Kailli)"
+      - Quick Stow (Kailli)
       - Rat Magic
       9:
       - Big Mouth
@@ -421,7 +421,6 @@ pf2e_ancestry:
     heritages:
     - Aesa
     - Ancient-Blooded
-    - Anvil
     - Ashen One
     - Changeling
     - Dar
@@ -448,7 +447,7 @@ pf2e_ancestry:
       - Sheltering Slab
       9:
       - Echoes in Stone
-      - "Mountain's Stoutness"
+      - Mountain's Stoutness
       - Returning Throw
       - Stone Bones
       - Stonewalker

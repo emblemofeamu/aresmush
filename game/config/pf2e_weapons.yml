@@ -15,6 +15,23 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Bomb
+  Bassin Sling Staff:
+    wp_type: ranged
+    category: martial
+    traits:
+    - Bassin
+    - Propulsive
+    ancestry:
+    - Bassin
+    level: 0
+    price: 500
+    wp_damage: d10
+    wp_damage_type: B
+    hands: 2
+    range: 80
+    reload: 1
+    bulk: 1
+    group: Sling
   Bastard Sword:
     wp_type: melee
     category: martial
@@ -35,6 +52,8 @@ pf2e_weapons:
     category: martial
     traits:
     - Sweep
+    ancestry:
+    - Khazad
     level: 0
     price: 100
     wp_damage: d8
@@ -151,6 +170,9 @@ pf2e_weapons:
     - Deadly (d10)
     - Propulsive
     - Volley (30)
+    ancestry:
+    - Arvek
+    - Sildanyar
     level: 0
     price: 2000
     wp_damage: d8
@@ -166,6 +188,9 @@ pf2e_weapons:
     traits:
     - Deadly (d10)
     - Propulsive
+    ancestry:
+    - Arvek
+    - Sildanyar
     level: 0
     price: 1400
     wp_damage: d6
@@ -244,7 +269,9 @@ pf2e_weapons:
     - Agile
     - Backstabber
     - Finesse
-    - Gobber
+    - Goblin
+    ancestry:
+    - Goblin
     level: 0
     price: 10
     wp_damage: d6
@@ -310,7 +337,7 @@ pf2e_weapons:
     - Backstabber
     - Deadly (d6)
     - Finesse
-    - Lucht
+    - Bassin
     - Thrown
     level: 0
     price: 100
@@ -376,6 +403,9 @@ pf2e_weapons:
     - Deadly (d8)
     - Forceful
     - Reach
+    ancestry:
+    - Arvek
+    - Gnome
     level: 0
     price: 300
     wp_damage: d8
@@ -571,10 +601,12 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Gobber
+    - Goblin
     - Reach
     - Trip
     - Versatile (P)
+    ancestry:
+    - Goblin
     level: 0
     price: 90
     wp_damage: d8
@@ -671,6 +703,8 @@ pf2e_weapons:
     - Agile
     - Finesse
     - Trip
+    ancestry:
+    - Gnome
     level: 0
     price: 60
     wp_damage: d6
@@ -749,6 +783,9 @@ pf2e_weapons:
     traits:
     - Deadly (d10)
     - Volley (30)
+    ancestry:
+    - Arvek
+    - Sildanyar
     level: 0
     price: 600
     wp_damage: d8
@@ -779,6 +816,9 @@ pf2e_weapons:
     - Bard
     traits:
     - Versatile (P)
+    ancestry:
+    - Arvek
+    - Sildanyar
     level: 0
     price: 100
     wp_damage: d8
@@ -903,6 +943,8 @@ pf2e_weapons:
     category: martial
     traits:
     - Fatal (d10)
+    ancestry:
+    - Khazad
     level: 0
     price: 70
     wp_damage: d6
@@ -938,6 +980,8 @@ pf2e_weapons:
     - Deadly (d8)
     - Disarm
     - Finesse
+    ancestry:
+    - Sildanyar
     level: 0
     price: 200
     wp_damage: d6
@@ -1066,6 +1110,9 @@ pf2e_weapons:
     - Rogue
     traits:
     - Deadly (d10)
+    ancestry:
+    - Arvek
+    - Sildanyar
     level: 0
     price: 300
     wp_damage: d6
@@ -1085,6 +1132,8 @@ pf2e_weapons:
     - Agile
     - Finesse
     - Versatile (S)
+    ancestry:
+    - Bassin
     level: 0
     price: 90
     wp_damage: d6
@@ -1131,6 +1180,8 @@ pf2e_weapons:
     category: simple
     traits:
     - Propulsive
+    ancestry:
+    - Bassin
     level: 0
     price: 0
     wp_damage: d6
@@ -1139,21 +1190,6 @@ pf2e_weapons:
     range: 50
     reload: 0
     bulk: 0.1
-    group: Sling
-  Slingstaff:
-    wp_type: ranged
-    category: martial
-    traits:
-    - Lucht
-    - Propulsive
-    level: 0
-    price: 500
-    wp_damage: d10
-    wp_damage_type: B
-    hands: 2
-    range: 80
-    reload: 1
-    bulk: 1
     group: Sling
   Spear:
     wp_type: melee
@@ -1318,6 +1354,8 @@ pf2e_weapons:
     category: martial
     traits:
     - Shove
+    ancestry:
+    - Khazad
     level: 0
     price: 100
     wp_damage: d8
