@@ -18,7 +18,7 @@ module AresMUSH
         commands = [
           "git pull",
           "git status",
-          "git diff"
+          "git diff",
           "git checkout"
         ]
         commands.each do |c|
