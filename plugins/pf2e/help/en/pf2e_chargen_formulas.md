@@ -10,3 +10,5 @@ Formulas (and crafting) are still a work-in-progress item.
 
 Command list (in-client):
 `formulas`: lists the formulas that you know.
+`formulas/add <item>`: adds the item to your list of formulas.
+`formulas/remove <item>`: removes the item from your list of formulas.
