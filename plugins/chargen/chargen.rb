@@ -20,7 +20,9 @@ module AresMUSH
       when "app"
         case cmd.switch
         when "approve"
-          return AppApproveCmd
+          return AppApproveCmd 
+        when "override"
+          return AppOverrideCmd
         when "reject"
           return AppRejectCmd
         when "review"
