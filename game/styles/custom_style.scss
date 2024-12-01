@@ -120,7 +120,7 @@ div.body-wrap {
 
 div.body-wrap,
 div.header-wrap {
-    box-shadow: 0px 0px 20px 0px #302727; /* Dark Pine */
+    box-shadow: 0px 0px 5px 0px #302727b2; /* Dark Pine */
 }
 
 /* Mobile version body styling */
@@ -167,14 +167,23 @@ h1 {
 
 h2 {
     padding-top: 0px;
+    padding-bottom: 0px;
+    color: #dbd3c6;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+h3 {
+    padding-bottom: 0px;
+    margin-bottom: 3px;
 }
 
 /* Table of contents styling */
 
 .toc {
     border: 1px solid #74a7bb; /* Moonstone Blue */
-    box-shadow: 5px 5px 5px #594f4f; /* Dark Liver */
-    border-radius: 4px;
+    box-shadow: none;
+    border-radius: 0px;
 }
 
 /* Character profile page styling */
@@ -201,7 +210,8 @@ h2 {
 
 .icquote {
     font-family: 'Jim Nightshade', handwriting;
-    font-size: 20px;
+    font-size: 25px;
+    color: #dbd3c6;
 }
 
 div.icquote {
@@ -303,9 +313,9 @@ wiki-header-left {
     width: 100%;
     padding: .1em .4em;
     letter-spacing: 0.1em;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    border: 3px solid #E1B07E; /* Tumbleweed */
+    border: 2px solid #E1B07E; /* Tumbleweed */
     border-right-style: none;
     border-left-style: double;
     border-left-width: 8px;
@@ -321,9 +331,9 @@ wiki-header-right {
     width: 100%;
     padding: .1em .4em;
     letter-spacing: 0.1em;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    border: 3px solid #E1B07E; /* Tumbleweed */
+    border: 2px solid #E1B07E; /* Tumbleweed */
     border-right-style: double;
     border-right-width: 8px;
     border-left-style: none;
@@ -333,6 +343,55 @@ wiki-header-right {
     margin-bottom: 10px;
     display: inline-block;
     text-align: center;
+}
+
+/* Deity wiki table stuff. */
+
+.deity-table-intro {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+    background-image: none;
+
+    th {
+        padding: 0px;
+    }
+
+    th.deity-name {
+        width: 88%;
+        padding-bottom: 15px;
+    }
+
+    th.deity-image {
+        width: 12%;
+        height: 12%;
+        background-color: transparent;
+        background-image: linear-gradient(to right, #00000082, transparent);
+    }
+}
+
+.deity-table {
+    width: 100%;
+
+    th {
+        width: 15%;
+        border-bottom: 1px solid #392E2E;
+    }
+
+    th.deity-header {
+        border: 1px solid #E1B07E; 
+        border-image: linear-gradient(to bottom right, #E1B07E, #E1B07E3D, #E1B07E) 1;
+    }
+
+    td.deity-list {
+        padding: 0px;
+    }
+}
+
+ul.list-table {
+    padding-inline-start: 2%;
+    list-style-position: inside;
+    padding-top: 2%;
 }
 
 /* Scene component styling */

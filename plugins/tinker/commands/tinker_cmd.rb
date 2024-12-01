@@ -3,28 +3,15 @@ module AresMUSH
     class TinkerCmd
       include CommandHandler
       
-      def check_can_manage
-        return t('dispatcher.not_allowed') if !enactor.has_permission?("tinker")
-        return nil
-      end
-      
       def handle
-      
-        char = Character.find_one_by_name("Davi")
-        value = { "cantrip" => 5, 1 => 3, 2 => 1} 
-        
-        to_assign = char.pf2_to_assign
-
-        assignment_list = {}
-        value.each_pair do |level, num|
-            ary = Array.new(num, "open")
-            assignment_list[level] = ary
+        stages = { "skills" => "6", "abilities" => "5", "info" => "4" }
+        chargen_stage = "6"
+        checkpoint = "skills"
+        if stages[checkpoint] == chargen_stage
+          client.emit "You can't do that. (Good ending)"
+        else
+          client.emit "You can do it! (Bad ending)"
         end
-
-        to_assign["repertoire"] = assignment_list
-
-        char.update(pf2_to_assign: to_assign)
-        
       end
 
     end
