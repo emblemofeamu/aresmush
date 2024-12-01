@@ -18,7 +18,8 @@ module AresMUSH
         commands = [
           "git pull",
           "git status",
-          "git diff"
+          "git diff",
+          "git checkout"
         ]
         commands.each do |c|
           if (cmd.raw.downcase.start_with?(c))

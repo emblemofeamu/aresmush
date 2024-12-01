@@ -603,20 +603,25 @@ module AresMUSH
     def self.record_checkpoint(char, checkpoint)
       case checkpoint
       when "info"
-        to_assign = char.pf2_to_assign
-        char.pf2_cg_assigned = to_assign
-
-        boosts = char.pf2_boosts_working
-        char.pf2_boosts = boosts
+      
+        checkpoint_info = { 
+          "info" => {
+            "pf2_base_info" => char.pf2_base_info,
+            "pf2_to_assign" => char.pf2_to_assign,
+            "pf2_traits" => char.pf2_traits,
+            "pf2_boosts" => char.pf2_boosts,
+            "pf2_faith" => char.pf2_faith
+          }
+        }
+        char.pf2_cg_assigned = checkpoint_info
         char.pf2_checkpoint = 'info'
         char.save
 
       when "abilities" # Used by commit abilities
-        to_assign = char.pf2_to_assign
-        char.pf2_cg_assigned = to_assign
-
-        boosts = char.pf2_boosts_working
-        char.pf2_boosts = boosts
+        checkpoint_info = { 
+          "info" => char.pf2_cg_assigned["info"],
+          "abilities" => { "pf2_boosts_working" => char.pf2_boosts_working }
+        }
 
         char.abilities.each do |ability|
           cp_state = {}
@@ -625,18 +630,30 @@ module AresMUSH
           ability.update(checkpoint: cp_state)
         end
 
+        char.pf2_cg_assigned = checkpoint_info
         char.pf2_checkpoint = 'abilities'
 
         char.save
       when "skills"
+        checkpoint_info = {
+          "info" => char.pf2_cg_assigned["info"],
+          "abilities" => char.pf2_cg_assigned["abilities"],
+          "skills" => { "pf2_to_assign" => char.pf2_to_assign }
+        }
+        
         char.skills.each do |skill|
           cp_state = {}
-          cp_state['prof_level'] = skill.prof_level
-          cp_state['cg_skill'] = true
+          cp_state = {
+            "prof_level" => skill.prof_level,
+            "cg_skill" => skill.cg_skill
+          }
           skill.update(checkpoint: cp_state)
         end
 
+        char.pf2_cg_assigned = checkpoint_info
         char.update(pf2_checkpoint: 'skills')
+        char.save
+
       when "advance"
       else
         return nil
@@ -644,8 +661,74 @@ module AresMUSH
     end
 
     def self.restore_checkpoint(char, checkpoint)
+      # Check and ensure the player is beyond the requested checkpoint
+      # If not, return an error.
+      # Set the stage back to requested restore point
+      # pf2_baseinfo_locked must be unset as part of the restoration project
+      # Preserve groups and demographics
+      # # demographics, groups, prologue?
+      # Envoke function that resets character in cg
+      # Go through preserved attributes to the point requested, finalize what needs finalizing
+      # Between each checkpoint, run finalization for that section of CG
+      # Save the character
+      groups = char.groups
+      prologue = char.cg_background
+      demographics = char.demographics
+      checkpoint_info = char.pf2_cg_assigned
+      skills_checkpoint = {}
+      char.skills.each do |skill|
+        skills_checkpoint[skill.name] = {
+          "prof_level" => skill.checkpoint["prof_level"], 
+          "cg_skill" => skill.checkpoint["cg_skill"]
+        }
+      end
+      client = Global.client_monitor.find_client(char)
+      case checkpoint
+        when "info"
+          Pf2e.reset_character(char)
 
+          char.groups = groups
+          char.cg_background = prologue
+          char.demographics = demographics
+
+          # Restore to_assign
+          char.pf2_base_info = checkpoint_info["info"]["pf2_base_info"]
+          char.pf2_to_assign = checkpoint_info["info"]["pf2_to_assign"]
+          char.pf2_traits = checkpoint_info["info"]["pf2_traits"]
+          char.pf2_boosts = checkpoint_info["info"]["pf2_boosts"]
+          char.pf2_faith = checkpoint_info["info"]["pf2_faith"]
+
+          # Set the chargen stage
+          char.chargen_stage = "5"
+
+          # Write the character object
+          char.save
+        when "abilities"
+          restore_checkpoint(char, "info")
+          Pf2e.cg_lock_base_options(char, client)
+          char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
+
+          char.chargen_stage = "6"
+          char.save
+        when "skills"
+          checkpoint_info_backup = checkpoint_info
+          restore_checkpoint(char, "abilities")
+          Pf2eAbilities.cg_lock_abilities(char)
+          char.pf2_to_assign = checkpoint_info_backup["skills"]["pf2_to_assign"]
+          
+          # name, char, prof, cg_skill=false
+          char.skills.each do |skill|
+            prof_level = skills_checkpoint[skill.name]["prof_level"]
+            cg_skill = skills_checkpoint[skill.name]["cg_skill"]
+            Pf2eSkills.update_skill_for_char(skill.name, char, prof_level, cg_skill)
+          end
+
+          char.chargen_stage = "7"
+          char.pf2_skills_locked = false
+          char.save
+        else
+          return nil
+      end
     end
-
   end
 end

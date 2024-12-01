@@ -86,10 +86,9 @@ pf2e_heritage:
     skills: []
     traits: []
   Nomadic:
-    choose:
-      language:
-      - open
-      - open
+    language:
+    - open
+    - open
     action: []
     attack: {}
     defense: {}
@@ -174,7 +173,7 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
-# Egalrin Heritage Feats
+# Egalrin Heritages
   Jinxed-egalrin:
     special:
     - Jinxed Egalrin
@@ -189,7 +188,7 @@ pf2e_heritage:
     magic_stats:
       innate_spell:
         cantrip:
-        - 'Disrupt Undead'
+        - Disrupt Undead
         spell_trad: primal
     special:
     - Mountainkeeper Egalrin
@@ -239,7 +238,7 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
-# Gnome Heritage Feats
+# Gnome Heritages
   Chameleon:
     circumstance: true
     traits: []
@@ -253,10 +252,8 @@ pf2e_heritage:
   Fey-Touched:
     traits:
     - fey
-    magic:
-      choose:
-        cantrip:
-        - [ 'primal' ]
+    magic_stats:
+      gated_spell: fey gnome
     action: []
     attack: {}
     defense: {}
@@ -285,11 +282,10 @@ pf2e_heritage:
     reaction: []
     skills: []
     traits: []
-  Wellspring:
-    magic:
-      choose:
-        cantrip:
-        - [ 'arcane', 'divine', 'occult' ]
+  Wellspring (Arcane):
+    magic_stats:
+      gated_spell: wellspring gnome
+      spell_trad: arcane
     change_spell_trad: true
     action: []
     attack: {}
@@ -299,7 +295,33 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
-# Goblin Heritage Feats
+  Wellspring (Divine):
+    magic_stats:
+      gated_spell: wellspring gnome
+      spell_trad: divine
+    change_spell_trad: true
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
+    special: []
+    traits: []
+  Wellspring (Occult):
+    magic_stats:
+      gated_spell: wellspring gnome
+      spell_trad: gnome
+    change_spell_trad: true
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
+    special: []
+    traits: []
+# Goblin Heritages
   Charhide:
     defense:
       resistances:
@@ -388,7 +410,6 @@ pf2e_heritage:
   Skilled:
     skills:
     - open
-    - open
     action: []
     attack: {}
     defense: {}
@@ -397,7 +418,8 @@ pf2e_heritage:
     special: []
     traits: []
   Versatile:
-    feat: []
+    feat:
+    - general
     action: []
     attack: {}
     defense: {}
@@ -405,8 +427,6 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
-    choose_feat:
-    - general
 # Kailli Heritages
   Deep Kailli:
     traits: []
@@ -466,19 +486,6 @@ pf2e_heritage:
     skills: []
     feat: []
     defense: {}
-  Anvil:
-    traits: []
-    special: []
-    skills:
-    - Crafting
-    choose:
-      Heritage Feats:
-      - Specialty Crafting
-      - Specialty Crafting
-    action: []
-    reaction: []
-    defense: {}
-    attack: {}
   Death Warden:
     circumstance: true
     traits: []
@@ -592,7 +599,7 @@ pf2e_heritage:
     magic:
       innate_spell:
         cantrip:
-        - 'Detect Magic'
+        - Detect Magic
         spell_trad: arcane
     action:
     - Identify Magic
@@ -668,7 +675,7 @@ pf2e_heritage:
   Dar:
     rare: true
     traits:
-    - Dar
+    - dar
     special:
     - Low-Light Vision
     - Negative Healing
