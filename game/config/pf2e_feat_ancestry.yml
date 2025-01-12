@@ -2122,7 +2122,7 @@ pf2e_feats:
       level: 17
 # Heritage and Versatile Heritage Feats
 # Aesa Ancestry Feats
-  Angelkin:
+  Angelkin: # Flavor to discuss with staff
     feat_type: 
     - Ancestry
     - Lineage
@@ -2173,7 +2173,7 @@ pf2e_feats:
     prereq:
       level: 1
       heritage: Aesa
-  Celestial Lore:
+  Celestial Lore: # Lore skill to discuss with staff
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2413,7 +2413,7 @@ pf2e_feats:
         - Glitterdust
         - Remove Paralysis
         spell_trad: divine
-    shortdesc: Your lineage traces back to the azata, and you can harness its magic using this connection. You can cast glitterdust and remove paralysis each once per day as 2nd-level divine innate spells.
+    shortdesc: Your lineage traces back to the azata, and you can harness their magic using this connection. You can cast glitterdust and remove paralysis each once per day as 2nd-level divine innate spells.
     prereq:
       level: 9
       heritage: Aesa
@@ -3350,7 +3350,7 @@ pf2e_feats:
     - Human
     traits:
     - half-oruch
-    shortdesc: Your oruch blood grants you the keen vision of your forebears. You gain darkvision, allowing you to see in darkness and dim light just as well as you can in bright light. However, in darkness, you see in black and white only.%r%r**Special**You can take this feat only at 1st level, and you can’t retrain out of this feat or into this feat.
+    shortdesc: Your oruch blood grants you the keen vision of your forebears. You gain darkvision, allowing you to see in darkness and dim light just as well as you can in bright light. However, in darkness, you see in black and white only.%r%r**Special**You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.
     prereq:
       level: 1
       heritage: Half-Oruch
@@ -3481,7 +3481,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: Your legs end in hooves rather than feet, with joints and tendons that allow you to move with great haste. Your Speed increases by 5 feet.%r%r**Special**The Speed increase from this feat isn’t cumulative with any Speed increase from your ancestry feats.
+    shortdesc: Your legs end in hooves rather than feet, with joints and tendons that allow you to move with great haste. Your Speed increases by 5 feet.%r%r**Special**The Speed increase from this feat isn't cumulative with any Speed increase from your ancestry feats.
     prereq:
       level: 1
       heritage: Niasa
