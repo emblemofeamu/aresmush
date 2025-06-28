@@ -1201,6 +1201,18 @@ pf2e_feats:
       level: 5
       feat: 
       - Adaptive Adept
+  Clever Improviser:
+    feat_type:
+    - Ancestry
+    assoc_ancestry:
+    - Human
+    traits: []
+    grants:
+      feat:
+      - Untrained Improvisation
+    shortdesc: You've learned how to handle situations when you're out of your depth. You gain the Untrained Improvisation general feat. In addition, you can attempt skill actions that normally require you to be trained, even if you are untrained.
+    prereq:
+      level: 5
   Sense Allies:
     feat_type: 
     - Ancestry
@@ -1239,6 +1251,17 @@ pf2e_feats:
     shortdesc: "There's no journey too far or burden too heavy when your friends are at your side. Increase your maximum and encumbered Bulk limits by 1. In addition, you gain a +10-foot circumstance bonus to your Speed during overland travel."
     prereq:
       level: 9
+  Incredible Improvisation:
+    feat_type:
+    - Ancestry
+    assoc_ancestry:
+    - Human
+    traits: []
+    shortdesc: "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check."
+    prereq:
+      level: 9
+      feat:
+      - Clever Improviser
   Multitalented: # Ask Blue about this later
     feat_type: 
     - Ancestry
@@ -1285,7 +1308,7 @@ pf2e_feats:
     prereq:
       level: 13
       feat:
-      - Unconventional Expertise
+      - Unconventional Weaponry
   Heroic Presence:
     feat_type: 
     - Ancestry
@@ -1569,7 +1592,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: "You've learned cunning techniques to get the best effects out of your dwarven weapons. Whenever you critically hit using a battle axe, pick, warhammer, or a khazad weapon, you apply the weapon's critical specialization effect."
+    shortdesc: "You've learned cunning techniques to get the best effects out of your khazadi weapons. Whenever you critically hit using a battle axe, pick, warhammer, or a khazad weapon, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
@@ -1931,7 +1954,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: "You've spent countless hours studying the history of elves on your world and beyond and are a studied expert in your people's ways. If you critically fail a check to Recall Knowledge about elves, sildanyari society, or sildanyari history, you get a failure instead."
+    shortdesc: "You've spent countless hours studying the history of sildanyari on your world and beyond and are a studied expert in your people's ways. If you critically fail a check to Recall Knowledge about sildanyari, sildanyari society, or sildanyari history, you get a failure instead."
     prereq:
       level: 1
   Nimble Sil: # Ask Blue about this later # Speed
@@ -2036,7 +2059,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You are attuned to the weapons of your sildanyari ancestors and are particularly deadly when using them. Whenever you critically hit using an elf weapon or one of the weapons listed in Sildanyari Weapon Familiarity, you apply the weapon's critical specialization effect.
+    shortdesc: You are attuned to the weapons of your sildanyari ancestors and are particularly deadly when using them. Whenever you critically hit using a sil weapon or one of the weapons listed in Sildanyari Weapon Familiarity, you apply the weapon's critical specialization effect.
     prereq:
       level: 5
       feat: 
@@ -2058,7 +2081,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: The arcane magic you possess grows in power and complexity. Choose one common 2nd-level spell from the same tradition as an innate spell you previously gained from another elf ancestry feat (from the arcane list if you have Otherworldly Magic, for example). You can cast that spell as an innate spell once per day, using the same tradition as the list you chose the spell from.%r%rYour magic is adaptable. By spending 1 day of downtime, you can change the spell you chose to a different common 2nd-level spell from the same tradition.
+    shortdesc: The arcane magic you possess grows in power and complexity. Choose one common 2nd-level spell from the same tradition as an innate spell you previously gained from another sildanyar ancestry feat (from the arcane list if you have Otherworldly Magic, for example). You can cast that spell as an innate spell once per day, using the same tradition as the list you chose the spell from.%r%rYour magic is adaptable. By spending 1 day of downtime, you can change the spell you chose to a different common 2nd-level spell from the same tradition.
     prereq:
       level: 9
   Sildanyar Step:
@@ -2092,17 +2115,17 @@ pf2e_feats:
     shortdesc: Though you know that you will eventually outlive your companions, seeing them at death's door brings clarity to your attacks. Make a Strike. Roll twice on the attack roll and use the higher result.
     prereq:
       level: 13
-  Elven Weapon Expertise:
+  Sildanyari Weapon Expertise:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Your elven affinity blends with your class training, granting you great skill with elven weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in longbows, composite longbows, longswords, rapiers, shortbows, composite shortbows, and all elf weapons in which you are trained.
+    shortdesc: Your sildanyari affinity blends with your class training, granting you great skill with sildanyari weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in longbows, composite longbows, longswords, rapiers, shortbows, composite shortbows, and all sildanyar weapons in which you are trained.
     prereq:
       level: 13
       feat:
-      - Elven Weapon Familiarity
+      - Sildanyari Weapon Familiarity
   Universal Longevity:
     feat_type: 
     - Ancestry

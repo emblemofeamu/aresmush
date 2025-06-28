@@ -64,7 +64,7 @@ pf2e_deities:
     - Turn your back on a chance to challenge yourself.
     - Bully those weaker than yourself.
     - Fail to acknowledge when you've been bested.
-  Animus: SPOILER
+  Animus:
     allowed_alignments:
     - NG
     - LN
