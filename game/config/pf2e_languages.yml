@@ -1,41 +1,71 @@
-
 pf2e_languages:
   common:
-    Tradespeak: Descended from Veyshanti, the language of merchantry across the world.
-    Veyshanti: The language of the desert kingdoms and the nomad clans between.
-    Myrrish: The language of the kingdoms that form Myrddion.
-    Charneth: The language of Charn.
-    Skyhaldan: The language of Skyhaldborg, far to the north.
-    Khazdul: The language of the dwarven kingdoms.
-    Silya: The Sildanyari tongue as it is spoken by those outside of the Greatwoods.
-    Gnomish: The language of the feytouched gnomes.
-    Giant: The language of the giants and their kin.
-    Yrch: The language of goblins, oruch, and arvek.
-    Handspeech: A silent communication system, analogous to Tradespeak.
-    Draconic: The language of dragons, adopted by Makari, Dragonier, and many others.
-    Dranish: The language of the khanates of Dran.
-    Bludguni: A form of Yrch spoken most commonly in Bludgun.
-    Bassini: The language of the bassin, often used for clandestine communication.
-    Kaillin: The flowery language of the rat-like Kailli.
+    Kamin: Descended from Veyshanti and Kaminean, Kamin is the most prominent language in Ea. Vantyrian language.
+    # Aiglosian Languages
+    Myrrish: The language of the Myrrish kingdoms. Aiglosian language.
+    Charneth: The language of Charn, also known as the Eastern Empire. Aiglosian language.
+    # Draconic Languages
+    Am'sheri Draconic: The dialect of Draconic most common in Am'shere. Mutually intelligible with Kimitatui Draconic. Draconic language.
+    Kimitatui Draconic: The dialect of Draconic most common in Kimitatu. Mutually intelligible with Am'sheri Draconic. Draconic language.
+    # Elemental Languages
+    Dranish: The elemental-infused language of the Witchlands of Dran. Elemental language.
+    # Feytongues
+    Gnomish: The language of the gnomes, descended from Sylhart. Feytongue language.
+    Silya: The modern sildanyari language that is most widely spoken within and outside Periantha. Feytongue language.
+    Sylhart: The most common and most modern language spoken by fey creatures. Feytoungue language.
+    # Jhoch Languages
+    Bludgunni: A newer language, synthesized from Yrch, Jhokunn, and Goblin. Can be understood by Goblin and Yrch speakers with difficulty. Jhoch language.
+    Goblin: Developed from Yrch, Goblin is spoken primarily by goblins, arvek, and those who interact with them the most. Jhoch language.
+    Kaillin: The intricate spoken and nonverbal language of the rat-like kailli. Difficult to learn without a tail. Jhoch language.
+    Yrch: The most common language among oruch. Jhoch language.
+    # Khazadi Languages
+    Khazdul: The most common language among the khazadi. Khazadi language.
+    # Skyhaldan Languages
+    Skyhaldan: The language of the residents of Skyhaldborg. Skyhaldan language.
+    # Vantyrian Languages
+    Kaitoi: The language of the Kaitoi, the proud people of the Jade Islands. Vantyrian language.
+    Veyshanti: The group of dialects that belong to the One-Hundred and Four of Veyshan. Vantyrian language.
+    # Other Common Languages
+    Bassini: The language of the bassian, seemingly unrelated to any other language in Ea.
+    # Sign Languages
+    Promise Sign: The sign language of Bludgun.
+    Empyrean Sign: The sign language of Charn. Also found in the Heartlands.
+    Ithildin Sign: The sign language of Myrddion. Also found in the Heartlands.
+    Thalassic Sign: The sign language of Dran.
+    Sha Sign: The sign language of the Jade Islands and Veyshan.
+    Iocanthian Sign: The sign language of Khazad Duin.
+    Dragonsign: The sign language of Kimitatu.
+    Caeldra Sign: The sign language of Periantha.
+    Runish System: The sign language of Rune. Known officially within Rune as Hand and Nonverbal Discourse (HAND).
+    Sky Sign: The sign language of Skyhaldborg.
+    Tysmychan Sign: The sign language of Tysmycha.
   uncommon:
-    Sylvan: The language of fey creatures.
-    Terran: The language of elemental Earth.
-    Aquan: The language of elemental Water.
-    Auran: The language of elemental Air.
-    Ignan: The language of elemental Fire.
-    Necril: The language of undead, although not universally spoken.
-    Infernal: The language of the devils of the Iron Hells.
-    Celestial: The language of the heavenly hosts.
     Abyssal: The language of the demons of the Abyss.
-    Sildanyari: Spoken chiefly in the Greatwoods, this is the tongue that the lyranesi hold as pure.
-    Amsheri: A trade tongue used across the settlements and tribes of the Amshere jungles.
+    Aesyian: The language of the heavenly hosts.
+    Aklo: A language spoken by otherworldly creatures, which is difficult for mortals to learn.
+    Dalian: The language of the Dalians, who also live within Skyhaldborg. Skyhaldan language.
+    Infernal: The language of the devils of the Iron Hells.
+    Jhokunn: The language of the giants and their kin. Jhoch language.
+    Kaminean: The very rare precursor tongue to Kamin, spoken primarily within isolated Kaminean families and communities. Vantyrian language.
+    Kholo: The language of the gnolls, perhaps closest in relation to Kaillin. Jhoch language.
+    Petran: The language of elemental earth. Elemental language.
+    Pyric: The language of elemental fire. Elemental language.
+    Thalassic: The language of elemental water. Elemental language.
+    Sussuran: The language of elemental air. Elemental language.
+    Old Aiglosian: The precursor tongue of Myrrish and Charneth. Aiglosian language.
+    Ranix: The language of many intelligent undead and necromantic magic.
+    Saher: The language spoken by the nomadic peoples of the Great Sands of Veyshan. Vantyrian language.
+    Shadowtongue: Spoken primarily by creatures of the Void and some undead.
+    Sildanyari: The language of the sildanyari kingdom of Llyranost, as dictated by the Dawn Children. Feytongue language.
+    Zykan: The little-studied language of the peoples of the Wolfrot Marshes in Veyshan. Vantyrian language.
+  rare:
+    Elder Sylhart: The oldest of the feytongues, largely only spoken at the courts of the eldest fey. Feytongue language.
+    Middle Aiglosian: A fractured descendant language of Old Aiglosian that is poorly documented. Aiglosian language.
+    Mynsandraal: The first and oldest language of the sildanyari, fractured and the subject of great debate. Feytongue language.
+    Valgeag: Spoken by the reclusive and underground khazad-rukh, who are not inclined to teach the language to outsiders. Khazadi language.
   secret:
-    Vantyr: A dead language, spoken in the empire that fell before Tashraan's rise.
-    Aiglosian: The precursor tongue of Myrrish and Charneth, with several distinct periods.
-    Mynsandraal: The first language of the elves, which was spoken when they emerged from the fey realms.
-    Kulthian: A dead language used by the artificers of old Kulthos.
-    Druidic: A secret tongue only taught to Druids.
-#  regional: SPOILER
+    Druidic: A secret tongue only taught to druids. Feytongue language.
+#  regional: deprecated
 #    Skyhaldborg: Skyhaldan
 #    Dran: Dranish
 #    Alexandros: Myrrish

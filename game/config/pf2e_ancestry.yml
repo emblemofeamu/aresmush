@@ -21,8 +21,10 @@ pf2e_ancestry:
     - Changeling
     - Dar
     - Elfbane
+    - Ghaluch
     - Niasa
     - Runtboss
+    - Silyara
     - Smokeworker
     - Warmarch
     - Warrenbred
@@ -64,11 +66,13 @@ pf2e_ancestry:
     - Ashen One
     - Changeling
     - Dar
+    - Ghaluch
     - Gutsy
     - Hillock
     - Jinxed-bassin
     - Niasa
     - Nomadic
+    - Silyara
     - Twilight
     - Wildwood
     feats:
@@ -225,9 +229,11 @@ pf2e_ancestry:
     - Changeling
     - Charhide
     - Dar
+    - Ghaluch
     - Irongut
     - Niasa
     - Razortooth
+    - Silyara
     - Snow
     - Unbreakable
     feats:
@@ -280,8 +286,10 @@ pf2e_ancestry:
     - Changeling
     - Dar
     - Fey-Touched
+    - Ghaluch
     - Niasa
     - Sensate
+    - Silyara
     - Umbral
     - Wellspring (Arcane)
     - Wellspring (Divine)
@@ -329,9 +337,9 @@ pf2e_ancestry:
     - Ashen One
     - Changeling
     - Dar
-    - Half-Sil
-    - Half-Oruch
+    - Ghaluch
     - Niasa
+    - Silyara
     - Skilled
     - Versatile
     feats:
@@ -426,8 +434,10 @@ pf2e_ancestry:
     - Dar
     - Death Warden
     - Forge
+    - Ghaluch
     - Niasa
     - Rock
+    - Silyara
     - Strong-Blooded
     feats:
       1:
@@ -438,7 +448,6 @@ pf2e_ancestry:
       - Rock Runner
       - Stonecunning
       - Unburdened Iron
-      - Vengeful Hatred
       5:
       - Boulder Roll
       - Defy the Darkness
@@ -480,6 +489,7 @@ pf2e_ancestry:
     - Deep Oruch
     - Hold-Scarred
     - Niasa
+    - Silyara
     - Rainfall
     feats:
       1:
@@ -529,6 +539,7 @@ pf2e_ancestry:
     - Cavern
     - Changeling
     - Dar
+    - Ghaluch
     - Niasa
     - Seer
     - Whisper
