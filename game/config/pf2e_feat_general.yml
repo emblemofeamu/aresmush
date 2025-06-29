@@ -146,7 +146,7 @@ pf2e_feats:
     feat_type: 
     - General
     traits: []
-    shortdesc: You snap your shield in place to ward off a blow. Your shield prevents you from taking an amount of damage up to the shield’s Hardness. You and the shield each take any remaining damage, possibly breaking or destroying the shield.
+    shortdesc: You snap your shield in place to ward off a blow. Your shield prevents you from taking an amount of damage up to the shield's Hardness. You and the shield each take any remaining damage, possibly breaking or destroying the shield.
     prereq:
       level: 1
   Toughness:
@@ -229,12 +229,19 @@ pf2e_feats:
     prereq:
       level: 3
       combat_stats: Perception/expert
+  Untrained Improvisation:
+    feat_type:
+    - General
+    traits: []
+    shortdesc: You've learned how to handle situations when you're out of your depth. Your proficiency bonus to untrained skill checks is equal to half your level instead of +0. If you're 7th level or higher, the bonus increases to your full level instead. This doesn't allow you to use the skill's trained actions.
+    prereq:
+      level: 3
 # Level 7 General Feats
   Expeditious Retreat:
     feat_type:
     - General
     traits: []
-    shortdesc: You have a system that lets you search at great speed, finding details and secrets twice as quickly as others can. When Searching, you take half as long as usual to Search a given area. This means that while exploring, you double the Speed you can move while ensuring you’ve Searched an area before walking into it (up to half your Speed). If you’re legendary in Perception, you instead Search areas four times as quickly.
+    shortdesc: You have a system that lets you search at great speed, finding details and secrets twice as quickly as others can. When Searching, you take half as long as usual to Search a given area. This means that while exploring, you double the Speed you can move while ensuring you've Searched an area before walking into it (up to half your Speed). If you're legendary in Perception, you instead Search areas four times as quickly.
     prereq:
       level: 7
       skill: Perception/master

@@ -383,30 +383,6 @@ pf2e_heritage:
     skills: []
     traits: []
 # Human Heritages
-  Half-Oruch:
-    traits:
-    - oruch
-    - half-oruch
-    special:
-    - Low-Light Vision
-    action: []
-    attack: {}
-    defense: {}
-    feat: []
-    reaction: []
-    skills: []
-  Half-Sil:
-    traits:
-    - half-sil
-    - sildanyar
-    special:
-    - Low-Light Vision
-    action: []
-    attack: {}
-    defense: {}
-    feat: []
-    reaction: []
-    skills: []
   Skilled:
     skills:
     - open
@@ -632,6 +608,31 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
+# Limited Heritages
+  Ghaluch:
+    traits:
+    - oruch
+    - ghaluch
+    special:
+    - Low-Light Vision
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
+  Silyara:
+    traits:
+    - silyara
+    - sildanyar
+    special:
+    - Low-Light Vision
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
 # Versatile Heritages
   Aesa:
     rare: true
