@@ -1,5 +1,149 @@
 ---
 pf2e_consumables:
+# Item Level 1
+  1st-Level Scroll:
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - consumable
+    - magical
+    - scroll
+  Acid Flask (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - acid
+    - alchemical
+    - bomb
+    - consumable
+    - splash
+  Alchemist's Fire (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - fire
+    - splash
+  Antidote (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+  Antiplague (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+  Arsenic:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+  Bestial Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Blight Bomb (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - poison
+    - splash
+  Bottled Lightning (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - electricity
+    - splash
+  Cheetah's Elixir (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Cognitive Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Drakeheart Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Dread Ampoule (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - emotion
+    - fear
+    - mental
+    - poison
+    - splash
+  Eagle-Eye Elixir (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Elixir of Life (Minor):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Feather Token (Ladder):
     bulk: 0
     level: 1
@@ -8,6 +152,23 @@ pf2e_consumables:
     - conjuration
     - consumable
     - magical
+  Forensic Dye:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+  Frost Vial (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - cold
+    - consumable
+    - splash
   Gecko Potion:
     bulk: 0.1
     level: 1
@@ -17,6 +178,43 @@ pf2e_consumables:
     - magical
     - potion
     - transmutation
+  Ghost Charge (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - positive
+    - splash
+  Ghost Ink:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+  Giant Centipede Venom:
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
+  Healing Potion (Minor):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - consumable
+    - healing
+    - magical
+    - necromancy
+    - positive
+    - potion
   Holy Water:
     bulk: 0.1
     level: 1
@@ -26,6 +224,24 @@ pf2e_consumables:
     - divine
     - good
     - splash
+  Juggernaut Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Leaper's Elixir (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - elixir
   Nectar of Purification:
     bulk: 0.1
     level: 1
@@ -35,10 +251,29 @@ pf2e_consumables:
     - magical
     - necromancy
     - oil
+  Oil of Unlife (Minor):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - consumable
+    - magical
+    - necromancy
+    - negative
+    - oil
   Owlbear Claw:
     bulk: 0
     level: 1
     price: 300
+    traits:
+    - consumable
+    - evocation
+    - magical
+    - talisman
+  Potency Crystal:
+    bulk: 0
+    level: 1
+    price: 400
     traits:
     - consumable
     - evocation
@@ -53,78 +288,6 @@ pf2e_consumables:
     - magical
     - potion
     - transmutation
-  Ration Tonic:
-    bulk: 0.1
-    level: 1
-    price: 300
-    traits:
-    - conjuration
-    - consumable
-    - magical
-    - potion
-  Runestone:
-    bulk: 0.1
-    level: 1
-    price: 300
-    traits:
-    - consumable
-    - magical
-  Shining Ammunition:
-    bulk: 0
-    level: 1
-    price: 300
-    traits:
-    - consumable
-    - evocation
-    - light
-    - magical
-  Unholy Water:
-    bulk: 0.1
-    level: 1
-    price: 300
-    traits:
-    - consumable
-    - divine
-    - evil
-    - splash
-  1st-Level Scroll:
-    bulk: 0.1
-    level: 1
-    price: 400
-    traits:
-    - consumable
-    - magical
-    - scroll
-  Healing Potion (Minor):
-    bulk: 0.1
-    level: 1
-    price: 400
-    traits:
-    - consumable
-    - healing
-    - magical
-    - necromancy
-    - positive
-    - potion
-  Oil of Unlife (Minor):
-    bulk: 0.1
-    level: 1
-    price: 400
-    traits:
-    - consumable
-    - magical
-    - necromancy
-    - negative
-    - oil
-  Potency Crystal:
-    bulk: 0
-    level: 1
-    price: 400
-    traits:
-    - consumable
-    - evocation
-    - magical
-    - talisman
   Potion of Retaliation (Minor):
     bulk: 0.1
     level: 1
@@ -144,6 +307,42 @@ pf2e_consumables:
     - magical
     - mental
     - potion
+  Quicksilver Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Ration Tonic:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - conjuration
+    - consumable
+    - magical
+    - potion
+  Runestone:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - consumable
+    - magical
+  Serene Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
   Shielding Salve:
     bulk: 0.1
     level: 1
@@ -153,6 +352,82 @@ pf2e_consumables:
     - consumable
     - magical
     - oil
+  Shining Ammunition:
+    bulk: 0
+    level: 1
+    price: 300
+    traits:
+    - consumable
+    - evocation
+    - light
+    - magical
+  Silvertongue Mutagen (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Smokestick (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+  Snake Oil:
+    bulk: 0.1
+    level: 1
+    price: 200
+    traits:
+    - alchemical
+    - consumable
+  Sunrod:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - consumable
+    - light
+  Tanglefoot Bag (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+  Thunderstone (Lesser):
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - sonic
+    - splash
+  Tindertwig:
+    bulk: 0.1
+    level: 1
+    price: 20
+    traits:
+    - alchemical
+    - consumable
+    - fire
+  Unholy Water:
+    bulk: 0.1
+    level: 1
+    price: 300
+    traits:
+    - consumable
+    - divine
+    - evil
+    - splash
   Wolf Fang:
     bulk: 0
     level: 1
@@ -162,6 +437,100 @@ pf2e_consumables:
     - evocation
     - magical
     - talisman
+# Item Level 2
+  Antler Arrow:
+    bulk: 0
+    level: 2
+    price: 700
+    traits:
+    - conjuration
+    - consumable
+    - magical
+  Belladonna:
+    bulk: 0.1
+    level: 2
+    price: 500
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+  Black Adder Venom:
+    bulk: 0.1
+    level: 2
+    price: 600
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
+  Bloodhound Mask (Lesser):
+    bulk: 0.1
+    level: 2
+    price: 600
+    traits:
+    - alchemical
+    - consumable
+  Bravo's Brew (Lesser):
+    bulk: 0.1
+    level: 2
+    price: 700
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mental
+  Bronze Bull Pendant:
+    bulk: 0
+    level: 2
+    price: 700
+    traits:
+    - consumable
+    - evocation
+    - magical
+    - talisman
+  Cat's Eye Elixir:
+    bulk: 0.1
+    level: 2
+    price: 700
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Comprehension Elixir (Lesser):
+    bulk: 0.1
+    level: 2
+    price: 700
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Crying Angel Pendant:
+    bulk: 0
+    level: 2
+    price: 700
+    traits:
+    - consumable
+    - divine
+    - necromancy
+    - talisman
+  Darkvision Elixir (Lesser):
+    bulk: 0.1
+    level: 2
+    price: 600
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Effervescent Ampoule:
+    bulk: 0
+    level: 2
+    price: 700
+    traits:
+    - consumable
+    - magical
+    - talisman
+    - transmutation
   Feather Token (Holly Bush):
     bulk: 0
     level: 2
@@ -170,6 +539,15 @@ pf2e_consumables:
     - conjuration
     - consumable
     - magical
+  Focus Cathartic (Lesser):
+    bulk: 0.1
+    level: 2
+    price: 500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Hunter's Bane:
     bulk: 0
     level: 2
@@ -179,6 +557,15 @@ pf2e_consumables:
     - divination
     - magical
     - talisman
+  Infiltrator's Elixir:
+    bulk: 0.1
+    level: 2
+    price: 600
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - polymorph
   Jade Cat:
     bulk: 0
     level: 2
@@ -186,6 +573,27 @@ pf2e_consumables:
     traits:
     - abjuration
     - consumable
+    - magical
+    - talisman
+  Lethargy Poison:
+    bulk: 0.1
+    level: 2
+    price: 700
+    traits:
+    - alchemical
+    - consumable
+    - incapacitation
+    - injury
+    - poison
+    - sleep
+    - uncommon
+  Mesmerizing Opal:
+    bulk: 0
+    level: 2
+    price: 700
+    traits:
+    - consumable
+    - enchantment
     - magical
     - talisman
   Monkey Pin:
@@ -197,63 +605,19 @@ pf2e_consumables:
     - magical
     - talisman
     - transmutation
-  Oil of Weightlessness:
+  Oil of Potency:
     bulk: 0.1
     level: 2
-    price: 600
+    price: 700
     traits:
     - consumable
     - magical
     - oil
     - transmutation
-  Antler Arrow:
-    bulk: 0
-    level: 2
-    price: 700
-    traits:
-    - conjuration
-    - consumable
-    - magical
-  Bronze Bull Pendant:
-    bulk: 0
-    level: 2
-    price: 700
-    traits:
-    - consumable
-    - evocation
-    - magical
-    - talisman
-  Crying Angel Pendant:
-    bulk: 0
-    level: 2
-    price: 700
-    traits:
-    - consumable
-    - divine
-    - necromancy
-    - talisman
-  Effervescent Ampoule:
-    bulk: 0
-    level: 2
-    price: 700
-    traits:
-    - consumable
-    - magical
-    - talisman
-    - transmutation
-  Mesmerizing Opal:
-    bulk: 0
-    level: 2
-    price: 700
-    traits:
-    - consumable
-    - enchantment
-    - magical
-    - talisman
-  Oil of Potency:
+  Oil of Weightlessness:
     bulk: 0.1
     level: 2
-    price: 700
+    price: 600
     traits:
     - consumable
     - magical
@@ -268,6 +632,13 @@ pf2e_consumables:
     - magical
     - talisman
     - transmutation
+  Origin Unguent:
+    bulk: 0.1
+    level: 2
+    price: 600
+    traits:
+    - alchemical
+    - consumable
   Savior Spike:
     bulk: 0
     level: 2
@@ -278,6 +649,131 @@ pf2e_consumables:
     - force
     - magical
     - talisman
+  Silversheen:
+    bulk: 0.1
+    level: 2
+    price: 600
+    traits:
+    - alchemical
+    - consumable
+  Sinew-Shock Serum (Lesser):
+    bulk: 0.1
+    level: 2
+    price: 500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+# Item Level 3
+  2nd-Level Scroll:
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - consumable
+    - magical
+    - scroll
+  Acid Flask (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - acid
+    - alchemical
+    - bomb
+    - consumable
+    - splash
+  Alchemist's Fire (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - fire
+    - splash
+  Beacon Shot:
+    bulk: 0
+    level: 3
+    price: 1000
+    traits:
+    - consumable
+    - evocation
+    - magical
+  Bestial Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Blight Bomb (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - poison
+    - splash
+  Bottled Lightning (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - electricity
+    - splash
+  Cognitive Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Cytillesh Oil:
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
+  Drakeheart Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Dread Ampoule (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - emotion
+    - fear
+    - mental
+    - poison
+    - splash
   Feather Step Stone:
     bulk: 0
     level: 3
@@ -295,23 +791,6 @@ pf2e_consumables:
     - conjuration
     - consumable
     - magical
-  Oil of Mending:
-    bulk: 0.1
-    level: 3
-    price: 900
-    traits:
-    - consumable
-    - magical
-    - oil
-    - transmutation
-  Beacon Shot:
-    bulk: 0
-    level: 3
-    price: 1000
-    traits:
-    - consumable
-    - evocation
-    - magical
   Feather Token (Chest):
     bulk: 0
     level: 3
@@ -320,41 +799,35 @@ pf2e_consumables:
     - conjuration
     - consumable
     - magical
-  Vine Arrow:
-    bulk: 0
+  Frost Vial (Moderate):
+    bulk: 0.1
     level: 3
     price: 1000
     traits:
-    - conjuration
+    - alchemical
+    - bomb
+    - cold
     - consumable
-    - magical
-  Potion of Water Breathing:
+    - splash
+  Ghost Charge (Moderate):
     bulk: 0.1
     level: 3
-    price: 1100
+    price: 1000
     traits:
+    - alchemical
+    - bomb
     - consumable
-    - magical
-    - potion
-    - transmutation
-  Sleep Arrow:
-    bulk: 0
-    level: 3
-    price: 1100
-    traits:
-    - consumable
-    - enchantment
-    - magical
-    - mental
-    - sleep
-  2nd-Level Scroll:
+    - positive
+    - splash
+  Graveroot:
     bulk: 0.1
     level: 3
-    price: 1200
+    price: 1000
     traits:
+    - alchemical
     - consumable
-    - magical
-    - scroll
+    - injury
+    - poison
   Healing Potion (Lesser):
     bulk: 0.1
     level: 3
@@ -366,6 +839,25 @@ pf2e_consumables:
     - necromancy
     - positive
     - potion
+  Juggernaut Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Oil of Mending:
+    bulk: 0.1
+    level: 3
+    price: 900
+    traits:
+    - consumable
+    - magical
+    - oil
+    - transmutation
   Oil of Unlife (Lesser):
     bulk: 0.1
     level: 3
@@ -376,6 +868,14 @@ pf2e_consumables:
     - necromancy
     - negative
     - oil
+  Olfactory Obfuscator:
+    bulk: 0.1
+    level: 3
+    price: 900
+    traits:
+    - alchemical
+    - consumable
+    - elixir
   Potion of Retaliation (Lesser):
     bulk: 0.1
     level: 3
@@ -385,6 +885,55 @@ pf2e_consumables:
     - evocation
     - magical
     - potion
+  Potion of Water Breathing:
+    bulk: 0.1
+    level: 3
+    price: 1100
+    traits:
+    - consumable
+    - magical
+    - potion
+    - transmutation
+  Quicksilver Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Serene Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Silvertongue Mutagen (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Sleep Arrow:
+    bulk: 0
+    level: 3
+    price: 1100
+    traits:
+    - consumable
+    - enchantment
+    - magical
+    - mental
+    - sleep
   Spellstrike Ammunition (Type I):
     bulk: 0
     level: 3
@@ -393,15 +942,33 @@ pf2e_consumables:
     - consumable
     - magical
     - transmutation
-  Dragon Turtle Scale:
-    bulk: 0
-    level: 4
-    price: 1300
+  Tanglefoot Bag (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
     traits:
+    - alchemical
+    - bomb
+    - consumable
+  Thunderstone (Moderate):
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - sonic
+    - splash
+  Vine Arrow:
+    bulk: 0
+    level: 3
+    price: 1000
+    traits:
+    - conjuration
     - consumable
     - magical
-    - talisman
-    - transmutation
+# Item Level 4
   Barkskin Potion:
     bulk: 0.1
     level: 4
@@ -411,39 +978,6 @@ pf2e_consumables:
     - consumable
     - potion
     - primal
-  Climbing Bolt:
-    bulk: 0
-    level: 4
-    price: 1500
-    traits:
-    - conjuration
-    - consumable
-    - magical
-  Feather Token (Fan):
-    bulk: 0
-    level: 4
-    price: 1500
-    traits:
-    - conjuration
-    - consumable
-    - magical
-  Shrinking Potion:
-    bulk: 0.1
-    level: 4
-    price: 1500
-    traits:
-    - consumable
-    - magical
-    - potion
-    - transmutation
-  Viper Arrow:
-    bulk: 0
-    level: 4
-    price: 1700
-    traits:
-    - conjuration
-    - consumable
-    - magical
   Bloodseeker Beak:
     bulk: 0
     level: 4
@@ -453,6 +987,49 @@ pf2e_consumables:
     - magical
     - necromancy
     - talisman
+  Bomber's Eye Elixir (Lesser):
+    bulk: 0.1
+    level: 4
+    price: 1400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Climbing Bolt:
+    bulk: 0
+    level: 4
+    price: 1500
+    traits:
+    - conjuration
+    - consumable
+    - magical
+  Crystal Shards (Moderate):
+    bulk: 0.1
+    level: 4
+    price: 1600
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - earth
+    - splash
+  Darkvision Elixir (Moderate):
+    bulk: 0.1
+    level: 4
+    price: 1100
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Dragon Turtle Scale:
+    bulk: 0
+    level: 4
+    price: 1300
+    traits:
+    - consumable
+    - magical
+    - talisman
+    - transmutation
   Fear Gem:
     bulk: 0
     level: 4
@@ -464,6 +1041,23 @@ pf2e_consumables:
     - magical
     - mental
     - talisman
+  Feather Token (Fan):
+    bulk: 0
+    level: 4
+    price: 1500
+    traits:
+    - conjuration
+    - consumable
+    - magical
+  Focus Cathartic (Moderate):
+    bulk: 0.1
+    level: 4
+    price: 1500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Invisibility Potion:
     bulk: 0.1
     level: 4
@@ -473,60 +1067,84 @@ pf2e_consumables:
     - illusion
     - magical
     - potion
-  Potion of Leaping:
+  Leadenleg:
     bulk: 0.1
-    level: 5
-    price: 2100
+    level: 4
+    price: 1500
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
+  Mistform Elixir (Lesser):
+    bulk: 0.1
+    level: 4
+    price: 1800
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - illusion
+    - visual
+  Salamander Elixir (Lesser):
+    bulk: 0.1
+    level: 4
+    price: 1500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Shrinking Potion:
+    bulk: 0.1
+    level: 4
+    price: 1500
     traits:
     - consumable
     - magical
     - potion
     - transmutation
-  Sneaky Key:
-    bulk: 0
-    level: 5
-    price: 2200
-    traits:
-    - consumable
-    - evocation
-    - magical
-    - talisman
-  Shark Tooth Charm:
-    bulk: 0
-    level: 5
-    price: 2300
-    traits:
-    - abjuration
-    - consumable
-    - magical
-    - talisman
-  Freezing Ammunition:
-    bulk: 0
-    level: 5
-    price: 2500
-    traits:
-    - cold
-    - consumable
-    - evocation
-    - magical
-  Oil of Revelation:
+  Sinew-Shock Serum (Moderate):
     bulk: 0.1
-    level: 5
-    price: 2500
+    level: 4
+    price: 1500
     traits:
+    - alchemical
     - consumable
-    - evocation
-    - magical
-    - oil
-  Salve of Slipperiness:
+    - elixir
+    - healing
+  Stone Fist Flask:
     bulk: 0.1
-    level: 5
-    price: 2500
+    level: 4
+    price: 1300
     traits:
+    - alchemical
+    - consumable
+    - elixir
+    - morph
+  Timeless Salts:
+    bulk: 0.1
+    level: 4
+    price: 1400
+    traits:
+    - alchemical
+    - consumable
+  Viper Arrow:
+    bulk: 0
+    level: 4
+    price: 1700
+    traits:
+    - conjuration
     - consumable
     - magical
-    - oil
-    - transmutation
+  Winter Wolf Elixir (Lesser):
+    bulk: 0.1
+    level: 4
+    price: 1500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+# Item Level 5
   3rd-Level Scroll:
     bulk: 0.1
     level: 5
@@ -535,6 +1153,31 @@ pf2e_consumables:
     - consumable
     - magical
     - scroll
+  Cheetah's Elixir (Moderate):
+    bulk: 0.1
+    level: 5
+    price: 2500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Eagle-Eye Elixir (Moderate):
+    bulk: 0.1
+    level: 5
+    price: 2700
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Elixir of Life (Lesser):
+    bulk: 0.1
+    level: 5
+    price: 3000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Emerald Grasshopper:
     bulk: 0
     level: 5
@@ -544,6 +1187,33 @@ pf2e_consumables:
     - magical
     - talisman
     - transmutation
+  Freezing Ammunition:
+    bulk: 0
+    level: 5
+    price: 2500
+    traits:
+    - cold
+    - consumable
+    - evocation
+    - magical
+  Hunting Spider Venom:
+    bulk: 0.1
+    level: 5
+    price: 2500
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
+  Oil of Revelation:
+    bulk: 0.1
+    level: 5
+    price: 2500
+    traits:
+    - consumable
+    - evocation
+    - magical
+    - oil
   Potion of Disguise (Lesser):
     bulk: 0.1
     level: 5
@@ -554,6 +1224,50 @@ pf2e_consumables:
     - polymorph
     - potion
     - transmutation
+  Potion of Leaping:
+    bulk: 0.1
+    level: 5
+    price: 2100
+    traits:
+    - consumable
+    - magical
+    - potion
+    - transmutation
+  Salve of Slipperiness:
+    bulk: 0.1
+    level: 5
+    price: 2500
+    traits:
+    - consumable
+    - magical
+    - oil
+    - transmutation
+  Sea Touch Elixir (Lesser):
+    bulk: 0.1
+    level: 5
+    price: 2200
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Shark Tooth Charm:
+    bulk: 0
+    level: 5
+    price: 2300
+    traits:
+    - abjuration
+    - consumable
+    - magical
+    - talisman
+  Sneaky Key:
+    bulk: 0
+    level: 5
+    price: 2200
+    traits:
+    - consumable
+    - evocation
+    - magical
+    - talisman
   Spellstrike Ammunition (Type II):
     bulk: 0
     level: 5
@@ -571,52 +1285,39 @@ pf2e_consumables:
     - magical
     - talisman
     - transmutation
-  Oil of Weightlessness (Greater):
+  Universal Solvent (Moderate):
+    bulk: 0.1
+    level: 5
+    price: 2100
+    traits:
+    - alchemical
+    - consumable
+# Item Level 6
+  Antidote (Moderate):
     bulk: 0.1
     level: 6
-    price: 3600
+    price: 3500
     traits:
+    - alchemical
     - consumable
-    - magical
-    - oil
-    - transmutation
-  Feather Token (Tree):
-    bulk: 0
+    - elixir
+    - healing
+  Antiplague (Moderate):
+    bulk: 0.1
     level: 6
-    price: 3800
+    price: 3500
     traits:
-    - conjuration
+    - alchemical
     - consumable
-    - magical
-  Salve of Antiparalysis:
+    - elixir
+    - healing
+  Bloodhound Mask (Moderate):
     bulk: 0.1
     level: 6
     price: 4000
     traits:
+    - alchemical
     - consumable
-    - healing
-    - magical
-    - necromancy
-    - oil
-  Potion of Resistance (Lesser):
-    bulk: 0.1
-    level: 6
-    price: 4500
-    traits:
-    - abjuration
-    - consumable
-    - magical
-    - potion
-  Truth Potion:
-    bulk: 0.1
-    level: 6
-    price: 4600
-    traits:
-    - consumable
-    - enchantment
-    - magical
-    - mental
-    - potion
   Dust of Appearance:
     bulk: 0
     level: 6
@@ -625,6 +1326,23 @@ pf2e_consumables:
     - consumable
     - divination
     - magical
+  Feather Token (Tree):
+    bulk: 0
+    level: 6
+    price: 3800
+    traits:
+    - conjuration
+    - consumable
+    - magical
+  Giant Scorpion Venom:
+    bulk: 0.1
+    level: 6
+    price: 4000
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
   Healing Potion (Moderate):
     bulk: 0.1
     level: 6
@@ -645,16 +1363,25 @@ pf2e_consumables:
     - evocation
     - magical
     - talisman
-  Oil of Unlife (Moderate):
+  Mistform Elixir (Moderate):
     bulk: 0.1
     level: 6
-    price: 5000
+    price: 5600
     traits:
+    - alchemical
+    - consumable
+    - elixir
+    - illusion
+    - visual
+  Potion of Resistance (Lesser):
+    bulk: 0.1
+    level: 6
+    price: 4500
+    traits:
+    - abjuration
     - consumable
     - magical
-    - necromancy
-    - negative
-    - oil
+    - potion
   Potion of Retaliation (Moderate):
     bulk: 0.1
     level: 6
@@ -673,6 +1400,35 @@ pf2e_consumables:
     - magical
     - potion
     - transmutation
+  Salve of Antiparalysis:
+    bulk: 0.1
+    level: 6
+    price: 4000
+    traits:
+    - consumable
+    - healing
+    - magical
+    - necromancy
+    - oil
+  Oil of Unlife (Moderate):
+    bulk: 0.1
+    level: 6
+    price: 5000
+    traits:
+    - consumable
+    - magical
+    - necromancy
+    - negative
+    - oil
+  Oil of Weightlessness (Greater):
+    bulk: 0.1
+    level: 6
+    price: 3600
+    traits:
+    - consumable
+    - magical
+    - oil
+    - transmutation
   Terrifying Ammunition:
     bulk: 0
     level: 6
@@ -684,58 +1440,17 @@ pf2e_consumables:
     - fear
     - magical
     - mental
-  Feather Token (Anchor):
-    bulk: 0
-    level: 7
-    price: 5500
-    traits:
-    - conjuration
-    - consumable
-    - magical
-  Grim Trophy:
-    bulk: 0
-    level: 7
-    price: 5500
+  Truth Potion:
+    bulk: 0.1
+    level: 6
+    price: 4600
     traits:
     - consumable
     - enchantment
     - magical
-    - talisman
-  Ration Tonic (Greater):
-    bulk: 0.1
-    level: 7
-    price: 5500
-    traits:
-    - conjuration
-    - consumable
-    - magical
+    - mental
     - potion
-  Candle of Revealing:
-    bulk: 0
-    level: 7
-    price: 6000
-    traits:
-    - consumable
-    - divination
-    - magical
-  Serum of Sex Shift:
-    bulk: 0.1
-    level: 7
-    price: 6000
-    traits:
-    - consumable
-    - magical
-    - potion
-    - transmutation
-  Murderer's Knot:
-    bulk: 0
-    level: 7
-    price: 6600
-    traits:
-    - consumable
-    - evocation
-    - magical
-    - talisman
+# Item Level 7
   4th-Level Scroll:
     bulk: 0.1
     level: 7
@@ -744,6 +1459,22 @@ pf2e_consumables:
     - consumable
     - magical
     - scroll
+  Candle of Revealing:
+    bulk: 0
+    level: 7
+    price: 6000
+    traits:
+    - consumable
+    - divination
+    - magical
+  Comprehension Elixir (Greater):
+    bulk: 0.1
+    level: 7
+    price: 5400
+    traits:
+    - alchemical
+    - consumable
+    - elixir
   Corrosive Ammunition:
     bulk: 0
     level: 7
@@ -761,6 +1492,98 @@ pf2e_consumables:
     - evocation
     - magical
     - potion
+  Feather Token (Anchor):
+    bulk: 0
+    level: 7
+    price: 5500
+    traits:
+    - conjuration
+    - consumable
+    - magical
+  Giant Wasp Venom:
+    bulk: 0.1
+    level: 7
+    price: 5500
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison 
+  Grim Trophy:
+    bulk: 0
+    level: 7
+    price: 5500
+    traits:
+    - consumable
+    - enchantment
+    - magical
+    - talisman
+  Leaper's Elixir (Greater):
+    bulk: 0.1
+    level: 7
+    price: 5500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Malyass Root Paste:
+    bulk: 0.1
+    level: 7
+    price: 5500
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
+  Murderer's Knot:
+    bulk: 0
+    level: 7
+    price: 6600
+    traits:
+    - consumable
+    - evocation
+    - magical
+    - talisman
+  Ration Tonic (Greater):
+    bulk: 0.1
+    level: 7
+    price: 5500
+    traits:
+    - conjuration
+    - consumable
+    - magical
+    - potion
+  Serum of Sex Shift:
+    bulk: 0.1
+    level: 7
+    price: 6000
+    traits:
+    - consumable
+    - magical
+    - potion
+    - transmutation
+  Skinstitch Salve:
+    bulk: 0.1
+    level: 7
+    price: 5500
+    traits:
+    - alchemical
+    - consumable
+    - healing
+  Smokestick (Greater):
+    bulk: 0.1
+    level: 7
+    price: 5300
+    traits:
+    - alchemical
+    - consumable
+  Sovereign Glue:
+    bulk: 0.1
+    level: 7
+    price: 5500
+    traits:
+    - alchemical
+    - consumable
   Spellstrike Ammunition (Type III):
     bulk: 0
     level: 7
@@ -778,6 +1601,7 @@ pf2e_consumables:
     - consumable
     - magical
     - talisman
+# Item Level 8
   Candle of Truth:
     bulk: 0
     level: 8
@@ -787,41 +1611,14 @@ pf2e_consumables:
     - enchantment
     - magical
     - mental
-  Feather Token (Swan Boat):
-    bulk: 0
-    level: 8
-    price: 7600
-    traits:
-    - conjuration
-    - consumable
-    - magical
-  Oil of Object Animation:
-    bulk: 0
-    level: 8
-    price: 8500
-    traits:
-    - consumable
-    - magical
-    - oil
-    - transmutation
-  Potion of Quickness:
+  Darkvision Elixir (Greater):
     bulk: 0.1
     level: 8
     price: 9000
     traits:
+    - alchemical
     - consumable
-    - magical
-    - potion
-    - transmutation
-  Shrinking Potion (Greater):
-    bulk: 0.1
-    level: 8
-    price: 9000
-    traits:
-    - consumable
-    - magical
-    - potion
-    - transmutation
+    - elixir
   Dust of Corpse Animation:
     bulk: 0
     level: 8
@@ -830,6 +1627,15 @@ pf2e_consumables:
     - consumable
     - magical
     - necromancy
+    - uncommon
+  Feather Token (Swan Boat):
+    bulk: 0
+    level: 8
+    price: 7600
+    traits:
+    - conjuration
+    - consumable
+    - magical
   Gallows Tooth:
     bulk: 0
     level: 8
@@ -849,6 +1655,24 @@ pf2e_consumables:
     - magical
     - mental
     - talisman
+  Nettleweed Residue:
+    bulk: 0.1
+    level: 8
+    price: 7500
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
+  Oil of Object Animation:
+    bulk: 0
+    level: 8
+    price: 8500
+    traits:
+    - consumable
+    - magical
+    - oil
+    - transmutation
   Potion of Disguise (Moderate):
     bulk: 0.1
     level: 8
@@ -868,15 +1692,86 @@ pf2e_consumables:
     - magical
     - potion
     - transmutation
-  Javelin of Lightning:
+  Potion of Quickness:
+    bulk: 0.1
+    level: 8
+    price: 9000
+    traits:
+    - consumable
+    - magical
+    - potion
+    - transmutation
+  Shrinking Potion (Greater):
+    bulk: 0.1
+    level: 8
+    price: 9000
+    traits:
+    - consumable
+    - magical
+    - potion
+    - transmutation
+  Wyvern Poison:
+    bulk: 0.1
+    level: 8
+    price: 8000
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
+# Item Level 9
+  5th-Level Scroll:
+    bulk: 0.1
+    level: 9
+    price: 15000
+    traits:
+    - consumable
+    - magical
+    - scroll
+  Aligned Oil:
+    bulk: 0.1
+    level: 9
+    price: 14000
+    traits:
+    - consumable
+    - divine
+    - evocation
+    - oil
+  Basilisk Eye:
+    bulk: 0
+    level: 9
+    price: 15000
+    traits:
+    - consumable
+    - magical
+    - talisman
+    - transmutation
+    - visual
+  Cheetah's Elixir (Greater):
     bulk: 0.1
     level: 9
     price: 11000
     traits:
+    - alchemical
     - consumable
-    - electricity
-    - evocation
+    - elixir
+  Dust of Disappearance:
+    bulk: 0
+    level: 9
+    price: 13500
+    traits:
+    - consumable
+    - illusion
     - magical
+  Elixir of Life (Moderate):
+    bulk: 0.1
+    level: 9
+    price: 15000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Explosive Ammunition:
     bulk: 0
     level: 9
@@ -894,6 +1789,41 @@ pf2e_consumables:
     - conjuration
     - consumable
     - magical
+  Javelin of Lightning:
+    bulk: 0.1
+    level: 9
+    price: 11000
+    traits:
+    - consumable
+    - electricity
+    - evocation
+    - magical
+  Lich Dust:
+    bulk: 0.1
+    level: 9
+    price: 11000
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+  Spellstrike Ammunition (Type IV):
+    bulk: 0
+    level: 9
+    price: 15000
+    traits:
+    - consumable
+    - magical
+    - transmutation
+  Spider Root:
+    bulk: 0.1
+    level: 9
+    price: 11000
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
   Storm Arrow:
     bulk: 0
     level: 9
@@ -904,58 +1834,50 @@ pf2e_consumables:
     - electricity
     - evocation
     - magical
-  Dust of Disappearance:
-    bulk: 0
-    level: 9
-    price: 13500
-    traits:
-    - consumable
-    - illusion
-    - magical
-  Aligned Oil:
+# Item Level 10
+  Antidote (Greater):
     bulk: 0.1
-    level: 9
-    price: 14000
-    traits:
-    - consumable
-    - divine
-    - evocation
-    - oil
-  5th-Level Scroll:
-    bulk: 0.1
-    level: 9
-    price: 15000
-    traits:
-    - consumable
-    - magical
-    - scroll
-  Basilisk Eye:
-    bulk: 0
-    level: 9
-    price: 15000
-    traits:
-    - consumable
-    - magical
-    - talisman
-    - transmutation
-    - visual
-  Spellstrike Ammunition (Type IV):
-    bulk: 0
-    level: 9
-    price: 15000
-    traits:
-    - consumable
-    - magical
-    - transmutation
-  Vanishing Coin:
-    bulk: 0
     level: 10
     price: 16000
     traits:
+    - alchemical
     - consumable
-    - illusion
+    - elixir
+    - healing
+  Antiplague (Greater):
+    bulk: 0.1
+    level: 10
+    price: 16000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+  Bravo's Brew (Moderate):
+    bulk: 0.1
+    level: 10
+    price: 15000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mental
+  Eagle-Eye Elixir (Greater):
+    bulk: 0.1
+    level: 10
+    price: 20000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Elemental Gem:
+    bulk: 0
+    level: 10
+    price: 20000
+    traits:
+    - conjuration
+    - consumable
     - magical
-    - talisman
   Iron Medallion:
     bulk: 0
     level: 10
@@ -965,6 +1887,16 @@ pf2e_consumables:
     - consumable
     - magical
     - talisman
+  Mistform Elixir (Greater):
+    bulk: 0.1
+    level: 10
+    price: 18000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - illusion
+    - visual
   Mummified Bat:
     bulk: 0
     level: 10
@@ -974,6 +1906,14 @@ pf2e_consumables:
     - divination
     - magical
     - talisman
+  Olfactory Obfuscator (Greater):
+    bulk: 0.1
+    level: 10
+    price: 22500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
   Potion of Resistance (Moderate):
     bulk: 0.1
     level: 10
@@ -983,23 +1923,173 @@ pf2e_consumables:
     - consumable
     - magical
     - potion
-  Elemental Gem:
+  Shadow Essence:
+    bulk: 0.1
+    level: 10
+    price: 16000
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - negative
+    - poison
+  Vanishing Coin:
     bulk: 0
     level: 10
-    price: 20000
+    price: 16000
     traits:
-    - conjuration
     - consumable
+    - illusion
     - magical
-  Oil of Repulsion:
+    - talisman
+  Wolfsbane:
+    bulk: 0.1
+    level: 10
+    price: 15500
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+# Item Level 11
+  6th-Level Scroll:
     bulk: 0.1
     level: 11
-    price: 17500
+    price: 30000
     traits:
-    - abjuration
     - consumable
     - magical
-    - oil
+    - scroll
+  Acid Flask (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - acid
+    - alchemical
+    - bomb
+    - consumable
+    - splash
+  Alchemist's Fire (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - fire
+    - splash
+  Bestial Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Blight Bomb (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - poison
+    - splash
+  Blightburn Resin:
+  Blight Bomb (Greater):
+    bulk: 0.1
+    level: 11
+    price: 22500
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
+  Bloodhound Mask (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - alchemical
+    - consumable
+  Bottled Lightning (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - electricity
+    - splash
+  Cognitive Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Drakeheart Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Dread Ampoule (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - emotion
+    - fear
+    - mental
+    - poison
+    - splash
+  Frost Vial (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - alchemical
+    - bomb
+    - cold
+    - consumable
+    - splash
+  Ghost Charge (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - positive
+    - splash
+  Juggernaut Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
   Oil of Keen Edges:
     bulk: 0.1
     level: 11
@@ -1009,23 +2099,15 @@ pf2e_consumables:
     - magical
     - oil
     - transmutation
-  Potion of Swimming (Greater):
+  Oil of Repulsion:
     bulk: 0.1
     level: 11
-    price: 25000
+    price: 17500
     traits:
+    - abjuration
     - consumable
     - magical
-    - potion
-    - transmutation
-  6th-Level Scroll:
-    bulk: 0.1
-    level: 11
-    price: 30000
-    traits:
-    - consumable
-    - magical
-    - scroll
+    - oil
   Potion of Disguise (Greater):
     bulk: 0.1
     level: 11
@@ -1036,6 +2118,45 @@ pf2e_consumables:
     - polymorph
     - potion
     - transmutation
+  Potion of Swimming (Greater):
+    bulk: 0.1
+    level: 11
+    price: 25000
+    traits:
+    - consumable
+    - magical
+    - potion
+    - transmutation
+  Quicksilver Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Serene Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Silvertongue Mutagen (Greater):
+    bulk: 0.1
+    level: 11
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
   Spellstrike Ammunition (Type V):
     bulk: 0
     level: 11
@@ -1044,52 +2165,25 @@ pf2e_consumables:
     - consumable
     - magical
     - transmutation
-  Fade Band:
-    bulk: 0
-    level: 12
-    price: 32000
-    traits:
-    - consumable
-    - illusion
-    - magical
-    - talisman
-  Potion of Tongues:
+  Tanglefoot Bag (Greater):
     bulk: 0.1
-    level: 12
-    price: 32000
+    level: 11
+    price: 25000
     traits:
+    - alchemical
+    - bomb
     - consumable
-    - divination
-    - magical
-    - potion
-  Salve of Antiparalysis (Greater):
+  Thunderstone (Greater):
     bulk: 0.1
-    level: 12
-    price: 32500
+    level: 11
+    price: 25000
     traits:
+    - alchemical
+    - bomb
     - consumable
-    - healing
-    - magical
-    - necromancy
-    - oil
-  Oil of Animation:
-    bulk: 0.1
-    level: 12
-    price: 33000
-    traits:
-    - consumable
-    - magical
-    - oil
-    - transmutation
-  Incense of Distilled Death:
-    bulk: 0
-    level: 12
-    price: 35000
-    traits:
-    - consumable
-    - magical
-    - necromancy
-    - negative
+    - sonic
+    - splash
+# Item Level 12
   Balisse Feather:
     bulk: 0
     level: 12
@@ -1100,6 +2194,16 @@ pf2e_consumables:
     - evocation
     - magical
     - talisman
+  Crystal Shards (Greater):
+    bulk: 0.1
+    level: 12
+    price: 35000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - earth
+    - splash
   Dragon's Breath Potion (Adult):
     bulk: 0.1
     level: 12
@@ -1118,6 +2222,24 @@ pf2e_consumables:
     - divination
     - fortune
     - talisman
+  Fade Band:
+    bulk: 0
+    level: 12
+    price: 32000
+    traits:
+    - consumable
+    - illusion
+    - magical
+    - talisman
+  Focus Cathartic (Greater):
+    bulk: 0.1
+    level: 12
+    price: 32500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Healing Potion (Greater):
     bulk: 0.1
     level: 12
@@ -1129,6 +2251,15 @@ pf2e_consumables:
     - necromancy
     - positive
     - potion
+  Incense of Distilled Death:
+    bulk: 0
+    level: 12
+    price: 35000
+    traits:
+    - consumable
+    - magical
+    - necromancy
+    - negative
   Iron Equalizer:
     bulk: 0
     level: 12
@@ -1138,6 +2269,15 @@ pf2e_consumables:
     - evocation
     - magical
     - talisman
+  Oil of Animation:
+    bulk: 0.1
+    level: 12
+    price: 33000
+    traits:
+    - consumable
+    - magical
+    - oil
+    - transmutation
   Oil of Unlife (Greater):
     bulk: 0.1
     level: 12
@@ -1165,16 +2305,102 @@ pf2e_consumables:
     - evocation
     - magical
     - potion
-  Panacea:
+  Potion of Tongues:
     bulk: 0.1
-    level: 13
-    price: 45000
+    level: 12
+    price: 32000
+    traits:
+    - consumable
+    - divination
+    - magical
+    - potion
+  Salamander Elixir (Moderate):
+    bulk: 0.1
+    level: 12
+    price: 32000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Salve of Antiparalysis (Greater):
+    bulk: 0.1
+    level: 12
+    price: 32500
     traits:
     - consumable
     - healing
     - magical
     - necromancy
-    - potion
+    - oil
+  Sea Touch Elixir (Moderate):
+    bulk: 0.1
+    level: 12
+    price: 30000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Sinew-Shock Serum (Greater):
+    bulk: 0.1
+    level: 12
+    price: 32500
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+  Slumber Wine:
+    bulk: 0.1
+    level: 12
+    price: 32500
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+    - sleep
+  Universal Solvent (Greater):
+    bulk: 0.1
+    level: 12
+    price: 32500
+    traits:
+    - alchemical
+    - consumable
+  Winter Wolf Elixir (Moderate):
+    bulk: 0.1
+    level: 12
+    price: 32000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+# Item Level 13
+  7th-Level Scroll:
+    bulk: 0.1
+    level: 13
+    price: 60000
+    traits:
+    - consumable
+    - magical
+    - scroll
+  Deathcap Powder:
+    bulk: 0.1
+    level: 13
+    price: 45000
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+  Elixir of Life (Greater):
+    bulk: 0.1
+    level: 13
+    price: 60000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Explosive Ammunition (Greater):
     bulk: 0
     level: 13
@@ -1193,14 +2419,25 @@ pf2e_consumables:
     - consumable
     - magical
     - talisman
-  7th-Level Scroll:
+  Panacea:
     bulk: 0.1
     level: 13
-    price: 60000
+    price: 45000
     traits:
     - consumable
+    - healing
     - magical
-    - scroll
+    - necromancy
+    - potion
+  Purple Worm Venom:
+    bulk: 0.1
+    level: 13
+    price: 50000
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
   Spellstrike Ammunition (Type VI):
     bulk: 0
     level: 13
@@ -1218,24 +2455,33 @@ pf2e_consumables:
     - magical
     - potion
     - transmutation
-  Potion of Resistance (Greater):
+# Item Level 14
+  Antidote (Major):
     bulk: 0.1
     level: 14
-    price: 85000
+    price: 67500
     traits:
-    - abjuration
+    - alchemical
     - consumable
-    - magical
-    - potion
-  Viper's Fang:
-    bulk: 0
+    - elixir
+    - healing
+  Antiplague (Major):
+    bulk: 0.1
     level: 14
-    price: 85000
+    price: 67500
     traits:
+    - alchemical
     - consumable
-    - evocation
-    - magical
-    - talisman
+    - elixir
+    - healing
+  Bomber's Eye Elixir (Greater):
+    bulk: 0.1
+    level: 14
+    price: 70000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
   Dazing Coil:
     bulk: 0
     level: 14
@@ -1261,15 +2507,77 @@ pf2e_consumables:
     - evocation
     - magical
     - talisman
-  Potion of Flying (Greater):
+  Potion of Resistance (Greater):
+    bulk: 0.1
+    level: 14
+    price: 85000
+    traits:
+    - abjuration
+    - consumable
+    - magical
+    - potion
+  Viper's Fang:
+    bulk: 0
+    level: 14
+    price: 85000
+    traits:
+    - consumable
+    - evocation
+    - magical
+    - talisman
+# Item Level 15
+  8th-Level Scroll:
+    bulk: 0.1
+    level: 15
+    price: 130000
+    traits:
+    - consumable
+    - magical
+    - scroll
+  Bravo's Brew (Greater):
+    bulk: 0.1
+    level: 15
+    price: 70000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mental
+  Disintegration Bolt:
+    bulk: 0
+    level: 15
+    price: 130000
+    traits:
+    - consumable
+    - evocation
+    - magical
+  Dragon Bile:
+    bulk: 0.1
+    level: 15
+    price: 92500
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
+  Elixir of Life (Major):
+    bulk: 0.1
+    level: 15
+    price: 130000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+  Mindfog Mist:
     bulk: 0.1
     level: 15
     price: 100000
     traits:
+    - alchemical
     - consumable
-    - magical
-    - potion
-    - transmutation
+    - inhaled
+    - poison
   Obfuscation Oil:
     bulk: 0.1
     level: 15
@@ -1279,22 +2587,23 @@ pf2e_consumables:
     - illusion
     - magical
     - oil
-  8th-Level Scroll:
+  Potion of Flying (Greater):
     bulk: 0.1
     level: 15
-    price: 130000
+    price: 100000
     traits:
     - consumable
     - magical
-    - scroll
-  Disintegration Bolt:
-    bulk: 0
+    - potion
+    - transmutation
+  Sea Touch Elixir (Greater):
+    bulk: 0.1
     level: 15
-    price: 130000
+    price: 92000
     traits:
+    - alchemical
     - consumable
-    - evocation
-    - magical
+    - elixir
   Spellstrike Ammunition (Type VII):
     bulk: 0
     level: 15
@@ -1311,15 +2620,34 @@ pf2e_consumables:
     - consumable
     - magical
     - transmutation
-  Oil of Object Animation (Greater):
+# Item Level 16
+  Brimstone Fumes:
+    bulk: 0.1
+    level: 16
+    price: 150000
+    traits:
+    - alchemical
+    - consumable
+    - evil
+    - inhaled
+    - poison
+  Candle of Invocation:
     bulk: 0
     level: 16
-    price: 140000
+    price: 200000
     traits:
+    - conjuration
     - consumable
-    - magical
-    - oil
-    - transmutation
+    - divine
+  Cerulean Scourge:
+    bulk: 0.1
+    level: 16
+    price: 145000
+    traits:
+    - alchemical
+    - consumable
+    - injury
+    - poison
   Dust of Corpse Animation (Greater):
     bulk: 0
     level: 16
@@ -1328,15 +2656,14 @@ pf2e_consumables:
     - consumable
     - magical
     - necromancy
-  Truesight Potion:
+  Eagle-Eye Elixir (Major):
     bulk: 0.1
     level: 16
-    price: 150000
+    price: 200000
     traits:
+    - alchemical
     - consumable
-    - divination
-    - magical
-    - potion
+    - elixir
   Flame Navette:
     bulk: 0
     level: 16
@@ -1355,14 +2682,118 @@ pf2e_consumables:
     - illusion
     - occult
     - talisman
-  Candle of Invocation:
+  Nightmare Vapor:
+    bulk: 0.1
+    level: 16
+    price: 140000
+    traits:
+    - alchemical
+    - consumable
+    - inhaled
+    - poison
+  Oil of Object Animation (Greater):
     bulk: 0
     level: 16
-    price: 200000
+    price: 140000
     traits:
-    - conjuration
     - consumable
-    - divine
+    - magical
+    - oil
+    - transmutation
+  Salamander Elixir (Greater):
+    bulk: 0.1
+    level: 16
+    price: 140000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+  Truesight Potion:
+    bulk: 0.1
+    level: 16
+    price: 150000
+    traits:
+    - consumable
+    - divination
+    - magical
+    - potion
+  Winter Wolf Elixir (Greater):
+    bulk: 0.1
+    level: 16
+    price: 140000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+# Item Level 17
+  9th-Level Scroll:
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - consumable
+    - magical
+    - scroll
+  Acid Flask (Major):
+    bulk: 0.1
+    level: 17
+    price: 25000
+    traits:
+    - acid
+    - alchemical
+    - bomb
+    - consumable
+    - splash
+  Alchemist's Fire (Major):
+    bulk: 0.1
+    level: 17
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - fire
+    - splash
+  Bestial Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Blight Bomb (Major):
+    bulk: 0.1
+    level: 17
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - poison
+    - splash
+  Bottled Lightning (Major):
+    bulk: 0.1
+    level: 17
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - electricity
+    - splash
+  Cognitive Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
   Dispelling Sliver:
     bulk: 0
     level: 17
@@ -1372,14 +2803,6 @@ pf2e_consumables:
     - consumable
     - magical
     - talisman
-  9th-Level Scroll:
-    bulk: 0.1
-    level: 17
-    price: 300000
-    traits:
-    - consumable
-    - magical
-    - scroll
   Dragon's Breath Potion (Wyrm):
     bulk: 0.1
     level: 17
@@ -1389,6 +2812,98 @@ pf2e_consumables:
     - evocation
     - magical
     - potion
+  Drakeheart Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Dread Ampoule (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - emotion
+    - fear
+    - mental
+    - poison
+    - splash
+  Frost Vial (Major):
+    bulk: 0.1
+    level: 17
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - cold
+    - consumable
+    - splash
+  Ghost Charge (Major):
+    bulk: 0.1
+    level: 1
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - positive
+    - splash
+  Hemlock:
+    bulk: 0.1
+    level: 17
+    price: 225000
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+  Juggernaut Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Quicksilver Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Serene Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
+  Silvertongue Mutagen (Major):
+    bulk: 0.1
+    level: 17
+    price: 300000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - mutagen
+    - polymorph
   Spellstrike Ammunition (Type VIII):
     bulk: 0
     level: 17
@@ -1397,15 +2912,44 @@ pf2e_consumables:
     - consumable
     - magical
     - transmutation
-  Potion of Undetectability:
+  Tanglefoot Bag (Major):
+    bulk: 0.1
+    level: 17
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+  Thunderstone (Major):
+    bulk: 0.1
+    level: 17
+    price: 250000
+    traits:
+    - alchemical
+    - bomb
+    - consumable
+    - sonic
+    - splash
+# Item Level 18
+  Crystal Shards (Major):
     bulk: 0.1
     level: 18
-    price: 440000
+    price: 400000
     traits:
+    - alchemical
+    - bomb
     - consumable
-    - illusion
-    - magical
-    - potion
+    - earth
+    - splash
+  Focus Cathartic (Major):
+    bulk: 0.1
+    level: 18
+    price: 325000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Healing Potion (Major):
     bulk: 0.1
     level: 18
@@ -1417,6 +2961,16 @@ pf2e_consumables:
     - necromancy
     - positive
     - potion
+  King's Sleep:
+    bulk: 0.1
+    level: 18
+    price: 400000
+    traits:
+    - alchemical
+    - consumable
+    - ingested
+    - poison
+    - virulent
   Oil of Unlife (Major):
     bulk: 0.1
     level: 18
@@ -1436,6 +2990,32 @@ pf2e_consumables:
     - evocation
     - magical
     - potion
+  Potion of Undetectability:
+    bulk: 0.1
+    level: 18
+    price: 440000
+    traits:
+    - consumable
+    - illusion
+    - magical
+    - potion
+  Sinew-Shock Serum (Major):
+    bulk: 0.1
+    level: 18
+    price: 325000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+  Universal Solvent (Major):
+    bulk: 0.1
+    level: 18
+    price: 325000
+    traits:
+    - alchemical
+    - consumable
+# Item Level 19
   10th-Level Scroll:
     bulk: 0.1
     level: 19
@@ -1444,6 +3024,25 @@ pf2e_consumables:
     - consumable
     - magical
     - scroll
+  Black Lotus Extract:
+    bulk: 0.1
+    level: 2
+    price: 650000
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
+    - virulent
+  Elixir of Life (True):
+    bulk: 0.1
+    level: 19
+    price: 800000
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
   Spellstrike Ammunition (Type IX):
     bulk: 0
     level: 19
@@ -1452,6 +3051,7 @@ pf2e_consumables:
     - consumable
     - magical
     - transmutation
+# Item Level 20
   Antimagic Oil:
     bulk: 0.1
     level: 20
@@ -1460,3 +3060,32 @@ pf2e_consumables:
     - abjuration
     - consumable
     - magical
+    - rare
+  Elixir of Rejuvenation: # No price listed
+    bulk: 0.1
+    level: 20
+    price: 0
+    traits:
+    - alchemical
+    - consumable
+    - elixir
+    - healing
+    - uncommon
+  Philosopher's Stone: # No price listed
+    bulk: 0.1
+    level: 20
+    price: 0
+    traits:
+    - alchemical
+    - consumable
+    - uncommon
+  Tears of Death:
+    bulk: 0.1
+    level: 20
+    price: 1200000
+    traits:
+    - alchemical
+    - consumable
+    - contact
+    - poison
+    - virulent

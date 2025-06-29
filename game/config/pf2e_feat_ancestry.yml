@@ -403,7 +403,7 @@ pf2e_feats:
     shortdesc: You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother. You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.%r%r**Special** You can take this feat only at 1st level.
     prereq:
       level: 1
-  Razor Claws: # Ask Land about this later
+  Razor Claws: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -421,7 +421,7 @@ pf2e_feats:
     shortdesc: You hear the sounds of reptiles as language. You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).
     prereq:
       level: 1
-  Sharp Fangs: # Ask Land about this later
+  Sharp Fangs: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -430,7 +430,7 @@ pf2e_feats:
     shortdesc: Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.
     prereq:
       level: 1
-  Tail Whip: # Ask Land about this later
+  Tail Whip: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -448,7 +448,7 @@ pf2e_feats:
     shortdesc: "You make the most of your ciith unarmed attacks. Whenever you score a critical hit with a claw or an unarmed attack you gained from a ciith ancestry feat, you apply the unarmed attack's critical specialization effect."
     prereq:
       level: 5
-  Envenom Fangs: # Ask Land about this later
+  Envenom Fangs: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -459,7 +459,7 @@ pf2e_feats:
       level: 5
       feat: 
       - Sharp Fangs
-  Gecko's Grip: # Ask Land about this later
+  Gecko's Grip: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -480,7 +480,7 @@ pf2e_feats:
       level: 5
       feat: 
       - Tail Whip 
-  Swift Swimmer: # Ask Land about this later
+  Swift Swimmer: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -619,7 +619,7 @@ pf2e_feats:
     shortdesc: Assuming a peculiar stance, you make a short hop on each toe. You make a vertical Leap without triggering reactions that can be triggered by move actions or upon leaving or entering a square.
     prereq:
       level: 5
-  Eclectic Sword Training: # Ask Land about this later
+  Eclectic Sword Training: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -709,7 +709,7 @@ pf2e_feats:
     shortdesc: "Your enhanced fey connection affords you a warmer reception from creatures of the First World as well as tools to foil their tricks. You gain a +2 circumstance bonus to both Perception checks and saving throws against fey.%r%rIn addition, whenever you meet a fey creature in a social situation, you can immediately attempt a Diplomacy check to Make an Impression on that creature rather than needing to converse for 1 minute. You take a –5 penalty to the check. If you fail, you can engage in 1 minute of conversation and attempt a new check at the end of that time rather than accepting the failure or critical failure result.%r%r**Special** If you have the Glad-Hand skill feat, you don't take the penalty on your immediate Diplomacy check if the target is a fey."
     prereq:
       level: 1
-  First World Magic: # Ask Land about this later
+  First World Magic: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -724,7 +724,7 @@ pf2e_feats:
     prereq:
       level: 1
     init_magic: true
-  Gnome Obsession: # Ask Land about this later # Skill proficiency
+  Gnome Obsession: # Ask Blue about this later # Skill proficiency
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -775,7 +775,7 @@ pf2e_feats:
       level: 5
       feat: 
       - Burrow Elocutionist
-  Energized Font: # Focus Point # Ask Land about this later
+  Energized Font: # Focus Point # Ask Blue about this later
     feat_type:
     - Ancestry
     assoc_ancestry:
@@ -809,7 +809,7 @@ pf2e_feats:
     shortdesc: "Where others etch their armor to serve as a conduit for their imaginations, your vivid mind and bold personality allow you to project a more fitting persona over your lackluster armor. You change the shape and appearance of your armor to appear as ordinary or fine clothes of your imagining. The armor's statistics don't change. This effect lasts as long as you remain conscious and are wearing the armor. A creature can disbelieve the illusion by Seeking or touching your armor. The DC equals your Will DC."
     prereq:
       level: 5
-  Cautious Curiosity: # Ask Land about this later # weird magic prereqs # multi-tradition magic
+  Cautious Curiosity: # Ask Blue about this later # weird magic prereqs # multi-tradition magic
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -818,7 +818,7 @@ pf2e_feats:
     shortdesc: You've learned a few magical techniques for getting yourself both into and out of trouble unnoticed. You gain misdirection and silence as 2nd-level arcane or occult innate spells. The tradition of these spells must match the tradition you use for your gnome ancestry options. You can cast each spell once per day and can target only yourself.
     prereq:
       level: 9
-  First World Adept: # Ask Land about this later # weird magic prereqs
+  First World Adept: # Ask Blue about this later # weird magic prereqs
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -887,6 +887,11 @@ pf2e_feats:
     - Gnome
     traits:
     - uncommon
+    magic:
+      innate_spell:
+        7:
+        - Plane Shift
+        spell_trad: primal
     shortdesc: "The connection between you and the First World resonates within your body stronger than it does for most gnomes, allowing you to cross the threshold between the Material Plane and the First World. You gain plane shift as a primal innate spell. You can cast it twice per week. This can be used only to travel back and forth between the First World and the Material Plane. Due to your body's natural resonance, you can act as the spell focus, and you don't require a tuning fork."
     prereq:
       level: 17
@@ -1049,7 +1054,7 @@ pf2e_feats:
     shortdesc: "You have a knack for breaking and dismantling things. Putting them back together is the boring part, so you largely don't bother with that. You become trained in Thievery. If you would automatically become trained in Thievery (from your background or class, for example), you instead become trained in a skill of your choice. In addition, whenever you hit with a Strike against a trap or an unattended object, you ignore the first 5 points of the object's Hardness."
     prereq:
       level: 5
-  Cave Climber: # Ask Land about this later
+  Cave Climber: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1115,7 +1120,7 @@ pf2e_feats:
     prereq:
       level: 17
 # Human Ancestry Feats
-  Adapted Cantrip: # Ask Land about this later
+  Adapted Cantrip: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1134,7 +1139,7 @@ pf2e_feats:
     shortdesc: The short human life span lends perspective and has taught you from a young age to set aside differences and work with others to achieve greatness. You gain a +4 circumstance bonus on checks to Aid.
     prereq:
       level: 1
-  General Training: # Ask Land about this later
+  General Training: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1176,7 +1181,7 @@ pf2e_feats:
     shortdesc: Your ingenuity allows you to learn a wide variety of skills. You gain the trained proficiency rank in two skills of your choice.
     prereq:
       level: 1
-  Unconventional Weaponry: # Ask Land about this later
+  Unconventional Weaponry: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1185,7 +1190,7 @@ pf2e_feats:
     shortdesc: "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. Choose an uncommon simple or martial weapon with a trait corresponding to an ancestry (such as khazad, goblin, or oruch) or that is common in another culture. You gain access to that weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.%r%rIf you are trained in all martial weapons, you can choose an uncommon advanced weapon with such a trait. You gain access to that weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon. "
     prereq:
       level: 1
-  Adaptive Adept: # Ask Land about this later
+  Adaptive Adept: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1196,6 +1201,18 @@ pf2e_feats:
       level: 5
       feat: 
       - Adaptive Adept
+  Clever Improviser:
+    feat_type:
+    - Ancestry
+    assoc_ancestry:
+    - Human
+    traits: []
+    grants:
+      feat:
+      - Untrained Improvisation
+    shortdesc: You've learned how to handle situations when you're out of your depth. You gain the Untrained Improvisation general feat. In addition, you can attempt skill actions that normally require you to be trained, even if you are untrained.
+    prereq:
+      level: 5
   Sense Allies:
     feat_type: 
     - Ancestry
@@ -1225,7 +1242,7 @@ pf2e_feats:
     shortdesc: "Your upbringing emphasized teamwork and helping your allies comes naturally to you. After you Aid an ally at a skill check that doesn't have the attack trait, you can also Aid any other ally who attempts the same skill check for the same purpose that round. You do so as a free action rather than a reaction.%r%rThe preparation you did to help must still apply to the other allies, and you can Aid each ally only once. For example, if you helped lift up an ally to Aid them on an Athletics check to scale a wall, you could keep the same posture to give a boost to other allies attempting to scale the wall in the same round."
     prereq:
       level: 9
-  Hardy Traveler: # Ask Land about this later
+  Hardy Traveler: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1234,16 +1251,27 @@ pf2e_feats:
     shortdesc: "There's no journey too far or burden too heavy when your friends are at your side. Increase your maximum and encumbered Bulk limits by 1. In addition, you gain a +10-foot circumstance bonus to your Speed during overland travel."
     prereq:
       level: 9
-  Multitalented: # Ask Land about this later
+  Incredible Improvisation:
+    feat_type:
+    - Ancestry
+    assoc_ancestry:
+    - Human
+    traits: []
+    shortdesc: "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check."
+    prereq:
+      level: 9
+      feat:
+      - Clever Improviser
+  Multitalented: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Human
     traits: []
-    shortdesc: "You've learned to split your focus between multiple classes with ease. You gain a 2nd-level multiclass dedication feat, even if you normally couldn't take another dedication feat until you take more feats from your current archetype.%r%rIf you're a half-sil, you don't need to meet the feat's ability score prerequisites."
+    shortdesc: "You've learned to split your focus between multiple classes with ease. You gain a 2nd-level multiclass dedication feat, even if you normally couldn't take another dedication feat until you take more feats from your current archetype.%r%rIf you're a silyara, you don't need to meet the feat's ability score prerequisites."
     prereq:
       level: 9
-  Advanced General Training: # Ask Land about this later
+  Advanced General Training: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1270,7 +1298,7 @@ pf2e_feats:
     shortdesc: "Humans are renowned for their ability to persist through the most grueling of trials. When you would become fatigued, attempt a DC 17 flat check. On a success, you aren't fatigued. If the fatigued condition has an underlying cause that you don't address, such as lack of rest, you must attempt the check again at an interval determined by the GM until you fail the flat check or address the underlying cause."
     prereq:
       level: 13
-  Unconventional Expertise: # Ask Land about this later
+  Unconventional Expertise: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1280,7 +1308,7 @@ pf2e_feats:
     prereq:
       level: 13
       feat:
-      - Unconventional Expertise
+      - Unconventional Weaponry
   Heroic Presence:
     feat_type: 
     - Ancestry
@@ -1291,7 +1319,7 @@ pf2e_feats:
     prereq:
       level: 17
 # Kailli Ancestry Feats
-  Cheek Pouches: # Ask Land about this later
+  Cheek Pouches: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1350,7 +1378,7 @@ pf2e_feats:
     shortdesc: "You're good with your hands and can quickly improvise a fix for broken or damaged equipment. You're trained in Crafting. If you would automatically become trained in Crafting (from your background or class, for example), you instead become trained in a skill of your choice. You can Repair an item without using a repair kit without taking the –2 circumstance penalty, improvising tools from whatever you have at hand."
     prereq:
       level: 1
-  Vicious Incisors: # Ask Land about this later # Natural weapon
+  Vicious Incisors: # Ask Blue about this later # Natural weapon
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1537,7 +1565,7 @@ pf2e_feats:
       level: 5
       feat: 
       - Rock Runner
-  Defy The Darkness: # Ask Land about this later
+  Defy The Darkness: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1564,7 +1592,7 @@ pf2e_feats:
     assoc_ancestry: 
     - Khazad
     traits: []
-    shortdesc: "You've learned cunning techniques to get the best effects out of your dwarven weapons. Whenever you critically hit using a battle axe, pick, warhammer, or a khazad weapon, you apply the weapon's critical specialization effect."
+    shortdesc: "You've learned cunning techniques to get the best effects out of your khazadi weapons. Whenever you critically hit using a battle axe, pick, warhammer, or a khazad weapon, you apply the weapon's critical specialization effect."
     prereq:
       level: 5
       feat: 
@@ -1686,7 +1714,7 @@ pf2e_feats:
     shortdesc: You have an impressive innate ability to tame and command ferocious beasts. You become trained in the Nature skill and gain the Train Animal skill feat.
     prereq:
       level: 1
-  Iron Fists: # Ask Land about this later
+  Iron Fists: # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1746,7 +1774,7 @@ pf2e_feats:
     shortdesc: In combat, you favor the brutal weapons that are traditional for your oruch ancestors. You are trained with the falchion and greataxe. In addition, you gain access to all uncommon oruch weapons. For the purpose of determining your proficiency, martial oruch weapons are simple weapons and advanced oruch weapons are martial weapons.
     prereq:
       level: 1
-  Tusks: # Ask Land about this later # Natural attack
+  Tusks: # Ask Blue about this later # Natural attack
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1834,7 +1862,7 @@ pf2e_feats:
       level: 9
       feat:
       - Oruch Ferocity
-  Ferocious Beasts: # Ask Land about this later # Animal Companion # Funny Prereq
+  Ferocious Beasts: # Ask Blue about this later # Animal Companion # Funny Prereq
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1893,7 +1921,7 @@ pf2e_feats:
       feat: 
       - Oruch Ferocity
 # Sildanyar Ancestry Feats
-  Ancestral Linguistics: # Prereq is a string # Ask Land about this later
+  Ancestral Linguistics: # Prereq is a string # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1902,7 +1930,7 @@ pf2e_feats:
     shortdesc: "Over your extensive lifespan, you've studied many languages. During your daily preparations, you can recede into old memories to become fluent in one common language or one other language you have access to. You know this language until you prepare again. Since this knowledge is temporary, you can't use it as a prerequisite for a permanent character option."
     prereq:
       level: 1
-  Ancestral Longevity: # Prereq is a string # Ask Land about this later
+  Ancestral Longevity: # Prereq is a string # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -1926,10 +1954,10 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: "You've spent countless hours studying the history of elves on your world and beyond and are a studied expert in your people's ways. If you critically fail a check to Recall Knowledge about elves, sildanyari society, or sildanyari history, you get a failure instead."
+    shortdesc: "You've spent countless hours studying the history of sildanyari on your world and beyond and are a studied expert in your people's ways. If you critically fail a check to Recall Knowledge about sildanyari, sildanyari society, or sildanyari history, you get a failure instead."
     prereq:
       level: 1
-  Nimble Sil: # Ask Land about this later # Speed
+  Nimble Sil: # Ask Blue about this later # Speed
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2031,12 +2059,12 @@ pf2e_feats:
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: You are attuned to the weapons of your sildanyari ancestors and are particularly deadly when using them. Whenever you critically hit using an elf weapon or one of the weapons listed in Sildanyari Weapon Familiarity, you apply the weapon's critical specialization effect.
+    shortdesc: You are attuned to the weapons of your sildanyari ancestors and are particularly deadly when using them. Whenever you critically hit using a sil weapon or one of the weapons listed in Sildanyari Weapon Familiarity, you apply the weapon's critical specialization effect.
     prereq:
       level: 5
       feat: 
       - Sildanyari Weapon Familiarity
-  Expert Longevity: # Ask Land about this later # Prepare/Rest code
+  Expert Longevity: # Ask Blue about this later # Prepare/Rest code
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2047,13 +2075,13 @@ pf2e_feats:
       level: 9
       feat:
       - Ancestral Longevity
-  Otherworldly Acumen: # Ask Land about this later # Magic # Funky prereqs
+  Otherworldly Acumen: # Ask Blue about this later # Magic # Funky prereqs
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: The arcane magic you possess grows in power and complexity. Choose one common 2nd-level spell from the same tradition as an innate spell you previously gained from another elf ancestry feat (from the arcane list if you have Otherworldly Magic, for example). You can cast that spell as an innate spell once per day, using the same tradition as the list you chose the spell from.%r%rYour magic is adaptable. By spending 1 day of downtime, you can change the spell you chose to a different common 2nd-level spell from the same tradition.
+    shortdesc: The arcane magic you possess grows in power and complexity. Choose one common 2nd-level spell from the same tradition as an innate spell you previously gained from another sildanyar ancestry feat (from the arcane list if you have Otherworldly Magic, for example). You can cast that spell as an innate spell once per day, using the same tradition as the list you chose the spell from.%r%rYour magic is adaptable. By spending 1 day of downtime, you can change the spell you chose to a different common 2nd-level spell from the same tradition.
     prereq:
       level: 9
   Sildanyar Step:
@@ -2066,7 +2094,7 @@ pf2e_feats:
     shortdesc: You move in a graceful dance, and even your steps are broad. You Step 5 feet twice.
     prereq:
       level: 9
-  Tree Climber (Sildanyar): # Ask Land about this later # Speed
+  Tree Climber (Sildanyar): # Ask Blue about this later # Speed
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2087,17 +2115,17 @@ pf2e_feats:
     shortdesc: Though you know that you will eventually outlive your companions, seeing them at death's door brings clarity to your attacks. Make a Strike. Roll twice on the attack roll and use the higher result.
     prereq:
       level: 13
-  Elven Weapon Expertise:
+  Sildanyari Weapon Expertise:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Sildanyar
     traits: []
-    shortdesc: Your elven affinity blends with your class training, granting you great skill with elven weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in longbows, composite longbows, longswords, rapiers, shortbows, composite shortbows, and all elf weapons in which you are trained.
+    shortdesc: Your sildanyari affinity blends with your class training, granting you great skill with sildanyari weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in longbows, composite longbows, longswords, rapiers, shortbows, composite shortbows, and all sildanyar weapons in which you are trained.
     prereq:
       level: 13
       feat:
-      - Elven Weapon Familiarity
+      - Sildanyari Weapon Familiarity
   Universal Longevity:
     feat_type: 
     - Ancestry
@@ -2148,7 +2176,7 @@ pf2e_feats:
       - Celestial
       feat:
       - Multilingual
-    shortdesc: You descend from an angel—a winged messenger from the celestial realms—which gives you a knack for cultures and languages. You gain the trained proficiency rank in Society. If you would automatically become trained in Society (from your background or class, for example), you instead become trained in a skill of your choice. You know the Celestial language, and you gain the Multilingual skill feat.
+    shortdesc: You descend from an angel—a winged messenger from the Dome of Heaven—which gives you a knack for cultures and languages. You gain the trained proficiency rank in Society. If you would automatically become trained in Society (from your background or class, for example), you instead become trained in a skill of your choice. You know the Celestial language, and you gain the Multilingual skill feat.
     prereq:
       level: 1
       heritage: Aesa
@@ -2194,7 +2222,8 @@ pf2e_feats:
       skill:
       - Diplomacy
       - Religion
-    shortdesc: You were raised with an aasimar or celestial relative, or you've devoted yourself to researching the secrets of the celestial realms. You gain the trained proficiency rank in Diplomacy and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in a Lore skill related to the celestial realm from which you trace your lineage (usually Elysium Lore, Heaven Lore, or Nirvana Lore).
+      - Dome of Heaven Lore
+    shortdesc: You were raised with an aasimar or celestial relative, or you've devoted yourself to researching the secrets of the celestial realms. You gain the trained proficiency rank in Diplomacy and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Dome of Heaven Lore.
     prereq:
       level: 1
       heritage: Aesa
@@ -2238,7 +2267,7 @@ pf2e_feats:
     traits:
     - aesa
     - lineage
-    shortdesc: "You trace your lineage to archons: embodiments of heavenly virtues, guardians of the seven-tiered mountain of Heaven, and nurturers of law and virtue within mortals. Your own virtue and orderly mind protect you from foes who would turn your emotions against you. You gain a +1 circumstance bonus to saves against emotion effects, and if you roll a success on a save against an emotion effect, you get a critical success instead."
+    shortdesc: "You trace your lineage to archons: embodiments of heavenly virtues, guardians of the Dome of Heaven, and nurturers of law and virtue within mortals. Your own virtue and orderly mind protect you from foes who would turn your emotions against you. You gain a +1 circumstance bonus to saves against emotion effects, and if you roll a success on a save against an emotion effect, you get a critical success instead."
     prereq:
       level: 1
       heritage: Aesa
@@ -2261,7 +2290,7 @@ pf2e_feats:
     traits:
     - aesa
     - lineage
-    shortdesc: Your blood sings with the liberating power of the azatas, living embodiments of freedom from the wild realm of Elysium. You gain a +1 circumstance bonus to Escape. When you roll a critical failure on a check to Escape, you get a failure instead, and when you roll a success, you get a critical success instead.
+    shortdesc: Your blood sings with the liberating power of the azatas, living embodiments of freedom from the Dome of Heaven. You gain a +1 circumstance bonus to Escape. When you roll a critical failure on a check to Escape, you get a failure instead, and when you roll a success, you get a critical success instead.
     prereq:
       level: 1
       heritage: Aesa
@@ -2360,7 +2389,8 @@ pf2e_feats:
     prereq:
       level: 9
       heritage: Aesa
-      lineage: Angelkin
+      feat:
+      - Angelkin
   Archon Magic:
     feat_type: 
     - Ancestry
@@ -2388,8 +2418,9 @@ pf2e_feats:
     prereq:
       level: 9
       heritage: Aesa
-      lineage: Lawbringer
-  Azata Magic: # Flavor to discuss with staff
+      feat: 
+      - Lawbringer
+  Azata Magic:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2412,12 +2443,13 @@ pf2e_feats:
         - Glitterdust
         - Remove Paralysis
         spell_trad: divine
-    shortdesc: Your lineage traces back to the realm of Elysium, and you can harness its magic using this connection. You can cast glitterdust and remove paralysis each once per day as 2nd-level divine innate spells.
+    shortdesc: Your lineage traces back to the azata, and you can harness their magic using this connection. You can cast glitterdust and remove paralysis each once per day as 2nd-level divine innate spells.
     prereq:
       level: 9
       heritage: Aesa
-      lineage: Musetouched
-  Celestial Wings: # Speed # Ask Land about this later
+      feat:
+      - Musetouched
+  Celestial Wings: # Speed # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2462,7 +2494,7 @@ pf2e_feats:
     prereq:
       level: 9
       heritage: Aesa
-  Aesa's Mercy: # Casting is funky # Ask Land about this later
+  Aesa's Mercy: # Casting is funky # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2490,7 +2522,7 @@ pf2e_feats:
     prereq:
       level: 13
       heritage: Aesa
-  Aesa's Mercy: # Casting is funky # Ask Land about this later
+  Celestial Strikes:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2507,17 +2539,79 @@ pf2e_feats:
     - Sildanyar
     traits:
     - aesa
-    magic:
-      innate_spell:
-        4:
-        - Neutralize Poison
-        - Remove Curse
-        - Remove Disease
-        spell_trad: primal
-    shortdesc: "Your celestial powers allow you to remove lesser afflictions with ease. Each day, you can cast two 4th-level divine innate spells. You can choose from the following spells each time you cast: remove curse, remove disease, and neutralize poison."
+    shortdesc: Your connection to good arms all your attacks against forces of evil. All your weapon and unarmed Strikes deal 1 additional good damage and have the good and magical traits.
     prereq:
       level: 13
       heritage: Aesa
+  Summon Celestial Kin:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    shortdesc: Your connection to good arms all your attacks against forces of evil. All your weapon and unarmed Strikes deal 1 additional good damage and have the good and magical traits.
+    prereq:
+      level: 13
+      heritage: Aesa
+      orfeat:
+      - Angelkin
+      - Lawbringer
+      - Musetouched
+  Celestial Word:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    shortdesc: You can call forth a holy word from the celestial realms to punish your foes. Once per day, you can cast _divine decree_ as a 7th-level divine innate spell.
+    prereq:
+      level: 17
+      heritage: Aesa
+  Eternal Wings (Aesa):
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - aesa
+    shortdesc: Your wings are now a permanent part of your body. You gain the effects of Celestial Wings at all times, rather than just once per day for 10 minutes.
+    prereq:
+      level: 17
+      heritage: Aesa
+      feat:
+      - Celestial Wings
 # Ashen One Ancestry Feats
   Ashen Lore:
     feat_type: 
@@ -2536,7 +2630,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - ashen one
-    shortdesc: You either found another ashen one who taught you the secrets of your kind, or you managed to research your unusual heritage.
+    shortdesc: You either found another ashen one who taught you the secrets of your kind, or you managed to research your unusual heritage. You gain the trained proficiency rank in Medicine and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Gray Halls Lore.
     prereq:
       level: 1
       heritage: Ashen One
@@ -2557,7 +2651,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - ashen one
-    shortdesc: Your connection to the Boneyard ensures that your blows strike true against spectral beings.
+    shortdesc: Your connection to the Gray Halls ensures that your blows strike true against spectral beings. Your weapon and unarmed attack Strikes against incorporeal creatures become magical. If they are already magical, they instead gain the effects of a ghost touch property rune.
     prereq:
       level: 1
       heritage: Ashen One
@@ -2578,7 +2672,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - ashen one
-    shortdesc: You can see in the darkness as easily as a psychopomp.
+    shortdesc: You can see in the darkness as easily as the day. You gain darkvision.
     prereq:
       level: 1
       heritage: Ashen One
@@ -2601,7 +2695,7 @@ pf2e_feats:
     - ashen one
     - divination
     - divine
-    shortdesc: You have a limited ability to sense life force, like your psychopomp forebears.
+    shortdesc: You have a limited ability to sense life force. You gain lifesense as an imprecise sense with a range of 10 feet. This allows you to sense the life force within living creatures and its counterforce that animates the undead, though you can't distinguish between the two.
     prereq:
       level: 5
       heritage: Ashen One
@@ -2622,7 +2716,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - ashen one
-    shortdesc: You are attuned to the minute sounds and sensations of restless spirits.
+    shortdesc: You are attuned to the minute sounds and sensations of restless spirits. Even if you aren't Searching, you can attempt a check to find haunts that normally require you to be Searching. You still need to meet any other requirements to find the haunt.
     prereq:
       level: 5
       heritage: Ashen One
@@ -2643,9 +2737,110 @@ pf2e_feats:
     - Sildanyar
     traits:
     - ashen one
-    shortdesc: Your soul is warded against the power of undeath and plague, as well as that of the evil former psychopomps known as sahkils.
+    shortdesc: Your soul is warded against the power of undeath and plague, as well as that of the evil former psychopomps known as sahkils. You gain a +1 circumstance bonus to saving throws against death effects, disease, and all effects from undead or sahkils. This bonus increases to +2 against an undead or sahkil's death effect or disease.
     prereq:
       level: 5
+      heritage: Ashen One
+  Ashen One Magic: # Funky Casting # Ask Blue about this later
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - ashen one
+    magic:
+      innate_spell:
+        2:
+        - augury
+        - gentle repose
+        spell_trad: divine
+    shortdesc: Your connection to psychopomps gives you the power to glimpse the near future and protect corpses from the ravages of undeath. You can cast augury and gentle repose each once per day as 2nd-level divine innate spells.
+    prereq:
+      level: 9
+      heritage: Ashen One
+  Spirit Strikes:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - ashen one
+    shortdesc: Your connection to the Gray Halls empowers you to bring death to all forms of life and unlife, exploiting their weaknesses. All your weapon and unarmed Strikes are magical and deal 1 additional negative damage to living creatures and 1 additional positive damage to undead.
+    prereq:
+      level: 9
+      heritage: Ashen One
+  Resist Ruin: # Resistance
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - ashen one
+    magic:
+      innate_spell:
+        5:
+        - Death Ward
+        spell_trad: divine
+    shortdesc: Your ashen one heritage allows you to extend protection against negative energy to yourself or an ally in need. You gain resistance 5 to negative energy, and once per day, you can cast death ward as a divine innate spell.
+    prereq:
+      level: 13
+      heritage: Ashen One
+  Gray Halls' Call:
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - ashen one
+    - Uncommon
+    magic:
+      innate_spell:
+        7:
+        - Plane Shift
+        spell_trad: divine
+    shortdesc: You have a powerful connection to the Gray Halls, granting you the ability to travel to and from the Gray Halls. You gain plane shift as a divine innate spell. You can cast it twice per week. This can be used only to travel to the Gray Halls or from the Gray Halls to the Material Plane. Due to your unique connection to the Gray Halls, your body serves as the focus, and you don't require a tuning fork.
+    prereq:
+      level: 17
       heritage: Ashen One
 # Changeling Ancestry Feats
   Brine May:
@@ -2667,11 +2862,11 @@ pf2e_feats:
     traits:
     - changeling
     - lineage
-    shortdesc: Your mother was a sea hag, granting you one sea-green or blue eye.
+    shortdesc: Your mother was a sea hag, granting you one sea-green or blue eye. You find comfort both in the sea and on the shore. Whenever you roll a success on an Athletics check to Swim, you get a critical success instead. If you end your turn in water without having succeeded at a Swim action that round, you don't sink (but you might still be moved by the current).
     prereq:
       level: 1
       heritage: Changeling
-  Callow May:
+  Callow May: # Skill Feat
     feat_type: 
     - Ancestry
     - Lineage
@@ -2690,11 +2885,11 @@ pf2e_feats:
     traits:
     - changeling
     - lineage
-    shortdesc: You are among the most common of changelings—those born to green hags—and a vibrant green eye signifies that parentage.
+    shortdesc: You are among the most common of changelings—those born to green hags—and a vibrant green eye signifies that parentage. Your mother's manipulative nature and versatile voice gives you an edge when deceiving others. You gain the Charming Liar skill feat. If you roll Deception for initiative, foes in that combat encounter that haven't acted yet are flat-footed against you.
     prereq:
       level: 1
       heritage: Changeling
-  Changeling Lore:
+  Changeling Lore: # Grants Skill
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2711,7 +2906,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - changeling
-    shortdesc: All too aware of your true nature, you’ve studied hags and their powers.
+    shortdesc: All too aware of your true nature, you've studied hags and their powers. You gain the trained proficiency rank in Deception and Occultism. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Hag Lore.
     prereq:
       level: 1
       heritage: Changeling
@@ -2734,11 +2929,11 @@ pf2e_feats:
     traits:
     - changeling
     - lineage
-    shortdesc: You are the child of a night hag, making one of your eyes violet or even black.
+    shortdesc: You are the child of a night hag, making one of your eyes violet or even black. Your mother's powers over sleep and dreams have given you a degree of resistance to those effects, granting you a +2 circumstance bonus to all saving throws against sleep effects and effects that cause or alter dreams.%r%rIn addition, sleep is more restorative for you. You regain HP equal to your Constitution modifier times double your level instead of just times your level, and you reduce any drained and doomed conditions you have by 2 instead of by 1.
     prereq:
       level: 1
       heritage: Changeling
-  Hag Claws:
+  Hag Claws: # Natural Attack # Ask Blue about this later
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2755,11 +2950,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - changeling
-    shortdesc: When you came of age, your fingernails grew long and sharp.
+    shortdesc: When you came of age, your fingernails grew long and sharp. You gain a claw unarmed attack that deals 1d4 slashing damage. Your claws are in the brawling group and have the agile, finesse, and unarmed traits.%r%r**Special**Hag claws can develop at any point in a changeling's life. You can select this feat anytime you would gain an ancestry feat, but you can't retrain out of it.
     prereq:
       level: 1
       heritage: Changeling
-  Hag's Sight:
+  Hag's Sight: # Darkvision
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2776,11 +2971,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - changeling
-    shortdesc: You've nurtured the supernatural abilities gifted by your hag mother, particularly your sight.
+    shortdesc: You've nurtured the supernatural abilities gifted by your hag mother, particularly your sight. You gain darkvision.
     prereq:
       level: 1
       heritage: Changeling
-  Slag May:
+  Slag May: # Natural Attack # Ask Blue about this later
     feat_type: 
     - Ancestry
     - Lineage
@@ -2799,7 +2994,7 @@ pf2e_feats:
     traits:
     - changeling
     - lineage
-    shortdesc: Your mother was an annis hag, known for physical prowess, and you have one violet or steel-gray eye.
+    shortdesc: Your mother was an annis hag, known for physical prowess, and you have one violet or steel-gray eye. You have thick, sturdy claws made of cold iron that grow naturally from your body. You gain a claw unarmed attack that deals 1d6 slashing damage. Your claws are in the brawling group, have the unarmed and grapple traits, and are cold iron.
     prereq:
       level: 1
       heritage: Changeling
@@ -2820,7 +3015,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - changeling
-    shortdesc: You have heard the Call, and in constantly resisting that persistent demand, you've developed a mental bulwark against effects that would target your mind.
+    shortdesc: You have heard the Call, and in constantly resisting that persistent demand, you've developed a mental bulwark against effects that would target your mind. You gain a +1 circumstance bonus to Will saving throws against mental effects. If you roll a success on your saving throw against a mental effect that would make you controlled, you get a critical success instead.
     prereq:
       level: 5
       heritage: Changeling
@@ -2841,10 +3036,74 @@ pf2e_feats:
     - Sildanyar
     traits:
     - changeling
-    shortdesc: You blend in with unnatural subtlety.
+    shortdesc: You blend in with unnatural subtlety. When you are concealed or hidden, increase the DC of the flat check to target you to 6 if you're concealed or 12 if you're hidden.
     prereq:
       level: 5
       heritage: Changeling
+  Accursed Claws: # Funky prereq # Ask Blue about this later
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - changeling
+    shortdesc: Your claws carry your mother's hag magic. When you critically hit with a claw Strike, the target takes an additional 1d4 persistent mental damage.
+    prereq:
+      level: 9
+      heritage: Changeling
+  Occult Resistance: 
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - changeling
+    shortdesc: Your study of occult practices has shown you how to best defend against them. You gain a +1 circumstance bonus to all saving throws against occult effects.
+    prereq:
+      level: 9
+      heritage: Changeling
+      skill: Occultism/expert
+    Hag Magic: # Really funky spellcasting # Ask Blue about this later
+      feat_type: 
+      - Ancestry
+      assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
+      traits:
+      - changeling
+      shortdesc: "Through your heritage, you can replicate some of a hag's magic. Choose one common spell of 4th level or lower from those available to a coven, including the spells contributed to a coven by a hag of your mother's type. You can cast this spell once per day as a 4th-level occult innate spell.%r%rSpells available to all covens are _augury_, _charm_, _clairaudience_, _clairvoyance_, _dream message_, and _illusory disguise_. The eligible spells granted by the most prominent types of hag are: **Sea Hag** _acid arrow_, _water walk_; **Green Hag** _entangle_, _outcast's curse_, _wall of thorns_; **Annis Hag** _earthbind_; **Night Hag** _nightmare_"
+      prereq:
+        level: 13
+        heritage: Changeling
 # Dar Ancestry Feats
   Eyes Of The Night:
     feat_type: 
@@ -2863,11 +3122,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: You can see in the darkness as easily as a true vampire.
+    shortdesc: You can see in the darkness as easily as a true vampire. You gain darkvision.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat.
     prereq:
       level: 1  
       heritage: Dar
-  Fangs:
+  Fangs: # Natural Attack
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -2884,7 +3143,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: 'Your incisors have grown into true fangs: long, sharp, and well-suited to drawing blood.'
+    shortdesc: "Your incisors have grown into true fangs: long, sharp, and well-suited to drawing blood. You gain a fangs unarmed attack that deals 1d6 piercing damage. Your fangs are in the brawling group and have the grapple and unarmed traits."
     prereq:
       level: 1
       heritage: Dar
@@ -2907,7 +3166,7 @@ pf2e_feats:
     traits:
     - dar
     - lineage
-    shortdesc: You descend from one of the truly ancient vampires, a nosferatu cursed to eternal life but not eternal youth.
+    shortdesc: You descend from one of the truly ancient vampires, a nosferatu cursed to eternal life but not eternal youth. People call you straveika, or ancient-born. The vestiges of your forebear's powers of domination have left you with an understanding of how a creature's intentions change its behaviors. You gain a +1 circumstance bonus to Perception checks to Sense Motive and Perception DCs against attempts to Lie to you.
     prereq:
       level: 1
       heritage: Dar
@@ -2930,7 +3189,7 @@ pf2e_feats:
     traits:
     - dar
     - lineage
-    shortdesc: You were born to one of the moroi, the most common vampires, and you share their supernatural fortitude and power of persuasion.
+    shortdesc: You were born to one of the moroi, the most common vampires, and you share their supernatural fortitude and power of persuasion. When you have the drained condition, calculate the penalty to your Fortitude saves and your Hit Point reduction as though the condition value were 1 lower. You are trained in Diplomacy. If you would automatically be trained in it, you instead become trained in a skill of your choice.
     prereq:
       level: 1
       heritage: Dar
@@ -2951,7 +3210,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: You were raised by your vampiric parent, or you've invested substantial time and energy researching the secrets of your undead progenitors.
+    shortdesc: You were raised by your vampiric parent, or you've invested substantial time and energy researching the secrets of your undead progenitors. You gain the trained proficiency rank in Religion and Society. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Vampire Lore.
     prereq:
       level: 1
       heritage: Dar
@@ -2972,7 +3231,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: You hear and understand the words of creatures you share the darkness with.
+    shortdesc: You hear and understand the words of creatures you share the darkness with. You can ask questions of, receive answers from, and use Diplomacy with bats, rats, and wolves. You also gain a +1 circumstance bonus to Make an Impression on such animals.
     prereq:
       level: 1
       heritage: Dar
@@ -2993,7 +3252,12 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: The powers of domination employed by your progenitors have manifested in you as well.
+    magic:
+      innate_spell:
+        1:
+        - Charm
+        spell_trad: divine
+    shortdesc: The powers of domination employed by your progenitors have manifested in you as well. Once per day, you can cast _charm_ as a 1st-level divine innate spell.
     prereq:
       level: 5
       heritage: Dar
@@ -3014,7 +3278,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: Your unusual physiology has developed in a way that makes it difficult for parasites and other infestations to prey upon you.
+    shortdesc: Your unusual physiology has developed in a way that makes it difficult for parasites and other infestations to prey upon you. You gain a +2 circumstance bonus to saves against diseases.
     prereq:
       level: 5
       heritage: Dar
@@ -3035,127 +3299,245 @@ pf2e_feats:
     - Sildanyar
     traits:
     - dar
-    shortdesc: Your knowledge of your own not-quite-living anatomy, combined with your experience in combat, helps you take down undead foes with ease.
+    shortdesc: Your knowledge of your own not-quite-living anatomy, combined with your experience in combat, helps you take down undead foes with ease. Against undead creatures, you gain a circumstance bonus to damage with weapons and unarmed attacks equal to the number of weapon damage dice for the Strike. This bonus increases to double the number of weapon damage dice if your target has the vampire trait.
     prereq:
       level: 5
-      heritage: Dar   
-# Half-Sil Ancestry Feats
+      heritage: Dar
+  Bloodletting Fangs: # Natural Attack
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - dar
+    shortdesc: You emulate your vampiric parent's techniques for drawing blood from a victim. Your fangs Strikes deal an additional 1d4 persistent bleed damage on a critical hit.
+    prereq:
+      level: 9
+      heritage: Dar
+  Night Magic: # Spellcasting
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - dar
+    magic:
+      innate_spell:
+        2:
+        - Animal Form
+        - Obscuring Mist
+        spell_trad: divine
+    shortdesc: You can tap into the magic that runs through your blood. You gain animal form (wolf only, using the statistics for a canine) and obscuring mist as 2nd-level divine innate spells. You can cast each of these spells once per day.
+    prereq:
+      level: 9
+      heritage: Dar
+  Form of the Bat: # Adds an Action
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - dar
+    - concentrate
+    - divine
+    - polymorph
+    - transmutation
+    shortdesc: You can transform into a harmless bat. You gain the effects of a 4th-level pest form, except you always transform into a bat.
+    prereq:
+      level: 9
+      heritage: Dar
+  Symphony of Blood: # Spellcasting
+    feat_type:
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - dar
+    magic:
+      innate_spell:
+        7:
+        - Vampiric Exsanguination
+        spell_trad: divine
+    shortdesc: You call forth the blood of your foes to grant you vigor. Once per day, you can cast _vampiric exsanguination_ as a 7th-level divine innate spell.
+    prereq:
+      level: 17
+      heritage: Dar
+# Silyara Ancestry Feats
   Earned Glory:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Arvek
     - Bassin
-    - Ciith 
-    - Egalrin
     - Goblin
     - Gnome
     - Human
-    - Kailli
     - Khazad
     - Oruch
     - Sildanyar
     traits:
-    - half-sil
-    shortdesc: Sildanyari are often skeptical of their half-sil kin, and you are experienced at telling stories of your accomplishments to gain their respect.
+    - silyara
+    shortdesc: Sildanyari are often skeptical of their silyara kin, and you are experienced at telling stories of your accomplishments to gain their respect. You are trained in Performance. If you would automatically become trained in Performance (from your background or class, for example), you instead become trained in a skill of your choice.
     prereq:
       level: 1
-      heritage: Half-Sil
+      heritage: Silyara
   Sil Atavism:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Arvek
     - Bassin
-    - Ciith 
-    - Egalrin
     - Goblin
     - Gnome
     - Human
-    - Kailli
     - Khazad
     - Oruch
     - Sildanyar
     traits:
-    - half-sil
-    shortdesc: Your sildanyari blood runs particularly strong, granting you features far more sil than those of a typical half-sil.
+    - silyara
+    shortdesc: Your sildanyari blood runs particularly strong, granting you features far more sildanyari than those of a typical silyara. You may also have been raised among sil, steeped in your sildanyari ancestors' heritage. You gain the benefits of the sil heritage of your sildanyari parent or ancestors. You typically can't select a heritage that depends on or improves an sildanyari feature you don't have. For example, you couldn't gain the cavern sil's darkvision ability if you didn't have low-light vision. In these cases, at the GM's discretion, you might gain a different benefit.%r%r**Special**You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.
     prereq:
       level: 1
-      heritage: Half-Sil
+      heritage: Silyara
   Inspire Imitation:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Arvek
     - Bassin
-    - Ciith 
-    - Egalrin
     - Goblin
     - Gnome
     - Human
-    - Kailli
     - Khazad
     - Oruch
     - Sildanyar
     traits:
-    - half-sil
-    shortdesc: Your own actions inspire your allies to great achievements.
+    - silyara
+    shortdesc: Your actions inspire your allies to great achievements. Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.
     prereq:
       level: 5
-      heritage: Half-Sil
+      heritage: Silyara
   Supernatural Charm:
-    feat_type: 
-    - Ancestry
-    assoc_ancestry: 
-    - Human
-    shortdesc: The sildanyari magic in your blood manifests as a force you can use to become more appealing or alluring.
-    prereq:
-      level: 5
-      heritage: Half-Sil
-    init_magic: true
-# Half-Oruch Ancestry Feats
-  Monstrous Peacemaker:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Arvek
     - Bassin
-    - Ciith 
-    - Egalrin
     - Goblin
     - Gnome
     - Human
-    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    magic:
+      innate_spell:
+        1:
+        - Charm
+        spell_trad: arcane
+    shortdesc: The sildanyari magic in your blood manifests as a force you can use to become more appealing or alluring. You can cast 1st-rank _charm_ as an arcane innate spell once per day.
+    prereq:
+      level: 5
+      heritage: Silyara
+    init_magic: true
+  Pinch Time:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Goblin
+    - Gnome
+    - Human
+    - Khazad
+    - Oruch
+    - Sildanyar
+    magic:
+      innate_spell:
+        1:
+        - haste
+        spell_trad: arcane
+    shortdesc: One of your parents has a life span consistent with their ancestry and your other parent has a sil life span, with your own somewhere between. As a result, you have an unusual perspective on time, which you've learned to manifest to aid yourself in moments of stress. You gain haste as a 3rd-level arcane innate spell, though you can target only yourself. You can Cast this Spell once per day.
+    prereq:
+      level: 9
+      heritage: Silyara
+    init_magic: true
+# Ghaluch Ancestry Feats
+  Monstrous Peacemaker:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry:
+    - Arvek
+    - Bassin
+    - Goblin
+    - Gnome
+    - Human
     - Khazad
     - Oruch
     - Sildanyar
     traits:
-      - half-oruch
-    shortdesc: Your dual human and oruch nature has given you a unique perspective.
+    - ghaluch
+    shortdesc: Your dual nature has given you a unique perspective, allowing you to bridge the gap between humans and the many intelligent creatures in the world that humans consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in mortal society (at the GM's discretion). You also gain this bonus on Perception checks to Sense the Motives of such creatures.
     prereq:
       level: 1
-      heritage: Half-Oruch
+      heritage: Ghaluch
   Oruch Sight:
     feat_type: 
     - Ancestry
     assoc_ancestry: 
     - Arvek
     - Bassin
-    - Ciith 
-    - Egalrin
     - Goblin
     - Gnome
     - Human
-    - Kailli
     - Khazad
     - Oruch
     - Sildanyar
     traits:
-    - half-oruch
-    shortdesc: Your oruch blood is strong enough to grant you the keen vision of your oruch forebears.
+    - ghaluch
+    shortdesc: Your oruch blood grants you the keen vision of your forebears. You gain darkvision, allowing you to see in darkness and dim light just as well as you can in bright light. However, in darkness, you see in black and white only.%r%r**Special**You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.
     prereq:
       level: 1
-      heritage: Half-Oruch
+      heritage: Ghaluch
 # Niasa Ancestry Feats
   Fiendish Eyes:
     feat_type: 
@@ -3174,11 +3556,11 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: You can see in the darkness as easily as a fiend.
+    shortdesc: You can see in the darkness as easily as a fiend. You gain darkvision. **Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat.
     prereq:
       level: 1
       heritage: Niasa
-  Fiendish Lore:
+  Fiendish Lore: # Golarion Reference
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -3195,11 +3577,15 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: You were raised by a niasa or a fiendish relative, or you've devoted yourself to researching the secrets of the fiendish realms.
+    grants:
+      skill:
+      - Intimidation
+      - Religion
+    shortdesc: You were raised by a tiefling or a fiendish relative, or you've devoted yourself to researching the secrets of the fiendish realms. You gain the trained proficiency rank in Intimidation and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in a Lore skill related to the fiendish plane from which you trace your lineage (usually Abaddon Lore, Abyss Lore, or Hell Lore).
     prereq:
       level: 1
       heritage: Niasa
-  Form of the Fiend:
+  Form of the Fiend: # Natural Attack
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -3216,7 +3602,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: Part of your body has an obvious, fiendish appearance.
+    shortdesc: Part of your body has an obvious, fiendish appearance. Your hands end in razor-sharp claws, you have hooves instead of feet, sharp teeth fill your mouth, or a whipping tail extends from your spine. You gain your choice of one of the following unarmed attacks. The attack is in the brawling group and has the listed damage die and traits.%r%r**Claw** 1d4 slashing (agile, finesse, unarmed, versatile piercing)%r%r**Hoof** 1d6 bludgeoning (finesse, unarmed)%r%r**Jaws** 1d6 piercing (finesse, unarmed)%r%r**Tail** 1d4 bludgeoning (agile, finesse, unarmed)%r%r**Special**You can select this feat only at 1st level, and you can't retrain into or out of this feat, nor can you change the type of attack you gained.
     prereq:
       level: 1
       heritage: Niasa
@@ -3239,7 +3625,10 @@ pf2e_feats:
     traits:
     - lineage
     - niasa
-    shortdesc: Your lineage traces back to a daemon, one of the manifestations of horrific forms of death that devour souls within their foul home of Abaddon.
+    grants:
+      feat:
+      - Diehard
+    shortdesc: Your lineage traces back to a demon, one of the manifestations of horrific forms of death that devour souls within their foul home of the Abyss. As a result, you cling tenaciously to the last shreds of your own life force. You gain the Diehard feat.
     prereq:
       level: 1
       heritage: Niasa
@@ -3262,11 +3651,17 @@ pf2e_feats:
     traits:
     - lineage
     - niasa
-    shortdesc: Your lineage descends from devils, the conniving schemers of Hell's malevolent hierarchy.
+    grants:
+      skill: 
+      - Deception
+      - Legal Lore
+      feat:
+      - Lie to Me
+    shortdesc: Your lineage descends from devils, the conniving schemers of a malevolent hierarchy. You're as skilled at noticing lies and twisted wordings as you are at constructing them. You are trained in Deception and Legal Lore. If you were already trained in Deception (from your background or class, for example), you instead become trained in a skill of your choice. You also gain the Lie to Me skill feat.
     prereq:
       level: 1
       heritage: Niasa
-  Nimble Hooves:
+  Nimble Hooves: # Speed
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -3283,7 +3678,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: Your legs end in hooves rather than feet, with joints and tendons that allow you to move with great haste.
+    shortdesc: Your legs end in hooves rather than feet, with joints and tendons that allow you to move with great haste. Your Speed increases by 5 feet.%r%r**Special**The Speed increase from this feat isn't cumulative with any Speed increase from your ancestry feats.
     prereq:
       level: 1
       heritage: Niasa
@@ -3306,11 +3701,17 @@ pf2e_feats:
     traits:
     - lineage
     - niasa
-    shortdesc: Your blood bears the mark of a demon, a living embodiment of sin from the fetid depths of the Abyss.
+    grants:
+      skill:
+      - Athletics
+      assign:
+        feat:
+        - skill feat
+    shortdesc: Your blood bears the mark of a demon, a living embodiment of sin from the fetid depths of the Abyss. Demonic power pulses through your veins and manifests in a different way for each pitborn, whether you have webbed fingers and thrive in the water, large hands capable of wrestling larger foes, or some other manifestation. You are trained in Athletics. If you were already trained in Athletics (from your background or class, for example), you instead become trained in a skill of your choice. You also gain any one common 1st-level skill feat with a prerequisite of trained in Athletics, as reflects the manifestation of your Abyssal blood.
     prereq:
       level: 1
       heritage: Niasa
-  Fiendish Resistance:
+  Fiendish Resistance: # Resistance
     feat_type: 
     - Ancestry
     assoc_ancestry: 
@@ -3327,7 +3728,7 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: Your connection to your fiendish forebears has granted you one of their resistances as well.
+    shortdesc: "Your connection to your fiendish forebears has granted you one of their resistances as well. Choose one of the following energy damage types: acid, cold, electricity, fire, or sonic. You gain resistance 5 to that damage type. Though you can choose any of these, the damage type typically matches a fiend associated with your bloodline. For instance, a hellspawn might choose resistance to fire, or a pitborn with a vrock ancestor might choose resistance to electricity."
     prereq:
       level: 5
       heritage: Niasa
@@ -3348,7 +3749,221 @@ pf2e_feats:
     - Sildanyar
     traits:
     - niasa
-    shortdesc: Whether your heart is pure or corrupt, you can call forth a malediction upon your foes.
+    magic:
+      innate_spell:
+        1:
+        - Bane
+        spell_trad: divine
+    shortdesc: Whether your heart is pure or corrupt, you can call forth a malediction upon your foes. You can cast bane once per day as a 1st-level divine innate spell.
     prereq:
       level: 5
       heritage: Niasa
+  Daemon Magic:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 9
+      lineage: grimspawn
+    magic:
+      innate_spell:
+        2:
+        - death knell
+        - false life
+        spell_trad: divine
+    shortdesc: The magic of Abaddon runs through your blood, and you can wield that power. You can cast _death knell_ and _false life_ each once per day as 2nd-level divine innate spells.
+  Demon Magic:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 9
+      lineage: pitborn
+    magic:
+      innate_spell:
+        2:
+        - Paranoia
+        - Shatter
+        spell_trad: divine
+    shortdesc: You can channel the power of the Abyss through your heritage, producing terrible tangible effects. You can cast _paranoia_ and _shatter_ each once per day as 2nd-level divine innate spells.
+  Devil Magic:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 9
+      lineage: hellspawn
+    magic:
+      innate_spell:
+        2:
+        - Invisibility
+        - Misdirection
+        spell_trad: divine
+    shortdesc: Drawing on the infernal power of your sinister forbears, you mislead your foes with magical deception. You can cast _invisibility_ and _misdirection_ each once per day as 2nd-level divine innate spells.
+  Fiendish Wings:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - divine
+    - niasa
+    - morph
+    - transmutation
+    prereq:
+      level: 9
+    shortdesc: You can strain to call forth bat-like or otherwise fiendish wings from your back, similar in appearance to those of your fiendish ancestors. Once manifested, these wings remain for 10 minutes. You gain a fly Speed equal to your land Speed while you've manifested your wings.
+  Light from Darkness:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 9
+    shortdesc: You've battled the fiendish power within your nature and come out on top; whatever you decide to do with your life, for good or evil, will be your choice and your choice alone. This struggle has granted you powerful resistance against the divine. You gain a +1 circumstance bonus to all saving throws against divine effects.
+  Fiend's Door:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 13
+    magic:
+      innate_spell:
+        5:
+        - Dimension Door
+        spell_trad: divine
+    shortdesc: Like many fiends, you have the supernatural ability to teleport yourself to safety. Once per day, you can cast _dimension door_ as a 5th-level divine innate spell.
+  Summon Fiendish Kin:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 13
+      orfeat:
+        - Grimspawn
+        - Pitborn
+        - Hellspawn
+    magic:
+      innate_spell:
+        5:
+        - Summon Fiend
+        spell_trad: divine
+    shortdesc: You have a deep connection to the fiendish realms, allowing you to summon a fiend matching your own lineage. Once per day, you can cast _summon fiend_ as a 5th-level divine innate spell. The fiend you summon must match your own lineage.
+  Fiendish Word:
+    feat_type: 
+    - Ancestry
+    assoc_ancestry: 
+    - Arvek
+    - Bassin
+    - Ciith 
+    - Egalrin
+    - Goblin
+    - Gnome
+    - Human
+    - Kailli
+    - Khazad
+    - Oruch
+    - Sildanyar
+    traits:
+    - niasa
+    prereq:
+      level: 17
+    magic:
+      innate_spell:
+        7:
+        - Divine Decree
+        spell_trad: divine
+    shortdesc: You can call forth a blasphemous word from the fiendish realms to punish your foes. Once per day, you can cast divine decree as a 7th-level divine innate spell.
+  Relentless Wings:
+    prereq:
+      level: 17
+      feat:
+      - Fiendish Wings
+    shortdesc: Your wings are now a permanent part of your physiology. You gain the effects of Fiendish Wings at all times, rather than just once per day for 10 minutes.

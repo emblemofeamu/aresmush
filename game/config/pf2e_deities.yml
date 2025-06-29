@@ -19,7 +19,7 @@ pf2e_deities:
     - Family
     - Healing
     - Pain
-    - Duty
+    - Repose
     cleric_spells:
     - Soothe
     - Resilient Sphere
@@ -34,12 +34,12 @@ pf2e_deities:
     - Betray the trust of a community.
   Angoron:
     allowed_alignments:
+    - LG
     - CG
     - NG
-    - LG
+    - LN
     - N
     - CN
-    - LN
     magic_stats:
       divine_font:
       - harm
@@ -63,37 +63,37 @@ pf2e_deities:
     anathema:
     - Turn your back on a chance to challenge yourself.
     - Bully those weaker than yourself.
-    - Fail to acknowledge when you’ve been bested.
-#  Animus: SPOILER
-#    allowed_alignments:
-#    - NG
-#    - LN
-#    - N
-#    - CN
-#    magic_stats:
-#      divine_font:
-#      - heal
-#      - harm
-#    divine_ability: Wisdom
-#    divine_skill: Arcana
-#    fav_weapon: quarterstaff
-#    domains:
-#    - Magic
-#    - Glyph
-#    - Knowledge
-#    - Fate
-#    cleric_spells:
-#    - Magic Missile
-#    - Telepathy
-#    - Prismatic Spray
-#    edicts:
-#    - Teach and be taught.
-#    - Serve the interests of magic.
-#    - Preserve knowledge.
-#    anathema:
-#    - Take part in the destruction of knowledge.
-#    - Allow passion to rule judgement.
-#    - Use magic for pedestrian purposes.
+    - Fail to acknowledge when you've been bested.
+  Animus:
+    allowed_alignments:
+    - NG
+    - LN
+    - N
+    - CN
+    magic_stats:
+      divine_font:
+      - heal
+      - harm
+    divine_ability: Wisdom
+    divine_skill: Arcana
+    fav_weapon: quarterstaff
+    domains:
+    - Magic
+    - Glyph
+    - Knowledge
+    - Fate
+    cleric_spells:
+    - Magic Missile
+    - Telepathy
+    - Prismatic Spray
+    edicts:
+    - Teach and be taught.
+    - Serve the interests of magic.
+    - Preserve knowledge.
+    anathema:
+    - Take part in the destruction of knowledge.
+    - Allow passion to rule judgement.
+    - Use magic for pedestrian purposes.
   Caracoroth:
     allowed_alignments:
     - CN
@@ -104,7 +104,7 @@ pf2e_deities:
     - Strength
     - Charisma
     divine_skill: Survival
-    fav_weapon: unarmed
+    fav_weapon: claw blade
     domains:
     - Ambition
     - Destruction
@@ -117,17 +117,17 @@ pf2e_deities:
     edicts:
     - Follow your instincts.
     - Delight in destruction.
-    - Reject the weak.
+    - Pursue strength.
     anathema:
-    - Be a coward.
     - Show weakness.
     - Talk when actions serve better.
+    - Refuse power when it is offered.
   Ceinara:
     allowed_alignments:
     - NG
     - CG
-    - CN
     - N
+    - CN
     magic_stats:
       divine_font:
       - heal
@@ -149,9 +149,9 @@ pf2e_deities:
     - Patronize the arts and inspiration in all its forms.
     - Delight in creation.
     anathema:
-    - Support or protect the status quo, resort to rudeness when politeness will serve.
-    - Discourage someone from their inspiration.
-    - Hide your emotions for any reason.
+    - Allow your passion to fade from fear.
+    - Destroy an artistic expression.
+    - Discourage an artist from pursuing their dreams.
   Daeus:
     allowed_alignments:
     - LG
@@ -168,19 +168,19 @@ pf2e_deities:
     domains:
     - Wyrmkin
     - Truth
-    - Zeal
+    - Duty
     - Sun
     cleric_spells:
     - True Strike
     - Fire Shield
     - Dragon Form
     edicts:
-    - Justice isn’t perfect; always try to make it better.
+    - Justice isn't perfect; always try to make it better.
     - Share the truths you learn.
-    - Protect those who cannot defend themselves.
+    - Protect the people who need it.
     anathema:
     - Abide injustice when you can step forward.
-    - Choose for another who can choose for themselves.
+    - Mistake vengeance for justice.
     - Cheat, deceive, or undermine those who have placed trust in you.
   Dana:
     allowed_alignments:
@@ -198,19 +198,19 @@ pf2e_deities:
     domains:
     - Earth
     - Nature
-    - Change
+    - Wood
     - Swarm
     cleric_spells:
     - Pummeling Rubble
     - Speak with Plants
     - Tangling Creepers
     edicts:
-    - Defend nature’s bounty against those who would pillage it.
-    - Honor the land as your mother; let none bring Her to harm.
+    - Defend nature's bounty against those who would pillage it.
     - Tend the gardens of the earth in all their forms.
+    - Embody the sprawling order of nature in your other pursuits.
     anathema:
     - Engage in wanton destruction.
-    - Tolerate the poisoning of the earth.
+    - Suffer the poisoning of the earth.
     - Hunt rampantly.
   Deimos:
     allowed_alignments:
@@ -224,10 +224,10 @@ pf2e_deities:
     divine_skill: Deception
     fav_weapon: light hammer
     domains:
-    - Decay
+    - Delirium
     - Secrecy
     - Trickery
-    - Vigil
+    - Confidence
     cleric_spells:
     - Illusory Disguise
     - Crushing Despair
@@ -259,15 +259,15 @@ pf2e_deities:
     - Moon
     - Magic
     - Dreams
-    - Change
+    - Fate
     cleric_spells:
     - Sleep
     - Scrying
     - Dream Council
     edicts:
-    - Take the long view and always consider the greater good of all.
-    - Must use magic responsibly, and challenge those who do not.
-    - Seek to rescue those lycanthropes you can from the grip of Caracoroth.
+    - Take the long view and always consider the greater good.
+    - Use magic responsibly, and challenge those who do not.
+    - Soothe the lycanthropes who are caught in the maw of Caracoroth.
     anathema:
     - Use spells or magic that deny the target their free will.
     - Sacrifice the future for short-term benefit.
@@ -288,7 +288,7 @@ pf2e_deities:
     - Earth
     - Nature
     - Travel
-    - Air
+    - Freedom
     cleric_spells:
     - Longstrider
     - Wall of Thorns
@@ -300,7 +300,7 @@ pf2e_deities:
     anathema:
     - Kill uncleanly and mercilessly.
     - Smother the wild rather than protect it.
-    - Hoard the resources of the wilderness.
+    - Hoard wild resources.
   Gunahkar:
     allowed_alignments:
     - N
@@ -315,14 +315,14 @@ pf2e_deities:
     - Destruction
     - Death
     - Indulgence
-    - Void
+    - Pain
     cleric_spells:
     - Grim Tendrils
     - Paralyze
     - Blister
     edicts:
-    - Do not stop suffering.
-    - Do not fear sickness.
+    - Suffer.
+    - Welcome sickness.
     - Endure all you can.
     anathema:
     - Stop the faithful from feeling their pain.
@@ -339,13 +339,13 @@ pf2e_deities:
     divine_skill: Society
     fav_weapon: kukri
     domains:
-    - Cold
     - Fate
     - Pain
-    - Undeath
+    - Soul
+    - Zeal
     cleric_spells:
     - Ill Omen
-    - Ice Storm
+    - Phantasmal Killer
     - True Target
     edicts:
     - Punish those that harm you.
@@ -358,8 +358,8 @@ pf2e_deities:
   Kor:
     allowed_alignments:
     - CG
-    - CN
     - N
+    - CN
     magic_stats:
       divine_font:
       - harm
@@ -376,9 +376,9 @@ pf2e_deities:
     - Haste
     - Weapon Storm
     edicts:
-    - Be brave enough to fight at My side.
-    - Be wise enough to achieve a glorious death.
-    - Be prepared to train to achieve glory.
+    - Be brave enough to fight at Kor's side.
+    - Achieve a glorious death.
+    - Train to achieve glory.
     anathema:
     - Be the first to leave the battlefield.
     - Mistake bravery for foolishness.
@@ -403,13 +403,13 @@ pf2e_deities:
     - Dominate
     - Force Cage
     edicts:
-    - Never cease your toil.
-    - A hard day's work is its own reward.
-    - You are entitled to what you earn.
+    - Labor unflinchingly at your work.
+    - Strive for perfection in all affairs.
+    - Be entitled to what you earn.
     anathema:
-    - Being lazy.
-    - Shirking duties.
-    - Taking more than you're owed.
+    - Be lazy.
+    - Shirk your duties and responsibilities.
+    - Take more than you're owed.
   Navos:
     allowed_alignments:
     - LG
@@ -426,18 +426,18 @@ pf2e_deities:
     - Time
     - Secrecy
     - Perfection
-    - Star
+    - Knowledge
     cleric_spells:
     - Deja Vu
     - Dimension Door
     - Blanket of Stars
     edicts:
     - Learn from the past; do not dwell on it.
-    - Be aware that you are making history now.
-    - Seek to encourage the balance of time.
+    - Act wisely and cautiously in the present day.
+    - Work for a better future.
     anathema:
     - Be consumed by something you cannot change.
-    - Fail to perceive your own actions.
+    - Fail to perceive the weight of your own actions.
     - Try to change past events.
   Rada:
     allowed_alignments:
@@ -452,18 +452,18 @@ pf2e_deities:
     divine_skill: Diplomacy
     fav_weapon: trident
     domains:
-    - Water
-    - Wealth
-    - Travel
     - Air
+    - Travel
+    - Water
+    - Weather
     cleric_spells:
-    - Hydraulic Push
+    - Water Breathing
     - Mariner's Curse
     - Horrid Wilting
     edicts:
     - Honor a fair trade.
     - The sea is owed a portion of your keep.
-    - Harvest only what you need.
+    - Take only what you need from the waters.
     anathema:
     - Break a fair bargain.
     - Be a false guide to another.
@@ -482,27 +482,27 @@ pf2e_deities:
     divine_skill: Crafting
     fav_weapon: warhammer
     domains:
-    - Earth
+    - Cities
     - Creation
-    - Perfection
+    - Ambition
     - Toil
     cleric_spells:
     - Telekinetic Projectile
     - Creation
     - Fiery Body
     edicts:
-    - Always tinker - a thing can always be better.
-    - Respect honest effort, even lacking in skill.
-    - Respect expertise.
+    - Always tinker and experiment for new possibilities.
+    - Respect honest effort, even if it lacks skill.
+    - Acknowledge expertise.
     anathema:
     - Engage in wanton destruction.
     - Strive for impossible perfection.
-    - Disrespect the act of creation.
+    - Disparage the act of creation.
   Serriel:
     allowed_alignments:
     - LG
-    - LN
     - NG
+    - LN
     - N
     magic_stats:
       divine_font:
@@ -522,8 +522,8 @@ pf2e_deities:
     - True Target
     edicts:
     - Enrich your community.
-    - Honor the ways of other communities.
-    - A thriving community is a growing one.
+    - Follow the laws and order of your community.
+    - Defend your community from threats.
     anathema:
     - Enrich yourself at the expense of your community.
     - Refuse to defend your community.
@@ -548,25 +548,25 @@ pf2e_deities:
     - Secret Page
     - Glibness
     edicts:
-    - Learn and tell your stories as often as possible.
+    - Tell your stories as often as possible.
     - Keep your secrets.
     - Unearth the secrets of others.
     anathema:
-    - Never shatter someone's illusions.
+    - Shatter someone's illusions.
     - Allow the truth to ruin a good story.
     - Give your secrets away for free.
   Tarien:
     allowed_alignments:
     - NG
     - CG
-    - CN
     - N
+    - CN
     magic_stats:
       divine_font:
       - heal
     divine_ability: Charisma
     divine_skill: Stealth
-    fav_weapon: Short Sword
+    fav_weapon: shortsword
     domains:
     - Luck
     - Travel
@@ -578,12 +578,12 @@ pf2e_deities:
     - Synesthesia
     edicts:
     - Find the small joys in everything.
-    - Understand that humility is the greatest teacher.
-    - It's only funny if others laugh too.
+    - Know that humility is the greatest teacher.
+    - Make others laugh, too.
     anathema:
-    - Make a joke of someone who doesn’t deserve it.
-    - Dogpile someone already being shamed.
-    - Ringing harm with your humor.
+    - Bring undue harm with your humor.
+    - Impair someone's freedom without good reason.
+    - Purposefully ruin everyone else's fun.
   Thul:
     allowed_alignments:
     - LN
@@ -596,16 +596,16 @@ pf2e_deities:
     divine_skill: Occultism
     fav_weapon: scythe
     domains:
-    - Undeath
-    - Indulgence
-    - Decay
     - Cold
+    - Decay
+    - Vigil
+    - Undeath
     cleric_spells:
     - Object Reading
     - Modify Memory
     - Polar Ray
     edicts:
-    - Do not fear death.
+    - Welcome death and undeath.
     - Gather as much experience as you can.
     - Serve the dead where you can.
     anathema:
@@ -640,5 +640,5 @@ pf2e_deities:
     - Try to ensure a peaceful passing.
     anathema:
     - Disturb the rest of the dead.
-    - Judge the worth of a person.
+    - Cast judgment on the worth of a person.
     - Command the fate of a soul.
