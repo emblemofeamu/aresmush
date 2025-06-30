@@ -405,23 +405,24 @@ module AresMUSH
           char.update(pf2_to_assign: to_assign)
         when 'feat'
           feats = char.pf2_feats
-
+          
           value.each do |item|
             feat_info = get_feat_details(item)
 
             next if feat_info.is_a? String
-
-            feat_type = feat_info[1][feat_type].first
-
-            list = feats[feat_type] || []
-
-            qualify = Pf2e.can_take_feat?(char, item)
-
-            list << item if qualify
-            feats[feat_type] = list
+            
+            feat_type = feat_info[1]['feat_type'].first
+            
+            list = feats[feat_type] || []            
+            
+            qualify = Pf2e.can_take_feat?(char, item)            
+            
+            list << item if qualify            
+            
+            feats[feat_type] = list.sort
           end
-
-          char.update(pf2_feats: feats.sort)
+          
+          char.update(pf2_feats: feats)
         when 'gated_feat'
           to_assign = char.pf2_to_assign
           gated_feats = to_assign['special feat'] || []
