@@ -75,6 +75,7 @@ ul.dropdown-menu {
 @import url('https://fonts.googleapis.com/css?family=Calligraffitti');
 @import url('https://fonts.googleapis.com/css?family=Jim+Nightshade');
 @import url('https://fonts.googleapis.com/css?family=Marcellus');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap');
 
 /* Default font & background styling */ 
 
@@ -86,7 +87,7 @@ body {
     background-repeat: no-repeat;
     background-color: #171510;
     background-position: center-top;
-    width: 90%;
+    width: 70%;
     margin: auto;
 }
 
@@ -106,6 +107,7 @@ div.site-subtitle {
 
 div.site-title {
     font-weight: bold;
+    width: 150%;
 }  
 
 div.site-subtitle {
@@ -132,15 +134,30 @@ div.header-wrap {
     }
 }
 
+/* Mobile version body styling */
+
+@media only screen and (min-width: 2000px) { 
+    body {
+        background-size: 100%;
+        width: 55%;
+    }
+}
+
 /* Right sidebar styling */
 
 div.col-md-3.right-sidebar {
-    padding-top: 30px;
+    padding-top: 1.8em;
 }
 
 div.sidebar-box {
     border-top: 3px solid;
     border-image: radial-gradient(ellipse farthest-corner at top left, #E1B07E 12%, transparent 72%) 1; /* Tumbleweed */
+    padding-bottom: 1em;
+}
+
+.sidebar-heading h2 {
+    padding: 0px;
+    margin-top: .1em;
 }
 
 /* Code text styling */
@@ -167,27 +184,51 @@ h1 {
 
 h2 {
     padding-top: 0px;
+    padding-bottom: 2px;
+    color: #CBC0AD; /* Dark Vanilla */
+    border-bottom: 2px solid #CBC0AD; /* Dark Vanilla */
+    border-image: linear-gradient(to right, #CBC0AD, transparent) 1; /* Dark Vanilla */
 }
 
-/* Table of contents styling */
+h1, .h1, h2, .h2 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 
-.toc {
-    border: 1px solid #74a7bb; /* Moonstone Blue */
-    box-shadow: 5px 5px 5px #594f4f; /* Dark Liver */
-    border-radius: 4px;
+h3, .h3 {
+    color: #df8f84; /* New York Pink */
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+h4, .h4 {
+    margin-bottom: 5px;
 }
 
 /* Character profile page styling */
 
+.profile-wrap {
+    border-radius: 0px;
+    border-image: linear-gradient(to bottom right, #CBC0AD, #4666712e, #CBC0AD) 1;
+}
+
 .profile-box {
-    background: rgba(0, 0, 0, .9); /* Solid Black (semi-transparent) */
-    border-radius: 5px;
+    background: #000000c7;
+    border: 1px solid #E1B07E;
+    border-radius: 0px;
+    border-image: linear-gradient(to bottom right, #E1B07E, #4666712e, #E1B07E) 1;
 }
 
 .profile-divider {
     background-color: transparent;
     padding: 3px;
     background-image: linear-gradient(to right, transparent,#E1B07E,transparent); /* Tumbleweed */
+}
+
+.profile-image {
+    border: 1px solid #E1B07E;
+    border-radius: 0px;
+    border-image: linear-gradient(to bottom right, #E1B07E, #4666712e, #E1B07E) 1;
 }
 
 .card-body.status-message {
@@ -197,15 +238,26 @@ h2 {
     background-image: linear-gradient(to right,#43676f,transparent); /* Deep Space Sparkle 2 */
 } 
 
+/* Collapsible Button styling */
+button.btn-default.btn-collapse {
+    background-color: #00000082;
+    color: #74a7bb;
+    border-radius: 5px;
+    border-color: #CBC0AD;
+    border-image: linear-gradient(to bottom right, #CBC0AD, #CBC0AD57, #CBC0AD) 1;
+    margin-top: 5px;
+}
+
 /* Quotes and IC exposition should have its own font and classes */
 
 .icquote {
-    font-family: 'Jim Nightshade', handwriting;
-    font-size: 20px;
+    font-family: 'Jim Nightshade', serif;
+    color: #df8f84;
+    font-size: 28px;
 }
 
 div.icquote {
-    font-family: 'Jim Nightshade', handwriting;
+    font-family: 'Jim Nightshade', serif;
     width: 80%;
     border-style: none none none none;
     margin: auto; 
@@ -265,14 +317,11 @@ div.icquote {
 }
 
 /* Wiki custom classes */
-
+/* Wiki Callout */
 div.wiki-callout {
     margin: auto;
-    text-align: center;
-    font-style: italic;
-    vertical-align: middle;
-    color: #82ace3; /* Light Cobalt Blue */
-    width: 80%;
+    color: #CBC0AD;
+    width: 90%;
     font-size: 100%;
     border: 3px solid;
     padding: 15px;
@@ -282,13 +331,11 @@ div.wiki-callout {
     margin-bottom: 15px;
 }
 
+/* Wiki Warning */
 div.wiki-warning {
     margin: auto;
-    text-align: center;
-    font-style: italic;
-    vertical-align: middle;
-    color: #ff4239; /* Coral Red */
-    width: 80%;
+    color: #CBC0AD;
+    width: 90%;
     font-size: 100%;
     border: 3px solid;
     padding: 15px;
@@ -298,6 +345,119 @@ div.wiki-warning {
     margin-bottom: 15px;
 }
 
+div.wiki-info {
+    margin: auto;
+    color: #CBC0AD;
+    width: 90%;
+    font-size: 100%;
+    padding: 15px;
+    background-color: #00000082;
+    border: 2px solid #CBC0AD;
+    border-image: linear-gradient(to bottom right, #CBC0AD, #CBC0AD1A, #CBC0AD) 1;
+    margin-top: 15px;
+    margin-bottom: 15px;    
+}
+
+div.wiki-info p {
+    margin-bottom: 0px;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+div.wiki-info strong {
+    font-size: 1.5rem;
+}
+
+/* Wiki navbox */
+
+details.navbox-container {
+    background: #00000082;
+    padding: 10px;
+    border: 2px solid white;
+    border-image: linear-gradient(to bottom right, #CBC0AD, #CBC0AD30, #CBC0AD) 1;
+}
+
+details.navbox-container summary {
+    font-weight: bold;
+    text-align: center;
+    color: #74a7bb;
+}
+
+ul.navbox-list {
+    text-align: center;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+ul.navbox-list li {
+    display: inline-block;
+}
+
+ul.navbox-list li::before {
+    content: "•";
+    font-weight: bold;
+    margin-left: .4em;
+    margin-right: .4em;
+}
+
+div.navbox-container {
+    width: 100%;
+    margin: auto;
+    border: 1px black solid;
+}
+
+div.navbox-container.navbox-header-2-col {
+    width: 100%;
+    background: #4b2b31;
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+    color: #CBC0AD;
+}
+
+div.navbox-container.navbox-cell-2-col-center {
+    width: 100%;
+    background: #302727;
+    text-align: center;
+    padding: 5px;
+}
+
+div.navbox-container.navbox-cell-2-col {
+    width: 100%;
+    background: #302727;
+    padding: 5px;
+}
+
+div.navbox-container.navbox-flex-2col {
+    width: 100%;
+    display: flex;
+}
+
+div.navbox-container.navbox-header-cell {
+    width: 20%;
+    background: #4b2b31;
+    padding: 5px;
+    color: #CBC0AD;
+    text-align: center;
+    font-weight: bold;
+}
+
+div.navbox-container.navbox-regular-cell {
+    width: 80%;
+    background: #302727;
+    padding: 5px;
+}
+
+div.navbox-container.navbox-regular-cell-center {
+    width: 80%;
+    background: #302727;
+    padding: 5px;
+    text-align: center;
+}
+
+/* Wiki Header Left */
 wiki-header-left {
     background-color: transparent;
     width: 100%;
@@ -315,7 +475,7 @@ wiki-header-left {
     display: inline-block;
     text-align: center;
 }
-
+/* Wiki Header Right */
 wiki-header-right {
     background-color: transparent;
     width: 100%;
@@ -378,6 +538,40 @@ div.card-body.markdown-editor {
     background-color: transparent;
 }
 
+/* Action button styling (seen on wikis and jobs) */
+
+.action-buttons .btn {
+    border-radius: 0px;
+}
+
+/* Commented out for future use
+.btn-secondary, .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+    wip lol
+} */
+
+/* Commented out for future use
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    wip lol
+} */
+
+/* Commented out for future use
+.btn-warning {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #ffc107;
+    --bs-btn-border-color: #ffc107;
+    --bs-btn-hover-color: #000;
+    --bs-btn-hover-bg: #ffca2c;
+    --bs-btn-hover-border-color: #ffc720;
+    --bs-btn-focus-shadow-rgb: 217, 164, 6;
+    --bs-btn-active-color: #000;
+    --bs-btn-active-bg: #ffcd39;
+    --bs-btn-active-border-color: #ffc720;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #000;
+    --bs-btn-disabled-bg: #ffc107;
+    --bs-btn-disabled-border-color: #ffc107;
+} */
+
 /* Characters/Admin directory page styling */
 
 .log-icon-title-container {
@@ -405,7 +599,7 @@ div.card-body.markdown-editor {
 .nav-link.nav-link {
     border-image: radial-gradient(ellipse farthest-corner at top left, #466671 45%, transparent 100%) 1; /* Deep Space Sparkle */ 
 }
-  
+
 a.nav-link.active {
     border-image: radial-gradient(ellipse farthest-corner at top left, #E1B07E 15%, transparent 80%) 1; /* Tumbleweed */
 }
@@ -416,7 +610,11 @@ a.nav-link.active {
 }
 
 .nav-link.nav-link:hover, a.nav-link.active:hover {
-    background-color: none;
+    border-radius: 0px;
+}
+
+.nav-tabs, .nav-link.active, .nav-link.nav-link:hover {
+    border-radius: 0px;
 }
 
 /* Wiki content styling */
@@ -450,6 +648,8 @@ table {
 th {
     background-color: #00000082;
     border: none;
+    border-bottom: 1px solid #302727; /* Dark Pine */
+    border-right: 1px solid #302727; /* Dark Pine */
 }
 
 td {
@@ -462,6 +662,422 @@ td {
     background-color: #201a1a; /* Eerie Black */
     border-bottom: 1px solid #302727; /* Dark Pine */
     border-right: 1px solid #302727; /* Dark Pine */
+}
+
+ul.list-table {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: .5rem;
+    list-style-type: circle;
+}
+
+/* Deity Table Styling */
+
+table.deity-table-intro {
+    width: 100%;
+}
+
+th.deity-name {
+    width: 83%;
+    border-right: none;
+}
+
+th.deity-image {
+    width: 17%;
+    text-align: right;
+}
+
+/* Org Table Styling */
+
+table.org-table-intro {
+    width: 100%;
+}
+
+th.org-name {
+    width: 85%;
+    border-right: none;
+}
+
+th.org-image {
+    width: 15%;
+    text-align: right;
+}
+
+table.org-table {
+    width: 100%;
+}
+
+th.org-table-header {
+    width: 15%;
+}
+
+/* Regional Table Styling */
+
+table.region-table-intro {
+    width: 100%;
+}
+
+th.region-name {
+    width: 83%;
+    border-right: none;
+}
+
+th.region-image {
+    width: 17%;
+}
+
+table.region-table {
+    width: 100%;
+}
+
+th.region-table-header {
+    width: 15%;
+    vertical-align: top;
+}
+
+td.region-table-entry {
+    width: 85%;
+}
+
+/* Lands of Ea page styling */
+
+div.region-container {
+    margin: auto;
+    max-width: 90%;
+}
+
+div.region-container-header {
+    border: 3px solid #CBC0AD;
+    border-image: linear-gradient(to right, #CBC0AD, transparent) 1;
+    color: #CBC0AD;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    padding-left: 1rem;
+}
+
+div.region-container-body {
+    border: 1px solid #E1B07E;
+    border-image: linear-gradient(to bottom right, #E1B07E, #E1B07E4A, #E1B07E) 1;
+    padding: .5rem;
+}
+
+div.world-map {
+    margin: auto;
+    padding: 1rem;
+}
+
+/* Character class styling */
+
+div.charclass-intro {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+div.charclass-name {
+    width: 100%;
+}
+
+div.charclass-image {
+    width: 15%;
+    text-align: right;
+}
+
+span.class-header {
+    float: right;
+}
+
+/* Ancestry table styling */
+
+table.ancestry-table {
+    width: 100%;
+}
+
+th.ancestry-table-header {
+    width: 15%;
+}
+
+/* Calendar Table Styling */
+div.calendar-wrapper {
+    background-color: #00000082;
+    border: 2px solid #CBC0AD;
+    border-image: linear-gradient(to bottom right, #CBC0AD, #CBC0AD1A, #CBC0AD) 1;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: auto;
+}
+
+div.calendar-rows {
+    display: grid;
+    grid-template-columns: fit-content(20%) fit-content(20%) fit-content(20%) fit-content(20%) fit-content(20%) fit-content(20%) fit-content(20%);
+}
+
+div.calendar-header {
+    font-size: 2em;
+    font-weight: bold;
+    color: #CBC0AD;
+    border-bottom: 2px solid #CBC0AD;
+    border-image: linear-gradient(to right, #CBC0AD, transparent) 1;
+    width: 100%;
+    padding: .2em;
+    padding-left: .4em;
+}
+
+div.calendar-item {
+    min-width: 6rem;
+    min-height: 6rem;
+    padding: 1em;
+    font-size: .9em;
+    color: #CBC0AD;
+    background-color: #201a1a;
+    border-bottom: 1px solid #302727;
+    border-right: 1px solid #302727;
+}
+
+ul.calendar-list-table {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: 0;
+    list-style-type: square;
+    line-height: 1.2em;
+    word-break: break-word;
+    hyphens: manual;
+    padding-left: 1em;
+    color: #E1B07E;
+}
+
+table.calendar-table {
+    width: 90%;
+    margin: auto;
+    table-layout: fixed;
+}
+
+td.calendar-td {
+    width: 5%;
+    height: 6em;
+    vertical-align: top;
+}
+
+th.calendar-table-header {
+    font-size: 2em;
+    border-bottom: 2px solid #CBC0AD;
+    border-image: linear-gradient(to right, #CBC0AD, transparent) 1;
+}
+
+/* NPC Template styling */
+
+div.npc-template {
+    margin: auto;
+    padding: 1em;
+    padding-top: 0;
+    margin-bottom: .5em;
+}
+
+div.npc-template img {
+    float: right;
+}
+
+/* Action template styling */
+
+div.pf2e-action {
+    margin: auto;
+    width: 95%;
+    border: 1px solid #CBC0AD;
+    border-image: radial-gradient(ellipse farthest-corner at top left, #CBC0AD, #CBC0AD30 70%, #CBC0AD) 1;
+    background-color: #00000070;
+    padding: 1em;
+    padding-top: .5em;
+    margin-bottom: .5em;
+}
+
+div.pf2e-action ul {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding-left: 1.5rem;
+}
+
+div.pf2e-action li {
+    padding: .2rem;
+}
+
+div.action-header {
+    font-size: 2em;
+    font-weight: bold;
+    color: #CBC0AD;
+    border-bottom: 2px solid #CBC0AD;
+    border-image: linear-gradient(to right, #CBC0AD, transparent) 1;
+    display: flex;
+    align-items: center;
+}
+
+div.action-header img {
+    padding-left: .2em;
+    padding-bottom: .1em;
+    height: 1.3em;
+}
+
+table.trait-table {
+    margin-top: .8em;
+    border: 1px solid white;
+    border-image: linear-gradient(to bottom right, #CBC0AD, #CBC0AD30, #CBC0AD) 1;
+}
+
+td.trait-alignment, td.trait-size, td.trait-uncommon, td.trait-rare, td.trait-unique, td.trait-keyword {
+    padding: 0px;
+    color: #CBC0AD;
+    font-family: 'Teko';
+    text-transform: uppercase;
+    border-image: radial-gradient(ellipse farthest-corner at bottom right, #CBC0AD 0%, transparent 100%) 1;
+    padding-top: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom: transparent;
+}
+
+td.trait-alignment:last-child, td.trait-size:last-child, td.trait-uncommon:last-child, td.trait-rare:last-child, td.trait-unique:last-child, td.trait-keyword:last-child {
+    border-right: none;
+}
+
+td.trait-alignment {
+    background-color: #334bb5;
+}
+
+td.trait-size {
+    background-color: #266242;
+}
+
+td.trait-uncommon {
+    background-color: #884633;
+}
+
+td.trait-rare {
+    background-color: #002664;
+}
+
+td.trait-unique {
+    background-color: #491160;
+}
+
+td.trait-keyword {
+    background-color: #371711;
+}
+
+div.pf2e-action strong {
+    color: #df8f84;
+}
+
+div.pf2e-action p {
+    margin-bottom: .5em;
+}
+
+div.pf2e-action hr {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+/* Creature statblock styling */
+
+div.creature-statblock {
+    margin: auto;
+    width: 95%;
+    border: 1px solid #CBC0AD;
+    border-image: radial-gradient(ellipse farthest-corner at top left, #CBC0AD 60%, transparent 100%) 1;
+    background-color: #00000070;
+    padding: 1em;
+    padding-top: .5em;
+    margin-bottom: .5em;
+}
+
+div.creature-header {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #CBC0AD;
+    border-bottom: 2px solid #CBC0AD;
+    border-image: linear-gradient(to right, #CBC0AD, transparent) 1;
+}
+
+div.creature-statblock strong {
+    color: #CBC0AD;
+}
+
+div.creature-statblock p {
+    margin-bottom: .5em;
+}
+
+div.creature-statblock hr {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+div.creature-statblock img {
+    padding-bottom: .2em;
+    height: 1.5em;
+}
+
+div.creature-statblock ul li::marker {
+    color: #CBC0AD;
+}
+
+/* Letter styling */
+
+div.letter-style-1 {
+    font-family: 'Jim Nightshade', serif;
+    font-size: 1.5em;
+    word-wrap: break-word;
+    color: black;
+    width: 80%;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-image: url(/game/uploads/theme_images/parchment.png);
+    background-clip: padding-box;
+    padding: .5em;
+    border: .5em solid transparent;
+    border-image: url(/game/uploads/theme_images/parchment-border.png) 15% 20% 20% 15% repeat;
+}
+
+div.letter-style-2 {
+    font-family: 'Calligraffitti', serif;
+    font-size: 1.5em;
+    word-wrap: break-word;
+    color: black;
+    width: 80%;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-image: url(/game/uploads/theme_images/parchment.png);
+    background-clip: padding-box;
+    padding: .5em;
+    border: .5em solid transparent;
+    border-image: url(/game/uploads/theme_images/parchment-border.png) 15% 20% 20% 15% repeat;
+}
+
+div.letter-style-3 {
+    font-family: 'Bilbo', serif;
+    font-size: 1.5em;
+    word-wrap: break-word;
+    color: black;
+    width: 80%;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-image: url(/game/uploads/theme_images/parchment.png);
+    background-clip: padding-box;
+    padding: .5em;
+    border: .5em solid transparent;
+    border-image: url(/game/uploads/theme_images/parchment-border.png) 15% 20% 20% 15% repeat;
+}
+
+/* Table of contents styling */
+
+.toc {
+    box-shadow: none;
+    border: 1px solid #74a7bb;
+    border-radius: 0px;
+    border-image: radial-gradient(ellipse farthest-corner at top left, #74a7bb, #74a7bb2e 70%, #74a7bb) 1;
+    background-color: #00000070;
 }
 
 /* Card styling (used for file upload) */
