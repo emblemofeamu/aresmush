@@ -119,7 +119,6 @@ pf2e_heritage:
     traits: []
   # Ciith Heritage Feats
   Ahcan:
-    circumstance: true
     action: []
     attack: {}
     defense: {}
@@ -187,9 +186,10 @@ pf2e_heritage:
   Mountainkeeper:
     magic_stats:
       innate_spell:
-        cantrip:
-          - Disrupt Undead
-        spell_trad: primal
+        level: cantrip
+        name: Disrupt Undead
+        tradition: primal
+        cast_stat: Charisma
     special:
       - Mountainkeeper Egalrin
     action: []
@@ -224,13 +224,13 @@ pf2e_heritage:
   Taloned:
     attack:
       Talons:
-        damage: d4
+        damage: 1d4
         damage_type: S
         traits:
           - agile
           - finesse
           - unarmed
-          - versatile_P
+          - versatile piercing
     action: []
     defense: {}
     feat: []
@@ -240,7 +240,6 @@ pf2e_heritage:
     traits: []
   # Gnome Heritages
   Chameleon:
-    circumstance: true
     traits: []
     special: []
     skills: []
@@ -253,7 +252,11 @@ pf2e_heritage:
     traits:
       - fey
     magic_stats:
-      gated_spell: fey gnome
+      innate_spell:
+        level: cantrip
+        name: open
+        tradition: arcane
+        cast_stat: Charisma
     action: []
     attack: {}
     defense: {}
@@ -263,8 +266,8 @@ pf2e_heritage:
     special: []
   Sensate:
     special:
+      - imprecise scent
       - Sensate Gnome
-    circumstance: true
     action: []
     attack: {}
     defense: {}
@@ -284,9 +287,11 @@ pf2e_heritage:
     traits: []
   Wellspring (Arcane):
     magic_stats:
-      gated_spell: wellspring gnome
-      spell_trad: arcane
-    change_spell_trad: true
+      innate_spell:
+        level: cantrip
+        name: open
+        tradition: arcane
+        cast_stat: Charisma
     action: []
     attack: {}
     defense: {}
@@ -297,9 +302,11 @@ pf2e_heritage:
     traits: []
   Wellspring (Divine):
     magic_stats:
-      gated_spell: wellspring gnome
-      spell_trad: divine
-    change_spell_trad: true
+      innate_spell:
+        level: cantrip
+        name: open
+        tradition: divine
+        cast_stat: Charisma
     action: []
     attack: {}
     defense: {}
@@ -310,9 +317,11 @@ pf2e_heritage:
     traits: []
   Wellspring (Occult):
     magic_stats:
-      gated_spell: wellspring gnome
-      spell_trad: gnome
-    change_spell_trad: true
+      innate_spell:
+        level: cantrip
+        name: open
+        tradition: occult
+        cast_stat: Charisma
     action: []
     attack: {}
     defense: {}
@@ -337,7 +346,6 @@ pf2e_heritage:
   Irongut:
     special:
       - Irongut Goblin
-    circumstance: true
     action: []
     attack: {}
     defense: {}
@@ -348,8 +356,9 @@ pf2e_heritage:
   Razortooth:
     attack:
       Jaws:
-        damage: d6
+        damage: 1d6
         damage_type: P
+        group: brawling
         traits:
           - finesse
           - unarmed
@@ -414,10 +423,8 @@ pf2e_heritage:
     action: []
     reaction: []
     attack: {}
-  Desert:
-    defense:
-      resistances:
-        fire: 1
+  Desert Kailli:
+    defense: {}
     traits: []
     special: []
     skills: []
@@ -425,7 +432,7 @@ pf2e_heritage:
     action: []
     reaction: []
     attack: {}
-  Longsnout:
+  Longsnout Kailli:
     traits: []
     special:
       - Scent (imprecise)
@@ -434,28 +441,28 @@ pf2e_heritage:
     action: []
     reaction: []
     attack: {}
-  Sewer:
+  Sewer Kailli:
     traits: []
     special:
       - Sewer Kailli
+    skills: []
+    feat: []
+    action: []
+    reaction: []
+    attack: {}
+  Shadow Kailli:
+    traits: []
+    special:
+      - Shadow Kailli
     skills:
       - Intimidation
     feat: []
     action: []
     reaction: []
     attack: {}
-  Shadow:
-    traits: []
-    special:
-      - Shadow Kailli
-    skills: []
-    feat: []
-    action: []
-    reaction: []
-    attack: {}
   # Khazad Heritages
   Ancient-Blooded:
-    reaction: 'Call On Ancient Blood'
+    reaction: Call On Ancient Blood
     action: []
     attack: {}
     traits: []
@@ -464,7 +471,6 @@ pf2e_heritage:
     feat: []
     defense: {}
   Death Warden:
-    circumstance: true
     traits: []
     special: []
     skills: []
@@ -485,7 +491,6 @@ pf2e_heritage:
     special: []
     traits: []
   Rock:
-    circumstance: true
     action: []
     attack: {}
     defense: {}
@@ -498,7 +503,6 @@ pf2e_heritage:
     defense:
       resistances:
         poison: 1
-    circumstance: true
     action: []
     attack: {}
     feat: []
@@ -540,7 +544,6 @@ pf2e_heritage:
     special: []
     traits: []
   Rainfall:
-    circumstance: true
     action: []
     attack: {}
     defense: {}
@@ -575,13 +578,11 @@ pf2e_heritage:
   Seer:
     magic_stats:
       innate_spell:
-          level: 1
-          name: Detect Magic
-          tradition: arcane
-          cast_stat: Charisma
-    action:
-      - Identify Magic
-      - Decipher Writing
+        level: 1
+        name: Detect Magic
+        tradition: arcane
+        cast_stat: Charisma
+    action: {}
     action_bonus: 1
     attack: {}
     defense: {}
@@ -591,7 +592,6 @@ pf2e_heritage:
     special: []
     traits: []
   Whisper:
-    circumstance: true
     action: []
     attack: {}
     defense: {}
@@ -601,7 +601,6 @@ pf2e_heritage:
     special: []
     traits: []
   Woodland:
-    circumstance: true
     action: []
     attack: {}
     defense: {}

@@ -549,21 +549,34 @@ pf2e_feats:
     shortdesc: You hear the sounds of reptiles as language. You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).
     prereq:
       level: 1
-  Sharp Fangs: # Ask Blue about this later
+  Sharp Fangs:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
       - Ciith
     traits: []
+    grants:
+      attack:
+        Fangs:
+          damage: 1d8
+          damage_type: P
+          traits: []
     shortdesc: Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.
     prereq:
       level: 1
-  Tail Whip: # Ask Blue about this later
+  Tail Whip:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
       - Ciith
     traits: []
+    grants:
+      attack:
+        Tail:
+          damage: 1d6
+          damage_type: B
+          traits:
+            - sweep
     shortdesc: By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.
     prereq:
       level: 1
@@ -576,7 +589,7 @@ pf2e_feats:
     shortdesc: "You make the most of your ciith unarmed attacks. Whenever you score a critical hit with a claw or an unarmed attack you gained from a ciith ancestry feat, you apply the unarmed attack's critical specialization effect."
     prereq:
       level: 5
-  Envenom Fangs: # Ask Blue about this later
+  Envenom Fangs:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
@@ -1517,12 +1530,21 @@ pf2e_feats:
     shortdesc: "You're good with your hands and can quickly improvise a fix for broken or damaged equipment. You're trained in Crafting. If you would automatically become trained in Crafting (from your background or class, for example), you instead become trained in a skill of your choice. You can Repair an item without using a repair kit without taking the –2 circumstance penalty, improvising tools from whatever you have at hand."
     prereq:
       level: 1
-  Vicious Incisors: # Ask Blue about this later # Natural weapon
+  Vicious Incisors:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
       - Kailli
     traits: []
+    grants:
+      attack:
+        Jaws:
+          damage: 1d6
+          damage_type: P
+          group: brawling
+          traits:
+            - finesse
+            - unarmed
     shortdesc: "You've let your incisors grow long enough to serve as formidable weapons. You gain a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse and unarmed traits. Unlike most creatures, you can file down your teeth and regrow them later on, enabling you to select this feat at any level, and to retrain into and out of this feat."
     prereq:
       level: 1
@@ -1919,12 +1941,21 @@ pf2e_feats:
     shortdesc: In combat, you favor the brutal weapons that are traditional for your oruch ancestors. You are trained with the falchion and greataxe. In addition, you gain access to all uncommon oruch weapons. For the purpose of determining your proficiency, martial oruch weapons are simple weapons and advanced oruch weapons are martial weapons.
     prereq:
       level: 1
-  Tusks: # Ask Blue about this later # Natural attack
+  Tusks:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
       - Oruch
     traits: []
+    grants:
+      attack:
+        Tusks:
+          damage: 1d6
+          damage_type: P
+          group: brawling
+          traits:
+            - finesse
+            - unarmed
     shortdesc: "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage. Your tusks are in the brawling group and have the finesse and unarmed traits.%r%r**Special** You can take this feat only at 1st level, and you can't retrain into this feat. You can retrain out of this feat only through drastic measures such as breaking or filing your tusks."
     prereq:
       level: 1
@@ -3114,7 +3145,7 @@ pf2e_feats:
     prereq:
       level: 1
       heritage: Changeling
-  Hag Claws: # Natural Attack # Ask Blue about this later
+  Hag Claws:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
@@ -3134,7 +3165,7 @@ pf2e_feats:
     grants:
       attack:
         Claw:
-          damage: d4
+          damage: 1d4
           damage_type: S
           group: brawling
           traits:
@@ -3169,7 +3200,7 @@ pf2e_feats:
     prereq:
       level: 1
       heritage: Changeling
-  Slag May: # Natural Attack # Ask Blue about this later
+  Slag May:
     feat_type: 
       - Ancestry
       - Lineage
@@ -3188,6 +3219,16 @@ pf2e_feats:
     traits:
       - changeling
       - Lineage
+    grants:
+      attack:
+        Claw:
+          damage: 1d6
+          damage_type: S
+          group: brawling
+          traits:
+            - unarmed
+            - grapple
+            - cold iron
     shortdesc: Your mother was an annis hag, known for physical prowess, and you have one violet or steel-gray eye. You have thick, sturdy claws made of cold iron that grow naturally from your body. You gain a claw unarmed attack that deals 1d6 slashing damage. Your claws are in the brawling group, have the unarmed and grapple traits, and are cold iron.
     prereq:
       level: 1
@@ -3234,7 +3275,7 @@ pf2e_feats:
     prereq:
       level: 5
       heritage: Changeling
-  Accursed Claws: # Funky prereq # Ask Blue about this later
+  Accursed Claws:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
@@ -3320,7 +3361,7 @@ pf2e_feats:
     prereq:
       level: 1  
       heritage: Dar
-  Fangs: # Natural Attack
+  Fangs:
     feat_type: 
       - Ancestry
     assoc_ancestry: 
@@ -3337,6 +3378,15 @@ pf2e_feats:
       - Sildanyar
     traits:
       - dar
+    grants:
+      attack:
+        Fangs:
+          damage: 1d6
+          damage_type: P
+          group: brawling
+          traits:
+            - grapple
+            - unarmed
     shortdesc: "Your incisors have grown into true fangs: long, sharp, and well-suited to drawing blood. You gain a fangs unarmed attack that deals 1d6 piercing damage. Your fangs are in the brawling group and have the grapple and unarmed traits."
     prereq:
       level: 1

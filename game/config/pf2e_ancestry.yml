@@ -116,13 +116,12 @@ pf2e_ancestry:
       - ciith
       - humanoid
     attack:
-      Claws:
-        damage: d4
+      Claw:
+        damage: 1d4
         damage_type: S
         traits:
           - agile
           - finesse
-          - unarmed
     bonus_feats:
       - Breath Control
     heritages:
@@ -172,7 +171,7 @@ pf2e_ancestry:
       - Low-Light Vision
     attack:
       Beak:
-        damage: d6
+        damage: 1d6
         damage_type: P
         group: brawling
         traits:
@@ -385,14 +384,6 @@ pf2e_ancestry:
       - kailli
     special:
       - Low-Light Vision
-    attack:
-      Jaws:
-        damage: d4
-        damage_type: P
-        group: brawling
-        traits:
-          - agile
-          - finesse
     heritages:
       - Aesa
       - Ashen One
