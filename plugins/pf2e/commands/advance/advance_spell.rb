@@ -56,7 +56,7 @@ module AresMUSH
             return
           end
 
-          result = check_innate_spell(level, self.value, list)
+          result = resolve_innate_spell(level, self.value, list)
           if result.is_a?(String)
             client.emit_failure result
             return
@@ -136,7 +136,7 @@ module AresMUSH
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
       end
 
-      def check_innate_spell(level, value, list)
+      def resolve_innate_spell(level, value, list)
         advancement = enactor.pf2_advancement || {}
         magic_stats = advancement['magic_stats'] || {}
         pending = magic_stats['innate_spell']
