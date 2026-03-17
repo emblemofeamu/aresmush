@@ -390,11 +390,11 @@ pf2e_ancestry:
       - Changeling
       - Dar
       - Deep Kailli
-      - Desert
-      - Longsnout
-      - Niasa
-      - Sewer
-      - Shadow
+      - Desert Kailli
+      - Longsnout Kailli
+      - Niasa Kailli
+      - Sewer Kailli
+      - Shadow Kailli
     feats:
       1:
         - Cheek Pouches
