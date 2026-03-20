@@ -443,10 +443,10 @@ module AresMUSH
         }
       }
 
-      unarmed_attacks.merge ancestry_info['attack'] if ancestry_info['attack']
-      unarmed_attacks.merge heritage_info['attack'] if heritage_info['attack']
+      unarmed_attacks.merge!(ancestry_info['attack']) if ancestry_info['attack']
+      unarmed_attacks.merge!(heritage_info['attack']) if heritage_info['attack']
       if subclass_option_info
-        unarmed_attacks.merge subclass_option_info['attack'] if subclass_option_info['attack']
+        unarmed_attacks.merge!(subclass_option_info['attack']) if subclass_option_info['attack']
       end
 
       combat.update(unarmed_attacks: unarmed_attacks)
