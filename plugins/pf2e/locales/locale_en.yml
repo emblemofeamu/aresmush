@@ -41,6 +41,7 @@ en:
     adv_archetype_deity_assigned: "You have selected %{deity} as the deity for your %{archetype}."
     adv_invalid_archetype_key_ability: "That is not a valid key ability for %{archetype}. Valid options are: %{options}"
     adv_archetype_key_ability_assigned: "You have selected %{ability} as the key ability for your %{archetype}."
+    adv_dont_use_class_for_class_feats: "Use '%xucharclass%xU' instead of '%xuclass%xU' when selecting class feats. Try your input again with '%xuadvance/feat charclass=%{feat}%xU'."
     adv_item_skill_choice: "You need to make a skill choice."
     adv_item_raise: "You have a %{item} to raise."
     adv_item_choose: "You need to make a class choice for %{name}. Options: %{options}"
