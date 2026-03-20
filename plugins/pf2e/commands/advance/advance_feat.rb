@@ -36,6 +36,11 @@ module AresMUSH
           return
         end
 
+        if self.type == 'class'
+          client.emit_failure t('pf2e.adv_dont_use_class_for_class_feats', :feat => self.value) 
+          return
+        end
+
         # Do they have one of that feat type to select?
         to_assign = enactor.pf2_to_assign
         feats_to_assign = to_assign['feats']
