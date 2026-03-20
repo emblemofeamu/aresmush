@@ -148,7 +148,7 @@ module AresMUSH
                        .join(" ")
 
           if value.is_a? Array
-            list << "#{item_color}#{heading}:%xn #{value.sort.join(", ")}" unless value.empty?
+            list << "#{item_color}#{heading}:%xn #{format_open_list(value)}" unless value.empty?
           elsif value.is_a? Hash
             sublist = []
             value.each_pair do |subkey, subvalue|
@@ -170,7 +170,7 @@ module AresMUSH
                 .join(" ")
               if subvalue.is_a? Array
                 display_subheading = subheading == "General" ? "General feat" : subheading
-                sublist << "#{item_color}#{display_subheading}:%xn #{subvalue.sort.join(", ")}"
+                sublist << "#{item_color}#{display_subheading}:%xn #{format_open_list(subvalue)}"
               elsif subvalue.is_a? Hash
                 subsublist = []
                 subvalue.each_pair do |subsubkey, subsubvalue|
@@ -204,6 +204,15 @@ module AresMUSH
         advance_help = t('pf2e.advance_help')
         advance_review_help = t('pf2e.advance_review_help')
         return "%xc#{advance_help}%xn%r%xc#{advance_review_help}%xn"
+      end
+
+      def format_open_list(value)
+        return value.sort.join(", ") if !value.is_a?(Array) || value.empty?
+
+        open_count = value.count { |item| item.to_s.downcase == 'open' }
+        return "#{open_count} open" if open_count == value.size
+
+        value.sort.join(", ")
       end
 
     end
