@@ -38,14 +38,19 @@ module AresMUSH
 
         to_assign = enactor.pf2_to_assign
 
+        charclass = enactor.pf2_base_info['charclass']
         type_option = to_assign[self.type]
 
         unless type_option
+          if self.type == charclass.downcase
+            client.emit_failure t('pf2e.adv_spell_wrong_type', :class => charclass)
+            return
+          end
+
           client.emit_failure t('pf2e.adv_not_an_option')
           return
         end
 
-        charclass = enactor.pf2_base_info['charclass']
         level = self.level.to_i.zero? ? 'cantrip' : self.level
 
         list = self.type == "spellbook" ? type_option : type_option[level]
