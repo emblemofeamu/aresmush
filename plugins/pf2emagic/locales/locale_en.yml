@@ -43,6 +43,9 @@ en:
 
     no_available_slots: "No available slots at specified level."
     no_focus_pool: "This character does not have focus spells."
+    focus_cantrip_wrong_cmd: "%{spell} is a focus cantrip, not a focus spell. Use '%xucast/focusc%xU' to cast the spell."
+    focus_cantrip_cast_cmd: "%{spell} is a focus cantrip. Use '%xucast/focusc%xU' to cast focus cantrips."
+    focus_spell_cast_cmd: "%{spell} is a focus spell. Use '%xucast/focus%xU' to cast focus spells."
     no_font_option: "You do not need to choose your divine font."
     no_prepared_spells: "You have no spells currently prepared for any class."
     no_prepared_spells_class: "You have no prepared spells in class %{cc}."

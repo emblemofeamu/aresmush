@@ -12,9 +12,16 @@ module AresMUSH
       return caster_stats if caster_stats.is_a? String
 
       # Do they have this spell in their list for that type?
-      splist = magic.focus_spells[focus_type]
+      splist = magic.focus_spells[focus_type] || []
+      cantrip_list = magic.focus_cantrips[focus_type] || []
 
       spname = splist.select { |sp| sp.downcase.match? spell.downcase }
+      cantrip_match = cantrip_list.select { |sp| sp.downcase.match? spell.downcase }
+
+      if spname.empty? && !cantrip_match.empty?
+        return t('pf2e.multiple_matches', :element => 'spell') if cantrip_match.size > 1
+        return t('pf2emagic.focus_cantrip_wrong_cmd', :spell => cantrip_match.first)
+      end
 
       return t('pf2emagic.no_match', :item => "spells") if spname.empty?
       return t('pf2e.multiple_matches', :element => 'spell') if spname.size > 1
@@ -162,7 +169,12 @@ module AresMUSH
                     !slots.nil? && is_signature_spell && splevel.to_i.between?(base, max_castable_level) && (slots > 0)
                   end
 
-      return t('pf2emagic.invalid_signature_level') unless available
+      unless available
+        focus_msg = focus_casting_mismatch_msg(char, charclass, spell)
+        return focus_msg if focus_msg
+
+        return t('pf2emagic.invalid_signature_level')
+      end
 
       # Do the cast and return a caster hash.
 
@@ -219,7 +231,12 @@ module AresMUSH
       return t('pf2emagic.no_available_slots') unless splist
 
       available = splist.include? spname
-      return t('pf2emagic.not_prepared_at_level') unless available
+      unless available
+        focus_msg = focus_casting_mismatch_msg(char, charclass, spell)
+        return focus_msg if focus_msg
+
+        return t('pf2emagic.not_prepared_at_level')
+      end
 
       # Unless it's a cantrip, deduct the spell from today's prepared list and return a caster hash.
 
@@ -294,7 +311,12 @@ module AresMUSH
                               end
 
       can_cast_at_level = known_at_level || valid_signature_level
-      return t('pf2emagic.not_in_list') unless can_cast_at_level
+      unless can_cast_at_level
+        focus_msg = focus_casting_mismatch_msg(char, charclass, spell)
+        return focus_msg if focus_msg
+
+        return t('pf2emagic.not_in_list')
+      end
       
       # Slots are not neccessary for cantrips.
       if splevel != 'cantrip'
@@ -424,6 +446,28 @@ module AresMUSH
       end
 
       msg
+    end
+
+    def self.focus_casting_mismatch_msg(char, charclass, spell)
+      magic = char.magic
+      focus_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+      return nil unless focus_type
+
+      focus_spells = magic.focus_spells[focus_type] || []
+      focus_cantrips = magic.focus_cantrips[focus_type] || []
+
+      spell_match = focus_spells.select { |sp| sp.downcase.match? spell.downcase }
+      cantrip_match = focus_cantrips.select { |sp| sp.downcase.match? spell.downcase }
+
+      return nil if spell_match.empty? && cantrip_match.empty?
+
+      if (spell_match.size + cantrip_match.size) > 1
+        return t('pf2e.multiple_matches', :element => 'spell')
+      end
+
+      return t('pf2emagic.focus_cantrip_cast_cmd', :spell => cantrip_match.first) unless cantrip_match.empty?
+
+      t('pf2emagic.focus_spell_cast_cmd', :spell => spell_match.first)
     end
 
     def self.get_caster_stats(char, charclass, is_focus=false)
