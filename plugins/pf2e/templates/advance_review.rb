@@ -169,7 +169,7 @@ module AresMUSH
                 .map {|word| word.capitalize}
                 .join(" ")
               if subvalue.is_a? Array
-                display_subheading = subheading == "General" ? "General feat" : subheading
+                display_subheading = subheading == "General" ? "General feat" : subheading == "Ancestry" ? "Ancestry feat" : subheading
                 sublist << "#{item_color}#{display_subheading}:%xn #{format_open_list(subvalue)}"
               elsif subvalue.is_a? Hash
                 subsublist = []
