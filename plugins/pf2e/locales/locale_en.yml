@@ -59,6 +59,7 @@ en:
     adv_wrong: "Something is wrong with your advancement setup. Open a request to code staff for assistance."
     adv_not_an_option: "You don't have that item to upgrade this level."
     adv_spell_wrong_type: "%{class} is your character class, not your caster type. Use '%xurepertoire%xU' or '%xuspellbook%xU' instead, depending on what caster type you are."
+    adv_no_spell_slots_level: "You don't have any open %{type} %{level} spell slots."
     adv_reset_ok: "You back out of advancement."
     admin_no_sheet: "That character is a game admin and does not have a sheet."
     alias_set_ok: "You set %{alias} to %{value}."

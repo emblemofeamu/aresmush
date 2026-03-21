@@ -55,6 +55,11 @@ module AresMUSH
 
         list = self.type == "spellbook" ? type_option : type_option[level]
 
+        unless list
+          client.emit_failure t('pf2e.adv_no_spell_slots_level', :type => self.type, :level => level_label(level))
+          return
+        end
+
         if self.type == "innate"
           unless list.is_a?(Array)
             client.emit_failure t('pf2emagic.innate_no_new_spells')
@@ -197,6 +202,20 @@ module AresMUSH
         return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
 
         to_add
+      end
+
+      def level_label(level)
+        return 'cantrip' if level.to_s.downcase == 'cantrip' || level.to_i.zero?
+
+        abs_level = level.to_i.abs
+        suffix = case abs_level % 10
+                 when 1 then 'st'
+                 when 2 then 'nd'
+                 when 3 then 'rd'
+                 else 'th'
+                 end
+
+        "#{abs_level}#{suffix}-level"
       end
 
       def update_innate_advancement(spell, list, type_option, level)
