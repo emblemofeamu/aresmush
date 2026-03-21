@@ -35,16 +35,29 @@ module AresMUSH
           return
         end
 
-        index = exists.index "open"
+        exists = Array(exists)
 
         advancement = enactor.pf2_advancement
 
         # Validate the value given.
         if self.type == 'ability'
           abilities = enactor.abilities
-          object = abilities.select { |a| a.name_upcase == self.value }.first
+          boosts_up = self.value.to_s.split(/\s+/).reject(&:empty?)
 
-          unless object
+          if boosts_up.size != 4
+            client.emit_failure t('pf2e.adv_ability_boost_count')
+            return
+          end
+
+          if boosts_up.uniq.size != boosts_up.size
+            client.emit_failure t('pf2e.adv_ability_boost_unique')
+            return
+          end
+
+          ability_map = abilities.map { |a| [a.name_upcase, a.name] }.to_h
+          ability_names = boosts_up.map { |boost| ability_map[boost] }
+
+          unless ability_names.all?
             client.emit_failure t('pf2e.bad_option',
             :element => 'ability',
             :options => abilities.map {|a| a.name}.join(", ")
@@ -53,24 +66,24 @@ module AresMUSH
           end
 
           # Do they have an open one to assign?
-          unless index
+          if exists.count("open") < 4
             client.emit_failure t('pf2e.no_free', :element => 'ability boosts')
             return
           end
 
-          ability = object.name
+          existing_selected = exists.reject { |value| value == "open" }
+          existing_up = existing_selected.map { |value| value.to_s.upcase }
 
-          # Did they already pick that one?
-          if exists.include? ability
-            client.emit_failure t('pf2e.boost_not_unique', :type => 'ability')
+          if (existing_up & boosts_up).any?
+            client.emit_failure t('pf2e.adv_ability_boost_unique')
             return
           end
 
-          exists.delete_at index
-          exists << ability
+          exists = (existing_selected + ability_names).sort
+          item = ability_names.join(", ")
 
-          to_assign[key] = exists.sort
-          advancement[key] = exists.sort
+          to_assign[key] = exists
+          advancement[key] = exists
 
         elsif self.type == 'skill'
           skill_list = Global.read_config('pf2e_skills').keys
