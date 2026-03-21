@@ -150,6 +150,17 @@ module AresMUSH
           if value.is_a? Array
             list << "#{item_color}#{heading}:%xn #{format_open_list(value)}" unless value.empty?
           elsif value.is_a? Hash
+            if key == "class option" || key == "charclass option"
+              list << "#{item_color}Class Feature Option:%xn"
+
+              value.each_pair do |subkey, subvalue|
+                option_list = subvalue.is_a?(Hash) ? subvalue.keys : Array(subvalue)
+                list << "%b%b#{item_color}#{subkey}:%xn #{option_list.sort.join(", ")}" unless option_list.empty?
+              end
+
+              next
+            end
+
             sublist = []
             value.each_pair do |subkey, subvalue|
               subheading = subkey.to_s

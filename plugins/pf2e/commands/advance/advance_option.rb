@@ -30,6 +30,7 @@ module AresMUSH
       def handle
         to_assign = enactor.pf2_to_assign || {}
         advancement = enactor.pf2_advancement || {}
+        selected_option = nil
 
 
         case self.type
@@ -38,7 +39,7 @@ module AresMUSH
           # Expect self.option to be the name of the class option, should be in advance/review
           # self.value will be an option.
 
-          feature_list = to_assign['charclass']
+          feature_list = to_assign['class option'] || to_assign['charclass'] || to_assign['charclass option']
 
           unless feature_list
             client.emit_failure t('pf2e.adv_not_an_option')
@@ -54,20 +55,28 @@ module AresMUSH
           end
 
           options = feature_list[feature]
+          option_list = options.is_a?(Hash) ? options.keys : Array(options)
+          matched_option = option_list.find { |opt| opt.to_s.casecmp?(self.value) }
 
-          is_valid = Pf2e.valid_class_option?(enactor, feature, self.value)
-
-          unless is_valid
-            client.emit_failure t('pf2e.bad_option', :element => feature, :options => options.join(", "))
+          unless matched_option
+            client.emit_failure t('pf2e.bad_option', :element => feature, :options => option_list.join(", "))
             return
           end
 
-          options = self.value
+          is_valid = Pf2e.valid_class_option?(enactor, feature, matched_option)
+
+          unless is_valid
+            client.emit_failure t('pf2e.bad_option', :element => feature, :options => option_list.join(", "))
+            return
+          end
+
+          options = matched_option
+          selected_option = matched_option
 
           feature_list[feature] = options
-          to_assign['charclass option'] = feature_list
+          to_assign['class option'] = feature_list
 
-          advancement['charclass option'] = feature_list
+          advancement['charclass_feature option'] = feature_list
         when "skillful lesson"
           # This is just a gated feat with the gate "Skillful Lesson". Make sure they have this.
 
@@ -98,7 +107,8 @@ module AresMUSH
         enactor.update(pf2_to_assign: to_assign)
         enactor.update(pf2_advancement: advancement)
 
-        client.emit_success t('pf2e.adv_option_selected', :option => self.value, :feature => feature)
+        display_option = selected_option || self.value
+        client.emit_success t('pf2e.adv_option_selected', :option => display_option, :feature => feature)
 
       end
     end

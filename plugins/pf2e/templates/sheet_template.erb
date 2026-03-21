@@ -41,6 +41,9 @@
 <%= "#{item_color}Senses and Special Abilities%xn: #{specials}" %>
 <%= section_line("Proficiencies") %>
 <%= "#{item_color}Weapons%xn: #{weapon_prof}" %>
+<% if weapon_group_prof != "None" %>
+<%= "#{item_color}Weapon Groups%xn: #{weapon_group_prof}" %>
+<% end %>
 <%= "#{item_color}Armor%xn: #{armor_prof}" %>
 <%= "%rFull calculations for weapons and armor are shown in %x172csheet%xn." %>
 <%= section_line("Saves and Resistances") %>

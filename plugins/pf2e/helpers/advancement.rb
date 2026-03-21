@@ -70,12 +70,31 @@ module AresMUSH
           end
         when "choose"
           name = value['choice_name']
+          options = Array(value['options'])
           to_choose = to_assign['class option'] || {}
-          to_choose[name] = value['options']
+          to_choose[name] = options
 
-          return_msg << t('pf2e.adv_item_choose', :name => name, :options =>  options.sort.join(", "))
+          return_msg << t('pf2e.adv_item_choose', :name => name, :options => options.sort.join(", "))
 
           to_assign['class option'] = to_choose
+        when "charclass_feature"
+          if value.is_a?(Hash) && value['choose']
+            choose_info = value['choose']
+            name = choose_info['choice_name']
+            options = Array(choose_info['options'])
+
+            to_choose = to_assign['class option'] || {}
+            to_choose[name] = options
+            to_assign['class option'] = to_choose
+
+            return_msg << t('pf2e.adv_item_choose', :name => name, :options => options.sort.join(", "))
+
+            remaining = value.dup
+            remaining.delete('choose')
+            advancement[key] = remaining unless remaining.empty?
+          else
+            advancement[key] = value
+          end
         else
           advancement[key] = value
         end
@@ -182,6 +201,12 @@ module AresMUSH
           char.pf2_feats = char_feats
         when "charclass_feature option"
           value.each_pair do |feature, option|
+            features = char.pf2_features
+            features['charclass_features'] ||= []
+            feature_label = "#{feature} (#{option})"
+            features['charclass_features'] << feature_label unless features['charclass_features'].include?(feature_label)
+            char.pf2_features = features
+
             case feature
             when "Path to Perfection"
               combat = char.combat
@@ -195,6 +220,33 @@ module AresMUSH
               saves['Path to Perfection'] = path
 
               combat.update(saves: saves)
+            when "Weapon Mastery"
+              combat = Pf2eCombat.get_create_combat_obj(char)
+              group_profs = combat.weapon_group_prof || {}
+              group_profs[option] = {
+                'simple' => 'master',
+                'martial' => 'master',
+                'unarmed' => 'master',
+                'advanced' => 'expert'
+              }
+              combat.update(weapon_group_prof: group_profs)
+            when "Weapon Legend"
+              combat = Pf2eCombat.get_create_combat_obj(char)
+              profs = combat.weapon_prof || {}
+              profs['simple'] = Pf2e.higher_prof(profs['simple'], 'master')
+              profs['martial'] = Pf2e.higher_prof(profs['martial'], 'master')
+              profs['unarmed'] = Pf2e.higher_prof(profs['unarmed'], 'master')
+              profs['advanced'] = Pf2e.higher_prof(profs['advanced'], 'expert')
+              combat.update(weapon_prof: profs)
+
+              group_profs = combat.weapon_group_prof || {}
+              group_profs[option] = {
+                'simple' => 'legendary',
+                'martial' => 'legendary',
+                'unarmed' => 'legendary',
+                'advanced' => 'master'
+              }
+              combat.update(weapon_group_prof: group_profs)
             else
               client.emit_ooc t('pf2e.missing_charclass_option_code', :feature => feature)
               next
@@ -308,6 +360,14 @@ module AresMUSH
           info.each_pair do |k,v|
             msg << t('pf2e.adv_item_feat', :value => k.gsub("charclass", "class")) if v.include? "open"
           end
+        when "class option", "charclass option"
+          if info.is_a?(Hash)
+            info.each_pair do |feature, options|
+              next unless options.is_a?(Array) || options.is_a?(Hash)
+
+              msg << t('pf2e.adv_item_class_option_select', :name => feature, :name_downcase => feature.to_s.downcase)
+            end
+          end
         when "raise skill", "raise ability"
           type = item.delete_prefix "raise "
 
@@ -319,7 +379,11 @@ module AresMUSH
           end
 
           if has_open
-            msg << t('pf2e.adv_item_raise', :item => type)
+            if type == "ability"
+              msg << t('pf2e.adv_item_raise_ability')
+            else
+              msg << t('pf2e.adv_item_raise', :item => type)
+            end
           end
         when "raise skill choice"
           needs_choice = if info.is_a?(Array)
@@ -437,7 +501,7 @@ module AresMUSH
     end
 
     def self.valid_class_option?(char, feature, option)
-      passes_check = false
+      passes_check = true
 
       case feature
       when "Path to Perfection"

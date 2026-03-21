@@ -39,8 +39,8 @@ Most levels have you selecting some type of feat. Some class features gained in 
 
 **Commands**:
 `advance/feat <type> = <feat name>`: Select a feat (by its `<feat name>`) that is the specified `<type>`. Dedication feats are selected with class (charclass) feats. `<type>` options: `general`, `skill`, `charclass`, or `ancestry`. Dedication and Archetype feats are `charclass` feats.
-`advance/feat special/<type> = <option>`: Some feats, such as Ancestral Paragon, require that an option is selected with this command in `advance/review`. `<type>` is the name of the feat, and `option` is your choice. For example, `advance/feat special/ancestral paragon=Unwavering Mien` would satisfy Ancestral Paragon if the player character is a sildanyar or silyara.
-`advance/option <item> = <option>`: Some feats or class features require you to choose something else. Use this command to select those.
+`advance/feat special/<type> = <option>`: Some feats, such as Ancestral Paragon, require that an option is selected with this command in `advance/review`. `<type>` is the name of the feat, and `<option>` is your choice. For example, `advance/feat special/ancestral paragon=Unwavering Mien` would satisfy Ancestral Paragon if the player character is a sildanyar or silyara.
+`advance/option charclass/<feature> = <option>`: Some class features require that an option selected with this command in `advance/review`. `<feature>` is the name of the class feature, and `<option>` is the option you'd like to choose. For example, `advance/option charclass/weapon mastery=sword` would satisfy the Weapon Mastery class feature for fighters.
 
 ## Learning Spells
 Repertoire spellcasters learn a handful of spells through advancement and can replace old spells with new ones. Some repertoire spellcasters also gain access to signature spells and can set the spells they know in their repertoire as signature spells.

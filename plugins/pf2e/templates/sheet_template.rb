@@ -349,6 +349,28 @@ module AresMUSH
         list.join(", ")
       end
 
+      def weapon_group_prof
+        return "None" if !combat_stats
+
+        group_profs = combat_stats.weapon_group_prof || {}
+        return "None" if group_profs.empty?
+
+        group_profs.keys.sort.map do |group|
+          profs = group_profs[group] || {}
+          simple = profs['simple'] || profs[:simple]
+          martial = profs['martial'] || profs[:martial]
+          unarmed = profs['unarmed'] || profs[:unarmed]
+          advanced = profs['advanced'] || profs[:advanced]
+
+          simple_label = simple ? simple.to_s[0].upcase : "-"
+          martial_label = martial ? martial.to_s[0].upcase : "-"
+          unarmed_label = unarmed ? unarmed.to_s[0].upcase : "-"
+          advanced_label = advanced ? advanced.to_s[0].upcase : "-"
+
+          "%xh#{group}%xn (%xhSimple%xn: #{simple_label}, %xhMartial%xn: #{martial_label}, %xhUnarmed%xn: #{unarmed_label}, %xhAdvanced%xn: #{advanced_label})"
+        end.join(", ")
+      end
+
       def magic_stats
         @char.magic
       end

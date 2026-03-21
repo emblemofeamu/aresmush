@@ -12,6 +12,7 @@ module AresMUSH
     attribute :armor_prof, :type => DataType::Hash, :default => {}
 
     attribute :weapon_prof, :type => DataType::Hash, :default => {}
+    attribute :weapon_group_prof, :type => DataType::Hash, :default => {}
 
     attribute :unarmed_attacks, :type => DataType::Hash, :default => {}
     attribute :defense, :type => DataType::Hash, :default => {}
@@ -213,9 +214,11 @@ module AresMUSH
       combat = char.combat
 
       char_wp_prof = combat.weapon_prof ? combat.weapon_prof : {}
+      group_profs = combat.weapon_group_prof ? combat.weapon_group_prof : {}
 
       wp_info = Global.read_config('pf2e_weapons', name)
       wp_cat = wp_info['category']
+      wp_group = wp_info['group']
 
       prof_list = [ 'untrained' ]
 
@@ -258,6 +261,13 @@ module AresMUSH
         if deity_weapon && name.to_s.downcase == deity_weapon.to_s.downcase
           prof_list << char_wp_prof['deity']
         end
+      end
+
+      # Does character get a proficiency in that particular weapon from a weapon group choice?
+      if wp_group && group_profs[wp_group]
+        group_prof = group_profs[wp_group]
+        group_value = group_prof[wp_cat] || group_prof[wp_cat.to_s]
+        prof_list << group_value if group_value
       end
 
       prof_list = prof_list.compact
@@ -355,6 +365,7 @@ module AresMUSH
 
       combat.armor_prof = {}
       combat.weapon_prof = {}
+      combat.weapon_group_prof = {}
       combat.unarmed_attacks = {}
 
       combat.save

@@ -675,15 +675,16 @@ pf2e_class:
           - skill
         choose_feat:
           - general
-        choose:
-          choice_name: "Divine Ally"
-          choice_description: "Choose a divine ally."
-          choice_type: ability
-          options:
-            Blade Ally: {}
-            Shield Ally: {}
-            Steed Ally:
-              companion: mount
+        charclass_feature:
+          choose:
+            choice_name: Divine Ally
+            choice_description: "Choose a divine ally."
+            choice_type: ability
+            options:
+              Blade Ally: {}
+              Shield Ally: {}
+              Steed Ally:
+                companion: mount
       4:
         choose_feat:
           - charclass
@@ -1408,20 +1409,21 @@ pf2e_class:
             martial: master
             advanced: expert
             unarmed: master
-        choose:
-          choice_name: Weapon Legend
-          choice_description: "Choose a weapon group for your weapon legend feat."
-          choice_type: charclass_option
-          options:
-          - Club
-          - Knife
-          - Brawling
-          - Spear
-          - Sword
-          - Axe
-          - Flail
-          - Polearm
-          - Hammer
+        charclass_feature:
+          choose:
+            choice_name: Weapon Legend
+            choice_description: "Choose a weapon group for your weapon legend feat."
+            choice_type: charclass_option
+            options:
+            - Club
+            - Knife
+            - Brawling
+            - Spear
+            - Sword
+            - Axe
+            - Flail
+            - Polearm
+            - Hammer
       14:
         choose_feat:
           - charclass
@@ -1752,13 +1754,14 @@ pf2e_class:
           - general
         raise:
           - skill
-        choose:
-          choice_name: Path to Perfection
-          choice_description: "Choose your save for Path to Perfection."
-          options:
-            - Fortitude
-            - Reflex
-            - Will
+        charclass_feature:
+          choose:
+            choice_name: Path to Perfection
+            choice_description: "Choose your save for Path to Perfection."
+            options:
+              - Fortitude
+              - Reflex
+              - Will
         charclass_feature:
           - Weapon Specialization
           - 'Incredible Movement +15'
@@ -1787,13 +1790,14 @@ pf2e_class:
           - general
         raise:
           - skill
-        choose:
-          choice_name: Second Path to Perfection
-          choice_description: "Choose your second save for Path to Perfection."
-          options:
-          - Fortitude
-          - Reflex
-          - Will
+        charclass_feature:
+          choose:
+            choice_name: Second Path to Perfection
+            choice_description: "Choose your second save for Path to Perfection."
+            options:
+              - Fortitude
+              - Reflex
+              - Will
         charclass_feature:
           - 'Incredible Movement +20'
       12:
@@ -1827,13 +1831,14 @@ pf2e_class:
         charclass_feature:
           - Greater Weapon Specialization
           - 'Incredible Movement +25'
-        choose:
-          choice_name: Third Path to Perfection
-          choice_description: "Choose your save for Third Path to Perfection."
-          options: 
-            - Fortitude
-            - Reflex
-            - Will
+        charclass_feature:
+          choose:
+            choice_name: Third Path to Perfection
+            choice_description: "Choose your save for Third Path to Perfection."
+            options: 
+              - Fortitude
+              - Reflex
+              - Will
       16:
         choose_feat:
           - charclass
