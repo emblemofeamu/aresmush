@@ -3,298 +3,94 @@ pf2e_archetype_specialty:
   Alchemist Archetype: {}
   Barbarian Archetype:
     Animal:
+      initial_dedication: []
+      anathema:
+        - "Flagrantly disrespect your animal instinct type."
+        - "Use weapons while raging."
       choose:
-        choice_name: Spirit Animal
+        choice_name: Animal Instinct
         choice_description: "Choose the animal this character strives to emulate."
         choice_type: archetype_subclass_info
         options:
           Ape:
-            attack:
-              Ape Fist:
-                damage: d10
-                damage_type: B
-                traits:
-                  - grapple
-                  - unarmed
+            initial_dedication: []
           Bear:
-            attack:
-              Bear Jaws:
-                damage: d10
-                damage_type: P
-                traits:
-                  - unarmed
-              Bear Claws:
-                damage: d6
-                damage_type: S
-                traits:
-                  - agile
-                  - unarmed
+            initial_dedication: []
           Bull:
-            attack:
-              Bull Horn:
-                damage: d10
-                damage_type: P
-                traits:
-                  - shove
-                  - unarmed
+            initial_dedication: []
           Cat:
-            attack:
-              Cat Jaws:
-                damage: d10
-                damage_type: P
-                traits:
-                  - unarmed
-              Cat Claws:
-                damage: d6
-                damage_type: S
-                traits:
-                  - agile
-                  - unarmed
+            initial_dedication: []
           Deer:
-            attack:
-              Deer Antler:
-                damage: d8
-                damage_type: P
-                traits:
-                  - charge
-                  - unarmed
+            initial_dedication: []
           Frog:
-            attack:
-              Frog Jaws:
-                damage: d10
-                damage_type: B
-                traits:
-                  - unarmed
-              Frog Tongue:
-                damage: d4
-                damage_type: B
-                traits:
-                  - agile
-                  - unarmed
+            initial_dedication: []
           Shark:
-            attack:
-              Shark Jaws:
-                damage: d10
-                damage_type: P
-                traits:
-                  - grapple
-                  - unarmed
+            initial_dedication: []
           Snake:
-            attack:
-              Snake Fangs:
-                damage: d10
-                damage_type: P
-                traits:
-                  - grapple
-                  - unarmed
+            initial_dedication: []
           Wolf:
-            attack:
-              Wolf Jaws:
-                damage: d10
-                damage_type: P
-                traits:
-                  - trip
-                  - unarmed
-      instinct_ability: Bestial Rage
-      rage_ability:
-        Ape:
-          attack:
-            Ape Fist:
-              damage: d12
-              damage_type: B
-              traits:
-                - grapple
-                - unarmed
-        Bear:
-          attack:
-            Bear Jaws:
-              damage: d12
-              damage_type: P
-              traits:
-                - unarmed
-            Bear Claws:
-              damage: d8
-              damage_type: S
-              traits:
-                - agile
-                - unarmed
-        Bull:
-          attack:
-            Bull Horn:
-              damage: d12
-              damage_type: P
-              traits:
-                - shove
-                - unarmed
-        Cat:
-          attack:
-            Cat Jaws:
-              damage: d12
-              damage_type: P
-              traits:
-                - unarmed
-            Cat Claws:
-              damage: d8
-              damage_type: S
-              traits:
-                - agile
-                - unarmed
-        Deer:
-          attack:
-            Deer Antler:
-              damage: d10
-              damage_type: P
-              traits:
-                - charge
-                - unarmed
-              reach: 10
-        Frog:
-          attack:
-            Frog Jaws:
-              damage: d12
-              damage_type: B
-              traits:
-                - unarmed
-            Frog Tongue:
-              damage: d6
-              damage_type: B
-              traits:
-                - agile
-                - unarmed
-              reach: 10
-        Shark:
-          attack:
-            Shark Jaws:
-              damage: d12
-              damage_type: P
-              traits:
-                - grapple
-                - unarmed
-        Snake:
-          attack:
-            Snake Fangs:
-              damage: d12
-              damage_type: P
-              traits:
-                - grapple
-                - unarmed
-        Wolf:
-          attack:
-            Wolf Jaws:
-              damage: d12
-              damage_type: P
-              traits:
-                - trip
-                - unarmed
-      rage_resistance:
-        damage_type: ["S", "P"]
+            initial_dedication: []
     Dragon:
-      initial_dedication:
-        action: []
-        reaction: []
-        skills: []
-        feat: []
-        magic_stats: {}
+      initial_dedication: []
+      anathema:
+        - "Let a personal insult against you slide."
+        - "If you respect your dragon instinct's dragon type, defy its orders."
+        - "If you abhor your dragon instinct's dragon type, fail to defeat it."
       choose:
         choice_name: "Dragon Instinct"
         choice_description: "The type of dragon this instinct is derived from."
         choice_type: archetype_subclass_info
         options:
           Avarice:
+            initial_dedication: []
           Bestial:
+            initial_dedication: []
           Brine:
+            initial_dedication: []
           Cloud:
+            initial_dedication: []
           Crystal:
+            initial_dedication: []
           Diabolic:
+            initial_dedication: []
           Empyreal:
+            initial_dedication: []
           Forest:
+            initial_dedication: []
           Fortune:
+            initial_dedication: []
           Madness:
+            initial_dedication: []
           Magma:
+            initial_dedication: []
           Mirage:
+            initial_dedication: []
           Ossuary:
+            initial_dedication: []
           Terra:
+            initial_dedication: []
           Umbral:
-      instinct_ability: Draconic Rage
-      rage_resistance:
-        damage_type: [ "P" ]
+            initial_dedication: []
     Fury:
-      choose_feat:
-        - charclass
-      rage_ability: Fury Rage
-      rage_resistance: Fury Resistance
+      anathema: []
+      initial_dedication: []
     Giant:
       anathema:
         - "Fail to face a personal challenge of strength."
-      instinct_ability: Titan Mauler
-      rage_resistance:
-        damage_type: ["B"]
-      choose:
-        choice_name: Rage Resistance Element
-        choice_description: Choose the element to which your rage resistance applies.
-        options:
-          Cold:
-            defense:
-              resistance:
-                cold: 1
-          Electricity:
-            defense:
-              resistance:
-                electricity: 1
-          Fire:
-            defense:
-              resistance:
-                fire: 1
+      initial_dedication: []
     Spirit:
-      instinct_ability: Spirit Rage
-      rage_resistance:
-        damage_type: negative
-        damage_from: undead
+      anathema:
+        - "Disrespect corpses or spirits."
+      initial_dedication: []
   Bard Archetype:
     Enigma:
-      initial_dedication:
-        action: []
-        reaction: []
-        skills: []
-        feat:
-          - Bardic Lore
-        magic_stats:
-          addrepertoire:
-            1: 
-              - True Strike
+      initial_dedication: []
     Maestro:
-      initial_dedication:
-        action: []
-        reaction: []
-        skills: []
-        feat:
-          - Lingering Composition
-        magic_stats:
-          addrepertoire:
-            1: 
-              - Soothe
-    Polymath:
-      initial_dedication:
-        action: []
-        reaction: []
-        skills: []
-        feat:
-          - Versatile Performance
-        magic_stats:
-          addrepertoire:
-            1:
-              - Unseen Servant
-    Warrior:
-      initial_dedication:
-        action: []
-        reaction: []
-        skills: []
-        feat:
-          - Martial Performance
-        magic_stats:
-          addrepertoire:
-            1: 
-              - Fear
+      initial_dedication: []
+    Polymath: 
+      initial_dedication: []
+    Warrior: 
+      initial_dedication: []
   Champion Archetype:
     Paladin:
       allowed_alignments:
@@ -305,17 +101,7 @@ pf2e_archetype_specialty:
         - "Lie, cheat, or take advantage of others."
       edicts:
         - "Respect the authority of legitimate leadership wherever they go, and obey its laws."
-      initial_dedication:
-        action: []
-        reaction:
-        - Retributive Strike
-        feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
-        skills: []
+      initial_dedication: []
     Redeemer:
       allowed_alignments:
         - NG
@@ -325,17 +111,7 @@ pf2e_archetype_specialty:
       anathema:
         - "Willingly commit an evil act."
         - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
-      initial_dedication:
-        action: []
-        reaction:
-          - Glimpse of Redemption
-        feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
-        skills: []
+      initial_dedication: []
     Liberator:
       allowed_alignments:
         - CG
@@ -347,17 +123,7 @@ pf2e_archetype_specialty:
         - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
         - "Force someone to act in a particular way or threaten them if they refuse."
         - "Accept or countenance slavery or tyranny."
-      initial_dedication:
-        action: []
-        reaction:
-          - Liberating Step
-        feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
-        skills: []
+      initial_dedication: []
   Cleric Archetype: {}
   Druid Archetype:
     Animal:
@@ -378,50 +144,22 @@ pf2e_archetype_specialty:
         companion: any
     Leaf:
       initial_dedication:
-        action: []
-        reaction: []
         skills:
           - Diplomacy
-        feat:
-          - Leshy Familiar
-        magic_stats:
-          focus_spell:
-            order:
-              - Goodberry
-          focus_pool: 1
         anathema:
           - "Kill a plant needlessly or commit wanton cruelty to one."
-        familiar: Leshy
     Storm:
       initial_dedication:
-        action: []
-        reaction: []
         skills:
           - Acrobatics
-        feat:
-          - Storm Born
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            order:
-              - Tempest Surge
         edicts:
           - "Punish those who cause major air pollution or climate shifts."
         anathema:
           - "Pollute the air."
     Wild:
       initial_dedication:
-        action: []
-        reaction: []
         skills:
           - Intimidation
-        feat:
-          - Wild Shape
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            order:
-              - Wild Morph
         anathema:
           - "Become reliant on the temptations of civilization."
   Fighter Archetype: {}
@@ -430,265 +168,44 @@ pf2e_archetype_specialty:
   Oracle Archetype:
     Ancestors:
       initial_dedication:
-        gated_feat: ancestry
         skills:
-        - Society
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Guidance
-          focus_spell:
-            revelation:
-            - Ancestral Touch
-      choose:
-        choice_name: Associated Oracle Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Death:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - "Death's Call"
-          Family:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Soothing Words
+          - Society
         curse: Ancestral Meddling
-        action: []
-        reaction: []
-        feat: []
     Battle:
       initial_dedication:
         skills:
-        - Athletics
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Shield
-          focus_spell:
-            revelation:
-            - Call to Arms
+          - Athletics
         curse: Hero's Burden
-        action: []
-        reaction: []
-        feat: []
-        combat_stats:
-          armor_prof:
-            medium: trained
-            heavy: trained
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Might:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Athletic Rush
-          Zeal:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:  
-                  revelation:
-                  - Weapon Surge
     Bones:
       initial_dedication:
         skills:
-        - Medicine
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Chill Touch
-          focus_spell:
-            revelation:
-            - Soul Siphon
+          - Medicine
         curse: Living Death
-        action: []
-        reaction: []
-        feat: []
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Death:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - "Death's Call"
-          Undeath:
-          initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Touch of Undeath
     Cosmos:
       initial_dedication:
         skills:
-        - Nature
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Dancing Lights
-          focus_spell:
-            revelation:
-            - Spray of Stars
+          - Nature
         curse: Sky's Call
-        action: []
-        reaction: []
-        feat: [] 
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Darkness:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Cloak of Shadow
-          Moon:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Moonbeam
     Flames:
       initial_dedication:
         skills:
-        - Acrobatics
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Produce Flame
-          focus_spell:
-            revelation:
-            - Incendiary Aura
+          - Acrobatics
         curse: Engulfing Flames
-        action: []
-        reaction: []
-        feat: []
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Fire:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Fire Ray
-          Sun:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Dazzling Flash
     Life:
       initial_dedication:
         skills:
-        - Medicine
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Stabilize
-          focus_spell:
-            revelation:
-              - Life Link
+          - Medicine
         curse: Outpouring Life
-        action: []
-        reaction: []
-        feat: []
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Death:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - "Death's Call"
-          Healing:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - "Healer's Blessing"
     Lore:
       initial_dedication:
         skills:
-        - Occultism
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Read Aura
-          focus_spell:
-            revelation:
-            - Brain Drain
+          - Occultism
         curse: Torrential Knowledge
-        action: []
-        reaction: []
-        feat: []
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Knowledge:
-          initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Scholarly Recollection
-          Truth:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Word of Truth
     Tempest:
       initial_dedication:
         skills:
-        - Nature
-        magic_stats:
-          addrepertoire:
-            cantrip:
-            - Electric Arc
-          focus_spell:
-            revelation:
-            - Tempest Touch
-          curse: Perpetual Storm
-        action: []
-        reaction: []
-        feat: []
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Air:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Pushing Gust
-          Water:
-            initial_dedication:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                  - Tidal Surge
+          - Nature
+        curse: Perpetual Storm
   Ranger Archetype: {}
   Rogue Archetype: {}
   Sorcerer Archetype:
@@ -697,341 +214,162 @@ pf2e_archetype_specialty:
         magic_stats:
           tradition:
             occult: trained
-          addrepertoire:
-            cantrip: 
-            - Daze
-            1: 
-            - Spider Sting
-          focus_spell:
-            bloodline:
-            - Tentacular Limbs
         skills:
-        - Intimidation
-        - Occultism
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Touch of Idiocy
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Vampiric Touch
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Confusion
-            tradition:
-              occult: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Black Tentacles
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Feeblemind
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Warp Mind
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Uncontrollable Dance
-            tradition:
-              occult: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Unfathomable Song
-        19:
-          magic_stats:
-            tradition:
-              occult: legendary
+          - Intimidation
+          - Occultism
     Angelic:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
-          addrepertoire:
-            cantrip:
-            - Light
-            1:
-            - Heal
-          focus_spell:
-            bloodline:
-            - Angelic Halo
         skills:
-        - Diplomacy
-        - Religion
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Spiritual Weapon
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Searing Light
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Divine Wrath
-            tradition:
-              divine: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Flame Strike
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Blade Barrier
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Divine Decree
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Divine Aura
-            tradition:
-              divine: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Foresight
-        19:
-          magic_stats:
-            tradition:
-              divine: legendary
+          - Diplomacy
+          - Religion
     Demonic:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
-          addrepertoire:
-            cantrip:
-            - Acid Splash
-            1:
-            - Fear
-          focus_spell:
-            bloodline:
-            - Glutton's Law
         skills:
-        - Intimidation
-        - Religion
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Enlarge
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Slow
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Divine Wrath
-            tradition:
-              divine: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Abyssal Plague
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Disintegrate
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Divine Decree
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Divine Aura
-            tradition:
-              divine: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Implosion
-        19:
-          magic_stats:
-            tradition:
-              divine: legendary
+          - Intimidation
+          - Religion
     Diabolic:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
-          addrepertoire:
-            cantrip:
-            - Produce Flame
-            1:
-            - Charm
-          focus_spell:
-            bloodline:
-            - Diabolic Edict
         skills:
-        - Deception
-        - Religion
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Flaming Sphere
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Enthrall
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Suggestion
-            tradition:
-              divine: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Crushing Despair
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - True Seeing
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Divine Decree
-        15:
-          magic_stats:
-            addrepertoire:
-              8: 
-              - Divine Aura
-            tradition:
-              divine: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Meteor Swarm
-        19:
-          magic_stats:
-            tradition:
-              divine: legendary
+          - Deception
+          - Religion
     Draconic:
       choose:
         choice_name: Dragon Exemplar
         choice_description: Choose the dragon type to which you are linked.
         options:
           Avarice:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+                - Intimidation
+                - Occultism
           Bestial:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
           Brine:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
           Cloud:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
           Crystal:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
           Diabolic:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+                - Intimidation
+                - Religion
           Empyreal:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+                - Intimidation
+                - Religion
           Forest:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
           Fortune:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  arcane: trained
+              skills:
+                - Intimidation
+                - Arcana
           Madness:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+                - Intimidation
+                - Occultism
           Magma:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+              - Intimidation
+              - Nature
           Mirage:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  arcane: trained
+              skills:
+                - Intimidation
+                - Arcana
           Ossuary:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+                - Intimidation
+                - Religion
           Terra:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
           Umbral:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+                - Intimidation
+                - Occultism
       initial_dedication:
         magic_stats:
           tradition: []
-          addrepertoire:
-            cantrip:
-            - Shield
-            1:
-            - True Strike
-          focus_spell:
-            bloodline:
-            - Flurry of Claws
         skills: []
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Fear
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Haste
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Fly
-            tradition:
-              arcane: expert
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Dragon Form
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Mask of Terror
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Overwhelming Presence
     Elemental:
       choose:
         choice_name: Elemental Affinity
@@ -1045,541 +383,98 @@ pf2e_archetype_specialty:
         magic_stats:
           tradition:
             primal: trained
-          addrepertoire:
-            cantrip:
-            - Produce Flame
-            1:
-            - Burning Hands
-          focus_spell:
-            bloodline:
-            - Elemental Toss
         skills:
-        - Nature
-        - Intimidation
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Resist Energy
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Fireball
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Freedom of Movement
-            tradition:
-              primal: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Elemental Form
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Repulsion
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Energy Aegis
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Prismatic Wall
-            tradition:
-              primal: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Storm of Vengeance
-        19:
-          magic_stats:
-            tradition:
-              primal: legendary
+          - Nature
+          - Intimidation
     Fey:
       initial_dedication:
         magic_stats:
           tradition:
             primal: trained
-          addrepertoire:
-            cantrip:
-            - Ghost Sound
-            1:
-            - Charm
-          focus_spell:
-            bloodline:
-            - Faerie Dust
         skills:
-        - Nature
-        - Deception
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Hideous Laughter
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Enthrall
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Suggestion
-            tradition:
-              primal: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Cloak of Colors
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Mislead
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Visions of Danger
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Uncontrollable Dance
-            tradition:
-              primal: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Resplendent Mansion
-        19:
-          magic_stats:
-            tradition:
-              primal: legendary
+          - Nature
+          - Deception
     Hag:
       initial_dedication:
         magic_stats:
           tradition:
             occult: trained
-          addrepertoire:
-            cantrip:
-            - Daze
-            1:
-            - Illusory Disguise
-          focus_spell:
-            bloodline:
-            - Jealous Hex
         skills:
-        - Occultism
-        - Deception
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Touch of Idiocy
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Blindness
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Outcast's Curse
-            tradition:
-              occult: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Mariner's Curse
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Baleful Polymorph
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Warp Mind
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Spiritual Epidemic
-            tradition:
-              occult: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Nature's Enmity
-        19:
-          magic_stats:
-            tradition:
-              occult: legendary
+          - Occultism
+          - Deception
     Imperial:
       initial_dedication:
         magic_stats:
           tradition:
             arcane: trained
-          addrepertoire:
-            cantrip:
-            - Detect Magic
-            1:
-            - Magic Missile
-          focus_spell:
-            bloodline:
-            - Ancestral Memories
         skills:
-        - Arcana
-        - Society
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-              - Dispel Magic
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-              - Haste
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-              - Dimension Door
-            tradition:
-              arcane: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-              - Prying Eye
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-              - Disintegrate
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-              - Prismatic Spray
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-              - Maze
-            tradition:
-              arcane: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-              - Prismatic Sphere
-        19:
-          magic_stats:
-            tradition:
-              arcane: legendary
+          - Arcana
+          - Society
+    Undead:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Religion
+          - Intimidation
   Witch Archetype:
     Curse:
       initial_dedication:
         skills:
-        - Occultism
-        action: []
-        reaction: []
-        feat: []
+          - Occultism
         magic_stats:
           tradition:
             occult: trained
-          focus_cantrip:
-            hex:
-            - Evil Eye
-          addspellbook:
-            1: 
-            - Ray of Enfeeblement
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              occult: expert
-        15:
-          magic_stats:
-            tradition:
-              occult: master
-        19:
-          magic_stats:
-            tradition:
-              occult: legendary
     Fate:
       initial_dedication:
         skills:
-        - Occultism
-        action: []
-        reaction: []
-        feat: []
+          - Occultism
         magic_stats:
           tradition:
             occult: trained
-          focus_cantrip:
-            hex:
-            - Nudge Fate
-          addspellbook:
-            1: 
-            - True Strike
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              occult: expert
-        15:
-          magic_stats:
-            tradition:
-              occult: master
-        19:
-          magic_stats:
-            tradition:
-              occult: legendary
     Fervor:
       initial_dedication:
         skills:
-        - Religion
-        action: []
-        reaction: []
-        feat: []
+          - Religion
         magic_stats:
           tradition:
             divine: trained
-          focus_cantrip:
-            hex:
-            - Stoke the Heart
-          addspellbook:
-            1: 
-            - Command
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              divine: expert
-        15:
-          magic_stats:
-            tradition:
-              divine: master
-        19:
-          magic_stats:
-            tradition:
-              divine: legendary
     Night:
       initial_dedication:
         skills:
-        - Occultism
-        action: []
-        reaction: []
-        feat: []
+          - Occultism
         magic_stats:
           tradition:
             occult: trained
-          focus_cantrip:
-            hex:
-            - Shroud of Night
-          addspellbook:
-            1: 
-            - Sleep
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              occult: expert
-        15:
-          magic_stats:
-            tradition:
-              occult: master
-        19:
-          magic_stats:
-            tradition:
-              occult: legendary
     Rune:
       initial_dedication:
         skills:
-        - Arcana
-        action: []
-        reaction: []
-        feat: []
+          - Arcana
         magic_stats:
           tradition:
             arcane: trained
-          focus_cantrip:
-            hex:
-            - Discern Secrets
-          addspellbook:
-            1: 
-            - Magic Weapon
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              arcane: expert
-        15:
-          magic_stats:
-            tradition:
-              arcane: master
-        19:
-          magic_stats:
-            tradition:
-              arcane: legendary
     Wild:
       initial_dedication:
         skills:
-        - Nature
-        action: []
-        reaction: []
-        feat: []
+          - Nature
         magic_stats:
           tradition:
             primal: trained
-          focus_cantrip:
-            hex:
-            - Wilding Word
-      choose:
-        choice_name: Granted Spell
-        choice_description: Your patron grants you a choice of granted spells.
-        choice_type: spell
-        options:
-          Summon Animal:
-          Summon Plant or Fungus:
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              primal: expert
-        15:
-          magic_stats:
-            tradition:
-              primal: master
-        19:
-          magic_stats:
-            tradition:
-              primal: legendary
     Winter:
       initial_dedication:
         skills:
-        - Nature
-        action: []
-        reaction: []
-        feat: []
+          - Nature
         magic_stats:
           tradition:
             primal: trained
-          focus_cantrip:
-            hex:
-              - Clinging Ice
-          addspellbook:
-            1: Gust of Wind
-      advance:
-        7:
-          magic_stats:
-            tradition:
-              primal: expert
-        15:
-          magic_stats:
-            tradition:
-              primal: master
-        19:
-          magic_stats:
-            tradition:
-              primal: legendary
   Wizard Archetype:
-    Abjuration:
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-          - Protective Ward
-        gated_spell: school
-    Conjuration: 
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-          - Augment Summoning
-        gated_spell: school
-    Divination:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-          - Diviner's Sight
-        gated_spell: school
-    Enchantment:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-          - Charming Words
-        gated_spell: school
-    Evocation:
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-          - Force Bolt
-        gated_spell: school
-    Illusion:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-          - Warped Terrain
-        gated_spell: school
-    Necromancy:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-          - Call Of The Grave
-        gated_spell: school
-    Transmutation:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-          - Physical Boost
-        gated_spell: school
-    Universalist:
-      magic_stats:
-      # This key overwrites the base wizard class key for this, this is intentional
-        spellbook:
-          cantrip: 10
-          1: 6
-        gated_feat: universalist
+    Abjuration: []
+    Conjuration: []
+    Divination: []
+    Enchantment: []
+    Evocation: []
+    Illusion: []
+    Necromancy: []
+    Transmutation: []
+    Universalist: []

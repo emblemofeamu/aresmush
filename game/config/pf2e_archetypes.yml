@@ -93,7 +93,6 @@ pf2e_archetype:
       action:
         - Cast a Spell
       reaction: []
-    has_specialty: false
   Druid Archetype:
     key_abil:
       - Wisdom
@@ -158,6 +157,18 @@ pf2e_archetype:
       action:
         - Powerful Fist
       reaction: []
+  Oracle Archetype:
+    key_abil:
+      - Charisma
+    initial_dedication:
+      magic_stats:
+        spell_abil: Charisma
+        spells_per_day: []
+        repertoire:
+          cantrip: 2
+      action:
+        - Cast a Spell
+      reaction: []
   Ranger Archetype:
     key_abil:
       - Strength
@@ -215,7 +226,6 @@ pf2e_archetype:
       action:
         - Cast a Spell
       reaction: []
-    has_specialty: true
   Wizard Archetype:
     key_abil: 
       - Intelligence
