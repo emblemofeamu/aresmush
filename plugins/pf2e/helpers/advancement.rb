@@ -20,6 +20,60 @@ module AresMUSH
       return nil
     end
 
+    def self.level_key?(key)
+      key_str = key.to_s.downcase
+      key_str == 'cantrip' || key_str.match?(/\A-?\d+\z/)
+    end
+
+    def self.wrap_magic_assign(to_assign, key, base_class_key)
+      existing = to_assign[key]
+      return if existing.nil?
+      return if existing.is_a?(Hash) && existing.keys.any? { |k| k.to_s.casecmp?(base_class_key) }
+
+      if existing.is_a?(Hash)
+        if existing.keys.all? { |k| level_key?(k) }
+          to_assign[key] = { base_class_key => existing }
+        end
+      else
+        to_assign[key] = { base_class_key => existing }
+      end
+    end
+
+    def self.wrap_adv_magic_stats(advancement, base_class_key)
+      existing = advancement['magic_stats']
+      return if existing.nil?
+      return if existing.is_a?(Hash) && existing.keys.any? { |k| k.to_s.casecmp?(base_class_key) }
+
+      if existing.is_a?(Hash)
+        stat_keys = %w(
+          spell_abil
+          tradition
+          spells_per_day
+          repertoire
+          spellbook
+          signature
+          signature_spells
+          signature_spell
+          focus_pool
+          focus_spell
+          focus_cantrip
+          innate_spell
+          addrepertoire
+          addspellbook
+          divine_font
+        )
+
+        if existing.keys.any? { |k| stat_keys.include?(k.to_s) }
+          advancement['magic_stats'] = { base_class_key => existing }
+        end
+      end
+    end
+
+    def self.archetype_key?(key)
+      archetypes = Global.read_config('pf2e_archetype')&.keys || []
+      archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
+    end
+
     def self.assess_advancement(char,info)
       # Can the character advance?
       advfail = Pf2e.can_advance(char)
@@ -138,7 +192,31 @@ module AresMUSH
           Pf2eCombat.update_combat_stats(char, value)
         when "magic_stats"
           # Ignore any return, this key only includes items that do not populate to_assign.
-          PF2Magic.update_magic(char, charclass, value, client)
+          stat_keys = %w(
+            spell_abil
+            tradition
+            spells_per_day
+            repertoire
+            spellbook
+            signature
+            signature_spells
+            signature_spell
+            focus_pool
+            focus_spell
+            focus_cantrip
+            innate_spell
+            addrepertoire
+            addspellbook
+            divine_font
+          )
+
+          if value.is_a?(Hash) && value.keys.any? { |k| !stat_keys.include?(k.to_s) }
+            value.each_pair do |class_key, stats|
+              PF2Magic.update_magic(char, class_key, stats, client)
+            end
+          else
+            PF2Magic.update_magic(char, charclass, value, client)
+          end
         when "action"
           all_actions = char.pf2_actions
           actions = all_actions['actions']
@@ -256,52 +334,87 @@ module AresMUSH
           magic = char.magic
 
           csb = magic.spellbook
-
-          class_csb = csb[charclass] || {}
-
-
-          value.each do |spell|
-            sp = Pf2emagic.get_spell_details(spell)
-            spdeets = sp[1]
-
-            level = spdeets['base_level'].to_s
-
-            splist = class_csb[level] || []
-            splist << spell
-            class_csb[level] = splist
+          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
+            value
+          else
+            { charclass => value }
           end
 
-          csb[charclass] = class_csb
+          class_map.each_pair do |class_key, class_value|
+            class_csb = csb[class_key] || {}
+
+            if class_value.is_a?(Hash)
+              class_value.each_pair do |level, spells|
+                Array(spells).each do |spell|
+                  splist = class_csb[level.to_s] || []
+                  splist << spell
+                  class_csb[level.to_s] = splist
+                end
+              end
+            else
+              Array(class_value).each do |spell|
+                sp = Pf2emagic.get_spell_details(spell)
+                spdeets = sp[1]
+
+                level = spdeets['base_level'].to_s
+
+                splist = class_csb[level] || []
+                splist << spell
+                class_csb[level] = splist
+              end
+            end
+
+            csb[class_key] = class_csb
+          end
 
           magic.update(spellbook: csb)
         when "repertoire"
           magic = char.magic
           repertoire = magic.repertoire
-
-          class_rep = repertoire[charclass] || {}
-
-          value.each_pair do |level, spells|
-            splist = (Array(class_rep[level]) + Array(spells)).sort
-
-            class_rep[level] = splist
+          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
+            value
+          else
+            { charclass => value }
           end
 
-          repertoire[charclass] = class_rep
+          class_map.each_pair do |class_key, class_value|
+            class_rep = repertoire[class_key] || {}
+
+            if class_value.is_a?(Hash)
+              class_value.each_pair do |level, spells|
+                splist = (Array(class_rep[level]) + Array(spells)).sort
+                class_rep[level] = splist
+              end
+            end
+
+            repertoire[class_key] = class_rep
+          end
 
           magic.update(repertoire: repertoire)
         when "signature"
           magic = char.magic
           signatures = magic.signature_spells || {}
-          class_sigs = signatures[charclass] || {}
-
-          value.each_pair do |level, spells|
-            chosen = Array(spells).reject { |s| s.to_s.strip.empty? || s.to_s.downcase == 'open' }
-            next if chosen.empty?
-
-            class_sigs[level] = chosen
+          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
+            value
+          else
+            { charclass => value }
           end
 
-          signatures[charclass] = class_sigs
+          class_map.each_pair do |class_key, class_value|
+            class_sigs = signatures[class_key] || {}
+
+            if class_value.is_a?(Hash)
+              class_value.each_pair do |level, spells|
+                chosen = Array(spells).reject { |s| s.to_s.strip.empty? || s.to_s.downcase == 'open' }
+                next if chosen.empty?
+
+                class_sigs[level] = chosen
+              end
+            end
+
+            signatures[class_key] = class_sigs
+          end
+
           magic.update(signature_spells: signatures)
         when "archetype_deity"
           faith_info = char.pf2_faith
@@ -394,22 +507,46 @@ module AresMUSH
 
           msg << t('pf2e.adv_item_skill_choice') if needs_choice
         when "spellbook", "repertoire", "innate"
-          needs_spell_choice = if info.is_a?(Hash)
-            info.values.any? do |value|
-              value.is_a?(Array) ? value.include?("open") : value.to_s.downcase == 'open'
+          needs_open = lambda do |value|
+            if value.is_a?(Hash)
+              value.values.any? { |sub| needs_open.call(sub) }
+            elsif value.is_a?(Array)
+              value.include?("open")
+            else
+              value.to_s.downcase == 'open'
             end
-          elsif info.is_a?(Array)
-            info.include?("open")
-          else
-            info.to_s.downcase == 'open'
           end
 
-          msg << t('pf2e.adv_item_spells', :options => item) if needs_spell_choice
+          if info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
+            info.each_pair do |class_key, value|
+              next unless needs_open.call(value)
+
+              if Pf2e.archetype_key?(class_key) && (item == "spellbook" || item == "repertoire")
+                locale_key = item == "spellbook" ? 'pf2e.adv_item_archetype_spellbook' : 'pf2e.adv_item_archetype_repertoire'
+                msg << t(locale_key, :archetype => class_key)
+              else
+                msg << t('pf2e.adv_item_spells', :options => item)
+              end
+            end
+          else
+            needs_spell_choice = needs_open.call(info)
+            msg << t('pf2e.adv_item_spells', :options => item) if needs_spell_choice
+          end
         when "signature"
           needs_signature = false
           if info.is_a?(Hash)
-            needs_signature = info.values.any? do |v|
-              v.is_a?(Array) ? v.include?("open") : v.to_i > 0
+            if info.keys.any? { |k| !Pf2e.level_key?(k) }
+              needs_signature = info.values.any? do |v|
+                if v.is_a?(Hash)
+                  v.values.any? { |sub| sub.is_a?(Array) ? sub.include?("open") : sub.to_i > 0 }
+                else
+                  v.is_a?(Array) ? v.include?("open") : v.to_i > 0
+                end
+              end
+            else
+              needs_signature = info.values.any? do |v|
+                v.is_a?(Array) ? v.include?("open") : v.to_i > 0
+              end
             end
           end
           msg << t('pf2e.adv_item_signaturespells') if needs_signature

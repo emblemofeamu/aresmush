@@ -37,7 +37,7 @@ module AresMUSH
           heading = key.gsub("charclass", "class").split("_").map {|word| word.capitalize}.join(" ")
 
           if value.is_a? Array
-            list << "#{item_color}#{heading}:%xn #{value.sort.join(", ")}" unless value.empty?
+            list << "#{item_color}#{heading}:%xn #{format_open_list(value)}" unless value.empty?
           elsif value.is_a? Hash
             sublist = []
             value.each_pair do |subkey, subvalue|
@@ -58,7 +58,7 @@ module AresMUSH
                 .map {|word| word.capitalize}
                 .join(" ")
               if subvalue.is_a? Array
-                sublist << "%r%b%b#{item_color}#{subheading}:%xn #{subvalue.sort.join(", ")}"
+                sublist << "%r%b%b#{item_color}#{subheading}:%xn #{format_open_list(subvalue)}"
               elsif subvalue.is_a? Hash
                 subsublist = []
                 subvalue.each_pair do |subsubkey, subsubvalue|
@@ -97,7 +97,8 @@ module AresMUSH
                     end
                     subsublist << "%r%b%b%b%b%xh#{subsubheading}:%xn#{subsubsublist.join}"
                   else
-                    subsublist << "%r%b%b%b%b%xh#{subsubheading}:%xn #{subsubvalue}"
+                    formatted = subsubvalue.is_a?(Array) ? format_open_list(subsubvalue) : subsubvalue
+                    subsublist << "%r%b%b%b%b%xh#{subsubheading}:%xn #{formatted}"
                   end
                 end
 
@@ -186,7 +187,8 @@ module AresMUSH
                 subsublist = []
                 subvalue.each_pair do |subsubkey, subsubvalue|
                   subsubheading = subsubkey.to_s.capitalize
-                  subsublist << "%r%b%b%xh#{subsubheading}:%xn #{subsubvalue}"
+                  formatted = subsubvalue.is_a?(Array) ? format_open_list(subsubvalue) : subsubvalue
+                  subsublist << "%r%b%b%xh#{subsubheading}:%xn #{formatted}"
                 end
 
                 sublist << "#{item_color}#{subheading}:%xn #{subsublist.join}"
@@ -221,9 +223,11 @@ module AresMUSH
         return value.sort.join(", ") if !value.is_a?(Array) || value.empty?
 
         open_count = value.count { |item| item.to_s.downcase == 'open' }
-        return "#{open_count} open" if open_count == value.size
+        items = value.reject { |item| item.to_s.downcase == 'open' }.sort
+        return "#{open_count} open" if items.empty?
+        return items.join(", ") if open_count.zero?
 
-        value.sort.join(", ")
+        "#{items.join(", ")}, #{open_count} open"
       end
 
     end

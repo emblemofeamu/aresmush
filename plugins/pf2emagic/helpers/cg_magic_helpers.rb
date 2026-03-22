@@ -15,11 +15,17 @@ module AresMUSH
     end
 
     def self.get_caster_type(charclass)
-      prepared = Global.read_config('pf2e_magic', 'prepared_casters')
-      spont = Global.read_config('pf2e_magic', 'spontaneous_casters')
+      prepared = Array(Global.read_config('pf2e_magic', 'prepared_casters'))
+      spont = Array(Global.read_config('pf2e_magic', 'spontaneous_casters'))
+      prepared_arch = Array(Global.read_config('pf2e_magic', 'prepared_archetypes'))
+      spont_arch = Array(Global.read_config('pf2e_magic', 'spontaneous_archetypes'))
 
-      return 'prepared' if prepared.include? charclass.capitalize
-      return 'spontaneous' if spont.include? charclass.capitalize
+      key = charclass.to_s.downcase
+      prepared_keys = (prepared + prepared_arch).map { |cc| cc.to_s.downcase }
+      spont_keys = (spont + spont_arch).map { |cc| cc.to_s.downcase }
+
+      return 'prepared' if prepared_keys.include?(key)
+      return 'spontaneous' if spont_keys.include?(key)
       return nil
 
     end

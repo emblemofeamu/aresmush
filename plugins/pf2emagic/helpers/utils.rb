@@ -27,17 +27,15 @@ module AresMUSH
       class_list.delete('innate')
 
       class_list.each do |cc|
-        case cc
-        when "Wizard", "Druid", "Cleric", "Witch"
+        caster_type = Pf2emagic.get_caster_type(cc)
+        next unless caster_type
+
+        if caster_type == 'prepared'
           prepared_list = magic.spells_prepared
-
-          spells_today[cc] = prepared_list[cc]
-        when "Bard", "Oracle", "Sorcerer"
-          spontlist = magic.spells_per_day[cc]
-
-          spells_today[cc] = spontlist
+          spells_today[cc] = prepared_list[cc] || {}
         else
-          next
+          spontlist = magic.spells_per_day[cc]
+          spells_today[cc] = spontlist || {}
         end
       end
 

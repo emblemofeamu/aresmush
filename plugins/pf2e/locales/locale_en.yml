@@ -50,6 +50,8 @@ en:
     adv_item_feat: "You have a %{value} feat to select."
     adv_item_magic: "You need to make magic choices for your %{options}."
     adv_item_spells: "You need to choose spells for your %{options}."
+    adv_item_archetype_spellbook: "You need to choose spellbook spells for your %{archetype}."
+    adv_item_archetype_repertoire: "You need to choose repertoire spells for your %{archetype}."
     adv_item_signaturespells: "You need to choose signature spell(s)."
     adv_item_grants: "The %{feat} feat grants something else that you need to choose."
     adv_item_gated_feat: "You need to choose one of the following options for %{gate}: %r%b%b%{options}"

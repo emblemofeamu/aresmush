@@ -12,10 +12,10 @@ pf2e_magic:
             choice_name: Spell - Lesson of the Elements
             choice_description: Choose which spell your familiar learns from Lesson of the Elements.
             options:
-            - Burning Hands
-            - Air Bubble
-            - Hydraulic Push
-            - Pummeling Rubble
+              - Burning Hands
+              - Air Bubble
+              - Hydraulic Push
+              - Pummeling Rubble
       Lesson of Life:
         cantrip: Life Boost
         spell: Spirit Link
@@ -248,6 +248,15 @@ pf2e_magic:
     - Bard
     - Oracle
     - Sorcerer
+  prepared_archetypes:
+    - Cleric Archetype
+    - Druid Archetype
+    - Witch Archetype
+    - Wizard Archetype
+  spontaneous_archetypes:
+    - Bard Archetype
+    - Oracle Archetype
+    - Sorcerer Archetype
   focus_casting_stat: 
     bloodline: Charisma
     composition: Charisma

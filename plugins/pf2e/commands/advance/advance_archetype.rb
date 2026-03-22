@@ -64,6 +64,43 @@ module AresMUSH
               # Reassign the hashes so they can be saved.
               enactor.pf2_archetypeinfo = archetype_info
               enactor.pf2_to_assign = to_assign
+
+              specialty_info = Global.read_config('pf2e_archetype_specialty', archetype, chosen_specialty) || {}
+              specialty_features = specialty_info['initial_dedication'] || {}
+              specialty_magic = specialty_features['magic_stats'] || {}
+
+              if !specialty_magic.empty?
+                base_class_key = enactor.pf2_base_info['charclass']
+                assess_magic = PF2Magic.assess_magic_stats(enactor, specialty_magic)
+                advancement = enactor.pf2_advancement || {}
+
+                advancement['magic_stats'] ||= {}
+                Pf2e.wrap_adv_magic_stats(advancement, base_class_key)
+                existing_magic = advancement['magic_stats'][archetype] || {}
+                advancement['magic_stats'][archetype] = existing_magic.merge(assess_magic['magic_stats'])
+
+                magic_options = assess_magic['magic_options'] || {}
+                if !magic_options.empty?
+                  magic_options.each_pair do |k, v|
+                    Pf2e.wrap_magic_assign(to_assign, k, base_class_key)
+                    to_assign[k] ||= {}
+
+                    existing = to_assign[k][archetype]
+                    merged = if existing.is_a?(Hash) && v.is_a?(Hash)
+                      existing.merge(v) { |_key, old_val, new_val| old_val.is_a?(Array) && new_val.is_a?(Array) ? (old_val + new_val) : new_val }
+                    elsif existing.is_a?(Array) && v.is_a?(Array)
+                      existing + v
+                    else
+                      v
+                    end
+
+                    to_assign[k][archetype] = merged
+                  end
+                end
+
+                enactor.pf2_advancement = advancement
+                enactor.pf2_to_assign = to_assign
+              end
               enactor.save
 
               client.emit_success t('pf2e.adv_archetype_specialty_assigned', :specialty => self.value.capitalize)

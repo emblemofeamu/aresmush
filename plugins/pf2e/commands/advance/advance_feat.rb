@@ -147,6 +147,7 @@ module AresMUSH
             archetype_info = Global.read_config('pf2e_archetype', archetype) || {}
             archetype_features_info = archetype_info['initial_dedication'] || {}
             archetype_key_abilities = Array(archetype_info['key_abil']).compact.map { |a| a.to_s.strip }.reject(&:empty?).uniq
+            base_class_key = enactor.pf2_base_info['charclass']
             if archetype_info['use_deity']
               existing_deity = enactor.pf2_faith['deity']
 
@@ -245,6 +246,25 @@ module AresMUSH
               advancement['combat_stats'] ||= {}
               advancement['combat_stats'] = Pf2e.merge_combat_stats(advancement['combat_stats'], archetype_combat)
               client.emit_ooc t('pf2e.adv_archetype_combat_stats_assigned')
+              end
+            end
+            # Handle magic_stats from archetype, if present.
+            archetype_magic = archetype_features_info['magic_stats'] || {}
+            if !archetype_magic.empty?
+              assess_magic = PF2Magic.assess_magic_stats(enactor, archetype_magic)
+
+              advancement['magic_stats'] ||= {}
+              Pf2e.wrap_adv_magic_stats(advancement, base_class_key)
+              advancement['magic_stats'][archetype] = assess_magic['magic_stats']
+
+              magic_options = assess_magic['magic_options'] || {}
+              if !magic_options.empty?
+                magic_options.each_pair do |k, v|
+                  Pf2e.wrap_magic_assign(to_assign, k, base_class_key)
+                  to_assign[k] ||= {}
+                  to_assign[k][archetype] = v
+                end
+                client.emit_ooc t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(" and "))
               end
             end
             # Handle archetype features, if present.

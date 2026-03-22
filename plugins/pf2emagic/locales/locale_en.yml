@@ -73,6 +73,8 @@ en:
     specify_level: "You have that spell prepared at more than one level. Specify which level to replace."
     spell_exceeds_max_level: "That spell is of a higher level than you can cast."
     spell_already_on_list_to_assign: "You already picked that spell. Try another."
+    spell_already_in_repertoire: "You already know that spell in your repertoire."
+    spell_already_in_spellbook: "You already know that spell in your spellbook."
     spell_to_delete_not_found: "Spell specified for replacement not found in your list."
     spell_not_eligible: "That spell does not meet the criteria for a %{gate} spell for you."
     spell_prepare_ok: "You prepare %{name} as a %{as} at level %{level}."

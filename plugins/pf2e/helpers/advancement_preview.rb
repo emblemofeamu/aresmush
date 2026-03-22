@@ -3,7 +3,7 @@ module AresMUSH
 
     # Handles merging the current character data with any pending advancement choices during advancement to allow other choices to be made, as per pen and paper.
 
-    def self.preview_repertoire(char)
+    def self.preview_repertoire(char, class_key = nil)
       magic = char.magic
       repertoire = Marshal.load(Marshal.dump(magic&.repertoire || {}))
 
@@ -11,8 +11,15 @@ module AresMUSH
       pending_rep = advancement['repertoire'] || {}
       return repertoire unless pending_rep.is_a?(Hash) && !pending_rep.empty?
 
-      charclass = char.pf2_base_info['charclass']
-      class_rep = repertoire[charclass] || {}
+      target_class = class_key || char.pf2_base_info['charclass']
+
+      if pending_rep.keys.any? { |k| !Pf2e.level_key?(k) }
+        pending_rep = pending_rep[target_class] || {}
+      end
+
+      return repertoire unless pending_rep.is_a?(Hash) && !pending_rep.empty?
+
+      class_rep = repertoire[target_class] || {}
 
       pending_rep.each_pair do |level, spells|
         existing = Array(class_rep[level])
@@ -20,7 +27,7 @@ module AresMUSH
         class_rep[level] = (existing + additions).uniq
       end
 
-      repertoire[charclass] = class_rep
+      repertoire[target_class] = class_rep
       repertoire
     end
 
@@ -46,6 +53,47 @@ module AresMUSH
       progression[target_index]
     end
 
+    def self.preview_spellbook(char, class_key = nil)
+      magic = char.magic
+      spellbook = Marshal.load(Marshal.dump(magic&.spellbook || {}))
+
+      advancement = char.pf2_advancement || {}
+      pending_book = advancement['spellbook'] || {}
+      return spellbook unless pending_book.is_a?(Hash) || pending_book.is_a?(Array)
+
+      target_class = class_key || char.pf2_base_info['charclass']
+
+      if pending_book.is_a?(Hash) && pending_book.keys.any? { |k| !Pf2e.level_key?(k) }
+        pending_book = pending_book[target_class] || {}
+      end
+
+      return spellbook if pending_book.nil? || pending_book == {}
+
+      class_book = spellbook[target_class] || {}
+
+      if pending_book.is_a?(Hash)
+        pending_book.each_pair do |level, spells|
+          existing = Array(class_book[level])
+          additions = Array(spells).reject { |s| s.to_s.strip.empty? || s.to_s.downcase == 'open' }
+          class_book[level] = (existing + additions).uniq
+        end
+      else
+        Array(pending_book).each do |spell|
+          next if spell.to_s.strip.empty? || spell.to_s.downcase == 'open'
+          sp = Pf2emagic.get_spell_details(spell)
+          spdeets = sp && sp[1]
+          next unless spdeets
+
+          level_key = spdeets['base_level'].to_s
+          existing = Array(class_book[level_key])
+          class_book[level_key] = (existing + [spell]).uniq
+        end
+      end
+
+      spellbook[target_class] = class_book
+      spellbook
+    end
+
     def self.preview_feat_names(char)
       current = char.pf2_feats.values.flatten.map { |f| f.to_s.upcase }
 
@@ -57,6 +105,25 @@ module AresMUSH
                           .reject { |f| f.empty? || f == 'OPEN' }
 
       (current + pending).uniq
+    end
+
+    def self.preview_magic_tradition(char)
+      magic = char.magic
+      base = Marshal.load(Marshal.dump(magic&.tradition || {}))
+      advancement = char.pf2_advancement || {}
+      pending = advancement['magic_stats'] || {}
+      return base if pending.empty?
+
+      pending.each_pair do |class_key, stats|
+        next unless stats.is_a?(Hash)
+        next unless stats['tradition'].is_a?(Hash)
+        next if stats['tradition'].empty?
+
+        trad, prof = stats['tradition'].first
+        base[class_key] = [trad.to_s.downcase, prof]
+      end
+
+      base
     end
 
   end
