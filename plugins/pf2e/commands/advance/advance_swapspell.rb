@@ -125,7 +125,7 @@ module AresMUSH
 
       def granted_repertoire_spells(char)
         charclass = char.pf2_base_info['charclass']
-        specialty = char.pf2_base_info['specialty']
+        specialty = char.pf2_base_info['specialize']
 
         return [] if charclass.to_s.strip.empty? || specialty.to_s.strip.empty?
 

@@ -31,10 +31,14 @@ module AresMUSH
         archetype4 = enactor.pf2_archetypeinfo['archetype4'] && enactor.pf2_archetypeinfo['archetype_specialty4'] || []
 
         # Some specialties have their own peculiar advancement bits. Look for those and merge them in if present.
-        subclass_adv_info = Global.read_config('pf2e_specialty', charclass, enactor.pf2_base_info['specialty'])['advance']
+        subclass_adv_info = Global.read_config('pf2e_specialty', charclass, enactor.pf2_base_info['specialize'])['advance']
         sublevel_adv_info = subclass_adv_info ? subclass_adv_info[level] : nil
 
-        info = sublevel_adv_info ? charclass_adv_info.merge(sublevel_adv_info) : charclass_adv_info
+        info = if sublevel_adv_info
+          merge_advancement_info(charclass_adv_info, sublevel_adv_info)
+        else
+          charclass_adv_info
+        end
 
         # Send information for processing.
 
@@ -46,6 +50,28 @@ module AresMUSH
         client.emit_success t('pf2e.advance_started', :level => level, :charclass => charclass)
         template = Pf2e::PF2AdvanceReviewTemplate.new(enactor, client)
         client.emit template.render
+      end
+
+      private
+
+      def merge_advancement_info(base_info, extra_info)
+        return extra_info if base_info.nil?
+        return base_info if extra_info.nil?
+        return extra_info unless base_info.is_a?(Hash) && extra_info.is_a?(Hash)
+
+        merged = base_info.dup
+        extra_info.each_pair do |key, extra_val|
+          base_val = merged[key]
+          merged[key] = if base_val.is_a?(Hash) && extra_val.is_a?(Hash)
+            merge_advancement_info(base_val, extra_val)
+          elsif base_val.is_a?(Array) && extra_val.is_a?(Array)
+            (base_val + extra_val).uniq
+          else
+            extra_val
+          end
+        end
+
+        merged
       end
 
     end

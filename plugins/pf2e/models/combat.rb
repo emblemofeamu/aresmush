@@ -337,7 +337,7 @@ module AresMUSH
       # Alchemical Bombs are their own animal, will do all the deets later.
 
       base_info = char.pf2_base_info
-      use_dex_for_dmg = base_info['specialty'] == 'Thief'
+      use_dex_for_dmg = base_info['specialize'] == 'Thief'
 
       abil_mod = use_dex_for_dmg ? abilmod_with_finesse(char) :
         Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Strength"))

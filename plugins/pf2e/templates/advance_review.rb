@@ -44,6 +44,7 @@ module AresMUSH
               subheading = subkey.to_s
                 .gsub("charclass", "class")
                 .gsub("spells_per_day", "spell_slots_per_day")
+                .gsub("addrepertoire", "repertoire")
                 .gsub("1", "1st-level")
                 .gsub("2", "2nd-level")
                 .gsub("3", "3rd-level")
