@@ -797,7 +797,8 @@ module AresMUSH
         "metamagic" => "metamagic feat",
         "universalist" => "wizard feat",
         "skillful lesson" => "skill with an Intelligence, Wisdom, or Charisma key ability",
-        "deity's domain" => "deity domain"
+        "deity's domain" => "deity domain",
+        "canny acumen" => "Fortitude, Reflex, Will, or Perception"
       }
 
       summaries[gate.to_s.downcase] || "eligible feat"

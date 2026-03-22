@@ -424,6 +424,8 @@ module AresMUSH
           value.each_pair do |feat, info|
             do_feat_grants(char, info, charclass, client)
           end
+        when "repertoire_swap"
+          # Already applied during advance/spellswap; no additional work needed here.
         else
           client.emit_ooc "Unknown key #{key} in do_advancement. Please put in a request to code staff."
         end

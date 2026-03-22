@@ -346,6 +346,67 @@ module AresMUSH
           return
         end
 
+        if self.gate.to_s.casecmp?('canny acumen')
+          choice = self.value.to_s.downcase
+          choice_label = case choice
+          when 'fortitude'
+            'Fortitude'
+          when 'reflex'
+            'Reflex'
+          when 'will'
+            'Will'
+          when 'perception'
+            'Perception'
+          else
+            nil
+          end
+
+          unless choice_label
+            client.emit_failure t('pf2e.canny_acumen_invalid')
+            return
+          end
+
+          added_stats = if choice == 'perception'
+            { 'perception' => 'expert' }
+          else
+            { 'saves' => { choice => 'expert' } }
+          end
+
+          advancement = enactor.pf2_advancement
+          advancement['combat_stats'] ||= {}
+          advancement['combat_stats'] = Pf2e.merge_combat_stats(advancement['combat_stats'], added_stats)
+          enactor.pf2_advancement = advancement
+
+          grants.each_pair do |grant_feat, grant_info|
+            next unless grant_info.is_a?(Hash)
+            next unless grant_info['gated_feat']&.casecmp?(self.gate)
+
+            grant_info.delete('gated_feat')
+            if grant_info.empty?
+              grants.delete(grant_feat)
+            end
+            break
+          end
+
+          if grants.empty?
+            to_assign.delete('grants')
+          else
+            to_assign['grants'] = grants
+          end
+
+          if to_assign['gated_feat_options']
+            matched_gate = to_assign['gated_feat_options'].keys.find { |g| g.to_s.casecmp?(self.gate) }
+            to_assign['gated_feat_options'].delete(matched_gate) if matched_gate
+            to_assign.delete('gated_feat_options') if to_assign['gated_feat_options'].empty?
+          end
+
+          enactor.pf2_to_assign = to_assign
+          enactor.save
+
+          client.emit_success t('pf2e.adv_gate_selected', :gate => 'Canny Acumen', :choice => choice_label)
+          return
+        end
+
         feat = Pf2e.get_feat_details(self.value)
 
         if feat.is_a?(String)

@@ -60,6 +60,57 @@ module AresMUSH
           return
         end
 
+        if self.feat_type == 'special' && self.gate == 'canny acumen'
+          to_assign = enactor.pf2_to_assign
+          gate_options = to_assign['special feat'] || []
+
+          unless gate_options.map(&:downcase).include?(self.gate)
+            client.emit_failure t('pf2e.no_such_gate', :gate => self.gate)
+            return
+          end
+
+          choice = self.feat_name.to_s.downcase
+          choice_label = case choice
+          when 'fortitude'
+            'Fortitude'
+          when 'reflex'
+            'Reflex'
+          when 'will'
+            'Will'
+          when 'perception'
+            'Perception'
+          else
+            nil
+          end
+
+          unless choice_label
+            client.emit_failure t('pf2e.canny_acumen_invalid')
+            return
+          end
+
+          added_stats = if choice == 'perception'
+            { 'perception' => 'expert' }
+          else
+            { 'saves' => { choice => 'expert' } }
+          end
+
+          current_stats = {}
+          combat = enactor.combat
+          current_stats['saves'] = combat.saves if combat&.saves
+          current_stats['perception'] = combat.perception if combat&.perception
+          merged_stats = Pf2e.merge_combat_stats(current_stats, added_stats)
+          Pf2eCombat.update_combat_stats(enactor, merged_stats)
+
+          new_gated_list = gate_options.reject { |g| g.to_s.casecmp?(self.gate) }
+          to_assign['special feat'] = new_gated_list
+          to_assign.delete('special feat') if to_assign['special feat'].empty?
+
+          enactor.update(pf2_to_assign: to_assign)
+
+          client.emit_success t('pf2e.adv_gate_selected', :gate => 'Canny Acumen', :choice => choice_label)
+          return
+        end
+
         ##### VALIDATION SECTION START #####
         # Is this actually a feat?
 
