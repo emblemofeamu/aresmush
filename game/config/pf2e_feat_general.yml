@@ -175,15 +175,6 @@ pf2e_feats:
       gated_feat: Ancestral Paragon
     prereq:
       level: 3
-  Hireling Manager: # Talk about in staff meeting
-    feat_type: 
-      - General
-    traits: []
-    shortdesc: You are able to find and secure better labor than most. When securing a hireling for a service, that hireling gains a +2 circumstance bonus to all skill checks. This circumstance bonus applies to both trained and untrained hirelings and has no effect on the cost of the service or labor provided.
-    prereq:
-      level: 3
-      ability: 
-        - Charisma/14
   Improvised Repair:
     feat_type: 
       - General
