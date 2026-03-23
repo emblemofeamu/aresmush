@@ -282,7 +282,7 @@ pf2e_shields:
     ac_bonus: 2
     bulk: 1
     hardness: 8
-    hp: null
+    hp: 32
     level: 9
     price: 67000
     speed_penalty: 0
@@ -479,7 +479,7 @@ pf2e_shields:
     hp: 60
     level: 16
     price: 900000
-    speed_penalty: null
+    speed_penalty: 0
     traits:
       - magical
       - transmutation

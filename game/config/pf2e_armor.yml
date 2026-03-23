@@ -151,3 +151,500 @@ pf2e_armor:
     min_str: 18
     bulk: 4
     group: Plate
+  Ghoul Hide:
+    category: medium
+    traits:
+      - uncommon
+      - invested
+      - magical
+      - necromancy
+    level: 6
+    price: 22000
+    ac_bonus: 3
+    dex_cap: 2
+    check_penalty: -2
+    speed_penalty: -5
+    min_str: 14
+    bulk: 2
+    group: Leather
+    runes:
+      fundamental:
+        potency: 1
+  Chain Shirt:
+    category: light
+    traits:
+      - flexible
+      - noisy
+      - divination
+      - invested
+      - magical
+    level: 7
+    price: 36000
+    ac_bonus: 2
+    dex_cap: 3
+    check_penalty: -1
+    speed_penalty: 0
+    min_str: 12
+    bulk: 1
+    group: Chain
+    runes:
+      fundamental:
+        potency: 1
+  Rhino Hide:
+    category: medium
+    traits:
+      - invested
+      - magical
+      - transmutation
+    level: 9
+    price: 70000
+    ac_bonus: 3
+    dex_cap: 2
+    check_penalty: -2
+    speed_penalty: -5
+    min_str: 14
+    bulk: 2
+    group: Leather
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
+  Electric Eelskin:
+    category: light
+    traits:
+      - invested
+      - magical
+      - transmutation
+    level: 10
+    price: 95000
+    ac_bonus: 1
+    dex_cap: 4
+    check_penalty: -1
+    speed_penalty: 0
+    min_str: 10
+    bulk: 1
+    group: Leather
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
+      property:
+        - Slick (Greater)
+  Breastplate of Command:
+    category: medium
+    traits:
+      - enchantment
+      - invested
+      - magical
+    level: 10
+    price: 100000
+    ac_bonus: 4
+    dex_cap: 1
+    check_penalty: -2
+    speed_penalty: -5
+    min_str: 16
+    bulk: 2
+    group: Plate
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
+  Celestial Armor:
+    category: medium
+    traits:
+      - flexible
+      - noisy
+      - divine
+      - good
+      - invested
+      - transformation
+    level: 13
+    price: 250000
+    ac_bonus: 4
+    dex_cap: 1
+    check_penalty: 0
+    speed_penalty: 0
+    min_str: 16
+    bulk: 1
+    group: Chain
+    runes:
+      fundamental:
+        potency: 2
+        power: 1
+  Plate Armor of the Deep:
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - abjuration
+      - invested
+      - magical
+    level: 15
+    price: 650000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Avarice):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Bestial):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Brine):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Cloud):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Crystal):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Diabolic):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Empyreal):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Forest):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Fortune):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Madness):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Magma):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Mirage):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Ossuary):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Terra):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Umbral):
+    category: heavy
+    traits:
+      - bulwark
+      - uncommon
+      - evocation
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Impenetrable Scale:
+    category: medium
+    traits:
+      - uncommon
+      - abjuration
+      - invested
+      - magical
+    level: 17
+    price: 1280000
+    ac_bonus: 3
+    dex_cap: 2
+    check_penalty: -2
+    speed_penalty: -5
+    min_str: 14
+    bulk: 2
+    group: Composite
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+      property:
+        - Fortification
+  Breastplate of Command (Greater):
+    category: medium
+    traits:
+      - enchantment
+      - invested
+      - magical
+    level: 18
+    price: 2200000
+    ac_bonus: 4
+    dex_cap: 1
+    check_penalty: -2
+    speed_penalty: -5
+    min_str: 16
+    bulk: 2
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
