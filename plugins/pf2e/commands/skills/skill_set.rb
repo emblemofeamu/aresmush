@@ -75,6 +75,10 @@ module AresMUSH
 
         skill_for_char = Pf2eSkills.find_skill(self.value, enactor)
 
+        if !skill_for_char
+          skill_for_char = Pf2eSkills.create_skill_for_char(self.value, enactor)
+        end
+
         if !(skill_for_char.prof_level == 'untrained')
           client.emit_failure t('pf2e.already_has_skill')
           return

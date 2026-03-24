@@ -446,6 +446,9 @@ pf2e_skills:
   Fey Bullshit Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+  Fire Elemental Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
   Genie Lore:
     key_abil: Intelligence
     recall_knowledge: true
