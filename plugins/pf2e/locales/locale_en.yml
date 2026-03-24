@@ -16,6 +16,7 @@ en:
     advance_review_help: "Enter '%xuadvance/review%xU' to view this screen again."
     advance_done: "You have completed advancement! *confetti*"
     adv_dedication_class_double: "You cannot take a Dedication feat that is identical to your character class."
+    adv_dedication_requires_archetype_feats: "You cannot take another dedication feat until you have taken at least two non-dedication feat from your existing archetype(s)."
     adv_archetype_assigned: "You have added %{archetype} to your archetypes list."
     adv_archetype_specialty_assigned: "You have selected %{specialty} as your archetype specialty."
     adv_archetype_specialty_choice_assigned: "You have selected %{choice} for your %{specialty} specialty."

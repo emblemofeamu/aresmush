@@ -104,9 +104,51 @@ module AresMUSH
 
       return assoc_classes.any? { |c| c.to_s.casecmp?(base_class.to_s) } unless assoc_classes.empty?
 
-      return true if assoc_charclasses.empty?
+      return false if assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
 
-      !assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
+      dedication_archetype_ready?(char)
+    end
+
+    def self.dedication_archetype_ready?(char)
+      feat_info = Global.read_config('pf2e_feats') || {}
+      return true if feat_info.empty?
+
+      feat_name_map = {}
+      feat_info.keys.each { |name| feat_name_map[name.to_s.upcase] = name }
+
+      feat_names = if char.advancing
+        Pf2e.preview_feat_names(char)
+      else
+        char.pf2_feats.values.flatten.map { |f| f.to_s.upcase }
+      end
+
+      dedication_archetypes = []
+      archetype_feat_counts = Hash.new(0)
+
+      feat_names.each do |feat_name|
+        details_key = feat_name_map[feat_name.to_s.upcase]
+        next unless details_key
+
+        details = feat_info[details_key]
+        next unless details
+
+        assoc_archetypes = Array(details['assoc_archetype']).compact
+        next if assoc_archetypes.empty?
+
+        if details['feat_type']&.include?('Dedication')
+          dedication_archetypes << assoc_archetypes
+        else
+          assoc_archetypes.each do |arch|
+            archetype_feat_counts[arch.to_s.downcase] += 1
+          end
+        end
+      end
+
+      return true if dedication_archetypes.empty?
+
+      dedication_archetypes.all? do |archetypes|
+        archetypes.any? { |arch| archetype_feat_counts[arch.to_s.downcase] >= 2 }
+      end
     end
 
     def self.can_take_feat?(char, feat)

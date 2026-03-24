@@ -84,6 +84,11 @@ module AresMUSH
         fname = feat[0]
         fdetails = feat[1]
 
+        if fdetails['feat_type']&.include?('Dedication') && !Pf2e.dedication_archetype_ready?(enactor)
+          client.emit_failure t('pf2e.adv_dedication_requires_archetype_feats')
+          return
+        end
+
         # Qualification checks for all kinds of stuff, including whether the feat in question exists.
         qualifies = Pf2e.can_take_gated_feat?(enactor, fname, self.type)
 
@@ -438,6 +443,11 @@ module AresMUSH
 
         fname = feat[0]
         fdetails = feat[1]
+
+        if fdetails['feat_type']&.include?('Dedication') && !Pf2e.dedication_archetype_ready?(enactor)
+          client.emit_failure t('pf2e.adv_dedication_requires_archetype_feats')
+          return
+        end
 
         qualifies = Pf2e.can_take_gated_feat?(enactor, fname, self.gate)
 
