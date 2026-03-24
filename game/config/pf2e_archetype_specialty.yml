@@ -3,7 +3,7 @@ pf2e_archetype_specialty:
   Alchemist Archetype: {}
   Barbarian Archetype:
     Animal:
-      initial_dedication: []
+      initial_dedication: {}
       anathema:
         - "Flagrantly disrespect your animal instinct type."
         - "Use weapons while raging."
@@ -13,25 +13,25 @@ pf2e_archetype_specialty:
         choice_type: archetype_subclass_info
         options:
           Ape:
-            initial_dedication: []
+            initial_dedication: {}
           Bear:
-            initial_dedication: []
+            initial_dedication: {}
           Bull:
-            initial_dedication: []
+            initial_dedication: {}
           Cat:
-            initial_dedication: []
+            initial_dedication: {}
           Deer:
-            initial_dedication: []
+            initial_dedication: {}
           Frog:
-            initial_dedication: []
+            initial_dedication: {}
           Shark:
-            initial_dedication: []
+            initial_dedication: {}
           Snake:
-            initial_dedication: []
+            initial_dedication: {}
           Wolf:
-            initial_dedication: []
+            initial_dedication: {}
     Dragon:
-      initial_dedication: []
+      initial_dedication: {}
       anathema:
         - "Let a personal insult against you slide."
         - "If you respect your dragon instinct's dragon type, defy its orders."
@@ -42,55 +42,55 @@ pf2e_archetype_specialty:
         choice_type: archetype_subclass_info
         options:
           Avarice:
-            initial_dedication: []
+            initial_dedication: {}
           Bestial:
-            initial_dedication: []
+            initial_dedication: {}
           Brine:
-            initial_dedication: []
+            initial_dedication: {}
           Cloud:
-            initial_dedication: []
+            initial_dedication: {}
           Crystal:
-            initial_dedication: []
+            initial_dedication: {}
           Diabolic:
-            initial_dedication: []
+            initial_dedication: {}
           Empyreal:
-            initial_dedication: []
+            initial_dedication: {}
           Forest:
-            initial_dedication: []
+            initial_dedication: {}
           Fortune:
-            initial_dedication: []
+            initial_dedication: {}
           Madness:
-            initial_dedication: []
+            initial_dedication: {}
           Magma:
-            initial_dedication: []
+            initial_dedication: {}
           Mirage:
-            initial_dedication: []
+            initial_dedication: {}
           Ossuary:
-            initial_dedication: []
+            initial_dedication: {}
           Terra:
-            initial_dedication: []
+            initial_dedication: {}
           Umbral:
-            initial_dedication: []
+            initial_dedication: {}
     Fury:
       anathema: []
-      initial_dedication: []
+      initial_dedication: {}
     Giant:
       anathema:
         - "Fail to face a personal challenge of strength."
-      initial_dedication: []
+      initial_dedication: {}
     Spirit:
       anathema:
         - "Disrespect corpses or spirits."
-      initial_dedication: []
+      initial_dedication: {}
   Bard Archetype:
     Enigma:
-      initial_dedication: []
+      initial_dedication: {}
     Maestro:
-      initial_dedication: []
+      initial_dedication: {}
     Polymath: 
-      initial_dedication: []
+      initial_dedication: {}
     Warrior: 
-      initial_dedication: []
+      initial_dedication: {}
   Champion Archetype:
     Paladin:
       allowed_alignments:
@@ -101,7 +101,7 @@ pf2e_archetype_specialty:
         - "Lie, cheat, or take advantage of others."
       edicts:
         - "Respect the authority of legitimate leadership wherever they go, and obey its laws."
-      initial_dedication: []
+      initial_dedication: {}
     Redeemer:
       allowed_alignments:
         - NG
@@ -111,7 +111,7 @@ pf2e_archetype_specialty:
       anathema:
         - "Willingly commit an evil act."
         - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
-      initial_dedication: []
+      initial_dedication: {}
     Liberator:
       allowed_alignments:
         - CG
@@ -123,7 +123,7 @@ pf2e_archetype_specialty:
         - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
         - "Force someone to act in a particular way or threaten them if they refuse."
         - "Accept or countenance slavery or tyranny."
-      initial_dedication: []
+      initial_dedication: {}
   Cleric Archetype: {}
   Druid Archetype:
     Animal:
