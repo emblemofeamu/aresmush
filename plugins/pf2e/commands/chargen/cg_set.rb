@@ -112,6 +112,34 @@ module AresMUSH
           end
         end
 
+        if Global.read_config('pf2e', 'use_alignment') &&
+           base_info['charclass']&.casecmp?('Champion') &&
+           ["specialize", "alignment", "deity"].include?(selected_element)
+          champion_specialty = selected_element == "specialize" ? selected_option : base_info['specialize']
+          champion_alignment = selected_element == "alignment" ? selected_option : enactor.pf2_faith['alignment']
+          champion_deity = selected_element == "deity" ? selected_option : enactor.pf2_faith['deity']
+
+          if !champion_specialty.blank?
+            specialty_config = Global.read_config('pf2e_specialty', 'Champion', champion_specialty) || {}
+            specialty_allowed = specialty_config['allowed_alignments'] || []
+
+            if !champion_alignment.blank? && !specialty_allowed.include?(champion_alignment)
+              client.emit_failure t('pf2e.cg_champion_specialty_alignment_mismatch', :specialty => champion_specialty, :options => specialty_allowed.join(", "))
+              return
+            end
+
+            if !champion_deity.blank?
+              deity_allowed = Global.read_config('pf2e_deities', champion_deity, 'allowed_alignments') || []
+
+              if champion_alignment.blank? && (deity_allowed & specialty_allowed).empty?
+                filtered_alignments = deity_allowed - ["N", "CN", "LN"]
+                client.emit_failure t('pf2e.cg_champion_specialty_deity_mismatch', :specialty => champion_specialty, :deity => champion_deity, :options => filtered_alignments.join(", "))
+                return
+              end
+            end
+          end
+        end
+
         case selected_element
         when "ancestry", "background", "charclass", "heritage", "specialize", "specialize_info"
           base_info[selected_element] = selected_option
@@ -149,6 +177,20 @@ module AresMUSH
 
           enactor.update(pf2_base_info: base_info)
         when "deity", "alignment"
+          if Global.read_config('pf2e', 'use_alignment')
+            alignment = selected_element == "alignment" ? selected_option : enactor.pf2_faith['alignment']
+            deity = selected_element == "deity" ? selected_option : enactor.pf2_faith['deity']
+
+            if !alignment.blank? && !deity.blank?
+              allowed_alignments = Global.read_config('pf2e_deities', deity, 'allowed_alignments') || []
+
+              unless allowed_alignments.include?(alignment)
+                client.emit_failure t('pf2e.cg_deity_alignment_mismatch', :deity => deity, :options => allowed_alignments.join(", "))
+                return
+              end
+            end
+          end
+
           info = enactor.pf2_faith
           info[selected_element] = selected_option
 
