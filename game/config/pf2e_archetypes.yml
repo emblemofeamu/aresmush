@@ -35,6 +35,8 @@ pf2e_archetype:
       skills:
         - Occultism
         - Performance
+      combat_stats:
+        archetype_class_dc: trained
       magic_stats:
         tradition:
           occult: trained
@@ -80,6 +82,8 @@ pf2e_archetype:
     initial_dedication:
       skills:
         - Religion
+      combat_stats:
+        archetype_class_dc: trained
       magic_stats:
         spell_abil: Wisdom
         tradition:
@@ -105,6 +109,8 @@ pf2e_archetype:
           cantrip: 2
       action:
         - Cast a Spell
+      combat_stats:
+        archetype_class_dc: trained
     anathema:
       - "Character must not teach the Druidic language to a non-druid."
       - "Character is not permitted to wear metal armor or carry metal shields."
@@ -156,6 +162,8 @@ pf2e_archetype:
     key_abil:
       - Charisma
     initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
       magic_stats:
         tradition:
           divine: trained
@@ -200,6 +208,8 @@ pf2e_archetype:
     key_abil:
       - Charisma
     initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
       magic_stats:
         spell_abil: Charisma
         repertoire:
@@ -211,6 +221,8 @@ pf2e_archetype:
     key_abil:
       - Intelligence
     initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
       magic_stats:
         spell_abil: Intelligence
         spells_per_day:
@@ -224,6 +236,8 @@ pf2e_archetype:
     key_abil: 
       - Intelligence
     initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
       skills:
         - Arcana
       magic_stats:

@@ -476,8 +476,9 @@ module AresMUSH
         trad = Pf2e.pretty_string(trad_info[0])
         prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
         atk = PF2Magic.get_spell_attack_bonus(@char, charclass)
+        display_class = charclass.to_s.sub(/ Archetype$/, ' (A)')
 
-        "%b%b#{left(charclass,15)}#{left(trad,14)}#{left(prof, 8)}#{left(atk,22)}#{left(dc, 16)}"
+        "%b%b#{left(display_class,15)}#{left(trad,14)}#{left(prof, 8)}#{left(atk,22)}#{left(dc, 16)}"
       end
 
       def wrap_text(text, width)
