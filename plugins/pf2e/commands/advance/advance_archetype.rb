@@ -284,6 +284,21 @@ module AresMUSH
               advancement = enactor.pf2_advancement || {}
               advancement['archetype_deity'] = chosen_deity
 
+              divine_skill = Global.read_config('pf2e_deities', chosen_deity, 'divine_skill')
+              if divine_skill && !divine_skill.to_s.strip.empty?
+                pending_skills = Array(to_assign['raise skill'])
+                pending_skills << divine_skill
+                pending_skills = pending_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
+                to_assign['raise skill'] = pending_skills
+
+                pending_adv_skills = Array(advancement['raise skill'])
+                pending_adv_skills << divine_skill
+                pending_adv_skills = pending_adv_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
+                advancement['raise skill'] = pending_adv_skills
+
+                client.emit_ooc t('pf2e.adv_archetype_deity_skill_assigned', :deity => chosen_deity, :skill => divine_skill)
+              end
+
               enactor.pf2_advancement = advancement
               enactor.pf2_to_assign = to_assign
               enactor.save

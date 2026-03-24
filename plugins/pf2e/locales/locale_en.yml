@@ -44,6 +44,7 @@ en:
     adv_archetype_deity_mismatch: "%xrYour alignment (%{alignment}) is not valid for %{deity}. Allowed: %{options}.%xn"
     admin_alignment_deity_warning: "%xrWarning:%xn %xcThe character's deity, %{deity}, does not allow this follower alignment. Change the character's deity to match their new alignment or change the character's alignment to one of the deity's allowed follower alignments.%xn"
     adv_archetype_deity_assigned: "You have selected %{deity} as the deity for your %{archetype}."
+    adv_archetype_deity_skill_assigned: "%% Your deity choice, %{deity}, grants you training in %{skill}."
     adv_invalid_archetype_key_ability: "That is not a valid key ability for %{archetype}. Valid options are: %{options}"
     adv_archetype_key_ability_assigned: "You have selected %{ability} as the key ability for your %{archetype}."
     adv_dont_use_class_for_class_feats: "Use '%xucharclass%xU' instead of '%xuclass%xU' when selecting class feats. Try your input again with '%xuadvance/feat charclass=%{feat}%xU'."

@@ -155,6 +155,21 @@ module AresMUSH
                 to_assign['archetype deity'] = existing_deity
                 advancement['archetype_deity'] = existing_deity
                 client.emit_ooc t('pf2e.adv_archetype_deity_assigned', :deity => existing_deity, :archetype => archetype)
+
+                divine_skill = Global.read_config('pf2e_deities', existing_deity, 'divine_skill')
+                if divine_skill && !divine_skill.to_s.strip.empty?
+                  pending_skills = Array(to_assign['raise skill'])
+                  pending_skills << divine_skill
+                  pending_skills = pending_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
+                  to_assign['raise skill'] = pending_skills
+
+                  pending_adv_skills = Array(advancement['raise skill'])
+                  pending_adv_skills << divine_skill
+                  pending_adv_skills = pending_adv_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
+                  advancement['raise skill'] = pending_adv_skills
+
+                  client.emit_ooc t('pf2e.adv_archetype_deity_skill_assigned', :deity => existing_deity, :skill => divine_skill)
+                end
               else
                 # If the archetype has a deity choice, open it up.
                 to_assign['archetype deity'] = 'open'
