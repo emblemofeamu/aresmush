@@ -73,13 +73,33 @@ module AresMUSH
               specialty_info = Global.read_config('pf2e_archetype_specialty', archetype, chosen_specialty) || {}
               specialty_features = specialty_info['initial_dedication'] || {}
               specialty_magic = specialty_features['magic_stats'] || {}
+              advancement = enactor.pf2_advancement || {}
+              specialty_skills = Array(specialty_features['skills'])
+              if !specialty_skills.empty?
+                cleaned_skills = specialty_skills.map { |skill| skill.to_s.strip }.reject { |skill| skill.empty? || skill.downcase == 'open' }
+
+                if !cleaned_skills.empty?
+                  pending_skills = Array(to_assign['raise skill'])
+                  pending_skills.concat(cleaned_skills)
+                  pending_skills = pending_skills.compact.uniq
+                  to_assign['raise skill'] = pending_skills
+
+                  pending_adv_skills = Array(advancement['raise skill'])
+                  pending_adv_skills.concat(cleaned_skills)
+                  pending_adv_skills = pending_adv_skills.compact.uniq
+                  advancement['raise skill'] = pending_adv_skills
+
+                  enactor.pf2_advancement = advancement
+                  enactor.pf2_to_assign = to_assign
+                  client.emit_ooc t('pf2e.adv_archetype_specialty_skill_training', :archetypespecialty => chosen_specialty, :skills => cleaned_skills.join(", "))
+                end
+              end
               specialty_choose = specialty_info['choose'] || {}
               specialty_choose_options = specialty_choose['options'] || {}
 
               if !specialty_magic.empty?
                 base_class_key = enactor.pf2_base_info['charclass']
                 assess_magic = PF2Magic.assess_magic_stats(enactor, specialty_magic)
-                advancement = enactor.pf2_advancement || {}
 
                 advancement['magic_stats'] ||= {}
                 Pf2e.wrap_adv_magic_stats(advancement, base_class_key)
@@ -179,11 +199,31 @@ module AresMUSH
               option_info = choose_options[matched_option] || {}
               option_features = option_info['initial_dedication'] || {}
               option_magic = option_features['magic_stats'] || {}
+              advancement = enactor.pf2_advancement || {}
+              option_skills = Array(option_features['skills'])
+              if !option_skills.empty?
+                cleaned_skills = option_skills.map { |skill| skill.to_s.strip }.reject { |skill| skill.empty? || skill.downcase == 'open' }
+
+                if !cleaned_skills.empty?
+                  pending_skills = Array(to_assign['raise skill'])
+                  pending_skills.concat(cleaned_skills)
+                  pending_skills = pending_skills.compact.uniq
+                  to_assign['raise skill'] = pending_skills
+
+                  pending_adv_skills = Array(advancement['raise skill'])
+                  pending_adv_skills.concat(cleaned_skills)
+                  pending_adv_skills = pending_adv_skills.compact.uniq
+                  advancement['raise skill'] = pending_adv_skills
+
+                  enactor.pf2_advancement = advancement
+                  enactor.pf2_to_assign = to_assign
+                  client.emit_ooc t('pf2e.adv_archetype_specialty_choice_skill_training', :archetypespecialtychoice => matched_option, :skills => cleaned_skills.join(", "))
+                end
+              end
 
               if !option_magic.empty?
                 base_class_key = enactor.pf2_base_info['charclass']
                 assess_magic = PF2Magic.assess_magic_stats(enactor, option_magic)
-                advancement = enactor.pf2_advancement || {}
 
                 advancement['magic_stats'] ||= {}
                 Pf2e.wrap_adv_magic_stats(advancement, base_class_key)
