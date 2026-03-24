@@ -442,6 +442,9 @@ module AresMUSH
       if to_assign['archetype_specialty']
         advancement['archetype_specialty'] = to_assign['archetype_specialty']
       end
+        if to_assign['archetype specialty choice']
+          advancement['archetype_specialty_choice'] = to_assign['archetype specialty choice']
+        end
 
       # Deduct the XP.
       xp = char.pf2_xp
@@ -554,6 +557,12 @@ module AresMUSH
           msg << t('pf2e.adv_item_signaturespells') if needs_signature
         when "archetype_specialty"
           msg << t('pf2e.adv_item_archetype_specialty') if info == "open"
+          when "archetype specialty choice"
+            needs_choice = info.is_a?(Hash) && info.values.any? do |entry|
+              entry.is_a?(Hash) && entry['choice'].to_s.downcase == 'open'
+            end
+
+            msg << t('pf2e.adv_item_archetype_specialty_choice') if needs_choice
         when "archetype key ability"
           needs_choice = if info.is_a?(Array)
             !info.empty?

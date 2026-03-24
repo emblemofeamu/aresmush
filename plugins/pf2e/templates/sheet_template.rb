@@ -67,19 +67,32 @@ module AresMUSH
       end
 
       def archetype
-        archetypes_list = @archetypes.map.with_index do |a, i|
-          specialty = @archetype_specialties[i]
-          name = a.sub(/ Archetype$/, '')
-          if specialty && !specialty.empty?
-            "#{name} (#{specialty})"
+        archetype_info = @char.pf2_archetypeinfo || {}
+        archetypes_list = []
+
+        (1..4).each do |index|
+          archetype_name = archetype_info["archetype#{index}"].to_s.strip
+          next if archetype_name.empty?
+
+          specialty = archetype_info["archetype_specialty#{index}"].to_s.strip
+          choice = archetype_info["archetype_specialty_choice#{index}"].to_s.strip
+          name = archetype_name.sub(/ Archetype$/, '')
+
+          if specialty.empty?
+            archetypes_list << name
           else
-            name
+            specialty_label = choice.empty? ? specialty : "#{specialty} - #{choice}"
+            archetypes_list << "#{name} (#{specialty_label})"
           end
         end
-        
+
         return "None" if archetypes_list.empty?
-        
+
         archetypes_list.join(", ")
+      end
+
+      def archetype_line
+        wrap_text("#{item_color}Archetype(s)%xn: #{archetype}", 78)
       end
 
       def traits
@@ -465,6 +478,32 @@ module AresMUSH
         atk = PF2Magic.get_spell_attack_bonus(@char, charclass)
 
         "%b%b#{left(charclass,15)}#{left(trad,14)}#{left(prof, 8)}#{left(atk,22)}#{left(dc, 16)}"
+      end
+
+      def wrap_text(text, width)
+        return "" if text.blank?
+
+        words = text.split(/\s+/)
+        lines = []
+        current = ""
+
+        words.each do |word|
+          candidate = current.empty? ? word : "#{current} #{word}"
+          if visible_length(candidate) <= width
+            current = candidate
+          else
+            lines << current unless current.empty?
+            current = word
+          end
+        end
+
+        lines << current unless current.empty?
+        lines.join("%r")
+      end
+
+      def visible_length(text)
+        formatted = MushFormatter.format(text)
+        AnsiFormatter.strip_ansi(formatted).length
       end
 
       def print_linked_attr(skill)

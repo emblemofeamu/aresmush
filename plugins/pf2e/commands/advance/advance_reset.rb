@@ -79,6 +79,21 @@ module AresMUSH
                     end
                     enactor.pf2_archetypeinfo = archetype_specialty_slot
                   end
+                  if to_assign['archetype specialty choice'].is_a?(Hash)
+                    archetype_specialty_choice_slot = enactor.pf2_archetypeinfo || {}
+                    to_assign['archetype specialty choice'].each_pair do |choice_archetype, _choice_info|
+                      if archetype_specialty_choice_slot['archetype1'] == choice_archetype
+                        archetype_specialty_choice_slot['archetype_specialty_choice1'] = ""
+                      elsif archetype_specialty_choice_slot['archetype2'] == choice_archetype
+                        archetype_specialty_choice_slot['archetype_specialty_choice2'] = ""
+                      elsif archetype_specialty_choice_slot['archetype3'] == choice_archetype
+                        archetype_specialty_choice_slot['archetype_specialty_choice3'] = ""
+                      elsif archetype_specialty_choice_slot['archetype4'] == choice_archetype
+                        archetype_specialty_choice_slot['archetype_specialty_choice4'] = ""
+                      end
+                    end
+                    enactor.pf2_archetypeinfo = archetype_specialty_choice_slot
+                  end
                 end
               end
             end

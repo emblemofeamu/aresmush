@@ -51,14 +51,19 @@ module AresMUSH
               archetype_info = enactor.pf2_archetypeinfo
 
               # Assign the archetype specialty to the slot matching the archetype slot.
+              slot_index = nil
               if archetype == archetype_info["archetype1"]
                 archetype_info["archetype_specialty1"] = chosen_specialty
+                slot_index = 1
               elsif archetype == archetype_info["archetype2"]
                 archetype_info["archetype_specialty2"] = chosen_specialty
+                slot_index = 2
               elsif archetype == archetype_info["archetype3"]
                 archetype_info["archetype_specialty3"] = chosen_specialty
+                slot_index = 3
               elsif archetype == archetype_info["archetype4"]
                 archetype_info["archetype_specialty4"] = chosen_specialty
+                slot_index = 4
               end
 
               # Reassign the hashes so they can be saved.
@@ -68,6 +73,8 @@ module AresMUSH
               specialty_info = Global.read_config('pf2e_archetype_specialty', archetype, chosen_specialty) || {}
               specialty_features = specialty_info['initial_dedication'] || {}
               specialty_magic = specialty_features['magic_stats'] || {}
+              specialty_choose = specialty_info['choose'] || {}
+              specialty_choose_options = specialty_choose['options'] || {}
 
               if !specialty_magic.empty?
                 base_class_key = enactor.pf2_base_info['charclass']
@@ -101,9 +108,115 @@ module AresMUSH
                 enactor.pf2_advancement = advancement
                 enactor.pf2_to_assign = to_assign
               end
+
+              if slot_index && specialty_choose_options.is_a?(Hash) && !specialty_choose_options.empty?
+                to_assign['archetype specialty choice'] ||= {}
+                to_assign['archetype specialty choice'][archetype] = {
+                  'specialty' => chosen_specialty,
+                  'choice' => 'open'
+                }
+                archetype_info["archetype_specialty_choice#{slot_index}"] = ""
+
+                choose_name = specialty_choose['choice_name'] || "specialty choice"
+                choose_options_list = specialty_choose_options.keys.sort.join(", ")
+                client.emit_ooc t('pf2e.adv_archetype_specialty_choice_select', :archetype => archetype, :specialty => chosen_specialty, :choice => choose_name, :options => choose_options_list)
+
+                enactor.pf2_archetypeinfo = archetype_info
+                enactor.pf2_to_assign = to_assign
+              end
               enactor.save
 
               client.emit_success t('pf2e.adv_archetype_specialty_assigned', :specialty => self.value.capitalize)
+            when 'specialtychoice'
+              choice_assignments = to_assign['archetype specialty choice'] || {}
+              choice_entry = nil
+              choice_archetype = archetype
+
+              if choice_archetype && choice_assignments[choice_archetype]
+                choice_entry = choice_assignments[choice_archetype]
+              else
+                choice_archetype = choice_assignments.keys.first
+                choice_entry = choice_assignments[choice_archetype] if choice_archetype
+              end
+
+              unless choice_entry && choice_entry['choice'].to_s.downcase == 'open'
+                client.emit_failure t('pf2e.adv_no_archetype_specialty_choice_needed')
+                return
+              end
+
+              chosen_specialty = choice_entry['specialty']
+              specialty_info = Global.read_config('pf2e_archetype_specialty', choice_archetype, chosen_specialty) || {}
+              choose_info = specialty_info['choose'] || {}
+              choose_options = choose_info['options'] || {}
+
+              unless choose_options.is_a?(Hash) && !choose_options.empty?
+                client.emit_failure t('pf2e.adv_no_archetype_specialty_choice_needed')
+                return
+              end
+
+              matched_option = choose_options.keys.find { |opt| opt.to_s.casecmp?(self.value) }
+
+              unless matched_option
+                client.emit_failure t('pf2e.adv_invalid_archetype_specialty_choice', :options => choose_options.keys.sort.join(", "))
+                return
+              end
+
+              choice_entry['choice'] = matched_option
+              choice_assignments[choice_archetype] = choice_entry
+              to_assign['archetype specialty choice'] = choice_assignments
+
+              archetype_info = enactor.pf2_archetypeinfo || {}
+              if choice_archetype == archetype_info["archetype1"]
+                archetype_info["archetype_specialty_choice1"] = matched_option
+              elsif choice_archetype == archetype_info["archetype2"]
+                archetype_info["archetype_specialty_choice2"] = matched_option
+              elsif choice_archetype == archetype_info["archetype3"]
+                archetype_info["archetype_specialty_choice3"] = matched_option
+              elsif choice_archetype == archetype_info["archetype4"]
+                archetype_info["archetype_specialty_choice4"] = matched_option
+              end
+
+              option_info = choose_options[matched_option] || {}
+              option_features = option_info['initial_dedication'] || {}
+              option_magic = option_features['magic_stats'] || {}
+
+              if !option_magic.empty?
+                base_class_key = enactor.pf2_base_info['charclass']
+                assess_magic = PF2Magic.assess_magic_stats(enactor, option_magic)
+                advancement = enactor.pf2_advancement || {}
+
+                advancement['magic_stats'] ||= {}
+                Pf2e.wrap_adv_magic_stats(advancement, base_class_key)
+                existing_magic = advancement['magic_stats'][choice_archetype] || {}
+                advancement['magic_stats'][choice_archetype] = existing_magic.merge(assess_magic['magic_stats'])
+
+                magic_options = assess_magic['magic_options'] || {}
+                if !magic_options.empty?
+                  magic_options.each_pair do |k, v|
+                    Pf2e.wrap_magic_assign(to_assign, k, base_class_key)
+                    to_assign[k] ||= {}
+
+                    existing = to_assign[k][choice_archetype]
+                    merged = if existing.is_a?(Hash) && v.is_a?(Hash)
+                      existing.merge(v) { |_key, old_val, new_val| old_val.is_a?(Array) && new_val.is_a?(Array) ? (old_val + new_val) : new_val }
+                    elsif existing.is_a?(Array) && v.is_a?(Array)
+                      existing + v
+                    else
+                      v
+                    end
+
+                    to_assign[k][choice_archetype] = merged
+                  end
+                end
+
+                enactor.pf2_advancement = advancement
+              end
+
+              enactor.pf2_archetypeinfo = archetype_info
+              enactor.pf2_to_assign = to_assign
+              enactor.save
+
+              client.emit_success t('pf2e.adv_archetype_specialty_choice_assigned', :choice => matched_option, :specialty => chosen_specialty)
             when 'key ability'
               valid_abilities = Array(to_assign['archetype key ability'])
 
@@ -177,7 +290,7 @@ module AresMUSH
 
               client.emit_success t('pf2e.adv_archetype_deity_assigned', :deity => chosen_deity, :archetype => archetype)
             else
-              client.emit_failure t('pf2e.bad_option', :element => 'archetype assignment', :options => 'specialty, key ability, deity')
+              client.emit_failure t('pf2e.bad_option', :element => 'archetype assignment', :options => 'specialty, specialtychoice, key ability, deity')
               return
             end
         end

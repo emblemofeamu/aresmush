@@ -45,16 +45,6 @@ module AresMUSH
                 .gsub("charclass", "class")
                 .gsub("spells_per_day", "spell_slots_per_day")
                 .gsub("addrepertoire", "repertoire")
-                .gsub("1", "1st-level")
-                .gsub("2", "2nd-level")
-                .gsub("3", "3rd-level")
-                .gsub("4", "4th-level")
-                .gsub("5", "5th-level")
-                .gsub("6", "6th-level")
-                .gsub("7", "7th-level")
-                .gsub("8", "8th-level")
-                .gsub("9", "9th-level")
-                .gsub("10", "10th-level")
                 .split(/[_\s]+/)
                 .map {|word| word.capitalize}
                 .join(" ")
@@ -63,17 +53,8 @@ module AresMUSH
               elsif subvalue.is_a? Hash
                 subsublist = []
                 subvalue.each_pair do |subsubkey, subsubvalue|
-                  subsubheading = subsubkey.to_s
-                    .gsub("1", "1st-level")
-                    .gsub("2", "2nd-level")
-                    .gsub("3", "3rd-level")
-                    .gsub("4", "4th-level")
-                    .gsub("5", "5th-level")
-                    .gsub("6", "6th-level")
-                    .gsub("7", "7th-level")
-                    .gsub("8", "8th-level")
-                    .gsub("9", "9th-level")
-                    .gsub("10", "10th-level")
+                  subsubheading = format_spell_level_heading(subsubkey)
+                    .to_s
                     .split(/[_\s]+/)
                     .map {|word| word.capitalize}
                     .join(" ")
@@ -81,7 +62,12 @@ module AresMUSH
                     # Go one level deeper for nested hashes
                     subsubsublist = []
                     subsubvalue.each_pair do |subsubsubkey, subsubsubvalue|
-                      subsubsubheading = subsubsubkey.to_s.gsub("_", " ").split.map {|word| word.capitalize}.join(" ")
+                      subsubsubheading = format_spell_level_heading(subsubsubkey)
+                        .to_s
+                        .gsub("_", " ")
+                        .split
+                        .map {|word| word.capitalize}
+                        .join(" ")
 
                       if subsubsubvalue.is_a? Hash
                         # Display the properties of this hash
@@ -168,16 +154,6 @@ module AresMUSH
               subheading = subkey.to_s
                 .gsub("charclass", "class feat(s)")
                 .gsub(/(?<!raise )skill/, "skill feat(s)")
-                .gsub("1", "1st-level spell(s)")
-                .gsub("2", "2nd-level spell(s)")
-                .gsub("3", "3rd-level spell(s)")
-                .gsub("4", "4th-level spell(s)")
-                .gsub("5", "5th-level spell(s)")
-                .gsub("6", "6th-level spell(s)")
-                .gsub("7", "7th-level spell(s)")
-                .gsub("8", "8th-level spell(s)")
-                .gsub("9", "9th-level spell(s)")
-                .gsub("10", "10th-level spell(s)")
                 .split
                 .map {|word| word.capitalize}
                 .join(" ")
@@ -187,7 +163,12 @@ module AresMUSH
               elsif subvalue.is_a? Hash
                 subsublist = []
                 subvalue.each_pair do |subsubkey, subsubvalue|
-                  subsubheading = subsubkey.to_s.capitalize
+                  subsubheading = format_spell_level_heading(subsubkey)
+                    .to_s
+                    .gsub("_", " ")
+                    .split
+                    .map {|word| word.capitalize}
+                    .join(" ")
                   formatted = subsubvalue.is_a?(Array) ? format_open_list(subsubvalue) : subsubvalue
                   subsublist << "%r%b%b%xh#{subsubheading}:%xn #{formatted}"
                 end
@@ -229,6 +210,24 @@ module AresMUSH
         return items.join(", ") if open_count.zero?
 
         "#{items.join(", ")}, #{open_count} open"
+      end
+
+      def format_spell_level_heading(key)
+        label = key.to_s.strip
+
+        return "Cantrip" if label.casecmp?("cantrip") || label == "0"
+        return "1st-level" if label == "1"
+        return "2nd-level" if label == "2"
+        return "3rd-level" if label == "3"
+        return "4th-level" if label == "4"
+        return "5th-level" if label == "5"
+        return "6th-level" if label == "6"
+        return "7th-level" if label == "7"
+        return "8th-level" if label == "8"
+        return "9th-level" if label == "9"
+        return "10th-level" if label == "10"
+
+        label
       end
 
     end
