@@ -92,6 +92,23 @@ module AresMUSH
 
     end
 
+    def self.dedication_allowed?(char, details)
+      return true unless details
+
+      feat_type = details['feat_type']
+      return true unless feat_type&.include?('Dedication')
+
+      base_class = char.pf2_base_info['charclass']
+      assoc_classes = Array(details['assoc_class']).compact
+      assoc_charclasses = Array(details['assoc_charclass']).compact
+
+      return assoc_classes.any? { |c| c.to_s.casecmp?(base_class.to_s) } unless assoc_classes.empty?
+
+      return true if assoc_charclasses.empty?
+
+      !assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
+    end
+
     def self.can_take_feat?(char, feat)
       msg = []
 
@@ -143,9 +160,7 @@ module AresMUSH
       end
 
       # No double-dipping on base class / dedication, per Paizo RAW.
-      #if feat_type.include? 'Dedication'
-      # msg << 'dedication' if feat.downcase.include? cinfo['charclass'].downcase
-      #end
+      msg << 'dedication' unless dedication_allowed?(char, details)
 
       # Prereq check, prerequisites includes level
 
@@ -694,7 +709,10 @@ module AresMUSH
       qualifies = fdeets["feat_type"]
 
       # If you don't meet the prereqs for the feat, don't bother processing the gate.
-      return false unless qualifies 
+      return false unless qualifies
+
+      # Block Dedication feats for the character's own class.
+      return false unless dedication_allowed?(char, fdeets)
 
       
       case gate.downcase

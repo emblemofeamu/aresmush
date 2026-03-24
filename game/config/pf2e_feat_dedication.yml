@@ -4,6 +4,21 @@ pf2e_feats:
   Alchemist Dedication: # Special Feat
     assoc_archetype:
       - Alchemist Archetype
+    assoc_class:
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -19,6 +34,21 @@ pf2e_feats:
   Barbarian Dedication: # Special Feat
     assoc_archetype:
       - Barbarian Archetype
+    assoc_class:
+      - Alchemist
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -38,6 +68,21 @@ pf2e_feats:
     feat_type: 
       - Dedication
       - Charclass
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     prereq:
       level: 2
       ability: 
@@ -50,6 +95,21 @@ pf2e_feats:
   Champion Dedication: # Special Feat
     assoc_archetype:
       - Champion Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -70,6 +130,21 @@ pf2e_feats:
   Cleric Dedication: # Special Feat
     assoc_archetype:
       - Cleric Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -85,6 +160,21 @@ pf2e_feats:
   Druid Dedication: # Special Feat
     assoc_archetype:
       - Druid Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -100,6 +190,21 @@ pf2e_feats:
   Fighter Dedication: # Special Feat
     assoc_archetype:
       - Fighter Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -116,6 +221,21 @@ pf2e_feats:
   Investigator Dedication: # Special Feat
     assoc_archetype:
       - Investigator Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -131,6 +251,21 @@ pf2e_feats:
   Monk Dedication: # Special Feat
     assoc_archetype:
       - Monk Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -147,6 +282,21 @@ pf2e_feats:
   Oracle Dedication: # Special Feat
     assoc_archetype:
       - Oracle Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -162,6 +312,21 @@ pf2e_feats:
   Ranger Dedication: # Special Feat
     assoc_archetype:
       - Ranger Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -177,6 +342,21 @@ pf2e_feats:
   Rogue Dedication: # Special Feat
     assoc_archetype:
       - Rogue Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -192,6 +372,21 @@ pf2e_feats:
   Sorcerer Dedication: # Special Feat
     assoc_archetype:
       - Sorcerer Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -207,6 +402,21 @@ pf2e_feats:
   Witch Dedication: # Special Feat
     assoc_archetype:
       - Witch Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
@@ -222,6 +432,22 @@ pf2e_feats:
   Wizard Dedication: # Special Feat
     assoc_archetype:
       - Wizard Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
     feat_type: 
       - Dedication
       - Charclass
