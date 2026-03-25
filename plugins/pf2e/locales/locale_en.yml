@@ -28,6 +28,7 @@ en:
     adv_archetype_specialty_choice_select: "You need to choose a %{choice} for your %{archetype} %{specialty} specialty. Options: %{options}"
     adv_archetype_specialty_skill_training: "%{archetypespecialty} gives you Trained proficiency in the following skill(s): %{skills}"
     adv_archetype_specialty_choice_skill_training: "%{archetypespecialtychoice} gives you Trained proficiency in the following skill(s): %{skills}"
+    adv_champion_specialty_alignment_mismatch: "Your alignment is not valid for the %{specialty} cause, which only accepts the %{options} alignment."
     adv_archetype_feats_assigned: "You have been granted the following feat(s) from your archetype: %{feats}"
     adv_archetype_skills_assigned: "You have been granted the following skill(s) from your archetype: %{skills}"
     adv_archetype_open_skill_assigned: "You have an open skill choice from your archetype to assign. Options: %{skills}"

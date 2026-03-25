@@ -47,6 +47,23 @@ module AresMUSH
               to_assign['archetype_specialty'] = self.value.capitalize
               chosen_specialty = self.value.capitalize
 
+              if archetype == 'Champion Archetype' && Global.read_config('pf2e', 'use_alignment')
+                alignment = enactor.pf2_faith['alignment']
+
+                if alignment.blank?
+                  client.emit_failure t('pf2e.alignment_missing')
+                  return
+                end
+
+                specialty_info = Global.read_config('pf2e_archetype_specialty', archetype, chosen_specialty) || {}
+                allowed_alignments = Array(specialty_info['allowed_alignments']).map { |a| a.to_s.strip }.reject(&:empty?)
+
+                unless allowed_alignments.empty? || allowed_alignments.any? { |a| a.casecmp?(alignment) }
+                  client.emit_failure t('pf2e.adv_champion_specialty_alignment_mismatch', :specialty => chosen_specialty, :options => allowed_alignments.sort.join(", "))
+                  return
+                end
+              end
+
               # Get the archetype info.
               archetype_info = enactor.pf2_archetypeinfo
 
