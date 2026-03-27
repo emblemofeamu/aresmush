@@ -57,6 +57,7 @@ pf2e_class:
           - ancestry
         charclass_feature:
           - Field Discovery
+          - Powerful Alchemy
       6:
         choose_feat:
           - charclass
@@ -69,6 +70,7 @@ pf2e_class:
             will: expert
         charclass_feature:
           - Perpetual Infusions
+          - Alchemical Weapon Expertise
         choose_feat:
           - general
         raise:
@@ -83,6 +85,8 @@ pf2e_class:
           perception: expert
         charclass_feature:
           - Double Brew
+          - Alertness
+          - Alchemical Expertise
         choose_feat:
           - ancestry
         raise:
@@ -103,6 +107,7 @@ pf2e_class:
             fortitude: master
         charclass_feature:
           - Perpetual Potency
+          - Juggernaut
       12:
         choose_feat:
         - charclass
@@ -114,6 +119,7 @@ pf2e_class:
           - skill
         charclass_feature:
           - Greater Field Discovery
+          - Medium Armor Expertise
           - Weapon Specialization
         combat_stats:
           armor_light: expert
@@ -145,6 +151,7 @@ pf2e_class:
           class_dc: master
         charclass_feature:
           - Perpetual Perfection
+          - Alchemical Mastery
         raise:
           - skill
       18:
@@ -156,6 +163,8 @@ pf2e_class:
           - general
         raise:
           - skill
+        charclass_feature:
+          - Medium Armor Mastery
         combat_stats:
           armor_light: master
           armor_unarmored: master
@@ -172,6 +181,8 @@ pf2e_class:
     chargen:
       choose_feat:
         - charclass
+      charclass_feature:
+        - Rage
       combat_stats:
         weapon_prof:
           simple: trained
@@ -387,7 +398,7 @@ pf2e_class:
           composition:
             - Counter Performance
       action:
-      - Cast a Spell
+        - Cast a Spell
       reaction: []
     advance:
       2:
@@ -400,6 +411,9 @@ pf2e_class:
           repertoire:
             1: 1
       3:
+        charclass_feature:
+          - Lightning Reflexes
+          - Signature Spells
         choose_feat:
           - general
         combat_stats:
@@ -475,6 +489,7 @@ pf2e_class:
             fortitude: expert
             will: master
         charclass_feature:
+          - Great Fortitude
           - Resolve
         raise:
           - skill
@@ -499,6 +514,9 @@ pf2e_class:
           repertoire:
             5: 1
       11:
+        charclass_feature:
+          - Bard Weapon Expertise
+          - Vigilant Senses
         choose_feat:
           - general
         raise:
@@ -531,6 +549,7 @@ pf2e_class:
           armor_unarmored: expert
         charclass_feature:
           - Weapon Specialization
+          - Light Armor Expertise
         raise:
           - skill
         choose_feat:
@@ -660,6 +679,10 @@ pf2e_class:
         - charclass
       charclass_feature:
         - Deific Weapon
+        - Champion's Code
+        - Deity and Cause
+        - Champion's Reaction
+        - Shield Block
       feat:
         - Shield Block
       reaction:
@@ -865,6 +888,7 @@ pf2e_class:
           cantrip: 5
           1: 2
       charclass_feature:
+        - Deity
         - Divine Font
       action:
         - Cast a Spell
@@ -878,6 +902,8 @@ pf2e_class:
           spells_per_day:
             1: 3
       3:
+        charclass_feature:
+          - Second Doctrine
         choose_feat:
           - general
         raise:
@@ -913,6 +939,8 @@ pf2e_class:
           spells_per_day:
             3: 3
       7:
+        charclass_feature:
+          - Third Doctrine
         raise:
           - skill
         choose_feat:
@@ -956,6 +984,7 @@ pf2e_class:
           - general
         charclass_feature:
           - Lightning Reflexes
+          - Fourth Doctrine
         combat_stats:
           saves:
             reflex: expert
@@ -994,6 +1023,8 @@ pf2e_class:
         raise:
           - ability
           - skill
+        charclass_feature:
+          - Fifth Doctrine
         choose_feat:
           - general
         magic_stats:
@@ -1027,6 +1058,7 @@ pf2e_class:
         choose_feat:
           - general
         charclass_feature:
+          - Final Doctrine
           - Miraculous Spell
         magic_stats:
           spells_per_day:
@@ -1063,6 +1095,7 @@ pf2e_class:
           will: expert
       charclass_feature:
         - Wild Empathy
+        - Shield Block
       feat:
         - Shield Block
       reaction:
@@ -1277,6 +1310,8 @@ pf2e_class:
     chargen:
       choose_feat:
         - charclass
+      charclass_feature:
+        - Attack Of Opportunity
       combat_stats:
         weapon_prof:
           simple: expert
@@ -1550,6 +1585,7 @@ pf2e_class:
         gated_feat: skillful lesson
         charclass_feature:
           - Weapon Expertise
+          - Strategic Strike 2d6
         combat_stats:
           weapon_prof:
             simple: expert
@@ -1587,6 +1623,7 @@ pf2e_class:
         charclass_feature:
           - Great Fortitude
           - Investigator Expertise
+          - Strategic Strike 3d6
         combat_stats:
           saves:
             fortitude: expert
@@ -1623,6 +1660,9 @@ pf2e_class:
           - skill
         charclass_feature:
           - Incredible Senses
+          - Light Armor Expertise
+          - Strategic Strike 4d6
+          - Weapon Mastery
         combat_stats:
           perception: legendary
       14:
@@ -1658,6 +1698,7 @@ pf2e_class:
           - skill
         charclass_feature:
           - Greater Resolve
+          - Strategic Strike 5d6
         combat_stats:
           saves:
             will: legendary
@@ -1868,6 +1909,7 @@ pf2e_class:
         raise:
           - skill
         charclass_feature:
+          - 'Incredible Movement +30'
           - Perfected Form
       20:
         choose_feat:
@@ -1880,6 +1922,8 @@ pf2e_class:
       - Charisma
     HP: 8
     chargen:
+      charclass_feature:
+        - Mystery
       skills:
         - Religion
         - open
@@ -1922,6 +1966,8 @@ pf2e_class:
           repertoire:
             1: 1
       3:
+        charclass_feature:
+          - Signature Spells
         choose_feat:
           - general
         raise:
@@ -2164,6 +2210,9 @@ pf2e_class:
         - open
         - open
         - open
+      charclass_feature:
+        - Hunt Prey
+        - Hunter's Edge
       choose_feat:
         - charclass
       combat_stats:
@@ -2360,7 +2409,7 @@ pf2e_class:
         - charclass
         - skill
       charclass_feature:
-        - Sneak Attack
+        - Sneak Attack 1d6
         - Surprise Attack
       combat_stats:
         weapon_prof:
@@ -2408,6 +2457,7 @@ pf2e_class:
           - ancestry
           - skill
         charclass_feature:
+          - Sneak Attack 2d6
           - Weapon Tricks
         combat_stats:
           unarmed: expert
@@ -2446,6 +2496,7 @@ pf2e_class:
         raise:
           - skill
         charclass_feature:
+          - Debilitating Strike
           - Great Fortitude
         combat_stats:
           saves:
@@ -2465,6 +2516,7 @@ pf2e_class:
           - skill
         charclass_feature:
           - Rogue Expertise
+          - Sneak Attack 3d6
         combat_stats:
           class_dc: expert
           sneak_attack: 3d6
@@ -2525,6 +2577,7 @@ pf2e_class:
           - skill
         charclass_feature:
           - Slippery Mind
+          - Sneak Attack 4d6
         combat_stats:
           sneak_attack: 4d6
       18:
@@ -2699,6 +2752,7 @@ pf2e_class:
           - skill
         charclass_feature:
           - Alertness
+          - Weapon Expertise
         magic_stats:
           spells_per_day:
             6: 3
@@ -2773,6 +2827,8 @@ pf2e_class:
           - ancestry
         raise:
           - skill
+        charclass_feature:
+          - Resolve
         magic_stats:
           spells_per_day:
             9: 3
@@ -2815,6 +2871,9 @@ pf2e_class:
       - Intelligence
     HP: 6
     chargen:
+      charclass_feature:
+        - Hexes
+        - Familiar
       skills:
         - open
         - open
@@ -3049,6 +3108,7 @@ pf2e_class:
         - open
       charclass_feature:
         - Arcane Bond
+        - Arcane Thesis
       combat_stats:
         weapon_prof:
           charclass: trained
@@ -3177,6 +3237,7 @@ pf2e_class:
           - skill
         charclass_feature:
           - Alertness
+          - Wizard Weapon Expertise
         magic_stats:
           spells_per_day:
             6: 2
