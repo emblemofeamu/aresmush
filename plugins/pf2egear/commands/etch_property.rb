@@ -48,24 +48,22 @@ module AresMUSH
       def handle
         # All validation checks have passed
         # Property Runes are a toggle, essentially. The list will have it or not.
-        runes = @item.runes
-        old_rune_list = runes["property"]
-        
-        # If runes["property"] does not exist, create it
-        if runes["property"]["list"].nil?
-          runes["property"] = { "list" => [] }
-        end
+        runes = @item.runes || {}
+        runes["property"] ||= { "list" => [] }
+        list = runes["property"]["list"] || []
         
         # Remove it if it's there, add it if it's not
-        if runes["property"]["list"].include? self.rune_name
+        if list.include? self.rune_name
           # Has it, so remove it
-          runes["property"]["list"].delete(self.rune_name)
+          list.delete(self.rune_name)
           operation = "unset"
         else
           # Doesn't have it, add it and sort the list
-          runes["property"]["list"].append(self.rune_name).sort
+          list << self.rune_name
+          list.sort!
           operation = "set"
         end
+        runes["property"]["list"] = list
         @item.update(runes: runes)
         client.emit_success t('pf2egear.rune_property_set', :rune_name => self.rune_name.titlecase, :operation => operation, :char => self.target.titlecase, :item_name => @item.nickname.nil? ? @item.name : @item.nickname)
       end
