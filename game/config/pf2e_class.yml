@@ -2364,6 +2364,7 @@ pf2e_class:
         - Surprise Attack
       combat_stats:
         weapon_prof:
+          charclass: trained
           simple: trained
           unarmed: trained
         armor_prof:
