@@ -816,7 +816,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scavenger (Am'shere):
+  Scavenger:
     abl_boosts:
       - [ Intelligence, Wisdom ]
       - open
