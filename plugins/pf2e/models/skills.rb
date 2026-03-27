@@ -69,9 +69,19 @@ module AresMUSH
       msgs = []
       to_assign = char.pf2_to_assign
 
-      choose_open_skill = to_assign['open skills'].include?("open")
+      choose_open_skill = Array(to_assign['open skills']).include?("open")
 
       msgs << t('pf2e.unassigned_openskill') if choose_open_skill
+
+      bg_choice = to_assign['bg skill choice']
+      if bg_choice && bg_choice['selected'] == 'open'
+        msgs << t('pf2e.unassigned_bg_skill_choice', :options => bg_choice['options'].sort.join(", "))
+      end
+
+      class_choice = to_assign['class skill choice']
+      if class_choice && class_choice['selected'] == 'open'
+        msgs << t('pf2e.unassigned_class_skill_choice', :options => class_choice['options'].sort.join(", "))
+      end
 
       return nil if msgs.empty?
       return msgs

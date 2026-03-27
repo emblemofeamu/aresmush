@@ -1298,6 +1298,9 @@ pf2e_class:
         - open
         - open
         - open
+      skill choice:
+        - Athletics
+        - Acrobatics
       feat:
         - Shield Block
       reaction:

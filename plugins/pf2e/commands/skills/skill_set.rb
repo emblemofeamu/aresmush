@@ -40,7 +40,12 @@ module AresMUSH
 
         # Verify that there are things to be assigned that this command handles.
 
-        skill_types = { 'background'=>'bgskill', 'free'=>'open skills' }
+        skill_types = {
+          'background' => 'bgskill',
+          'free' => 'open skills',
+          'bgchoice' => 'bg skill choice',
+          'classchoice' => 'class skill choice'
+        }
         options = skill_types.keys
         to_assign = enactor.pf2_to_assign
 
@@ -118,6 +123,24 @@ module AresMUSH
           end
 
           skill_options[loc] = self.value
+        when "bg skill choice", "class skill choice"
+          if !skill_options.is_a?(Hash)
+            client.emit_failure t('pf2e.cannot_assign_type', :element=>"skill")
+            return
+          end
+
+          if skill_options['selected'] && skill_options['selected'] != 'open'
+            client.emit_failure t('pf2e.no_free', :element=>self.type)
+            return
+          end
+
+          options = Array(skill_options['options'])
+          unless options.include?(self.value)
+            client.emit_failure t('pf2e.bad_option', :element=>"skill option", :options=>options.sort.join(", "))
+            return
+          end
+
+          skill_options['selected'] = self.value
         end
 
         to_assign[assignment_type] = skill_options

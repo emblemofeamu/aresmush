@@ -552,23 +552,7 @@ pf2e_specialty:
               - Wild Morph
         anathema:
           - "Become reliant on the temptations of civilization."
-  Fighter:
-    Acrobatic:
-      chargen:
-        action: []
-        reaction: []
-        feat: []
-        magic_stats: {}
-        skills:
-          - Acrobatics
-    Athletic:
-      chargen:
-        action: []
-        reaction: []
-        feat: []
-        magic_stats: {}
-        skills: 
-          - Athletics
+  Fighter: {}
   Investigator:
     Alchemical Sciences:
       chargen:

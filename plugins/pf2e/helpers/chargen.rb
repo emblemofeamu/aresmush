@@ -257,6 +257,23 @@ module AresMUSH
 
       to_assign['open skills'] = open_skills
 
+      bg_skill_choice = background_info['skill choice'] || []
+      class_skill_choice = class_features_info['skill choice'] || []
+
+      if bg_skill_choice.any?
+        to_assign['bg skill choice'] = {
+          'options' => bg_skill_choice,
+          'selected' => 'open'
+        }
+      end
+
+      if class_skill_choice.any?
+        to_assign['class skill choice'] = {
+          'options' => class_skill_choice,
+          'selected' => 'open'
+        }
+      end
+
       # Some backgrounds require you to choose a lore from a list. Stash these into to_assign.
 
       if background_info['lores']
@@ -613,7 +630,12 @@ module AresMUSH
       to_assign = char.pf2_to_assign
 
       to_assign.each_pair do |k,v|
-        next unless v.include? "open"
+        if v.is_a?(Hash)
+          return false if v['selected'] == 'open'
+          next
+        end
+
+        next unless v.respond_to?(:include?) && v.include?("open")
         return false
       end
 
@@ -727,6 +749,15 @@ module AresMUSH
           restore_checkpoint(char, "info")
           Pf2e.cg_lock_base_options(char, client)
           char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
+
+          # Restore saved ability scores from the checkpoint snapshot.
+          char.abilities.each do |ability|
+            cp_state = ability.checkpoint || {}
+            next if cp_state.empty?
+
+            ability.update(base_val: cp_state['base_val']) if cp_state.key?('base_val')
+            ability.update(mod_val: cp_state['mod_val']) if cp_state.key?('mod_val')
+          end
 
           char.chargen_stage = "6"
           char.save
