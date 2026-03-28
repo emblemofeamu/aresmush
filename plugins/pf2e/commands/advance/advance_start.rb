@@ -31,7 +31,12 @@ module AresMUSH
         archetype4 = enactor.pf2_archetypeinfo['archetype4'] && enactor.pf2_archetypeinfo['archetype_specialty4'] || []
 
         # Some specialties have their own peculiar advancement bits. Look for those and merge them in if present.
-        subclass_adv_info = Global.read_config('pf2e_specialty', charclass, enactor.pf2_base_info['specialize'])['advance']
+        specialize = enactor.pf2_base_info['specialize']
+        subclass_adv_info = nil
+        unless specialize.blank?
+          specialty_config = Global.read_config('pf2e_specialty', charclass, specialize) || {}
+          subclass_adv_info = specialty_config['advance']
+        end
         sublevel_adv_info = subclass_adv_info ? subclass_adv_info[level] : nil
 
         info = if sublevel_adv_info
