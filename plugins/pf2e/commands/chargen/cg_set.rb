@@ -98,11 +98,19 @@ module AresMUSH
 
         # Selected option might be nil or an empty array.
         if !selected_option
-          client.emit_failure t('pf2e.bad_option', :element => selected_element, :options => options.join(", "))
+          if selected_element == "background"
+            client.emit_failure t('pf2e.cg_bad_background')
+          else
+            client.emit_failure t('pf2e.bad_option', :element => selected_element, :options => options.join(", "))
+          end
           return
         elsif selected_option.is_a? Array
           if selected_option.empty?
-            client.emit_failure t('pf2e.bad_option', :element => selected_element, :options => options.join(", "))
+            if selected_element == "background"
+              client.emit_failure t('pf2e.cg_bad_background')
+            else
+              client.emit_failure t('pf2e.bad_option', :element => selected_element, :options => options.join(", "))
+            end
             return
           elsif selected_option.size > 1
             client.emit_failure t('pf2e.multiple_matches', :element => self.element)

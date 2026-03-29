@@ -138,6 +138,7 @@ en:
     cg_commit_ok: "This %{option} message brought to you by enough coffee to fuel a daycare for a thousand years."
     cg_locked: "Your %{cp} are already locked. If you need to change them, you will need to cg/reset."
     cg_info: "The following options are available for %{element}: %{options}"
+    cg_bad_background: "That is not a valid background. See the Backgrounds wiki page or '%xucg/info background%xU' for a list of valid backgrounds."
     cg_issues: "There is a problem with your choices. Review and resolve the messages in '%xucg/review%xU' before running this command."
     cg_options_locked: "Your chargen options are already locked. Use '%xucg/reset%xU' to clear your sheet if you need to make changes."
     cg_options_ok: "%xgNo errors or issues detected with your CG options."
