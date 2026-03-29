@@ -96,19 +96,15 @@ module AresMUSH
                 cleaned_skills = specialty_skills.map { |skill| skill.to_s.strip }.reject { |skill| skill.empty? || skill.downcase == 'open' }
 
                 if !cleaned_skills.empty?
-                  pending_skills = Array(to_assign['raise skill'])
-                  pending_skills.concat(cleaned_skills)
-                  pending_skills = pending_skills.compact.uniq
-                  to_assign['raise skill'] = pending_skills
-
-                  pending_adv_skills = Array(advancement['raise skill'])
-                  pending_adv_skills.concat(cleaned_skills)
-                  pending_adv_skills = pending_adv_skills.compact.uniq
-                  advancement['raise skill'] = pending_adv_skills
-
+                  result = Pf2e.add_training_skills(enactor, cleaned_skills, to_assign, advancement)
                   enactor.pf2_advancement = advancement
                   enactor.pf2_to_assign = to_assign
-                  client.emit_ooc t('pf2e.adv_archetype_specialty_skill_training', :archetypespecialty => chosen_specialty, :skills => cleaned_skills.join(", "))
+                  if result[:assigned].any?
+                    client.emit_ooc t('pf2e.adv_archetype_specialty_skill_training', :archetypespecialty => chosen_specialty, :skills => result[:assigned].join(", "))
+                  end
+                  if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
+                    client.emit_ooc t('pf2e.adv_duplicate_skill_open', :item => 'archetype specialty')
+                  end
                 end
               end
               specialty_choose = specialty_info['choose'] || {}
@@ -222,19 +218,15 @@ module AresMUSH
                 cleaned_skills = option_skills.map { |skill| skill.to_s.strip }.reject { |skill| skill.empty? || skill.downcase == 'open' }
 
                 if !cleaned_skills.empty?
-                  pending_skills = Array(to_assign['raise skill'])
-                  pending_skills.concat(cleaned_skills)
-                  pending_skills = pending_skills.compact.uniq
-                  to_assign['raise skill'] = pending_skills
-
-                  pending_adv_skills = Array(advancement['raise skill'])
-                  pending_adv_skills.concat(cleaned_skills)
-                  pending_adv_skills = pending_adv_skills.compact.uniq
-                  advancement['raise skill'] = pending_adv_skills
-
+                  result = Pf2e.add_training_skills(enactor, cleaned_skills, to_assign, advancement)
                   enactor.pf2_advancement = advancement
                   enactor.pf2_to_assign = to_assign
-                  client.emit_ooc t('pf2e.adv_archetype_specialty_choice_skill_training', :archetypespecialtychoice => matched_option, :skills => cleaned_skills.join(", "))
+                  if result[:assigned].any?
+                    client.emit_ooc t('pf2e.adv_archetype_specialty_choice_skill_training', :archetypespecialtychoice => matched_option, :skills => result[:assigned].join(", "))
+                  end
+                  if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
+                    client.emit_ooc t('pf2e.adv_duplicate_skill_open', :item => 'archetype specialty choice')
+                  end
                 end
               end
 
@@ -343,17 +335,13 @@ module AresMUSH
 
               divine_skill = Global.read_config('pf2e_deities', chosen_deity, 'divine_skill')
               if divine_skill && !divine_skill.to_s.strip.empty?
-                pending_skills = Array(to_assign['raise skill'])
-                pending_skills << divine_skill
-                pending_skills = pending_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
-                to_assign['raise skill'] = pending_skills
-
-                pending_adv_skills = Array(advancement['raise skill'])
-                pending_adv_skills << divine_skill
-                pending_adv_skills = pending_adv_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
-                advancement['raise skill'] = pending_adv_skills
-
-                client.emit_ooc t('pf2e.adv_archetype_deity_skill_assigned', :deity => chosen_deity, :skill => divine_skill)
+                result = Pf2e.add_training_skills(enactor, [divine_skill], to_assign, advancement)
+                if result[:assigned].any?
+                  client.emit_ooc t('pf2e.adv_archetype_deity_skill_assigned', :deity => chosen_deity, :skill => divine_skill)
+                end
+                if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
+                  client.emit_ooc t('pf2e.adv_duplicate_skill_open', :item => 'deity')
+                end
               end
 
               enactor.pf2_advancement = advancement

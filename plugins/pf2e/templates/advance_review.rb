@@ -34,7 +34,11 @@ module AresMUSH
 
         adv.each_pair do |key, value|
           # Process according to the data type of the key.
-          heading = key.gsub("charclass", "class").split("_").map {|word| word.capitalize}.join(" ")
+          heading = key.gsub("charclass", "class")
+                       .gsub("class dcs", "class dcs")
+                       .split(/[_\s]+/)
+                       .map {|word| word.capitalize}
+                       .join(" ")
 
           if value.is_a? Array
             list << "#{item_color}#{heading}:%xn #{format_open_list(value)}" unless value.empty?
@@ -45,9 +49,13 @@ module AresMUSH
                 .gsub("charclass", "class")
                 .gsub("spells_per_day", "spell_slots_per_day")
                 .gsub("addrepertoire", "repertoire")
+                .gsub("weapon_prof", "weapon proficiencies")
+                .gsub("armor_prof", "armor proficiencies")
                 .split(/[_\s]+/)
                 .map {|word| word.capitalize}
                 .join(" ")
+              subheading = subheading.gsub("Dcs", "DCs")
+              subheading = subheading.gsub("Spell Abil", "Spell Ability")
               if subvalue.is_a? Array
                 sublist << "%r%b%b#{item_color}#{subheading}:%xn #{format_open_list(subvalue)}"
               elsif subvalue.is_a? Hash
@@ -58,6 +66,7 @@ module AresMUSH
                     .split(/[_\s]+/)
                     .map {|word| word.capitalize}
                     .join(" ")
+                  subsubheading = subsubheading.gsub("Spell Abil", "Spell Ability")
                   if subsubvalue.is_a? Hash
                     # Go one level deeper for nested hashes
                     subsubsublist = []
@@ -68,12 +77,15 @@ module AresMUSH
                         .split
                         .map {|word| word.capitalize}
                         .join(" ")
+                      subsubsubheading = subsubsubheading.gsub("Prof", "Proficiency")
 
                       if subsubsubvalue.is_a? Hash
                         # Display the properties of this hash
                         final_list = []
                         subsubsubvalue.each_pair do |final_key, final_value|
                           final_heading = final_key.to_s.gsub("_", " ").split.map {|word| word.capitalize}.join(" ")
+                          final_heading = final_heading.gsub("Prof", "Proficiency")
+                          final_heading = final_heading.gsub("Spell Abil", "Spell Ability")
                           formatted_value = final_value.is_a?(String) ? final_value.titleize : final_value
                           final_list << "%r%b%b%b%b%b%b%b%b%xh#{final_heading}:%xn #{formatted_value}"
                         end
@@ -131,12 +143,18 @@ module AresMUSH
           # Process according to the data type of the key.
           heading = key.gsub("charclass", "class feat")
                        .gsub(/(?<!raise )skill/, "skill feat(s)")
-                       .split("_")
+                       .split(/[_\s]+/)
                        .map {|word| word.capitalize}
                        .join(" ")
 
           if value.is_a? Array
-            list << "#{item_color}#{heading}:%xn #{format_open_list(value)}" unless value.empty?
+            formatted = if key == "archetype key ability"
+              format_or_list(value)
+            else
+              format_open_list(value)
+            end
+
+            list << "#{item_color}#{heading}:%xn #{formatted}" unless value.empty?
           elsif value.is_a? Hash
             if key == "class option" || key == "charclass option"
               list << "#{item_color}Class Feature Option:%xn"
@@ -204,12 +222,42 @@ module AresMUSH
       def format_open_list(value)
         return value.sort.join(", ") if !value.is_a?(Array) || value.empty?
 
-        open_count = value.count { |item| item.to_s.downcase == 'open' }
-        items = value.reject { |item| item.to_s.downcase == 'open' }.sort
-        return "#{open_count} open" if items.empty?
-        return items.join(", ") if open_count.zero?
+        counts = {
+          'open untrained' => 0,
+          'open lore untrained' => 0,
+          'open lore' => 0,
+          'open' => 0
+        }
 
-        "#{items.join(", ")}, #{open_count} open"
+        items = []
+        value.each do |item|
+          token = item.to_s.downcase
+          if counts.key?(token)
+            counts[token] += 1
+          else
+            items << item
+          end
+        end
+
+        open_labels = []
+        counts.each_pair do |label, count|
+          next if count.zero?
+          open_labels << "#{count} #{label}"
+        end
+
+        items = items.sort
+        return open_labels.join(", ") if items.empty?
+        return items.join(", ") if open_labels.empty?
+
+        "#{items.join(", ")}, #{open_labels.join(", ")}"
+      end
+
+      def format_or_list(value)
+        list = Array(value).compact.map { |entry| entry.to_s.strip }.reject(&:empty?)
+        return "" if list.empty?
+        return list.first if list.size == 1
+
+        "#{list[0..-2].join(", ")} or #{list[-1]}"
       end
 
       def format_spell_level_heading(key)

@@ -98,6 +98,8 @@ module AresMUSH
 
           item = skill_list[index]
 
+          exists = Array(to_assign[key])
+
           # Minimum level check for higher proficiencies.
           min_level = Pf2eSkills.min_level_for_prof(Pf2eSkills.get_next_prof(enactor, item))
 
@@ -108,8 +110,53 @@ module AresMUSH
             return
           end
 
-          to_assign[key] = item
-          advancement[key] = item
+          open_indices = exists.each_index.select { |i| Pf2e.open_skill_token?(exists[i]) }
+
+          if open_indices.any?
+            is_lore = Pf2e.lore_skill?(item)
+            open_lore_index = open_indices.find { |i| exists[i].to_s.casecmp?('open lore') }
+            open_lore_untrained_index = open_indices.find { |i| exists[i].to_s.casecmp?('open lore untrained') }
+            open_any_index = open_indices.find { |i| exists[i].to_s.casecmp?('open') }
+            open_untrained_index = open_indices.find { |i| exists[i].to_s.casecmp?('open untrained') }
+
+            current_prof = Pf2eSkills.get_skill_prof(enactor, item)
+            is_untrained = current_prof.to_s.casecmp?('untrained')
+
+            replace_index = if is_lore
+              if is_untrained
+                open_lore_untrained_index || open_lore_index || open_untrained_index || open_any_index
+              else
+                open_lore_index || open_any_index
+              end
+            else
+              if is_untrained
+                open_untrained_index || open_any_index
+              else
+                open_any_index
+              end
+            end
+
+            if replace_index.nil?
+              if open_indices.any? { |i| Pf2e.untrained_only_token?(exists[i]) } && !is_untrained
+                client.emit_failure t('pf2e.adv_untrained_only')
+              else
+                client.emit_failure t('pf2e.adv_lore_required')
+              end
+              return
+            end
+
+            if Pf2e.untrained_only_token?(exists[replace_index]) && !is_untrained
+              client.emit_failure t('pf2e.adv_untrained_only')
+              return
+            end
+
+            exists[replace_index] = item
+            to_assign[key] = exists
+            advancement[key] = exists
+          else
+            to_assign[key] = item
+            advancement[key] = item
+          end
         elsif self.type == 'skill choice'
           allowed_skills = Array(to_assign[key])
           allowed_skills_up = allowed_skills.map(&:upcase)

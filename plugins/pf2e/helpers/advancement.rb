@@ -74,6 +74,122 @@ module AresMUSH
       archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
     end
 
+    def self.lore_skill?(skill_name)
+      skill_name.to_s.strip.downcase.end_with?('lore')
+    end
+
+    def self.open_skill_token?(value)
+      token = value.to_s.strip.downcase
+      token == 'open' || token == 'open lore' || token == 'open untrained' || token == 'open lore untrained'
+    end
+
+    def self.untrained_only_token?(value)
+      token = value.to_s.strip.downcase
+      token == 'open untrained' || token == 'open lore untrained'
+    end
+
+    def self.pending_skill_names(to_assign, advancement)
+      entries = []
+      entries += Array(to_assign['raise skill'])
+      entries += Array(advancement['raise skill'])
+
+      entries = entries.compact.map { |entry| entry.to_s.strip }.reject(&:empty?)
+      entries.reject! { |entry| open_skill_token?(entry) }
+      entries.map(&:downcase)
+    end
+
+    def self.merge_raise_skill_entries(existing, additions)
+      list = if existing.is_a?(Array)
+        existing.dup
+      elsif existing.nil?
+        []
+      else
+        [existing]
+      end
+
+      list += Array(additions)
+      list = list.compact.map { |entry| entry.to_s.strip }.reject(&:empty?)
+
+      seen = {}
+      result = []
+      list.each do |entry|
+        if open_skill_token?(entry)
+          result << entry
+          next
+        end
+
+        key = entry.to_s.downcase
+        next if seen[key]
+
+        seen[key] = true
+        result << entry
+      end
+
+      result
+    end
+
+    def self.add_open_skill_slot(to_assign, advancement, lore=false, untrained_only=false)
+      token = if lore
+        untrained_only ? 'open lore untrained' : 'open lore'
+      else
+        untrained_only ? 'open untrained' : 'open'
+      end
+
+      to_assign['raise skill'] = if to_assign['raise skill'].is_a?(Array)
+        to_assign['raise skill'] + [token]
+      elsif to_assign['raise skill'].nil?
+        [token]
+      else
+        [to_assign['raise skill'], token]
+      end
+
+      advancement['raise skill'] = if advancement['raise skill'].is_a?(Array)
+        advancement['raise skill'] + [token]
+      elsif advancement['raise skill'].nil?
+        [token]
+      else
+        [advancement['raise skill'], token]
+      end
+    end
+
+    def self.add_training_skills(char, skills, to_assign, advancement)
+      cleaned = Array(skills).map { |s| s.to_s.strip }.reject(&:empty?)
+      return { assigned: [], open_count: 0, open_lore_count: 0 } if cleaned.empty?
+
+      pending = pending_skill_names(to_assign, advancement)
+      assigned = []
+      open_count = 0
+      open_lore_count = 0
+
+      cleaned.each do |skill|
+        normalized = skill.to_s.downcase
+        already_trained = Pf2eSkills.get_skill_prof(char, skill).to_s.downcase != 'untrained'
+        already_pending = pending.include?(normalized)
+
+        if already_trained || already_pending
+          if lore_skill?(skill)
+            open_lore_count += 1
+          else
+            open_count += 1
+          end
+          next
+        end
+
+        assigned << skill
+        pending << normalized
+      end
+
+      if assigned.any?
+        to_assign['raise skill'] = merge_raise_skill_entries(to_assign['raise skill'], assigned)
+        advancement['raise skill'] = merge_raise_skill_entries(advancement['raise skill'], assigned)
+      end
+
+      open_count.times { add_open_skill_slot(to_assign, advancement, false, true) }
+      open_lore_count.times { add_open_skill_slot(to_assign, advancement, true, true) }
+
+      { assigned: assigned, open_count: open_count, open_lore_count: open_lore_count }
+    end
+
     def self.assess_advancement(char,info)
       # Can the character advance?
       advfail = Pf2e.can_advance(char)
@@ -244,7 +360,7 @@ module AresMUSH
         when "raise skill"
           Array(value).each do |skill_name|
             next if skill_name.to_s.strip.empty?
-            next if skill_name.to_s.downcase == 'open'
+            next if open_skill_token?(skill_name)
 
             skill = Pf2eSkills.find_skill(skill_name, char)
             return nil if !skill
@@ -255,7 +371,7 @@ module AresMUSH
         when "raise skill choice"
           Array(value).each do |skill_name|
             next if skill_name.to_s.strip.empty?
-            next if skill_name.to_s.downcase == 'open'
+            next if open_skill_token?(skill_name)
 
             skill = Pf2eSkills.find_skill(skill_name, char)
             return nil if !skill
@@ -491,16 +607,44 @@ module AresMUSH
 
           # Info is blank if the item has not yet been selected.
           has_open = if info.is_a?(Array)
-            info.include?("open")
+            info.any? { |entry| open_skill_token?(entry) }
           else
-            info == "open"
+            open_skill_token?(info)
+          end
+
+          has_untrained_only = if type == "skill"
+            if info.is_a?(Array)
+              info.any? { |entry| untrained_only_token?(entry) }
+            else
+              untrained_only_token?(info)
+            end
+          else
+            false
+          end
+
+          untrained_only_count = if type == "skill"
+            if info.is_a?(Array)
+              info.count { |entry| untrained_only_token?(entry) }
+            else
+              untrained_only_token?(info) ? 1 : 0
+            end
+          else
+            0
           end
 
           if has_open
             if type == "ability"
               msg << t('pf2e.adv_item_raise_ability')
-            else
+            elsif !has_untrained_only
               msg << t('pf2e.adv_item_raise', :item => type)
+            end
+          end
+
+          if has_untrained_only
+            if untrained_only_count > 1
+              msg << t('pf2e.adv_item_raise_untrained_skill_multiple', :count => untrained_only_count)
+            else
+              msg << t('pf2e.adv_item_raise_untrained_skill')
             end
           end
         when "raise skill choice"

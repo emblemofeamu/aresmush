@@ -163,17 +163,13 @@ module AresMUSH
 
                 divine_skill = Global.read_config('pf2e_deities', existing_deity, 'divine_skill')
                 if divine_skill && !divine_skill.to_s.strip.empty?
-                  pending_skills = Array(to_assign['raise skill'])
-                  pending_skills << divine_skill
-                  pending_skills = pending_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
-                  to_assign['raise skill'] = pending_skills
-
-                  pending_adv_skills = Array(advancement['raise skill'])
-                  pending_adv_skills << divine_skill
-                  pending_adv_skills = pending_adv_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
-                  advancement['raise skill'] = pending_adv_skills
-
-                  client.emit_ooc t('pf2e.adv_archetype_deity_skill_assigned', :deity => existing_deity, :skill => divine_skill)
+                  result = Pf2e.add_training_skills(enactor, [divine_skill], to_assign, advancement)
+                  if result[:assigned].any?
+                    client.emit_ooc t('pf2e.adv_archetype_deity_skill_assigned', :deity => existing_deity, :skill => divine_skill)
+                  end
+                  if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
+                    client.emit_ooc t('pf2e.adv_duplicate_skill_open', :item => 'deity')
+                  end
                 end
               else
                 # If the archetype has a deity choice, open it up.
@@ -184,19 +180,13 @@ module AresMUSH
             # Handle automatic skill increases from archetype, if present, and merge them with any other pending skill increases.
             archetype_skills = Array(archetype_features_info['skills']).compact.map { |s| s.to_s.strip }.reject(&:empty?)
             if !archetype_skills.empty?
-              pending_skills = Array(to_assign['raise skill'])
-
-              pending_skills += archetype_skills
-              pending_skills = pending_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
-
-              to_assign['raise skill'] = pending_skills
-
-              pending_adv_skills = Array(advancement['raise skill'])
-              pending_adv_skills += archetype_skills
-              pending_adv_skills = pending_adv_skills.compact.map { |s| s.to_s.strip }.reject(&:empty?).uniq
-
-              advancement['raise skill'] = pending_adv_skills
-              client.emit_ooc t('pf2e.adv_archetype_skills_assigned', :skills => archetype_skills.join(", "))
+              result = Pf2e.add_training_skills(enactor, archetype_skills, to_assign, advancement)
+              if result[:assigned].any?
+                client.emit_ooc t('pf2e.adv_archetype_skills_assigned', :skills => result[:assigned].join(", "))
+              end
+              if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
+                client.emit_ooc t('pf2e.adv_duplicate_skill_open', :item => 'archetype')
+              end
             end
             archetype_skill_choices = Array(archetype_features_info['skill choice']).compact.map { |s| s.to_s.strip }.reject(&:empty?)
             if !archetype_skill_choices.empty?
@@ -313,13 +303,28 @@ module AresMUSH
         has_grants = fdetails['grants']
 
         if has_grants
-          client.emit_ooc t('pf2e.advancement_feat_grants_addl', :element => 'item')
           grants = to_assign['grants']  || {}
           adv_grants = advancement['grants'] || {}
 
           assess = Pf2e.assess_feat_grants(has_grants)
           feat_adv_grants = assess['advance'] unless assess['advance'].empty?
           feat_grants = assess['assign'] unless assess['assign'].empty?
+
+          if feat_adv_grants && feat_adv_grants['skill']
+            skill_grants = feat_adv_grants['skill']
+            result = Pf2e.add_training_skills(enactor, skill_grants, to_assign, advancement)
+            if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
+              client.emit_ooc t('pf2e.adv_duplicate_skill_open', :item => "#{fname} feat")
+            end
+
+            feat_adv_grants = feat_adv_grants.dup
+            feat_adv_grants.delete('skill')
+            feat_adv_grants = nil if feat_adv_grants.empty?
+          end
+
+          if feat_grants || feat_adv_grants
+            client.emit_ooc t('pf2e.advancement_feat_grants_addl', :element => 'item')
+          end
 
           grants[fname] = feat_grants if feat_grants
           adv_grants[fname] = feat_adv_grants if feat_adv_grants

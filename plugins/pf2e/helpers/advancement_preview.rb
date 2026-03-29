@@ -41,7 +41,7 @@ module AresMUSH
       pending += Array(advancement['raise skill'])
       pending += Array(advancement['raise skill choice'])
 
-      normalized = pending.select { |s| !s.to_s.strip.empty? && s.to_s.downcase != 'open' }
+      normalized = pending.select { |s| !s.to_s.strip.empty? && !open_skill_token?(s) }
                           .map { |s| s.to_s.downcase }
 
       raise_count = normalized.count(skill_name.to_s.downcase)
