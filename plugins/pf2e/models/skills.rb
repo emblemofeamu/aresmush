@@ -75,7 +75,12 @@ module AresMUSH
 
       bg_choice = to_assign['bg skill choice']
       if bg_choice && bg_choice['selected'] == 'open'
-        msgs << t('pf2e.unassigned_bg_skill_choice', :options => bg_choice['options'].sort.join(", "))
+        bg_options = Array(bg_choice['options']).compact
+        if bg_options.size > 5
+          msgs << t('pf2e.unassigned_bg_skill_choice_many')
+        else
+          msgs << t('pf2e.unassigned_bg_skill_choice', :options => bg_options.sort.join(", "))
+        end
       end
 
       class_choice = to_assign['class skill choice']

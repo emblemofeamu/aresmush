@@ -287,6 +287,7 @@ en:
     unassigned_lang: "%xrYou have extra languages to assign."
     unassigned_openskill: "%xrYou have free skills left to assign.%xn"
     unassigned_bg_skill_choice: "%xrYou need to choose a background skill: %{options}.%xn"
+    unassigned_bg_skill_choice_many: "%xrYou need to choose a background skill. (See the full list of skill options for your background on the Backgrounds wiki page.)%xn"
     unassigned_class_skill_choice: "%xrYou need to choose a class skill: %{options}.%xn"
     unassigned_title: "Unassigned Character Options: %{name}"
     unassigned_class_feat: "%xrYou still need to choose a class feat.%xn"

@@ -321,6 +321,44 @@ pf2e_background:
       - Tarienite Lore
       - Thulite Lore
       - Vardaman Lore
+      - Aeon Lore
+      - Agathion Lore
+      - Air Elemental Lore
+      - Angel Lore
+      - Animated Object Lore
+      - Arboreal Lore
+      - Archon Lore
+      - Asura Lore
+      - Azata Lore
+      - Cave Worm Lore
+      - Couatl Lore
+      - Daemon Lore
+      - Devil Lore
+      - Dinosaur Lore
+      - Dragon Lore
+      - Drake Lore
+      - Earth Elemental Lore
+      - Fire Elemental Lore
+      - Fey Lore
+      - Genie Lore
+      - Giant Lore
+      - Gnoll Lore
+      - Golem Lore
+      - Hag Lore
+      - Insect Lore
+      - Lich Lore
+      - Mephit Elemental Lore
+      - Ogre Lore
+      - Ooze Lore
+      - Qlippoth Lore
+      - Rakshasa Lore
+      - Serpentfolk Lore
+      - Spirit Lore
+      - Vampire Lore
+      - Velstrac Lore
+      - Water Elemental Lore
+      - Werecreature Lore
+      - Zombie Lore
     feat:
       - Schooled In Secrets
     special: []
@@ -526,6 +564,45 @@ pf2e_background:
       - open
     skills:
       - Occultism
+    skill choice:
+      - Aeon Lore
+      - Agathion Lore
+      - Air Elemental Lore
+      - Angel Lore
+      - Animated Object Lore
+      - Arboreal Lore
+      - Archon Lore
+      - Asura Lore
+      - Azata Lore
+      - Cave Worm Lore
+      - Couatl Lore
+      - Daemon Lore
+      - Devil Lore
+      - Dinosaur Lore
+      - Dragon Lore
+      - Drake Lore
+      - Earth Elemental Lore
+      - Fire Elemental Lore
+      - Fey Lore
+      - Genie Lore
+      - Giant Lore
+      - Gnoll Lore
+      - Golem Lore
+      - Hag Lore
+      - Insect Lore
+      - Lich Lore
+      - Mephit Elemental Lore
+      - Ogre Lore
+      - Ooze Lore
+      - Qlippoth Lore
+      - Rakshasa Lore
+      - Serpentfolk Lore
+      - Spirit Lore
+      - Vampire Lore
+      - Velstrac Lore
+      - Water Elemental Lore
+      - Werecreature Lore
+      - Zombie Lore
     feat: []
     special:
       - Haunted
