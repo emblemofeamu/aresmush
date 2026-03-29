@@ -199,6 +199,23 @@ module AresMUSH
 
         client.emit_success t('pf2e.option_set', :element => selected_element, :option => selected_option)
 
+        # Set messages here for helpful basic information about the selected option, if applicable.
+        if selected_element == "charclass"
+          charclass = selected_option
+          specialty_config = Global.read_config('pf2e_specialty', charclass) || {}
+          specializations = specialty_config.keys.sort
+          if specializations.any?
+            client.emit_ooc t('pf2e.cg_charclass_specializations', :class => charclass, :specializations => specializations.join(", "))
+          end
+        end
+        if selected_element == "ancestry"
+          ancestry = selected_option
+          heritage_config = Global.read_config('pf2e_ancestry', ancestry, 'heritages') || {}
+          heritages = heritage_config.sort
+
+          client.emit_ooc t('pf2e.cg_ancestry_heritages', :ancestry => ancestry, :heritages => heritages.join(", "))
+        end
+
         # Set messages here for special cases where we want to prompt the user to make another selection based on what they just chose, as a user-friendly experience.
         if selected_element == "specialize_info" &&
            base_info['charclass']&.casecmp?('Wizard') &&

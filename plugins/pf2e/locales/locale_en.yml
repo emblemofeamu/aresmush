@@ -145,6 +145,8 @@ en:
     cg_reset_ok: "Your sheet has been cleared. Enter '%xucg%xU' to start chargen again."
     cg_restore_ok: "Your sheet has been restored to %{checkpoint}. Make your changes, then enter '%xucommit %{checkpoint}%xU' to proceed to the next stage of chargen."
     cg_wizard_school_spell: "Your wizard school lets you choose a 1st-level spell with the %{wizard_school} trait from the arcane tradition. Choose this spell using '%xuaddspell/school%xU'."
+    cg_charclass_specializations: "The %{class} class has the following specializations: %{specializations}. See the %{class} wiki page for more information."
+    cg_ancestry_heritages: "The %{ancestry} ancestry has the following heritages: %{heritages}. See the %{ancestry} wiki page for more information."
     cg_deity_alignment_mismatch: "Your alignment is not an approved follower alignment for %{deity}. Approved follower alignments: %{options}"
     cg_champion_specialty_alignment_mismatch: "Your alignment is not valid for the %{specialty} cause. Allowed champion alignments: %{options}"
     cg_champion_specialty_deity_mismatch: "Your deity, %{deity}, is not compatible with the %{specialty} cause. Allowed champion alignments for %{deity}: %{options}"
