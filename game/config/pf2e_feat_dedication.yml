@@ -1536,7 +1536,7 @@ pf2e_feats:
       level: 12
       feat:
         - Investigator Dedication
-      skill: Perception/expert
+      combat_stats: Perception/expert
     shortdesc: Your proficiency rank in Perception increases to master.
     traits:
       - archetype
@@ -1550,7 +1550,7 @@ pf2e_feats:
       level: 12
       feat:
         - Ranger Dedication
-      skill: Perception/expert
+      combat_stats: Perception/expert
     shortdesc: Your proficiency rank in Perception increases to master.
     traits:
       - archetype

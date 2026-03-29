@@ -3796,7 +3796,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 8
-      skill: Perception/master
+      combat_stats: Perception/master
     shortdesc: Your battle instincts make you more aware of concealed and invisible opponents. You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.%r%rWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.
     traits: []
   Bloodline Resistance:
@@ -8784,7 +8784,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 20
-      skill: Perception/legendary
+      combat_stats: Perception/legendary
       feat: 
         - Far Shot
     shortdesc: You focus on your hunted prey, perceiving angles, air resistance, and every variable that would affect your ranged attack. If you have master proficiency with your ranged weapon, you can ignore the penalty for attacking up to five range increments away when attacking your hunted prey.
