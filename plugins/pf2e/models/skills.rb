@@ -92,7 +92,7 @@ module AresMUSH
       return msgs
     end
 
-    def self.cg_lock_skills(enactor)
+    def self.cg_lock_skills(enactor, client=nil)
       # Did they do this already?
       return t('pf2e.cg_locked', :cp => 'skills') if enactor.pf2_skills_locked
 
@@ -101,6 +101,8 @@ module AresMUSH
 
       # Take the key and lock 'em up ./~
       return t('pf2e.skill_issues') if errors
+
+      Pf2eSkills.apply_bg_skill_feat_assignment(enactor, client)
 
       enactor.update(pf2_skills_locked: true)
 
@@ -151,6 +153,67 @@ module AresMUSH
         skill.update(prof_level: 'untrained')
         skill.update(cg_skill: false)
       end
+    end
+
+    def self.apply_bg_skill_feat_assignment(enactor, client)
+      base_info = enactor.pf2_base_info
+      background = base_info ? base_info['background'] : nil
+      return if background.blank?
+
+      background_info = Global.read_config('pf2e_background', background) || {}
+      assignment = background_info['feat assignment']
+      return if assignment.blank?
+
+      to_assign = enactor.pf2_to_assign
+      bg_choice = to_assign['bg skill choice'] || {}
+      selected = bg_choice['selected']
+      return if selected.blank? || selected == 'open'
+
+      choice_pair = assignment.find { |choice, _| choice.to_s.casecmp?(selected.to_s) }
+      return unless choice_pair
+
+      choice_assignment = choice_pair[1] || {}
+      feats = enactor.pf2_feats
+      charclass = base_info['charclass']
+
+      choice_assignment.each_pair do |type_key, feat_list|
+        feat_type = Pf2eSkills.normalize_feat_type(type_key)
+        next unless feat_type
+
+        list = feats[feat_type] || []
+        Array(feat_list).each do |feat_name|
+          feat_info = Pf2e.get_feat_details(feat_name)
+          next if feat_info.is_a?(String)
+
+          canonical_name = feat_info[0]
+          next if list.any? { |f| f.to_s.casecmp?(canonical_name.to_s) }
+
+          list << canonical_name
+
+          if client
+            details = feat_info[1]
+            if details && details['grants']
+              Pf2e.do_feat_grants(enactor, details['grants'], charclass, client)
+            end
+          end
+        end
+
+        feats[feat_type] = list
+      end
+
+      enactor.update(pf2_feats: feats)
+    end
+
+    def self.normalize_feat_type(type_key)
+      return nil if type_key.blank?
+
+      key = type_key.to_s.strip.downcase.gsub(/\s+/, '_')
+      key = key.sub(/_feat\z/, '')
+
+      allowed = %w(ancestry charclass general skill)
+      return key if allowed.include?(key)
+
+      nil
     end
 
   end

@@ -708,8 +708,13 @@ pf2e_background:
     skill choice:
       - Acrobatics
       - Athletics
-    feat:
-      - Cat Fall
+    feat assignment:
+      Acrobatics:
+        skill_feat:
+          - Cat Fall
+      Athletics:
+        skill_feat:
+          - Quick Jump
     special: []
     action: []
     reaction: []
@@ -920,7 +925,7 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Scholar (Arcana):
+  Scholar:
     abl_boosts:
       - [ Intelligence, Wisdom ]
       - open
@@ -928,44 +933,22 @@ pf2e_background:
       - Academia Lore
     skill choice:
       - Arcana
-    feat:
-      - Assurance (Arcana)
-    special: []
-    action: []
-    reaction: []
-  Scholar (Nature):
-    abl_boosts:
-      - [ Intelligence, Wisdom ]
-      - open
-    skills:
       - Nature
-      - Academia Lore
-    feat:
-      - Assurance (Nature)
-    special: []
-    action: []
-    reaction: []
-  Scholar (Occultism):
-    abl_boosts:
-      - [ Intelligence, Wisdom ]
-      - open
-    skills:
       - Occultism
-      - Academia Lore
-    feat:
-      - Assurance (Occultism)
-    special: []
-    action: []
-    reaction: []
-  Scholar (Religion):
-    abl_boosts:
-      - [ Intelligence, Wisdom ]
-      - open
-    skills:
       - Religion
-      - Academia Lore
-    feat:
-      - Assurance (Religion)
+    feat assignment:
+      Arcana:
+        skill_feat:
+          - Assurance (Arcana)
+      Nature:
+        skill_feat:
+          - Assurance (Nature)
+      Occultism:
+        skill_feat:
+          - Assurance (Occultism)
+      Religion:
+        skill_feat:
+          - Assurance (Religion)
     special: []
     action: []
     reaction: []
@@ -1119,30 +1102,6 @@ pf2e_background:
     special: []
     action: []
     reaction: []
-  Teacher (Performance):
-    abl_boosts:
-      - [ Intelligence, Wisdom ]
-      - open
-    skills:
-      - Performance
-      - Academia Lore
-    feat:
-      - Assurance (Performance)
-    special: []
-    action: []
-    reaction: []
-  Teacher (Society):
-    abl_boosts:
-      - [ Intelligence, Wisdom ]
-      - open
-    skills:
-      - Society
-      - Academia Lore
-    feat:
-      - Assurance (Society)
-    special: []
-    action: []
-    reaction: []
   Teacher:
     abl_boosts:
       - [ Intelligence, Wisdom ]
@@ -1152,8 +1111,13 @@ pf2e_background:
     skill choice:
       - Performance
       - Society
-    feat:
-      - Assurance (Society)
+    feat assignment:
+      Performance:
+        skill_feat:
+          - Assurance (Performance)
+      Society:
+        skill_feat:
+          - Assurance (Society)
     special: []
     action: []
     reaction: []

@@ -42,7 +42,7 @@ module AresMUSH
         when 'abilities'
           commit = Pf2eAbilities.cg_lock_abilities(enactor)
         when 'skills'
-          commit = Pf2eSkills.cg_lock_skills(enactor)
+            commit = Pf2eSkills.cg_lock_skills(enactor, client)
         when 'featskills'
           commit = Pf2eSkills.cg_lock_featskills(enactor)
         else
