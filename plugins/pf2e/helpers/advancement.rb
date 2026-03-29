@@ -357,6 +357,10 @@ module AresMUSH
           value.each do |ability|
             Pf2eAbilities.update_base_score(char, ability)
           end
+        when "languages"
+          char_languages = Array(char.pf2_lang)
+          char_languages.concat(Array(value))
+          char.pf2_lang = char_languages.uniq
         when "raise skill"
           Array(value).each do |skill_name|
             next if skill_name.to_s.strip.empty?
@@ -655,6 +659,16 @@ module AresMUSH
           end
 
           msg << t('pf2e.adv_item_skill_choice') if needs_choice
+        when "open languages"
+          open_count = if info.is_a?(Array)
+            info.count { |entry| entry.to_s.casecmp?('open') }
+          else
+            info.to_s.casecmp?('open') ? 1 : 0
+          end
+
+          if open_count.positive?
+            msg << t('pf2e.adv_item_language', :count => open_count)
+          end
         when "spellbook", "repertoire", "innate"
           needs_open = lambda do |value|
             if value.is_a?(Hash)

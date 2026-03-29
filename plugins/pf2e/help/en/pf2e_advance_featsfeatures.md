@@ -18,7 +18,7 @@ Most levels have you selecting some type of feat. Some class features gained in 
 `advance/feat special/<type> = <option>`: Some feats, such as Ancestral Paragon, require that an option is selected with this command in `advance/review`. `<type>` is the name of the feat, and `<option>` is your choice. 
 `advance/option charclass/<feature> = <option>`: Some class features require that an option selected with this command in `advance/review`. `<feature>` is the name of the class feature, and `<option>` is the option you'd like to choose. 
 
-Sometimes, feats might give training in skills you're already trained in. Those skills are turned into open slots to train an untrained skill into a trained one. Use the regular `advance/raise skill` command (as outlined in `help advanceskills`) to train those commands.
+Sometimes, feats might give training in skills you're already trained in. Those skills are turned into open slots to train an untrained skill into a trained one. Use the regular `advance/raise skill` command (as outlined in `help advanceskills`) to train those skills.
 
 ### Examples
 Ancestral Paragon: `advance/feat special/ancestral paragon=Unwavering Mien` would satisfy Ancestral Paragon if the player character is a sildanyar or silyara.

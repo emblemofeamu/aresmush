@@ -42,7 +42,7 @@ module AresMUSH
         # Validate the value given.
         if self.type == 'ability'
           abilities = enactor.abilities
-          boosts_up = self.value.to_s.split(/\s+/).reject(&:empty?)
+          boosts_up = self.value.to_s.split(/[\s,]+/).reject(&:empty?)
 
           if boosts_up.size != 4
             client.emit_failure t('pf2e.adv_ability_boost_count')
@@ -84,6 +84,29 @@ module AresMUSH
 
           to_assign[key] = exists
           advancement[key] = exists
+
+          if ability_names.any? { |name| name.to_s.casecmp?('Intelligence') }
+            int_ability = abilities.select { |abil| abil.name_upcase == 'INTELLIGENCE' }.first
+
+            if int_ability
+              current_score = int_ability.base_val
+              boost_amount = current_score < 18 ? 2 : 1
+              new_score = current_score + boost_amount
+
+              old_mod = Pf2eAbilities.abilmod(current_score)
+              new_mod = Pf2eAbilities.abilmod(new_score)
+
+              if new_mod > old_mod
+                Pf2e.add_open_skill_slot(to_assign, advancement, false, true)
+
+                open_languages = Array(to_assign['open languages'])
+                open_languages << 'open'
+                to_assign['open languages'] = open_languages
+
+                client.emit_ooc t('pf2e.adv_int_mod_bonus')
+              end
+            end
+          end
 
         elsif self.type == 'skill'
           skill_list = Global.read_config('pf2e_skills').keys

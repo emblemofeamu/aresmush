@@ -26,8 +26,8 @@ The following commands are broadly useful for the advancement process.
 `advance/done`: Locks your choices, takes you out of advancement mode, and updates your sheet. 
 `advance/reset`: Backs out of advancement and discards all changes.
 
-### Raising Abilities and Skills
-See `help advanceskills` or `help advanceabilities`.
+### Raising Abilities and Skills, and Learning Languages
+See `help advanceskills`, `help advanceabilities`, or `help advancelanguages`.
 
 ### Selecting Feats and Class Features
 See `help advancefeats` or `help advancefeatures`.
