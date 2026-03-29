@@ -204,6 +204,7 @@ en:
     feat_type_missing: "You must specify a feat type. Example: '%xucg/feat skill=Recognize Spell%xU'."
     feats_are_ok: "%xgYou have no unassigned feats."
     feat_search_classlevel_wrong_number_of_variables: "Wrong number of variables. Example: feat/search classlevel = Fighter < 2"
+    feat_search_next_page: "To advance to the next page, use '%xu%{command}%xU'"
     feat_set_ok: "Feat %{name} added to list %{type}."
     feat_wrong_type: "This feat cannot be chosen with that feat type."
     swapspell_limit: "You can only swap one repertoire spell per advancement."
