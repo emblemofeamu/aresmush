@@ -1000,6 +1000,8 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 2
+    grants:
+      cantrip_expansion: true
     shortdesc: "A greater understanding of your magic broadens your range of simple spells.%r%r**Prepared Caster (Cleric, Wizard, etc.)**: You can prepare two additional cantrips each day.%r**Spontaneous Caster (Bard, Sorcerer, etc.)**: Add two additional cantrips from your spell list to your repertoire."
     traits: []
   Clever Gambit:

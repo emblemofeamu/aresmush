@@ -57,6 +57,9 @@ module AresMUSH
               subheading = subheading.gsub("Dcs", "DCs")
               subheading = subheading.gsub("Spell Abil", "Spell Ability")
               if subvalue.is_a? Array
+                if ["repertoire", "spellbook"].include?(key.to_s)
+                  subheading = format_spell_level_heading(subkey)
+                end
                 sublist << "%r%b%b#{item_color}#{subheading}:%xn #{format_open_list(subvalue)}"
               elsif subvalue.is_a? Hash
                 subsublist = []
@@ -66,6 +69,9 @@ module AresMUSH
                     .split(/[_\s]+/)
                     .map {|word| word.capitalize}
                     .join(" ")
+                  if ["repertoire", "spellbook"].include?(key.to_s)
+                    subsubheading = subsubheading.casecmp?("cantrip") ? "Cantrip" : subsubheading
+                  end
                   subsubheading = subsubheading.gsub("Spell Abil", "Spell Ability")
                   if subsubvalue.is_a? Hash
                     # Go one level deeper for nested hashes
@@ -177,6 +183,10 @@ module AresMUSH
                 .join(" ")
               if subvalue.is_a? Array
                 display_subheading = subheading == "General" ? "General feat" : subheading == "Ancestry" ? "Ancestry feat" : subheading
+                if ["repertoire", "spellbook"].include?(key)
+                  level_heading = format_spell_level_heading(subkey)
+                  display_subheading = level_heading.casecmp?("cantrip") ? "Cantrip" : "#{level_heading} spell"
+                end
                 sublist << "#{item_color}#{display_subheading}:%xn #{format_open_list(subvalue)}"
               elsif subvalue.is_a? Hash
                 subsublist = []

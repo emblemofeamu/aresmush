@@ -326,6 +326,30 @@ module AresMUSH
             client.emit_ooc t('pf2e.advancement_feat_grants_addl', :element => 'item')
           end
 
+          if has_grants['cantrip_expansion']
+            base_class = enactor.pf2_base_info['charclass']
+            caster_type = Pf2emagic.get_caster_type(base_class)
+            if caster_type == 'spontaneous'
+              to_assign['repertoire'] ||= {}
+              rep_container = to_assign['repertoire']
+              if rep_container.is_a?(Hash) && rep_container.keys.any? { |k| !Pf2e.level_key?(k) }
+                rep_container[base_class] ||= {}
+                rep_target = rep_container[base_class]
+              else
+                rep_target = rep_container
+              end
+
+              cantrip_key = rep_target.keys.find { |k| k.to_s.downcase == 'cantrip' } || 'cantrip'
+              rep_target[cantrip_key] = Array(rep_target[cantrip_key]) + ['open', 'open']
+              if rep_target != rep_container
+                rep_container[base_class] = rep_target
+                to_assign['repertoire'] = rep_container
+              else
+                to_assign['repertoire'] = rep_target
+              end
+            end
+          end
+
           grants[fname] = feat_grants if feat_grants
           adv_grants[fname] = feat_adv_grants if feat_adv_grants
 

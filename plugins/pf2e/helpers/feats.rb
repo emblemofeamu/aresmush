@@ -661,6 +661,35 @@ module AresMUSH
         when 'reagents'
           return_msg << "This feat grants reagents."
           Pf2e.update_reagents(char, value)
+        when 'cantrip_expansion'
+          base_class = char.pf2_base_info['charclass']
+          caster_type = Pf2emagic.get_caster_type(base_class)
+
+          magic = PF2Magic.get_create_magic_obj(char)
+
+          if caster_type == 'prepared'
+            spells_per_day = magic.spells_per_day || {}
+            class_slots = spells_per_day[base_class] || {}
+            cantrip_key = class_slots.keys.find { |k| k.to_s.downcase == 'cantrip' } || 'cantrip'
+
+            class_slots[cantrip_key] = class_slots[cantrip_key].to_i + 2
+            spells_per_day[base_class] = class_slots
+            magic.update(spells_per_day: spells_per_day)
+
+            return_msg << "You can prepare two additional cantrips each day."
+          elsif caster_type == 'spontaneous'
+            to_assign = char.pf2_to_assign
+            repertoire = to_assign['repertoire'] || {}
+            cantrip_key = repertoire.keys.find { |k| k.to_s.downcase == 'cantrip' } || 'cantrip'
+            list = repertoire[cantrip_key] || []
+
+            list.concat(Array.new(2, 'open'))
+            repertoire[cantrip_key] = list
+            to_assign['repertoire'] = repertoire
+            char.update(pf2_to_assign: to_assign)
+
+            return_msg << "This feat grants 2 cantrip choices for your repertoire."
+          end
         when 'attack'
           combat = Pf2eCombat.get_create_combat_obj(char)
           unarmed_attacks = combat.unarmed_attacks
