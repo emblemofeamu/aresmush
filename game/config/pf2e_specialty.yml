@@ -1217,7 +1217,7 @@ pf2e_specialty:
           Umbral:
       chargen:
         magic_stats:
-          tradition: []
+          tradition: {}
           addrepertoire:
             cantrip:
               - Shield
