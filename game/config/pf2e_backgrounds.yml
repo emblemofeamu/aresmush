@@ -42,6 +42,7 @@ pf2e_background:
       - Underground Terrain Lore
     feat:
       - Train Animal
+    special: []
     action: []
     reaction: []
   Artisan:
@@ -179,7 +180,9 @@ pf2e_background:
       - Legal Lore
     feat:
       - Experienced Tracker
+    action: []
     special: []
+    reaction: []
   Charlatan:
     abl_boosts:
       - [ Intelligence, Charisma ]
@@ -376,6 +379,7 @@ pf2e_background:
       - Warding Sign
     rare: true
     action: []
+    special: []
   Detective:
     abl_boosts:
       - [ Intelligence, Wisdom ]
@@ -522,6 +526,7 @@ pf2e_background:
     feat:
       - Oddity Identification
     special: []
+    reaction: []
   Gambler:
     abl_boosts:
       - [ Dexterity, Charisma ]
@@ -532,6 +537,7 @@ pf2e_background:
     feat:
       - Lie To Me
     special: []
+    reaction: []
   Gladiator:
     abl_boosts:
       - [ Strength, Charisma ]
