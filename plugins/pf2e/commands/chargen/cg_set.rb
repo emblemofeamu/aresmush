@@ -225,6 +225,15 @@ module AresMUSH
         end
 
         # Set messages here for special cases where we want to prompt the user to make another selection based on what they just chose, as a user-friendly experience.
+        if selected_element == "specialize"
+          charclass = base_info['charclass']
+          specialty_config = Global.read_config('pf2e_specialty', charclass, selected_option) || {}
+          specialty_choice = specialty_config['choose'] || {}
+          specialty_options = specialty_choice['options'] || {}
+          if specialty_options.any?
+            client.emit_ooc t('pf2e.cg_specialty_info_required', :specialty => selected_option, :class => charclass, :options => specialty_options.keys.sort.join(", "))
+          end
+        end
         if selected_element == "specialize_info" &&
            base_info['charclass']&.casecmp?('Wizard') &&
            !selected_option.casecmp?('Universalist')

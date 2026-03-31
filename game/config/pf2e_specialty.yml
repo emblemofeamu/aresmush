@@ -46,7 +46,7 @@ pf2e_specialty:
         magic_stats: {}
         skills: []
       choose:
-        choice_name: Spirit Animal
+        choice_name: Animal Instinct
         choice_description: "Choose the animal this character strives to emulate."
         choice_type: subclass_info
         options:
