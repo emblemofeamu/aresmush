@@ -1123,15 +1123,6 @@ pf2e_feats:
     shortdesc: Others might look upon them with disdain, but you know that the weapons of your people are as effective as they are sharp. You are trained with the dogslicer and horsechopper. In addition, you gain access to all uncommon goblin weapons. For the purpose of determining your proficiency, martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons. 
     prereq:
       level: 1
-  Junk Tinker:
-    feat_type: 
-      - Ancestry
-    assoc_ancestry: 
-      - Goblin
-    traits: []
-    shortdesc: "You can make useful tools out of even twisted or rusted scraps. When using the Crafting skill to Craft, you can make level 0 items, including weapons but not armor, out of junk. This reduces the Price to one-quarter the usual amount but always results in a shoddy item. Shoddy items normally give a penalty, but you don't take this penalty when using shoddy items you made.%r%rYou can also incorporate junk to save money while you Craft any item. This grants you a discount on the item as if you had spent 1 additional day working to reduce the cost, but the item is obviously made of junk. At the GM's discretion, this might affect the item's resale value depending on the buyer's tastes."
-    prereq:
-      level: 1
   Rough Rider: # Animal Companion
     feat_type: 
       - Ancestry
