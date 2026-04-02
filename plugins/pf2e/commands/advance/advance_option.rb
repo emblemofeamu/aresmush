@@ -55,7 +55,11 @@ module AresMUSH
           end
 
           options = feature_list[feature]
-          option_list = options.is_a?(Hash) ? options.keys : Array(options)
+          option_list = if options.is_a?(Hash)
+            options.keys
+          else
+            Array(options).map { |opt| opt.is_a?(Array) ? opt.first : opt }
+          end
           matched_option = option_list.find { |opt| opt.to_s.casecmp?(self.value) }
 
           unless matched_option

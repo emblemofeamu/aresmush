@@ -240,24 +240,26 @@ module AresMUSH
           end
         when "choose"
           name = value['choice_name']
-          options = Array(value['options'])
+          options = value['options']
           to_choose = to_assign['class option'] || {}
-          to_choose[name] = options
+          to_choose[name] = options.is_a?(Hash) ? options : Array(options)
 
-          return_msg << t('pf2e.adv_item_choose', :name => name, :options => options.sort.join(", "))
+          display_options = options.is_a?(Hash) ? options.keys : Array(options)
+          return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
 
           to_assign['class option'] = to_choose
         when "charclass_feature"
           if value.is_a?(Hash) && value['choose']
             choose_info = value['choose']
             name = choose_info['choice_name']
-            options = Array(choose_info['options'])
+            options = choose_info['options']
 
             to_choose = to_assign['class option'] || {}
-            to_choose[name] = options
+            to_choose[name] = options.is_a?(Hash) ? options : Array(options)
             to_assign['class option'] = to_choose
 
-            return_msg << t('pf2e.adv_item_choose', :name => name, :options => options.sort.join(", "))
+            display_options = options.is_a?(Hash) ? options.keys : Array(options)
+            return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
 
             remaining = value.dup
             remaining.delete('choose')
@@ -445,6 +447,8 @@ module AresMUSH
                 'advanced' => 'master'
               }
               combat.update(weapon_group_prof: group_profs)
+            when "Divine Ally"
+              # Divine Ally is recorded in charclass features; no extra automation yet.
             else
               client.emit_ooc t('pf2e.missing_charclass_option_code', :feature => feature)
               next

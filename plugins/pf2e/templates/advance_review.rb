@@ -166,7 +166,11 @@ module AresMUSH
               list << "#{item_color}Class Feature Option:%xn"
 
               value.each_pair do |subkey, subvalue|
-                option_list = subvalue.is_a?(Hash) ? subvalue.keys : Array(subvalue)
+                option_list = if subvalue.is_a?(Hash)
+                  subvalue.keys
+                else
+                  Array(subvalue).map { |opt| opt.is_a?(Array) ? opt.first : opt }
+                end
                 list << "%b%b#{item_color}#{subkey}:%xn #{option_list.sort.join(", ")}" unless option_list.empty?
               end
 
