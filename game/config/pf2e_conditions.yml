@@ -49,7 +49,6 @@ pf2e_conditions:
     short_descr: You are carrying too much.
     value: false
     affected_stat:
-      Dexterity: -1
       Speed: -10
     override: false
   Enfeebled:
@@ -74,12 +73,6 @@ pf2e_conditions:
       Will: -1
     override: false
     daily: false
-  Flat-Footed:
-    short_descr: You are caught off-guard or otherwise unable to fully defend yourself.
-    value: false
-    override: false
-    affected_stat:
-      Base AC: -2
   Fleeing:
     short_descr: You can take no action other than running away.
     value: false
@@ -100,6 +93,12 @@ pf2e_conditions:
     short_descr: You cannot be seen.
     value: false
     override: false
+  Off-Guard:
+    short_descr: You are caught off-guard or otherwise unable to fully defend yourself.
+    value: false
+    override: false
+    affected_stat:
+      Base AC: -2
   Paralyzed:
     short_descr: You are frozen in place.
   Persistent:

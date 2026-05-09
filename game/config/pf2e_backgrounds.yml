@@ -69,6 +69,18 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Astrologer:
+    abl_boosts:
+      - [ Intelligence, Wisdom ]
+      - open
+    skills:
+      - Occultism
+      - Astrology Lore
+    feat:
+      - Oddity Identification
+    special: []
+    action: []
+    reaction: []
   Bandit:
     abl_boosts:
       - [ Dexterity, Charisma ]
@@ -389,6 +401,25 @@ pf2e_background:
       - Underworld Lore
     feat:
       - Streetwise
+    special: []
+    action: []
+    reaction: []
+  Driver:
+    abl_boosts:
+      - [ Strength, Dexterity ]
+      - open
+    skills:
+      - Acrobatics
+    skill choice:
+      - Driving Lore
+      - Piloting Lore
+    feat assignment:
+      Acrobatics:
+        skill_feat:
+          - Assurance (Piloting Lore)
+      Athletics:
+        skill_feat:
+          - Assurance (Driving Lore)
     special: []
     action: []
     reaction: []
@@ -841,6 +872,40 @@ pf2e_background:
     special: []
     action: []
     reaction: []
+  Raised by Belief:
+    abl_boosts:
+      - open
+      - open
+    skills:
+      - Religion
+    skill choice:
+      - Althean Lore
+      - Angorite Lore
+      - Animusian Lore
+      - Caracorothan Lore
+      - Ceinaran Lore
+      - Daeusite Lore
+      - Danan Lore
+      - Deimosian Lore
+      - Elunan Lore
+      - Gileadean Lore
+      - Gunakharan Lore
+      - Illothan Lore
+      - Korite Lore
+      - Maugrimite Lore
+      - Navosian Lore
+      - Radan Lore
+      - Reosian Lore
+      - Serrielite Lore
+      - Taaran Lore
+      - Tarienite Lore
+      - Thulite Lore
+      - Vardaman Lore
+    feat:
+      - Assurance (Religion)
+    special: []
+    action: []
+    reaction: []
   Refugee:
     abl_boosts:
       - [ Constitution, Wisdom ]
@@ -889,6 +954,18 @@ pf2e_background:
       - Herbalism Lore
     feat:
       - Root Magic
+    special: []
+    action: []
+    reaction: []
+  Saboteur:
+    abl_boosts:
+      - [ Strength, Dexterity ]
+      - open
+    skills:
+      - Thievery
+      - Engineering Lore
+    feat:
+      - Concealing Legerdemain
     special: []
     action: []
     reaction: []

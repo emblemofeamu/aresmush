@@ -12,7 +12,7 @@ pf2e_magic:
             choice_name: Spell - Lesson of the Elements
             choice_description: Choose which spell your familiar learns from Lesson of the Elements.
             options:
-              - Burning Hands
+              - Breathe Fire
               - Air Bubble
               - Hydraulic Push
               - Pummeling Rubble
@@ -21,7 +21,7 @@ pf2e_magic:
         spell: Spirit Link
       Lesson of Protection:
         cantrip: Blood Ward
-        spell: Mage Armor
+        spell: Mystic Armor
       Lesson of Vengeance:
         cantrip: Needle of Vengeance
         spell: Phantom Pain
@@ -49,7 +49,7 @@ pf2e_magic:
       advanced: Disperse Into Air
     Ambition:
       description: You strive to keep up with and outpace the competition.
-      initial: Blind Ambition
+      initial: Ignite Ambition
       advanced: Competitive Edge
     Change:
       description: You can restructure the physical and metaphysical.
@@ -58,19 +58,19 @@ pf2e_magic:
     Cities:
       description: You have powers over urban environments and denizens.
       initial: Face in the Crowd
-      advanced: Pulse of the City
+      advanced: Pulse of Civilization
     Confidence:
       description: You overcome your fear and project pride.
       initial: Veil of Confidence
       advanced: Delusional Pride
     Creation:
       description: You have divine abilities related to crafting and art.
-      initial: Splash of Art
+      initial: Creative Splash
       advanced: Artistic Flourish
     Darkness:
       description: You operate in the darkness and take away the light.
       initial: Cloak of Shadow
-      advanced: Darkened Eyes
+      advanced: Darkened Sight
     Death:
       description: You have the power to end lives and destroy undead.
       initial: Death's Call
@@ -83,13 +83,17 @@ pf2e_magic:
       description: You are a conduit for divine devastation.
       initial: Cry of Destruction
       advanced: Destructive Aura
+    Dragon:
+      description: You draw on the power of dragons, linnorms, and other powerful reptilian creatures.
+      initial: Draconic Barrage
+      advanced: Roar of the Wyrm
     Dreams:
       description: You have the power to enter and manipulate dreams.
       initial: Sweet Dream
       advanced: Dreamer's Call
     Duty:
       description: You defend oaths and carry out your divine missions with great dedication.
-      initial: Oathkeeper's Insignia
+      initial: Swear Oath
       advanced: Dutiful Challenge
     Earth:
       description: You control soil and stone.
@@ -162,7 +166,7 @@ pf2e_magic:
     Perfection:
       description: You strive to perfect your mind, body, and spirit.
       initial: Perfected Mind
-      advanced: Perfected Form
+      advanced: Perfected Body
     Protection:
       description: You ward yourself and others.
       initial: Protector's Sacrifice
@@ -173,7 +177,7 @@ pf2e_magic:
       advanced: Font of Serenity
     Secrecy:
       description: You protect secrets and keep them hidden.
-      initial: Forced Quiet
+      initial: Whispering Quiet
       advanced: Safeguard Secret
     Sorrow:
       description: You have a painful connection to melancholy and sadness.
@@ -186,7 +190,7 @@ pf2e_magic:
     Sun:
       description: You harness the power of the sun and other light sources, and punish undead.
       initial: Dazzling Flash
-      advanced: Positive Luminance
+      advanced: Vital Luminance
     Swarm:
       description: You exert control over masses of creatures.
       initial: Swarmsense
@@ -231,10 +235,6 @@ pf2e_magic:
       description: You hold power over wealth, trade, and treasure. 
       initial: Appearance of Wealth
       advanced: Precious Metals
-    Wyrmkin:
-      description: You draw on the power of dragons, linnorms, and other powerful reptilian creatures.
-      initial: Draconic Barrage
-      advanced: Roar of the Wyrm
     Zeal:
       description: Your inner fire increases your combat prowess.
       initial: Weapon Surge

@@ -2,11 +2,11 @@
 pf2e_deities:
   Althea:
     allowed_alignments:
-      - LG
-      - NG
-      - CG
-      - LN
-      - N
+      - OL
+      - BL
+      - WL
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -22,7 +22,7 @@ pf2e_deities:
       - Repose
     cleric_spells:
       - Soothe
-      - Resilient Sphere
+      - Containment
       - Unfettered Pack
     edicts:
       - Aid the suffering.
@@ -34,12 +34,12 @@ pf2e_deities:
       - Betray the trust of a community.
   Angoron:
     allowed_alignments:
-      - LG
-      - CG
-      - NG
-      - LN
-      - N
-      - CN
+      - OL
+      - BL
+      - WL
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -66,10 +66,10 @@ pf2e_deities:
       - Fail to acknowledge when you've been bested.
   Animus:
     allowed_alignments:
-      - NG
-      - LN
-      - N
-      - CN
+      - BL
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - heal
@@ -83,9 +83,9 @@ pf2e_deities:
       - Knowledge
       - Fate
     cleric_spells:
-      - Magic Missile
+      - Force Barrage
       - Telepathy
-      - Prismatic Spray
+      - Spell Riposte
     edicts:
       - Teach and be taught.
       - Serve the interests of magic.
@@ -96,7 +96,7 @@ pf2e_deities:
       - Use magic for pedestrian purposes.
   Caracoroth:
     allowed_alignments:
-      - CN
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -111,7 +111,7 @@ pf2e_deities:
       - Indulgence
       - Nightmare
     cleric_spells:
-      - Magic Fang
+      - Runic Body
       - Moon Frenzy
       - Mask of Terror
     edicts:
@@ -124,10 +124,10 @@ pf2e_deities:
       - Refuse power when it is offered.
   Ceinara:
     allowed_alignments:
-      - NG
-      - CG
-      - N
-      - CN
+      - BL
+      - WL
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - heal
@@ -141,7 +141,7 @@ pf2e_deities:
       - Change
       - Creation
     cleric_spells:
-      - Charm
+      - Agitate
       - Fireball
       - Spirit Song
     edicts:
@@ -154,9 +154,9 @@ pf2e_deities:
       - Discourage an artist from pursuing their dreams.
   Daeus:
     allowed_alignments:
-      - LG
-      - NG
-      - LN
+      - OL
+      - BL
+      - OT
     magic_stats:
       divine_font:
         - heal
@@ -166,12 +166,12 @@ pf2e_deities:
     divine_skill: Society
     fav_weapon: longsword
     domains:
-      - Wyrmkin
+      - Dragon
       - Truth
       - Duty
       - Sun
     cleric_spells:
-      - True Strike
+      - Sure Strike
       - Fire Shield
       - Dragon Form
     edicts:
@@ -184,10 +184,10 @@ pf2e_deities:
       - Cheat, deceive, or undermine those who have placed trust in you.
   Dana:
     allowed_alignments:
-      - NG
-      - LN
-      - N
-      - CN
+      - BL
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - heal
@@ -214,8 +214,8 @@ pf2e_deities:
       - Hunt rampantly.
   Deimos:
     allowed_alignments:
-      - LN
-      - N
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -230,7 +230,7 @@ pf2e_deities:
       - Confidence
     cleric_spells:
       - Illusory Disguise
-      - Crushing Despair
+      - Wave of Despair
       - Duplicate Foe
     edicts:
       - Call out the flaws in all things.
@@ -242,11 +242,11 @@ pf2e_deities:
       - Believe in innocence.
   Eluna:
     allowed_alignments:
-      - LG
-      - NG
-      - CG
-      - LN
-      - N
+      - OL
+      - BL
+      - WL
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -274,9 +274,9 @@ pf2e_deities:
       - Ignore the guidance found in dreams, divination, and prophecy.
   Gilead:
     allowed_alignments:
-      - NG
-      - CG
-      - N
+      - BL
+      - WL
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -290,7 +290,7 @@ pf2e_deities:
       - Travel
       - Freedom
     cleric_spells:
-      - Longstrider
+      - Tailwind
       - Wall of Thorns
       - Unfettered Pack
     edicts:
@@ -303,8 +303,8 @@ pf2e_deities:
       - Hoard wild resources.
   Gunahkar:
     allowed_alignments:
-      - N
-      - CN
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -330,8 +330,8 @@ pf2e_deities:
       - Seek treatment for personal problems.
   Illotha:
     allowed_alignments:
-      - LN
-      - CN
+      - OT
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -345,7 +345,7 @@ pf2e_deities:
       - Zeal
     cleric_spells:
       - Ill Omen
-      - Phantasmal Killer
+      - Vision of Death
       - True Target
     edicts:
       - Punish those that harm you.
@@ -357,9 +357,9 @@ pf2e_deities:
       - Ignoring someone's quest for vengeance.
   Kor:
     allowed_alignments:
-      - CG
-      - N
-      - CN
+      - WL
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -385,8 +385,8 @@ pf2e_deities:
       - Lie about your accomplishments.
   Maugrim:
     allowed_alignments:
-      - LN
-      - N
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - harm
@@ -401,7 +401,7 @@ pf2e_deities:
     cleric_spells:
       - Phantom Pain
       - Dominate
-      - Force Cage
+      - Lifewood Cage
     edicts:
       - Labor unflinchingly at your work.
       - Strive for perfection in all affairs.
@@ -412,10 +412,10 @@ pf2e_deities:
       - Take more than you're owed.
   Navos:
     allowed_alignments:
-      - LG
-      - NG
-      - LN
-      - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -429,7 +429,7 @@ pf2e_deities:
       - Knowledge
     cleric_spells:
       - Deja Vu
-      - Dimension Door
+      - Translocate
       - Blanket of Stars
     edicts:
       - Learn from the past; do not dwell on it.
@@ -441,9 +441,9 @@ pf2e_deities:
       - Try to change past events.
   Rada:
     allowed_alignments:
-      - CG
-      - LN
-      - CN
+      - WL
+      - OT
+      - WT
     magic_stats:
       divine_font:
         - heal
@@ -459,7 +459,7 @@ pf2e_deities:
     cleric_spells:
       - Water Breathing
       - Mariner's Curse
-      - Horrid Wilting
+      - Desiccate
     edicts:
       - Honor a fair trade.
       - The sea is owed a portion of your keep.
@@ -470,10 +470,10 @@ pf2e_deities:
       - Pollute the ocean.
   Reos:
     allowed_alignments:
-      - LG
-      - NG
-      - LN
-      - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -500,10 +500,10 @@ pf2e_deities:
       - Disparage the act of creation.
   Serriel:
     allowed_alignments:
-      - LG
-      - NG
-      - LN
-      - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal
@@ -530,8 +530,8 @@ pf2e_deities:
       - Vandalize a piece of cultural heritage.
   Taara:
     allowed_alignments:
-      - N
-      - CN
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -545,8 +545,8 @@ pf2e_deities:
       - Secrecy
     cleric_spells:
       - Illusory Disguise
-      - Secret Page
-      - Glibness
+      - Honeyed Words
+      - Illusory Scene
     edicts:
       - Tell your stories as often as possible.
       - Keep your secrets.
@@ -557,10 +557,10 @@ pf2e_deities:
       - Give your secrets away for free.
   Tarien:
     allowed_alignments:
-      - NG
-      - CG
-      - N
-      - CN
+      - BL
+      - WL
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - heal
@@ -573,8 +573,8 @@ pf2e_deities:
       - Trickery
       - Confidence
     cleric_spells:
-      - Pass Without Trace
-      - Hideous Laughter
+      - Vanishing Tracks
+      - Laughing Fit
       - Synesthesia
     edicts:
       - Find the small joys in everything.
@@ -586,9 +586,9 @@ pf2e_deities:
       - Purposefully ruin everyone else's fun.
   Thul:
     allowed_alignments:
-      - LN
-      - N
-      - CN
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
         - harm
@@ -603,7 +603,7 @@ pf2e_deities:
     cleric_spells:
       - Object Reading
       - Modify Memory
-      - Polar Ray
+      - Artic Rift
     edicts:
       - Welcome death and undeath.
       - Gather as much experience as you can.
@@ -614,10 +614,10 @@ pf2e_deities:
       - Live in fear of death.
   Vardama:
     allowed_alignments:
-      - LG
-      - NG
-      - LN
-      - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
         - heal

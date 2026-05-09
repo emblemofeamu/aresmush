@@ -641,6 +641,9 @@ pf2e_skills:
   Curse Lore:
     key_abil: Intelligence
     recall_knowledge: true
+  Driving Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
   Engineering Lore:
     key_abil: Intelligence
     recall_knowledge: true
@@ -693,6 +696,9 @@ pf2e_skills:
     key_abil: Intelligence
     recall_knowledge: true
   Mining Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
+  Piloting Lore: 
     key_abil: Intelligence
     recall_knowledge: true
   Sailing Lore: 

@@ -1,7 +1,7 @@
 ---
 pf2e_feats:
-# Level 2 Dedication Feats
-  Alchemist Dedication: # Special Feat
+  # Level 2 Dedication Feats
+  Alchemist Dedication:
     assoc_archetype:
       - Alchemist Archetype
     assoc_class:
@@ -17,21 +17,22 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Intelligence/14
-    shortdesc: You put your alchemical interest into practice. You become trained in alchemical bombs and Crafting; if you were already trained in Crafting, you instead become trained in a skill of your choice. You become trained in alchemist class DC.%r%rYou gain the alchemist's infused reagents class feature, gaining a number of reagents each day equal to your level. You also gain the Alchemical Crafting feat and four additional formulas for 1st-level alchemical items, as well as the ability to create free items during your daily preparations. Your advanced alchemy level is 1 and doesn't increase on its own.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the alchemist archetype.
+    shortdesc: "You put your alchemical interest into practice. You become trained in alchemical bombs, the alchemist class DC, and Crafting; if you were already trained in Crafting, you instead become trained in a skill of your choice.%r%rYou gain the Quick Alchemy benefits, creating up to 4 versatile vials during your daily preparations. Add the formulas for four additional common alchemical items to your formula book, in addition to those you gain from Alchemical Crafting."
     traits:
       - archetype
       - dedication
       - multiclass
-  Barbarian Dedication: # Special Feat
+  Barbarian Dedication:
     assoc_archetype:
       - Barbarian Archetype
     assoc_class:
@@ -47,27 +48,25 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Strength/14
         - Constitution/14
-    shortdesc: You become trained in Athletics; if you were already trained in Athletics, you instead become trained in a skill of your choice. You become trained in barbarian class DC.%r%rYou can use the Rage action.%r%rChoose an instinct as you would if you were a barbarian. You have that instinct for all purposes, but you don't gain any of the other abilities it grants.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the barbarian archetype.
+    shortdesc: "You become trained in Athletics; if you were already trained in Athletics, you instead become trained in a skill of your choice. You become trained in barbarian class DC.%r%rYou can use the Rage action. While raging, you take a –1 penalty to AC.%r%rChoose an instinct as you would if you were a barbarian. You have that instinct for all purposes, but you don't gain any of the other abilities it grants. If that instinct has anathema, you're bound by them."
     traits:
       - archetype
       - dedication
       - multiclass
-  Bard Dedication: # Special Feat
+  Bard Dedication:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
-      - Dedication
-      - Charclass
     assoc_class:
       - Alchemist
       - Barbarian
@@ -81,18 +80,22 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
+    feat_type:
+      - Dedication
+      - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Charisma/14
-    shortdesc: You cast spells like a bard and gain the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the occult spell list or any other occult cantrips you learn or discover. You're trained in spell attack rolls and spell DCs for occult spells. Your key spellcasting ability for bard archetype spells is Charisma, and they are occult bard spells. You become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice.%r%rChoose a muse as you would if you were a bard. You have that muse for all purposes, allowing you to take that muse's feats, but you don't gain any of the other abilities it grants.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the bard archetype.
+    shortdesc: You cast spells like a bard and gain the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the occult spell list or any other occult cantrips you've learned or discovered. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for bard archetype spells is Charisma, and they are occult bard spells. You become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice. Choose a muse as you would if you were a bard. You can take that muse's feats, but you don't gain the starting feat, spell or any other abilities the choice of muse grants.
     traits:
       - archetype
       - dedication
       - multiclass
-  Champion Dedication: # Special Feat
+  Champion Dedication:
     assoc_archetype:
       - Champion Archetype
     assoc_class:
@@ -108,26 +111,23 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Strength/14
         - Charisma/14
-      oralign:
-        - LG
-        - NG
-        - CG
-    shortdesc: Choose a deity and cause as you would if you were a champion. You become trained in light, medium, and heavy armor. You become trained in Religion and your deity's associated skill; for each of these skills in which you were already trained, you instead become trained in a skill of your choice. You become trained in champion class DC.%r%rYou are bound by your deity's anathema and must follow the champion's code and alignment requirements for your cause. You don't gain any other abilities from your choice of deity or cause.%r%rSpecial You cannot select another dedication feat until you have gained two other feats from the champion archetype.
+    shortdesc: "Choose a deity. You are bound by your deity's anathema and gain the champion's aura and sanctification as described in the champion class. Choose a cause as you would if you were a champion, with the same options a champion must abide by. You gain its edicts and anathema but don't gain the other abilities.%r%rYou become trained in Religion and your deity's associated skill; for each of these skills in which you were already trained, you instead become trained in a skill of your choice. You become trained in champion class DC. If you later gain a devotion spell, you become trained in spell attack modifier and spell DC.%r%rYou become trained in light armor and medium armor. If you already were trained in light armor and medium armor, you gain training in heavy armor as well. Whenever you gain a class feature that grants you expert or greater proficiency in any type of armor (but not unarmored defense), you also gain that proficiency in the armor types granted to you by this feat. If you have a class feature that grants you expert proficiency in unarmored defense and you're 13th level or higher, you also become an expert in the armor types granted to you by this feat."
     traits:
       - archetype
       - dedication
       - multiclass
-  Cleric Dedication: # Special Feat
+  Cleric Dedication:
     assoc_archetype:
       - Cleric Archetype
     assoc_class:
@@ -143,21 +143,22 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Wisdom/14
-    shortdesc: You cast spells like a cleric. You gain access to the Cast a Spell activity. You can prepare two common cantrips each day from the divine spell list in this book or any other divine cantrips you learn or discover. You're trained in spell attack rolls and spell DCs for divine spells. Your key spellcasting ability for cleric archetype spells is Wisdom, and they are divine cleric spells. Choose a deity as you would if you were a cleric. You become bound by that deity's anathema. You become trained in Religion and your deity's associated skill; for each of these skills in which you were already trained, you instead become trained in a skill of your choice. You don't gain any other abilities from your choice of deity.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the cleric archetype.
+    shortdesc: You cast spells like a cleric. You gain the Cast a Spell activity. You can prepare two common cantrips each day from the divine spell list or any other divine cantrips you have access to. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for cleric archetype spells is Wisdom, and they are divine cleric spells. Choose a deity as you would if you were a cleric. You become bound by that deity's anathema and can receive that deity's divine sanctification. You become trained in Religion and your deity's associated skill; for each of these skills in which you were already trained, you instead become trained in a skill of your choice. You don't gain any other abilities from your choice of deity.
     traits:
       - archetype
       - dedication
       - multiclass
-  Druid Dedication: # Special Feat
+  Druid Dedication:
     assoc_archetype:
       - Druid Archetype
     assoc_class:
@@ -173,21 +174,22 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Wisdom/14
-    shortdesc: You cast spells like a druid. You gain access to the Cast a Spell activity. You can prepare two common cantrips each day from the primal spell list in this book or any other primal cantrips you learn or discover. You're trained in spell attack rolls and spell DCs for primal spells. Your key spellcasting ability for druid archetype spells is Wisdom, and they are primal druid spells.%r%rYou learn the Druidic language, and you are bound by the druid's anathema.%r%rChoose a druidic order. You become a member of that order and are also bound by its specific anathema, allowing you to take the order's feats. You become trained in Nature and your order's associated skill; for each of these skills in which you were already trained, you become trained in a skill of your choice. You don't gain any other abilities from your choice of order.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the druid archetype.
+    shortdesc: You cast spells like a druid. You gain the Cast a Spell activity. You can prepare two common cantrips each day from the primal spell list or any other primal cantrips you learn or discover. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for druid archetype spells is Wisdom, and they are primal druid spells. You learn the Wildsong language, and you are bound by the druid's anathema. Choose a druidic order. You become a member of that order and are also bound by its specific anathema, allowing you to take the order's feats. You become trained in Nature and your order's associated skill; for each of these skills in which you were already trained, you become trained in a skill of your choice. You don't gain any other abilities from your choice of order.
     traits:
       - archetype
       - dedication
       - multiclass
-  Fighter Dedication: # Special Feat
+  Fighter Dedication:
     assoc_archetype:
       - Fighter Archetype
     assoc_class:
@@ -203,9 +205,10 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
@@ -213,12 +216,12 @@ pf2e_feats:
       ability:
         - Strength/14
         - Dexterity/14
-    shortdesc: You become trained in simple weapons and martial weapons. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you instead become trained in a skill of your choice. You become trained in fighter class DC.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the fighter archetype.
+    shortdesc: You become trained in martial weapons. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you instead become trained in a skill of your choice. You become trained in fighter class DC.
     traits:
       - archetype
       - dedication
       - multiclass
-  Investigator Dedication: # Special Feat
+  Investigator Dedication:
     assoc_archetype:
       - Investigator Archetype
     assoc_class:
@@ -234,21 +237,22 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Intelligence/14
-    shortdesc: You gain the on the case class feature, which grants you both the Pursue a Lead activity and Clue In reaction. You become trained in Society and another skill of your choice. If you were already trained in Society, you instead become trained in an additional skill of your choice. You also become trained in investigator class DC.%r%r**Special** You can't select another dedication feat until you have gained two other feats from the investigator archetype.
+    shortdesc: You gain the On the Case class feature, which grants you both the Pursue a Lead activity and Clue In reaction. You become trained in Society and another skill of your choice. If you were already trained in Society, you instead become trained in an additional skill of your choice. You also become trained in investigator class DC.
     traits:
       - archetype
       - dedication
       - multiclass
-  Monk Dedication: # Special Feat
+  Monk Dedication:
     assoc_archetype:
       - Monk Archetype
     assoc_class:
@@ -264,22 +268,23 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Strength/14
         - Dexterity/14
-    shortdesc: You become trained in unarmed attacks and gain the powerful fist class feature. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you become trained in a skill of your choice. You become trained in monk class DC.%r%r**Special** You can't select another dedication feat until you have gained two other feats from the monk archetype.
+    shortdesc: You become trained in unarmed attacks and gain the powerful fist class feature. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you become trained in a skill of your choice. You become trained in monk class DC.
     traits:
       - archetype
       - dedication
       - multiclass
-  Oracle Dedication: # Special Feat
+  Oracle Dedication:
     assoc_archetype:
       - Oracle Archetype
     assoc_class:
@@ -295,21 +300,22 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Charisma/14
-    shortdesc: Choose a mystery. You become trained in Religion and the mystery's skill; if you were already trained, you become trained in a skill of your choice. You gain the mild, constant effects of the mystery's curse described in its first paragraph, but not other effects the mystery usually grants. You cast spells like an oracle and gain the Cast a Spell activity. You gain a spell repertoire with two cantrips, either common divine cantrips or other divine cantrips you learn or discover. You're trained in divine spell attack rolls and divine spell DCs. Your key spellcasting ability for oracle archetype spells is Charisma, and they are divine oracle spells.%r%r**Special** You can't select another dedication feat until you have gained two other feats from the oracle archetype.
+    shortdesc: "Choose a mystery.You become trained in Religion and the mystery's skill; if you were already trained, you become trained in a skill of your choice. You gain the curse associated with your mystery, which follows the normal rules for an oracular curse.%r%rYou cast spells like an oracle and gain the Cast a Spell activity. You gain a spell repertoire with two cantrips, either common divine cantrips or other divine cantrips you learn or discover. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for oracle archetype spells is Charisma, and they are divine oracle spells."
     traits:
       - archetype
       - dedication
       - multiclass
-  Ranger Dedication: # Special Feat
+  Ranger Dedication:
     assoc_archetype:
       - Ranger Archetype
     assoc_class:
@@ -325,21 +331,22 @@ pf2e_feats:
       - Oracle
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Dexterity/14
-    shortdesc: You become trained in Survival; if you were already trained in Survival, you instead become trained in another skill of your choice. You become trained in ranger class DC.%r%rYou can use the Hunt Prey action.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the ranger archetype.
+    shortdesc: You become trained in Survival; if you were already trained in Survival, you instead become trained in another skill of your choice. You become trained in ranger class DC. If you gain a warden spell through this archetype, you become trained in spell attacks and spell DCs. Your spellcasting attribute is Wisdom. You can use the Hunt Prey action.
     traits:
       - archetype
       - dedication
       - multiclass
-  Rogue Dedication: # Special Feat
+  Rogue Dedication:
     assoc_archetype:
       - Rogue Archetype
     assoc_class:
@@ -355,21 +362,22 @@ pf2e_feats:
       - Oracle
       - Ranger
       - Sorcerer
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Dexterity/14
-    shortdesc: You gain a skill feat and the rogue's surprise attack class feature. You become trained in light armor. In addition, you become trained in Stealth or Thievery plus one skill of your choice; if you are already trained in both Stealth and Thievery, you become trained in an additional skill of your choice. You become trained in rogue class DC.%r%r**Special** You cannot gain another dedication feat until you have gained two other feats from the rogue archetype.
+    shortdesc: You gain a skill feat and the rogue's surprise attack class feature. You become trained in light armor. In addition, you become trained in Stealth or Thievery plus one skill of your choice; if you are already trained in both Stealth and Thievery, you become trained in an additional skill of your choice. You become trained in rogue class DC.
     traits:
       - archetype
       - dedication
       - multiclass
-  Sorcerer Dedication: # Special Feat
+  Sorcerer Dedication:
     assoc_archetype:
       - Sorcerer Archetype
     assoc_class:
@@ -385,21 +393,54 @@ pf2e_feats:
       - Oracle
       - Ranger
       - Rogue
+      - Swashbuckler
       - Witch
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Charisma/14
-    shortdesc: Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.%r%rYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for your tradition's spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline.%r%r**Special** You cannot select another dedication feat until you have gained two other feats from the sorcerer archetype.
+    shortdesc: "Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.%r%rYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline."
     traits:
       - archetype
       - dedication
       - multiclass
-  Witch Dedication: # Special Feat
+  Swashbuckler Dedication:
+    assoc_archetype:
+      - Swashbuckler Archetype
+    assoc_class:
+      - Alchemist
+      - Barbarian
+      - Bard
+      - Champion
+      - Cleric
+      - Druid
+      - Fighter
+      - Investigator
+      - Monk
+      - Oracle
+      - Ranger
+      - Rogue
+      - Sorcerer
+      - Witch
+      - Wizard
+    feat_type:
+      - Dedication
+      - Charclass
+    prereq:
+      level: 2
+      ability:
+        - Charisma/14
+        - Dexterity/14
+    shortdesc: Choose a swashbuckler's style. You gain the panache and stylish combatant class features, and you apply the bravado trait to Tumble Through and any actions indicated in your swashbuckler style, allowing you to gain panache. You become trained in Acrobatics or the skill associated with your style. If you were already trained in both skills, you instead become trained in a skill of your choice. You also become trained in swashbuckler class DC. You don't gain any other effects of your chosen style.
+    traits:
+      - archetype
+      - dedication
+      - multiclass
+  Witch Dedication:
     assoc_archetype:
       - Witch Archetype
     assoc_class:
@@ -416,20 +457,21 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Intelligence/14
-    shortdesc: You cast spells like a witch. Choose a patron; you gain a familiar with two common cantrips of your choice from your chosen patron's tradition, but aside from the tradition, you don't gain any other effects the patron would usually grant. Your familiar has one less familiar ability than normal. You gain the Cast a Spell activity. You can prepare one cantrip each day from your familiar. You're trained in spell attack rolls and spell DCs from your patron's tradition. Your key spellcasting ability for witch archetype spells is Intelligence, and they are witch spells of your patron's tradition. You become trained in the skill associated with the patron's tradition; if you were already trained in it, you instead become trained in a skill of your choice.%r%r**Special** You can't select another dedication feat until you have gained two other feats from the witch archetype.
+    shortdesc: "You cast spells like a witch. Choose a patron; you gain a familiar with two common cantrips of your choice from your chosen patron's tradition, but aside from the tradition, you don't gain any other effects the patron would usually grant. Your familiar gains the normal number of abilities for a familiar instead of those a witch familiar normally gets.%r%rYou gain the Cast a Spell activity. You can prepare one cantrip each day from your familiar. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for witch archetype spells is Intelligence, and they are witch spells of your patron's tradition.%r%rYou become trained in the skill associated with the patron's tradition; if you were already trained in it, you instead become trained in a skill of your choice."
     traits:
       - archetype
       - dedication
       - multiclass
-  Wizard Dedication: # Special Feat
+  Wizard Dedication:
     assoc_archetype:
       - Wizard Archetype
     assoc_class:
@@ -446,25 +488,38 @@ pf2e_feats:
       - Ranger
       - Rogue
       - Sorcerer
+      - Swashbuckler
       - Witch
-      - Wizard
-    feat_type: 
+    feat_type:
       - Dedication
       - Charclass
     prereq:
       level: 2
-      ability: 
+      ability:
         - Intelligence/14
-    shortdesc: You cast spells like a wizard, gaining a spellbook with four common arcane cantrips of your choice. You gain the Cast a Spell activity. You can prepare two cantrips each day from your spellbook. You're trained in arcane spell attack rolls and spell DCs. Your key spellcasting ability for wizard archetype spells is Int, and they are arcane wizard spells. You become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice. Select one arcane school of magic; you don't gain any abilities from your choice of school.%r%r**Special** You can't select another dedication feat until you have gained two other feats from the wizard archetype.
+    shortdesc: You cast spells like a wizard, gaining a spellbook with four common arcane cantrips of your choice. You gain the Cast a Spell activity. You can prepare two cantrips each day from your spellbook. You're trained in the spell attack modifier and spell DC statistics. Your key spellcasting attribute for wizard archetype spells is Intelligence, and they are arcane wizard spells. You become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice. Select a school; you don't gain any abilities from your choice of school, but qualify for feats as a member.
     traits:
       - archetype
       - dedication
       - multiclass
-# Level 4 Archetype Feats 
-  Arcane School Spell: # Focus Points
+  # Level 4 Archetype Feats
+  Advanced Alchemy:
+    assoc_archetype:
+      - Alchemist Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Alchemist Dedication
+    shortdesc: You gain the advanced alchemy benefits, and you can create 4 alchemical consumables during your daily preparations.
+    traits:
+      - archetype
+  Arcane School Spell:
     assoc_archetype:
       - Wizard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -474,23 +529,24 @@ pf2e_feats:
     shortdesc: You gain your school's initial school spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.
     traits:
       - archetype
-  Barbarian Resiliency: # Special Feat # Special prereq: class granting no more Hit Points per level than 10 + your Constitution modifier. Pretty sure no other class we have in-game does this rn besides Barbarian
+  Barbarian Resiliency:
     assoc_archetype:
       - Barbarian Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Barbarian Dedication
+        - class granting no more Hit Points per level than 10 + your Constitution modifier
     shortdesc: You gain 3 additional Hit Points for each barbarian archetype class feat you have. As you continue selecting barbarian archetype class feats, you continue to gain additional Hit Points in this way.
     traits:
       - archetype
   Basic Arcana:
     assoc_archetype:
       - Wizard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -503,20 +559,20 @@ pf2e_feats:
   Basic Bard Spellcasting:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Bard Dedication
-    shortdesc: You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the bard archetype, add a common occult spell or another spell you learned or discovered to your repertoire, of the appropriate spell level.
+    shortdesc: You gain the basic spellcasting benefits. Each time you gain a spell slot of a new rank from the bard archetype, add a common occult spell of the appropriate rank, or another appropriate occult spell you learned or discovered, to your repertoire.
     traits:
       - archetype
   Basic Blood Potency:
     assoc_archetype:
       - Sorcerer Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -526,10 +582,10 @@ pf2e_feats:
     shortdesc: You gain a 1st- or 2nd-level sorcerer feat.
     traits:
       - archetype
-  Basic Bloodline Spell: # Focus Points
+  Basic Bloodline Spell:
     assoc_archetype:
       - Sorcerer Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -542,20 +598,33 @@ pf2e_feats:
   Basic Cleric Spellcasting:
     assoc_archetype:
       - Cleric Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Cleric Dedication
-    shortdesc: You gain the basic spellcasting benefits. You can prepare your deity's spells in your spell slots of the appropriate level from the cleric archetype.
+    shortdesc: You gain the basic spellcasting benefits. You can prepare your deity's spells in your spell slots of the appropriate rank from the cleric archetype.
+    traits:
+      - archetype
+  Basic Concoction:
+    assoc_archetype:
+      - Alchemist Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Alchemist Dedication
+    shortdesc: You gain a 1st- or 2nd-level alchemist feat.
     traits:
       - archetype
   Basic Deduction:
     assoc_archetype:
       - Investigator Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -568,7 +637,7 @@ pf2e_feats:
   Basic Devotion:
     assoc_archetype:
       - Champion Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -581,7 +650,7 @@ pf2e_feats:
   Basic Dogma:
     assoc_archetype:
       - Cleric Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -594,7 +663,7 @@ pf2e_feats:
   Basic Druid Spellcasting:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -604,10 +673,23 @@ pf2e_feats:
     shortdesc: You gain the basic spellcasting benefits.
     traits:
       - archetype
+  Basic Flair:
+    assoc_archetype:
+      - Swashbuckler Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Swashbuckler Dedication
+    shortdesc: You gain a 1st- or 2nd-level swashbuckler feat of your choice.
+    traits:
+      - archetype
   Basic Fury:
     assoc_archetype:
       - Barbarian Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -620,7 +702,7 @@ pf2e_feats:
   Basic Hunter's Trick:
     assoc_archetype:
       - Ranger Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -633,7 +715,7 @@ pf2e_feats:
   Basic Kata:
     assoc_archetype:
       - Monk Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -646,7 +728,7 @@ pf2e_feats:
   Basic Maneuver:
     assoc_archetype:
       - Fighter Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -659,7 +741,7 @@ pf2e_feats:
   Basic Muse's Whispers:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -672,7 +754,7 @@ pf2e_feats:
   Basic Mysteries:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -685,72 +767,33 @@ pf2e_feats:
   Basic Oracle Spellcasting:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Oracle Dedication
-    shortdesc: You gain the basic spellcasting benefits. When you gain a spell slot of a new level from the oracle archetype, add a common divine spell or another divine spell you have learned or discovered to your repertoire, of that spell level.
+    shortdesc: You gain the basic spellcasting benefits. When you gain a spell slot of a new rank from the oracle archetype, add a common divine spell or another divine spell you have learned or discovered (including the granted spells associated with your mystery) to your repertoire, of that spell rank.
     traits:
       - archetype
   Basic Sorcerer Spellcasting:
     assoc_archetype:
       - Sorcerer Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Sorcerer Dedication
-    shortdesc: "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline's tradition, one of your bloodline's granted spells, or another spell you have learned or discovered."
-    traits:
-      - archetype
-  Basic Witch Spellcasting:
-    assoc_archetype:
-      - Witch Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 4
-      feat:
-        - Witch Dedication
-    shortdesc: You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the witch archetype, add two common spells of that level to your familiar.
-    traits:
-      - archetype
-  Basic Witchcraft:
-    assoc_archetype:
-      - Witch Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 4
-      feat:
-        - Witch Dedication
-    shortdesc: You gain a 1st- or 2nd-level witch feat of your choice. Your familiar no longer has one less familiar ability than normal.
-    traits:
-      - archetype
-  Basic Wizard Spellcasting:
-    assoc_archetype:
-      - Wizard Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 4
-      feat:
-        - Wizard Dedication
-    shortdesc: You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the wizard archetype, add two common spells of that level to your spellbook.
+    shortdesc: "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell rank to your repertoire: a common spell of your bloodline's tradition, one of your bloodline's granted spells, or another spell you have learned or discovered."
     traits:
       - archetype
   Basic Trickery:
     assoc_archetype:
       - Rogue Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -763,7 +806,7 @@ pf2e_feats:
   Basic Wilding:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -773,140 +816,183 @@ pf2e_feats:
     shortdesc: You gain a 1st- or 2nd-level druid feat.
     traits:
       - archetype
-  Champion Resiliency: # Special prereq: class granting no more Hit Points per level than 8 + your Constitution modifier. Not sure how to *disinclude* classes from taking this feat in the YAML.
+  Basic Witch Spellcasting:
+    assoc_archetype:
+      - Witch Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Witch Dedication
+    shortdesc: You gain the basic spellcasting benefits. Each time you gain a spell slot of a new rank from the witch archetype, add two common spells of that rank to your familiar.
+    traits:
+      - archetype
+  Basic Witchcraft:
+    assoc_archetype:
+      - Witch Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Witch Dedication
+    shortdesc: You gain a 1st- or 2nd-level witch feat of your choice. You can select three familiar abilities for your familiar each day, instead of two.
+    traits:
+      - archetype
+  Basic Wizard Spellcasting:
+    assoc_archetype:
+      - Wizard Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Wizard Dedication
+    shortdesc: You gain the basic spellcasting benefits. Each time you gain a spell slot of a new rank from the wizard archetype, add two common spells of that rank to your spellbook.
+    traits:
+      - archetype
+  Champion Resiliency:
     assoc_archetype:
       - Champion Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Champion Dedication
+        - class granting no more Hit Points per level than 8 + your Constitution modifier
     shortdesc: You gain 3 additional Hit Points for each champion archetype class feat you have. As you continue selecting champion archetype class feats, you continue to gain additional Hit Points in this way.
     traits:
       - archetype
-  Fighter Resiliency: # Special prereq like Champion Resiliency
+  Devout Magic:
+    assoc_archetype:
+      - Champion Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Champion Dedication
+    shortdesc: You gain a devotion spell of your choice listed in the devotion spells class feature, following the same restrictions listed there.
+    traits:
+      - archetype
+  Fighter Resiliency:
     assoc_archetype:
       - Fighter Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Fighter Dedication
+        - class granting no more Hit Points per level than 8 + your Constitution modifier
     shortdesc: You gain 3 additional Hit Points for each fighter archetype class feat you have. As you continue selecting fighter archetype class feats, you continue to gain additional Hit Points in this way.
     traits:
       - archetype
-  First Revelation: # Focus Points
+  Finishing Precision:
+    assoc_archetype:
+      - Swashbuckler Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Swashbuckler Dedication
+    shortdesc: "You've learned how to land daring blows when you have panache.%r%rYou gain the precise strike class feature but you deal 1 addition damage on a hit and 1d6 damage on a finisher. This damage doesn't increase as you gain levels. In addition, you gain the Basic Finisher action."
+    traits:
+      - archetype
+  First Revelation:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Oracle Dedication
-    shortdesc: You gain your mystery's initial revelation spell. Casting this spell progresses your curse. Use the minor curse from your mystery, but when you progress it again, instead of your mystery's moderate curse effect, you become flat-footed in addition to the effects of the minor curse.%r%rIf you don't have one, you gain a focus pool of 1 Focus Point. You can Refocus by reconciling the conflicting nature of your mystery, which also reduces your curse to minor.
-    traits:
-      - archetype
-  Healing Touch: # Focus Point
-    assoc_archetype:
-      - Champion Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 4
-      feat:
-        - Champion Dedication
-    shortdesc: You gain the appropriate devotion spell for your cause (_lay on hands_ for the paladin, redeemer, and liberator). If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by praying or serving your deity.
+    shortdesc: You gain your mystery's initial revelation spell. If you don't have one, you gain a focus pool of 1 Focus Point. You can Refocus by reconciling the conflicting nature of your mystery, which also reduces your cursebound value by 1.
     traits:
       - archetype
   Investigator's Stratagem:
     assoc_archetype:
       - Investigator Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Investigator Dedication
-    shortdesc: You play out battles in your head, allowing you to strike when the time is right. You gain the Devise a Stratagem action; however, when you substitute its result for your attack roll, you can't use your Intelligence modifier in place of your Strength or Dexterity modifier. You also can't use your Intelligence modifier on other rolls from abilities that expand Devise a Stratagem, such as the Athletic Strategist feat.
+    shortdesc: "You play out battles in your head, allowing you to Strike when the time is right. You gain the Devise a Stratagem action; however, when you substitute its result for your attack roll, you can't use your Intelligence modifier in place of your Strength or Dexterity modifier.%r%rYou also can't use your Intelligence modifier on other rolls from abilities that expand Devise a Stratagem, such as the Athletic Strategist feat."
     traits:
       - archetype
-  Monk Resiliency: # Special prereq: class granting no more Hit Points per level than 8 + your Constitution modifier
+  Monk Resiliency:
     assoc_archetype:
       - Monk Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Monk Dedication
+        - class granting no more Hit Points per level than 8 + your Constitution modifier
     shortdesc: You gain 3 additional Hit Points for each monk archetype class feat you have. As you continue selecting monk archetype class feats, you continue to gain additional Hit Points in this way.
     traits:
       - archetype
-  Opportunist:
-    assoc_archetype:
-      - Fighter Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 4
-      feat:
-        - Fighter Dedication
-    shortdesc: You gain the Attack of Opportunity reaction.
-    traits:
-      - archetype
-  Order Spell: # Focus Point
+  Order Spell:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Druid Dedication
-    shortdesc: You gain the initial order spell from your order. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by being one with nature.
+    shortdesc: You gain the initial order spell from your order. This is a focus spell, granting you a focus pool or expanding that pool. You can Refocus by being one with nature.
     traits:
       - archetype
-  Quick Alchemy:
-    assoc_archetype:
-      - Alchemist Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 4
-      feat:
-        - Alchemist Dedication
-    shortdesc: You gain the Quick Alchemy action.
-    traits:
-      - archetype
-  Ranger Resiliency: # Special prereq: class granting no more Hit Points per level than 8 + your Constitution modifier
+  Ranger Resiliency:
     assoc_archetype:
       - Ranger Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 4
       feat:
         - Ranger Dedication
+        - class granting no more Hit Points per level than 8 + your Constitution modifier
     shortdesc: You gain 3 additional Hit Points for each ranger archetype class feat you have. As you continue selecting ranger archetype class feats, you continue to gain additional Hit Points in this way.
+    traits:
+      - archetype
+  Reactive Striker:
+    assoc_archetype:
+      - Fighter Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 4
+      feat:
+        - Fighter Dedication
+    shortdesc: You gain the Reactive Strike reaction.
     traits:
       - archetype
   Sneak Attacker:
     assoc_archetype:
       - Rogue Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -916,34 +1002,34 @@ pf2e_feats:
     shortdesc: You gain the sneak attack class feature, except it deals 1d4 damage, increasing to 1d6 at 6th level. You don't increase the number of dice as you gain levels.
     traits:
       - archetype
-# Level 6 Archetype Feats
-  Advanced Arcana: # Special Feat
+  # Level 6 Archetype Feats
+  Advanced Arcana:
     assoc_archetype:
       - Wizard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Arcana
-    shortdesc: You gain one wizard feat. For the purpose of meeting its prerequisites, your wizard level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another wizard feat.
+    shortdesc: "You gain one wizard feat. For the purpose of meeting its prerequisites, your wizard level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another wizard feat."
     traits:
       - archetype
-  Advanced Blood Potency: # Special Feat
+  Advanced Blood Potency:
     assoc_archetype:
       - Sorcerer Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Blood Potency
-    shortdesc: You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.%r%r**Special** You can select this feat more than once. Each time you do, you gain another sorcerer feat.
+    shortdesc: "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.%r%r**Special** You can select this feat more than once. Each time you do, you gain another sorcerer feat."
     traits:
       - archetype
-  Advanced Concoction: # Special Feat
+  Advanced Concoction:
     assoc_archetype:
       - Alchemist Archetype
     feat_type:
@@ -953,169 +1039,182 @@ pf2e_feats:
       level: 6
       feat:
         - Basic Concoction
-    shortdesc: You gain one alchemist feat. For the purpose of meeting its prerequisites, your alchemist level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another alchemist feat.
+    shortdesc: "You gain one alchemist feat. For the purpose of meeting its prerequisites, your alchemist level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another alchemist feat."
     traits:
-    - archetype
-  Advanced Deduction: # Special Feat
+      - archetype
+  Advanced Deduction:
     assoc_archetype:
       - Investigator Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Deduction
-    shortdesc: You gain one investigator feat. For the purpose of meeting its prerequisites, your investigator level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time, you gain another investigator feat.
+    shortdesc: "You gain one investigator feat. For the purpose of meeting its prerequisites, your investigator level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another investigator feat."
     traits:
       - archetype
-  Advanced Devotion: # Special Feat
+  Advanced Devotion:
     assoc_archetype:
       - Champion Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Devotion
-    shortdesc: You gain one champion feat. For the purpose of meeting its prerequisites, your champion level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another champion feat.
+    shortdesc: "You gain one champion feat. For the purpose of meeting its prerequisites, your champion level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another champion feat."
     traits:
       - archetype
-  Advanced Dogma: # Special Feat
+  Advanced Dogma:
     assoc_archetype:
       - Cleric Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Dogma
-    shortdesc: You gain one cleric feat. For the purpose of meeting its prerequisites, your cleric level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another cleric feat.
+    shortdesc: "You gain one cleric feat. For the purpose of meeting its prerequisites, your cleric level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another cleric feat."
     traits:
       - archetype
-  Advanced Fury: # Special Feat
+  Advanced Flair:
+    assoc_archetype:
+      - Swashbuckler Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 6
+      feat:
+        - Basic Flair
+    shortdesc: "You gain one swashbuckler feat. For the purpose of meeting its prerequisites, your swashbuckler level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another swashbuckler feat."
+    traits:
+      - archetype
+  Advanced Fury:
     assoc_archetype:
       - Barbarian Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Fury
-    shortdesc: You gain one barbarian feat. For the purpose of meeting its prerequisites, your barbarian level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another barbarian feat.
+    shortdesc: "You gain one barbarian feat. For the purpose of meeting its prerequisites, your barbarian level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another barbarian feat."
     traits:
       - archetype
-  Advanced Hunter's Trick: # Special Feat
+  Advanced Hunter's Trick:
     assoc_archetype:
       - Ranger Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Hunter's Trick
-    shortdesc: You gain one ranger feat. For the purpose of meeting its prerequisites, your ranger level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another ranger feat.
+    shortdesc: "You gain one ranger feat. For the purpose of meeting its prerequisites, your ranger level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another ranger feat."
     traits:
       - archetype
-  Advanced Kata: # Special Feat
+  Advanced Kata:
     assoc_archetype:
       - Monk Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Kata
-    shortdesc: You gain one monk feat. For the purpose of meeting its prerequisites, your monk level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another monk feat.
+    shortdesc: "You gain one monk feat. For the purpose of meeting its prerequisites, your monk level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another monk feat."
     traits:
       - archetype
-  Advanced Maneuver: # Special Feat
+  Advanced Maneuver:
     assoc_archetype:
       - Fighter Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Maneuver
-    shortdesc: You gain a fighter feat. For the purpose of meeting its prerequisites, your fighter level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another fighter feat.
+    shortdesc: "You gain a fighter feat. For the purpose of meeting its prerequisites, your fighter level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another fighter feat."
     traits:
       - archetype
-  Advanced Muse's Whispers: # Special Feat
+  Advanced Muse's Whispers:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Muse's Whispers
-    shortdesc: You gain one bard feat. For the purpose of meeting its prerequisites, your bard level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another bard feat.
+    shortdesc: "You gain one bard feat. For the purpose of meeting its prerequisites, your bard level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another bard feat."
     traits:
       - archetype
-  Advanced Mysteries: # Special Feat
+  Advanced Mysteries:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Mysteries
-    shortdesc: You gain one oracle feat. For meeting its prerequisites, your oracle level is equal to half your level.%r%r**Special** You can select this feat more than once. Each time, you gain another oracle feat.
+    shortdesc: "You gain one oracle feat. For meeting its prerequisites, your oracle level is equal to half your level.%r%r**Special** You can select this feat more than once. Each time, you gain another oracle feat."
     traits:
       - archetype
-  Advanced Trickery: # Special Feat
+  Advanced Trickery:
     assoc_archetype:
       - Rogue Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Trickery
-    shortdesc: You gain one rogue feat. For the purpose of meeting its prerequisites, your rogue level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another rogue feat.
+    shortdesc: "You gain one rogue feat. For the purpose of meeting its prerequisites, your rogue level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another rogue feat."
     traits:
       - archetype
-  Advanced Wilding: # Special Feat
+  Advanced Wilding:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
-      level: 4
+      level: 6
       feat:
         - Basic Wilding
-    shortdesc: You gain one druid feat. For the purpose of meeting its prerequisites, your druid level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another druid feat.
+    shortdesc: "You gain one druid feat. For the purpose of meeting its prerequisites, your druid level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another druid feat."
     traits:
       - archetype
   Advanced Witchcraft:
     assoc_archetype:
       - Witch Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
         - Basic Witchcraft
-    shortdesc: You gain one witch feat. For the purpose of meeting its prerequisites, your witch level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another witch feat.
+    shortdesc: "You gain one witch feat. For the purpose of meeting its prerequisites, your witch level is equal to half your character level.%r%r**Special** You can select this feat more than once. Each time you select it, you gain another witch feat."
     traits:
       - archetype
   Champion's Reaction:
     assoc_archetype:
       - Champion Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1125,50 +1224,36 @@ pf2e_feats:
     shortdesc: You can use the champion's reaction associated with your cause.
     traits:
       - archetype
-  Counter Perform: # Focus Points
+  Counter Perform:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 6
-      feat:
-        - Bard Dedication
-    shortdesc: You gain the _counter performance_ composition spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by engaging your muse.
-    traits:
-      - archetype
-  Divine Ally:
-    assoc_archetype:
-      - Champion Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 6
-      feat:
-        - Champion Dedication
-    shortdesc: You gain a divine ally of your choice.
-    traits:
-      - archetype
-  Expert Alchemy:
-    assoc_archetype:
-      - Alchemist Archetype
     feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 6
       feat:
-        - Alchemist Dedication
-      skill: Crafting/expert
-    shortdesc: Your advanced alchemy level increases to 3. At 10th level, it increases to 5.
+        - Bard Dedication
+    shortdesc: You gain the *counter performance* composition spell. This is a focus spell, granting you a focus pool or expanding that pool. You can Refocus by engaging your muse.
     traits:
       - archetype
-  Instinct Ability: # Special Feat
+  Devout Blessing:
+    assoc_archetype:
+      - Champion Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 6
+      feat:
+        - Champion Dedication
+    shortdesc: You gain the blessing of the devoted class feature, choosing from the listed blessings or any other to which you have access.
+    traits:
+      - archetype
+  Instinct Ability:
     assoc_archetype:
       - Barbarian Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1181,7 +1266,7 @@ pf2e_feats:
   Keen Recollection:
     assoc_archetype:
       - Investigator Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1191,63 +1276,90 @@ pf2e_feats:
     shortdesc: You can recall all sorts of information. You gain the keen recollection class feature.
     traits:
       - archetype
-# Level 8 Archetype Feats
-  Arcane Breadth:
+  Swashbuckler's Riposte:
     assoc_archetype:
-      - Wizard Archetype
-    feat_type: 
+      - Swashbuckler Archetype
+    feat_type:
       - Archetype
       - Charclass
     prereq:
-      level: 8
+      level: 6
       feat:
-        - Basic Wizard Spellcasting
-    shortdesc: You can cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell level other than your two highest wizard spell slots.
+        - Swashbuckler Dedication
+    shortdesc: You've learned to riposte against ill-conceived attacks. You gain the Opportune Riposte reaction.
     traits:
       - archetype
-  Bloodline Breadth:
+  Voluminous Vials:
     assoc_archetype:
-      - Sorcerer Archetype
-    feat_type: 
+      - Alchemist Archetype
+    feat_type:
       - Archetype
       - Charclass
     prereq:
-      level: 8
+      level: 6
       feat:
-        - Basic Sorcerer Spellcasting
-    shortdesc: Your repertoire expands, and you can cast more spells of your bloodline's tradition each day. Increase the number of spells in your repertoire and number of spell slots you gain from sorcerer archetype feats by 1 for each spell level other than your two highest sorcerer spell slots.
+        - Alchemist Dedication
+      skill: Crafting/expert
+    shortdesc: "Your number of versatile vials per day increases to 5.%r%r**Special** At 12th level or higher, you can select this feat a second time to increase your number of versatile vials per day to 6. At 18th level or higher, you can select this feat a third time to increase your number of versatile vials per day to 7."
     traits:
       - archetype
-  Divine Breadth:
-    assoc_archetype:
-      - Cleric Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 8
-      feat:
-        - Basic Cleric Spellcasting
-    shortdesc: You can cast more divine spells each day. Increase the spell slots you gain from cleric archetype feats by 1 for each spell level other than your two highest cleric spell slots. 
-    traits:
-      - archetype
-  Inspirational Performance:
+  # Level 8 Archetype Feats
+  Anthemic Performance:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 8
       feat:
         - Bard Dedication
-    shortdesc: You gain the _inspire courage_ composition cantrip.
+    shortdesc: Your music, speech, or other performance inspires your allies to dive into battle. You gain the *courageous anthem* composition cantrip.
+    traits:
+      - archetype
+  Arcane Breadth:
+    assoc_archetype:
+      - Wizard Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 8
+      feat:
+        - Basic Wizard Spellcasting
+    shortdesc: Your thorough studies allow you to cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell rank other than your two highest wizard spell slots.
+    traits:
+      - archetype
+  Bloodline Breadth:
+    assoc_archetype:
+      - Sorcerer Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 8
+      feat:
+        - Basic Sorcerer Spellcasting
+    shortdesc: Your repertoire expands, and you can cast more spells of your bloodline's tradition each day. Increase the number of spells in your repertoire and number of spell slots you gain from sorcerer archetype feats by 1 for each spell rank other than your two highest spell slots.
+    traits:
+      - archetype
+  Divine Breadth:
+    assoc_archetype:
+      - Cleric Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 8
+      feat:
+        - Basic Cleric Spellcasting
+    shortdesc: As your understanding increases, your god grants you more divine spells each day. Increase the spell slots you gain from cleric archetype feats by 1 for each spell rank other than your two highest cleric spell slots.
     traits:
       - archetype
   Monk Moves:
     assoc_archetype:
       - Monk Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1260,99 +1372,101 @@ pf2e_feats:
   Mysterious Breadth:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 8
       feat:
         - Basic Oracle Spellcasting
-    shortdesc: Your repertoire expands, and you can cast more divine spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from oracle archetype feats by 1 for each spell level other than your two highest oracle spell slots.
+    shortdesc: Increase the number of spells in your repertoire and number of spell slots you gain from oracle archetype feats by 1 for each spell rank other than your two highest oracle spell slots.
     traits:
       - archetype
   Occult Breadth:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 8
       feat:
         - Basic Bard Spellcasting
-    shortdesc: Your repertoire expands, and you can cast more occult spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from bard archetype feats by 1 for each spell level other than your two highest bard spell slots.
+    shortdesc: Your repertoire expands, and you can cast more occult spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from bard archetype feats by 1 for each spell rank other than your two highest spell slots.
     traits:
       - archetype
   Patron's Breadth:
     assoc_archetype:
       - Witch Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 8
       feat:
-        - Witch Dedication
-    shortdesc: You can cast more spells each day. Increase the spell slots you gain from witch archetype feats by 1 for each spell level other than your two highest witch spell slots.
+        - Basic Witch Spellcasting
+    shortdesc: You can cast more spells each day. Increase the spell slots you gain from witch archetype feats by 1 for each spell rank other than your two highest spell ranks.
     traits:
       - archetype
   Primal Breadth:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 8
       feat:
         - Basic Druid Spellcasting
-    shortdesc: Increase the spell slots you gain from druid archetype feats by 1 for each spell level other than your two highest druid spell slots.
+    shortdesc: Increase the spell slots you gain from druid archetype feats by 1 for each spell rank other than your two highest druid spell slots.
     traits:
       - archetype
-  Skill Mastery (Investigator): # Prereq: trained in at least one skill and expert in at least one skill # Special Feat
-    assoc_archetype:
-      - Investigator Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 8
-      feat:
-        - Investigator Dedication
-    shortdesc: Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose.%r%r**Special** You can select this feat up to five times.
-    traits:
-      - archetype
-  Skill Mastery (Rogue): # Prereq: trained in at least one skill and expert in at least one skill # Special Feat
+  Skill Mastery (Rogue):
     assoc_archetype:
       - Rogue Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 8
       feat:
         - Rogue Dedication
-    shortdesc: Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose.%r%r**Special** You can select this feat up to five times.
+      misc:
+        - trained in at least one skill and expert in at least one skill
+    shortdesc: "Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose; you must meet all its prerequisites.%r%r**Special** You can select this feat up to five times."
     traits:
       - archetype
-# Level 10 Archetype Feats
+  Swashbuckler's Speed:
+    assoc_archetype:
+      - Swashbuckler Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 8
+      feat:
+        - Swashbuckler Dedication
+    shortdesc: You move faster, with or without panache. Increase the status bonus to your Speeds when you have panache to a +10-foot status bonus; you also gain a +5-foot status bonus to your Speeds when you don't have panache.
+    traits:
+      - archetype
+  # Level 10 Archetype Feats
   Monk's Flurry:
     assoc_archetype:
       - Monk Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 10
       feat:
         - Monk Dedication
-    shortdesc: You gain the Flurry of Blows action.
+    shortdesc: You gain the Flurry of Blows action. Your fists' power, however, exceeds your conditioning; once you use Flurry of Blows, you can't use it again for 1d4 rounds as your muscles recover.
     traits:
       - archetype
   Uncanny Dodge:
     assoc_archetype:
       - Rogue Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1362,38 +1476,67 @@ pf2e_feats:
     shortdesc: You gain the deny advantage class feature.
     traits:
       - archetype
-# Level 12 Archetype Feats
-  Diverse Weapon Expert: # Prereq: Expert in unarmored attack or any type of weapon. Not sure how to do in YAML
+  # Level 12 Archetype Feats
+  Alchemical Power:
     assoc_archetype:
-      - Fighter Archetype
-    feat_type: 
+      - Alchemist Archetype
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 12
+      feat:
+        - Alchemist Dedication
+      skill: Crafting/master
+    shortdesc: You become an expert in the alchemist class DC. When you create an infused alchemical item that allows a saving throw, you can change its DC to your class DC.
+    traits:
+      - archetype
+  Diverse Weapon Expert:
+    assoc_archetype:
+      - Fighter Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 12
+      feat:
+        - Fighter Dedication
+        - expert in any kind of weapon or unarmed attacks
     shortdesc: Your proficiency ranks for simple weapons and martial weapons increase to expert, and your proficiency rank for advanced weapons increases to trained.
     traits:
       - archetype
   Evasiveness (Rogue):
     assoc_archetype:
       - Rogue Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 12
       feat:
         - Rogue Dedication
-      combat_stats:
-        saves:
-          reflex: expert
+        - expert in Reflex saves
+    shortdesc: Your proficiency rank for Reflex saves increases to master.
+    traits:
+      - archetype
+  Evasiveness (Swashbuckler):
+    assoc_archetype:
+      - Swashbuckler Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 12
+      feat:
+        - Swashbuckler Dedication
+        - expert in Reflex saves
     shortdesc: Your proficiency rank for Reflex saves increases to master.
     traits:
       - archetype
   Expert Bard Spellcasting:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1407,7 +1550,7 @@ pf2e_feats:
   Expert Cleric Spellcasting:
     assoc_archetype:
       - Cleric Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1415,13 +1558,13 @@ pf2e_feats:
       feat:
         - Basic Cleric Spellcasting
       skill: Religion/master
-    shortdesc: You gain the expert spellcasting benefits. 
+    shortdesc: You gain the expert spellcasting benefits.
     traits:
       - archetype
   Expert Druid Spellcasting:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1429,13 +1572,13 @@ pf2e_feats:
       feat:
         - Basic Druid Spellcasting
       skill: Nature/master
-    shortdesc: You gain the expert spellcasting benefits. 
+    shortdesc: You gain the expert spellcasting benefits.
     traits:
       - archetype
   Expert Oracle Spellcasting:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1449,43 +1592,35 @@ pf2e_feats:
   Expert Sorcerer Spellcasting:
     assoc_archetype:
       - Sorcerer Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 12
       feat:
         - Basic Sorcerer Spellcasting
-      orskill:
-        - Arcana/master
-        - Nature/master
-        - Occultism/master
-        - Religion/master
+        - master in Arcana, Nature, Occultism, or Religion, depending on bloodline
     shortdesc: You gain the expert spellcasting benefits.
     traits:
       - archetype
   Expert Witch Spellcasting:
     assoc_archetype:
       - Witch Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 12
       feat:
         - Basic Witch Spellcasting
-      orskill:
-        - Arcana/master
-        - Nature/master
-        - Occultism/master
-        - Religion/master
+        - master in the skill associated with your patron's tradition
     shortdesc: You gain the expert spellcasting benefits.
     traits:
       - archetype
   Expert Wizard Spellcasting:
     assoc_archetype:
       - Wizard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1499,37 +1634,21 @@ pf2e_feats:
   Juggernaut's Fortitude:
     assoc_archetype:
       - Barbarian Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 12
       feat:
         - Barbarian Dedication
-      combat_stats:
-        saves:
-          fortitude: expert
-    shortdesc: You gain the instinct ability for the instinct you chose for Barbarian Dedication.
-    traits:
-      - archetype
-  Master Alchemy:
-    assoc_archetype:
-      - Alchemist Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 12
-      feat:
-        - Expert Alchemy
-      skill: Crafting/master
-    shortdesc: Your advanced alchemy level increases to 7. For every level you gain beyond 12th, your advanced alchemy level increases by 1.
+        - expert in Fortitude saves
+    shortdesc: Your proficiency rank in Fortitude saves increases to master.
     traits:
       - archetype
   Master Spotter (Investigator):
     assoc_archetype:
       - Investigator Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1543,7 +1662,7 @@ pf2e_feats:
   Master Spotter (Ranger):
     assoc_archetype:
       - Ranger Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1554,10 +1673,10 @@ pf2e_feats:
     shortdesc: Your proficiency rank in Perception increases to master.
     traits:
       - archetype
-  Perfection's Path: # Prereq: Expert in at least one saving throw
+  Perfection's Path:
     assoc_archetype:
       - Monk Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1567,25 +1686,11 @@ pf2e_feats:
     shortdesc: Choose one saving throw (Fortitude, Reflex, or Will) in which you are an expert. Your proficiency rank in the chosen saving throw increases to master.
     traits:
       - archetype
-# Level 14 Archetype Feats
-  Diverse Armor Expert: # Prereq: Expert in unarmored defense or one or more types of armor. Not sure how to do in YAML
-    assoc_archetype:
-      - Champion Archetype
-    feat_type: 
-      - Archetype
-      - Charclass
-    prereq:
-      level: 14
-      feat:
-        - Champion Dedication
-    shortdesc: Your proficiency ranks for light armor, medium armor, heavy armor, and unarmored defense increase to expert.
-    traits:
-      - archetype
-# Level 18 Archetype Feats
+  # Level 18 Archetype Feats
   Master Bard Spellcasting:
     assoc_archetype:
       - Bard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1599,7 +1704,7 @@ pf2e_feats:
   Master Cleric Spellcasting:
     assoc_archetype:
       - Cleric Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1613,7 +1718,7 @@ pf2e_feats:
   Master Druid Spellcasting:
     assoc_archetype:
       - Druid Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1627,7 +1732,7 @@ pf2e_feats:
   Master Oracle Spellcasting:
     assoc_archetype:
       - Oracle Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
@@ -1641,43 +1746,35 @@ pf2e_feats:
   Master Sorcerer Spellcasting:
     assoc_archetype:
       - Sorcerer Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:
       level: 18
       feat:
         - Expert Sorcerer Spellcasting
-      orskill:
-        - Arcana/legendary
-        - Nature/legendary
-        - Occultism/legendary
-        - Religion/legendary
+        - legendary in Arcana, Nature, Occultism, or Religion depending on bloodline
     shortdesc: You gain the master spellcasting benefits.
     traits:
       - archetype
   Master Witch Spellcasting:
     assoc_archetype:
       - Witch Archetype
-    feat_type: 
-      - Dedication
+    feat_type:
+      - Archetype
       - Charclass
     prereq:
       level: 18
       feat:
-        - Basic Witch Spellcasting
-      orskill:
-        - Arcana/legendary
-        - Nature/legendary
-        - Occultism/legendary
-        - Religion/legendary
+        - Expert Witch Spellcasting
+        - legendary in the skill associated with your patron's tradition
     shortdesc: You gain the master spellcasting benefits.
     traits:
       - archetype
   Master Wizard Spellcasting:
     assoc_archetype:
       - Wizard Archetype
-    feat_type: 
+    feat_type:
       - Archetype
       - Charclass
     prereq:

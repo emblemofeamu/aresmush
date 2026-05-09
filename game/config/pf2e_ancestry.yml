@@ -20,10 +20,11 @@ pf2e_ancestry:
       - Ashen One
       - Changeling
       - Dar
-      - Elfbane
       - Ghaluch
       - Niasa
+      - Manabane
       - Runtboss
+      - Shortshanks
       - Silyara
       - Smokeworker
       - Warmarch
@@ -33,19 +34,28 @@ pf2e_ancestry:
         - Alchemical Scholar
         - Arvek Lore
         - Arvek Weapon Familiarity
+        - Cantorian Reinforcement 
         - Leech-Clipper
         - Remorseless Lash
+        - Sneaky
+        - Stone Face
         - Vigorous Health
       5:
         - Agonizing Rebuke
-        - Arvek Weapon Discipline
         - Expert Drill Sergeant
-        - Formation Training
+        - Recognize Ambush
+        - Runtsage
       9:
-        - Pride In Arms
+        - Cantorian Rejuvenation
+        - Fell Rider
+        - Pride in Arms
+        - Squad Tactics
       13:
-        - Arvek Weapon Expertise
-        - Formation Master
+        - Can't Fall Here
+        - War Conditioning
+      17:
+        - Cantorian Restoration
+        - Rallying Cry
   Bassin:
     HP: 6
     Size: S
@@ -88,7 +98,6 @@ pf2e_ancestry:
         - Unfettered Bassin
         - Watchful Bassin
       5:
-        - Bassin Weapon Trickster
         - Cultural Adaptability
         - Step Lively
       9:
@@ -98,7 +107,6 @@ pf2e_ancestry:
         - Unhampered Passage
       13:
         - Ceaseless Shadows
-        - Bassin Weapon Expertise
         - Toppling Dance
       17:
         - Shadow Self
@@ -132,28 +140,36 @@ pf2e_ancestry:
       - Dar
       - Makar
       - Niasa
+      - Otocami
       - Paeezh
       - Pantli
       - Xalli
     feats:
       1:
+        - Bone Magic
+        - Ciith Armaments
         - Ciith Lore
         - Marsh Runner
         - Parthenogenic Hatchling
         - Razor Claws
         - Reptile Speaker
-        - Sharp Fangs
-        - Tail Whip
       5:
-        - Ciith Unarmed Cunning
         - Envenom Fangs
+        - Flexible Tail
         - Gecko's Grip
         - Shed Tail
         - Swift Swimmer
       9:
+        - Dangle
+        - Hone Claws
         - Terrain Advantage
       13:
+        - Bone Investiture
+        - Ciith Spirit Strike 
         - Primal Rampage
+      17:
+        - Fossil Rider 
+        - Scion Transformation
   Egalrin:
     HP: 6
     Size: M
@@ -182,32 +198,40 @@ pf2e_ancestry:
       - Ashen One
       - Changeling
       - Dar
+      - Dogtooth
       - Jinxed-egalrin
       - Mountainkeeper
       - Niasa    
       - Skyborn
       - Stormtossed
       - Taloned
+      - Wavediver
     feats:
       1:
         - Egalrin Lore
         - Egalrin Weapon Familiarity
+        - Mariner's Fire
+        - One-Toed Hop
         - Scavenger's Search
         - Squawk!
         - Storm's Lash
+        - Uncanny Agility
       5:
         - Eat Fortune
-        - Egalrin Weapon Study
+        - Egalrin Feather Fan
         - Long-Nosed Form
         - Magpie Snatch
-        - One-Toed Hop
-      9:
-        - Eclectic Sword Training
         - Soaring Flight
+      9:
+        - Soaring Form
+        - Wind God's Fan
       13:
-        - Egalrin Weapon Expertise
+        - Harbinger's Caw
+        - Jinx Glutton
+        - Thunder God's Fan
       17:
         - Great Egalrin Form
+        - Trickster Egalrin
   Goblin:
     HP: 6
     Size: S
@@ -240,17 +264,13 @@ pf2e_ancestry:
       1:
         - Burn It!
         - City Scavenger
-        - Extra Squishy
         - Goblin Lore
         - Goblin Scuttle
         - Goblin Song
         - Goblin Weapon Familiarity
-        - Junk Tinker
         - Rough Rider
-        - Twitchy
         - Very Sneaky
       5:
-        - Goblin Weapon Frenzy
         - Kneecap
         - Loud Singer
         - Vandal
@@ -259,7 +279,6 @@ pf2e_ancestry:
         - Cling
         - Skittering Scuttle
       13:
-        - Goblin Weapon Expertise
         - Very, Very Sneaky
       17:
         - Reckless Abandon (Goblin)
@@ -297,26 +316,23 @@ pf2e_ancestry:
     feats:
       1:
         - Animal Accomplice
-        - Burrow Elocutionist
-        - Empathetic Plea
+        - Animal Elocutionist
         - Fey Fellowship
         - First World Magic
         - Gnome Obsession
         - Gnome Weapon Familiarity
         - Illusion Sense
+        - Quelynos Magic
         - Razzle-Dazzle
       5:
-        - Animal Elocutionist
         - Energized Font
-        - Gnome Weapon Innovator
         - Project Persona
       9:
         - Cautious Curiosity
-        - First World Adept
         - Life Leap
+        - Quelynos Adept
         - Vivacious Conduit
       13:
-        - Gnome Weapon Expertise
         - Instinctive Obfuscation
       17:
         - Homeward Bound
@@ -366,13 +382,21 @@ pf2e_ancestry:
         - Advanced General Training
         - Bounce Back
         - Stubborn Persistence
-        - Unconventional Expertise
       17:
         - Heroic Presence
   Kailli:
     HP: 6
     Size: S
     Speed: 25
+    attack:
+      Jaws:
+        damage: 1d4
+        damage_type: P
+        group: brawling
+        traits:
+          - agile
+          - finesse
+          - unarmed
     abl_boosts:
       - open
       - open
@@ -395,17 +419,21 @@ pf2e_ancestry:
       - Niasa Kailli
       - Sewer Kailli
       - Shadow Kailli
+      - Tunnel Kailli
+      - Snow Kailli
     feats:
       1:
         - Cheek Pouches
+        - Kailli Lore
         - Pack Rat
         - Rat Familiar
-        - Kailli Lore
         - Ratspeak
         - Tinkering Fingers
         - Vicious Incisors
         - Warren Navigator
       5:
+        - Cornered Fury
+        - Kailli Roll
         - Lab Rat
         - Quick Stow (Kailli)
         - Rat Magic
@@ -413,8 +441,14 @@ pf2e_ancestry:
         - Big Mouth
         - Overcrowd
         - Rat Form
+        - Uncanny Cheeks
       13:
+        - Shinstabber
+        - Skittering Sneak
         - Warren Digger
+      17:
+        - Call the Swarm
+        - Greater than the Sum
   Khazad:
     HP: 10
     Size: M
@@ -445,30 +479,26 @@ pf2e_ancestry:
       - Strong-Blooded
     feats:
       1:
-        - Eye For Treasure
         - Khazadi Doughtiness
         - Khazadi Lore
         - Khazadi Weapon Familiarity
         - Rock Runner
-        - Stonecunning
+        - Stonemason's Eye
         - Unburdened Iron
       5:
         - Boulder Roll
         - Defy the Darkness
         - Khazadi Reinforcement
-        - Khazadi Weapon Cunning
-        - Sheltering Slab
       9:
         - Echoes in Stone
-        - Mountain's Stoutness
-        - Returning Throw
         - Stone Bones
         - Stonewalker
       13:
-        - Khazadi Weapon Expertise
+        - March the Mines
         - Telluric Power
       17:
         - Stonegate
+        - Stonewall
   Oruch:
     HP: 10
     Size: M
@@ -487,17 +517,21 @@ pf2e_ancestry:
     heritages:
       - Aesa
       - Ashen One
+      - Battle-ready
       - Badlands
       - Changeling
       - Dar
       - Deep Oruch
+      - Grave Oruch
       - Hold-Scarred
       - Niasa
       - Silyara
       - Rainfall
+      - Winter Oruch
     feats:
       1:
         - Beast Trainer
+        - Hold Mark
         - Iron Fists
         - Oruch Ferocity
         - Oruch Lore
@@ -507,17 +541,14 @@ pf2e_ancestry:
       5:
         - Athletic Might
         - Bloody Blows
-        - Hold Mark
-        - Oruch Weapon Carnage
-        - Victorious Vigor
+        - Defy Death
+        - Scar-Thick Skin
       9:
-        - "Death's Drums"
         - Pervasive Superstition
         - Undying Ferocity
       13:
         - Ferocious Beasts
         - Incredible Ferocity
-        - Oruch Weapon Expertise
         - Spell Devourer
       17:
         - Rampaging Ferocity
@@ -550,21 +581,17 @@ pf2e_ancestry:
       - Woodland
     feats:
       1:
-        - Ancestral Linguistics
         - Ancestral Longevity
         - Forlorn
         - Know Your Own
         - Nimble Sil
         - Otherworldly Magic
-        - Sildanyari Aloofness
         - Sildanyari Lore
         - Sildanyari Weapon Familiarity
         - Unwavering Mien
       5:
         - Ageless Patience
         - Ancestral Suspicion
-        - Martial Experience
-        - Sildanyari Weapon Elegance
       9:
         - Expert Longevity
         - Otherworldly Acumen
@@ -572,7 +599,6 @@ pf2e_ancestry:
         - Tree Climber (Sildanyar)
       13:
         - Avenge Ally
-        - Sildanyari Weapon Expertise
         - Universal Longevity
       17:
         - Magic Rider

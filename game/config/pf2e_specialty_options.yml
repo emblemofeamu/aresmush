@@ -21,65 +21,96 @@ pf2e_subclass:
       2: Glitterdust
       5: Wall of Stone
       8: Earthquake
+  get_elemental_spell:
+    Air:
+      0: Gale Blast
+      1: Tailwind
+      3: Wall of Wind
+      6: Chain Lightning
+    Earth:
+      0: Scatter Scree
+      1: Pummeling Rubble
+      3: Earthbind
+      6: Petrify
+    Fire:
+      0: Ignition
+      1: Breathe Fire
+      3: Fireball
+      6: Tree of Seasons
+    Metal:
+      0: Electric Arc
+      1: Thunderstrike
+      3: Lightning Bolt
+      6: Chain Lightning
+    Water:
+      0: Frostbite
+      1: Hydraulic Push
+      3: Aqueous Orb
+      6: Scintillating Safeguard
+    Wood:
+      0: Tangle Vine
+      1: Cleanse Cuisine
+      3: Wall of Thorns
+      6: Tangling Creepers
   get_dragon_spell:
     Avarice:
       2: Paranoia
       5: Synaptic Pulse
       8: Unrelenting Observation
     Bestial:
-      2: Tree Shape
-      5: Cloudkill
-      8: Horrid Wilting
+      2: One with Plants
+      5: Toxic Cloud
+      8: Desiccate
     Brine:
-      2: Obscuring Mist
-      5: Mariner's Curse
-      8: Wind Walk
+      2: Water Breathing
+      5: Corrosive Muck
+      8: Dessicate
     Cloud:
-      2: Obscuring Mist
-      5: Lightning Storm
+      2: Resist Energy
+      5: Howling Blizzard
       8: Punishing Winds
     Crystal:
-      2: Glitterdust
-      5: Chameleon Coat
+      2: Expeditious Excavation
+      5: Wall of Stone
       8: Earthquake
     Diabolic:
       2: Blood Vendetta
-      5: Flame Strike
+      5: Divine Immolation
       8: Canticle of Everlasting Grief
     Empyreal:
-      2: Shield Other
+      2: Share Life
       5: Breath of Life
       8: Divine Inspiration
     Forest:
-      2: Entangle
-      5: Transmute Rock and Mud
-      8: Earthquake
+      2: Animal Messenger
+      5: Nature's Pathway
+      8: Punishing Winds
     Fortune:
       2: Invisibility
-      5: Cone of Cold
+      5: Scouting Eye
       8: Uncontrollable Dance
     Madness:
-      2: Paranoia
-      5: Crushing Despair
-      8: Maze
+      2: Clear Mind
+      5: Overwhelming Memory
+      8: Dream Council
     Magma:
-      2: Flaming Sphere
-      5: Blazing Fissure
+      2: Revealing Light
+      5: Toxic Cloud
       8: Rainbow Fumarole
     Mirage:
-      2: See Invisibility
+      2: See the Unseen
       5: Hallucination
       8: Disappearance
     Ossuary:
-      2: Ghoulish Cravings
-      5: Wall of Flesh
-      8: Spiritual Epidemic
+      2: Spirit Sense
+      5: Invoke Spirits
+      8: Moment of Renewal
     Terra:
       2: Shatter
       5: Impaling Spike
       8: Earthquake
     Umbral:
-      2: Darkness
+      2: Reaper's Lantern
       5: Shadow Blast
       8: Disappearance
   Dragon Exemplar:
@@ -401,111 +432,86 @@ pf2e_subclass:
   Dragon Types:
     Avarice:
       element: poison
-      shape: cone
     Bestial:
       element: poison
-      shape: cone
     Brine:
       element: acid
-      shape: cone
     Cloud:
       element: electricity
-      shape: cone
     Crystal:
       element: piercing
-      shape: cone
     Diabolic:
       element: fire
-      shape: cone
     Empyreal:
-      element: positive
-      shape: cone
+      element: spirit
     Forest:
       element: piercing
-      shape: cone
     Fortune:
       element: force
-      shape: cone
     Madness:
       element: mental
-      shape: cone
     Magma:
       element: fire
-      shape: cone
     Mirage:
       element: mental
-      shape: cone
     Ossuary:
-      element: negative
-      shape: cone
+      element: spirit
     Terra:
       element: bludgeoning
-      shape: cone
     Umbral:
-      element: negative
-      shape: cone
+      element: void
   wizard_school_spells:
-    Abjuration:
+    Department of Mana Syntaxia:
       magic_stats:
         focus_pool: 1
         focus_spell: 
           school:
-            - Protective Ward
+            - Protective Wards
         gated_spell: school
-    Conjuration: 
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-            - Augment Summoning
-        gated_spell: school
-    Divination:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Diviner's Sight
-        gated_spell: school
-    Enchantment:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Charming Words
-        gated_spell: school
-    Evocation:
+    Department of Accordant Conjury: 
       magic_stats:
         focus_pool: 1
         focus_spell: 
           school:
             - Force Bolt
         gated_spell: school
-    Illusion:
+    Department of Urban Thaumaturgy:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-            - Warped Terrain
+            - Earthworks
         gated_spell: school
-    Necromancy:
+    Department of Defensive Cerebralism:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-            - Call Of The Grave
+            - Charming Push
         gated_spell: school
-    Transmutation:
+    Department of Mutable Modification:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-            - Physical Boost
+            - Scramble Body
         gated_spell: school
-    Universalist:
+    Department of Null's Purview:
+      magic_stats:
+        focus_pool: 1
+        focus_spell:
+          school:
+            - Fortify Summoning
+        gated_spell: school
+    School of Unified Magical Theory:
       magic_stats:
       # This key overwrites the base wizard class key for this, this is intentional
         spellbook:
           cantrip: 10
           1: 6
         gated_feat: universalist
-
+        focus_pool: 1
+        focus_spell:
+          school:
+            - Hand of the Apprentice
+        gated_spell: school

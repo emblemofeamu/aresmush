@@ -69,6 +69,7 @@ pf2e:
     Sorcerer: 'Bloodline'
     Wizard: 'Thesis'
     Investigator: 'Methodology'
+    Swashbuckler: 'Style'
     Oracle: 'Mystery'
     Witch: 'Patron'
   condition_colors:

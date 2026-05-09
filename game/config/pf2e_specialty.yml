@@ -338,15 +338,35 @@ pf2e_specialty:
             1: 
             - Fear
   Champion:
-    Paladin:
+    Beacon:
       allowed_alignments:
-        - LG
-      anathema:
-        - "Willingly commit an evil act."
-        - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
-        - "Lie, cheat, or take advantage of others."
+        - WL
       edicts:
-        - "Respect the authority of legitimate leadership wherever they go, and obey its laws."
+        - "Provide a shining example for others."
+        - "Enjoy and share the beauty around you."
+        - "Keep yourself tidy and well groomed."
+      anathema:
+        - "Despoil yourself by associating with fiends and unholy force."
+      chargen:
+        action: []
+        reaction:
+          - Flash of Grandeur
+        feat: []
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            devotion:
+              - Lay On Hands
+        skills: []
+    Justiciar:
+      allowed_alignments:
+        - OT
+        - OL
+      anathema:
+        - "Cheat or take advantage of others."
+      edicts:
+        - "Follow the law."
+        - "Respect legitimate authorities or leadership."
       chargen:
         action: []
         reaction:
@@ -360,13 +380,12 @@ pf2e_specialty:
         skills: []
     Redeemer:
       allowed_alignments:
-        - NG
+        - OL
       edicts:
-        - "Attempt to redeem those who commit evil acts before punishing them or killing them."
-        - "Show compassion for all, without regard to other factors."
+        - "Try to redeem those who commit wicked deeds."
+        - "Show compassion to others regardless of their authority or station."
       anathema:
-        - "Willingly commit an evil act."
-        - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
+        - "Kill a sapient enemy without first offering a chance at redemption."
       chargen:
         action: []
         reaction:
@@ -380,15 +399,15 @@ pf2e_specialty:
         skills: []
     Liberator:
       allowed_alignments:
-        - CG
+        - WL
+        - WT
       edicts:
-        - "Honor decisions made by others over their own lives."
-        - "Demand and fight for others' freedom to make their own decisions."
+        - "Oppose slavery and tyranny."
+        - "Fight for others' freedom to make their own decisions."
+        - "Respect choices others make for their own lives."
       anathema:
-        - "Willingly commit an evil act."
-        - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
-        - "Force someone to act in a particular way or threaten them if they refuse."
-        - "Accept or countenance slavery or tyranny."
+        - "Engage in slavery or tyranny."
+        - "Force or threaten someone to act a certain way."
       chargen:
         action: []
         reaction:
@@ -429,6 +448,8 @@ pf2e_specialty:
           combat_stats:
             weapon_prof:
               deity: expert
+              simple: expert
+              unarmed: expert
         15:
           charclass_feature:
             - 'Fifth Doctrine (Cloistered)'
@@ -467,6 +488,9 @@ pf2e_specialty:
             combat_stats:
               weapon_prof:
                 deity: expert
+                martial: expert
+                simple: expert
+                unarmed: expert
             charclass_feature:
               - 'Third Doctrine (Warpriest)'
           11:
@@ -487,6 +511,9 @@ pf2e_specialty:
             magic_stats:
               tradition:
                 divine: master
+            combat_stats:
+              weapon_prof:
+                deity: master
   Druid:
     Animal:
       chargen:
@@ -497,7 +524,7 @@ pf2e_specialty:
         feat:
           - Animal Companion
         anathema:
-          - "Kill an animal needlessly or commit wanton cruelty to one."
+          - "Commit wanton cruelty to animals or kill animals unnecessarily."
         magic_stats:
           focus_pool: 1
           focus_spell:
@@ -515,10 +542,10 @@ pf2e_specialty:
         magic_stats:
           focus_spell:
             order:
-              - Goodberry
+              - Cornucopia
           focus_pool: 1
         anathema:
-          - "Kill a plant needlessly or commit wanton cruelty to one."
+          - "Commit wanton cruelty to plants or fungi or kill them unnecessarily."
         familiar: Leshy
     Storm:
       chargen:
@@ -533,25 +560,23 @@ pf2e_specialty:
           focus_spell:
             order:
               - Tempest Surge
-        edicts:
-          - "Punish those who cause major air pollution or climate shifts."
         anathema:
-          - "Pollute the air."
-    Wild:
+          - "Pollute the air, allow those who cause major air pollution or climate shifts to go unpunished."
+    Untamed:
       chargen:
         action: []
         reaction: []
         skills:
           - Intimidation
         feat:
-          - Wild Shape
+          - Untamed Form
         magic_stats:
           focus_pool: 1
           focus_spell:
             order:
-              - Wild Morph
+              - Untamed Shift
         anathema:
-          - "Become reliant on the temptations of civilization."
+          - "Become fully domesticated by the temptations of civilization."
   Fighter: {}
   Investigator:
     Alchemical Sciences:
@@ -607,6 +632,8 @@ pf2e_specialty:
           focus_spell:
             revelation:
               - Ancestral Touch
+        feat:
+          - Whispers of Weakness
       choose:
         choice_name: Associated Oracle Domain
         choice_description: "Choose the domain your second revelation spell comes from."
@@ -617,7 +644,7 @@ pf2e_specialty:
               magic_stats:
                 domain_focus_spell:
                   revelation:
-                    - "Death's Call"
+                    - Death's Call
           Family:
             chargen:
               magic_stats:
@@ -638,26 +665,35 @@ pf2e_specialty:
               - Shield
           focus_spell:
             revelation:
-              - Call to Arms
-        curse: Hero's Burden
+              - Weapon Trance
+        curse: Mortal Warrior
         action: []
         reaction: []
-        feat: []
-        combat_stats:
-          armor_prof:
-            medium: trained
-            heavy: trained
+        feat:
+          - Oracular Warning
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
         choice_type: subclass_info
         options:
+          Destruction:
+            chargen:
+              magic_stats:
+                domain_focus_spell:
+                  revelation:
+                    - City of Destruction
           Might:
             chargen:
               magic_stats:
                 domain_focus_spell:
                   revelation:
                     - Athletic Rush
+          Protection:
+            chargen:
+              magic_stats:
+                domain_focus_spell:
+                  revelation:
+                    - Protector's Sacrifice
           Zeal:
             chargen:
               magic_stats:
@@ -671,14 +707,15 @@ pf2e_specialty:
         magic_stats:
           addrepertoire:
             cantrip:
-              - Chill Touch
+              - Void Warp
           focus_spell:
             revelation:
               - Soul Siphon
         curse: Living Death
         action: []
         reaction: []
-        feat: []
+        feat:
+          - Nudge the Scales
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
@@ -689,7 +726,7 @@ pf2e_specialty:
               magic_stats:
                 domain_focus_spell:
                   revelation:
-                    - "Death's Call"
+                    - Death's Call
           Undeath:
           chargen:
               magic_stats:
@@ -703,14 +740,15 @@ pf2e_specialty:
         magic_stats:
           addrepertoire:
             cantrip:
-              - Dancing Lights
+              - Light
           focus_spell:
             revelation:
               - Spray of Stars
         curse: Sky's Call
         action: []
         reaction: []
-        feat: [] 
+        feat:
+          - Oracular Warning
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
@@ -735,14 +773,15 @@ pf2e_specialty:
         magic_stats:
           addrepertoire:
             cantrip:
-              - Produce Flame
+              - Ignition
           focus_spell:
             revelation:
               - Incendiary Aura
         curse: Engulfing Flames
         action: []
         reaction: []
-        feat: []
+        feat:
+          - Foretell Harm
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
@@ -774,7 +813,8 @@ pf2e_specialty:
         curse: Outpouring Life
         action: []
         reaction: []
-        feat: []
+        feat:
+          - Nudge the Scales
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
@@ -785,13 +825,25 @@ pf2e_specialty:
               magic_stats:
                 domain_focus_spell:
                   revelation:
-                    - "Death's Call"
+                    - Death's Call
           Healing:
             chargen:
               magic_stats:
                 domain_focus_spell:
                   revelation:
-                    - "Healer's Blessing"
+                    - Healer's Blessing
+          Pain:
+            chargen:
+              magic_stats:
+                domain_focus_spell:
+                  revelation:
+                    - Savor the Sting
+          Soul:
+            chargen:
+              magic_stats:
+                domain_focus_spell:
+                  revelation:
+                    - Eject Soul
     Lore:
       chargen:
         skills:
@@ -806,18 +858,31 @@ pf2e_specialty:
         curse: Torrential Knowledge
         action: []
         reaction: []
-        feat: []
+        feat:
+          - Whispers of Weakness
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
         choice_type: subclass_info
         options:
           Knowledge:
-          chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Scholarly Recollection
+            chargen:
+                magic_stats:
+                  domain_focus_spell:
+                    revelation:
+                      - Scholarly Recollection
+          Magic:
+            chargen:
+                magic_stats:
+                  domain_focus_spell:
+                    revelation:
+                      - Magic's Vessel
+          Secrecy:
+            chargen:
+                magic_stats:
+                  domain_focus_spell:
+                    revelation:
+                      - Whispering Quiet
           Truth:
             chargen:
               magic_stats:
@@ -838,7 +903,8 @@ pf2e_specialty:
           curse: Perpetual Storm
         action: []
         reaction: []
-        feat: []
+        feat:
+          - Foretell Harm
       choose:
         choice_name: Associated Domain
         choice_description: "Choose the domain your second revelation spell comes from."
@@ -860,12 +926,6 @@ pf2e_specialty:
     Flurry: {}
     Outwit: {}
     Precision: {}
-    chargen:
-      action: []
-      reaction: []
-      feat: []
-      skills: []
-      magic_stats: {}
   Rogue:
     Mastermind:
       chargen:
@@ -932,7 +992,7 @@ pf2e_specialty:
             cantrip: 
               - Daze
             1: 
-              - Spider Sting
+              - Phantom Pain
           focus_spell:
             bloodline:
               - Tentacular Limbs
@@ -947,12 +1007,12 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Touch of Idiocy
+                - Stupefy
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Vampiric Touch
+                - Vampiric Feast
         7:
           magic_stats:
             addrepertoire:
@@ -964,12 +1024,12 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               5:
-                - Black Tentacles
+                - Slither
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Feeblemind
+                - Never Mind
         13:
           magic_stats:
             addrepertoire:
@@ -1015,12 +1075,12 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Spiritual Weapon
+                - Spiritual Armament
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Searing Light
+                - Holy Light
         7:
           magic_stats:
             addrepertoire:
@@ -1032,12 +1092,12 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               5:
-                - Flame Strike
+                - Divine Immolation
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Blade Barrier
+                - Blessed Boundary
         13:
           magic_stats:
             addrepertoire:
@@ -1047,7 +1107,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               8:
-                - Divine Aura
+                - Moment of Renewal
             tradition:
               divine: master
         17:
@@ -1066,12 +1126,12 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Acid Splash
+              - Caustic Blast
             1:
               - Fear
           focus_spell:
             bloodline:
-              - Glutton's Law
+              - Glutton's Jaws
         skills:
           - Intimidation
           - Religion
@@ -1100,7 +1160,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               5:
-                - Abyssal Plague
+                - Blister
         11:
           magic_stats:
             addrepertoire:
@@ -1110,12 +1170,12 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               7:
-              - Divine Decree
+                - Divine Decree
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Divine Aura
+                - Canticle of Everlasting Grief
             tradition:
               divine: master
         17:
@@ -1134,7 +1194,7 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Produce Flame
+              - Ignition
             1:
               - Charm
           focus_spell:
@@ -1151,7 +1211,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Flaming Sphere
+                - Floating Flame
         5:
           magic_stats:
             addrepertoire:
@@ -1168,12 +1228,12 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               5:
-                - Crushing Despair
+                - Wave of Despair
         11:
           magic_stats:
             addrepertoire:
               6:
-                - True Seeing
+                - Truesight
         13:
           magic_stats:
             addrepertoire:
@@ -1183,14 +1243,14 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               8: 
-                - Divine Aura
+                - Divine Inspiration
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Meteor Swarm
+                - Falling Stars
         19:
           magic_stats:
             tradition:
@@ -1222,7 +1282,7 @@ pf2e_specialty:
             cantrip:
               - Shield
             1:
-              - True Strike
+              - Fear
           focus_spell:
             bloodline:
               - Flurry of Claws
@@ -1231,11 +1291,6 @@ pf2e_specialty:
         reaction: []
         feat: []
       advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-                - Fear
         5:
           magic_stats:
             addrepertoire:
@@ -1246,8 +1301,6 @@ pf2e_specialty:
             addrepertoire:
               4:
                 - Fly
-            tradition:
-              arcane: expert
         11:
           magic_stats:
             addrepertoire:
@@ -1265,13 +1318,15 @@ pf2e_specialty:
                 - Overwhelming Presence
     Elemental:
       choose:
-        choice_name: Elemental Affinity
-        choice_description: Choose the element you have an affinity for.
+        choice_name: Elemental Influence
+        choice_description: Choose the elemental that influenced your bloodline.
         options:
           Fire:
           Air:
           Earth:
+          Metal:
           Water:
+          Wood:
       chargen:
         magic_stats:
           tradition:
@@ -1296,16 +1351,11 @@ pf2e_specialty:
             addrepertoire:
               2:
                 - Resist Energy
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-                - Fireball
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Freedom of Movement
+                - Unfettered Movement
             tradition:
               primal: expert
         9:
@@ -1313,11 +1363,6 @@ pf2e_specialty:
             addrepertoire:
               5:
                 - Elemental Form
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-                - Repulsion
         13:
           magic_stats:
             addrepertoire:
@@ -1327,14 +1372,14 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               8:
-                - Prismatic Wall
+                - Earthquake
             tradition:
               primal: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Storm of Vengeance
+                - Wrathful Storm
         19:
           magic_stats:
             tradition:
@@ -1346,7 +1391,7 @@ pf2e_specialty:
             primal: trained
           addrepertoire:
             cantrip:
-              - Ghost Sound
+              - Figment
             1:
               - Charm
           focus_spell:
@@ -1363,7 +1408,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Hideous Laughter
+                - Laughing Fit
         5:
           magic_stats:
             addrepertoire:
@@ -1380,7 +1425,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               5:
-                - Cloak of Colors
+                - Hallucination
         11:
           magic_stats:
             addrepertoire:
@@ -1402,7 +1447,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               9:
-                - Resplendent Mansion
+                - Metamorphosis
         19:
           magic_stats:
             tradition:
@@ -1431,7 +1476,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Touch of Idiocy
+                - Stupefy
         5:
           magic_stats:
             addrepertoire:
@@ -1453,7 +1498,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               6:
-                - Baleful Polymorph
+                - Cursed Metamorphosis
         13:
           magic_stats:
             addrepertoire:
@@ -1463,14 +1508,14 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               8:
-                - Spiritual Epidemic
+                - Quandary
             tradition:
               occult: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Nature's Enmity
+                - Phantasmagoria
         19:
           magic_stats:
             tradition:
@@ -1484,7 +1529,7 @@ pf2e_specialty:
             cantrip:
               - Detect Magic
             1:
-              - Magic Missile
+              - Force Barrage
           focus_spell:
             bloodline:
               - Ancestral Memories
@@ -1509,14 +1554,14 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               4:
-                - Dimension Door
+                - Translocate
             tradition:
               arcane: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Prying Eye
+                - Scouting Eye
         11:
           magic_stats:
             addrepertoire:
@@ -1526,227 +1571,23 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               7:
-                - Prismatic Spray
+                - Retrocognition
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Maze
+                - Quandary
             tradition:
               arcane: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Prismatic Sphere
+                - Implosion
         19:
           magic_stats:
             tradition:
               arcane: legendary
-    Nymph:
-      chargen:
-        magic_stats:
-          tradition:
-            primal: trained
-          addrepertoire:
-            cantrip:
-              - Tanglefoot
-            1:
-              - Charm
-          focus_spell:
-            bloodline:
-              - Nymph's Token
-        skills:
-          - Diplomacy
-          - Nature
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-                - Calm Emotions
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-                - Animal Vision
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-                - Vital Beacon
-            tradition:
-              primal: trained
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-                - Crushing Despair
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-                - Repulsion
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-                - Unfettered Pack
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-                - Moment of Renewal
-            tradition:
-              primal: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-                - Overwhelming Presence
-        19:
-          magic_stats:
-            tradition:
-              primal: legendary
-    Psychopomp:
-      chargen:
-        magic_stats:
-          tradition:
-            divine: trained
-          addrepertoire:
-            cantrip:
-              - Disrupt Undead
-            1:
-              - Heal
-          focus_spell:
-            bloodline:
-              - Sepulchral Mask
-        skills:
-          - Intimidation
-          - Religion
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-                - Calm Emotions
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-                - Searing Light
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-                - Dimensional Anchor
-            tradition:
-              divine: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-                - Death Ward
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-                - Spirit Blast
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-                - Finger of Death
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-                - Spirit Song
-            tradition:
-              divine: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-                - Massacre
-        19:
-          magic_stats:
-            tradition:
-              divine: legendary
-    Shadow:
-      chargen:
-        magic_stats:
-          tradition:
-            occult: trained
-          addrepertoire:
-            cantrip:
-              - Chill Touch
-            1:
-              - Grim Tendrils
-          focus_spell:
-            bloodline:
-              - Dim the Light
-        skills:
-          - Occultism
-          - Stealth
-        action: []
-        reaction: []
-        feat: []
-      advance:
-        3:
-          magic_stats:
-            addrepertoire:
-              2:
-                - Darkness
-        5:
-          magic_stats:
-            addrepertoire:
-              3:
-                - Chilling Darkness
-        7:
-          magic_stats:
-            addrepertoire:
-              4:
-                - Phantasmal Killer
-            tradition:
-              occult: expert
-        9:
-          magic_stats:
-            addrepertoire:
-              5:
-                - Shadow Siphon
-        11:
-          magic_stats:
-            addrepertoire:
-              6:
-                - Collective Transposition
-        13:
-          magic_stats:
-            addrepertoire:
-              7:
-                - Duplicate Foe
-        15:
-          magic_stats:
-            addrepertoire:
-              8:
-                - Disappearance
-            tradition:
-              occult: master
-        17:
-          magic_stats:
-            addrepertoire:
-              9:
-                - Weird
-        19:
-          magic_stats:
-            tradition:
-              occult: legendary
     Undead:
       chargen:
         magic_stats:
@@ -1754,7 +1595,7 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Chill Touch
+              - Void Warp
             1:
               - Harm
           focus_spell:
@@ -1771,7 +1612,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - False Life
+                - See the Unseen
         5:
           magic_stats:
             addrepertoire:
@@ -1788,7 +1629,7 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               5:
-                - Cloudkill
+                - Invoke Spirits
         11:
           magic_stats:
             addrepertoire:
@@ -1798,19 +1639,19 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               7:
-                - Finger of Death
+                - Execute
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Horrid Wilting
+                - Canticle of Everlasting Grief
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Wail of the Banshee
+                - Wails of the Damned
         19:
           magic_stats:
             tradition:
@@ -1821,15 +1662,13 @@ pf2e_specialty:
         choice_name: School
         choice_description: Choose your school.
         options:
-          Abjuration:
-          Conjuration:
-          Divination:
-          Enchantment:
-          Evocation:
-          Illusion:
-          Necromancy:
-          Transmutation:
-          Universalist:
+          Department of Mana Syntaxia:
+          Department of Accordant Conjury:
+          Department of Urban Thaumaturgy:
+          Department of Defensive Cerebralism:
+          Department of Mutable Modification:
+          Department of Null's Purview:
+          School of Unified Magical Theory:
       chargen:
         feat:
           - Familiar
@@ -1846,65 +1685,103 @@ pf2e_specialty:
           familiar_ability: true
         18:
           familiar_ability: true
-    Metamagical Experimentation:
+    Experimental Spellshaping:
       choose:
         choice_name: School
         choice_description: Choose your school.
         options:
-          Abjuration:
-          Conjuration:
-          Divination:
-          Enchantment:
-          Evocation:
-          Illusion:
-          Necromancy:
-          Transmutation:
-          Universalist:
+          Department of Mana Syntaxia:
+          Department of Accordant Conjury:
+          Department of Urban Thaumaturgy:
+          Department of Defensive Cerebralism:
+          Department of Mutable Modification:
+          Department of Null's Purview:
+          School of Unified Magical Theory:
       chargen:
-        gated_feat: metamagic
+        gated_feat: spellshape
     # The code for this option is under spell preparation.
     Spell Blending: 
       choose:
         choice_name: School
         choice_description: Choose your school.
         options:
-          Abjuration:
-          Conjuration:
-          Divination:
-          Enchantment:
-          Evocation:
-          Illusion:
-          Necromancy:
-          Transmutation:
-          Universalist:
+          Department of Mana Syntaxia:
+          Department of Accordant Conjury:
+          Department of Urban Thaumaturgy:
+          Department of Defensive Cerebralism:
+          Department of Mutable Modification:
+          Department of Null's Purview:
+          School of Unified Magical Theory:
     Spell Substitution: 
       choose:
         choice_name: School
         choice_description: Choose your school.
         options:
-          Abjuration:
-          Conjuration:
-          Divination:
-          Enchantment:
-          Evocation:
-          Illusion:
-          Necromancy:
-          Transmutation:
-          Universalist:
+          Department of Mana Syntaxia:
+          Department of Accordant Conjury:
+          Department of Urban Thaumaturgy:
+          Department of Defensive Cerebralism:
+          Department of Mutable Modification:
+          Department of Null's Purview:
+          School of Unified Magical Theory:
     Staff Nexus: 
       choose:
         choice_name: School
         choice_description: Choose your school.
         options:
-          Abjuration:
-          Conjuration:
-          Divination:
-          Enchantment:
-          Evocation:
-          Illusion:
-          Necromancy:
-          Transmutation:
-          Universalist:
+          Department of Mana Syntaxia:
+          Department of Accordant Conjury:
+          Department of Urban Thaumaturgy:
+          Department of Defensive Cerebralism:
+          Department of Mutable Modification:
+          Department of Null's Purview:
+          School of Unified Magical Theory:
+  Swashbuckler:
+    Battledancer:
+      chargen:
+        skills:
+          - Performance
+        action: []
+        reaction: []
+        feat:
+          - Fascinating Performance
+    Braggart:
+      chargen:
+        skills:
+          - Intimidation
+        action: []
+        reaction: []
+        feat: []
+    Fencer:
+      chargen:
+        skills:
+          - Deception
+        action: []
+        reaction: []
+        feat: []
+    Gymnast:
+      chargen:
+        skills:
+          - Athletics
+        action: []
+        reaction: []
+        feat: []
+    Rascal:
+      chargen:
+        skills:
+          - Thievery
+        action: []
+        reaction: []
+        feat:
+          - Dirty Trick
+    Wit:
+      chargen:
+        skills:
+          - Diplomacy
+        action: []
+        reaction: []
+        feat:
+          - Bon Mot
   Witch:
     Curse:
       chargen:
@@ -1921,7 +1798,7 @@ pf2e_specialty:
               - Evil Eye
           addspellbook:
             1: 
-              - Ray of Enfeeblement
+              - Enfeeble
       advance:
         7:
           magic_stats:
@@ -1950,7 +1827,7 @@ pf2e_specialty:
               - Nudge Fate
           addspellbook:
             1: 
-              - True Strike
+              - Sure Strike
       advance:
         7:
           magic_stats:
@@ -2008,7 +1885,7 @@ pf2e_specialty:
               - Shroud of Night
           addspellbook:
             1: 
-              - Sleep
+              - Fear
       advance:
         7:
           magic_stats:
@@ -2037,7 +1914,7 @@ pf2e_specialty:
               - Discern Secrets
           addspellbook:
             1: 
-              - Magic Weapon
+              - Runic Weapon
       advance:
         7:
           magic_stats:

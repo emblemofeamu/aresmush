@@ -148,6 +148,8 @@ pf2e_archetype:
       - Strength
       - Dexterity
     initial_dedication:
+      archetype_feature:
+        - Powerful Fist
       skill choice:
         - Acrobatics
         - Athletics
@@ -155,8 +157,7 @@ pf2e_archetype:
         weapon_prof:
           unarmed: trained
         archetype_class_dc: trained
-      action:
-        - Powerful Fist
+      action: []
       reaction: []
   Oracle Archetype:
     key_abil:
@@ -170,8 +171,7 @@ pf2e_archetype:
         spell_abil: Charisma
         repertoire:
           cantrip: 2
-      action:
-        - Cast a Spell
+      action: []
       reaction: []
   Ranger Archetype:
     key_abil:
@@ -214,8 +214,21 @@ pf2e_archetype:
         spell_abil: Charisma
         repertoire:
           cantrip: 2
-      action:
-        - Cast a Spell
+      action: []
+      reaction: []
+  Swashbuckler Archetype:
+    key_abil:
+      - Dexterity
+    HP: 10
+    chargen:
+      archetype_feature:
+        - Stylish Combatant
+        - Panache
+      choose_feat:
+        - charclass
+      combat_stats:
+        archetype_class_dc: trained
+      action: []
       reaction: []
   Witch Archetype:
     key_abil:

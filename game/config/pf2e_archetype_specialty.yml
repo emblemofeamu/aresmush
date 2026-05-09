@@ -418,6 +418,49 @@ pf2e_archetype_specialty:
         skills:
           - Religion
           - Intimidation
+  Swashbuckler Archetype:
+    Battledancer:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Performance
+        action: []
+        reaction: []
+    Braggart:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Intimidation
+        action: []
+        reaction: []
+    Fencer:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Deception
+        action: []
+        reaction: []
+    Gymnast:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Athletics
+        action: []
+        reaction: []
+    Rascal:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Thievery
+        action: []
+        reaction: []
+    Wit:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Diplomacy
+        action: []
+        reaction: []
   Witch Archetype:
     Curse:
       initial_dedication:

@@ -22,6 +22,17 @@ pf2e_heritage:
     reaction: []
     skills: []
     traits: []
+  Shortshanks:
+    action: []
+    attack: {}
+    defense: {}
+    feat:
+      - Ride
+    reaction: []
+    skills: []
+    special:
+      - Shortshanks Arvek
+    traits: []
   Smokeworker:
     defense:
       resistances:
@@ -138,6 +149,17 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
+  Otocami:
+    action: []
+    attack: {}
+    defense: {}
+    feat:
+      - Terrain Stalker
+    reaction: []
+    skills: []
+    special:
+      - Otocami Ciith
+    traits: []
   Pantli:
     feat:
       - Combat Climber
@@ -173,6 +195,16 @@ pf2e_heritage:
     skills: []
     traits: []
   # Egalrin Heritages
+  Dogtooth:
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
+    special:
+      - Dogtooth Egalrin
+    traits: []
   Jinxed-egalrin:
     special:
       - Jinxed Egalrin
@@ -237,6 +269,17 @@ pf2e_heritage:
     reaction: []
     skills: []
     special: []
+    traits: []
+  Wavediver:
+    movement:
+      Swim: 15
+    special: []
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
     traits: []
   # Gnome Heritages
   Chameleon:
@@ -460,6 +503,28 @@ pf2e_heritage:
     action: []
     reaction: []
     attack: {}
+  Tunnel Kailli:
+    traits: []
+    special:
+      - Tunnel Kailli
+    skills: []
+    feat:
+      - Quick Squeeze
+    action: []
+    reaction: []
+    attack: {}
+  Snow Kailli:
+    defense:
+      resistances:
+        cold: 1
+    traits: []
+    special:
+      - Snow Kailli
+    skills: []
+    feat: []
+    action: []
+    reaction: []
+    attack: {}
   # Khazad Heritages
   Ancient-Blooded:
     reaction: Call On Ancient Blood
@@ -511,6 +576,17 @@ pf2e_heritage:
     special: []
     traits: []
   # Oruch Heritages
+  Battle-ready:
+    traits: []
+    special: []
+    skills:
+      - Intimidation
+    feat:
+      - Intimidating Glare
+    defense: {}
+    action: []
+    reaction: []
+    attack: {}
   Badlands:
     traits: []
     special:
@@ -529,6 +605,18 @@ pf2e_heritage:
     special: []
     skills: []
     defense: {}
+    action: []
+    reaction: []
+    attack: {}
+  Grave:
+    traits: []
+    special:
+      - Grave Oruch
+    skills: []
+    feat: []
+    defense:
+      resistances:
+        void: 1
     action: []
     reaction: []
     attack: {}
@@ -552,6 +640,16 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
+  Winter:
+    action: []
+    attack: {}
+    defense: {}
+    feat: []
+    reaction: []
+    skills: []
+    special: []
+    traits:
+      - Winter Oruch
   # Sildanyar Heritages
   Arctic:
     traits: []
