@@ -23,8 +23,10 @@ pf2e_gear_options:
   weapon_groups:
     - Axe
     - Bow
+    - Bomb
     - Brawling
     - Club
+    - Crossbow
     - Dart
     - Flail
     - Hammer

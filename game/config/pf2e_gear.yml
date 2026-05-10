@@ -1,79 +1,24 @@
 ---
 pf2e_gear:
-  Holly and Mistletoe:
+  Adventurer's Pack:
     bulk: 0
     level: 0
-    price: 0
+    price: 150
     traits: []
-  Candle:
-    bulk: 0
+  Alchemist's Lab:
+    bulk: 6
     level: 0
-    price: 1
+    price: 500
     traits: []
-  Chalk:
-    bulk: 0
-    level: 0
-    price: 1
-    traits: []
-  Mug:
-    bulk: 0
-    level: 0
-    price: 1
-    traits: []
-  Oil:
-    bulk: 0
-    level: 0
-    price: 1
-    traits: []
-  Piton:
-    bulk: 0
-    level: 0
-    price: 1
-    traits: []
-  Sack:
-    bulk: 0.1
-    level: 0
-    price: 1
-    traits: []
-  Ten-Foot Pole:
+  Alchemist's Toolkit:
     bulk: 1
     level: 0
-    price: 1
+    price: 300
     traits: []
-  Torch:
-    bulk: 0.1
+  Artisan's Toolkit:
+    bulk: 2
     level: 0
-    price: 1
-    traits: []
-  Bedroll:
-    bulk: 0.1
-    level: 0
-    price: 2
-    traits: []
-  Soap:
-    bulk: 0
-    level: 0
-    price: 2
-    traits: []
-  Ladder (10 ft.):
-    bulk: 3
-    level: 0
-    price: 3
-    traits: []
-  Flint and Steel:
-    bulk: 0
-    level: 0
-    price: 5
-    traits: []
-  Waterskin:
-    bulk: 0.1
-    level: 0
-    price: 5
-    traits: []
-  Signal Whistle:
-    bulk: 0
-    level: 0
-    price: 8
+    price: 400
     traits: []
   Backpack:
     bulk: 0
@@ -85,145 +30,60 @@ pf2e_gear:
     level: 0
     price: 10
     traits: []
-  Clothing (Explorer's):
+  Bedroll:
     bulk: 0.1
     level: 0
-    price: 10
+    price: 2
     traits: []
-  Clothing (Ordinary):
+  Brass Ear:
     bulk: 0
     level: 0
-    price: 10
-    traits: []
-  Disguise Kit (Replacement Cosmetics):
-    bulk: 0.1
-    level: 0
-    price: 10
-    traits: []
-  Grappling Hook:
-    bulk: 0.1
-    level: 0
-    price: 10
-    traits: []
-  Hammer:
-    bulk: 0.1
-    level: 0
-    price: 10
-    traits: []
-  Religious Symbol (Wooden):
-    bulk: 0.1
-    level: 0
-    price: 10
-    traits: []
-  Writing Set (Extra Ink and Paper):
-    bulk: 0.1
-    level: 0
-    price: 10
-    traits: []
-  Lock (Poor):
-    bulk: 0
-    level: 0
-    price: 20
-    traits: []
-  Merchant's Scale:
-    bulk: 0.1
-    level: 0
-    price: 20
-    traits: []
-  Saddlebags:
-    bulk: 0
-    level: 0
-    price: 20
+    price: 100
     traits: []
   Caltrops:
     bulk: 0.1
     level: 0
     price: 30
     traits: []
-  Manacles (Poor):
+  Candle:
     bulk: 0
     level: 0
-    price: 30
+    price: 1
     traits: []
-  Thieves' Tools (Replacement Picks):
-    bulk: 0.1
-    level: 0
-    price: 30
-    traits: []
-  Clothing (Winter):
-    bulk: 0.1
-    level: 0
-    price: 40
-    traits: []
-  Rations:
-    bulk: 0.1
-    level: 0
-    price: 40
-    traits: []
-  Tool (Short):
-    bulk: 0.1
-    level: 0
-    price: 40
-    traits: []
-  Climbing Kit:
+  Chain:
     bulk: 1
     level: 0
-    price: 50
+    price: 400
     traits: []
-  Crowbar:
-    bulk: 0.1
+  Chalk:
+    bulk: 0
     level: 0
-    price: 50
-    traits: []
-  Dueling Cape:
-    bulk: 0.1
-    level: 0
-    price: 50
-    traits: []
-  Material Component Pouch:
-    bulk: 0.1
-    level: 0
-    price: 50
-    traits: []
-  Parrying Scabbard:
-    bulk: 0.1
-    level: 0
-    price: 50
-    traits: []
-  Rope:
-    bulk: 0.1
-    level: 0
-    price: 50
+    price: 1
     traits: []
   Chest:
     bulk: 2
     level: 0
     price: 60
     traits: []
-  Lantern (Hooded):
-    bulk: 0.1
-    level: 0
-    price: 70
-    traits: []
-  Fishing Tackle:
+  Climbing Kit:
     bulk: 1
     level: 0
-    price: 80
+    price: 50
     traits: []
-  Musical Instrument (Handheld):
-    bulk: 1
-    level: 0
-    price: 80
-    traits: []
-  Tent (Pup):
+  Clothing (Cold-Weather):
     bulk: 0.1
     level: 0
-    price: 80
+    price: 40
     traits: []
-  Brass Ear:
+  Clothing (Fine):
+    bulk: 0.1
+    level: 0
+    price: 200
+    traits: []
+  Clothing (Ordinary):
     bulk: 0
     level: 0
-    price: 100
+    price: 10
     traits: []
   Compass:
     bulk: 0
@@ -235,130 +95,269 @@ pf2e_gear:
     level: 0
     price: 100
     traits: []
-  Formula Book (Blank):
+  Crowbar:
     bulk: 0.1
     level: 0
-    price: 100
-    traits: []
-  Lantern (Bull's-Eye):
-    bulk: 1
-    level: 0
-    price: 100
-    traits: []
-  Mirror:
-    bulk: 0
-    level: 0
-    price: 100
-    traits: []
-  Net:
-    bulk: 1
-    level: 0
-    price: 100
-    traits: []
-  Religious Text:
-    bulk: 0.1
-    level: 0
-    price: 100
-    traits: []
-  Spellbook (Blank):
-    bulk: 0.1
-    level: 0
-    price: 100
-    traits: []
-  Tool (Long):
-    bulk: 1
-    level: 0
-    price: 100
-    traits: []
-  Writing Set:
-    bulk: 0.1
-    level: 0
-    price: 100
-    traits: []
-  Adventurer's Pack:
-    bulk: 1
-    level: 0
-    price: 150
-    traits: []
-  Clothing (Fine):
-    bulk: 0.1
-    level: 0
-    price: 200
+    price: 50
     traits: []
   Disguise Kit:
     bulk: 0.1
     level: 0
     price: 200
     traits: []
-  Musical Instrument (Heavy):
-    bulk: 16
+  Disguise Kit (Replacement Cosmetics):
+    bulk: 0
     level: 0
-    price: 200
+    price: 10
     traits: []
-  Religious Symbol (Silver):
+  Dueling Cape:
     bulk: 0.1
     level: 0
-    price: 200
+    price: 50
     traits: []
-  Repair Kit:
+  Fishing Tackle:
     bulk: 1
     level: 0
-    price: 200
+    price: 80
     traits: []
-  Alchemist's Tools:
+  Flint and Steel:
+    bulk: 0
+    level: 0
+    price: 5
+    traits: []
+  Formula Book (Blank):
+    bulk: 0.1
+    level: 0
+    price: 100
+    traits: []
+  Grappling Hook:
+    bulk: 0.1
+    level: 0
+    price: 10
+    traits: []
+  Hammer:
+    bulk: 0.1
+    level: 0
+    price: 10
+    traits: []
+  Healer's Toolkit:
     bulk: 1
     level: 0
-    price: 300
+    price: 500
     traits: []
   Hourglass:
     bulk: 0.1
     level: 0
     price: 300
     traits: []
-  Thieves' Tools:
+  Ladder (10-foot):
+    bulk: 3
+    level: 0
+    price: 3
+    traits: []
+  Lantern (Bull's Eye):
+    bulk: 1
+    level: 0
+    price: 100
+    traits: []
+  Lantern (Hooded):
     bulk: 0.1
     level: 0
-    price: 300
+    price: 70
     traits: []
-  Artisan's Tools:
+  Light Barding (Large):
+    bulk: 4
+    level: 0
+    price: 2000
+    traits:
+      - barding
+      - companion
+  Light Barding (Small or Medium):
     bulk: 2
     level: 0
-    price: 400
+    price: 1000
+    traits:
+      - barding
+      - companion
+  Lock (Poor):
+    bulk: 0
+    level: 0
+    price: 20
     traits: []
-  Chain:
+  Manacles (Poor):
+    bulk: 0
+    level: 0
+    price: 30
+    traits: []
+  Merchant's Scale:
+    bulk: 0.1
+    level: 0
+    price: 20
+    traits: []
+  Mirror:
+    bulk: 0
+    level: 0
+    price: 100
+    traits: []
+  Mug:
+    bulk: 0
+    level: 0
+    price: 1
+    traits: []
+  Musical Instrument (Handheld):
     bulk: 1
     level: 0
-    price: 400
+    price: 80
+    traits: []
+  Musical Instrument (Heavy):
+    bulk: 16
+    level: 0
+    price: 200
+    traits: []
+  Net:
+    bulk: 1
+    level: 0
+    price: 100
+    traits: []
+  Oil:
+    bulk: 0
+    level: 0
+    price: 1
+    traits: []
+  Parrying Scabbard:
+    bulk: 0.1
+    level: 0
+    price: 50
+    traits: []
+  Piton:
+    bulk: 0
+    level: 0
+    price: 1
+    traits: []
+  Primal Symbol:
+    bulk: 0
+    level: 0
+    price: 0
+    traits: []
+  Rations:
+    bulk: 0.1
+    level: 0
+    price: 40
+    traits: []
+  Religious Symbol (Silver):
+    bulk: 0.1
+    level: 0
+    price: 200
+    traits: []
+  Religious Symbol (Wooden):
+    bulk: 0.1
+    level: 0
+    price: 10
+    traits: []
+  Religious Text:
+    bulk: 0.1
+    level: 0
+    price: 100
+    traits: []
+  Repair Toolkit:
+    bulk: 1
+    level: 0
+    price: 200
+    traits: []
+  Rope:
+    bulk: 0.1
+    level: 0
+    price: 50
+    traits: []
+  Sack:
+    bulk: 0.1
+    level: 0
+    price: 1
+    traits: []
+  Saddlebags:
+    bulk: 0.1
+    level: 0
+    price: 20
+    traits: []
+  Signal Whistle:
+    bulk: 0
+    level: 0
+    price: 8
+    traits: []
+  Soap:
+    bulk: 0
+    level: 0
+    price: 2
+    traits: []
+  Spellbook (Blank):
+    bulk: 0.1
+    level: 0
+    price: 100
+    traits: []
+  Spyglass:
+    bulk: 0.1
+    level: 0
+    price: 2000
     traits: []
   Tack:
-    bulk: 1
+    bulk: 2
     level: 0
     price: 400
     traits: []
-  Alchemist's Lab:
-    bulk: 6
-    level: 0
-    price: 500
-    traits: []
-  Healer's Tools:
+  Ten-Foot Pole:
     bulk: 1
     level: 0
-    price: 250
-    traits: []
-  Snare Kit:
-    bulk: 2
-    level: 0
-    price: 500
+    price: 1
     traits: []
   Tent (Four-Person):
     bulk: 1
     level: 0
     price: 500
     traits: []
-  Spyglass:
+  Tent (Pup):
     bulk: 0.1
     level: 0
-    price: 2000
+    price: 80
+    traits: []
+  Thieves' Toolkit:
+    bulk: 0.1
+    level: 0
+    price: 300
+    traits: []
+  Thieves' Toolkit (Replacement Picks):
+    bulk: 0
+    level: 0
+    price: 30
+    traits: []
+  Tool (Long):
+    bulk: 1
+    level: 0
+    price: 100
+    traits: []
+  Tool (Short):
+    bulk: 0.1
+    level: 0
+    price: 40
+    traits: []
+  Torch:
+    bulk: 0.1
+    level: 0
+    price: 1
+    traits: []
+  Waterskin:
+    bulk: 0.1
+    level: 0
+    price: 5
+    traits: []
+  Writing Set:
+    bulk: 0.1
+    level: 0
+    price: 100
+    traits: []
+  Writing Set (Extra Ink and Paper):
+    bulk: 0
+    level: 0
+    price: 10
     traits: []
   Lock (Simple):
     bulk: 0
@@ -370,6 +369,13 @@ pf2e_gear:
     level: 1
     price: 300
     traits: []
+  Heavy Barding (Small or Medium):
+    bulk: 4
+    level: 2
+    price: 2500
+    traits:
+      - barding
+      - companion
   Periscope:
     bulk: 0.1
     level: 2
@@ -380,47 +386,27 @@ pf2e_gear:
     level: 2
     price: 4000
     traits: []
-  Disguise Kit (Elite Cosmetics):
-    bulk: 0.1
+  Alchemist's Lab (Expanded):
+    bulk: 6
     level: 3
-    price: 50
+    price: 5500
     traits: []
-  Thieves' Tools (Infiltrator Picks):
-    bulk: 0.1
+  Artisan's Toolkit (Sterling):
+    bulk: 2
     level: 3
-    price: 300
+    price: 5000
     traits: []
-  Scholarly Journal:
-    bulk: 0.1
-    level: 3
-    price: 600
-    traits: []
-  Survey Map:
-    bulk: 0.1
-    level: 3
-    price: 1000
-    traits: []
-  Lock (Average):
-    bulk: 0
-    level: 3
-    price: 1500
-    traits: []
-  Compass (Lensatic):
-    bulk: 0
-    level: 3
-    price: 2000
-    traits: []
-  Crowbar (Levered):
-    bulk: 0.1
-    level: 3
-    price: 2000
-    traits: []
-  Fishing Tackle (Professional):
+  Climbing Kit (Extreme):
     bulk: 1
     level: 3
-    price: 2000
+    price: 4000
     traits: []
-  Manacles (Average):
+  Clothing (High-Fashion Fine):
+    bulk: 0.1
+    level: 3
+    price: 5500
+    traits: []
+  Compass (Lensatic):
     bulk: 0
     level: 3
     price: 2000
@@ -430,80 +416,106 @@ pf2e_gear:
     level: 3
     price: 2500
     traits: []
+  Crowbar (Levered):
+    bulk: 0.1
+    level: 3
+    price: 2000
+    traits: []
   Detective's Kit:
     bulk: 1
     level: 3
     price: 2500
     traits: []
-  Repair Kit (Superb):
-    bulk: 1
-    level: 3
-    price: 2500
-    traits: []
-  Scholarly Journal (Compendium):
+  Disguise Kit (Elite Cosmetics):
     bulk: 0.1
     level: 3
-    price: 3000
-    traits: []
-  Climbing Kit (Extreme):
-    bulk: 1
-    level: 3
-    price: 4000
+    price: 50
     traits: []
   Disguise Kit (Elite):
     bulk: 0.1
     level: 3
     price: 4000
     traits: []
+  Fishing Tackle (Professional):
+    bulk: 1
+    level: 3
+    price: 2000
+    traits: []
+  Healer's Toolkit (Expanded):
+    bulk: 1
+    level: 3
+    price: 5000
+    traits: []
+  Heavy Barding (Large):
+    bulk: 4
+    level: 3
+    price: 2500
+    traits:
+      - barding
+      - companion
+  Lock (Average):
+    bulk: 0
+    level: 3
+    price: 1500
+    traits: []
   Magnifying Glass:
     bulk: 0
     level: 3
     price: 4000
     traits: []
-  Artisan's Tools (Sterling):
-    bulk: 2
+  Manacles (Average):
+    bulk: 0
     level: 3
-    price: 5000
+    price: 2000
     traits: []
-  Healer's Tools (Expanded):
+  Musical Instrument (Virtuoso handheld):
     bulk: 1
     level: 3
     price: 5000
     traits: []
-  Musical Instrument (Virtuoso Handheld):
+  Musical Instrument (Virtuoso heavy):
+    bulk: 16
+    level: 3
+    price: 10000
+    traits: []
+  Repair Toolkit (Superb):
     bulk: 1
     level: 3
-    price: 5000
+    price: 2500
     traits: []
+  Scholarly Journal:
+    bulk: 0.1
+    level: 3
+    price: 600
+    traits:
+      - uncommon
+  Scholarly Journal Compendium:
+    bulk: 0.1
+    level: 3
+    price: 3000
+    traits:
+      - uncommon
+  Survey Map:
+    bulk: 0.1
+    level: 3
+    price: 1000
+    traits:
+      - uncommon
   Survey Map (Atlas):
     bulk: 0.1
     level: 3
     price: 5000
+    traits:
+      - uncommon
+  Thieves' Toolkit (Infiltrator Picks):
+    bulk: 0
+    level: 3
+    price: 300
     traits: []
-  Thieves' Tools (Infiltrator):
+  Thieves' Toolkit (Infiltrator):
     bulk: 0.1
     level: 3
     price: 5000
-    traits: []
-  Alchemist's Lab (Expanded):
-    bulk: 6
-    level: 3
-    price: 5500
-    traits: []
-  Clothing (High-Fashion Fine):
-    bulk: 0.1
-    level: 3
-    price: 5500
-    traits: []
-  Snare Kit (Specialist):
-    bulk: 2
-    level: 3
-    price: 5500
-    traits: []
-  Musical Instrument (Virtuoso Heavy):
-    bulk: 16
-    level: 3
-    price: 10000
     traits: []
   Spyglass (Fine):
     bulk: 0.1
