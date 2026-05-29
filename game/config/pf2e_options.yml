@@ -42,12 +42,12 @@ pf2e:
     resume: encounter/end
   max_level: 20
   allowed_alignments:
-    - LG
-    - NG
-    - CG
-    - LN
-    - N
-    - CN
+    - OL
+    - BL
+    - WL
+    - OT
+    - BT
+    - WT
   roll_channel: 'Rolls'
   can_select_language:
     - common

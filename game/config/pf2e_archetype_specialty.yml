@@ -92,37 +92,46 @@ pf2e_archetype_specialty:
     Warrior: 
       initial_dedication: {}
   Champion Archetype:
-    Paladin:
+    Beacon:
       allowed_alignments:
-        - LG
-      anathema:
-        - "Willingly commit an evil act."
-        - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
-        - "Lie, cheat, or take advantage of others."
+        - WL
       edicts:
-        - "Respect the authority of legitimate leadership wherever they go, and obey its laws."
+        - "Provide a shining example for others."
+        - "Enjoy and share the beauty around you."
+        - "Keep yourself tidy and well groomed."
+      anathema:
+        - "Despoil yourself by associating with fiends and unholy force."
+      initial_dedication: {}
+    Justiciar:
+      allowed_alignments:
+        - OL
+        - OT
+      anathema:
+        - "Cheat or take advantage of others."
+      edicts:
+        - "Follow the law."
+        - "Respect legitimate authorities or leadership."
       initial_dedication: {}
     Redeemer:
       allowed_alignments:
-        - NG
+        - OL
       edicts:
-        - "Attempt to redeem those who commit evil acts before punishing them or killing them."
-        - "Show compassion for all, without regard to other factors."
+        - "Try to redeem those who commit wicked deeds."
+        - "Show compassion to others regardless of their authority or station."
       anathema:
-        - "Willingly commit an evil act."
-        - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
+        - "Kill a sapient enemy without first offering a chance at redemption."
       initial_dedication: {}
     Liberator:
       allowed_alignments:
-        - CG
+        - WL
+        - WT
       edicts:
-        - "Honor decisions made by others over their own lives."
-        - "Demand and fight for others' freedom to make their own decisions."
+        - "Oppose slavery and tyranny."
+        - "Fight for others' freedom to make their own decisions."
+        - "Respect choices others make for their own lives."
       anathema:
-        - "Willingly commit an evil act."
-        - "Knowingly harm an innocent or allow harm to come to one through inaction if they know they can prevent it."
-        - "Force someone to act in a particular way or threaten them if they refuse."
-        - "Accept or countenance slavery or tyranny."
+        - "Engage in slavery or tyranny."
+        - "Force or threaten someone to act a certain way."
       initial_dedication: {}
   Cleric Archetype: {}
   Druid Archetype:

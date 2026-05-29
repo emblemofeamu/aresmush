@@ -49,9 +49,10 @@ pf2e_archetype:
   Champion Archetype:
     use_deity: true
     allowed_alignments:
-      - LG
-      - NG
-      - CG
+      - OL
+      - WL
+      - OT
+      - WT
     key_abil:
       - Strength
       - Dexterity
