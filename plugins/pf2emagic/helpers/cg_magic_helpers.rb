@@ -373,13 +373,6 @@ module AresMUSH
 
       msg << t('pf2emagic.choose_divine_font') if to_assign['divine font'].is_a? Array
 
-      has_school_spell = to_assign['school spell']
-
-      if has_school_spell
-        specialize_info = magic&.character&.pf2_base_info&.[]('specialize_info')
-        msg << t('pf2emagic.choose_school_spell', :wizard_school => specialize_info) if has_school_spell == 'school'
-      end
-
       innate_spells = magic&.innate_spells || {}
       open_innate = innate_spells.select { |k, _| k.to_s.casecmp?('open') }
 
@@ -445,10 +438,8 @@ module AresMUSH
 
       case gate
       when 'school'
-        # The school gate checks that the spell in question is of your specialist school.
-        char_school = char.pf2_base_info['specialize_info'].downcase
-
-        passes_gate = spdeets['traits'].include? char_school
+        # Legacy gate, no longer enforced after school traits were removed.
+        passes_gate = true
       else
         # Fail any gate not recognized.
         passes_gate = false

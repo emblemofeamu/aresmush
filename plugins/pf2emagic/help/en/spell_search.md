@@ -14,13 +14,12 @@ There are many spells in Pathfinder 2e that a character can learn, and it can be
 Here's the generic syntax for `spell/search`:
 `spell/search <attribute1>=<term1>, <attribute2>=<term2>, ... , <attributeN>=<termN>`
 
-An attribute can be any of the following words: `name`, `traits`, `level`, `tradition`, `school`, `bloodline`, `description` OR `desc`, `effect`, and `cast`.
+An attribute can be any of the following words: `name`, `traits`, `level`, `tradition`, `bloodline`, `description` OR `desc`, `effect`, and `cast`.
 
 `name`: the name of a spell. 
 `traits`: the trait(s) of a spell.
 `level`: the base level of a spell.
 `tradition`: the tradition of a spell.
-`school`: the school of a spell.
 `bloodline`: the bloodline of a spell.
 `description` OR `desc`: the description of a spell.
 `effect`: the effect of a spell.
@@ -37,7 +36,6 @@ The search function is a Boolean `AND`, meaning that a spell must meet all of yo
 `spell/search bloodline=draconic`: Returns all of the Draconic bloodline's bloodline spells.
 `spell/search name=Electric`: Returns all spells that have 'Electric' in their names.
 `spell/search traits=electricity`: Returns all spells that have the trait Electricity.
-`spell/search school=evocation`: Returns all Evocation school spells.
 `spell/search description=fey`: Returns all spells that have the word 'fey' in their spell descriptions.
 `spell/search effect=acid`: Returns all spells that have the word 'acid' in their spell effects.
 `spell/search cast=somatic`: Returns all spells that have a Somatic spell component.

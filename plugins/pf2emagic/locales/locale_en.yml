@@ -17,7 +17,6 @@ en:
     cg_spellbook_spells: "%xcYou have spells to put in your spellbook. Spells left to choose: %r%b%b%{scount}%xn"
     char_not_caster: "%{char} is not a spellcaster and should not be requesting spells in a job."
     choose_divine_font: "%xrYou need to choose your divine font.%xn"
-    choose_school_spell: "%xrYou need to choose your 1st-level %{wizard_school} spell.%xn"
     class_does_not_get_spell: "The character class you specified does not have access to that spell."   
     config_error: "%xrYour magic is not configured correctly. Please see staff. Code: %{code}%xn"
 

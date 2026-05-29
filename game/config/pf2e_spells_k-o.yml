@@ -1,1640 +1,1039 @@
 ---
 pf2e_spells:
-  Ki Blast:
-    actions: 3
-    area: See text
-    cast:
-      - somatic
-      - verbal
-    effect: You unleash your ki as a powerful blast of force that deals 2d6 force damage. if 2 actions to cast ki blast, increase the size of the cone to 30 feet and the damage to 3d6. if 3 actions to cast ki blast, increase the size of the cone to 60 feet and the damage to 4d6. Each creature in the area must attempt a Fortitude saving throw.%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage.%r**Failure** The creature takes full damage and is pushed 5 feet.%r**Critical Failure** The creature takes double damage and is pushed 10 feet.
-    heighten:
-      - 1d6 (2d6 if 2 or 3 actions)
-      - 2d6 (4d6 if 2 or 3 actions)
-      - 3d6 (6d6 if 2 or 3 actions)
-      - 4d6 (8d6 if 2 or 3 actions)
-      - 5d6 (10d6 if 2 or 3 actions)
-      - 6d6 (12d6 if 2 or 3 actions)
-      - 7d6 (14d6 if 2 or 3 actions)
-    base_level: 3
-    save: Fortitude
-    school: Evocation
-    traits:
-      - evocation
-      - force
-      - monk
-      - uncommon
-    damage: 2d6
-    damage_type: force
-  Ki Form:
-    actions: 1
-    cast:
-      - verbal
-    duration: 1 minute
-    effect: Drawing from deep wells of spiritual power, you take on a special ki form. In your ki form, your hair, feathers, skin, or scales change color and begin to glow. In this form you gain a fly Speed equal to your land Speed. Choose force, lawful (only if you are lawful), negative, or positive damage. All your Strikes deal 1d6 additional damage of the chosen type. Your entire body is also surrounded by a glowing corona of the same color as your inner ki; this is a light effect. Your corona is a 5-foot emanation that deals 2d6 damage of the chosen type to creatures who start their turn within the emanation. If the emanation overlaps with a darkness effect, the corona's glow attempts to counteract the darkness effect. Regardless of the outcome, the corona can't attempt to counteract that effect again for 1 day. As a single action, which has the concentrate trait, you can flare your corona out to become a 30-foot emanation.%r%rIn your ki form, your emotions surge to the forefront and it's difficult to moderate your attacks. Your weapons and unarmed attacks lose the nonlethal trait. You take a -2 status penalty to saves against emotion effects but gain a +2 status bonus to saves against all other mental effects.
-    base_level: 9
-    traits:
-      - monk
-      - polymorph
-      - uncommon
-    damage: See text
-    damage_type: See text
-  Ki Rush:
-    actions: 1
-    cast:
-      - verbal
-    effect: "Accelerated by your ki, you move with such speed you become a blur. Move two times: two Strides, two Steps, or one Stride and one Step (in either order). You gain the concealed condition during this movement and until the start of your next turn."
-    base_level: 1
-    school: Transmutation
-    traits:
-      - monk
-      - transmutation
-      - uncommon
-  Ki Strike:
-    actions: 1
-    cast:
-      - verbal
-    effect: "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal 1d6 extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."
-    heighten:
-      5: 1d6
-      9: 2d6
-    base_level: 1
-    school: Transmutation
-    traits:
-      - monk
-      - transmutation
-      - uncommon
-    damage: 1d6
-    damage_type: See text
   Knock:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.%rKnock counteracts lock.
     base_level: 2
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - occult
+    actions: 2
     range: 30 feet
-    school: Transmutation
     target: 1 door, lock, or container
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - transmutation
-  Know Direction:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: "In your mind's eye, you see a path northward. You immediately know which direction is north (if it exists at your current location)."
-    heighten:
-      - 7: You can instead know the direction to a familiar location, such as a previous home or a favorite tavern.
-    base_level: cantrip
-    school: Divination
-    tradition:
-      - divine
-      - occult
-      - primal
-    traits:
-      - cantrip
-      - detection
-      - divination
+    duration: 1 minute
+    effect: "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.%r%r*Knock* counteracts *lock*."
   Know the Enemy:
-    actions: reaction
-    cast:
-      - somatic
-    effect: "Use a Recall Knowledge action, rolling the appropriate skill check to identify the triggering creature's abilities. You can roll your check twice and use the better result."
     base_level: 4
-    school: Divination
     traits:
       - cleric
-      - divination
+      - focus
       - fortune
+      - manipulate
       - uncommon
-    trigger: You roll initiative and can see a creature, you succeed at an attack roll against a creature, or a creature fails a saving throw against one of your spells.
-  Lament:
-    base_level: 1
-    school: Enchantment
-    traits:
-      - auditory
-      - cleric
-      - emotion
-      - enchantment
-      - mental
-    cast:
-      - somatic
-      - verbal
-    actions: 2
-    range: 30 foot cone
-    target: 1 or more creatures
-    damage: 1d8
-    damage_type: mental
-    save: basic Will
-    effect: You let out your negative emotions in a guttural wail that shakes your enemies' hearts and deals 1d8 mental damage (basic Will save). If you have any harmful conditions imposed by emotion effects, lament deals additional mental damage equal to the counteract level of the highest-level effect.
-    heighten:
-      - 2d8
-      - 3d8
-      - 4d8
-      - 5d8
-      - 6d8
-      - 7d8
-      - 8d8
-      - 9d8
-      - 10d8
-  Lay on Hands:
-    actions: 1
-    cast:
-      - somatic
-    effect: Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch. If you use lay on hands on a willing living target, you restore 6 Hit Points; if the target is one of your allies, they also gain a +2 status bonus to AC for 1 round. Against an undead target, you deal 1d6 damage and it must attempt a basic Fortitude save; if it fails, it also takes a -2 status penalty to AC for 1 round.
-    heighten: 
-      - 12hp healing or 2d6 undead damage
-      - 18hp healing or 3d6 undead damage
-      - 24hp healing or 4d6 undead damage
-      - 30hp healing or 5d6 undead damage
-      - 36hp healing or 6d6 undead damage
-      - 42hp healing or 7d6 undead damage
-      - 48hp healing or 8d6 undead damage
-      - 54hp healing or 9d6 undead damage
-      - 60hp healing or 10d6 undead damage
-    base_level: 1
-    range: touch
-    school: Necromancy
-    target: 1 willing living creature or 1 undead creature
-    traits:
-      - champion
-      - healing
-      - necromancy
-      - positive
-      - uncommon
-    damage: See text
-    damage_type: See text
-  Levitate:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 5 minutes
-    effect: You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a -2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.
-    base_level: 3
-    range: touch
-    school: Evocation
-    target: 1 unattended object or willing creature
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - evocation
-  Life Boost:
-    actions: 1
-    cast:
-      - somatic
-    duration: 4 rounds
-    effect: "You temporarily bolster the target's vitality. The target gains fast healing equal to double the spell's level."
-    base_level: 1
-    range: 30 feet
-    school: Necromancy
-    target: 1 creature
-    traits:
-      - healing
-      - hex
-      - necromancy
-      - uncommon
-      - witch
-  Life-Giving Form:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: "You transcend your physical form, becoming a beacon of healing energy. Your body exudes bright light like a torch. You gain resistance 5 to precision damage and weakness 5 to negative damage, and your unarmed Strikes deal an extra 1d4 positive damage.%rYou can touch a living creature with an Interact action to restore 6d8 Hit Points to it, and when a creature touches you with an Interact action you can allow it to gain the same healing; either way, the creature becomes temporarily immune to life-giving form's healing for 1 minute. This is a positive healing effect. You can't heal yourself with life-giving form. A creature harmed by positive damage (such as an undead) that touches you or damages you with an unarmed attack or non-reach melee weapon instead takes 3d4 positive damage, and it doesn't become temporarily immune.%rYou can Dismiss this spell."
-    heighten:
-      - 7d8 healing, 3d4+1 undead dmg, 6 precision resist, 6 negative weakness 
-      - 8d8 healing, 3d4+2 undead dmg, 7 precision resist, 7 negative weakness
-      - 9d8 healing, 3d4+3 undead dmg, 8 precision resist, 8 negative weakness
-      - 10d8 healing, 3d4+4 undead dmg, 9 precision resist, 9 negative weakness
-    base_level: 6
-    mystery:
-      - life
-    school: Necromancy
-    traits:
-      - cursebound
-      - healing
-      - light
-      - necromancy
-      - oracle
-      - positive
-      - uncommon
-  Life Link:
-    actions: 1
-    cast:
-      - somatic
-    duration: 1 minute
-    effect: "You forge a connection of life energy between you and your target, distributing harm between both of you. When you first Cast the Spell, the target recovers 1d4 Hit Points. The first time each round that the target takes damage, reduce the damage it takes by 3 (to a minimum of 0 damage). You lose 3 Hit Points each time, or the total damage dealt, if less than 3; this damage ignores any immunities or resistances you have and can't otherwise be mitigated in any way.%rThe spell ends immediately if you fall unconscious. You can Dismiss the spell."
-    heighten:
-      3: Target 2 creatures other than you. Increase the initial healing to 3d4 and the maximum damage reduced and Hit Points lost to 5.
-      6: Target 3 creatures other than you. Increase the initial healing to 6d4 and the maximum damage reduced and Hit Points lost to 10.
-      9: Target 4 creatures other than you. Increase the initial healing to 9d4 and the maximum damage reduced and Hit Points lost to 15.
-    base_level: 1
-    mystery:
-      - life
-    range: 30 feet
-    school: Necromancy
-    target: 1 creature other than you
-    traits:
-      - cursebound
-      - healing
-      - necromancy
-      - oracle
-      - positive
-      - uncommon
-  Life Siphon:
     actions: reaction
-    cast:
-      - verbal
-    effect: "You use some of the spell's magic to heal yourself, regaining 1d8 Hit Points per level of the spell."
-    base_level: 4
-    school: Necromancy
-    traits:
-      - healing
-      - necromancy
-      - uncommon
-      - wizard
-    trigger: You expend one of your wizard spell slots to cast a wizard spell of the necromancy school.
-  Light:
-    actions: 2
-    bloodline:
-      - angelic
-    cast:
-      - somatic
-      - verbal
-    effect: The object glows, casting bright light in a 20-foot radius (and dim light for the next 20 feet) like a torch. If you cast this spell again on a second object, the light spell on the first object ends.
-    heighten:
-      4: The object sheds bright light in a 60-foot radius (and dim light for the next 60 feet).
-    base_level: cantrip
-    range: touch
-    school: Evocation
-    target: 1 object of 1 Bulk or less, either unattended or possessed by you or a willing ally
-    tradition:
-      - arcane
-      - divine
-      - occult
-      - primal
+    trigger: You roll initiative and can see a creature, you succeed at an attack roll against a creature, or a creature fails a saving throw against one of your spells
+    effect: "You quickly remind yourself of useful information. Use a Recall Knowledge action, rolling the appropriate skill check to identify the triggering creature's abilities. You can roll your check twice and use the better result."
+  Know the Way:
+    base_level: 1
     traits:
       - cantrip
-      - evocation
-      - light
-  Lightning Bolt:
-    actions: 2
-    area: 120-foot line
-    cast:
-      - somatic
-      - verbal
-    effect: A bolt of lightning strikes outward from your hand, dealing 4d12 electricity damage.
-    heighten:
-      - 5d12
-      - 6d12
-      - 7d12
-      - 8d12
-      - 9d12
-      - 10d12
-      - 11d12
-    base_level: 3
-    save: Reflex
-    school: Evocation
-    tradition:
-      - arcane
-      - primal
-    traits:
-      - electricity
-      - evocation
-  Lightning Storm:
-    actions: 3
-    area: 20-foot burst
-    cast:
-      - material
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: "You create a black, rumbling storm cloud and call down one lightning bolt within the spell's area. The bolt is a vertical line from the top of the storm cloud to the ground below, dealing 4d12 electricity damage to creatures in the line (basic Reflex save). On subsequent rounds, the first time you Sustain the Spell each round, you can call another lightning bolt within the area. If you Cast this Spell outdoors, you can create two non-overlapping clouds instead of one, though you can still call down only one bolt per turn."
-    heighten:
-      7: 5d12
-      9: 6d12
-    base_level: 5
-    range: 120 feet
-    save: Reflex
-    school: Evocation
-    tradition:
-      - primal
-    traits:
-      - electricity
-      - evocation
-    damage: 4d12
-    damage_type: electricity
-  Lingering Composition:
-    actions: 0
-    cast:
-      - verbal
-    effect: You add a flourish to your composition to extend its benefits. If your next action is to cast a cantrip composition with a duration of 1 round, attempt a Performance check. The DC is usually a standard-difficulty DC of a level equal to the highest-level target of your composition, but the GM can assign a different DC based on the circumstances. The effect depends on the result of your check.%r**Critical Success** The composition lasts 4 rounds.%r**Success** The composition lasts 3 rounds.%r**Failure** The composition lasts 1 round, but you don't spend the Focus Point for casting this spell.
-    base_level: 1
-    school: Enchantment
-    traits:
-      - bard
-      - enchantment
-      - metamagic
-      - uncommon
-  Litany Against Sloth:
-    actions: 1
-    cast:
-      - verbal
-    duration: 1 round
-    effect: "Your litany rails against the sin of sloth, interfering with the target's ability to react. The target must attempt a Will save. A particularly slothful creature, such as a Sloth Demon, uses the outcome one degree of success worse than the result of its saving throw. The target becomes temporarily immune to all of your litanies for 1 minute.%r**Critical Success** The target is unaffected.%r**Success** The target can't use reactions.%r**Failure** The target can't use reactions and is slowed 1.%r**Critical Failure** The target can't use reactions and is slowed 2."
-    base_level: 5
-    range: 30 feet
-    save: Will
-    school: Evocation
-    target: 1 evil creature
-    traits:
-      - champion
-      - evocation
-      - good
-      - litany
-      - uncommon
-  Litany Against Wrath:
-    actions: 1
-    cast:
-      - verbal
-    duration: 1 round
-    effect: "Your litany rails against the sin of wrath, punishing the target for attacking good creatures. The target must attempt a Will save. A particularly wrathful creature, such as a wrath demon, uses the outcome one degree of success worse than the result of its saving throw. The target then becomes temporarily immune to all of your litanies for 1 minute.%r**Critical Success** The target is unaffected.%r**Success** The first time the target uses an action that deals damage to at least one good creature, the target takes 3d6 good damage.%r**Failure** Each time the target uses an action that deals damage to at least one good creature, the target takes 3d6 good damage.%r**Critical Failure** The target is enfeebled 2. Each time it uses an action that deals damage to at least one good creature, the target takes 3d6 good damage."
-    heighten:
-      - 4d6
-      - 5d6
-      - 6d6
-      - 7d6
-      - 8d6
-      - 9d6
-      - 10d6
-    base_level: 3
-    range: 30 feet
-    save: Will
-    school: Evocation
-    target: 1 evil creature
-    traits:
-      - champion
-      - evocation
-      - good
-      - litany
-      - uncommon
-    damage: 3d6
-    damage_type: good
-  Litany of Depravity:
-    actions: 1
-    cast:
-      - verbal
-    duration: 1 round
-    effect: "Your litany calls into question the morals your foe claims to hold dear. The target gains weakness 7 to evil, then becomes temporarily immune to all your litanies for 1 minute."
-    heighten:
-      - The weakness to evil increases to 8.
-      - The weakness to evil increases to 9.
-      - The weakness to evil increases to 10.
-    base_level: 7
-    range: 30 feet
-    school: Evocation
-    target: 1 good creature
-    traits:
-      - champion
-      - evil
-      - evocation
-      - litany
-      - uncommon
-  Litany of Righteousness:
-    actions: 1
-    cast:
-      - verbal
-    duration: 1 round
-    effect: "Your litany denounces an evildoer, rendering it susceptible to the powers of good. The target gains weakness 7 to good. The target then becomes temporarily immune to all of your litanies for 1 minute."
-    heighten:
-      - The weakness to good increases to 8.
-      - The weakness to good increases to 9.
-      - The weakness to good increases to 10.
-    base_level: 7
-    range: 30 feet
-    school: Evocation
-    target: 1 evil creature
-    traits:
-      - champion
-      - evocation
-      - good
-      - litany
-      - uncommon
-  Litany of Self-Interest:
-    actions: 1
-    cast:
-      - verbal
-    duration: 1 round
-    effect: "You give a speech that fills your target with a drive to improve themself to the exclusion of assisting others. A creature that wants to gain the benefit of this spell and doesn't care about its limitations can voluntarily fail the save. The target then becomes temporarily immune to all your litanies for 1 minute.%r**Success** The target is unaffected.%r**Failure** The target gains a +2 status bonus to attack rolls, Perception checks, saving throws, and skill checks. The target can't Aid other creatures, consider any creature an ally, or use spells or abilities that directly benefit another creature (as determined by the GM), even if they also benefit the target. Other creatures allied with the spell's target can still consider the target an ally and affect it accordingly."
-    heighten:
-      8: The status bonus increases to +3.
-    base_level: 5
-    range: 30 feet
-    save: Will
-    school: Enchantment
-    target: 1 creature
-    traits:
-      - champion
-      - enchantment
-      - evil
-      - litany
-      - mental
-      - uncommon
-  Localized Quake:
-    actions: 2
-    area: 15-foot emanation or 15-foot cone
-    cast:
-      - somatic
-      - verbal
-    effect: "You shake the earth, toppling nearby creatures. Choose whether the spell's area is a 15-foot emanation or a 15-foot cone when you cast it. Each creature in the area standing on solid ground may take 4d6 bludgeoning damage and must attempt a Reflex saving throw.%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage.%r**Failure** The creature takes full damage and falls prone.%r**Critical Failure** The creature takes double damage and falls prone."
-    heighten:
-      - 6d6
-      - 8d6
-      - 10d6
-      - 12d6
-      - 14d6
-      - 16d6
-    base_level: 4
-    save: Reflex
-    school: Transmutation
-    traits:
-      - cleric
-      - earth
-      - transmutation
-      - uncommon
-    damage: 4d6
-    damage_type: bludgeoning
-  Locate:
-    actions: 10 minutes
-    cast:
-      - material
-      - somatic
-      - verbal
-    effect: "You learn the direction to the target (if you picked a specific object, such as 'my mother's sword') or the nearest target (if you picked a type of object, such as 'swords'). If the target is a specific object, you must have observed it directly with your own senses. If it's a type of object, you still need to have an accurate mental image of the type of object. If there's lead or running water between you and the target, this spell can't locate the object. This means you might find a type of object farther away if the nearest one is behind lead or running water."
-    heighten:
-      5: You can target a specific creature or ancestry instead of an object, but you must have met or seen up close the creature or ancestry you want to target.
-    base_level: 3
-    range: 500 feet
-    school: Divination
-    target: 1 specific object or type of object
-    tradition:
-      - arcane
-      - divine
-      - occult
-    traits:
+      - concentrate
       - detection
-      - divination
-      - uncommon
-  Lock:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: The target's latch mechanism clinks shut, held fast by unseen magical restraints. When you magically lock a target, you set an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door.%r%rIf the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.
-    heighten:
-      2: The duration increases to unlimited, but you must expend 6 gp worth of gold dust as an additional cost.
-    base_level: 1
-    range: touch
-    school: Abjuration
-    target: 1 lock, or a door or container with a latch
+      - manipulate
     tradition:
-      - arcane
       - divine
       - occult
-    traits:
-      - abjuration
-  Loremaster's Etude:
-    actions: 0
-    cast:
-      - somatic
-    effect: You call upon your muse's deep mysteries, granting the target a greater ability to think and recall information. Roll the triggering Recall Knowledge skill check twice and use the better result.
-    base_level: 1
-    range: 30 feet
-    school: Divination
-    target: you or the triggering ally
-    traits:
-      - bard
-      - divination
-      - fortune
-      - uncommon
-    trigger: You or an ally within range attempts a skill check to Recall Knowledge
-  Longstrider:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 hour
-    effect: You lengthen your stride beyond what should be possible. You gain a +10-foot status bonus to your Speed.
-    heighten:
-      2: The duration increases to 8 hours.
-    base_level: 1
-    school: Transmutation
-    tradition:
-      - arcane
       - primal
-    traits:
-      - transmutation
-  Lucky Break:
-    actions: reaction
-    cast:
-      - verbal
-    effect: Reroll the saving throw and use the better result. You then become temporarily immune for 10 minutes.
-    base_level: 4
-    school: Divination
-    traits:
-      - cleric
-      - divination
-      - fortune
-      - uncommon
-    trigger: You fail (but don't critically fail) a saving throw.
-  Mad Monkeys:
     actions: 2
-    area: 5-foot burst
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: Magical monkey spirits fill the area as they pile and climb on top of one another. Because the monkeys are magical spirits, they can't be attacked or hurt. Casting calm emotions or a similar effect over the monkeys makes them docile, causing them to cease making mischief for the duration of mad monkeys.%r%rChoose the kind of mischief your monkeys make when you Cast the Spell. They produce the effect listed for that mischief when you Cast the Spell and the first time each round when you Sustain the Spell. The first time each round when you Sustain the Spell, you can move the area of the monkeys by 5 feet.%r%r- **Flagrant Burglary** The monkeys try to Steal any one item from one creature in the area. Use your spell DC - 10 as the monkeys' Thievery modifier. Their attempt relies more on distraction than subtlety, so the victim knows what item the monkeys were trying to take and whether it was taken. Getting a stolen item from the monkeys— even for the caster—requires Stealing it from them or Disarming them, using your spell DC. When the spell ends, any stolen items fall to the ground in any square of the spell's area you choose.%r- **Raucous Din** The monkeys screech loudly, potentially deafening creatures in the spell's area. Each creature in the spell's area must attempt a Fortitude save.%r**Critical Success** The creature is unaffected and is temporarily immune for 10 minutes.%r**Success** The creature is unaffected.%r**Failure** The creature is deafened for 1 round.%r**Critical Failure** The creature is deafened for 1 minute.%r- **Tumultuous Gymnastics** The monkeys jump and climb all over creatures in the spell's area, interfering with complex movements. Each creature in the spell's area must attempt a Reflex save.%r**Critical Success** The creature is unaffected and is temporarily immune for 10 minutes.%r**Success** The creature is unaffected.%r**Failure** For 1 round, the creature must succeed at a DC 5 flat check whenever it attempts a manipulate action. If it fails this check, the creature loses that action.%r**Critical Failure** As failure, but the monkeys cling to the creature tenaciously, and the effect lasts until the spell ends, even if the creature leaves the spell's area.
-    base_level: 3
-    range: 30 feet
-    school: Conjuration
-    tradition:
-      - primal
-    traits:
-      - conjuration
-  Malicious Shadow:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    damage: 1d10 + spellcasting ability modifier
-    damage_type: bludgeoning, piercing, or slashing
-    effect: You reshape the target's shadow into a deadly form, such as strangling hands, a dangerous weapon, harrying runes, or the like, and command it to attack the target. When you Cast the Spell, and each time you Sustain the Spell, the shadow makes a Strike against the target. The shadow moves along with the foe, always remaining within reach. If you Sustain the Spell multiple times in a round, you gain this effect each time. The shadow uses and contributes to your multiple attack penalty.%r%rThe shadow's Strikes are melee spell attacks. Regardless of its shape, the shadow's Strikes deal damage equal to 1d10 plus your spellcasting ability modifier. You choose the type of damage when you Cast the Spell, choosing from bludgeoning, piercing, or slashing damage. The shadow doesn't take up space, grant flanking, or have any other attributes a creature would. The shadow can't make any attacks other than its Strike.%r%rThe shadow vanishes if the target moves into an area of complete darkness or enters an area with light from all directions such that the target doesn't cast a shadow. If another effect is controlling the target's shadow when you cast _malicious shadow_, you can attempt to counteract that effect to temporarily take control of the shadow, but the original effect resumes when _malicious shadow_ ends.
-    heighten:
-      5: The Strike damage increases by 1d10.
-      7: The Strike damage increases by 2d10.
-      9: The Strike damage increases by 3d10.
-    base_level: 3
-    range: 30 feet
-    school: Evocation
-    target: 1 creature
-    traits:
-      - evocation
-      - hex
-      - shadow
-      - uncommon
-      - witch
-  Malignant Sustenance:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: You embed a seed of negative energy in an undead creature, restoring its unnatural vigor. The target gains fast healing 7. This healing comes from negative energy, so it heals the undead rather than damaging it.
-    heighten:
-      - The fast healing increases by 2.
-      - The fast healing increases by 4.
-      - The fast healing increases by 6.
-      - The fast healing increases by 8.
-      - The fast healing increases by 10.
-      - The fast healing increases by 12.
-    base_level: 4
-    range: touch
-    school: Necromancy
-    target: 1 willing undead creature
-    traits:
-      - cleric
-      - necromancy
-      - negative
-      - uncommon
-  Mage Armor:
-    actions: 2
-    bloodline:
-    cast:
-      - somatic
-      - verbal
-    effect: You ward yourself with shimmering magical energy, gaining a +1 item bonus to AC and a maximum Dexterity modifier of +5. While wearing mage armor, you use your unarmored proficiency to calculate your AC.
-    heighten:
-      4: You gain a +1 item bonus to saving throws.
-      6: The item bonus to AC increases to +2, and you gain a +1 item bonus to saving throws.
-      8: The item bonus to AC increases to +2, and you gain a +2 item bonus to saving throws.
-      10: The item bonus to AC increases to +3, and you gain a +3 item bonus to saving throws.
-    base_level: 1
-    school: Abjuration
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - abjuration
-  Mage Hand:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You create a single magical hand, either invisible or ghostlike, that grasps the target object and moves it slowly up to 20 feet. Because you're levitating the object, you can move it in any direction. When you Sustain the Spell, you can move the object an additional 20 feet. If the object is in the air when the spell ends, the object falls.
-    heighten:
-      3: You can target an unattended object with a Bulk of 1 or less.
-      5: The range increases to 60 feet, and you can target an unattended object with a Bulk of 1 or less.
-      7: The range increases to 60 feet, and you can target an unattended object with a Bulk of 2 or less.
-    base_level: cantrip
-    range: 30 feet
-    school: Evocation
-    target: 1 unattended object of light Bulk or less
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - cantrip
-      - evocation
-  Magic Aura:
-    actions: 1 minute
-    cast:
-      - material
-      - somatic
-      - verbal
-    effect: You alter the appearance of an item's magic aura. You can choose to have the target's aura appear as that of a common magic item of twice _magic aura_'s level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower. If the target is magical, you can instead choose to have it appear as entirely non-magical.%r%rA caster using _detect magic_ or _read aura_ of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. _Magic aura_ doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.
-    heighten:
-      3: You can target a creature instead of an object. When you do, you can either conceal the auras of all magic items it has or have that creature's aura appear as if it were under the effect of a spell you know.
-    base_level: 1
-    range: touch
-    school: Illusion
-    target: 1 object of 3 bulk or less
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - illusion
-      - uncommon
-  Magic Fang:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: Choose one of the target's unarmed attacks. You cause that unarmed attack to shine with primal energy. The unarmed attack becomes a +1 _striking_ unarmed attack, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two if it had only one.
-    base_level: 1
-    range: touch
-    school: Transmutation
-    target: 1 willing creature
-    tradition:
-      - primal
-    traits:
-      - transmutation
-  Magic Hide:
-    actions: 1
-    cast:
-      - somatic
-    duration: 1 minute
-    effect: Your animal companion grows a thicker hide, matted fur, or a harder shell, granting it a +1 status bonus to AC.
-    base_level: 1
-    range: 30 feet
-    school: Abjuration
-    target: your animal companion
-    traits:
-      - abjuration
-      - ranger
-      - uncommon
-  Magic Missile:
-    actions: 3
-    bloodline:
-      - imperial
-    cast:
-      - somatic
-      - verbal
-    damage: 1d4+1 per missile
-    damage_type: force
-    effect: You send a dart of force streaking toward a creature that you can see. It automatically hits and deals 1d4+1 force damage. For each additional action you use when Casting the Spell, increase the number of missiles you shoot by one, to a maximum of three missiles for 3 actions. You choose the target for each missile individually. If you shoot more than one missile at the same target, combine the damage before applying bonuses or penalties to damage, resistances, weaknesses, and so forth.
-    heighten:
-      - You shoot one additional missile with each action you spend.
-      - You shoot two additional missiles with each action you spend.
-      - You shoot three additional missile with each action you spend.
-      - You shoot four additional missile with each action you spend.
-    base_level: 1
-    range: 120 feet
-    school: Evocation
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - evocation
-      - force
-  Magic Mouth:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You specify a trigger and a message up to 25 words long. When the specified trigger occurs within 30 feet of the target, an illusory mouth appears on the target and speaks the message, and the _magic mouth_ spell ends.
+    effect: In your mind's eye, you magically reorient yourself. You immediately know which direction is north (if it exists at your current location), and you can choose a location you were at within the last 24 hours and learn what direction it lies.
+    heighten: "**3rd:** You can choose a location you were at within the last week.%r**7th:** You can choose a location you were at regardless of how long ago you were there."
+  Laughing Fit:
     base_level: 2
-    range: touch
-    school: Illusion
-    target: 1 creature or object
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - auditory
-      - illusion
-      - visual
-  Magic Stone:
-    actions: 3
-    cast:
-      - verbal
-      - somatic
-    duration: 1 minute
-    effect: You pour positive energy into ordinary stones, granting them temporary magical properties. You can target 1 non-magical stone or sling bullet for every action you use Casting this Spell. The stones must be unattended or carried by you or a willing ally. The stones become _+1 striking disrupting_ sling bullets. Each stone can be used only once, after which it crumbles to dust.
-    base_level: 1
-    range: touch
-    school: Necromancy
-    target: 1 to 3 non-magical stones or sling bullets
-    tradition:
-      - divine
-      - primal
-    traits:
-      - necromancy
-      - positive
-  Magic Weapon:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: The weapon glimmers with magic and energy. The target becomes a _+1 striking_ weapon, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two.
-    base_level: 1
-    range: touch
-    school: Transmutation
-    target: 1 weapon that is unattended or wielded by you or a willing ally
-    tradition:
-      - arcane
-      - divine
-      - occult
-    traits:
-      - transmutation
-  Magic's Vessel:
-    actions: 1
-    cast:
-      - somatic
-    duration: 1 minute
-    effect: A creature becomes a receptacle for pure magical energy sent by your deity. The target gains a +1 status bonus to saving throws. Each time you Cast a Spell from your spell slots, you automatically Sustain this Spell and grant its target resistance to damage from spells until the start of your next turn. This resistance is equal to the level of the spell you cast.
-    base_level: 1
-    range: touch
-    school: Enchantment
-    target: 1 creature
-    traits:
-      - cleric
-      - enchantment
-      - uncommon
-  Magnificent Mansion:
-    actions: 1 minute
-    cast:
-      - material
-      - somatic
-      - verbal
-    effect: You conjure an extradimensional demiplane consisting of a spacious dwelling with a single entrance. The entrance connects to the plane where you Cast the Spell, appearing anywhere within the spell's range as a faint, shimmering, vertical rectangle 5 feet wide and 10 feet high. You designate who can enter when you cast the spell. Once inside, you can shut the entrance, making it invisible. You and the creatures you designated can reopen the door at will, just like opening a physical door.%r%rInside, the demiplane appears to be a mansion featuring a magnificent foyer and numerous opulent chambers. The mansion can have any floor plan you imagine as you Cast the Spell, provided it fits within a space 40 feet wide, 40 feet deep, and 30 feet tall. While the entrance to the mansion is closed, effects from outside the mansion fail to penetrate it, and vice versa, except for _plane shift_, which can be used to enter the mansion. You can use scrying magic and similar effects to observe the outside only if they're capable of crossing planes.%r%rA staff of up to 24 servants attends to anyone within the mansion. These are like the servant created by the _unseen servant_ spell, though they're visible, with an appearance you determine during casting. The mansion is stocked with enough food to serve a nine-course banquet to 150 people.
-    base_level: 7
-    range: 30 feet
-    school: Conjuration
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - conjuration
-      - Extradimensional
-      - uncommon
-  Mariner's Curse:
-    actions: 2
-    bloodline:
-      - hag
-    cast:
-      - somatic
-      - verbal
-    effect: You afflict the target with the curse of the roiling, unforgiving sea. The target must attempt a Will save.%r**Critical Success** The target is unaffected.%r**Success** The target becomes sickened 1. Reducing its sickened condition to 0 ends the curse.%r**Failure** The target becomes sickened 1 and can't reduce its sickened condition below 1 while the curse remains. The curse can be lifted by remove curse or similar magic. Whenever the target is sickened and on the water at least a mile from shore, it is also slowed 1.%r**Critical Failure** As failure, but the target becomes sickened 2.
-    base_level: 5
-    range: touch
-    save: Will
-    school: Necromancy
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-      - primal
-    traits:
-      - curse
-      - necromancy
-  Mask of Terror:
-    actions: 2
-    bloodline:
-      - draconic
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: The target appears to be a gruesome and terrifying creature. The effect is unique to each observer, so a human viewing the target might see a demon with bloody fangs, but a demon observing the target might see a glowing angelic visage. When any creature attempts a hostile action against the target, the creature must attempt a Will save. It is then temporarily immune until the end of its next turn.%r**Success** The creature is unaffected.%r**Failure** The creature becomes frightened 2 before using its action.%r**Critical Failure** The creature becomes frightened 2, and its action fails and is wasted.
-    heighten:
-      8: You can target up to 5 creatures. If a creature uses a hostile action or reaction that affects multiple targets simultaneously, it needs to attempt only one save against _mask of terror_.
-    base_level: 7
-    range: 30 feet
-    school: Illusion
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-      - primal
-    traits:
-      - emotion
-      - fear
-      - illusion
-      - mental
-      - visual
-  Massacre:
-    actions: 2
-    area: 60-foot line
-    bloodline:
-      - psychopomp
-    cast:
-      - somatic
-      - verbal
-    damage: see text
-    damage_type: negative
-    effect: You unleash a wave of necromantic energy to snuff out the life force of those in its path. Each living creature of 17th level or lower in the line must attempt a Fortitude save. If the damage from massacre reduces a creature to 0 Hit Points, that creature dies instantly. If massacre doesn't kill even a single creature, the negative energy violently explodes back toward you, dealing an additional 30 negative damage to every living creature in the line (even those above 17th level) and 30 negative damage to you.%r**Critical Success** The creature is unaffected.%r**Success** The creature takes 9d6 negative damage.%r**Failure** The creature takes 100 negative damage.%r**Critical Failure** The creature dies.
-    heighten:
-      10: The spell can affect creatures up to 19th level. Increase the damage to 10d6 on a success, and to 115 on a failure.
-    base_level: 9
-    save: Fortitude
-    school: Necromancy
-    tradition:
-      - arcane
-      - divine
-      - primal
-    traits:
-      - death
-      - necromancy
-      - negative
-  Maze:
-    actions: 2
-    bloodline:
-      - imperial
-    cast:
-      - somatic
-      - verbal
-    effect: You transport the target into an extradimensional maze of eldritch origin and trap it there. Once each turn, the target can spend 1 action to attempt a Survival check or Perception check against your spell DC to escape the maze. The possible outcomes are as follows.%r**Critical Success** The target escapes and the spell ends.%r**Success** The target is on the right path to the exit. If the target was already on the right path, it escapes the maze and the spell ends.%r**Failure** The target makes no progress toward escape.%r**Critical Failure** The target makes no progress toward escape, and if it was on the right path, it no longer is.%r%rTeleportation magic doesn't help the creature escape unless the magic can transport across planes, such as plane shift. When the spell ends, either because the target escaped or the duration ran out, the target returns to the space it occupied when it was banished, or to the nearest space if the original is now filled.
-    base_level: 8
-    range: 30 feet
-    school: Conjuration
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - conjuration
-      - Extradimensional
-      - teleportation
-  Medusa's Wrath:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You make an attack filled with a medusa's petrifying power. Make an unarmed Strike with the following additional effects.%r**Critical Success** The target is slowed 2 and must attempt a Fortitude save at the end of each of its turns; this ongoing save has the incapacitation trait. On a failed save, the slowed condition increases by 1 (2 on a critical failure). A successful save reduces the slowed condition by 1. When a creature is unable to act due to the slowed condition from medusa's wrath, it is petrified permanently. The spell ends if the creature is petrified or the slowed condition is removed.%r**Success** As critical success, but the target is initially slowed 1.
-    base_level: 8
-    school: Transmutation
-    traits:
-      - monk
-      - transmutation
-      - uncommon
-  Meld into Stone:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 10 minutes
-    effect: You merge with an adjacent block of stone with enough volume to fit you and your worn and held possessions. You must touch the stone when you Cast the Spell. You can hear, but not see, what's going on outside the stone, and you can cast spells while in the stone as long as they don't require line of effect beyond the stone.%r%rSignificant physical damage to the stone while you are inside it expels you and deals 10d6 damage to you. _Passwall_ expels you without dealing damage and ends meld into stone. You can Dismiss this spell.
-    base_level: 3
-    school: Transmutation
-    tradition:
-      - arcane
-      - primal
-    traits:
-      - earth
-      - transmutation
-  Mending:
-    actions: 10 minutes
-    cast:
-      - somatic
-      - verbal
-    effect: You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less.
-    heighten:
-      2: You can target a non-magical object of 1 Bulk or less.
-      3: You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less.
-    base_level: 1
-    range: touch
-    school: Transmutation
-    target: non-magical object of light Bulk or less
-    tradition:
-      - arcane
-      - divine
-      - occult
-      - primal
-    traits:
-      - transmutation
-  Message:
-    actions: 1
-    cast:
-      - verbal
-    effect: You mouth words quietly, but instead of coming out of your mouth, they're transferred directly to the ears of the target. While others can't hear your words any better than if you normally mouthed them, the target can hear your words as if they were standing next to you. The target can give a brief response as a reaction, or as a free action on their next turn if they wish, but they must be able to see you and be within range to do so. If they respond, their response is delivered directly to your ear, just like the original message.
-    heighten:
-      3: The spell's range increases to 500 feet.
-    base_level: cantrip
-    range: 120 feet
-    school: Illusion
-    target: 1 creature
-    tradition:
-      - arcane
-      - divine
-      - occult
-    traits:
-      - auditory
-      - cantrip
-      - illusion
-      - linguistic
-      - mental
-  Meteor Swarm:
-    actions: 2
-    area: 4 40-foot bursts
-    bloodline:
-      - diabolic
-    cast:
-      - somatic
-      - verbal
-    damage: 6d10 plus 14d6
-    damage_type: bludgeoning plus fire
-    effect: You call down four meteors that explode in a fiery blast. Each meteor deals 6d10 bludgeoning damage to any creatures in the 10-foot burst at the center of its area of effect before exploding, dealing 14d6 fire damage to any creatures in its 40-foot burst. The meteors' central 10-foot bursts can't overlap, and a creature attempts only one saving throw against the spell no matter how many overlapping explosions it's caught in, and they can take each type of damage once once. The saving throw applies to both the bludgeoning and the fire damage.
-    heighten:
-      - The bludgeoning damage increases by 1d10, and the fire damage increases by 2d6.
-    base_level: 9
-    range: 500 feet
-    save: basic  Reflex
-    school: Evocation
-    tradition:
-      - arcane
-      - primal
-    traits:
-      - evocation
-      - fire
-  Mind Blank:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: Powerful wards hide a creature from divination magic. The target gains a +4 status bonus to saves against mental effects. Mind blank attempts to counteract any detection, revelation, and scrying effects as if its spell level were 1 higher than its actual level. On a success, the divination effect functions normally except that it detects nothing about the target and its possessions. For instance, _detect magic_ would still detect other magic in the area, but not any magic on the target.
-    base_level: 8
-    range: 30 feet
-    school: Abjuration
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - abjuration
-      - uncommon
-  Mind Probe:
-    actions: 1 minute
-    cast:
-      - material
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: You cast your thoughts through a creature's mind, sifting for information. You access the target's memories and knowledge unless it fends you off with a Will save.%r**Success** The target is unaffected.%r**Failure** Each round of the spell's duration, you can Sustain the Spell to ask a different question and attempt to uncover the answer. For each question, the target can attempt a Deception check against your spell DC; if the target succeeds, you don't learn the answer, and on a critical success, the target gives you a false answer that you believe is truthful Once you've asked the target a given question, asking it again, even with a separate casting of mind probe, produces the same result.%r**Critical Failure** As failure, and the target takes a -4 circumstance penalty to Deception checks against your questions.
-    base_level: 5
-    range: 30 feet
-    save: Will
-    school: Divination
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - divination
-      - linguistic
-      - mental
-      - uncommon
-  Mind Reading:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 round
-    effect: With a cursory mental touch, you attempt to read the target's mind. It must attempt a Will save. The target then becomes temporarily immune to your mind reading for 1 hour.%r**Critical Success** The target perceives vague surface thoughts from you when you Cast the Spell.%r**Success** You find out whether the target's Intelligence modifier is higher than, equal to, or lower than yours.%r**Failure** You perceive vague surface thoughts from the target when you Cast the Spell, and you find out whether its Intelligence modifier is higher than, equal to, or lower than yours.%r**Critical Failure** As failure, and for the duration of the spell, you can Sustain the Spell to detect the target's surface thoughts again. The target doesn't receive any additional saves.
-    base_level: 3
-    range: 30 feet
-    save: Will
-    school: Divination
-    target: 1 creature
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - detection
-      - divination
-      - mental
-      - uncommon
-  Mindlink:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You link your mind to the target's mind and mentally impart to that target an amount of information in an instant that could otherwise be communicated in 10 minutes.
-    base_level: 1
-    range: touch
-    school: Divination
-    target: 1 willing creature
-    tradition:
-      - occult
-    traits:
-      - divination
-      - mental
-  Miracle:
-    actions: 3
-    cast:
-      - material
-      - somatic
-      - verbal
-    effect: "You request aid directly from your divine source. Your divine source always refuses a request out of line with its nature, and it might grant a different request (potentially more powerful or better fitting its nature) than the one you asked for. A casting of _miracle_ can do any of the following things:%r%r- Duplicate any spell from the divine list of 9th level or lower to which you have access.%r- Duplicate any spell from another spell list of 7th level or lower. It must be common or you must have access.%r- Produce any effect whose power level is in line with the above effects.%r- Reverse certain effects that refer to the _wish_ spell.%r%rThe GM might allow you to try using _miracle_ to produce greater effects than these, but doing so may be dangerous, or the spell may have only a partial effect."
-    base_level: 10
-    school: Divination
-    tradition:
-      - divine
-    traits:
-      - divination
-  Mirror Image:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1-2 on 1d6). With only one image, the chances are 1 in 2 (1-3 on 1d6).%r%rOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.
-    base_level: 2
-    school: Illusion
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - illusion
-      - visual
-  Misdirection:
-    actions: 1 minute
-    cast:
-      - somatic
-      - verbal
-    effect: You reshape the magic aura of one creature or object to resemble that of another. You designate one target as the primary target and the other as the secondary target. Effects that would detect auras on the primary target instead detect the same types of auras from the secondary target. A creature reading the aura can attempt to disbelieve the illusion. You can Dismiss the spell from up to a mile away.
-    base_level: 2
-    range: 30 feet
-    school: Illusion
-    target: 2 creatures or objects
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - illusion
-  Mislead:
-    actions: 2
     bloodline:
       - fey
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: You turn yourself invisible and create an illusory duplicate of yourself. When you Sustain the Spell, you can mentally dictate a course of action for your duplicate to follow that round. Your duplicate acts as though it had your full number of actions, though it can't actually affect anything in the environment. Both the duplicate and your invisibility persist for the spell's duration. Performing a hostile action doesn't end _mislead_'s invisibility, just like a 4th-level _invisibility_ spell. A creature that determines the duplicate is an illusion doesn't necessarily know you're invisible, and one that can see your invisible form doesn't necessarily know your duplicate is an illusion.%r%rIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your duplicate used that action. This doesn't fool anyone who's aware your duplicate is an illusion, nor does it work if the attack obviously couldn't have come from the duplicate. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the duplicate was positioned appropriately, but if you attacked with a sword and your duplicate was across the room from the target, your Deception check would automatically fail.
-    base_level: 6
-    school: Illusion
-    tradition:
-      - arcane
-      - occult
     traits:
-      - illusion
-  Modify Memory:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You alter the target's memories, either erasing a memory, enhancing a memory's clarity, altering a memory, or adding a false memory. The target can attempt a Will save to resist the spell.%r%r**Critical Success** The target is unaffected and realizes you tried to alter its memory.%r**Success** The target is unaffected but thinks your spell was something harmless instead of modify memory, unless it identifies the spell.%r**Failure** During the first 5 minutes of the spell's duration, you can Sustain the Spell to modify a memory once each round. When you do, you imagine up to 6 seconds of memory to modify, to a maximum of 5 continuous minutes of memory.%r%rAny memories you've altered remain changed as long as the spell is active. If the target moves out of range before the 5 minutes is up, you can't alter any further memories.
-    heighten:
-      6: You can cast the spell on a willing target to suppress all memory of a particular topic, detailed in 50 words or fewer. The effect is permanent, and it patches these omissions with an indistinct haze.
-    base_level: 4
-    range: 30 feet
-    save: Will
-    school: Divination
-    target: 1 creature
-    tradition:
-      - occult
-    traits:
-      - divination
+      - concentrate
+      - emotion
+      - manipulate
       - mental
-      - uncommon
-  Moment of Renewal:
-    actions: 2
-    bloodline:
-      - nymph
-    cast:
-      - somatic
-      - verbal
-    effect: The targets experience a day's worth of recovery in an instant. Any detrimental effects that would be gone after 24 hours end, though this doesn't shorten the duration of any active spells affecting the targets. The targets regain Hit Points and recover from conditions as if they had taken 24 hours of rest, but they do not make their daily preparations again or gain any benefits of rest other than healing. The targets are then temporarily immune for 1 day.
-    base_level: 8
-    range: touch
-    school: Necromancy
-    target: up to 6 creatures
     tradition:
-      - divine
-      - primal
-    traits:
-      - healing
-      - necromancy
-  Monstrosity Form:
+      - arcane
+      - occult
     actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: "You transform into the shape of a legendary monster, assuming a Huge battle form. You must have enough space to expand into or the spell is lost. When you cast this spell, choose phoenix, purple worm, or sea serpent. While in this form, you gain the beast trait (for phoenix) or the animal trait (for purple worm or sea serpent). You can Dismiss the spell.%r %rYou gain the following statistics and abilities regardless of which battle form you choose:%r %r- AC = 20 + your level. Ignore your armor's check penalty and Speed reduction.%r- 20 temporary Hit Points.%r- Darkvision.%r- One or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can Strike with. You're trained with them. Your attack modifier is +28, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.%r- Athletics modifier of +30, unless your own modifier is higher.%r %rYou also gain specific abilities based on the type of monster you choose:%r %r- **Phoenix** Speed 30 feet, fly Speed 90 feet; **Melee** [one-action] beak (reach 15 feet), Damage 2d6+12 piercing plus 2d4 fire and 2d4 persistent fire; Melee [one-action] talon (agile, reach 15 feet), **Damage** 2d8+12 slashing; **Shroud of Flame** (aura, evocation, fire, primal) 20 feet. You gain an aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage. A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.%r- **Purple Worm** Speed 40 feet, burrow Speed 30 feet, swim Speed 20 feet; **Melee** [one-action] jaws (reach 10 feet), **Damage** 2d12+20 piercing; **Melee** [one-action] stinger (agile, reach 10 feet), **Damage** 2d8+15 piercing plus 2d6 persistent poison; **Melee** [one-action] body (reach 10 feet) **Damage** 2d8+20 bludgeoning; **Inexorable** You automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns. You're also immune to being immobilized and ignore difficult terrain and greater difficult terrain.%r- **Sea Serpent** Speed 20 feet, swim Speed 90 feet; **Melee** [one-action] jaws (reach 15 feet), **Damage** 2d12+20 piercing; **Melee** [one-action] tail (reach 25 feet), **Damage** 2d8+20 bludgeoning; Spine Rake [two-actions] (move) You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes 4d8+10 slashing damage (basic Reflex against your spell DC)."
-    heighten:
-      9: You instead gain AC = 22 + your level, 25 temporary HP, attack modifier +31, increase damage by one damage die, and Athletics +33.
-    base_level: 8
-    school: Transmutation
+    range: 30 feet
+    target: 1 living creature
+    effect: "The target is overtaken with uncontrollable laughter. It must attempt a Will save.%r%r**Critical Success** The target is unaffected.%r**Success** The target is plagued with uncontrollable laughter. It can't use reactions.%r**Failure** The target is slowed 1 and can't use reactions.%r**Critical Failure** The target falls prone and can't use actions or reactions for 1 round. It then takes the effects of a failure."
+  Lay on Hands:
+    base_level: 1
+    traits:
+      - champion
+      - focus
+      - healing
+      - manipulate
+      - vitality
+      - uncommon
+    actions: 1
+    range: touch
+    target: 1 willing living creature or 1 undead creature
+    effect: Your hands become infused with powerful vitality, capable of healing a living creature or damaging an undead creature with a touch.
+    heighten: "**+1:** The amount of healing increases by 6, and the damage to an undead target increases by 1d6."
+  Leaden Steps:
+    base_level: 1
+    traits:
+      - concentrate
+      - manipulate
+      - metal
+      - morph
     tradition:
       - arcane
       - primal
-    traits:
-      - polymorph
-      - transmutation
-  Moonbeam:
     actions: 2
-    cast:
-      - somatic
-      - verbal
-    damage: 1d6
-    damage_type: fire
-    effect: You shine a ray of moonlight. Make a spell attack roll. The beam of light deals 1d6 fire damage. _Moonbeam_ deals silver damage for the purposes of weaknesses, resistances, and the like.%r**Critical Success** The beam deals double damage, and the target is dazzled for 1 minute.%r**Success** The beam deals full damage, and the target is dazzled for 1 round.
-    heighten:
-      - 2d6
-      - 3d6
-      - 4d6
-      - 5d6
-      - 6d6
-      - 7d6
-      - 8d6
-      - 9d6
-      - 10d6
-    base_level: 1
-    range: 120 feet
-    school: Evocation
-    target: 1 creature
-    traits:
-      - attack
-      - cleric
-      - evocation
-      - fire
-      - light
-      - uncommon
-  Moon Frenzy:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: A feral aspect overcomes the targets, making them tough and savage. Targets gain 5 temporary Hit Points, a +10-foot status bonus to their Speeds, and weakness 5 to silver. They also grow vicious fangs and claws, which are unarmed attacks. The fangs deal 2d8 piercing damage; the claws deal 2d6 slashing damage and have the agile and finesse traits. The targets use their highest weapon or unarmed attack proficiency with these attacks, and if they have weapon specialization or greater weapon specialization, they add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.%r%rThe targets can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. A creature can attempt to end the spell's effect on itself by using a single action, which has the rage trait, to attempt a Will save against your spell DC; on a success, it ends the spell's effect on itself.%r%rIf a target is in the light of a full moon, it also grows by one size if it were Medium or smaller. This increases the reach of a Medium or Tiny creature by 5 feet.
-    heighten:
-      6: The temporary Hit Points increase to 10, the silver weakness to 10, and the damage dealt by the attacks to three dice.
-      10: The temporary Hit Points increase to 20, the silver weakness to 20, and the damage dealt by the attacks to four dice.
-    base_level: 5
     range: 30 feet
-    school: Transmutation
-    target: up to 5 willing creatures
-    tradition:
-      - primal
+    target: 1 creature
+    duration: 1 minute
+    effect: "You partially transform a foe's feet into unwieldy slabs of metal, slowing their steps. The target attempts a Fortitude saving throw.%r%r**Critical Success** The target is unaffected.%r**Success** The target is encumbered and has weakness 2 to electricity until the end of your next turn. The spell can't be sustained.%r**Failure** The target is encumbered and has weakness 2 to electricity.%r**Critical Failure** The target is encumbered and has weakness 3 to electricity."
+    heighten: "**+1:** The weakness increases by 1."
+  Levitate:
+    base_level: 3
     traits:
-      - morph
-      - transmutation
-  Moonlight Bridge:
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - occult
     actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 10 minutes
-    effect: You summon a bridge of radiant, shimmering moonlight. The 10-foot-wide span must start at the ground on a point within range, and it extends as a horizontal plane, either in a straight line or at any angle up to 45 degrees upward or downward, for up to 120 feet. This bridge has AC 10, Hardness 30, and 60 Hit Points, and it's immune to critical hits and precision damage. You and your allies can cross the bridge normally, but other creatures simply pass through it if they try to do so. The bridge blocks physical, ethereal, and incorporeal attacks from crossing, whether from above or below. You can Dismiss the spell.
-    heighten:
-      - The length of the bridge increases by 20 feet, and its Hit Points increase by 20.
-      - The length of the bridge increases by 40 feet, and its Hit Points increase by 40.
-      - The length of the bridge increases by 60 feet, and its Hit Points increase by 60.
-      - The length of the bridge increases by 80 feet, and its Hit Points increase by 80.
+    range: touch
+    target: 1 unattended object or willing creature
+    duration: 5 minutes
+    effect: You defy gravity and levitate the target 5 feet off the ground. You can Sustain the spell to move the target up or down 10 feet. A creature floating in the air from levitate takes a –2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.
+  Life Boost:
+    base_level: 1
+    traits:
+      - focus
+      - healing
+      - hex
+      - manipulate
+      - vitality
+      - witch
+      - uncommon
+    actions: 1
+    range: 30 feet
+    target: 1 creature
+    duration: 4 rounds
+    effect: Life force from your patron floods into the target, ensuring they can continue doing your patron's will for just a little longer. The target gains fast healing 2.
+    heighten: "**+1:** The fast healing increases by 2."
+  Life Link:
+    base_level: 1
+    mystery:
+      - life
+    traits:
+      - focus
+      - healing
+      - manipulate
+      - oracle
+      - vitality
+      - uncommon
+    actions: 1
+    range: 30 feet
+    target: 1 creature other than you
+    duration: 1 minute
+    effect: "You forge a connection of life energy between you and your target, distributing harm between both of you. When you first Cast the Spell, the target recovers 1d4 Hit Points.%r%rThe first time each round that the target takes damage, reduce the damage it takes by 3 (to a minimum of 0 damage). You lose 3 Hit Points each time, or the total damage dealt, if less than 3; this damage ignores any immunities or resistances you have and can't otherwise be mitigated in any way.%r%rThe spell ends immediately if you fall unconscious. You can Dismiss the spell."
+    heighten: "**3rd:** You can target 2 creatures other than you. The initial healing increases to 3d4 Hit Points and the maximum damage reduced and Hit Points lost increases to 5.%r**6th:** You can target 3 creatures other than you. The initial healing increases to 6d4 Hit Points and the maximum damage reduced and Hit Points lost increases to 10.%r**9th:** You can target 4 creatures other than you. The initial healing increases to 9d4 Hit Points and the maximum damage reduced and Hit Points lost increases to 15."
+  Life-Giving Form:
     base_level: 6
     mystery:
-      - Cosmos
-    range: 30 feet
-    school: Conjuration
+      - life
     traits:
-      - conjuration
-      - cursebound
-      - light
-      - oracle
-      - uncommon
-  Mystic Beacon:
-    actions: 1
-    cast:
-      - somatic
-    effect: The next damaging or healing spell the target casts before the start of your next turn deals damage or restores Hit Points as if the spell were heightened 1 level higher than its actual level. The spell otherwise functions at its actual level. Once the target casts the spell, _mystic beacon_ ends.
-    base_level: 4
-    range: 30 feet
-    school: Evocation
-    target: 1 willing creature
-    traits:
-      - cleric
-      - evocation
-      - uncommon
-  Nature Incarnate:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: The primal power of the world flows through you. You transform into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. You must have enough space to expand into or the spell is lost. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.%r%rYou gain the following statistics and abilities regardless of which battle form you choose:%r%r- AC = 25 + your level. Ignore your armor's check penalty and Speed reduction.%r- 30 temporary Hit Points.%r- Darkvision.%r- One or more attacks specific to the battle form you choose, which are the only attacks you can Strike with. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.%r- Athletics modifier of +36, unless your own modifier is higher.%r%rYou also gain specific abilities based on the type of incarnation you choose:%r%r- **Green Man** Speed 40 feet, climb Speed 40 feet; **Melee** [one-action] vines (reach 30 feet, versatile P), **Damage** 6d8+12 bludgeoning; **Ranged** [one-action] thorns (range 100 feet), **Damage** 6d6+6 piercing; **Green Caress** (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).%r- **Kaiju** Speed 50 feet; resistance 5 to physical damage; **Melee** [one-action] jaws (reach 30 feet), **Damage** 6d10+10 piercing; **Melee** [one-action] claws (agile, reach 30 feet), **Damage** 6d8+8 slashing; **Melee** [one-action] foot (agile, reach 15 feet), **Damage** 6d6+10 bludgeoning; **Unstoppable** You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; **Trample** [three-actions] You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.
-    base_level: 10
-    school: Transmutation
-    tradition:
-      - primal
-    traits:
-      - polymorph
-      - transmutation
-  Nature's Bounty:
-    actions: 1
-    cast:
-      - somatic
-    effect: A palm-sized raw fruit or vegetable appears in your open hand. You choose the specific type of food. A creature can consume the food with an Interact action to regain 3d10+12 Hit Points and be nourished as if it had eaten a meal. If uneaten, the food rots and crumbles to dust after 1 minute.
-    heighten:
-      - The Hit Points restored increase by 6.
-      - The Hit Points restored increase by 12.
-      - The Hit Points restored increase by 18.
-      - The Hit Points restored increase by 24.
-      - The Hit Points restored increase by 30.
-      - The Hit Points restored increase by 36.
-    base_level: 4
-    school: Conjuration
-    traits:
-      - cleric
-      - conjuration
-      - plant
-      - positive
-      - uncommon
-  Nature's Enmity:
-    actions: 2
-    area: 500-foot burst
-    bloodline:
-      - hag
-    cast:
-      - somatic
-      - verbal
-    duration: 10 minutes
-    effect: Animals, plants and fungi in the area turn against the targets. Each target suffers from the following effects as long as it remains in the area.%r%r- Vegetation springs up from every surface, giving each target a -10-foot circumstance penalty to its Speed any time it's adjacent to the plants and fungi.%r- Aggressive animals attack unpredictably. At the start of its turn, each target rolls a DC 8 flat check. On a failure, it's attacked by swarming creatures that deal 2d10 slashing damage. The target attempts a basic Reflex save, and it is flat-footed for 1 round on any outcome other than a critical success.%r- The target loses any connection to nature or natural creatures. The target has to succeed at a DC 5 flat check when casting any primal spell or the spell fails. Furthermore, animal, fungus and plant creatures become hostile to it, even one with a strong bond to the target, such as an animal companion.%r%rThe GM might decide that you can't subject some creatures, such as an emissary of a nature deity, to the ire of nature.
-    base_level: 9
-    range: 120 feet
-    school: Enchantment
-    target: up to 5 creatures
-    tradition:
-      - primal
-    traits:
-      - enchantment
-  Needle of Vengeance:
-    actions: 1
-    cast:
-      - somatic
-    duration: 1 minute
-    damage: 2
-    damage_type: mental
-    effect: A long, jagged needle jabs into the target foe's psyche whenever it tries to attack a specifically forbidden creature. Name yourself or one of your allies. The target takes 2 mental damage any time it uses a hostile action against the named creature.
-    heighten:
-      - 4
-      - 6
-      - 8
-      - 10
-      - 12
-      - 14
-      - 16
-      - 18
-      - 20
-    base_level: 1
-    range: 30 feet
-    save: Will
-    school: Enchantment
-    target: 1 enemy
-    traits:
-      - enchantment
-      - hex
-      - mental
-      - uncommon
-      - witch
-  Negate Aroma:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    duration: 1 hour
-    effect: The target loses its odor, preventing creatures from passively noticing its presence via smell alone, even if the creatures have precise or imprecise scent. A creature attempting a Perception check to Seek with scent and other senses might notice the lack of natural scent. If the target has any abilities that result from its smell, such as an overpowering scent, those abilities are also negated.
-    heighten:
-      5: The range increases to 30 feet, and you can target up to 10 creatures.
-    base_level: 1
-    range: touch
-    school: Abjuration
-    target: 1 willing creature
-    tradition:
-      - arcane
-      - primal
-    traits:
-      - abjuration
-  Neutralize Poison:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You pour healing magic through the target in an attempt to cure one poison afflicting it. Attempt a counteract check against the poison.
-    base_level: 3
-    range: touch
-    school: Necromancy
-    target: 1 creature
-    tradition:
-      - divine
-      - primal
-    traits:
+      - concentrate
+      - focus
       - healing
-      - necromancy
-  Nightmare:
-    actions: 10 minutes
-    cast:
-      - material
-      - somatic
-      - verbal
-    duration: 1 day
-    effect: You send disturbing nightmares to your target. The next time the target falls asleep, it must attempt a Will save. If you know the target only by name and have never met them, the target gets a +4 circumstance bonus to the Will save.%r**Critical Success** The target suffers no adverse effects and is temporarily immune for 1 week.%r**Success** The target experiences the nightmares but suffers no adverse effects other than unpleasant memories.%r**Failure** The target experiences the nightmares and awakens fatigued.%r**Critical Failure** The target experiences the nightmares, awakens fatigued, and is drained 2 until it is no longer fatigued.
-    base_level: 4
-    range: planetary
-    save: Will
-    school: Illusion
-    target: 1 creature you know by name
-    tradition:
-      - arcane
-      - occult
-    traits:
-      - illusion
-      - mental
-  Nondetection:
-    actions: 10 minutes
-    cast:
-      - material
-      - somatic
-      - verbal
-    duration: 8 hours
-    effect: You erect protective wards that make the target difficult to detect via magic. Nondetection attempts to counteract all detection, revelation, and scrying divinations made against the target or the target's gear throughout the duration, counting cantrips as 1st-level spells for this purpose. Successfully counteracting a divination that targets an area or multiple targets negates the effects only for _nondetection_'s target.
-    base_level: 3
-    range: touch
-    school: Abjuration
-    target: 1 creature or object
-    tradition:
-      - arcane
-      - occult
-      - primal
-    traits:
-      - abjuration
+      - light
+      - manipulate
+      - oracle
+      - vitality
       - uncommon
-  Noxious Vapors:
     actions: 2
-    area: 10-foot emanation
-    cast:
-      - somatic
-      - verbal
-    duration: 1 round
-    damage: 1d6
-    damage_type: poison
-    effect: You emit a cloud of toxic smoke that temporarily obscures you from sight. Each creature except you in the area when you Cast the Spell takes 1d6 poison damage (basic Fortitude save). A creature that critically fails the saving throw also becomes sickened 1. All creatures in the area become concealed, and all creatures outside the smoke become concealed to creatures within it. This smoke can be dispersed by a strong wind.
-    heighten:
-      - 2d6
-      - 3d6
-      - 4d6
-      - 5d6
-      - 6d6
-      - 7d6
-      - 8d6
-      - 9d6
-      - 10d6
-    base_level: 1
-    save: basic Fortitude
-    school: Evocation
+    duration: 1 minute
+    effect: You transcend your physical form, becoming a beacon of healing energy. Your body exudes bright light like a torch. You gain resistance 5 to precision damage and weakness 5 to void damage, and your unarmed Strikes deal an extra 1d4 vitality damage. You can touch a living creature with an Interact action to restore 6d8 Hit Points to it, and when a creature touches you with an Interact action you can allow it to gain the same healing; either way, the creature becomes temporarily immune to life-giving form's healing for 1 minute. This is a vitality healing effect. You can't heal yourself with life-giving form. A creature harmed by vitality damage (such as an undead) that touches you or damages you with an unarmed attack or non-reach melee weapon instead takes 3d4 vitality damage, and it doesn't become temporarily immune. You can Dismiss this spell.
+    heighten: "**+1:** The Hit Points restored with an Interact action increases by 1d8, the vitality damage increases by 1, and the resistance and weakness increases by 1."
+  Lifewood Cage:
+    base_level: 7
+    traits:
+      - concentrate
+      - manipulate
+      - vitality
+      - wood
     tradition:
       - arcane
       - primal
-    traits:
-      - evocation
-      - poison
-  Nudge Fate:
-    actions: 1
-    cast:
-      - verbal
+    actions: 3
+    area: 20-foot cube
+    range: 30 feet; 1 cube 20 feet on each side
     duration: 1 minute
-    effect: You read slightly into the future and give fate a tiny push to achieve the result you desire. Once during the duration, when the target fails an attack roll, skill check, or saving throw and a +1 status bonus would turn a critical failure into a failure, or failure into a success, you grant the target a +1 status bonus to the check retroactively, changing the outcome appropriately. The spell then ends, and the target is temporarily immune for 1 minute. If you cast _nudge fate_ while a previous casting of this hex is still in effect, the previous effect ends.
-    base_level: cantrip
-    range: 30 feet
-    save: Will
-    school: Divination
-    target: 1 creature
+    effect: "You create an immobile, invisible prison of hardened wood suffused with vital energy from the Forge of Creation. The cage is a 20-foot cube made of wooden branches, each a half inch thick and a half inch apart. Each creature in the area where you create the cage must attempt a Reflex save. If such a creature fails, it becomes trapped inside the cage. If it succeeds, it's pushed outside the cage into a space of its choice. If a creature in the area is too big to fit inside the prison, the spell automatically fails.%r%rThe cage has AC 10, Hardness 20, and 40 Hit Points, and it's immune to critical hits and precision damage, though it has weakness 5 to void damage. A creature capable of passing through the space between the bars (typically a Tiny creature) can leave; all others are confined within. The vitality energy suffusing the wood prevents incorporeal undead creatures from passing through the beams. Attacks with a weapon too large to fit between the bars can't pass through the cage, and the bars provide standard cover even against attacks that can pass through the gaps. Spells and most area effects (such as dragon breath) can pass through the cage uninhibited."
+  Light:
+    base_level: 1
+    bloodline:
+      - angelic
+    mystery:
+      - cosmos
     traits:
       - cantrip
-      - divination
-      - hex
-      - uncommon
-      - witch
-  Nymph's Token:
-    actions: 2
-    bloodline:
-      - nymph
-    cast:
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: You grant an ally a token of favor. You create a token, such as a lock of your hair or a flower, that persists for the spell's duration; as part of Casting the Spell, you can Interact to pass the token to an ally within your reach. As long as the ally has the token on their person, they gain a +1 status bonus to Performance checks and Will saves. You can Dismiss the spell as a free action.
-    heighten:
-      4: As long as the ally has the token on their person, you can cast spells that have a range of touch on them at a range of 30 feet.
-    base_level: 1
-    school: Enchantment
-    traits:
-      - enchantment
-      - sorcerer
-      - uncommon
-  Oathkeeper's Insignia:
-    base_level: 1
-    school: Conjuration
-    traits:
-      - cleric
-      - conjuration
-    cast:
-      - verbal
-    actions: reaction
-    trigger: You make a promise or deal.
-    duration: 1 hour
-    effect: A magical indicator assures a creature that you've upheld your end of a bargain. When you Cast the Spell, you create a bracelet, flower, or other such trinket. If, while the spell persists, you complete the terms of the promise or deal you made, the trinket fades away with a pleasant chime; if you violate the terms instead, the trinket breaks with a dissonant crash.
-    heighten:
-      3: The duration becomes 1 day.
-      5: The duration becomes 1 week.
-      7: The duration becomes 1 month.
-      9: The duration becomes 1 year.
-  Object Memory:
-    base_level: 1
-    school: Divination
-    traits:
-      - cleric
-      - divination
-    cast:
-      - somatic
-      - verbal
-    actions: 2
-    target: 1 weapon or tool
-    duration: 1 minute
-    effect: By touching an object, you draw forth the experience of those who created and used it. If you touch a weapon, your proficiency rank with that weapon temporarily increases to trained (if it is not already higher). If you touch a tool, your proficiency rank with the next skill check you attempt with that tool (such as a Crafting check with a blacksmith's hammer) within the spell's duration temporarily increases to trained (if it is not already higher). This spell has no benefit for activities that take longer than a minute to complete.
-    heighten:
-      6: Your proficiency rank increases to expert instead of trained.
-  Object Reading:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: You place a hand on an object to learn a piece of information about an emotional event that occurred involving the object within the past week, determined by the GM. If you cast object reading on the same item multiple times, you can either concentrate on a single event to gain additional pieces of information about that event, or gain a piece of information about another emotional event in the applicable time frame.
-    heighten:
-      2: You can learn about an event that occurred within the last month.
-      4: You can learn about an event that occurred within the last year.
-      6: You can learn about an event that occurred within the last decade.
-      8: You can learn about an event that occurred within the last century.
-      9: You can learn about an event that occurred within the entirety of the object’s history.
-    base_level: 1
-    range: touch
-    school: Divination
-    target: 1 object
+      - concentrate
+      - light
+      - manipulate
     tradition:
+      - arcane
+      - divine
       - occult
-    traits:
-      - divination
-  Obscuring Mist:
-    actions: 3
-    area: 20-foot burst
-    cast:
-      - material
-      - somatic
-      - verbal
-    duration: 1 minute
-    effect: You call forth a cloud of mist. All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it. You can Dismiss the cloud.
-    base_level: 2
+      - primal
+    actions: 2
     range: 120 feet
-    school: Conjuration
+    duration: until your next daily preparations
+    effect: "You create an orb of light that sheds bright light in a 20-foot radius (and dim light for the next 20 feet) in a color you choose. If you create the light in the same space as a willing creature, you can attach the light to the creature, causing it to float near that creature as it moves. You can Sustain the spell to move the light up to 60 feet; you can attach or detach it from a creature as part of this movement.%r%rYou can Dismiss the spell. If you Cast the Spell while you already have four *light* spells active, you must choose one of the existing spells to end."
+    heighten: "**4th:** The orb sheds light in a 60-foot radius (and dim light for the next 60 feet)."
+  Lightning Bolt:
+    base_level: 3
+    traits:
+      - concentrate
+      - electricity
+      - manipulate
     tradition:
       - arcane
       - primal
-    traits:
-      - conjuration
-      - water
-  Ode to Ouroboros:
-    actions: reaction
-    cast:
-      - verbal
-    effect: Your ode temporarily staves off death. The target's dying condition remains 1 below the value at which it dies. This doesn't help prevent death from effects that kill the target without increasing its dying condition, such as _disintegrate_ and death effects.
+    actions: 2
+    area: 120-foot line
+    effect: A bolt of lightning strikes outward from your hand, dealing 4d12 electricity damage.
+    heighten: "**+1:** The damage increases by 1d12."
+  Lightning Storm:
     base_level: 5
-    range: 60 feet
-    school: Necromancy
-    target: the triggering creature
+    traits:
+      - concentrate
+      - electricity
+      - manipulate
+    tradition:
+      - primal
+    actions: 3
+    area: 20-foot burst
+    range: 120 feet
+    duration: 1 minute
+    effect: You create a black, rumbling storm cloud and call down one lightning bolt within the spell's area. The bolt is a vertical line from the top of the storm cloud to the ground below, dealing 4d12 electricity damage to creatures in the line (basic Reflex save). On subsequent rounds, the first time you Sustain the Spell each round, you can call another lightning bolt within the area. If you Cast this Spell outdoors, you can create two non-overlapping clouds instead of one, though you can still call down only one bolt per turn.
+    heighten: "**+2:** The damage of each bolt increases by 1d12."
+  Liminal Doorway:
+    base_level: 4
+    traits:
+      - concentrate
+      - extradimensional
+      - manipulate
+      - uncommon
+    tradition:
+      - arcane
+      - occult
+    actions: 10 minutes
+    range: touch
+    duration: 8 hours
+    effect: "You draw a chalk doorway on an unbroken surface, which opens into an extradimensional space. Any creature treating the drawing as an actual door can Interact to touch the doorknob and pass through. The warped, chalk-drawn room beyond the door is 20 feet in width, depth, and height. The space is unadorned and empty, with chalk lines indicating the corners of the walls.%r%rIf the drawing is scrubbed away, the underlying surface is broken, or a creature attempts to enter the space that would put it over capacity, the space begins to collapse. The space ejects one creature at random each round, depositing it on the nearest open ground, until all creatures are returned outside."
+  Lingering Composition:
+    base_level: 1
+    traits:
+      - bard
+      - concentrate
+      - focus
+      - spellshape
+      - uncommon
+    actions: free
+    effect: "You add a flourish to your composition to extend its benefits. If your next action is to cast a cantrip composition with a duration of 1 round, attempt a Performance check. The DC is usually a standard-difficulty DC of a level equal to the highest-level target of your composition, but the GM can assign a different DC based on the circumstances. The effect depends on the result of your check.%r%r**Critical Success** The composition lasts 4 rounds.%r**Success** The composition lasts 3 rounds.%r**Failure** The composition lasts 1 round, but you don't spend the Focus Point for casting this spell."
+  Live Wire:
+    base_level: 1
+    traits:
+      - attack
+      - cantrip
+      - concentrate
+      - electricity
+      - manipulate
+      - metal
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    range: 30 feet
+    target: 1 creature
+    effect: "You conjure up a length of sharp copper filament humming with electrical current that strikes out at your foe. The wire deals 1d4 slashing damage and 1d4 electricity damage, depending on your spell attack roll against the target's AC.%r%r**Critical Success** The target takes double damage and 1d4 persistent electricity damage.%r**Success** The target takes full damage.%r**Failure** The target takes the electricity damage, but not the slashing damage.%r**Critical Failure** The target is unaffected."
+    heighten: "**+2:** The slashing damage, initial electricity damage, and persistent electricity damage on a critical hit each increase by 1d4."
+  Localized Quake:
+    base_level: 4
+    traits:
+      - cleric
+      - concentrate
+      - earth
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    effect: You shake the earth, toppling nearby creatures. Choose whether the spell's area is a 15-foot emanation or a 15-foot cone when you cast it. Each creature in the area standing on solid ground takes 4d6 bludgeoning damage with a basic Reflex saving throw. A creature that fails its save also falls prone.
+    heighten: "**+1:** Increase the damage by 2d6."
+  Locate:
+    base_level: 3
+    traits:
+      - concentrate
+      - detection
+      - manipulate
+      - uncommon
+    tradition:
+      - arcane
+      - divine
+      - occult
+    actions: 10 minutes
+    range: 500 feet
+    target: 1 specific object or type of object
+    effect: You learn the direction to the target (if you picked a specific object, such as "my mother's sword") or the nearest target (if you picked a type of object, such as "swords"). If the target is a specific object, you must have observed it directly with your own senses. If it's a type of object, you still need to have an accurate mental image of the type of object. If there's lead or running water between you and the target, this spell can't locate the object. This means you might find a type of object farther away if the nearest one is behind lead or running water.
+    heighten: "**5th:** You can target a specific creature or ancestry instead of an object, but you must have met or seen up close the creature or ancestry you want to target."
+  Lock:
+    base_level: 1
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - divine
+      - occult
+    actions: 2
+    range: touch
+    target: 1 lock, or a door or container with a latch
+    duration: until your next daily preparations
+    effect: The target's latch mechanism clinks shut, held fast by unseen magical wards. When you magically lock a target, you set an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door. If the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.
+    heighten: "**2nd:** The duration is unlimited, but you must expend 6 gp worth of precious metals as an additional cost."
+  Loremaster's Etude:
+    base_level: 1
     traits:
       - bard
       - composition
-      - necromancy
+      - focus
+      - fortune
+      - manipulate
       - uncommon
-    trigger: a creature's dying value would reach the value at which they would die.
-  Outcast's Curse:
-    actions: 2
-    bloodline:
-      - hag
-    cast:
-      - somatic
-      - verbal
-    effect: You afflict the target with a curse that makes its presence abrasive and off -putting. The target must attempt a Will save.%r**Critical Success** The target is unaffected.%r**Success** For 10 minutes, the target must roll twice and use the worse result whenever attempting a Deception, Diplomacy, Intimidation, or Performance check, and creatures they encounter have an initial attitude toward them of one step worse (for instance, unfriendly instead of indifferent).%r**Failure** As success, but the effect is permanent.%r**Critical Failure** As failure, and creatures that the target encounters have an initial attitude toward them of two steps worse.
+    actions: free
+    range: 30 feet
+    target: you or the triggering ally
+    trigger: You or an ally within range attempts a skill check to Recall Knowledge
+    effect: "You call upon your muse's deep mysteries, granting the target a greater ability to think and recall information. Roll the triggering Recall Knowledge skill check twice and use the higher result."
+  Lucky Break:
     base_level: 4
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - fortune
+      - uncommon
+    actions: reaction
+    trigger: You fail, but don't critically fail, a saving throw
+    effect: "Reroll the saving throw and use the better result. You then become temporarily immune for 10 minutes."
+  Mad Monkeys:
+    base_level: 3
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - primal
+    actions: 2
+    area: 5-foot burst
+    range: 30 feet
+    duration: 1 minute
+    effect: "Magical monkey spirits fill the area as they pile and climb on top of one another. Because the monkeys are magical spirits, they can't be attacked or hurt. Casting *calm* or a similar effect over the monkeys makes them docile, causing them to cease making mischief for the duration of *mad monkeys*.%r%rChoose the kind of mischief your monkeys make when you Cast the Spell. They produce the effect listed for that mischief when you Cast the Spell and the first time each round when you Sustain the Spell. The first time each round when you Sustain the Spell, you can move the area of the monkeys by 5 feet.%r%r**Flagrant Burglary** The monkeys try to Steal any one item from one creature in the area. Use your spell DC - 10 as the monkeys' Thievery modifier. Their attempt relies more on distraction than subtlety, so the victim knows what item the monkeys were trying to take and whether it was taken. Getting a stolen item from the monkeys-even for the caster-requires Stealing it from them or Disarming them, using your spell DC. When the spell ends, any stolen items fall to the ground in any square of the spell's area you choose.%r%r**Raucous Din** The monkeys screech loudly, potentially deafening creatures in the spell's area. Each creature in the spell's area must attempt a Fortitude save.%r%r**Critical Success** The creature is unaffected and is temporarily immune for 10 minutes.%r**Success** The creature is unaffected.%r**Failure** The creature is deafened for 1 round.%r**Critical Failure** The creature is Deafened for 1 minute.%r%r**Tumultuous Gymnastics** The monkeys jump and climb all over creatures in the spell's area, interfering with complex movements. Each creature in the spell's area must attempt a Reflex save.%r%r**Critical Success** The creature is unaffected and is temporarily immune for 10 minutes.%r**Success** The creature is unaffected.%r**Failure** For 1 round, the creature must succeed at a DC 5 flat check whenever it attempts a manipulate action. If it fails this check, the creature loses that action.%r**Critical Failure** As failure, but the monkeys cling to the creature tenaciously, and the effect lasts until the spell ends, even if the creature leaves the spell's area."
+  Magic Hide:
+    base_level: 1
+    traits:
+      - focus
+      - manipulate
+      - ranger
+      - uncommon
+    actions: 1
+    range: 30 feet
+    target: your animal companion
+    duration: 1 minute
+    effect: Your animal companion grows a thicker hide, matted fur, or a harder shell, granting it a +1 status bonus to AC.
+  Magic Passage:
+    base_level: 5
+    traits:
+      - concentrate
+      - earth
+      - manipulate
+      - uncommon
+    tradition:
+      - arcane
+      - primal
+    actions: 2
     range: touch
-    save: Will
-    school: Enchantment
+    duration: 1 hour
+    effect: You create a visible tunnel through the wall in the chosen area, replacing the area with empty space. If the wall is thicker than 10 feet, the tunnel ends 10 feet in. Even a small layer of metal in the wall prevents this spell from functioning. This spell doesn't reduce the integrity of the structure. When the spell ends, anyone inside the tunnel is shunted to the nearest exit.
+    heighten: "**7th:** The tunnel can be up to 20 feet deep. The areas of the wall that contain your tunnel's entrance appear completely normal (unless viewed with truesight or a similar effect), despite the tunnel's existence. The tunnel's entrance functions as a solid wall, but you can specify a password or a trigger, allowing creatures to enter freely."
+  Magic's Vessel:
+    base_level: 1
+    traits:
+      - cleric
+      - focus
+      - manipulate
+      - uncommon
+    actions: 1
+    range: touch
     target: 1 creature
+    duration: 1 minute
+    effect: A creature becomes a divine receptacle for pure magical energy. The target gains a +1 status bonus to saving throws. Each time you Cast a Spell from your spell slots, you automatically Sustain this spell and grant its target resistance to damage from spells equal to the spell's rank, until the start of your next turn.
+  Malicious Shadow:
+    base_level: 3
+    traits:
+      - attack
+      - concentrate
+      - focus
+      - hex
+      - manipulate
+      - shadow
+      - witch
+      - uncommon
+    actions: 2
+    range: 30 feet
+    target: 1 creature
+    duration: 1 minute
+    effect: "Your patron warps the target's shadow into a deadly form, such as strangling hands, a dangerous weapon, harrying runes, or the like. The shadow moves along with the target, always remaining within reach. When you Cast the Spell, and each time you Sustain it, the shadow Strikes the target. The shadow's Strikes are melee spell attacks that deal 2d10 damage. You choose the type of damage (bludgeoning, piercing, or slashing) when you Cast the Spell. The shadow uses and contributes to your multiple attack penalty. The shadow doesn't take up space, grant flanking, or have any other attributes a creature would. The shadow can't make any attacks other than its Strike.%r%rThe shadow vanishes if the target ceases to cast a shadow (usually if it moves into complete darkness or light). If another effect is controlling the target's shadow when you cast *malicious shadow*, you can attempt to counteract that effect to temporarily take control of the shadow for *malicious shadow*'s duration."
+    heighten: "**+2:** The Strike damage increases by 1d10."
+  Malignant Sustenance:
+    base_level: 4
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - void
+      - uncommon
+    actions: 2
+    range: touch
+    target: 1 willing undead creature
+    duration: 1 minute
+    effect: You embed a seed of void energy in an undead creature, restoring its unnatural vigor. The target gains fast healing 7.
+    heighten: "**+1:** The fast healing increases by 2."
+  Manifestation:
+    base_level: 10
+    traits:
+      - concentrate
+      - manipulate
     tradition:
       - arcane
       - divine
       - occult
+      - primal
+    actions: 3
+    effect: You spin secrets from the fundaments of magic, shaping them into a power with nearly unlimited potential. You duplicate a spell of 9th rank or lower of the tradition from which you cast *manifestation*, or a spell of 7th rank or lower from any tradition. Though you can normally choose only spells that are common or to which you have access, the GM might allow broader options.
+  Mariner's Curse:
+    base_level: 5
+    bloodline:
+      - hag
     traits:
+      - concentrate
       - curse
-      - enchantment
-      - mental
-      - misfortune
-  Overflowing Sorrow:
-    base_level: 4
-    school: Enchantment
+      - manipulate
+    tradition:
+      - arcane
+      - occult
+      - primal
+    actions: 2
+    range: touch
+    target: 1 creature
+    effect: "You afflict the target with the curse of the roiling, unforgiving sea. The target must attempt a Will save.%r%r**Critical Success** The target is unaffected.%r**Success** The target becomes sickened 1. Reducing its sickened condition to 0 ends the curse.%r**Failure** The target becomes sickened 1 and can't reduce its sickened condition below 1 while the curse remains. The curse can be lifted by 4th-rank *cleanse affliction* or similar magic. Whenever the target is sickened and on the water at least a mile from shore, it is also slowed 1.%r**Critical Failure** As failure, but the target becomes sickened 2."
+  Marvelous Mount:
+    base_level: 2
     traits:
-      - cleric
-      - emotion
-      - enchantment
-      - incapacitation
-      - mental
-    cast:
-      - somatic
-      - verbal
-    actions: 2
-    area: 15 foot emanation
-    duration: sustained up to 1 minute
-    save: Will
-    effect: Sadness flows out of you into nearby creatures, blotting out any other thoughts they had. The first time a creature begins its turn in the area or enters the area, it must attempt a Will save. If it later leaves and reenters the area, it uses the same effect as before.%r**Critical Success** The creature is unaffected.%r**Success** The creature takes a -1 status penalty to skill checks and Perception checks as long as it remains in the area.%r**Failure** While the creature is in the area, any emotion effects of lower counteract level than overflowing sorrow are suppressed, and whenever the creature attempts to use an emotion action or cast an emotion spell, it must succeed at a DC 11 flat check or the action or spell is disrupted.%r**Critical Failure** As failure, but the creature cannot use emotion actions or spells.
-    heighten:
-      6: When you Cast the Spell, you can choose to increase the area by 5 feet.
-      8: When you Cast the Spell, you can choose to increase the area by 10 feet.
-      10: When you Cast the Spell, you can choose to increase the area by 15 feet.
-  Overstuff:
-    actions: 2
-    cast:
-      - somatic
-      - verbal
-    effect: Huge amounts of food and drink fill the target. It receives a full meal's worth of nourishment and must attempt a Fortitude save.%r%r**Critical Success** The target is unaffected.%r**Success** The target is sickened 1, but if it spends an action to end the condition, it succeeds automatically.%r**Failure** The target is sickened 1.%r**Critical Failure** The target is sickened 2.%r%rA target sickened by this spell takes a -10-foot status penalty to its Speed until it's no longer sickened.
-    base_level: 1
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - divine
+      - occult
+      - primal
+    actions: 10 minutes
     range: 30 feet
-    save: Fortitude
-    school: Transmutation
-    target: 1 living creature
-    traits:
-      - cleric
-      - transmutation
-      - uncommon
-  Overwhelming Presence:
-    actions: 2
-    area: 40-foot burst
+    target: one creature
+    duration: 8 hours
+    effect: You conjure a Large fantastical creature to serve as a mount for the target. The mount is the target's minion, has a Speed of 40 feet, and can bear the target with any carried possessions. It can't carry any other creature. The mount uses the target's AC and saves, but it's destroyed if it takes more than 10 damage at one time, ending the spell.
+    heighten: "**3rd:** The mount can walk on water, but it must end its turn on solid ground or sink.%r**4th:** The mount has a Speed of 60 feet and can walk on water.%r**5th:** The mount has a Speed of 60 feet and can walk on water. It also has a fly Speed of 60 feet, but it must end its turn on a surface or fall.%r**6th:** The mount has a Speed and fly Speed of 80 feet."
+  Mask of Terror:
+    base_level: 7
     bloodline:
       - draconic
-      - nymph
-    cast:
-      - somatic
-      - verbal
-    effect: You surround yourself with supernatural splendor, appearing to be a god or similarly majestic being. You choose the aspects of your new majestic appearance. This causes the targets to pay tribute to you by bowing or using some other action in keeping with your appearance. The number of times a target must do this depends on the result of their Will save.%r%r**Critical Success** The target is unaffected.%r**Success** The target must pay tribute twice.%r**Failure** The target must pay tribute six times.%r**Critical Failure** As failure, and the target must spend all its actions paying tribute if possible.%rPaying tribute is a manipulate action or move action, as chosen by the creature paying tribute. A creature under this effect must pay tribute to you at least once on each of its turns if possible. While affected by this spell, a creature is fascinated by you and can't use hostile actions against you. The target is then temporarily immune for 1 minute.
+    traits:
+      - concentrate
+      - emotion
+      - fear
+      - illusion
+      - manipulate
+      - mental
+      - visual
+    tradition:
+      - arcane
+      - occult
+      - primal
+    actions: 2
+    range: 30 feet
+    target: 1 creature
+    duration: 1 minute
+    effect: "The target appears to be a gruesome and terrifying creature. The effect is unique to each observer, so a human viewing the target might see a demon with bloody fangs, but a demon observing the target might see a glowing angelic visage.%r%rWhen any creature attempts a hostile action against the target, the creature must attempt a Will save. It is then temporarily immune until the end of its next turn.%r%r**Success** The creature is unaffected.%r**Failure** The creature becomes frightened 2 before using its action.%r**Critical Failure** The creature becomes frightened 2, and its action fails and is wasted."
+    heighten: "**8th:** You can target up to 5 creatures. If a creature uses a hostile action or reaction that affects multiple targets simultaneously, it needs to attempt only one save against *mask of terror*."
+  Massacre:
     base_level: 9
-    save: Will
-    school: Enchantment
-    target: any number of creatures
+    traits:
+      - concentrate
+      - death
+      - manipulate
+      - void
+    tradition:
+      - arcane
+      - divine
+      - primal
+    actions: 2
+    area: 60-foot line
+    effect: "You unleash a wave of death to snuff out the life force of those in its path. Each living creature of 17th level or lower in the line must attempt a Fortitude save. If the damage from *massacre* reduces a creature to 0 Hit Points, that creature dies instantly. If *massacre* doesn't kill even a single creature, the void energy hungrily turns backward toward you, dealing an additional 30 void damage to every living creature in the line (even those above 17th level) and 30 void damage to you.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes 9d6 void damage.%r**Failure** The creature takes 100 void damage.%r**Critical Failure** The creature dies."
+    heighten: "**10th:** The spell can affect living creatures up to 19th level. Increase the damage to 10d6 on a success, and to 115 on a failure."
+  Medusa's Wrath:
+    base_level: 8
+    traits:
+      - concentrate
+      - focus
+      - manipulate
+      - monk
+      - uncommon
+    actions: 2
+    effect: "You make an attack filled with a medusa's petrifying power. Make an unarmed Strike with the following additional effects.%r%r**Critical Success** The target is slowed 2 and must attempt a Fortitude save at the end of each of its turns; this ongoing save has the incapacitation trait. On a failed save, the slowed condition increases by 1 (2 on a critical failure). A successful save reduces the slowed condition by 1. When a creature is unable to act due to the slowed condition from medusa's wrath, it is petrified permanently. The spell ends if the creature is petrified or the slowed condition is removed.%r**Success** As critical success, but the target is initially slowed 1"
+  Mending:
+    base_level: 1
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - divine
+      - occult
+      - primal
+    actions: 10 minutes
+    range: touch
+    target: non-magical object of light Bulk or less
+    effect: You repair the target item. You restore 5 Hit Points per spell rank to the target, potentially removing the broken condition if this repairs it past the item's Broken Threshold. You can't replace lost pieces or repair an object that's been completely destroyed.
+    heighten: "**2nd:** You can target a non-magical object of 1 Bulk or less.%r**3rd:** You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less."
+  Message:
+    base_level: 1
+    traits:
+      - auditory
+      - cantrip
+      - concentrate
+      - illusion
+      - linguistic
+      - mental
+      - subtle
+    tradition:
+      - arcane
+      - divine
+      - occult
+    actions: 1
+    range: 120 feet
+    target: 1 creature
+    duration: see below
+    effect: You mouth words quietly, but instead of coming out of your mouth, they're transferred directly to the ears of the target. While others can't hear your words any better than if you normally mouthed them, the target can hear your words as if they were standing next to you. The target can give a brief response as a reaction, or as a free action on their next turn if they wish, but they must be able to see you and be within range to do so. If they respond, their response is delivered directly to your ear, just like the original message.
+    heighten: "**3rd:** The spell's range increases to 500 feet."
+  Metamorphosis:
+    base_level: 9
+    bloodline:
+      - fey
+    traits:
+      - concentrate
+      - manipulate
+      - polymorph
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    duration: 1 minute
+    effect: "Harnessing your mastery of transformative magic, you hide forms within forms. You transform yourself into any form you could choose with a polymorph spell in your spell repertoire or that you could prepare of 8th-rank or lower (including any 8th-rank or lower heightened versions of spells you know). You gain 40 temporary Hit Points rather than the amount normally granted by the form.%r%rYou can Sustain the spell to enter a new form you haven't used during this *metamorphosis*. This replenishes your temporary Hit Points from this spell."
+  Migration:
+    base_level: 8
+    traits:
+      - concentrate
+      - manipulate
+      - polymorph
+    tradition:
+      - primal
+    actions: 10 minutes
+    range: 20 feet
+    target: you and up to 5 willing creatures
+    duration: 8 hours
+    effect: "The targets naturally take on animal forms most fitting their movement and environment. Each target gains a land, burrow, climb, fly, and swim Speed of 40 feet, and can transform into a Tiny or Small animal most appropriate for a given movement and environment. It also gains immunity to mild, severe, and extreme cold and heat, along with any other immunities common to the local wildlife, at the GM's discretion. In exploration mode, a target can move much faster, at a travel Speed of 20 miles per hour.%r%rA target can't Strike, cast spells, or use most manipulate actions in animal form, but it can resume its normal shape by Sustaining the spell. It can Sustain the spell again to resume animal form."
+  Mind Probe:
+    base_level: 5
+    traits:
+      - concentrate
+      - linguistic
+      - manipulate
+      - mental
+      - uncommon
+    tradition:
+      - arcane
+      - occult
+    actions: 1 minute
+    range: 30 feet
+    target: 1 creature
+    duration: 1 minute
+    effect: "You cast your thoughts through a creature's mind, sifting for information. You access the target's memories and knowledge unless it fends you off with a Will save.%r%r**Success** The target is unaffected.%r**Failure** Each round of the spell's duration, you can Sustain the spell to ask a different question and attempt to uncover the answer. For each question, the target can attempt a Deception check against your spell DC; if the target succeeds, you don't learn the answer, and on a critical success, the target gives you a false answer that you believe is truthful Once you've asked the target a given question, asking it again, even with a separate casting of mind probe, produces the same result.%r**Critical Failure** As failure, and the target takes a –4 circumstance penalty to Deception checks against your questions."
+  Mind Reading:
+    base_level: 3
+    traits:
+      - concentrate
+      - detection
+      - manipulate
+      - mental
+      - uncommon
+    tradition:
+      - arcane
+      - occult
+    actions: 2
+    range: 30 feet
+    target: 1 creature
+    duration: 1 round or sustained up to 1 minute
+    effect: "With a cursory mental touch, you attempt to read the target's mind. It must attempt a Will save. The target then becomes temporarily immune to your mind reading for 1 hour.%r%r**Critical Success** The target perceives vague surface thoughts from you when you Cast the Spell.%r**Success** You find out whether the target's Intelligence modifier is higher than, equal to, or lower than yours.%r**Failure** You perceive vague surface thoughts from the target when you Cast the Spell, and you find out whether its Intelligence is higher than, equal to, or lower than yours.%r**Critical Failure** As failure, and for the duration of the spell, you can Sustain the spell to detect the target's surface thoughts again. The target doesn't receive any additional saves."
+  Mindlink:
+    base_level: 1
+    mystery:
+      - lore
+    traits:
+      - concentrate
+      - manipulate
+      - mental
+    tradition:
+      - arcane
+      - occult
+    actions: 2
+    range: touch
+    target: 1 willing creature
+    effect: You link your mind to the target's mind and mentally impart to that target an amount of information in an instant that could otherwise be communicated in 10 minutes.
+  Mirage:
+    base_level: 4
+    traits:
+      - concentrate
+      - illusion
+      - manipulate
+      - uncommon
+    tradition:
+      - arcane
+      - occult
+      - primal
+    actions: 10 minutes
+    area: 50-foot burst
+    range: 500 feet
+    duration: until your next daily preparations
+    effect: "You create an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain. This doesn't disguise any structures or creatures in the area.%r%rAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion."
+    heighten: "**5th:** Your image can also disguise structures or create illusory structures (but still doesn't disguise creatures)."
+  Mislead:
+    base_level: 6
+    bloodline:
+      - fey
+    traits:
+      - concentrate
+      - illusion
+      - manipulate
+    tradition:
+      - arcane
+      - occult
+    actions: 2
+    duration: 1 minute
+    effect: "You turn yourself invisible and create an illusory duplicate of yourself. When you Sustain the spell, you can mentally dictate a course of action for your duplicate to follow that round. Your duplicate acts as though it had your full number of actions, though it can't actually affect anything in the environment. Both the duplicate and your invisibility persist for the spell's duration. Performing a hostile action doesn't end *mislead*'s invisibility, just like a 4th-rank *invisibility* spell. A creature that determines the duplicate is an illusion doesn't necessarily know you're invisible, and one that can see your invisible form doesn't necessarily know your duplicate is an illusion.%r%rIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your duplicate used that action. This doesn't fool anyone who's aware your duplicate is an illusion, nor does it work if the attack obviously couldn't have come from the duplicate. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the duplicate was positioned appropriately, but if you attacked with a sword and your duplicate was across the room from the target, your Deception check would automatically fail."
+  Mist:
+    base_level: 2
+    traits:
+      - concentrate
+      - manipulate
+      - water
+    tradition:
+      - arcane
+      - primal
+    actions: 3
+    area: 20-foot burst
+    range: 120 feet
+    duration: 1 minute
+    effect: You call forth a cloud of mist. All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it. You can Dismiss the cloud.
+  Moment of Renewal:
+    base_level: 8
+    bloodline:
+      - angelic
+    traits:
+      - concentrate
+      - healing
+      - manipulate
+    tradition:
+      - divine
+      - primal
+    actions: 2
+    range: touch
+    target: up to 6 creatures
+    effect: The targets experience a day's worth of recovery in an instant. Any detrimental effects that would be gone after 24 hours end, though this doesn't shorten the duration of any active spells affecting the targets. The targets regain Hit Points and recover from conditions as if they had taken 24 hours of rest, but they do not make their daily preparations again or gain any benefits of rest other than healing. The targets are then temporarily immune for 1 day.
+  Monstrosity Form:
+    base_level: 8
+    traits:
+      - concentrate
+      - manipulate
+      - polymorph
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    duration: 1 minute
+    effect: "You transform into the shape of a legendary monster, assuming a Huge battle form. You must have enough space to expand into or the spell is lost. When you cast this spell, choose phoenix, cave worm, or sea serpent. While in this form, you gain the beast trait (for phoenix) or the animal trait (for cave worm or sea serpent). You can Dismiss the spell.%r%rYou gain the following statistics and abilities regardless of which battle form you choose:%r%rYou also gain specific abilities based on the type of monster you choose:%r%r**Cave Worm**%r%r**Phoenix**%r%r**Sea Serpent**"
+    heighten: "**9th:** You instead gain AC = 22 + your level, 25 temporary HP, attack modifier +31, increase damage by one damage die, and Athletics +33."
+  Moon Frenzy:
+    base_level: 5
+    mystery:
+      - cosmos
+    traits:
+      - concentrate
+      - manipulate
+      - morph
+    tradition:
+      - primal
+    actions: 2
+    range: 30 feet
+    target: up to 5 willing creatures
+    duration: 1 minute
+    effect: "A feral aspect overcomes the targets, filling them with strength and ferocity. Targets gain 5 temporary Hit Points, a +10-foot status bonus to their Speeds, and weakness 5 to silver. They also grow vicious fangs and claws, which are unarmed attacks. The fangs deal 2d8 piercing damage; the claws deal 2d6 slashing damage and have the agile and finesse traits. The targets use their highest weapon or unarmed attack proficiency with these attacks, and if they have weapon specialization or greater weapon specialization, they add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.%r%rThe targets can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. A creature can attempt to end the spell's effect on itself by using a single action, which has the rage trait, to attempt a Will save against your spell DC; on a success, it ends the spell's effect on itself.%r%rIf a target is in the light of a full moon, it also grows by one size if it were Medium or smaller. This increases the reach of a Medium or Tiny creature by 5 feet."
+    heighten: "**6th:** The temporary Hit Points increase to 10, the silver weakness to 10, and the damage dealt by the attacks to three dice.%r**10th:** The temporary Hit Points increase to 20, the silver weakness to 20, and the damage dealt by the attacks to four dice."
+  Moonbeam:
+    base_level: 1
+    traits:
+      - attack
+      - cleric
+      - concentrate
+      - fire
+      - focus
+      - light
+      - manipulate
+      - uncommon
+    actions: 2
+    range: 120 feet
+    target: 1 creature
+    effect: "You shine a ray of moonlight. Make a spell attack roll. The beam of light deals 2d6 fire damage. This is silver damage for the purposes of weaknesses, resistances, and the like.%r%r**Critical Success** The beam deals double damage, and the target is dazzled for 1 minute.%r**Success** The beam deals full damage, and the target is Dazzled for 1 round."
+    heighten: "**+1:** The ray's damage increases by 1d6."
+  Moonlight Bridge:
+    base_level: 6
+    traits:
+      - concentrate
+      - focus
+      - light
+      - manipulate
+      - oracle
+      - uncommon
+    actions: 2
+    range: 30 feet
+    duration: 10 minutes
+    effect: "You summon a bridge of radiant, shimmering moonlight.%r%rThe 10-foot-wide span must start at the ground on a point within range, and it extends as a horizontal plane, either in a straight line or at any angle up to 45 degrees upward or downward, for up to 120 feet.%r%rThis bridge has AC 10, Hardness 30, and 60 Hit Points, and it's immune to all damage (except force, spirit, and damage from Strikes with the *ghost touch* property rune). You and your allies can cross the bridge normally, but other creatures simply pass through it if they try to do so. The bridge blocks physical, ethereal, and incorporeal attacks from crossing, whether from above or below.%r%rYou can Dismiss the spell."
+    heighten: "**+1:** The length of the bridge increases by 20 feet, and its Hit Points increase by 20, and you can increase the width of the span by up to an additional 5 feet."
+  Mountain Resilience:
+    base_level: 4
+    traits:
+      - concentrate
+      - earth
+      - manipulate
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    range: touch
+    target: 1 creature
+    duration: 20 minutes
+    effect: The target's skin hardens like the stone of a mountain face. It gains resistance 5 to physical damage, except adamantine. Each time the target is hit by a bludgeoning, piercing, or slashing attack, *mountain resilience*'s duration decreases by 1 minute.
+    heighten: "**6th:** The resistance increases to 10.%r**8th:** The resistance increases to 15.%r**10th:** The resistance increases to 20."
+  Mud Pit:
+    base_level: 1
+    traits:
+      - concentrate
+      - earth
+      - manipulate
+      - water
+    tradition:
+      - arcane
+      - primal
+    actions: 3
+    area: 15-foot burst
+    range: 60 feet
+    duration: 1 minute
+    effect: Thick, clinging mud covers the ground, 1 foot deep. The mud is difficult terrain.
+  Mystic Armor:
+    base_level: 1
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - divine
+      - occult
+      - primal
+    actions: 2
+    duration: until your next daily preparations
+    effect: You ward yourself with shimmering magical energy, gaining a +1 item bonus to AC and a maximum Dexterity modifier of +5. While wearing *mystic armor*, you use your unarmored proficiency to calculate your AC.
+    heighten: "**4th:** You gain a +1 item bonus to saving throws.%r**6th:** The item bonus to AC increases to +2, and you gain a +1 item bonus to saving throws.%r**8th:** The item bonus to AC increases to +2, and you gain a +2 item bonus to saving throws.%r**10th:** The item bonus to AC increases to +3, and you gain a +3 item bonus to saving throws."
+  Mystic Beacon:
+    base_level: 4
+    traits:
+      - cleric
+      - focus
+      - manipulate
+      - uncommon
+    actions: 1
+    range: 30 feet
+    target: 1 willing creature
+    duration: until the start of your next turn
+    effect: The next damaging or healing spell the target casts before the start of your next turn deals damage or restores Hit Points as if the spell were heightened 1 rank higher than its actual rank. This applies only to initial healing or damage when the spell is cast, not any ongoing effects. The spell otherwise functions at its actual rank. Once the target casts the spell, *mystic beacon* ends.
+  Nature Incarnate:
+    base_level: 10
+    traits:
+      - concentrate
+      - manipulate
+      - polymorph
+    tradition:
+      - primal
+    actions: 2
+    duration: 1 minute
+    effect: "The primal power of the world flows through you. You transform into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell. You gain the following statistics and abilities regardless of which battle form you choose:%r%rYou gain specific abilities based on the incarnation you choose:"
+  Nature's Bounty:
+    base_level: 4
+    traits:
+      - cleric
+      - focus
+      - manipulate
+      - plant
+      - vitality
+      - uncommon
+    actions: 1
+    effect: A palm-sized raw fruit or vegetable of your choice appears in your open hand. A creature can consume the food with an Interact action to regain 3d10+12 Hit Points and be nourished as if it had eaten a meal. If uneaten, the food crumbles to dust after 1 minute.
+    heighten: "**+1:** The Hit Points restored increase by 6."
+  Nature's Enmity:
+    base_level: 9
+    traits:
+      - concentrate
+      - manipulate
+      - plant
+      - wood
+    tradition:
+      - primal
+    actions: 2
+    area: 500-foot burst
+    range: 120 feet
+    target: up to 5 creatures
+    duration: 10 minutes
+    effect: "Animals, plants, and fungi in the area turn against the targets. Each target suffers from the following effects as long as it remains in the area.%r%rThe target loses any connection to nature or natural creatures. The target must succeed at a DC 5 flat check when casting any primal spell or the spell fails. Furthermore, animal, fungus, and plant creatures become hostile to it, even one with a strong bond to the target, such as an animal companion.%r%rThe GM might decide that you can't subject some creatures, such as an emissary of a nature deity, to the ire of nature."
+  Nature's Pathway:
+    base_level: 5
+    traits:
+      - concentrate
+      - manipulate
+      - mental
+      - plant
+      - teleportation
+      - uncommon
+    tradition:
+      - primal
+    actions: 1 minute
+    effect: You step into a living tree with a trunk big enough for you to fit inside it and instantly teleport to any tree within 5 miles that also has a sufficiently large trunk. Once you enter the first tree, you instantly know the rough locations of other sufficiently large trees within range and can exit from the original tree, if you prefer. You can't carry extradimensional spaces with you; if you attempt to do so, the spell fails.
+    heighten: "**6th:** The tree you exit can be up to 50 miles away.%r**8th:** The tree you exit can be up to 500 miles away.%r**9th:** The tree you exit can be anywhere on the same planet."
+  Needle of Vengeance:
+    base_level: 1
+    traits:
+      - focus
+      - hex
+      - manipulate
+      - mental
+      - witch
+      - uncommon
+    actions: 1
+    range: 30 feet
+    target: 1 enemy
+    duration: 1 minute
+    effect: A long, jagged needle jabs into the target foe's psyche whenever it tries to attack a creature your patron holds in special regard. Name yourself or one of your allies. The target takes 2 mental damage any time it uses a hostile action against the named creature, with a basic Will save.
+    heighten: "**+1:** Increase the damage by 2."
+  Never Mind:
+    base_level: 6
+    bloodline:
+      - aberrant
+    mystery:
+      - lore
+    traits:
+      - concentrate
+      - curse
+      - incapacitation
+      - manipulate
+      - mental
+    tradition:
+      - arcane
+      - occult
+    actions: 2
+    range: 30 feet
+    target: 1 creature
+    duration: varies
+    effect: "You drastically reduce the target's mental faculties. The target must attempt a Will save. The effects of this curse can be removed only through effects that target curses.%r%r**Critical Success** The target is unaffected.%r**Success** The target is stupefied 2 for 1 round.%r**Failure** The target is stupefied 4 with an unlimited duration.%r**Critical Failure** The target's intellect is permanently reduced below that of an animal, and it treats its Charisma, Intelligence, and Wisdom modifiers as –5. It loses all class abilities that require mental faculties, including all spellcasting. If the target is a PC, they become an NPC under the GM's control."
+  Nightmare:
+    base_level: 4
+    traits:
+      - concentrate
+      - illusion
+      - manipulate
+      - mental
+    tradition:
+      - arcane
+      - occult
+    actions: 10 minutes
+    range: planetary
+    target: 1 creature you know by name
+    duration: 1 day
+    effect: "You send disturbing nightmares to your target. The next time the target falls asleep, it must attempt a Will save. If you know the target only by name and have never met them, the target gets a +4 circumstance bonus to the Will save.%r%r**Critical Success** The target suffers no adverse effects and is temporarily immune for 1 week.%r**Success** The target experiences the nightmares but suffers no adverse effects other than unpleasant memories.%r**Failure** The target experiences the nightmares and awakens fatigued.%r**Critical Failure** The target experiences the nightmares, awakens Fatigued, and is drained 2 until it is no longer Fatigued."
+  Noise Blast:
+    base_level: 2
+    traits:
+      - concentrate
+      - manipulate
+      - sonic
+    tradition:
+      - arcane
+      - divine
+      - occult
+    actions: 2
+    area: 10-foot burst
+    range: 30 feet
+    effect: "A cacophonous noise blasts out, dealing 2d10 sonic damage. Each creature must attempt a Fortitude save.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage.%r**Failure** The creature takes full damage and is deafened for 1 round.%r**Critical Failure** The creature takes double damage, is deafened for 1 minute, and is stunned 1."
+    heighten: "**+1:** The damage increases by 1d10."
+  Noxious Vapors:
+    base_level: 1
+    traits:
+      - concentrate
+      - manipulate
+      - poison
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    area: 10-foot emanation
+    duration: 1 round
+    effect: You emit a cloud of toxic smoke that temporarily obscures you from sight. Each creature except you in the area when you Cast the Spell takes 1d6 poison damage (basic Fortitude save). A creature that critically fails the saving throw also becomes sickened 1. All creatures in the area become concealed, and all creatures outside the smoke become concealed to creatures within it. This smoke can be dispersed by a strong wind.
+    heighten: "**+1:** The damage increases by 1d6"
+  Nudge Fate:
+    base_level: 1
+    traits:
+      - cantrip
+      - concentrate
+      - hex
+      - witch
+      - uncommon
+    actions: 1
+    range: 30 feet
+    target: 1 creature
+    duration: 1 minute
+    effect: "The barest spin of your patron's spool is enough to alter fate. When the target fails an attack roll, skill check, or saving throw and a +1 status bonus would turn a critical failure into a failure, or failure into a success, you grant the target a +1 status bonus to the check retroactively, changing the outcome appropriately. The spell then ends.%r%rIf you cast nudge fate while a previous casting of this hex is still in effect, the previous effect ends"
+  Oaken Resilience:
+    base_level: 2
+    traits:
+      - concentrate
+      - manipulate
+      - plant
+      - wood
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    range: touch
+    target: 1 willing creature
+    duration: 10 minutes
+    effect: The target's skin becomes tough, with a consistency like bark or wood. The target gains resistance 2 to bludgeoning and piercing damage and weakness 3 to fire. After the target takes fire damage, it can Dismiss the spell as a free action triggered by taking the damage; doing so doesn't reduce the fire damage the target was dealt.
+    heighten: "**+2:** The resistances increase by 2, and the weakness increases by 3."
+  Object Reading:
+    base_level: 1
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - occult
+    actions: 2
+    range: touch
+    target: 1 object
+    effect: You place a hand on an object to learn a piece of information about an emotional event that occurred involving the object within the past week, determined by the GM. If you cast *object reading* on the same item multiple times, you can either concentrate on a single event to gain additional pieces of information about that event, or you can gain a piece of information about another emotional event in the applicable time frame.
+    heighten: "**2nd:** You can learn about an event that occurred within the last month.%r**4th:** You can learn about an event that occurred within the last year.%r**6th:** You can learn about an event that occurred within the last decade.%r**8th:** You can learn about an event that occurred within the last century.%r**9th:** You can learn about an event that occurred within the entirety of the object's history."
+  Ode to Ouroboros:
+    base_level: 5
+    traits:
+      - bard
+      - composition
+      - concentrate
+      - focus
+      - uncommon
+    actions: reaction
+    range: 60 feet
+    target: the triggering creature
+    trigger: A creature's dying condition would reach the value at which they would die
+    effect: "Your ode staves off death. The target's dying condition remains 1 below the value at which it dies. This doesn't help prevent death from effects that kill the target without increasing its dying condition, such as *disintegrate* and death effects."
+  One with Plants:
+    base_level: 2
+    traits:
+      - concentrate
+      - manipulate
+      - plant
+      - polymorph
+      - wood
+    tradition:
+      - primal
+    actions: 2
+    duration: 10 minutes or 8 hours
+    effect: You can either transform into a plant or merge with plant matter. While transformed, you can't move or affect anything outside the plant, but you can cast spells as long as they don't require line of effect beyond the plant. You can Dismiss this spell.
+  One with Stone:
+    base_level: 3
+    traits:
+      - concentrate
+      - earth
+      - manipulate
+      - polymorph
+    tradition:
+      - arcane
+      - primal
+    actions: 2
+    duration: 10 minutes or 8 hours
+    effect: You can either transform into a stone or merge with stone. While transformed, you can't move or affect anything outside the stone, but you can cast spells as long as they don't require line of effect beyond the stone. You can Dismiss this spell.
+  Outcast's Curse:
+    base_level: 4
+    bloodline:
+      - hag
+    traits:
+      - concentrate
+      - curse
+      - manipulate
+      - mental
+      - misfortune
+    tradition:
+      - arcane
+      - divine
+      - occult
+    actions: 2
+    range: touch
+    target: 1 creature
+    effect: "You afflict the target with a curse that makes its presence abrasive and off-putting. The target must attempt a Will save.%r%r**Critical Success** The target is unaffected.%r**Success** For 10 minutes, the target must roll twice and use the worse result whenever attempting a Deception, Diplomacy, Intimidation, or Performance check, and creatures they encounter have an initial attitude toward them of one step worse (for instance, unfriendly instead of indifferent).%r%r**Failure** As success, but the effect is permanent.%r%r**Critical Failure** As failure, and creatures that the target encounters have an initial attitude toward them of two steps worse."
+  Overstuff:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    range: 30 feet
+    target: 1 living creature
+    effect: "Huge amounts of food and drink fill the target. It receives a full meal's worth of nourishment and must attempt a Fortitude save. A target sickened by this spell takes a –10-foot status penalty to its Speed until it's no longer Sickened.%r%r**Critical Success** The target is unaffected.%r**Success** The target is sickened 1, but if it spends an action to end the condition, it succeeds automatically.%r**Failure** The target is sickened 1.%r**Critical Failure** The target is sickened 2."
+  Overwhelming Presence:
+    base_level: 9
+    bloodline:
+      - draconic
+    traits:
+      - auditory
+      - concentrate
+      - incapacitation
+      - manipulate
+      - mental
+      - visual
     tradition:
       - divine
       - occult
-    traits:
-      - auditory
-      - enchantment
-      - incapacitation
-      - mental
-      - visual
+    actions: 2
+    area: 40-foot burst
+    target: any number of creatures
+    duration: until full tribute is paid
+    effect: "You surround yourself with supernatural splendor, appearing to be a god or similarly majestic being, with an appearance, regalia, and iconography of your choice. Targets must attempt a Will save. Regardless of the outcome, the target is then temporarily immune for 1 minute.%r%r**Critical Success** The target is unaffected.%r**Success** The target must pay tribute to you two times. Paying tribute requires that the target spend a single action, which has either the move trait (as they bow) or manipulate trait (as they offer up a token in their hands). They must pay tribute at least once on each of their turns, if possible. While affected, the target is Fascinated by you and can't use hostile actions against you.%r**Failure** As success, but the target must pay tribute a total of six times.%r**Critical Failure** As failure, but the target must spend all its actions paying tribute, and they cannot take other actions until the tribute is fully paid."

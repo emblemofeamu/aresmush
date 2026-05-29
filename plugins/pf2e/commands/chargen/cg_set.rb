@@ -234,11 +234,6 @@ module AresMUSH
             client.emit_ooc t('pf2e.cg_specialty_info_required', :specialty => selected_option, :class => charclass, :options => specialty_options.keys.sort.join(", "))
           end
         end
-        if selected_element == "specialize_info" &&
-           base_info['charclass']&.casecmp?('Wizard') &&
-           !selected_option.casecmp?('Universalist')
-          client.emit_ooc t('pf2e.cg_wizard_school_spell', :wizard_school => selected_option.downcase)
-        end
 
       end
 

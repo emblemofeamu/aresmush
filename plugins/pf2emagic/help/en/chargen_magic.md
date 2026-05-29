@@ -31,7 +31,6 @@ The following commands are applicable for adding and reviewing spells.
 Some class specialties or choices grant you extra spells that must be resolved with different syntax. These cases are indicated in the cg/review screen and can be resolved with the following commands:
 
 **Commands**:
-`addspell/school wizard/<level> = <spell name>`: For non-universalist wizards, adds a 1st-level spell from the arcane tradition associated with your school of magic. For example, necromancy wizards can add a 1st-level arcane spell with the Necromancy trait with this command.
 `addspell innate/<level> = <spell name>`: Chooses an open innate spell, if you've been given one by a feat.
 
 ## Adding Divine Fonts

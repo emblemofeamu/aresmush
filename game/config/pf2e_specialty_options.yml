@@ -467,42 +467,36 @@ pf2e_subclass:
         focus_spell: 
           school:
             - Protective Wards
-        gated_spell: school
     Department of Accordant Conjury: 
       magic_stats:
         focus_pool: 1
         focus_spell: 
           school:
             - Force Bolt
-        gated_spell: school
     Department of Urban Thaumaturgy:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
             - Earthworks
-        gated_spell: school
     Department of Defensive Cerebralism:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
             - Charming Push
-        gated_spell: school
     Department of Mutable Modification:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
             - Scramble Body
-        gated_spell: school
     Department of Null's Purview:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
             - Fortify Summoning
-        gated_spell: school
     School of Unified Magical Theory:
       magic_stats:
       # This key overwrites the base wizard class key for this, this is intentional
@@ -514,4 +508,3 @@ pf2e_subclass:
         focus_spell:
           school:
             - Hand of the Apprentice
-        gated_spell: school
