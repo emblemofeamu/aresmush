@@ -964,9 +964,6 @@ pf2e_feats:
       - Sildanyar
     traits:
       - sildanyar
-    grants:
-      skill:
-        - "{item|flags.system.rulesselections.expertlongevity}"
     shortdesc: "You've continued to refine the knowledge and skills you've gained through your life. When you choose a skill in which to become trained with Ancestral Longevity, you can also choose a skill in which you are already trained and become an expert in that skill. This lasts until your Ancestral Longevity expires.%r%rWhen the effects of Ancestral Longevity and Expert Longevity expire, you can retrain one of your skill increases. The skill increase you gain from this retraining must either make you trained in the skill you chose with Ancestral Longevity or make you an expert in the skill you chose with Expert Longevity."
     prereq:
       level: 9
@@ -1782,7 +1779,7 @@ pf2e_feats:
       - Ghaluch
     traits:
       - ghaluch
-    shortdesc: Your dual nature has given you a unique perspective, allowing you to bridge the gap between sentient humanoids and the many intelligent creatures in the world that others consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and oruch). You also gain this bonus on Perception checks to Sense Motive{Sense the Motives} of such creatures.
+    shortdesc: Your dual nature has given you a unique perspective, allowing you to bridge the gap between sentient humanoids and the many intelligent creatures in the world that others consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and oruch). You also gain this bonus on Perception checks to Sense the Motives of such creatures.
     prereq:
       level: 1
   Mountain's Stoutness:
@@ -1833,9 +1830,9 @@ pf2e_feats:
     traits:
       - human
     grants:
-      skill:
-        - "{item|flags.system.rulesselections.skillone}"
-        - "{item|flags.system.rulesselections.skilltwo}"
+      assign:
+        - skill
+        - skill
     shortdesc: Your ingenuity allows you to learn a wide variety of skills. You gain the trained proficiency rank in two skills of your choice.
     prereq:
       level: 1
@@ -1876,7 +1873,9 @@ pf2e_feats:
         - Additional Lore
       skill:
         - Religion
-        - "{item|flags.system.rulesselections.skill}"
+      orskill:
+        - Diplomacy
+        - Intimidation
     shortdesc: "You know the secrets of the light and shadow planes. You gain the trained proficiency rank in either Diplomacy or Intimidation, and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice.%r%rYou also gain the Additional Lore general feat for a Lore subcategory of a plane to which you trace your lineage."
     prereq:
       level: 1
@@ -2096,6 +2095,9 @@ pf2e_feats:
     grants:
       skill:
         - Athletics
+      assign:
+        feat:
+          - skill feat
     shortdesc: "Your blood bears the mark of a demon, a living embodiment of sin from the fetid depths of the shadow planes. Demonic power pulses through your veins and manifests in a different way for each pitborn, whether you have webbed fingers and thrive in the water, large hands capable of wrestling larger foes, or some other manifestation. You are trained in Athletics. If you were already trained in Athletics (from your background or class, for example), you instead become trained in a skill of your choice.%r%rYou also gain any one common 1st-level skill feat with a prerequisite of trained in Athletics, as reflects the manifestation of your fiendish blood."
     prereq:
       level: 1
