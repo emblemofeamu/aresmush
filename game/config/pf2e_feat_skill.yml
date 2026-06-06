@@ -31,6 +31,13 @@ pf2e_feats:
       - Skill
       - General
     assoc_skill: Arcana
+    magic_stats:
+      innate_spell:
+        level: 1
+        name: 
+          - Detect Magic
+        tradition: arcane
+        cast_stat: Charisma
     shortdesc: Your study of magic allows you to instinctively sense its presence. You can cast 1st-rank *detect magic* at will as an arcane innate spell. If you're a master in Arcana, the spell is heightened to 3rd rank; if you're legendary, it is heightened to 4th rank.
     prereq:
       level: 1

@@ -296,6 +296,21 @@ module AresMUSH
           traditions = magic.tradition
 
           msg << "tradition" unless traditions.include? required
+        when "innate_tradition"
+          # Useful for when a feat has a prereq asking for any innate spell tradition, like Quelynos Adept.
+          magic = char.magic
+
+          msg << "innate_tradition" && next unless magic
+
+          innate_spells = magic.innate_spells || {}
+          required_traditions = Array(required).map { |t| t.to_s.downcase.strip }.reject(&:empty?)
+
+          has_required_innate_tradition = innate_spells.values.any? do |spell_info|
+            tradition = spell_info && spell_info['tradition']
+            required_traditions.include?(tradition.to_s.downcase)
+          end
+
+          msg << "innate_tradition" unless has_required_innate_tradition
         when "combat_stats"
           combat = char.combat
 
@@ -454,6 +469,8 @@ module AresMUSH
             key_display = 'One of the following skill'
           elsif k == 'oralign'
             key_display = 'One of the following alignment'
+          elsif k == 'innate_tradition'
+            key_display = 'Innate spell tradition'
           end
           
           if v.is_a?(Array)

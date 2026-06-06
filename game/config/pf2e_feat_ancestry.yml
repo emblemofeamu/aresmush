@@ -180,6 +180,14 @@ pf2e_feats:
       - Ancestry
     traits:
       - ashen one
+    magic_stats:
+      innate_spell:
+        level: 2
+        name: 
+          - Augury
+          - Peaceful Rest
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: Your connection to psychopomps gives you the power to glimpse the near future and protect corpses from the ravages of undeath. You can cast *augury* and *peaceful rest* each once per day as 2nd-rank divine innate spells.
     prereq:
       level: 9
@@ -261,6 +269,9 @@ pf2e_feats:
     grants:
       skill:
         - Nature
+      orfeat:
+        - Pet
+        - Train Animal
     shortdesc: You have an impressive innate ability to tame and command ferocious beasts. You become trained in the Nature skill and gain your choice of the Pet general feat or the Train Animal skill feat.
     prereq:
       level: 1
@@ -486,8 +497,9 @@ pf2e_feats:
     shortdesc: You've learned a few magical techniques for getting yourself both into and out of trouble unnoticed. You gain *disguise magic* and *silence* as 2nd-rank arcane or occult innate spells. The tradition of these spells must match the tradition you use for your gnome ancestry options. You can cast each spell once per day and can target only yourself.
     prereq:
       level: 9
-      feat:
-        - at least one arcane or occult innate spell gained from a gnome heritage or gnome ancestry feat
+      innate_tradition:
+        - arcane
+        - occult
   Cave Climber:
     feat_type:
       - Ancestry
@@ -520,8 +532,10 @@ pf2e_feats:
     shortdesc: "You possess celestial magic. Choose two of the following spells: *clear mind*, *everlight*, *humanoid form*, *revealing light*, *share life*, or *sure footing*. You can use each of the chosen spells once per day as 2nd-rank divine innate spells.%r%rAngelkin typically take *clear mind* and *humanoid form*, lawbringers typically have *everlight* and *share life*, and musetouched typically have *revealing light* and *sure footing*."
     prereq:
       level: 9
-      feat:
-        - Angelkin, Lawbringer, Musetouched, or another lineage feat associated with celestials
+      orfeat:
+        - Angelkin
+        - Lawbringer
+        - Musetouched
   Celestial Mercy:
     feat_type:
       - Ancestry
@@ -529,11 +543,20 @@ pf2e_feats:
       - Aesa
     traits:
       - aesa
+    magic_stats:
+      innate_spell:
+        level: 4
+        name:
+          - Cleanse Affliction
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: Your celestial powers allow you to remove lesser afflictions with ease. You can cast *cleanse affliction* twice per day as a 4th-rank divine innate spell.
     prereq:
       level: 13
-      feat:
-        - Angelkin, Lawbringer, Musetouched, or another lineage feat associated with celestials
+      orfeat:
+        - Angelkin
+        - Lawbringer
+        - Musetouched
   Changeling Lore:
     feat_type:
       - Ancestry
@@ -759,6 +782,12 @@ pf2e_feats:
     traits:
       - aesa
       - niasa
+    magic_stats:
+      innate_spell:
+        level: 7
+        name: Divine Decree
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: You can call forth a holy or unholy word from the realms beyond to punish your foes. Once per day, you can cast *divine decree* as a 7th-rank divine innate spell.
     prereq:
       level: 17
@@ -881,6 +910,12 @@ pf2e_feats:
       - Dar
     traits:
       - dar
+    magic_stats:
+      innate_spell:
+        level: 4
+        name: Charm
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: The powers of domination employed by your progenitors have manifested in you as well. You can cast *charm* as a divine innate spell once per day. Its spell rank is equal to half your level rounded up, but it doesn't increase its duration or number of targets at 4th and 8th rank.
     prereq:
       level: 5
@@ -1015,8 +1050,10 @@ pf2e_feats:
     shortdesc: "You possess fiendish magic. Choose two of the following spells: *disguise magic*, *false vitality*, *invisibility*, *see the unseen*, *shatter*, or *paranoia*. You can use each of the chosen spells once per day as 2nd-rank divine innate spells.%r%rGrimspawn typically take *false vitality* and *see the unseen*, pitborn typically take *paranoia* and *shatter*, and hellspawn typically take *invisibility* and *disguise magic*."
     prereq:
       level: 9
-      feat:
-        - Grimspawn, Pitborn, Hellspawn, or another lineage feat associated with fiends
+      orfeat:
+        - Grimspawn
+        - Pitborn
+        - Hellspawn
   Flexible Tail:
     feat_type:
       - Ancestry
@@ -1192,6 +1229,12 @@ pf2e_feats:
     traits:
       - ashen one
       - uncommon
+    magic_stats:
+      innate_spell:
+        level: 7
+        name: Interplanar Teleport
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: You have a powerful connection to the Gray Halls and its courts, granting you the ability to travel to and from the Gray Halls. You can cast *interplanar teleport* as a divine innate spell twice per week. This can be used only to travel to the Gray Halls or from the Gray Halls to the Universe. Due to your unique connection to the Gray Halls, your body serves as the locus, and you don't require a planar key.
     prereq:
       level: 17
@@ -1212,6 +1255,12 @@ pf2e_feats:
       - Kailli
     traits:
       - kailli
+    magic_stats:
+      innate_spell:
+        level: 6
+        name: Enlarge
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: You call upon the familial bonds you share with your allies and other kailli to become an overwhelming force in battle. You can cast *enlarge* as a 6th-rank primal innate spell once per day.
     prereq:
       level: 17
@@ -1380,6 +1429,12 @@ pf2e_feats:
     traits:
       - gnome
       - uncommon
+    magic_stats:
+      innate_spell:
+        level: 7
+        name: Interplanar Teleport
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: "**Frequency** twice per week%r%rThe connection between you and Quelynos resonates within your body stronger than it does for most gnomes, allowing you to cross the threshold between the material plane and Quelynos. You gain *interplanar teleport* as a primal innate spell. You can cast it twice per week. This can be used only to travel back and forth between Quelynos and the material plane. Due to your body's natural resonance, you can act as a locus for the spell, and you don't require a specially attuned planar key."
     prereq:
       level: 17
@@ -1455,8 +1510,9 @@ pf2e_feats:
     shortdesc: "**Frequency** once per hour%r%r**Trigger** You are attacked by a foe, but they haven't rolled yet.%r%rThe magic within you manifests as a natural reaction to threats. An illusory double of you appears in your space for a brief moment. The triggering attacker must roll a DC 10 flat check; on a success, the attack targets you normally; if they fail, the attack targets the double and destroys it. The tradition of this action matches the tradition of your gnome ancestry options."
     prereq:
       level: 13
-      feat:
-        - at least one arcane or occult innate spell gained from a gnome heritage or gnome ancestry feat
+      innate_tradition:
+        - arcane
+        - occult
     actions: reaction
     frequency: once per hour
   Iron Fists:
@@ -1688,6 +1744,12 @@ pf2e_feats:
       - Ancestry
     traits:
       - egalrin
+    magic_stats:
+      innate_spell:
+        level: 1
+        name: Ignition
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: You conjure uncanny orbs of spiritual flame that float above or below the water's surface. You can cast the *ignition* cantrip as a primal innate spell at will, heightened to a spell rank equal to half your level rounded up. Your ignition spell takes the form of orbs of fire, and you can cast it underwater.
     prereq:
       level: 1
@@ -1837,6 +1899,14 @@ pf2e_feats:
       - Dar
     traits:
       - dar
+    magic_stats:
+      innate_spell:
+        level: 2
+        name:
+          - Animal Form
+          - Mist
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: You can tap into the magic that runs through your blood. You gain *animal form* (wolf only, using the statistics for a canine) and *mist* as 2nd-rank divine innate spells. You can cast each of these spells once per day.
     prereq:
       level: 9
@@ -1951,8 +2021,11 @@ pf2e_feats:
     shortdesc: "The arcane magic you possess grows in power and complexity. Choose one common 2nd-rank spell from the same tradition as an innate spell you previously gained from another sildanyar ancestry feat (from the arcane list if you have Otherworldly Magic, for example). You can cast that spell as an innate spell once per day, using the same tradition as the list you chose the spell from.%r%rYour magic is adaptable. By spending 1 day of downtime, you can change the spell you chose to a different common 2nd-rank spell from the same tradition."
     prereq:
       level: 9
-      feat:
-        - at least one innate spell gained from an sildanyar ancestry feat
+      innate_tradition:
+        - arcane
+        - divine
+        - primal
+        - occult
   Otherworldly Magic:
     feat_type:
       - Ancestry
@@ -1960,6 +2033,12 @@ pf2e_feats:
       - Sildanyar
     traits:
       - sildanyar
+    magic_stats:
+      innate_spell:
+        level: 1
+        name: open
+        tradition: arcane
+        cast_stat: Intelligence
     shortdesc: Your sildanyari magic manifests as a simple arcane spell, even if you aren't formally trained in magic. Choose one cantrip from the arcane spell list. You can cast this cantrip as an arcane innate spell at will. A cantrip is heightened to a spell rank equal to half your level rounded up.
     prereq:
       level: 1
@@ -2052,6 +2131,14 @@ pf2e_feats:
       - Ciith
     traits:
       - ciith
+    magic_stats:
+      innate_spell:
+        level: 4
+        name:
+          - Unfettered Movement
+          - Mountain Resilience
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: You gain *unfettered movement* and *mountain resilience* as 4th-rank primal innate spells that you can cast once per day. As a 3-action activity, you can Cast a Spell twice to cast both of these innate spells, as long as they are both still available for the day.
     prereq:
       level: 13
@@ -2077,11 +2164,18 @@ pf2e_feats:
       - Gnome
     traits:
       - gnome
+    magic_stats:
+      innate_spell:
+        level: 2
+        name:
+          - Invisibility
+          - Revealing Light
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: Over time your fey magic has grown stronger. You gain *invisibility* and *revealing light* as 2nd-rank primal innate spells. You can cast each of these primal innate spells once per day.
     prereq:
       level: 9
-      feat:
-        - at least one primal innate spell
+      innate_tradition: primal
   Quelynos Magic:
     feat_type:
       - Ancestry
@@ -2089,6 +2183,12 @@ pf2e_feats:
       - Gnome
     traits:
       - gnome
+    magic_stats:
+      innate_spell:
+        level: cantrip
+        name: open
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: Your connection to Quelynos grants you a primal innate spell, much like those of the fey. Choose one cantrip from the primal spell list. You can cast this spell as a primal innate spell at will. A cantrip is heightened to a spell rank equal to half your level rounded up.
     prereq:
       level: 1
@@ -2171,6 +2271,12 @@ pf2e_feats:
       - Kailli
     traits:
       - kailli
+    magic_stats:
+      innate_spell:
+        level: 1
+        name: Animal Messenger
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: There always seems to be a little rat around to carry messages for you. You can cast *Animal Messenger* once per day as a primal innate spell. When you do, the animal that responds is always a rat. If there are no rats within range, the spell is lost.
     prereq:
       level: 5
@@ -2245,6 +2351,12 @@ pf2e_feats:
       - Ancestry
     traits:
       - ashen one
+    magic_stats:
+      innate_spell:
+        level: 5
+        name: False Vitality
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: Your Ashen One heritage allows you to extend protection against void energy. You gain resistance 5 to void, and once per day, you can cast *false vitality* as a 5th-rank divine innate spell.
     prereq:
       level: 13
@@ -2473,11 +2585,19 @@ pf2e_feats:
       - Niasa
     traits:
       - niasa
+    magic_stats:
+      innate_spell:
+        level: 5
+        name: Translocate
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: Like many fiends, you have the supernatural ability to teleport yourself to safety. Once per day, you can cast *translocate* as a 5th-rank divine innate spell.
     prereq:
       level: 13
-      feat:
-        - Grimspawn, Pitborn, or Hellspawn, or another lineage feat associated with fiends or the Maelstrom
+      orfeat:
+        - Grimspawn
+        - Pitborn
+        - Hellspawn
   Sneaky:
     feat_type:
       - Ancestry
@@ -2588,6 +2708,12 @@ pf2e_feats:
     traits:
       - khazad
       - uncommon
+    magic_stats:
+      innate_spell:
+        level: 7
+        name: Magic Passage
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: Earthen barriers no longer impede your progress. You gain *magic passage* as a 7th-rank divine innate spell that you can cast once per day. Unlike the spell, however, this ability can be used only to open passages through barriers of earth or stone.
     prereq:
       level: 17
@@ -2615,6 +2741,12 @@ pf2e_feats:
       - Khazad
     traits:
       - khazad
+    magic_stats:
+      innate_spell:
+        level: 3
+        name: One with Stone
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: "You have a deep reverence for and connection to stone. You can cast *one with stone* as a 3rd-rank divine innate spell once per day.%r%rIf you have the Stonemason's Eye feat, you can attempt to find unusual stonework and stonework traps that require legendary proficiency in Perception. If you have both Stonemason's Eye and legendary proficiency in Perception, when the GM rolls a secret check for you to notice unusual stonework, you keep your bonus from Stonemason's Eye."
     prereq:
       level: 9
@@ -2637,6 +2769,12 @@ pf2e_feats:
       - Ancestry
     traits:
       - egalrin
+    magic_stats:
+      innate_spell:
+        level: cantrip
+        name: Electric Arc
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: Wind and lightning have always been friends to you. You can cast the *electric arc* cantrip as a primal innate spell at will. A cantrip is heightened to a spell rank equal to half your level rounded up.
     prereq:
       level: 1
@@ -2683,6 +2821,12 @@ pf2e_feats:
       - Silyara
     traits:
       - silyara
+    magic_stats:
+      innate_spell:
+        level: 1
+        name: Charm
+        tradition: arcane
+        cast_stat: Charisma
     shortdesc: The sildanyari magic in your blood manifests as a force you can use to become more appealing or alluring. You can cast 1st-rank *charm* as an arcane innate spell once per day.
     prereq:
       level: 5
@@ -2728,6 +2872,12 @@ pf2e_feats:
       - Dar
     traits:
       - dar
+    magic_stats:
+      innate_spell:
+        level: 7
+        name: Vampiric Exsanguination
+        tradition: divine
+        cast_stat: Charisma
     shortdesc: You call forth the blood of your foes to grant you vigor. You can cast *vampiric exsanguination* as a 7th-rank divine innate spell once per day.
     prereq:
       level: 17
@@ -2908,6 +3058,12 @@ pf2e_feats:
       - Bassin
     traits:
       - bassin
+    magic_stats:
+      innate_spell:
+        level: 4
+        name: Unfettered Movement
+        tradition: primal
+        cast_stat: Charisma
     shortdesc: You won't allow others to restrain you. You can cast *unfettered movement* on yourself as a primal innate spell once per day.
     prereq:
       level: 9
