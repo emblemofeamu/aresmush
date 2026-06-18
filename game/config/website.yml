@@ -83,6 +83,49 @@ website:
     - divider: true
     - title: Files
       route: files
+  - title: Theme
+    menu:
+    - title: Theme Overview
+      route: wiki-page
+      id: theme
+    - title: Theme FAQ
+      route: wiki-page
+      id: theme:theme-faq
+    - divider: true
+    - title: The World of Ea
+      route: wiki-page
+      id: theme:the_world_of_ea
+    - title: Faiths & Gods
+      route: wiki-page
+      id: theme:deity
+    - title: Cosmology & Planes
+      route: wiki-page
+      id: theme:cosmology-planes
+    - title: Lands of Ea
+      route: wiki-page
+      id: theme:region
+    - title: History & Timelines
+      route: wiki-page
+      id: theme:overview-timeline
+    - title: Calendar of Ea
+      route: wiki-page
+      id: theme:calendar
+    - title: Languages
+      route: wiki-page
+      id: theme:languages
+    - title: Magic in Ea
+      route: wiki-page
+      id: theme:magic
+    - divider: true
+    - title: Slayers
+      route: wiki-page
+      id: theme:slayers
+    - title: The Illuminators
+      route: wiki-page
+      id: theme:illuminators
+    - title: The Shrike's Code
+      route: wiki-page
+      id: theme:shrikes_code
   - title: Mechanics
     menu:
     - title: Playtest Overview
@@ -95,10 +138,10 @@ website:
     - title: Ancestries
       route: wiki-page
       id: mechanics:ancestry
-    - title: Limited Heritages
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Limited Heritages
       route: wiki-page
       id: mechanics:limited-heritages
-    - title: Versatile Heritages
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Versatile Heritages
       route: wiki-page
       id: mechanics:versatile-heritages
     - title: Backgrounds
@@ -107,12 +150,24 @@ website:
     - title: Classes
       route: wiki-page
       id: mechanics:classes
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Class Feats
+      route: wiki-page
+      id: mechanics:class-feats
     - title: Archetypes & Dedications
       route: wiki-page
       id: mechanics:archetypes-dedications
     - title: Feats
       route: wiki-page
       id: mechanics:feats
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Ancestry Feats
+      route: wiki-page
+      id: mechanics:ancestry-feats
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> General Feats
+      route: wiki-page
+      id: mechanics:general-feats
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Skill Feats
+      route: wiki-page
+      id: mechanics:skill-feats
     - title: Skills
       route: wiki-page
       id: mechanics:skills
@@ -123,15 +178,31 @@ website:
       route: wiki-page
       id: mechanics:spells
     - divider: true
-    - title: Roleplay Perks & Points (RPPs)
-      route: wiki-page
-      id: mechanics:rpp
-    - title: World Bestiary
-      route: wiki-page
-      id: mechanics:world-bestiary
     - title: House Rules & Clarifications
       route: wiki-page
       id: mechanics:house-rules
+    - title: Alignment
+      route: wiki-page
+      id: mechanics:alignment
+    - title: Hero Points
+      route: wiki-page
+      id: mechanics:hero_points
+    - title: Roleplay Perks & Points (RPPs)
+      route: wiki-page
+      id: mechanics:rpp
+    - divider: true
+    - title: World Bestiary
+      route: wiki-page
+      id: mechanics:world-bestiary
+    - title: Familiars
+      route: wiki-page
+      id: mechanics:familiar
+    - title: Animal Companions
+      route: wiki-page
+      id: mechanics:animal-companions
+    - title: Dragons
+      route: wiki-page
+      id: mechanics:dragons
     - divider: true
     - target: blank
       title: AON PRD <i class="fa fa-external-link-alt" aria-hidden="true">
@@ -199,7 +270,7 @@ website:
     - id: markdown
       title: Editing Help
       route: help-topic
-  - title: Help
+  - title: Policies, Help, & Resources
     menu:
     - title: Requests
       route: jobs
@@ -215,12 +286,40 @@ website:
       route: help-topic
     - title: Emoji Reference
       route: emoji
-    - title: Terms of Service
-      route: tos
     - divider: true
-    - target: blank
-      title: MUSH 101 Tutorial <i class="fa fa-external-link-alt" aria-hidden="true">
-      url: https://aresmush.com/mush-101/
+    - title: Policies & Expectations
+      route: wiki-page
+      id: policy
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Terms of Service
+      route: tos
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Game Policies
+      route: wiki-page
+      id: policy:game-policies
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Character Rules & Expectations
+      route: wiki-page
+      id: policy:character-rules
+    - divider: true
+    - title: Resources
+      route: wiki-page
+      id: resource
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Player Guide
+      route: wiki-page
+      id: resource:player-guide
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Writing a Prologue
+      route: wiki-page
+      id: resource:prologue
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> MUSHing 101 Tutorial
+      route: wiki-page
+      id: resource:mushing-101
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> AresMUSH Tips & Tricks
+      route: wiki-page
+      id: resource:ares-tips
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Glossary
+      route: wiki-page
+      id: resource:glossary
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Ea Conversion Guide
+      route: wiki-page
+      id: resource:ea-conversion
   - title: Admin
     roles:
     - admin
