@@ -20,7 +20,7 @@ module AresMUSH
     attribute :pf2_features, :type => DataType::Hash, :default => { 'charclass_features'=>[], 'archetype_features'=>[] }
     attribute :pf2_traits, :type => DataType::Array, :default => []
     attribute :pf2_feats, :type => DataType::Hash, :default => { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[], "archetype" => [], "dedication" => [] }
-    attribute :pf2_faith, :type => DataType::Hash, :default => { 'deity'=>"", 'alignment'=>"" }
+    attribute :pf2_faith, :type => DataType::Hash, :default => { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
     attribute :pf2_special, :type => DataType::Array, :default => []
     attribute :pf2_boosts_working, :type => DataType::Hash, :default => { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=> [] }
     attribute :pf2_boosts, :type => DataType::Hash, :default => {}

@@ -112,13 +112,9 @@ body {
     font-family: 'Marcellus', serif;
     font-size: 100%;
     background: url("/game/uploads/theme_images/background.png");
-    background-attachment: fixed;
     background-size: 100%;
     background-repeat: no-repeat;
     background-color: #171510;
-    background-position: center-top;
-    width: 70%;
-    margin: auto;
 }
 
 /* Header styling */
@@ -161,36 +157,45 @@ div.container-fluid {
     border-top: none;
     border-bottom: none;
     border-image: linear-gradient(to bottom, #CBC0AD, #E1B07E, #E1B07E21) 1; /* Dark Vanilla - Tumbleweed - Transparent gradient */
+    max-width: 1400px;
+    margin: auto;
+    width: 80%;
 }
 
 div.body-wrap {
-    background-color: transparent
+    background-color: transparent;
 }
 
 /* Mobile version body styling */
 
-@media only screen and (max-width: 600px) { 
-    body {
-        background-size: 200%;
+@media only screen and (max-width: 1000px) { 
+    div.container-fluid {
         width: 100%;
-    }
-}
-
-/* Mobile version body styling */
-
-@media only screen and (min-width: 2000px) { 
-    body {
-        background-size: 100%;
-        width: 55%;
     }
 }
 
 /* Navbar styling */
 
+nav.navbar.navbar-expand-lg.navbar-dark {
+    border-top: 1px solid #CBC0ADAB;
+    border-bottom: 1px solid #CBC0ADAB;
+}
+
 nav.navbar.navbar-expand-lg.navbar-dark div.container-fluid {
     box-shadow: none;
     background: none;
     border: none;
+    width: 100%;
+    margin: auto;
+    height: 2.1em;
+}
+
+li.nav-item.dropdown {
+    padding-right: 5px;
+}
+
+button.navbar-toggler {
+    margin-top: -2px;
 }
 
 /* Right sidebar styling */

@@ -293,7 +293,7 @@ module AresMUSH
       char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
       char.pf2_traits = []
       char.pf2_feats = { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[] }
-      char.pf2_faith = { 'deity'=>"", 'alignment'=>"" }
+      char.pf2_faith = { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
       char.pf2_special = []
       char.pf2_boosts_working = { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=>[] }
       char.pf2_boosts = {}
@@ -352,7 +352,7 @@ module AresMUSH
       char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
       char.pf2_traits = []
       char.pf2_feats = { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[] }
-      char.pf2_faith = { 'deity'=>"", 'alignment'=>"" }
+      char.pf2_faith = { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
       char.pf2_special = []
       char.pf2_boosts_working = { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=>[] }
       char.pf2_boosts = {}
