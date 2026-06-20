@@ -58,9 +58,6 @@ website:
       route: mail
     - title: Events
       route: events
-    - divider: true
-    - title: Web Client
-      route: client
   - title: Directory
     menu:
     - title: Characters
@@ -295,7 +292,8 @@ website:
     - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Game Policies
       route: wiki-page
       id: policy:game-policies
-    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Character Rules & Expectations
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Character Rules
+        & Expectations
       route: wiki-page
       id: policy:character-rules
     - divider: true
@@ -311,7 +309,8 @@ website:
     - title: <i class="fas fa-caret-right" aria-hidden="true"></i> MUSHing 101 Tutorial
       route: wiki-page
       id: resource:mushing-101
-    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> AresMUSH Tips & Tricks
+    - title: <i class="fas fa-caret-right" aria-hidden="true"></i> AresMUSH Tips &
+        Tricks
       route: wiki-page
       id: resource:ares-tips
     - title: <i class="fas fa-caret-right" aria-hidden="true"></i> Glossary
@@ -388,3 +387,11 @@ website:
     - 3
     minute:
     - 37
+  char_backup_cleanup_cron:
+    hour:
+    - 3
+    minute:
+    - 14
+  public_wiki_folders:
+  - misc
+  default_public_folder: misc

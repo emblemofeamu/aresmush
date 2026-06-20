@@ -13,3 +13,10 @@ achievements:
     story: fa-book
   permissions:
     manage_achievements: Award and remove achievements.
+  notification_cron:
+    hour:
+    - 19
+    minute:
+    - 30
+  notification_category: System Notices
+  notification_days: 1

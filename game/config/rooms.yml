@@ -26,3 +26,4 @@ rooms:
   area_directory_order: []
   icon_types:
     star: fas fa-star
+  icon_legend: {}

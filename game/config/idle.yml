@@ -8,7 +8,6 @@ idle:
   - admin
   - builder
   - coder
-  - guest
   - approved
   idle_warn_msg: You haven't played in awhile and your character is in danger of idling
     out.

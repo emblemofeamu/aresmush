@@ -37,3 +37,6 @@ channels:
     manage_channels: Create and modify channels.
     set_comtitle: Can use the com title command.
   debug_discord: false
+  discord_name_subs:
+    wumpus: wumpu5
+    nelly: nell4

@@ -15,17 +15,17 @@ chargen:
   - hooks %{name}
   - cg/review %{name}
   - sheet %{name}
-  approval_message: Congratulations! Your character has been approved for play. Type %xhonstage%xn
-    to go forth and RP. Don't forget to customize your character profile on the webpage and upload
-    a character icon, if you have not already done so.
+  approval_message: Congratulations! Your character has been approved for play. Type
+    %xhonstage%xn to go forth and RP. Don't forget to customize your character profile
+    on the webpage and upload a character icon, if you have not already done so.
   arrivals_category: New Arrivals
-  bg_blurb: The prologue is your character's story up to the point where they join the 
-    Illuminators. It does not need to be a novel, but should identify key themes, tie
-    your ancestry, heritage, background, and class together, and suggest a possible
+  bg_blurb: The prologue is your character's story up to the point where they join
+    the Illuminators. It does not need to be a novel, but should identify key themes,
+    tie your ancestry, heritage, background, and class together, and suggest a possible
     direction for the character's story. That direction is not set in stone and can
     change as your story progresses.
-  demographics_blurb: "Demographics record your basic character info. Don't worry about 
-    class, level, or ancestry here; you'll set that when you do your sheet."
+  demographics_blurb: Demographics record your basic character info. Don't worry about
+    class, level, or ancestry here; you'll set that when you do your sheet.
   desc_blurb: You can set both your main description, visible when people look at
     you, and a short description that shows your character at a glance. Like your
     prologue, this does not have to be (and shouldn't be) a novel, just enough to
@@ -34,27 +34,28 @@ chargen:
   hooks_blurb: RP Hooks are interesting things about your character that others can
     hook into for RP. This could be an odd personality quirk, a reputation your character
     has, or anything else that might inspire someone to connect with you. Looking
-    around at other characters' profiles can be a good way to get inspiration for RP
-    Hooks.
+    around at other characters' profiles can be a good way to get inspiration for
+    RP Hooks.
   hooks_required: true
   icon_blurb: Your profile icon appears in scenes and the character gallery to show
     your character at a glance. Providing a profile icon is optional. You can upload
     additional character images once you're approved for play.
   lastwill_blurb: The fate of idled-out characters is at the game admin's discretion,
     but you can register a preference with your character's 'last will'. You may ask
-    to be killed off, turned into an NPC, wander off into the wilderness, and more. 
+    to be killed off, turned into an NPC, wander off into the wilderness, and more.
   permissions:
     manage_apps: Approve and reject character apps.
     view_bgs: Can view other characters' backgrounds.
+    submit_app: Can submit chargen application.
   post_approval_message: Please make sure they have a profile image for their log
     icon.
   rank_blurb: This game does not use ranks.
   registration_blurb: This game requires that players disclose their alts privately
     to game admins. See `help register` for more information.
   rejection_message: Sorry, your character could not be approved at the present time
-    for the reasons described in the following text. Please see %xhhelp app%xn for 
-    help making changes and resubmitting, and contact the person handling your 
-    application if you have any questions.
+    for the reasons described in the following text. Please see %xhhelp app%xn for
+    help making changes and resubmitting, and contact the person handling your application
+    if you have any questions.
   shortcuts:
     adv: advance
     chargen: cg
@@ -67,23 +68,19 @@ chargen:
   stages:
     start:
       title: Chargen Commands
-      text: You can do some of chargen either on the web portal (`help web portal`) or 
-        in-client. They both have the same information - it's just a matter of 
-        preference. If you choose to use the in-client chargen, you will be walked 
-        through the process with various commands. You can go back and forth through 
-        the steps of chargen as much as you want using `cg/next` and `cg/prev`.%r
-
-        At this time, Emblem of Ea does not support character sheet generation on the 
-        web; you'll need to log into the game in a supported client to do that part.
+      text: |-
+        You can do some of chargen either on the web portal (`help web portal`) or in-client. They both have the same information - it's just a matter of preference. If you choose to use the in-client chargen, you will be walked through the process with various commands. You can go back and forth through the steps of chargen as much as you want using `cg/next` and `cg/prev`.%r
+        At this time, Emblem of Ea does not support character sheet generation on the web; you'll need to log into the game in a supported client to do that part.
     app:
       title: App Review
-      text: The `app` command is your friend during chargen. It will alert you to things you 
-        may have forgotten to set. %ch%crRed%cn issues will almost certainly prevent your 
-        character from being approved (like forgetting to set your eye color). %ch%cyYellow%cn 
-        issues are warnings; they might actually be OK if it fits the character concept. 
-        You can input `app` at any time to pull up information about your character, and 
-        we also suggest judicious use of the `cg/review` command, which allows you to see 
-        your entire sheet at any time along with anything that might bar it from approval.
+      text: The `app` command is your friend during chargen. It will alert you to
+        things you may have forgotten to set. %ch%crRed%cn issues will almost certainly
+        prevent your character from being approved (like forgetting to set your eye
+        color). %ch%cyYellow%cn issues are warnings; they might actually be OK if
+        it fits the character concept. You can input `app` at any time to pull up
+        information about your character, and we also suggest judicious use of the
+        `cg/review` command, which allows you to see your entire sheet at any time
+        along with anything that might bar it from approval.
     demographics:
       help: demographics
     groups:
@@ -118,21 +115,12 @@ chargen:
       help: idle_out
     review:
       title: App Submission
-      text: You've completed chargen! Review your app one more time, and use `app/submit 
-        <optional notes>` to submit your character when you’re ready. Staff will make 
-        sure it's a good fit for the game's theme and that your sheet is in line with 
-        your prologue. See `help apps` for additional commands if you’re asked to edit 
-        your application or if you wish to edit your application.
-
-        While you're waiting for approval, you can look at the `help vendor` file to 
-        learn about buying gear, and you can interact with the community through the chat 
-        channels and through our community Discord!
-  welcome_message: |-
-    Welcome to Emblem of Ea, %{name}! 
-
-    Learn more about the newest member of the Illuminators: %{profile_link}
-
-    RP Hooks:
-    %{rp_hooks}
+      text: |-
+        You've completed chargen! Review your app one more time, and use `app/submit <optional notes>` to submit your character when you’re ready. Staff will make sure it's a good fit for the game's theme and that your sheet is in line with your prologue. See `help apps` for additional commands if you’re asked to edit your application or if you wish to edit your application.
+        While you're waiting for approval, you can look at the `help vendor` file to learn about buying gear, and you can interact with the community through the chat channels and through our community Discord!
+  welcome_message: "Welcome to Emblem of Ea, %{name}! \n\nLearn more about the newest
+    member of the Illuminators: %{profile_link}\n\nRP Hooks:\n%{rp_hooks}"
   app_notes_prompt: If you want to make any special notes about your application,
     you can enter them below.
+  intro_blurb: The online character creation tool will guide you through creating
+    your character.
