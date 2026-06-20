@@ -233,7 +233,7 @@ module AresMUSH
         @validator.require_boolean('allow_mounts')
         @validator.require_hash('stances')
         @validator.require_hash('combatant_types')
-        @validator.require_in_list('default_type', FS3Combat.combatant_types.keys)
+        @validator.require_in_list('default_type', FS3Combat.combatant_type_names)
 
         Global.read_config('fs3combat', 'stances').each do |name, mods|
           mods.each do |mod, value|
@@ -265,6 +265,9 @@ module AresMUSH
           if (data['armor'] && !FS3Combat.armor(data['armor']))
             @validator.add_error "fs3combat:combatant_types #{name} has invalid armor."
           end
+          if (data['mount'] && !FS3Combat.mount(data['mount']))
+            @validator.add_error "fs3combat:combatant_types #{name} has an invalid mount type."
+          end
           
           if (!data['vehicle'] && !data['weapon'] && name != "Observer")
             @validator.add_error "fs3combat:combatant_types #{name} needs either a weapon or a vehicle."
@@ -288,6 +291,10 @@ module AresMUSH
           defense = data['defense_skill']
           if (defense && !abilities.include?(defense))
             @validator.add_error "fs3combat:combatant_types #{name} has invalid defense ability."
+          end
+          puts FS3Combat.npc_type(data['npc_type'])
+          if (data['npc_type'] && !FS3Combat.npc_type(data['npc_type']))
+            @validator.add_error "fs3combat:combatant_types #{name} has an invalid NPC type."
           end
         end
       end

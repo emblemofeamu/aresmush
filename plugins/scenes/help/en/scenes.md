@@ -26,6 +26,7 @@ While you can always do free-form RP on the grid or in the RP room, there are a 
 `scenes/open` - Shows only open scenes and ones you've been invited to.
 `scenes/unshared` - Lists all scenes you have access to that haven't been shared yet.
 `scenes/all` - Lists all scenes you have access to.
+`scenes/profile` - Lists all shared scenes that you participated in (same as what shows on your web portal profile).
 
 ## Starting  a Scene
 

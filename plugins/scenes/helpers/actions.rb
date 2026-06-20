@@ -79,8 +79,8 @@ module AresMUSH
 
       if (scene.room)
         scene.room.characters.each do |c|
-          connected_client = Login.find_client(c)
-
+          connected_client = Login.find_game_client(c)
+        
           if (scene.temp_room)
             Scenes.send_home_from_scene(c)
             message = t('scenes.scene_ending', :name => enactor.name)
