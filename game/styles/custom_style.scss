@@ -143,6 +143,7 @@ div.site-subtitle {
 div.site-title {
     font-weight: bold;
     width: 150%;
+    text-transform: revert;
 }  
 
 div.site-subtitle {
@@ -164,6 +165,8 @@ div.container-fluid {
 
 div.body-wrap {
     background-color: transparent;
+    padding-left: .5em;
+    padding-right: .5em;
 }
 
 /* Mobile version body styling */
@@ -213,6 +216,7 @@ div.sidebar-box {
 .sidebar-heading h2 {
     padding: 0px;
     margin-top: .1em;
+    text-transform: revert;
 }
 
 /* Code text styling */
@@ -261,6 +265,12 @@ h4, .h4 {
 }
 
 /* Character profile page styling */
+
+.profile-title {
+    margin: revert;
+    background-image: linear-gradient(to right, #466671, transparent); /* Deep Space Sparkle */
+    background-color: transparent;
+}
 
 .profile-wrap {
     border-radius: 0px;
@@ -768,8 +778,10 @@ div.card-body.markdown-editor {
 
 .markdown-preview {
     width: 100%;
-    padding: 0px;
-    margin: 5px 10px 10px 10px;
+    padding: .5em;
+    margin: 0px;
+    background-color: transparent;
+    border: 1px solid #3a4146;
 }
 
 .markdown-control-toggle {
@@ -778,6 +790,7 @@ div.card-body.markdown-editor {
     padding: 10px 10px 10px 10px;
     border: 1px solid #302727;
     border-bottom: none;
+    height: 3em;
 }
 
 .markdown-control-toggle.active {
@@ -786,6 +799,7 @@ div.card-body.markdown-editor {
     margin: 0px;
     border: 1px solid #302727;
     border-bottom: none;
+    height: 3em;
 }
 
 /* Action button styling (seen on wikis and jobs) */

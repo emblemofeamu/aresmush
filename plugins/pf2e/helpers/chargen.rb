@@ -724,7 +724,7 @@ module AresMUSH
           "cg_skill" => skill.checkpoint["cg_skill"]
         }
       end
-      client = Global.client_monitor.find_client(char)
+      client = Global.client_monitor.find_game_client(char)
       case checkpoint
         when "info"
           Pf2e.reset_character(char)

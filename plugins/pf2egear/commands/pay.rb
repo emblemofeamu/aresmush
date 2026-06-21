@@ -127,7 +127,7 @@ module AresMUSH
 
         Login.notify(target_char, :pf2_money, recipient_msg, actual_value)
 
-        recipient_client = Login.find_client(target_char)
+        recipient_client = Login.find_game_client(target_char)
         if recipient_client && target_char != enactor
           recipient_client.emit_ooc recipient_msg
         end
