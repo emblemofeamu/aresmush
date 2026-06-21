@@ -67,6 +67,35 @@ module AresMUSH
         "#{dc} (#{prof})"
       end
 
+      def archetype_class_dcs
+        return "--" if !combat_stats
+
+        dcs = Pf2eCombat.get_archetype_class_dcs(@char)
+        return "--" if dcs.empty?
+
+        dcs.keys.sort.map do |archetype|
+          info = dcs[archetype]
+          name = archetype.sub(/ Archetype$/, '')
+          prof = info['prof'].to_s[0]&.upcase
+          key_abil = info['key_abil'].to_s
+          key_abil_short = key_abil.empty? ? "---" : key_abil[0..2].upcase
+
+          "%xh#{name}%xn: #{info['dc']} (#{prof}, #{key_abil_short})"
+        end.join(", ")
+      end
+
+      def has_archetypes?
+        archetype_info = @char.pf2_archetypeinfo || {}
+        archetypes = [
+          archetype_info['archetype1'],
+          archetype_info['archetype2'],
+          archetype_info['archetype3'],
+          archetype_info['archetype4']
+        ].compact.map { |a| a.to_s.strip }.reject(&:empty?)
+
+        !archetypes.empty?
+      end
+
       def perception
         return "--" if !combat_stats
         bonus = Pf2eCombat.get_perception(@char)
@@ -144,7 +173,7 @@ module AresMUSH
         bonus = Pf2eCombat.get_wpattack_bonus(char, w)
         prof = Pf2eCombat.get_weapon_prof(char, w.name)[0].upcase
         damage = Pf2eCombat.get_damage(char, w.name, w)
-        traits = w.traits.join(", ")
+        traits = w.traits.map { |t| titleize_trait(t) }.join(", ")
 
         "%b%b#{left(i, 3)}%b#{left(name, 40)}%b#{left("#{bonus} (#{prof})",10)}%b#{left(damage, 15)}\n%b%b#{item_color}Traits:%xn #{traits}"
       end
@@ -169,7 +198,7 @@ module AresMUSH
         bonus = abilmod + prof
         p_str = unarmed_prof[0].upcase
 
-        traits = traits.join(", ")
+        traits = traits.map { |t| titleize_trait(t) }.join(", ")
 
         "#{item_color}#{atk_name}:%xn #{bonus} (#{p_str}) #{damage}\n#{item_color}Traits:%xn #{traits}%r"
       end
@@ -180,6 +209,10 @@ module AresMUSH
         name = "#{cond_color}#{condition}"
         value = value ? "%b#{value}" : ""
         "#{name}#{value}%xn"
+      end
+
+      def titleize_trait(trait)
+        trait.to_s.split("_").map(&:capitalize).join(" ")
       end
 
     end

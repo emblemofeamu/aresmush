@@ -6,20 +6,29 @@ module AresMUSH
       attr_accessor :checkpoint
 
       def parse_args
-        self.checkpoint = cmd.args
-        if ![ "info", "abilities", "skills" ].include? self.checkpoint
-          return nil
+        self.checkpoint = downcase_arg(cmd.args)
+      end
+
+      def check_checkpoint
+        valid_checkpoints = [ "info", "abilities", "skills" ]
+        if !valid_checkpoints.include?(self.checkpoint)
+          return t('pf2e.cg_restore_help')
         end
       end
 
       def check_in_chargen
-        stages = { "skills" => 6, "abilities" => 5, "info" => 4 }
+        stages = { "featskills" => 7, "skills" => 6, "abilities" => 5, "info" => 4 }
+        current_stage = stages[enactor.pf2_checkpoint]
+        target_stage = stages[checkpoint]
+
         if enactor.is_approved? || enactor.chargen_locked
           return t('pf2e.only_in_chargen')
         elsif !enactor.chargen_stage
           return t('chargen.not_started')
+        elsif !current_stage || !target_stage
+          return t('pf2e.cg_restore_help')
         # In 5, going 6
-        elsif stages[enactor.pf2_checkpoint] < stages[checkpoint]
+        elsif current_stage < target_stage
           return t('pf2e.cg_cant_restore_to_stage_you_dont_have', :checkpoint=>self.checkpoint)
         else
           return nil

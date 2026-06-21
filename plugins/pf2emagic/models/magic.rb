@@ -45,6 +45,18 @@ module AresMUSH
 
       info.each_pair do |key, value|
         case key
+        when "innate_spell"
+          names = Array(value['name'])
+          open_count = names.count { |n| n.to_s.downcase == 'open' }
+
+          if open_count > 0
+            level_key = value['level'].to_i.zero? || value['level'].to_s.downcase == 'cantrip' ? 'cantrip' : value['level'].to_s
+            assignment_list = magic_options['innate'] || {}
+            list = assignment_list[level_key] || []
+            list.concat(Array.new(open_count, 'open'))
+            assignment_list[level_key] = list
+            magic_options['innate'] = assignment_list
+          end
         when "repertoire"
 
           assignment_list = {}
@@ -55,13 +67,22 @@ module AresMUSH
 
           magic_options["repertoire"] = assignment_list
         when "spellbook"
-          ary = Array.new(value, "open")
-
-          magic_options["spellbook"] = ary
-        when "signature_spell"
+          if value.is_a?(Hash)
+            assignment_list = {}
+            value.each_pair do |level, num|
+              assignment_list[level] = Array.new(num, "open")
+            end
+            magic_options["spellbook"] = assignment_list
+          else
+            ary = Array.new(value, "open")
+            magic_options["spellbook"] = ary
+          end
+        when "signature_spell", "signature_spells"
           # This key means that the character needs to pick a spell from their repertoire as a signature spell.
           # Structure of value: { level to pick from => number of spells to add }
           # Use to_assign["signature"]
+
+          magic_stats["signature_spells"] = value
 
           assignment_list = {}
           value.each_pair do |level, num|
@@ -135,8 +156,21 @@ module AresMUSH
         when "focus_pool"
           pool = magic.focus_pool
 
+          old_max_pool = pool["max"].to_i
+          old_current_pool = pool["current"].to_i
+
           new_max_pool = Pf2emagic.get_max_focus_pool(char, value)
           pool["max"] = new_max_pool
+
+          new_current_pool = if old_max_pool.zero? && old_current_pool.zero?
+                               new_max_pool
+                             elsif old_current_pool == old_max_pool
+                               new_max_pool
+                             else
+                               [ old_current_pool, new_max_pool ].min
+                             end
+
+          pool["current"] = new_current_pool
           magic.focus_pool = pool
         when "addrepertoire"
           # This key is called for spells added to the repertoire by bloodlines, mysteries, etc.
@@ -162,6 +196,33 @@ module AresMUSH
           spells = Global.read_config('pf2e_subclass', 'get_genie_spell', genie)
 
           # Do nothing if genie not found.
+          next unless spells
+
+          # Grab the spell corresponding to value.
+          spell = spells[value]
+
+          next unless spell
+
+          repertoire = magic.repertoire
+          rep_for_class = repertoire[charclass]
+
+          rep_at_level = rep_for_class[value] || []
+
+          rep_at_level << spell
+
+          rep_for_class[value] = rep_at_level
+
+          repertoire[charclass] = rep_for_class
+
+          magic.repertoire = repertoire
+        when "get_dragon_repertoire"
+          # Value of this key is an integer that corresponds to the level of the spell.
+          # It works like repertoire, but what this bloodline gets depends on their dragon ancestry.
+
+          draconic = char.pf2_base_info['specialize_info']
+          spells = Global.read_config('pf2e_subclass', 'get_dragon_spell', draconic)
+
+          # Do nothing if draconic not found.
           next unless spells
 
           # Grab the spell corresponding to value.
@@ -236,7 +297,7 @@ module AresMUSH
 
           spellbook[charclass] = csb
           magic.spellbook = spellbook
-        when "signature_spell"
+        when "signature_spell", "signature_spells"
           # This key means that the character needs to pick a spell from their repertoire as a signature spell.
           # Structure of value: { level to pick from => number of spells to add }
           # Use to_assign["signature"]
@@ -253,9 +314,14 @@ module AresMUSH
           # Structure of innate spells: {spell name => { 'level' => <level>, 'tradition' => tradition, 'cast_stat' => cast_stat}}
 
           ilist = magic.innate_spells
-          key = value.delete('name')
+          names = Array(value['name'])
+          spell_data = value.reject { |k, _| k == 'name' }
 
-          ilist[key] = value
+          names.each do |spell_name|
+            next if spell_name.nil? || spell_name.empty?
+
+            ilist[spell_name] = spell_data
+          end
 
           magic.innate_spells = ilist
         when "divine_font"

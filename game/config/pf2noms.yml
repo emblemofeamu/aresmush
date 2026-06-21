@@ -14,10 +14,10 @@ pf2noms:
     - 700
   nom_refresh_cron:
     day_of_week:
-    - Sun
+      - Sun
     hour:
-    - 6
+      - 6
     minute:
-    - 16
+      - 16
   permissions:
     dmnom: Give DM noms to players.

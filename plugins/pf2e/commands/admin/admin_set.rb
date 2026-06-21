@@ -305,10 +305,82 @@ module AresMUSH
           PF2Magic.update_magic(char, 'charclass', font_info, client)
 
           client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Divine font')
+        when 'alignment'
+          # Expected structure of self.value = alignment code (e.g., N, CN)
+
+          allowed_alignments = Global.read_config('pf2e', 'allowed_alignments')
+          alignment = parse_alignment_value(self.value)
+
+          if alignment.blank? || !allowed_alignments.include?(alignment)
+            client.emit_failure t('pf2e.bad_value', :item => 'alignment')
+            return
+          end
+
+          faith = char.pf2_faith
+          faith['alignment'] = alignment
+          char.update(pf2_faith: faith)
+
+          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Alignment')
+
+          deity = faith['deity']
+          if deity && !deity.blank?
+            allowed = Global.read_config('pf2e_deities', deity, 'allowed_alignments') || []
+            unless allowed.include?(alignment)
+              client.emit_ooc t('pf2e.admin_alignment_deity_warning', :deity => deity)
+            end
+          end
+        when 'deity'
+          # Expected structure of self.value = deity name
+
+          options = Global.read_config('pf2e_deities').keys
+          raw_value = self.value.join(" ").strip
+
+          if raw_value.blank?
+            client.emit_failure t('pf2e.bad_value', :item => 'deity')
+            return
+          end
+
+          exact_match = options.find { |o| o.downcase == raw_value.downcase }
+          if !exact_match
+            client.emit_failure t('pf2e.bad_value', :item => 'deity')
+            return
+          end
+
+          selected_option = exact_match
+
+          faith = char.pf2_faith
+          faith['deity'] = selected_option
+          char.update(pf2_faith: faith)
+
+          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Deity')
+
+          alignment = faith['alignment']
+          if alignment && !alignment.blank?
+            allowed = Global.read_config('pf2e_deities', selected_option, 'allowed_alignments') || []
+            unless allowed.include?(alignment)
+              client.emit_ooc t('pf2e.admin_alignment_deity_warning', :deity => selected_option)
+            end
+          end
         else
           client.emit_failure t('pf2e.bad_value', :item => 'keyword')
         end
 
+      end
+
+      def parse_alignment_value(value_list)
+        return nil if !value_list || value_list.empty?
+
+        raw_value = value_list.join(" ").strip
+        return nil if raw_value.blank?
+
+        normalized = raw_value.upcase.gsub(/\s+/, " ")
+        return "N" if normalized == "NEUTRAL" || normalized == "TRUE NEUTRAL"
+
+        if normalized.length <= 2 && normalized !~ /\s/
+          return normalized
+        end
+
+        value_list.map { |word| word[0] }.join.upcase
       end
 
 

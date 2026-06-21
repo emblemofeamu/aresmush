@@ -31,6 +31,7 @@ en:
 
     money_history_title: "Money History for %{char}"
     money_paid_ok: "You pay %{value} %{cointype} to %{payee}."
+    your_money_taken: "%{from} took %{value} %{cointype} from you."
     money_taken_ok: "You take %{value} %{cointype} from %{payer}."
     money_totals: "%{name} has the following money totals: %{money}"
     must_specify_by_number: "Please specify that category of item by number."
@@ -47,7 +48,20 @@ en:
 
     quantity_one_only: "You can only buy one of this type of item at a time. Creating one item..."
 
+    rune_bad_operation_for_type: "%{operation} runes are invalid for category type %{category}."
+    rune_no_admin: "You do not have permission to etch runes."
+    rune_cmd_fail: "Invalid command format. Use etch/%{rune_type} target=category/item_index/rune_level"
+    rune_property_cmd_fail: "Invalid command format. Use etch/property target=category/item_index/rune_name"  
+    rune_out_of_range: "Invalid rune level. Fundamental rune levels are between 0 and 3."
+    rune_potency_set: "%{rune} rune on %{char}'s %{item_name} changed from %{old_rune_lvl} to %{rune_lvl}."
+    rune_power_gt_potency: "You cannot add a Striking or Resilient rune greater than the item's Potency rune."
+    rune_potency_gt_power: "You cannot set a Potency rune lower than the item's Striking or Resilient rune."
+    rune_property_set: "%{rune_name} %{operation} on %{char}'s %{item_name}."
+    
+
     shields_dont_have_magic: "%xh%xmShields do not have magical properties.%xn"
+
+    target_not_found: "%{name} is not a valid character name."
 
     too_many_invested: "You can only invest %{max} items at a time."
 

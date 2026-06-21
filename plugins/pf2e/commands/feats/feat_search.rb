@@ -28,11 +28,12 @@ module AresMUSH
           'ancestry', 
           'skill',
           'description',
-          'desc'
+          'desc',
+          'archetype'
         ]
 
         return nil if valid_types.include? self.search_type
-        return t('pf2e.bad_option', :options => valid_types.sort.join, :element => "search type")
+        return t('pf2e.bad_option', :options => valid_types.sort.join(', '), :element => "search type")
       end
 
       def handle
@@ -61,9 +62,16 @@ module AresMUSH
           return
         end
 
-        title = "Feat Search Results (#{self.search_type}=#{operator} #{term})"
+        search_args = operator ? "#{self.search_type}=#{operator} #{term}" : "#{self.search_type}=#{term}"
+        title = "Feat Search Results (#{search_args})"
+        page_notice = nil
+        if paginator.total_pages > 1 && paginator.current_page < paginator.total_pages
+          next_page = paginator.current_page + 1
+          page_command = "feat/search#{next_page} #{search_args}"
+          page_notice = t('pf2e.feat_search_next_page', :command => page_command)
+        end
 
-        template = PF2eFeatDisplay.new(paginator, title)
+        template = PF2eFeatDisplay.new(paginator, title, page_notice)
 
         client.emit template.render
 

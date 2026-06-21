@@ -16,6 +16,14 @@ module AresMUSH
         [ self.search_type ]
       end
 
+      def check_is_special_feat
+        if self.search_type == "Special"
+          return t('pf2e.no_feat_option_special')
+        else
+          return nil
+        end
+      end
+
       def check_chargen_or_advancement
         if enactor.chargen_locked && !enactor.advancing || enactor.is_admin?
           return t('pf2e.only_in_chargen')
@@ -27,7 +35,7 @@ module AresMUSH
       end
 
       def handle
-
+        
         to_assign = enactor.pf2_to_assign
 
         # Does the character need to assign this feat? 
@@ -39,11 +47,16 @@ module AresMUSH
 
         # Do it. 
 
-        options = Pf2e.get_feat_options(enactor, self.search_type)
+        EventMachine.defer(
+          proc {
+            options = Pf2e.get_feat_options(enactor, self.search_type)
+            options
+          },
 
-        client.emit t('pf2e.feat_available_options', :options => options.sort.join(", "))
-        
-
+          proc { |options|
+            client.emit t('pf2e.feat_available_options', :options => options.sort.join(", "))
+          }
+        )
       end
 
 

@@ -25,7 +25,6 @@ module AresMUSH
           'traits',
           'level',
           'tradition',
-          'school',
           'bloodline',
           'cast',
           'description',

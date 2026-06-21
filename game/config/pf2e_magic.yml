@@ -12,16 +12,16 @@ pf2e_magic:
             choice_name: Spell - Lesson of the Elements
             choice_description: Choose which spell your familiar learns from Lesson of the Elements.
             options:
-            - Burning Hands
-            - Air Bubble
-            - Hydraulic Push
-            - Pummeling Rubble
+              - Breathe Fire
+              - Air Bubble
+              - Hydraulic Push
+              - Pummeling Rubble
       Lesson of Life:
         cantrip: Life Boost
         spell: Spirit Link
       Lesson of Protection:
         cantrip: Blood Ward
-        spell: Mage Armor
+        spell: Mystic Armor
       Lesson of Vengeance:
         cantrip: Needle of Vengeance
         spell: Phantom Pain
@@ -44,214 +44,219 @@ pf2e_magic:
         spell: Field of Life
   domains:
     Air:
-      description: "You can control winds and the weather."
-      initial: "Lift Nature's Caul"
-      advanced: Fearful Feast
-    Ambition:
-      description: "You strive to keep up with and outpace the competition."
-      initial: Blind Ambition
-      advanced: Competitive Edge
-    Change:
-      description: "You can restructure the physical and metaphysical."
+      description: You can control winds and the weather.
       initial: Pushing Gust
       advanced: Disperse Into Air
+    Ambition:
+      description: You strive to keep up with and outpace the competition.
+      initial: Ignite Ambition
+      advanced: Competitive Edge
+    Change:
+      description: You can restructure the physical and metaphysical.
+      initial: Adapt Self
+      advanced: Adaptive Ablation
     Cities:
-      description: "You have powers over urban environments and denizens."
+      description: You have powers over urban environments and denizens.
       initial: Face in the Crowd
-      advanced: Pulse of the City
+      advanced: Pulse of Civilization
     Confidence:
-      description: "You overcome your fear and project pride."
+      description: You overcome your fear and project pride.
       initial: Veil of Confidence
       advanced: Delusional Pride
     Creation:
-      description: "You have divine abilities related to crafting and art."
-      initial: Splash of Art
+      description: You have divine abilities related to crafting and art.
+      initial: Creative Splash
       advanced: Artistic Flourish
     Darkness:
-      description: "You operate in the darkness and take away the light."
+      description: You operate in the darkness and take away the light.
       initial: Cloak of Shadow
-      advanced: Darkened Eyes
+      advanced: Darkened Sight
     Death:
-      description: "You have the power to end lives and destroy undead."
-      initial: "Death's Call"
+      description: You have the power to end lives and destroy undead.
+      initial: Death's Call
       advanced: Eradicate Undeath
     Decay:
-      description: "You have the power to spoil and deteriorate matter."
+      description: You have the power to spoil and deteriorate matter.
       initial: Withering Grasp
       advanced: Fallow Field
     Destruction:
-      description: "You are a conduit for divine devastation."
+      description: You are a conduit for divine devastation.
       initial: Cry of Destruction
       advanced: Destructive Aura
+    Dragon:
+      description: You draw on the power of dragons, linnorms, and other powerful reptilian creatures.
+      initial: Draconic Barrage
+      advanced: Roar of the Wyrm
     Dreams:
-      description: "You have the power to enter and manipulate dreams."
+      description: You have the power to enter and manipulate dreams.
       initial: Sweet Dream
-      advanced: "Dreamer's Call"
+      advanced: Dreamer's Call
     Duty:
-      description: "You defend oaths and carry out your divine missions with great dedication."
-      initial: "Oathkeeper's Insignia"
+      description: You defend oaths and carry out your divine missions with great dedication.
+      initial: Swear Oath
       advanced: Dutiful Challenge
     Earth:
-      description: "You control soil and stone."
+      description: You control soil and stone.
       initial: Hurtling Stone
       advanced: Localized Quake
     Family:
-      description: "You aid and protect your family and community more effectively."
+      description: You aid and protect your family and community more effectively.
       initial: Soothing Words
       advanced: Unity
     Fate:
-      description: "You see and understand hidden inevitabilities."
+      description: You see and understand hidden inevitabilities.
       initial: Read Fate
       advanced: Tempt Fate
     Fire:
-      description: "You control flame."
+      description: You control flame.
       initial: Fire Ray
       advanced: Flame Barrier
     Freedom:
-      description: "You liberate yourself and others from shackles and constraints."
+      description: You liberate yourself and others from shackles and constraints.
       initial: Unimpeded Stride
       advanced: Word of Freedom
     Glyph:
-      description: "You wield power over written words and symbols."
+      description: You wield power over written words and symbols.
       initial: Redact
       advanced: Ghostly Transcription
     Healing:
-      description: "Your healing magic is particularly potent."
-      initial: "Healer's Blessing"
+      description: Your healing magic is particularly potent.
+      initial: Healer's Blessing
       advanced: Rebuke Death
     Indulgence:
-      description: "You feast mightily and can shake off the effects of overindulging."
+      description: You feast mightily and can shake off the effects of overindulging.
       initial: Overstuff
       advanced: Take its Course
     Knowledge:
-      description: "You receive divine insights."
+      description: You receive divine insights.
       initial: Scholarly Recollection
       advanced: Know the Enemy
     Luck:
-      description: "You’re unnaturally lucky and keep out of harm’s way."
+      description: You're unnaturally lucky and keep out of harm's way.
       initial: Bit of Luck
       advanced: Lucky Break
     Magic:
-      description: "You perform the unexpected and inexplicable."
-      initial: "Magic's Vessel"
+      description: You perform the unexpected and inexplicable.
+      initial: Magic's Vessel
       advanced: Mystic Beacon
     Might:
-      description: "Your physical power is bolstered by divine strength."
+      description: Your physical power is bolstered by divine strength.
       initial: Athletic Rush
       advanced: Enduring Might
     Moon:
-      description: "You command powers associated with the moon."
+      description: You command powers associated with the moon.
       initial: Moonbeam
       advanced: Touch of the Moon
     Nature:
-      description: "You hold power over animals and plants."
+      description: You hold power over animals and plants.
       initial: Vibrant Thorns
-      advanced: "Nature's Bounty"
+      advanced: Nature's Bounty
     Nightmare:
-      description: "You fill minds with horror and dread."
+      description: You fill minds with horror and dread.
       initial: Waking Nightmare
       advanced: Shared Nightmare
     Pain:
-      description: "You punish those who displease you with the sharp sting of pain."
+      description: You punish those who displease you with the sharp sting of pain.
       initial: Savor the Sting
-      advanced: Retibutive Pain
+      advanced: Retributive Pain
     Passion:
-      description: "You evoke passion, whether as love or lust."
+      description: You evoke passion, whether as love or lust.
       initial: Charming Touch
       advanced: Captivating Adoration
     Perfection:
-      description: "You strive to perfect your mind, body, and spirit."
+      description: You strive to perfect your mind, body, and spirit.
       initial: Perfected Mind
-      advanced: Perfected Form
+      advanced: Perfected Body
     Protection:
-      description: "You ward yourself and others."
-      initial: "Protector's Sacrifice"
-      advanced: "Protector's Sphere"
+      description: You ward yourself and others.
+      initial: Protector's Sacrifice
+      advanced: Protector's Sphere
     Repose:
-      description: "You ease mental burdens."
+      description: You ease mental burdens.
       initial: Share Burden
-      advanced: Font of Sereneity
+      advanced: Font of Serenity
     Secrecy:
-      description: "You protect secrets and keep them hidden."
-      initial: Forced Quiet
+      description: You protect secrets and keep them hidden.
+      initial: Whispering Quiet
       advanced: Safeguard Secret
     Sorrow:
-      description: "You have a painful connection to melancholy and sadness."
+      description: You have a painful connection to melancholy and sadness.
       initial: Lament
       advanced: Overflowing Sorrow
     Soul:
-      description: "You wield power over the spiritual."
+      description: You wield power over the spiritual.
       initial: Eject Soul
       advanced: Ectoplasmic Interstice
-    Star:
-      description: "You command the power of the stars."
-      initial: Zenith Star
-      advanced: Asterism
     Sun:
-      description: "You harness the power of the sun and other light sources, and punish undead."
+      description: You harness the power of the sun and other light sources, and punish undead.
       initial: Dazzling Flash
-      advanced: Positive Luminance
+      advanced: Vital Luminance
     Swarm:
-      description: "You exert control over masses of creatures."
+      description: You exert control over masses of creatures.
       initial: Swarmsense
       advanced: Swarm Form
     Time:
-      description: "You reign over the flow of time."
+      description: You reign over the flow of time.
       initial: Delay Consequence
       advanced: Stasis
     Toil:
-      description: "You work constantly and refuse to let anything stand in your way."
+      description: You work constantly and refuse to let anything stand in your way.
       initial: Practice Makes Perfect
       advanced: Tireless Worker
     Travel:
-      description: "You have power over movement and journeys."
+      description: You have power over movement and journeys.
       initial: Agile Feet
-      advanced: "Traveler's Transit"
+      advanced: Traveler's Transit
     Trickery:
-      description: "You deceive others and cause mischief."
+      description: You deceive others and cause mischief.
       initial: Sudden Shift
-      advanced: "Trickster's Twin"
+      advanced: Trickster's Twin
     Truth:
-      description: "You pierce lies and discover the truth."
+      description: You pierce lies and discover the truth.
       initial: Word of Truth
       advanced: Glimpse the Truth
     Tyranny:
-      description: "You wield power to rule and enslave others."
+      description: You wield power to rule and enslave others.
       initial: Touch of Obedience
       advanced: Commanding Lash
     Undeath:
-      description: "Your magic carries close ties to the undead."
+      description: Your magic carries close ties to the undead.
       initial: Touch of Undeath
       advanced: Malignant Sustenance
     Void:
-      description: "You draw power from emptiness."
+      description: You draw power from emptiness.
       initial: Empty Inside
       advanced: Door to Beyond
     Water:
-      description: "You control water and bodies of water."
+      description: You control water and bodies of water.
       initial: Tidal Surge
       advanced: Downpour
     Wealth:
-      description: "You hold power over wealth, trade, and treasure."
-      initial: Appearance of Weath
+      description: You hold power over wealth, trade, and treasure. 
+      initial: Appearance of Wealth
       advanced: Precious Metals
-    Wyrmkin:
-      description: "You draw on the power of dragons, linnorms, and other powerful reptilian creatures."
-      initial: Draconic Barrage
-      advanced: Roar of the Wyrm
     Zeal:
-      description: "Your inner fire increases your combat prowess."
+      description: Your inner fire increases your combat prowess.
       initial: Weapon Surge
       advanced: Zeal for Battle
   prepared_casters:
-  - Cleric
-  - Druid
-  - Witch
-  - Wizard
+    - Cleric
+    - Druid
+    - Witch
+    - Wizard
   spontaneous_casters:
-  - Bard
-  - Oracle
-  - Sorcerer
+    - Bard
+    - Oracle
+    - Sorcerer
+  prepared_archetypes:
+    - Cleric Archetype
+    - Druid Archetype
+    - Witch Archetype
+    - Wizard Archetype
+  spontaneous_archetypes:
+    - Bard Archetype
+    - Oracle Archetype
+    - Sorcerer Archetype
   focus_casting_stat: 
     bloodline: Charisma
     composition: Charisma

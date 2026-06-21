@@ -15,7 +15,7 @@ module AresMUSH
           # Self version
         else
           self.name = enactor.name
-          self.date_str = cmd.args
+          self.date_str = cmd.args.capitalize # capitalize input so that it takes lowercase months
         end
       end
       
@@ -37,8 +37,31 @@ module AresMUSH
       end
       
       def handle
+        rl_months = Date::MONTHNAMES
+        ic_months = [ nil ] + Global.read_config("ictime",)["month_names"]
+        formatted_date_str = ""
+
+        # Determine which date_str format is used and normalize to "Month Day, Year"
+        # Find format
+        if self.date_str.match(/(\d+)\/(\d+)\/(\d+)/)
+          month = ic_months[$1.to_i]
+          day = $2.to_i
+          year = $3.to_i
+        elsif self.date_str.match(/([a-zA-Z]+) (\d+),? (\d+)/)
+          if ic_months.include?($1)
+            month = $1
+          elsif rl_months.include?($1)
+            month = ic_months[rl_months.index($1)]
+          end
+          day = $2.to_i
+          year = $3.to_i
+        end
+
+        # Format the constituents into a standard string
+        formatted_date_str = "#{rl_months[ic_months.index(month)]} #{day}, #{year}"
+
         ClassTargetFinder.with_a_character(self.name, client, enactor) do |model|
-          results = Demographics.set_birthday(model, self.date_str)
+          results = Demographics.set_birthday(model, formatted_date_str)
 
           if (results[:error])
             client.emit_failure results[:error]

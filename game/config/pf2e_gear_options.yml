@@ -21,23 +21,25 @@ pf2e_gear_options:
     gear: PF2Gear
     consumables: PF2Consumable
   weapon_groups:
-  - Axe
-  - Bow
-  - Brawling
-  - Club
-  - Dart
-  - Flail
-  - Hammer
-  - Knife
-  - Pick
-  - Polearm
-  - Shield
-  - Sling
-  - Spear
-  - Sword
+    - Axe
+    - Bow
+    - Bomb
+    - Brawling
+    - Club
+    - Crossbow
+    - Dart
+    - Flail
+    - Hammer
+    - Knife
+    - Pick
+    - Polearm
+    - Shield
+    - Sling
+    - Spear
+    - Sword
   armor_groups:
-  - Cloth
-  - Leather
-  - Chain
-  - Composite
-  - Plate
+    - Cloth
+    - Leather
+    - Chain
+    - Composite
+    - Plate

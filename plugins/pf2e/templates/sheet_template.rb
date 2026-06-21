@@ -12,6 +12,10 @@ module AresMUSH
         @client = client
         @base_info = base_info
         @faith_info = faith_info
+        # Get archetypes from character's pf2_archetypeinfo
+        archetype_info = @char.pf2_archetypeinfo || {}
+        @archetypes = [archetype_info['archetype1'], archetype_info['archetype2'], archetype_info['archetype3'], archetype_info['archetype4']].compact.reject(&:empty?)
+        @archetype_specialties = [archetype_info['archetype_specialty1'], archetype_info['archetype_specialty2'], archetype_info['archetype_specialty3'], archetype_info['archetype_specialty4']].compact.reject(&:empty?)
 
         super File.dirname(__FILE__) + "/sheet_template.erb"
       end
@@ -62,8 +66,37 @@ module AresMUSH
                   "/" + @base_info['specialize_info']
       end
 
+      def archetype
+        archetype_info = @char.pf2_archetypeinfo || {}
+        archetypes_list = []
+
+        (1..4).each do |index|
+          archetype_name = archetype_info["archetype#{index}"].to_s.strip
+          next if archetype_name.empty?
+
+          specialty = archetype_info["archetype_specialty#{index}"].to_s.strip
+          choice = archetype_info["archetype_specialty_choice#{index}"].to_s.strip
+          name = archetype_name.sub(/ Archetype$/, '')
+
+          if specialty.empty?
+            archetypes_list << name
+          else
+            specialty_label = choice.empty? ? specialty : "#{specialty} - #{choice}"
+            archetypes_list << "#{name} (#{specialty_label})"
+          end
+        end
+
+        return "None" if archetypes_list.empty?
+
+        archetypes_list.join(", ")
+      end
+
+      def archetype_line
+        wrap_text("#{item_color}Archetype(s)%xn: #{archetype}", 78)
+      end
+
       def traits
-        @char.pf2_traits.sort.join(", ")
+        @char.pf2_traits.map(&:capitalize).sort.join(", ")
       end
 
       def level
@@ -149,6 +182,35 @@ module AresMUSH
         "#{dc} (#{prof})"
       end
 
+      def archetype_class_dcs
+        return "--" if !combat_stats
+
+        dcs = Pf2eCombat.get_archetype_class_dcs(@char)
+        return "--" if dcs.empty?
+
+        dcs.keys.sort.map do |archetype|
+          info = dcs[archetype]
+          name = archetype.sub(/ Archetype$/, '')
+          prof = info['prof'].to_s[0]&.upcase
+          key_abil = info['key_abil'].to_s
+          key_abil_short = key_abil.empty? ? "---" : key_abil[0..2].upcase
+
+          "%xh#{name}%xn: #{info['dc']} (#{prof}, #{key_abil_short})"
+        end.join(", ")
+      end
+
+      def has_archetypes?
+        archetype_info = @char.pf2_archetypeinfo || {}
+        archetypes = [
+          archetype_info['archetype1'],
+          archetype_info['archetype2'],
+          archetype_info['archetype3'],
+          archetype_info['archetype4']
+        ].compact.map { |a| a.to_s.strip }.reject(&:empty?)
+
+        !archetypes.empty?
+      end
+
       def perception
         return "--" if !combat_stats
         bonus = Pf2eCombat.get_perception(@char)
@@ -218,8 +280,20 @@ module AresMUSH
         list.sort.join(", ")
       end
 
-      def features
-        @char.pf2_features.sort.join(", ")
+      def class_features
+        if @char.pf2_features['charclass_features'].empty?
+          "None"
+        else
+          @char.pf2_features['charclass_features'].sort.join(", ")
+        end
+      end
+
+      def archetype_features
+        if @char.pf2_features['archetype_features'].empty?
+          "None"
+        else
+          @char.pf2_features['archetype_features'].sort.join(", ")
+        end
       end
 
       def languages
@@ -286,6 +360,28 @@ module AresMUSH
         end
 
         list.join(", ")
+      end
+
+      def weapon_group_prof
+        return "None" if !combat_stats
+
+        group_profs = combat_stats.weapon_group_prof || {}
+        return "None" if group_profs.empty?
+
+        group_profs.keys.sort.map do |group|
+          profs = group_profs[group] || {}
+          simple = profs['simple'] || profs[:simple]
+          martial = profs['martial'] || profs[:martial]
+          unarmed = profs['unarmed'] || profs[:unarmed]
+          advanced = profs['advanced'] || profs[:advanced]
+
+          simple_label = simple ? simple.to_s[0].upcase : "-"
+          martial_label = martial ? martial.to_s[0].upcase : "-"
+          unarmed_label = unarmed ? unarmed.to_s[0].upcase : "-"
+          advanced_label = advanced ? advanced.to_s[0].upcase : "-"
+
+          "%xh#{group}%xn (%xhSimple%xn: #{simple_label}, %xhMartial%xn: #{martial_label}, %xhUnarmed%xn: #{unarmed_label}, %xhAdvanced%xn: #{advanced_label})"
+        end.join(", ")
       end
 
       def magic_stats
@@ -380,8 +476,35 @@ module AresMUSH
         trad = Pf2e.pretty_string(trad_info[0])
         prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
         atk = PF2Magic.get_spell_attack_bonus(@char, charclass)
+        display_class = charclass.to_s.sub(/ Archetype$/, ' (A)')
 
-        "%b%b#{left(charclass,15)}#{left(trad,14)}#{left(prof, 8)}#{left(atk,22)}#{left(dc, 16)}"
+        "%b%b#{left(display_class,15)}#{left(trad,14)}#{left(prof, 8)}#{left(atk,22)}#{left(dc, 16)}"
+      end
+
+      def wrap_text(text, width)
+        return "" if text.blank?
+
+        words = text.split(/\s+/)
+        lines = []
+        current = ""
+
+        words.each do |word|
+          candidate = current.empty? ? word : "#{current} #{word}"
+          if visible_length(candidate) <= width
+            current = candidate
+          else
+            lines << current unless current.empty?
+            current = word
+          end
+        end
+
+        lines << current unless current.empty?
+        lines.join("%r")
+      end
+
+      def visible_length(text)
+        formatted = MushFormatter.format(text)
+        AnsiFormatter.strip_ansi(formatted).length
       end
 
       def print_linked_attr(skill)

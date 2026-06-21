@@ -1,43 +1,16 @@
 ---
-toc: Pathfinder Second Edition
-summary: Admin commands to manipulate the character sheet.
+toc: Pathfinder Second Edition - Admin
+summary: Admin commands for Pathfinder 2e functions.
 aliases:
-- pf2e staff
-- pf2 staff
-- pf2 admin
+- pf2estaff
+- pf2eadmin
 ---
 
-# Pathfinder 2E -- Admin Commands
+# Pathfinder 2E -- Admin/Staff Commands
 
-Game admins and those they designate can make some modifications to characters' sheets. 
+This page primarily serves as a directory to helpfiles for staff. Staff/admin permission is required to use any of the commands detailed on these pages. 
 
-`admin/set <character>/<keyword> = <value>`
-
-Keyword can be one of: feat skill spellbook repertoire ability feature focus divine font
-
-The syntax of `<value>` depends on the keyword.
-
-For feats: `<feat type> [add|delete] <feat name>`
-
-where feat type is one of: ancestry charclass skill general archetype dedication
-
-For skills: `<skill name> <proficiency level>`
-
-where proficiency level is one of: untrained trained expert master legendary
-
-For spellbook or repertoire: `<charclass> [add|delete] <spell name> <spell level>`
-
-For ability: `<ability name> <new value>` Value needs to be an integer, command will charf if not
-
-For feature: `[add|delete] <feature name>`
-
-For focus: `add|delete <charclass> cantrip|spell <spell name>`
-
-For divine font: `heal|harm`
-
-(Validate all data)
-
-`admin/reset <character>`: Resets the character sheet, sets them to unapproved, forces them back through chargen, and wipes level / XP / gold back to starting default. 
-
-`admin/respec <character>`: Resets the character sheet, sets them to unapproved, forces them back through chargen, but preserves level / XP / money / inventory. 
-
+Sheet commands for staff: `help pf2eadmin_sheet`
+Magic commands for staff: `help pf2eadmin_magic`
+Gear/inventory commands for staff: `help pf2eadmin_gear`
+Miscelleaneous commands for staff (RPP, respecs/resets, and other admin duties): `help pf2eadmin_other`.

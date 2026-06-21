@@ -9,6 +9,7 @@
 <%= left("#{item_color}XP%xn: #{xp}", 39) %>
 <%= left("#{item_color}Class/Level%xn: #{charclass} #{level}", 39) -%>
 <%= left("#{item_color}#{subclass_name}%xn: #{subclass}#{subclass_option}", 39) %>
+<%= archetype_line %>
 <%= left("#{item_color}Faith%xn: #{faith}", 39) -%>
 <%= left("#{item_color}Region%xn: #{region}", 39) %>
 <%= left("#{item_color}Deity%xn: #{deity}", 39) -%>
@@ -31,12 +32,18 @@
 <%= left("#{item_color}Temp HP%xn: #{temp_hp}",39) %>
 <%= left("#{item_color}Class DC%xn: #{class_dc}",39) -%>
 <%= left("#{item_color}Perception%xn: #{perception}",39) %>
+<% if has_archetypes? %>
+<%= left("#{item_color}Archetype Class DC(s)%xn: #{archetype_class_dcs}", 78) %>
+<% end %>
 <%= left("#{item_color}Size%xn: #{size}", 39) -%>
 <%= left("#{item_color}Base Speed%xn: #{base_speed}", 39) %>
 <%= "#{item_color}Other Movement%xn: #{movement}"%>
 <%= "#{item_color}Senses and Special Abilities%xn: #{specials}" %>
 <%= section_line("Proficiencies") %>
 <%= "#{item_color}Weapons%xn: #{weapon_prof}" %>
+<% if weapon_group_prof != "None" %>
+<%= "#{item_color}Weapon Groups%xn: #{weapon_group_prof}" %>
+<% end %>
 <%= "#{item_color}Armor%xn: #{armor_prof}" %>
 <%= "%rFull calculations for weapons and armor are shown in %x172csheet%xn." %>
 <%= section_line("Saves and Resistances") %>
@@ -58,6 +65,13 @@
 
 <%= section_line("Languages") %>
 <%= languages %>
+<% if section == "all" %>
+<%= section_line("Class & Archetype Features") %>
+<% end %>
+<% if section == "features" || "all" %>
+<%= "#{item_color}Class Feature(s)%xn: #{class_features}" %>
+<%= "#{item_color}Archetype Feature(s)%xn: #{archetype_features}" %>
+<% end %>
 <% if section == "all" %>
 <%= section_line("Feats") %>
 <% end %>

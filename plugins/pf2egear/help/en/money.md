@@ -18,4 +18,4 @@ Starting characters are given 15 gold to purchase starting gear and equipment.
 `pay <person>=<money> <cointype>`: Pays another character money. Cointype can be: copper / cp, silver / sp, gold / gp, or platinum / pp.
 `listmoney [<player>]`: View money gained and spent. Characters with the _manage_alts_ permission can use the argument to see another player's list. Without an argument, you see yours.
 
-Those with the _take_money_ permission can use a negative money value to take money from <person>. Usually this is only staffers.
+Those with the _take_money_ permission can use a negative money value to take money from `<target>`. Usually, this is only game admins.

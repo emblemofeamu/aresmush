@@ -35,11 +35,37 @@ module AresMUSH
         return nil
       end
 
+      def check_skill_in_checkpoint
+        # Can't change skills set before feats grant additional skills, represented by
+        # skill being contained in the skill checkpoint.
+
+        if enactor.pf2_checkpoint == 'skills' # Enactor is selecting feats now.
+          assigned = enactor.pf2_cg_assigned.dig("skills", "pf2_to_assign") || {}
+          open_skills = Array(assigned["open skills"])
+
+          bg_choice = assigned["bg skill choice"]
+          class_choice = assigned["class skill choice"]
+
+          if open_skills.include?(self.value) ||
+             (bg_choice && bg_choice['selected'] == self.value) ||
+             (class_choice && class_choice['selected'] == self.value)
+            return t('pf2e.invalid_skill_change')
+          end
+        else
+          return nil
+        end
+      end
+
       def handle
         ##### VALIDATION SECTION #####
 
         # Verify that there are things to be assigned that this command handles.
-        skill_types = { 'background'=>'bgskill', 'free'=>'open skills' }
+        skill_types = {
+          'background' => 'bgskill',
+          'free' => 'open skills',
+          'bgchoice' => 'bg skill choice',
+          'classchoice' => 'class skill choice'
+        }
         options = skill_types.keys
         to_assign = enactor.pf2_to_assign
 
@@ -86,12 +112,9 @@ module AresMUSH
 
         ##### VALIDATION SECTION END #####
 
-        reference = enactor.pf2_cg_assigned[assignment_type]
-
         case assignment_type
         when "bgskill"
-
-        skill_options = reference
+          skill_options = to_assign[assignment_type]
 
         # If open skill, find the skill in the list and set it to 'open'.
 
@@ -104,6 +127,18 @@ module AresMUSH
           end
 
           skill_options[index] = 'open'
+        when "bg skill choice", "class skill choice"
+          if !skill_options.is_a?(Hash)
+            client.emit_failure t('pf2e.cannot_assign_type', :element=>"skill")
+            return
+          end
+
+          if skill_options['selected'] != self.value
+            client.emit_failure t('pf2e.not_in_list', :option=>self.value)
+            return
+          end
+
+          skill_options['selected'] = 'open'
         end
 
         to_assign[assignment_type] = skill_options

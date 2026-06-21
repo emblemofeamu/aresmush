@@ -21,6 +21,8 @@ module AresMUSH
         error = dalign.include?(align) ?
                 nil :
                 t('pf2e.class_deity_mismatch')
+      elsif align.blank?
+        error = t('pf2e.alignment_missing')
       else
         error = alignments.include?(align) ? nil : t('pf2e.class_mismatch')
       end
@@ -100,6 +102,10 @@ module AresMUSH
       cg_errors = Pf2e.chargen_messages(ancestry, heritage, background, charclass, subclass, faith_info, subclass_option)
 
       return t('pf2e.cg_issues') if cg_errors
+
+      # Take a snapshot prior to calculations for a later restore.
+      # This must happen after validation so failed commit attempts don't advance checkpoints.
+      Pf2e.record_checkpoint(enactor, 'info')
 
       # Create abilities. Might already exist if the character reset, so check for that.
 
@@ -225,6 +231,13 @@ module AresMUSH
         skills << divine_skill
       end
 
+      if enactor.pf2_base_info["charclass"] == "Sorcerer" && enactor.pf2_base_info["specialize"] == "Draconic"
+        draconic_skill = Global.read_config('pf2e_subclass', 'Dragon Exemplar', enactor.pf2_base_info["specialize_info"])["chargen"]["skills"]
+        draconic_skill.each do |s|
+          skills << s
+        end
+      end
+
       defined_skills = skills.difference([ "open" ])
 
       unique_skills = defined_skills.uniq
@@ -243,6 +256,23 @@ module AresMUSH
       open_skills = ary.fill("open", nil, extra_skills)
 
       to_assign['open skills'] = open_skills
+
+      bg_skill_choice = background_info['skill choice'] || []
+      class_skill_choice = class_features_info['skill choice'] || []
+
+      if bg_skill_choice.any?
+        to_assign['bg skill choice'] = {
+          'options' => bg_skill_choice,
+          'selected' => 'open'
+        }
+      end
+
+      if class_skill_choice.any?
+        to_assign['class skill choice'] = {
+          'options' => class_skill_choice,
+          'selected' => 'open'
+        }
+      end
 
       # Some backgrounds require you to choose a lore from a list. Stash these into to_assign.
 
@@ -430,10 +460,10 @@ module AresMUSH
         }
       }
 
-      unarmed_attacks.merge ancestry_info['attack'] if ancestry_info['attack']
-      unarmed_attacks.merge heritage_info['attack'] if heritage_info['attack']
+      unarmed_attacks.merge!(ancestry_info['attack']) if ancestry_info['attack']
+      unarmed_attacks.merge!(heritage_info['attack']) if heritage_info['attack']
       if subclass_option_info
-        unarmed_attacks.merge subclass_option_info['attack'] if subclass_option_info['attack']
+        unarmed_attacks.merge!(subclass_option_info['attack']) if subclass_option_info['attack']
       end
 
       combat.update(unarmed_attacks: unarmed_attacks)
@@ -478,6 +508,9 @@ module AresMUSH
         school_mstats = wizard_school&.fetch('magic_stats')
 
         class_mstats = class_mstats.merge(school_mstats) if school_mstats
+      elsif charclass == 'Sorcerer' && enactor.pf2_base_info["specialize"] == "Draconic"
+        draconic_mstat = Global.read_config('pf2e_subclass', 'Dragon Exemplar', enactor.pf2_base_info["specialize_info"])["chargen"]["magic_stats"]
+        class_mstats = class_mstats.merge(draconic_mstat) if draconic_mstat
       end
 
       if class_mstats.empty?
@@ -518,7 +551,7 @@ module AresMUSH
       unique_lang = languages.uniq
 
       enactor.pf2_lang = languages.uniq
-
+      
       # PC may choose another language to replace a duplicate.
 
       if (languages.count != unique_lang.count)
@@ -526,7 +559,11 @@ module AresMUSH
 
         ary = []
         open_languages = ary.fill("open", nil, extra_lang)
-        to_assign['open languages'] = open_languages
+        if to_assign['open languages'].nil?
+          to_assign['open languages'] = open_languages
+        else
+          to_assign['open languages'] = to_assign['open languages'] + open_languages
+        end
       end
 
       # Traits, Size, Movement, Misc Info
@@ -544,7 +581,7 @@ module AresMUSH
       other_mtypes = heritage_info.has_key?('movement')
 
       if other_mtypes
-        other_mtypes.each do |k,v|
+        heritage_info["movement"].each do |k,v|
           movement[k] = v
         end
       end
@@ -583,7 +620,7 @@ module AresMUSH
 
       enactor.save
 
-      Pf2e.record_checkpoint(enactor, 'info')
+      Global.logger.debug "pf2_to_assign after lock: #{enactor.pf2_to_assign}"
 
       return nil
     end
@@ -593,7 +630,12 @@ module AresMUSH
       to_assign = char.pf2_to_assign
 
       to_assign.each_pair do |k,v|
-        next unless v.include? "open"
+        if v.is_a?(Hash)
+          return false if v['selected'] == 'open'
+          next
+        end
+
+        next unless v.respond_to?(:include?) && v.include?("open")
         return false
       end
 
@@ -682,7 +724,7 @@ module AresMUSH
           "cg_skill" => skill.checkpoint["cg_skill"]
         }
       end
-      client = Global.client_monitor.find_client(char)
+      client = Global.client_monitor.find_game_client(char)
       case checkpoint
         when "info"
           Pf2e.reset_character(char)
@@ -707,6 +749,15 @@ module AresMUSH
           restore_checkpoint(char, "info")
           Pf2e.cg_lock_base_options(char, client)
           char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
+
+          # Restore saved ability scores from the checkpoint snapshot.
+          char.abilities.each do |ability|
+            cp_state = ability.checkpoint || {}
+            next if cp_state.empty?
+
+            ability.update(base_val: cp_state['base_val']) if cp_state.key?('base_val')
+            ability.update(mod_val: cp_state['mod_val']) if cp_state.key?('mod_val')
+          end
 
           char.chargen_stage = "6"
           char.save

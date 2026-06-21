@@ -2,7 +2,7 @@ module AresMUSH
   module FS3Combat
     class CombatSetupRequestHandler
       def handle(request)
-        id = request.args[:id]
+        id = request.args['id']
         enactor = request.enactor
         
         error = Website.check_login(request)
@@ -52,7 +52,7 @@ module AresMUSH
           id: id,
           organizer: combat.organizer.name,
           can_manage: can_manage,
-          combatant_types: FS3Combat.combatant_types.keys,
+          combatant_types: FS3Combat.combatant_type_names,
           combatants: combatants,
           options: {
             weapons: AresMUSH::FS3Combat.weapons.keys.sort,

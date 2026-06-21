@@ -21,7 +21,17 @@ module AresMUSH
 
         char = Pf2e.get_character(self.character, enactor)
 
-        paginator = Paginator.paginate(char.pf2_money_history, cmd.page, 10)
+        history = char.pf2_money_history.reverse
+        items_per_page = 10
+        total_pages = (history.count / items_per_page)
+        total_pages = total_pages + 1 if (history.count % items_per_page != 0)
+
+        page = cmd.page
+        page_index_from_end = [ total_pages - page, 0 ].max
+        offset = page_index_from_end * items_per_page
+        page_batch = history[offset, items_per_page]
+
+        paginator = PaginateResults.new(page, total_pages, page_batch, offset)
         if (paginator.out_of_bounds?)
           client.emit_failure paginator.out_of_bounds_msg
           return

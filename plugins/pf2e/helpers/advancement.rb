@@ -20,6 +20,176 @@ module AresMUSH
       return nil
     end
 
+    def self.level_key?(key)
+      key_str = key.to_s.downcase
+      key_str == 'cantrip' || key_str.match?(/\A-?\d+\z/)
+    end
+
+    def self.wrap_magic_assign(to_assign, key, base_class_key)
+      existing = to_assign[key]
+      return if existing.nil?
+      return if existing.is_a?(Hash) && existing.keys.any? { |k| k.to_s.casecmp?(base_class_key) }
+
+      if existing.is_a?(Hash)
+        if existing.keys.all? { |k| level_key?(k) }
+          to_assign[key] = { base_class_key => existing }
+        end
+      else
+        to_assign[key] = { base_class_key => existing }
+      end
+    end
+
+    def self.wrap_adv_magic_stats(advancement, base_class_key)
+      existing = advancement['magic_stats']
+      return if existing.nil?
+      return if existing.is_a?(Hash) && existing.keys.any? { |k| k.to_s.casecmp?(base_class_key) }
+
+      if existing.is_a?(Hash)
+        stat_keys = %w(
+          spell_abil
+          tradition
+          spells_per_day
+          repertoire
+          spellbook
+          signature
+          signature_spells
+          signature_spell
+          focus_pool
+          focus_spell
+          focus_cantrip
+          innate_spell
+          addrepertoire
+          addspellbook
+          divine_font
+        )
+
+        if existing.keys.any? { |k| stat_keys.include?(k.to_s) }
+          advancement['magic_stats'] = { base_class_key => existing }
+        end
+      end
+    end
+
+    def self.archetype_key?(key)
+      archetypes = Global.read_config('pf2e_archetype')&.keys || []
+      archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
+    end
+
+    def self.lore_skill?(skill_name)
+      skill_name.to_s.strip.downcase.end_with?('lore')
+    end
+
+    def self.open_skill_token?(value)
+      token = value.to_s.strip.downcase
+      token == 'open' || token == 'open lore' || token == 'open untrained' || token == 'open lore untrained'
+    end
+
+    def self.untrained_only_token?(value)
+      token = value.to_s.strip.downcase
+      token == 'open untrained' || token == 'open lore untrained'
+    end
+
+    def self.pending_skill_names(to_assign, advancement)
+      entries = []
+      entries += Array(to_assign['raise skill'])
+      entries += Array(advancement['raise skill'])
+
+      entries = entries.compact.map { |entry| entry.to_s.strip }.reject(&:empty?)
+      entries.reject! { |entry| open_skill_token?(entry) }
+      entries.map(&:downcase)
+    end
+
+    def self.merge_raise_skill_entries(existing, additions)
+      list = if existing.is_a?(Array)
+        existing.dup
+      elsif existing.nil?
+        []
+      else
+        [existing]
+      end
+
+      list += Array(additions)
+      list = list.compact.map { |entry| entry.to_s.strip }.reject(&:empty?)
+
+      seen = {}
+      result = []
+      list.each do |entry|
+        if open_skill_token?(entry)
+          result << entry
+          next
+        end
+
+        key = entry.to_s.downcase
+        next if seen[key]
+
+        seen[key] = true
+        result << entry
+      end
+
+      result
+    end
+
+    def self.add_open_skill_slot(to_assign, advancement, lore=false, untrained_only=false)
+      token = if lore
+        untrained_only ? 'open lore untrained' : 'open lore'
+      else
+        untrained_only ? 'open untrained' : 'open'
+      end
+
+      to_assign['raise skill'] = if to_assign['raise skill'].is_a?(Array)
+        to_assign['raise skill'] + [token]
+      elsif to_assign['raise skill'].nil?
+        [token]
+      else
+        [to_assign['raise skill'], token]
+      end
+
+      advancement['raise skill'] = if advancement['raise skill'].is_a?(Array)
+        advancement['raise skill'] + [token]
+      elsif advancement['raise skill'].nil?
+        [token]
+      else
+        [advancement['raise skill'], token]
+      end
+    end
+
+    def self.add_training_skills(char, skills, to_assign, advancement)
+      cleaned = Array(skills).map { |s| s.to_s.strip }.reject(&:empty?)
+      return { assigned: [], open_count: 0, open_lore_count: 0 } if cleaned.empty?
+
+      pending = pending_skill_names(to_assign, advancement)
+      assigned = []
+      open_count = 0
+      open_lore_count = 0
+
+      cleaned.each do |skill|
+        normalized = skill.to_s.downcase
+        already_trained = Pf2eSkills.get_skill_prof(char, skill).to_s.downcase != 'untrained'
+        already_pending = pending.include?(normalized)
+
+        if already_trained || already_pending
+          if lore_skill?(skill)
+            open_lore_count += 1
+          else
+            open_count += 1
+          end
+          next
+        end
+
+        assigned << skill
+        pending << normalized
+      end
+
+      if assigned.any?
+        to_assign['raise skill'] = merge_raise_skill_entries(to_assign['raise skill'], assigned)
+        advancement['raise skill'] = merge_raise_skill_entries(advancement['raise skill'], assigned)
+      end
+
+      open_count.times { add_open_skill_slot(to_assign, advancement, false, true) }
+      open_lore_count.times { add_open_skill_slot(to_assign, advancement, true, true) }
+
+      { assigned: assigned, open_count: open_count, open_lore_count: open_lore_count }
+    end
+
     def self.assess_advancement(char,info)
       # Can the character advance?
       advfail = Pf2e.can_advance(char)
@@ -58,24 +228,45 @@ module AresMUSH
             magic_options.each_pair do |k,v|
               to_assign[k] = v
             end
-            return_msg << t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(", "))
+            return_msg << t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(" and "))
           end
         when "raise"
           # Value is an array of all the things you can choose to raise.
           # In this case, we put into to_assign what is to be raised as a key with an empty value.
 
           value.each do |item|
-            to_assign["raise #{item}"] = "open"
+            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : "open"
             return_msg << t('pf2e.adv_item_raise', :item => item)
           end
         when "choose"
           name = value['choice_name']
+          options = value['options']
           to_choose = to_assign['class option'] || {}
-          to_choose[name] = value['options']
+          to_choose[name] = options.is_a?(Hash) ? options : Array(options)
 
-          return_msg << t('pf2e_adv_item_choose', :name => name, :options =>  options.sort.join(", "))
+          display_options = options.is_a?(Hash) ? options.keys : Array(options)
+          return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
 
           to_assign['class option'] = to_choose
+        when "charclass_feature"
+          if value.is_a?(Hash) && value['choose']
+            choose_info = value['choose']
+            name = choose_info['choice_name']
+            options = choose_info['options']
+
+            to_choose = to_assign['class option'] || {}
+            to_choose[name] = options.is_a?(Hash) ? options : Array(options)
+            to_assign['class option'] = to_choose
+
+            display_options = options.is_a?(Hash) ? options.keys : Array(options)
+            return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
+
+            remaining = value.dup
+            remaining.delete('choose')
+            advancement[key] = remaining unless remaining.empty?
+          else
+            advancement[key] = value
+          end
         else
           advancement[key] = value
         end
@@ -97,21 +288,53 @@ module AresMUSH
       # As with commit info, char.update is not used here generally because it would mean many separate writes, quickly.
       # Kinder to the database to make a whole bunch of changes and write the lot in one go at the end.
       charclass = char.pf2_base_info['charclass']
+      archetype1 = char.pf2_archetypeinfo['archetype1'] && char.pf2_archetypeinfo['archetype_specialty1'] || []
+      archetype2 = char.pf2_archetypeinfo['archetype2'] && char.pf2_archetypeinfo['archetype_specialty2'] || []
+      archetype3 = char.pf2_archetypeinfo['archetype3'] && char.pf2_archetypeinfo['archetype_specialty3'] || []
+      archetype4 = char.pf2_archetypeinfo['archetype4'] && char.pf2_archetypeinfo['archetype_specialty4'] || []
 
       to_process = char.pf2_advancement
       to_process.each_pair do |key, value|
         case key
-        when "charclass"
+        when "charclass_feature"
           features = char.pf2_features
-
-          value.each { |f| features << f }
-
-          char.pf2_features = features.uniq.sort
+          features['charclass_features'] ||= []
+          features['charclass_features'].concat(Array(value)).uniq!
+          char.pf2_features = features
+        when "archetype_feature"
+          features = char.pf2_features
+          features['archetype_features'] ||= []
+          features['archetype_features'].concat(Array(value)).uniq!
+          char.pf2_features = features
         when "combat_stats"
           Pf2eCombat.update_combat_stats(char, value)
         when "magic_stats"
           # Ignore any return, this key only includes items that do not populate to_assign.
-          PF2Magic.update_magic(char, charclass, value, client)
+          stat_keys = %w(
+            spell_abil
+            tradition
+            spells_per_day
+            repertoire
+            spellbook
+            signature
+            signature_spells
+            signature_spell
+            focus_pool
+            focus_spell
+            focus_cantrip
+            innate_spell
+            addrepertoire
+            addspellbook
+            divine_font
+          )
+
+          if value.is_a?(Hash) && value.keys.any? { |k| !stat_keys.include?(k.to_s) }
+            value.each_pair do |class_key, stats|
+              PF2Magic.update_magic(char, class_key, stats, client)
+            end
+          else
+            PF2Magic.update_magic(char, charclass, value, client)
+          end
         when "action"
           all_actions = char.pf2_actions
           actions = all_actions['actions']
@@ -136,30 +359,54 @@ module AresMUSH
           value.each do |ability|
             Pf2eAbilities.update_base_score(char, ability)
           end
+        when "languages"
+          char_languages = Array(char.pf2_lang)
+          char_languages.concat(Array(value))
+          char.pf2_lang = char_languages.uniq
         when "raise skill"
-          new_prof = Pf2eSkills.get_next_prof(char, value)
+          Array(value).each do |skill_name|
+            next if skill_name.to_s.strip.empty?
+            next if open_skill_token?(skill_name)
 
-          skill.update(prof_level: new_prof)
+            skill = Pf2eSkills.find_skill(skill_name, char)
+            return nil if !skill
+
+            new_prof = Pf2eSkills.get_next_prof(char, skill_name)
+            skill.update(prof_level: new_prof)
+          end
+        when "raise skill choice"
+          Array(value).each do |skill_name|
+            next if skill_name.to_s.strip.empty?
+            next if open_skill_token?(skill_name)
+
+            skill = Pf2eSkills.find_skill(skill_name, char)
+            return nil if !skill
+
+            new_prof = Pf2eSkills.get_next_prof(char, skill_name)
+            skill.update(prof_level: new_prof)
+          end
         when "feats"
           char_feats = char.pf2_feats
           value.each_pair do |type, feat_list|
+            char_feats[type] ||= []
+            char_feats[type].concat(feat_list)
 
-            # Account for the classification of a dedication feat.
-            list = char_feats[type]
-            dedication_list = char_feats['dedication']
+            feat_list.each do |feat_name|
+              feat_info = Pf2e.get_feat_details(feat_name)
+              next if feat_info.is_a?(String)
 
-            feat_list.each do |feat|
-              if feat.match? 'Dedication'
-                dedication_list << feat
-              else
-                list << feat
-              end
+              Pf2e.apply_init_magic_feat(char, feat_info[0], feat_info[1], client)
             end
           end
-
           char.pf2_feats = char_feats
-        when "charclass option"
+        when "charclass_feature option"
           value.each_pair do |feature, option|
+            features = char.pf2_features
+            features['charclass_features'] ||= []
+            feature_label = "#{feature} (#{option})"
+            features['charclass_features'] << feature_label unless features['charclass_features'].include?(feature_label)
+            char.pf2_features = features
+
             case feature
             when "Path to Perfection"
               combat = char.combat
@@ -173,6 +420,35 @@ module AresMUSH
               saves['Path to Perfection'] = path
 
               combat.update(saves: saves)
+            when "Weapon Mastery"
+              combat = Pf2eCombat.get_create_combat_obj(char)
+              group_profs = combat.weapon_group_prof || {}
+              group_profs[option] = {
+                'simple' => 'master',
+                'martial' => 'master',
+                'unarmed' => 'master',
+                'advanced' => 'expert'
+              }
+              combat.update(weapon_group_prof: group_profs)
+            when "Weapon Legend"
+              combat = Pf2eCombat.get_create_combat_obj(char)
+              profs = combat.weapon_prof || {}
+              profs['simple'] = Pf2e.higher_prof(profs['simple'], 'master')
+              profs['martial'] = Pf2e.higher_prof(profs['martial'], 'master')
+              profs['unarmed'] = Pf2e.higher_prof(profs['unarmed'], 'master')
+              profs['advanced'] = Pf2e.higher_prof(profs['advanced'], 'expert')
+              combat.update(weapon_prof: profs)
+
+              group_profs = combat.weapon_group_prof || {}
+              group_profs[option] = {
+                'simple' => 'legendary',
+                'martial' => 'legendary',
+                'unarmed' => 'legendary',
+                'advanced' => 'master'
+              }
+              combat.update(weapon_group_prof: group_profs)
+            when "Divine Ally"
+              # Divine Ally is recorded in charclass features; no extra automation yet.
             else
               client.emit_ooc t('pf2e.missing_charclass_option_code', :feature => feature)
               next
@@ -182,51 +458,117 @@ module AresMUSH
           magic = char.magic
 
           csb = magic.spellbook
-
-          class_csb = csb[charclass]
-
-
-          value.each do |spell|
-            sp = Pf2emagic.get_spell_details(spell)
-            spdeets = sp[1]
-
-            level = spdeets['base_level'].to_s
-
-            splist = class_csb[level] || []
-            splist << spell
-            class_csb[level] = splist
+          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
+            value
+          else
+            { charclass => value }
           end
 
-          csb[charclass] = class_csb
+          class_map.each_pair do |class_key, class_value|
+            class_csb = csb[class_key] || {}
+
+            if class_value.is_a?(Hash)
+              class_value.each_pair do |level, spells|
+                Array(spells).each do |spell|
+                  splist = class_csb[level.to_s] || []
+                  splist << spell
+                  class_csb[level.to_s] = splist
+                end
+              end
+            else
+              Array(class_value).each do |spell|
+                sp = Pf2emagic.get_spell_details(spell)
+                spdeets = sp[1]
+
+                level = spdeets['base_level'].to_s
+
+                splist = class_csb[level] || []
+                splist << spell
+                class_csb[level] = splist
+              end
+            end
+
+            csb[class_key] = class_csb
+          end
 
           magic.update(spellbook: csb)
         when "repertoire"
           magic = char.magic
           repertoire = magic.repertoire
-
-          class_rep = repertoire[charclass]
-
-          value.each_pair do |level, spells|
-            splist = (class_rep[level] + spells).sort
-
-            class_rep[level] = splist
+          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
+            value
+          else
+            { charclass => value }
           end
 
-          repertoire[charclass] = class_rep
+          class_map.each_pair do |class_key, class_value|
+            class_rep = repertoire[class_key] || {}
+
+            if class_value.is_a?(Hash)
+              class_value.each_pair do |level, spells|
+                splist = (Array(class_rep[level]) + Array(spells)).sort
+                class_rep[level] = splist
+              end
+            end
+
+            repertoire[class_key] = class_rep
+          end
 
           magic.update(repertoire: repertoire)
         when "signature"
+          magic = char.magic
+          signatures = magic.signature_spells || {}
+          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
+            value
+          else
+            { charclass => value }
+          end
+
+          class_map.each_pair do |class_key, class_value|
+            class_sigs = signatures[class_key] || {}
+
+            if class_value.is_a?(Hash)
+              class_value.each_pair do |level, spells|
+                chosen = Array(spells).reject { |s| s.to_s.strip.empty? || s.to_s.downcase == 'open' }
+                next if chosen.empty?
+
+                class_sigs[level] = chosen
+              end
+            end
+
+            signatures[class_key] = class_sigs
+          end
+
+          magic.update(signature_spells: signatures)
+        when "archetype_deity"
+          faith_info = char.pf2_faith
+          faith_info['deity'] = value
+          char.pf2_faith = faith_info
         when "grants"
           value.each_pair do |feat, info|
             do_feat_grants(char, info, charclass, client)
           end
+        when "repertoire_swap"
+          # Already applied during advance/spellswap; no additional work needed here.
         else
           client.emit_ooc "Unknown key #{key} in do_advancement. Please put in a request to code staff."
         end
       end
 
       advancement = char.pf2_adv_assigned || {}
-      advancement[level] = to_process
+      advancement["level"] = to_process
+
+      # Record archetype and specialty if they were selected
+      to_assign = char.pf2_to_assign
+      if to_assign['archetype']
+        advancement['archetype'] = to_assign['archetype']
+      end
+      if to_assign['archetype_specialty']
+        advancement['archetype_specialty'] = to_assign['archetype_specialty']
+      end
+        if to_assign['archetype specialty choice']
+          advancement['archetype_specialty_choice'] = to_assign['archetype specialty choice']
+        end
 
       # Deduct the XP.
       xp = char.pf2_xp
@@ -249,6 +591,7 @@ module AresMUSH
     end
 
     def self.advancement_messages(char)
+      # Handles messages related to advancement choices in the Messages section of the advance/review screen.
       msg = []
 
       to_assign = char.pf2_to_assign
@@ -259,20 +602,158 @@ module AresMUSH
           info.each_pair do |k,v|
             msg << t('pf2e.adv_item_feat', :value => k.gsub("charclass", "class")) if v.include? "open"
           end
+        when "class option", "charclass option"
+          if info.is_a?(Hash)
+            info.each_pair do |feature, options|
+              next unless options.is_a?(Array) || options.is_a?(Hash)
+
+              msg << t('pf2e.adv_item_class_option_select', :name => feature, :name_downcase => feature.to_s.downcase)
+            end
+          end
         when "raise skill", "raise ability"
           type = item.delete_prefix "raise "
 
           # Info is blank if the item has not yet been selected.
-          if info == "open"
-            msg << t('pf2e.adv_item_raise', :item => type)
+          has_open = if info.is_a?(Array)
+            info.any? { |entry| open_skill_token?(entry) }
+          else
+            open_skill_token?(info)
           end
-        when "spellbook", "repertoire"
-          msg << t('pf2e.adv_item_magic', :options => item) if info.include? "open"
+
+          has_untrained_only = if type == "skill"
+            if info.is_a?(Array)
+              info.any? { |entry| untrained_only_token?(entry) }
+            else
+              untrained_only_token?(info)
+            end
+          else
+            false
+          end
+
+          untrained_only_count = if type == "skill"
+            if info.is_a?(Array)
+              info.count { |entry| untrained_only_token?(entry) }
+            else
+              untrained_only_token?(info) ? 1 : 0
+            end
+          else
+            0
+          end
+
+          if has_open
+            if type == "ability"
+              msg << t('pf2e.adv_item_raise_ability')
+            elsif !has_untrained_only
+              msg << t('pf2e.adv_item_raise', :item => type)
+            end
+          end
+
+          if has_untrained_only
+            if untrained_only_count > 1
+              msg << t('pf2e.adv_item_raise_untrained_skill_multiple', :count => untrained_only_count)
+            else
+              msg << t('pf2e.adv_item_raise_untrained_skill')
+            end
+          end
+        when "raise skill choice"
+          needs_choice = if info.is_a?(Array)
+            !info.empty?
+          else
+            info.to_s.downcase == 'open'
+          end
+
+          msg << t('pf2e.adv_item_skill_choice') if needs_choice
+        when "open languages"
+          open_count = if info.is_a?(Array)
+            info.count { |entry| entry.to_s.casecmp?('open') }
+          else
+            info.to_s.casecmp?('open') ? 1 : 0
+          end
+
+          if open_count.positive?
+            msg << t('pf2e.adv_item_language', :count => open_count)
+          end
+        when "spellbook", "repertoire", "innate"
+          needs_open = lambda do |value|
+            if value.is_a?(Hash)
+              value.values.any? { |sub| needs_open.call(sub) }
+            elsif value.is_a?(Array)
+              value.include?("open")
+            else
+              value.to_s.downcase == 'open'
+            end
+          end
+
+          if info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
+            info.each_pair do |class_key, value|
+              next unless needs_open.call(value)
+
+              if Pf2e.archetype_key?(class_key) && (item == "spellbook" || item == "repertoire")
+                locale_key = item == "spellbook" ? 'pf2e.adv_item_archetype_spellbook' : 'pf2e.adv_item_archetype_repertoire'
+                msg << t(locale_key, :archetype => class_key)
+              else
+                msg << t('pf2e.adv_item_spells', :options => item)
+              end
+            end
+          else
+            needs_spell_choice = needs_open.call(info)
+            msg << t('pf2e.adv_item_spells', :options => item) if needs_spell_choice
+          end
         when "signature"
-          msg << t('pf2e.adv_item_magic', :options => item) unless info.values.first.zero?
+          needs_signature = false
+          if info.is_a?(Hash)
+            if info.keys.any? { |k| !Pf2e.level_key?(k) }
+              needs_signature = info.values.any? do |v|
+                if v.is_a?(Hash)
+                  v.values.any? { |sub| sub.is_a?(Array) ? sub.include?("open") : sub.to_i > 0 }
+                else
+                  v.is_a?(Array) ? v.include?("open") : v.to_i > 0
+                end
+              end
+            else
+              needs_signature = info.values.any? do |v|
+                v.is_a?(Array) ? v.include?("open") : v.to_i > 0
+              end
+            end
+          end
+          msg << t('pf2e.adv_item_signaturespells') if needs_signature
+        when "archetype_specialty"
+          msg << t('pf2e.adv_item_archetype_specialty') if info == "open"
+          when "archetype specialty choice"
+            needs_choice = info.is_a?(Hash) && info.values.any? do |entry|
+              entry.is_a?(Hash) && entry['choice'].to_s.downcase == 'open'
+            end
+
+            msg << t('pf2e.adv_item_archetype_specialty_choice') if needs_choice
+        when "archetype key ability"
+          needs_choice = if info.is_a?(Array)
+            !info.empty?
+          else
+            info.to_s.downcase == 'open'
+          end
+
+          msg << t('pf2e.adv_item_archetype_key_ability') if needs_choice
+        when "archetype deity"
+          msg << t('pf2e.adv_item_archetype_deity') if info.to_s.downcase == 'open'
+        when "special feat"
+          msg << t('pf2e.unassigned_gated_feat', :options => info.sort.join(", "))
         when "grants"
           info.keys.each do |feat|
-            msg << t('pf2e.adv_item_grants', :options => feat)
+            grant_info = info[feat]
+            if grant_info.is_a?(Hash) && grant_info['gated_feat']
+              gate = grant_info['gated_feat']
+              summary = Pf2e.gated_feat_summary(gate)
+              msg << t('pf2e.adv_item_gated_feat_summary', :gate => gate, :summary => summary, :gate_underscore => gate.downcase.gsub(" ", "_"))
+            else
+              msg << t('pf2e.adv_item_grants', :feat => feat)
+            end
+          end
+        else
+          if info.is_a?(String) && info.downcase == 'open'
+            options = Pf2e.get_gated_feat_options(char, item)
+            if options && !options.empty?
+              msg << t('pf2e.adv_item_gated_feat', :gate => item, :options => options.sort.join(', '))
+            end
           end
         end
 
@@ -282,8 +763,55 @@ module AresMUSH
       return msg
     end
 
+    def self.merge_combat_stats(existing_stats, added_stats)
+      existing = existing_stats || {}
+      added = added_stats || {}
+
+      merged = {}
+
+      (existing.keys | added.keys).each do |key|
+        existing_value = existing[key]
+        added_value = added[key]
+
+        merged[key] =
+          if existing_value.is_a?(Hash) && added_value.is_a?(Hash)
+            merge_combat_stats(existing_value, added_value)
+          elsif prof_rank(existing_value) || prof_rank(added_value)
+            higher_prof(existing_value, added_value)
+          elsif added_value.nil?
+            existing_value
+          else
+            added_value
+          end
+      end
+
+      merged
+    end
+
+    def self.prof_rank(value)
+      return nil if value.nil?
+
+      {
+        'untrained' => 0,
+        'trained' => 1,
+        'expert' => 2,
+        'master' => 3,
+        'legendary' => 4
+      }[value.to_s.downcase]
+    end
+
+    def self.higher_prof(left, right)
+      left_rank = prof_rank(left)
+      right_rank = prof_rank(right)
+
+      return right if left_rank.nil?
+      return left if right_rank.nil?
+
+      left_rank >= right_rank ? left.to_s.downcase : right.to_s.downcase
+    end
+
     def self.valid_class_option?(char, feature, option)
-      passes_check = false
+      passes_check = true
 
       case feature
       when "Path to Perfection"

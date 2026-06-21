@@ -13,13 +13,18 @@ module AresMUSH
         # Any character may view their own; only people who can see alts can see others'.
 
         return nil if !self.target
-        return nil if enactor.has_permission?('manage_alts')
-        return t('dispatcher.not_allowed')
+        # return nil if enactor.has_permission?('manage_alts')
+        # return t('dispatcher.not_allowed')
       end
 
       def handle
 
         char = Pf2e.get_character(self.target, enactor)
+
+        if char.is_admin?
+          client.emit_failure t('pf2e.admin_use_inv_look')
+          return
+        end
 
         if !char
           client.emit_failure t('pf2e.not_found')

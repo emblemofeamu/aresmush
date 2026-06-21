@@ -29,6 +29,9 @@ module AresMUSH
       gp_msg = gp > 0 ? " #{gp} gp " : " "
       pp_msg = pp > 0 ? " #{pp} pp " : " "
 
+      # Displaying 0cp for a free item
+      cp_msg = cp == 0 && sp == 0 && gp == 0 && pp == 0 ? "0 cp" : cp_msg
+
       msg = pp_msg + gp_msg + sp_msg + cp_msg
       msg.squeeze(" ").strip
     end

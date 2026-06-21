@@ -17,6 +17,8 @@ module AresMUSH
 
     def self.get_cmd_handler(client, cmd, enactor)
       case cmd.root
+      when "selfapprove"
+        return AppApproveCmd
       when "app"
         case cmd.switch
         when "approve"

@@ -47,6 +47,11 @@ module AresMUSH
 
         target_char = Pf2e.get_character(self.target, enactor)
 
+        if !target_char
+          client.emit_failure t('pf2egear.target_not_found', :name => self.target)
+          return
+        end
+
         if taking_money
           payer = target_char
           payee = enactor
@@ -61,7 +66,9 @@ module AresMUSH
         # Does the person paying have enough money?
         from_purse = payer.pf2_money
 
-        has_enough = true if staff_payer || (from_purse - self.value) >= 0
+        actual_value = Pf2egear.convert_money(self.value.abs, self.cointype)
+
+        has_enough = true if staff_payer || (from_purse - actual_value) >= 0
 
         if !has_enough
           fail_msg = taking_money ?
@@ -80,8 +87,6 @@ module AresMUSH
         # Let's do it.
 
         to_purse = payee.pf2_money
-
-        actual_value = Pf2egear.convert_money(self.value, self.cointype)
 
         from_purse = from_purse - actual_value
 
@@ -105,15 +110,27 @@ module AresMUSH
 
         client.emit_success success_msg
 
-        recipient_msg = t('pf2egear.you_got_money',
-          :from => enactor.name,
-          :value => self.value,
-          :cointype => self.cointype
-        )
+        recipient_msg = taking_money ?
+          t('pf2egear.your_money_taken',
+            :from => enactor.name,
+            :value => self.value.abs,
+            :cointype => self.cointype
+          ) :
+          t('pf2egear.you_got_money',
+            :from => enactor.name,
+            :value => self.value,
+            :cointype => self.cointype
+          )
 
         Pf2egear.record_money_history(payee, payer.name, actual_value, "Payment from #{payer.name}")
+        Pf2egear.record_money_history(payer, payee.name, -actual_value, "Payment to #{payee.name}")
 
         Login.notify(target_char, :pf2_money, recipient_msg, actual_value)
+
+        recipient_client = Login.find_game_client(target_char)
+        if recipient_client && target_char != enactor
+          recipient_client.emit_ooc recipient_msg
+        end
 
       end
 

@@ -2,643 +2,643 @@
 pf2e_deities:
   Althea:
     allowed_alignments:
-    - LG
-    - NG
-    - CG
-    - LN
-    - N
+      - OL
+      - BL
+      - WL
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
+        - heal
     divine_ability:
-    - Intelligence
-    - Charisma
+      - Intelligence
+      - Charisma
     divine_skill: Medicine
     fav_weapon: halberd
     domains:
-    - Family
-    - Healing
-    - Pain
-    - Repose
+      - Family
+      - Healing
+      - Pain
+      - Repose
     cleric_spells:
-    - Soothe
-    - Resilient Sphere
-    - Unfettered Pack
+      - Soothe
+      - Containment
+      - Unfettered Pack
     edicts:
-    - Aid the suffering.
-    - Shelter those in need.
-    - Assist those who seek atonement.
+      - Aid the suffering.
+      - Shelter those in need.
+      - Assist those who seek atonement.
     anathema:
-    - Resort to violence when peace is feasible.
-    - Use negative energy spells.
-    - Betray the trust of a community.
+      - Resort to violence when peace is feasible.
+      - Use negative energy spells.
+      - Betray the trust of a community.
   Angoron:
     allowed_alignments:
-    - LG
-    - CG
-    - NG
-    - LN
-    - N
-    - CN
+      - OL
+      - BL
+      - WL
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - harm
-      - heal
+        - harm
+        - heal
     divine_ability: Strength
     divine_skill: Athletics
     fav_weapon: maul
     domains:
-    - Confidence
-    - Might
-    - Ambition
-    - Freedom
+      - Confidence
+      - Might
+      - Ambition
+      - Freedom
     cleric_spells:
-    - Ant Haul
-    - Enlarge
-    - Summon Giant
+      - Ant Haul
+      - Enlarge
+      - Summon Giant
     edicts:
-    - Protect those weaker than yourself.
-    - Always try to do better than you did before.
-    - Encourage the best in those around you.
+      - Protect those weaker than yourself.
+      - Always try to do better than you did before.
+      - Encourage the best in those around you.
     anathema:
-    - Turn your back on a chance to challenge yourself.
-    - Bully those weaker than yourself.
-    - Fail to acknowledge when you've been bested.
+      - Turn your back on a chance to challenge yourself.
+      - Bully those weaker than yourself.
+      - Fail to acknowledge when you've been bested.
   Animus:
     allowed_alignments:
-    - NG
-    - LN
-    - N
-    - CN
+      - BL
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Wisdom
     divine_skill: Arcana
-    fav_weapon: quarterstaff
+    fav_weapon: staff
     domains:
-    - Magic
-    - Glyph
-    - Knowledge
-    - Fate
+      - Magic
+      - Glyph
+      - Knowledge
+      - Fate
     cleric_spells:
-    - Magic Missile
-    - Telepathy
-    - Prismatic Spray
+      - Force Barrage
+      - Telepathy
+      - Spell Riposte
     edicts:
-    - Teach and be taught.
-    - Serve the interests of magic.
-    - Preserve knowledge.
+      - Teach and be taught.
+      - Serve the interests of magic.
+      - Preserve knowledge.
     anathema:
-    - Take part in the destruction of knowledge.
-    - Allow passion to rule judgement.
-    - Use magic for pedestrian purposes.
+      - Take part in the destruction of knowledge.
+      - Allow passion to rule judgement.
+      - Use magic for pedestrian purposes.
   Caracoroth:
     allowed_alignments:
-    - CN
+      - WT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability:
-    - Strength
-    - Charisma
+      - Strength
+      - Charisma
     divine_skill: Survival
     fav_weapon: claw blade
     domains:
-    - Ambition
-    - Destruction
-    - Indulgence
-    - Nightmares
+      - Ambition
+      - Destruction
+      - Indulgence
+      - Nightmare
     cleric_spells:
-    - Magic Fang
-    - Moon Frenzy
-    - Mask of Terror
+      - Runic Body
+      - Moon Frenzy
+      - Mask of Terror
     edicts:
-    - Follow your instincts.
-    - Delight in destruction.
-    - Pursue strength.
+      - Follow your instincts.
+      - Delight in destruction.
+      - Pursue strength.
     anathema:
-    - Show weakness.
-    - Talk when actions serve better.
-    - Refuse power when it is offered.
+      - Show weakness.
+      - Talk when actions serve better.
+      - Refuse power when it is offered.
   Ceinara:
     allowed_alignments:
-    - NG
-    - CG
-    - N
-    - CN
+      - BL
+      - WL
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Charisma
     divine_skill: Performance
     fav_weapon: rapier
     domains:
-    - Fire
-    - Passion
-    - Change
-    - Creation
+      - Fire
+      - Passion
+      - Change
+      - Creation
     cleric_spells:
-    - Charm
-    - Fireball
-    - Spirit Song
+      - Agitate
+      - Fireball
+      - Spirit Song
     edicts:
-    - Embrace your passions.
-    - Patronize the arts and inspiration in all its forms.
-    - Delight in creation.
+      - Embrace your passions.
+      - Patronize the arts and inspiration in all its forms.
+      - Delight in creation.
     anathema:
-    - Allow your passion to fade from fear.
-    - Destroy an artistic expression.
-    - Discourage an artist from pursuing their dreams.
+      - Allow your passion to fade from fear.
+      - Destroy an artistic expression.
+      - Discourage an artist from pursuing their dreams.
   Daeus:
     allowed_alignments:
-    - LG
-    - NG
-    - LN
+      - OL
+      - BL
+      - OT
     magic_stats:
       divine_font:
-      - heal
+        - heal
     divine_ability:
-    - Intelligence
-    - Charisma
+      - Intelligence
+      - Charisma
     divine_skill: Society
     fav_weapon: longsword
     domains:
-    - Wyrmkin
-    - Truth
-    - Duty
-    - Sun
+      - Dragon
+      - Truth
+      - Duty
+      - Sun
     cleric_spells:
-    - True Strike
-    - Fire Shield
-    - Dragon Form
+      - Sure Strike
+      - Fire Shield
+      - Dragon Form
     edicts:
-    - Justice isn't perfect; always try to make it better.
-    - Share the truths you learn.
-    - Protect the people who need it.
+      - Justice isn't perfect; always try to make it better.
+      - Share the truths you learn.
+      - Protect the people who need it.
     anathema:
-    - Abide injustice when you can step forward.
-    - Mistake vengeance for justice.
-    - Cheat, deceive, or undermine those who have placed trust in you.
+      - Abide injustice when you can step forward.
+      - Mistake vengeance for justice.
+      - Cheat, deceive, or undermine those who have placed trust in you.
   Dana:
     allowed_alignments:
-    - NG
-    - LN
-    - N
-    - CN
+      - BL
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Charisma
     divine_skill: Nature
     fav_weapon: scimitar
     domains:
-    - Earth
-    - Nature
-    - Wood
-    - Swarm
+      - Earth
+      - Nature
+      - Air
+      - Swarm
     cleric_spells:
-    - Pummeling Rubble
-    - Speak with Plants
-    - Tangling Creepers
+      - Pummeling Rubble
+      - Speak with Plants
+      - Tangling Creepers
     edicts:
-    - Defend nature's bounty against those who would pillage it.
-    - Tend the gardens of the earth in all their forms.
-    - Embody the sprawling order of nature in your other pursuits.
+      - Defend nature's bounty against those who would pillage it.
+      - Tend the gardens of the earth in all their forms.
+      - Embody the sprawling order of nature in your other pursuits.
     anathema:
-    - Engage in wanton destruction.
-    - Suffer the poisoning of the earth.
-    - Hunt rampantly.
+      - Engage in wanton destruction.
+      - Suffer the poisoning of the earth.
+      - Hunt rampantly.
   Deimos:
     allowed_alignments:
-    - LN
-    - N
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Charisma
     divine_skill: Deception
     fav_weapon: light hammer
     domains:
-    - Delirium
-    - Secrecy
-    - Trickery
-    - Confidence
+      - Delirium
+      - Secrecy
+      - Trickery
+      - Confidence
     cleric_spells:
-    - Illusory Disguise
-    - Crushing Despair
-    - Duplicate Foe
+      - Illusory Disguise
+      - Wave of Despair
+      - Duplicate Foe
     edicts:
-    - Call out the flaws in all things.
-    - Reinforce the belief in the worst of people.
-    - Allow nothing to hold you back.
+      - Call out the flaws in all things.
+      - Reinforce the belief in the worst of people.
+      - Allow nothing to hold you back.
     anathema:
-    - Attempt to bolster another's confidence.
-    - Remain silent where you can speak.
-    - Believe in innocence.
+      - Attempt to bolster another's confidence.
+      - Remain silent where you can speak.
+      - Believe in innocence.
   Eluna:
     allowed_alignments:
-    - LG
-    - NG
-    - CG
-    - LN
-    - N
+      - OL
+      - BL
+      - WL
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
+        - heal
     divine_ability:
-    - Intelligence
-    - Wisdom
+      - Intelligence
+      - Wisdom
     divine_skill: Arcana
     fav_weapon: starknife
     domains:
-    - Moon
-    - Magic
-    - Dreams
-    - Fate
+      - Moon
+      - Magic
+      - Dreams
+      - Fate
     cleric_spells:
-    - Sleep
-    - Scrying
-    - Dream Council
+      - Sleep
+      - Scrying
+      - Dream Council
     edicts:
-    - Take the long view and always consider the greater good.
-    - Use magic responsibly, and challenge those who do not.
-    - Soothe the lycanthropes who are caught in the maw of Caracoroth.
+      - Take the long view and always consider the greater good.
+      - Use magic responsibly, and challenge those who do not.
+      - Soothe the lycanthropes who are caught in the maw of Caracoroth.
     anathema:
-    - Use spells or magic that deny the target their free will.
-    - Sacrifice the future for short-term benefit.
-    - Ignore the guidance found in dreams, divination, and prophecy.
+      - Use spells or magic that deny the target their free will.
+      - Sacrifice the future for short-term benefit.
+      - Ignore the guidance found in dreams, divination, and prophecy.
   Gilead:
     allowed_alignments:
-    - NG
-    - CG
-    - N
+      - BL
+      - WL
+      - BT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Dexterity
     divine_skill: Survival
     fav_weapon: longbow
     domains:
-    - Earth
-    - Nature
-    - Travel
-    - Freedom
+      - Earth
+      - Nature
+      - Travel
+      - Freedom
     cleric_spells:
-    - Longstrider
-    - Wall of Thorns
-    - Unfettered Pack
+      - Tailwind
+      - Wall of Thorns
+      - Unfettered Pack
     edicts:
-    - Honor the Hunt.
-    - Defend wild spaces.
-    - Kill only what you need.
+      - Honor the Hunt.
+      - Defend wild spaces.
+      - Kill only what you need.
     anathema:
-    - Kill uncleanly and mercilessly.
-    - Smother the wild rather than protect it.
-    - Hoard wild resources.
+      - Kill uncleanly and mercilessly.
+      - Smother the wild rather than protect it.
+      - Hoard wild resources.
   Gunahkar:
     allowed_alignments:
-    - N
-    - CN
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability: Constitution
     divine_skill: Survival
     fav_weapon: guisarme
     domains:
-    - Destruction
-    - Death
-    - Indulgence
-    - Pain
+      - Destruction
+      - Death
+      - Indulgence
+      - Pain
     cleric_spells:
-    - Grim Tendrils
-    - Paralyze
-    - Blister
+      - Grim Tendrils
+      - Paralyze
+      - Blister
     edicts:
-    - Suffer.
-    - Welcome sickness.
-    - Endure all you can.
+      - Suffer.
+      - Welcome sickness.
+      - Endure all you can.
     anathema:
-    - Stop the faithful from feeling their pain.
-    - Fail to endure a trial.
-    - Seek treatment for personal problems.
+      - Stop the faithful from feeling their pain.
+      - Fail to endure a trial.
+      - Seek treatment for personal problems.
   Illotha:
     allowed_alignments:
-    - LN
-    - CN
+      - OT
+      - WT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability: Constitution
     divine_skill: Society
     fav_weapon: kukri
     domains:
-    - Fate
-    - Pain
-    - Soul
-    - Zeal
+      - Fate
+      - Pain
+      - Soul
+      - Zeal
     cleric_spells:
-    - Ill Omen
-    - Phantasmal Killer
-    - True Target
+      - Ill Omen
+      - Vision of Death
+      - True Target
     edicts:
-    - Punish those that harm you.
-    - Vengeance is sweet.
-    - Get the justice you deserve.
+      - Punish those that harm you.
+      - Vengeance is sweet.
+      - Get the justice you deserve.
     anathema:
-    - Let someone get away with hurting you.
-    - Fail to punish someone that's done wrong.
-    - Ignoring someone's quest for vengeance.
+      - Let someone get away with hurting you.
+      - Fail to punish someone that's done wrong.
+      - Ignoring someone's quest for vengeance.
   Kor:
     allowed_alignments:
-    - CG
-    - N
-    - CN
+      - WL
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability: Strength
     divine_skill: Intimidation
     fav_weapon: greataxe
     domains:
-    - Zeal
-    - Pain
-    - Might
-    - Destruction
+      - Zeal
+      - Pain
+      - Might
+      - Destruction
     cleric_spells:
-    - Jump
-    - Haste
-    - Weapon Storm
+      - Jump
+      - Haste
+      - Weapon Storm
     edicts:
-    - Be brave enough to fight at Kor's side.
-    - Achieve a glorious death.
-    - Train to achieve glory.
+      - Be brave enough to fight at Kor's side.
+      - Achieve a glorious death.
+      - Train to achieve glory.
     anathema:
-    - Be the first to leave the battlefield.
-    - Mistake bravery for foolishness.
-    - Lie about your accomplishments.
+      - Be the first to leave the battlefield.
+      - Mistake bravery for foolishness.
+      - Lie about your accomplishments.
   Maugrim:
     allowed_alignments:
-    - LN
-    - N
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability: Constitution
     divine_skill: Intimidation
     fav_weapon: greatsword
     domains:
-    - Ambition
-    - Toil
-    - Tyranny
-    - Perfection
+      - Ambition
+      - Toil
+      - Tyranny
+      - Perfection
     cleric_spells:
-    - Phantom Pain
-    - Dominate
-    - Force Cage
+      - Phantom Pain
+      - Dominate
+      - Lifewood Cage
     edicts:
-    - Labor unflinchingly at your work.
-    - Strive for perfection in all affairs.
-    - Be entitled to what you earn.
+      - Labor unflinchingly at your work.
+      - Strive for perfection in all affairs.
+      - Be entitled to what you earn.
     anathema:
-    - Be lazy.
-    - Shirk your duties and responsibilities.
-    - Take more than you're owed.
+      - Be lazy.
+      - Shirk your duties and responsibilities.
+      - Take more than you're owed.
   Navos:
     allowed_alignments:
-    - LG
-    - NG
-    - LN
-    - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
+        - heal
     divine_ability: Wisdom
     divine_skill: Acrobatics
     fav_weapon: unarmed
     domains:
-    - Time
-    - Secrecy
-    - Perfection
-    - Knowledge
+      - Time
+      - Secrecy
+      - Perfection
+      - Knowledge
     cleric_spells:
-    - Deja Vu
-    - Dimension Door
-    - Blanket of Stars
+      - Deja Vu
+      - Translocate
+      - Blanket of Stars
     edicts:
-    - Learn from the past; do not dwell on it.
-    - Act wisely and cautiously in the present day.
-    - Work for a better future.
+      - Learn from the past; do not dwell on it.
+      - Act wisely and cautiously in the present day.
+      - Work for a better future.
     anathema:
-    - Be consumed by something you cannot change.
-    - Fail to perceive the weight of your own actions.
-    - Try to change past events.
+      - Be consumed by something you cannot change.
+      - Fail to perceive the weight of your own actions.
+      - Try to change past events.
   Rada:
     allowed_alignments:
-    - CG
-    - LN
-    - CN
+      - WL
+      - OT
+      - WT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Wisdom
     divine_skill: Diplomacy
     fav_weapon: trident
     domains:
-    - Air
-    - Travel
-    - Water
-    - Weather
+      - Air
+      - Travel
+      - Water
+      - Weather
     cleric_spells:
-    - Water Breathing
-    - Mariner's Curse
-    - Horrid Wilting
+      - Water Breathing
+      - Mariner's Curse
+      - Desiccate
     edicts:
-    - Honor a fair trade.
-    - The sea is owed a portion of your keep.
-    - Take only what you need from the waters.
+      - Honor a fair trade.
+      - The sea is owed a portion of your keep.
+      - Take only what you need from the waters.
     anathema:
-    - Break a fair bargain.
-    - Be a false guide to another.
-    - Pollute the ocean.
+      - Break a fair bargain.
+      - Be a false guide to another.
+      - Pollute the ocean.
   Reos:
     allowed_alignments:
-    - LG
-    - NG
-    - LN
-    - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Wisdom
     divine_skill: Crafting
     fav_weapon: warhammer
     domains:
-    - Cities
-    - Creation
-    - Ambition
-    - Toil
+      - Cities
+      - Creation
+      - Perfection
+      - Toil
     cleric_spells:
-    - Telekinetic Projectile
-    - Creation
-    - Fiery Body
+      - Telekinetic Projectile
+      - Creation
+      - Fiery Body
     edicts:
-    - Always tinker and experiment for new possibilities.
-    - Respect honest effort, even if it lacks skill.
-    - Acknowledge expertise.
+      - Always tinker and experiment for new possibilities.
+      - Respect honest effort, even if it lacks skill.
+      - Acknowledge expertise.
     anathema:
-    - Engage in wanton destruction.
-    - Strive for impossible perfection.
-    - Disparage the act of creation.
+      - Engage in wanton destruction.
+      - Strive for impossible perfection.
+      - Disparage the act of creation.
   Serriel:
     allowed_alignments:
-    - LG
-    - NG
-    - LN
-    - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Intelligence
     divine_skill: Society
     fav_weapon: lance
     domains:
-    - Cities
-    - Protection
-    - Duty
-    - Wealth
+      - Cities
+      - Protection
+      - Duty
+      - Wealth
     cleric_spells:
-    - Ant Haul
-    - Wall of Stone
-    - True Target
+      - Ant Haul
+      - Wall of Stone
+      - True Target
     edicts:
-    - Enrich your community.
-    - Follow the laws and order of your community.
-    - Defend your community from threats.
+      - Enrich your community.
+      - Follow the laws and order of your community.
+      - Defend your community from threats.
     anathema:
-    - Enrich yourself at the expense of your community.
-    - Refuse to defend your community.
-    - Vandalize a piece of cultural heritage.
+      - Enrich yourself at the expense of your community.
+      - Refuse to defend your community.
+      - Vandalize a piece of cultural heritage.
   Taara:
     allowed_alignments:
-    - N
-    - CN
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability: Wisdom
     divine_skill: Deception
     fav_weapon: spiked chain
     domains:
-    - Void
-    - Darkness
-    - Magic
-    - Secrecy
+      - Void
+      - Darkness
+      - Magic
+      - Secrecy
     cleric_spells:
-    - Illusory Disguise
-    - Secret Page
-    - Glibness
+      - Illusory Disguise
+      - Honeyed Words
+      - Illusory Scene
     edicts:
-    - Tell your stories as often as possible.
-    - Keep your secrets.
-    - Unearth the secrets of others.
+      - Tell your stories as often as possible.
+      - Keep your secrets.
+      - Unearth the secrets of others.
     anathema:
-    - Shatter someone's illusions.
-    - Allow the truth to ruin a good story.
-    - Give your secrets away for free.
+      - Shatter someone's illusions.
+      - Allow the truth to ruin a good story.
+      - Give your secrets away for free.
   Tarien:
     allowed_alignments:
-    - NG
-    - CG
-    - N
-    - CN
+      - BL
+      - WL
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - heal
+        - heal
     divine_ability: Charisma
     divine_skill: Stealth
     fav_weapon: shortsword
     domains:
-    - Luck
-    - Travel
-    - Trickery
-    - Confidence
+      - Luck
+      - Travel
+      - Trickery
+      - Confidence
     cleric_spells:
-    - Pass Without Trace
-    - Hideous Laughter
-    - Synesthesia
+      - Vanishing Tracks
+      - Laughing Fit
+      - Synesthesia
     edicts:
-    - Find the small joys in everything.
-    - Know that humility is the greatest teacher.
-    - Make others laugh, too.
+      - Find the small joys in everything.
+      - Know that humility is the greatest teacher.
+      - Make others laugh, too.
     anathema:
-    - Bring undue harm with your humor.
-    - Impair someone's freedom without good reason.
-    - Purposefully ruin everyone else's fun.
+      - Bring undue harm with your humor.
+      - Impair someone's freedom without good reason.
+      - Purposefully ruin everyone else's fun.
   Thul:
     allowed_alignments:
-    - LN
-    - N
-    - CN
+      - OT
+      - BT
+      - WT
     magic_stats:
       divine_font:
-      - harm
+        - harm
     divine_ability: Wisdom
     divine_skill: Occultism
     fav_weapon: scythe
     domains:
-    - Cold
-    - Decay
-    - Vigil
-    - Undeath
+      - Cold
+      - Decay
+      - Vigil
+      - Undeath
     cleric_spells:
-    - Object Reading
-    - Modify Memory
-    - Polar Ray
+      - Object Reading
+      - Modify Memory
+      - Artic Rift
     edicts:
-    - Welcome death and undeath.
-    - Gather as much experience as you can.
-    - Serve the dead where you can.
+      - Welcome death and undeath.
+      - Gather as much experience as you can.
+      - Serve the dead where you can.
     anathema:
-    - Fail to preserve memories.
-    - Ignore the needs of the dead.
-    - Live in fear of death.
+      - Fail to preserve memories.
+      - Ignore the needs of the dead.
+      - Live in fear of death.
   Vardama:
     allowed_alignments:
-    - LG
-    - NG
-    - LN
-    - N
+      - OL
+      - BL
+      - OT
+      - BT
     magic_stats:
       divine_font:
-      - heal
-      - harm
+        - heal
+        - harm
     divine_ability: Intelligence
     divine_skill: Medicine
     fav_weapon: khopesh
     domains:
-    - Death
-    - Sorrow
-    - Repose
-    - Soul
+      - Death
+      - Sorrow
+      - Repose
+      - Soul
     cleric_spells:
-    - Soothe
-    - Ghostly Weapon
-    - Disintegrate
+      - Soothe
+      - Ghostly Weapon
+      - Disintegrate
     edicts:
-    - Guard the rest of the peaceful dead.
-    - Offer succor to the grieving.
-    - Try to ensure a peaceful passing.
+      - Guard the rest of the peaceful dead.
+      - Offer succor to the grieving.
+      - Try to ensure a peaceful passing.
     anathema:
-    - Disturb the rest of the dead.
-    - Cast judgment on the worth of a person.
-    - Command the fate of a soul.
+      - Disturb the rest of the dead.
+      - Cast judgment on the worth of a person.
+      - Command the fate of a soul.

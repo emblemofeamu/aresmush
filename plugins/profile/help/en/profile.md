@@ -24,4 +24,4 @@ You can customize your web portal profile with custom profile fields. (AresMUSH 
 
 `profile/add <input>=<description>`: Adds or updates a custom profile input and describes the input.
 `profile/delete <input>`: Deletes a custom profile input.
-`profile/edit <input>`: Snags the input into your buffer, if your client allows. (see Editing (playtest.emblemofeamush.net/help/edit))
+`profile/edit <input>`: Snags the input into your buffer, if your client allows. (see Editing (https://playtest.emblemofeamush.net/help/edit))

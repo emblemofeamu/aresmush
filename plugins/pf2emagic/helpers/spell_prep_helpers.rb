@@ -34,6 +34,20 @@ module AresMUSH
 
       spell_name = spells[0]
       spell_details = spells[1]
+      spell_level = spell_details['base_level']
+
+      # Level can be passed as nil; default to the spell's base level.
+      level = spell_level unless level
+      level = level.to_s
+      level = 'cantrip' if level.downcase == 'cantrip' || level.to_i.zero?
+
+      is_cantrip_spell = spell_level.to_i.zero?
+      is_cantrip_level = (level == 'cantrip')
+
+      return t('pf2emagic.cant_prepare_cantrip_slot') if is_cantrip_spell && !is_cantrip_level
+      return t('pf2emagic.cant_prepare_level') if !is_cantrip_spell && is_cantrip_level
+
+      return t('pf2emagic.cant_prepare_level') if (spell_level.to_i > level.to_i)
 
       needs_spellbook = spell_details['traits'].intersect?(['rare', 'uncommon', 'unique'])
 
@@ -61,13 +75,6 @@ module AresMUSH
       spell_trad = spell_details['tradition']
 
       return t('pf2emagic.cant_prepare_trad', :cc => cc) unless spell_trad.include? tradition[0].downcase
-
-      spell_level = spell_details['base_level']
-
-      # Level can be passed as nil, if it is, default to the base level of the spell.
-      level = spell_level unless level
-
-      return t('pf2emagic.cant_prepare_level') if (spell_level.to_i > level.to_i)
 
       if use_arcane_evo
         repertoire = obj.repertoire

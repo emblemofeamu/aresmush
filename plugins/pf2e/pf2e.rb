@@ -31,6 +31,11 @@ module AresMUSH
         when "prp"
           return PF2AwardPRPCmd
         end
+      when "selfaward"
+        case cmd.switch
+        when "xp"
+          return PF2AwardXPCmd
+        end
       when "cg"
         case cmd.switch
         when "set"
@@ -141,6 +146,10 @@ module AresMUSH
           return PF2AdminRespecCmd
         end
       when "advance"
+        if cmd.switch&.start_with?("language=")
+          cmd.args = cmd.switch.split("=", 2)[1]
+          cmd.switch = "language"
+        end
         case cmd.switch
         when nil
           return PF2ADvancementStartCmd
@@ -154,8 +163,14 @@ module AresMUSH
           return PF2AdvanceFeatCmd
         when "spell"
           return PF2AdvanceSpellCmd
+        when "swapspell"
+          return PF2AdvanceSwapSpellCmd
         when "option"
           return PF2AdvanceOptionCmd
+        when "archetype"
+          return PF2AdvanceArchetypeCmd
+        when "language"
+          return PF2AdvanceLanguageCmd
         when "done"
           return PF2AdvanceFinishCmd
         end

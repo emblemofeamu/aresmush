@@ -47,9 +47,36 @@ module AresMUSH
         return t('pf2e.lock_info_first')
       end
 
+      def check_correct_class
+        correct_class = enactor.pf2_base_info['charclass']
+        entered_class = self.caster_class
+        prepared_classes = Global.read_config('pf2e_magic', 'prepared_casters') || []
+        spontaneous_classes = Global.read_config('pf2e_magic', 'spontaneous_casters') || []
+        all_caster_classes = (prepared_classes + spontaneous_classes).map { |cc| cc.downcase }
+
+        return nil unless correct_class
+        return nil unless entered_class
+        return nil unless all_caster_classes.include?(entered_class.downcase)
+        return nil if entered_class.casecmp?(correct_class)
+
+        t('pf2emagic.cant_learn_wrong_class', :wrong_class => entered_class, :correct_class => correct_class)
+      end
+
       def handle
 
         level = self.spell_level.zero? ? 'cantrip' : self.spell_level.to_s
+
+        if self.caster_class&.casecmp?('innate')
+          msg = Pf2emagic.select_innate_spell(enactor, level, self.old_spell, self.new_spell, true)
+
+          if msg
+            client.emit_failure msg
+            return
+          end
+
+          client.emit_success t('pf2emagic.cg_spell_select_ok')
+          return
+        end
 
         # A switch on this command indicates a gate on the spell. Divert to different processing.
         if cmd.switch

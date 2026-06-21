@@ -5,24 +5,24 @@ pf2e:
       type: community
       message: Ran %{count} Player-Run Plots.
       levels:
-      - 1
-      - 10
-      - 25
-      - 50
-      - 100
-      - 250
-      - 500
+        - 1
+        - 10
+        - 25
+        - 50
+        - 100
+        - 250
+        - 500
     master_of_meetups:
       type: community
       message: Ran %{count} Meetups.
       levels:
-      - 1
-      - 10
-      - 25
-      - 50
-      - 100
-      - 250
-      - 500
+        - 1
+        - 10
+        - 25
+        - 50
+        - 100
+        - 250
+        - 500
   shortcuts:
     sheet/top: sheet/info
     rollalias: roll/alias
@@ -42,16 +42,16 @@ pf2e:
     resume: encounter/end
   max_level: 20
   allowed_alignments:
-  - LG
-  - NG
-  - CG
-  - LN
-  - N
-  - CN
+    - OL
+    - BL
+    - WL
+    - OT
+    - BT
+    - WT
   roll_channel: 'Rolls'
   can_select_language:
-  - common
-  - uncommon
+    - common
+    - uncommon
   open_sheets: true
   open_npc_sheets: false
   title_color: '%x172'
@@ -69,6 +69,7 @@ pf2e:
     Sorcerer: 'Bloodline'
     Wizard: 'Thesis'
     Investigator: 'Methodology'
+    Swashbuckler: 'Style'
     Oracle: 'Mystery'
     Witch: 'Patron'
   condition_colors:
@@ -77,64 +78,64 @@ pf2e:
     Drained: '%xh%xx'
     Doomed: '%x172'
   hidden_options:
-  - Fey Bullshit Lore
+    - Fey Bullshit Lore
   permissions:
     modify_sheet: Modify character sheets.
     view_sheets: View other people's character sheets (if sheets are closed).
     kill_pc: (Associated to DM role) Has the ability to inflict Drained, Doomed, and Dead conditions on PC's.
   basic_mc_feats:
-  - Basic Concoction 
-  - Basic Fury
-  - Basic Muse's Whispers
-  - Basic Devotion
-  - Basic Dogma
-  - Basic Wilding
-  - Basic Maneuver
-  - Basic Deduction
-  - Basic Kata
-  - Basic Mysteries
-  - Basic Hunter's Trick
-  - Basic Trickery
-  - Basic Blood Potency
-  - Basic Witchcraft
-  - Basic Arcana
+    - Basic Concoction 
+    - Basic Fury
+    - Basic Muse's Whispers
+    - Basic Devotion
+    - Basic Dogma
+    - Basic Wilding
+    - Basic Maneuver
+    - Basic Deduction
+    - Basic Kata
+    - Basic Mysteries
+    - Basic Hunter's Trick
+    - Basic Trickery
+    - Basic Blood Potency
+    - Basic Witchcraft
+    - Basic Arcana
   adv_mc_feats:
-  - Advanced Concoction
-  - Advanced Fury
-  - Advanced Muse's Whispers
-  - Advanced Devotion
-  - Advanced Dogma
-  - Advanced Wilding
-  - Advanced Maneuver
-  - Advanced Deduction 
-  - Advanced Kata
-  - Advanced Mysteries
-  - Advanced Hunter's Trick
-  - Advanced Trickery
-  - Advanced Blood Potency
-  - Advanced Witchcraft
-  - Advanced Arcana
+    - Advanced Concoction
+    - Advanced Fury
+    - Advanced Muse's Whispers
+    - Advanced Devotion
+    - Advanced Dogma
+    - Advanced Wilding
+    - Advanced Maneuver
+    - Advanced Deduction 
+    - Advanced Kata
+    - Advanced Mysteries
+    - Advanced Hunter's Trick
+    - Advanced Trickery
+    - Advanced Blood Potency
+    - Advanced Witchcraft
+    - Advanced Arcana
   prof_progression:
-  - untrained
-  - trained
-  - expert
-  - master
-  - legendary
+    - untrained
+    - trained
+    - expert
+    - master
+    - legendary
   min_level_for_prof: 
-  - 1
-  - 1
-  - 1
-  - 7
-  - 15
+    - 1
+    - 1
+    - 1
+    - 7
+    - 15
   valid_feat_types:
-  - ancestry
-  - charclass
-  - skill
-  - general
-  - archetype
-  - dedication
+    - ancestry
+    - charclass
+    - skill
+    - general
+    - archetype
+    - dedication
   daily_prep_cron:
     hour: 
-    - 10
+      - 10
     minute:
-    - 03
+      - 03

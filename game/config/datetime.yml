@@ -1,7 +1,7 @@
 ---
 datetime:
-  date_and_time_entry_format_help: MMM DD YYYY hh:mm<am or pm>
-  date_entry_format_help: MONTH DAY, YEAR
+  date_and_time_entry_format_help: MMM DD, YYYY hh:mm<am or pm>
+  date_entry_format_help: MONTH DAY YEAR
   long_date_format: "%A, %B %d, %Y %l:%M%p"
   server_timezone: EST
   short_date_format: "%B %d, %Y"

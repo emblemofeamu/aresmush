@@ -12,14 +12,25 @@ module AresMUSH
       return caster_stats if caster_stats.is_a? String
 
       # Do they have this spell in their list for that type?
-      splist = magic.focus_spells[focus_type]
+      splist = magic.focus_spells[focus_type] || []
+      cantrip_list = magic.focus_cantrips[focus_type] || []
 
       spname = splist.select { |sp| sp.downcase.match? spell.downcase }
+      cantrip_match = cantrip_list.select { |sp| sp.downcase.match? spell.downcase }
+
+      if spname.empty? && !cantrip_match.empty?
+        return t('pf2e.multiple_matches', :element => 'spell') if cantrip_match.size > 1
+        return t('pf2emagic.focus_cantrip_wrong_cmd', :spell => cantrip_match.first)
+      end
 
       return t('pf2emagic.no_match', :item => "spells") if spname.empty?
       return t('pf2e.multiple_matches', :element => 'spell') if spname.size > 1
 
       spname = spname.first
+      spdeets = Global.read_config('pf2e_spells', spname)
+      base = spdeets ? spdeets['base_level'].to_i : 0
+      hlevel = get_auto_heighten_level(char)
+      splevel = [ base, hlevel ].max.to_s
 
       # Do they have any focus points left in their pool?
       fpool = magic.focus_pool
@@ -35,6 +46,7 @@ module AresMUSH
       magic.update(focus_pool: fpool)
 
       caster_stats['focus type'] = focus_type
+      caster_stats['spell level'] = splevel
       caster_stats['spell type'] = 'focus'
       caster_stats['targets'] = target_list unless target_list.empty?
       caster_stats['spell name'] = spname
@@ -58,7 +70,11 @@ module AresMUSH
 
       spname = spname.first
 
+      hlevel = get_auto_heighten_level(char).to_s
+      splevel = "cantrip/#{hlevel}"
+
       caster_stats['focus type'] = focus_type
+      caster_stats['spell level'] = splevel
       caster_stats['spell type'] = 'focus cantrip'
       caster_stats['targets'] = target_list unless target_list.empty?
       caster_stats['spell name'] = spname
@@ -83,34 +99,102 @@ module AresMUSH
 
       base = spdeets['base_level'].to_i
 
-      splevel = level ? level : base
-
-      # If specified, level must be at least the base level of the spell. Level is an integer here.
-      return t('pf2emagic.invalid_level') if splevel < base
-
-      splevel = 'cantrip' if splevel.zero?
-
-      # Signature means that you can cast that spell at the level you know it at, at its base level, or any
-      # level in between.
       cc_spells = magic.spells_today
       cc_spells_2day = cc_spells[charclass]
       return t('pf2emagic.no_available_slots') unless cc_spells_2day
 
-      slots = cc_spells_2day[splevel]
-      return t('pf2emagic.no_available_slots') unless slots
+      auto_heighten = level.nil? && base > 0
 
-      signature_spells = magic.signature_spells[charclass]
-      lvceil = signature_spells.invert[spell_name]
+      if auto_heighten
+        castable_slot_levels = cc_spells_2day.keys
+                                          .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
+                                          .reject(&:zero?)
 
-      available = lvceil && splevel.to_i.between?(base, lvceil) && (slots > 0)
-      return t('pf2emagic.invalid_signature_level') unless available
+        return t('pf2emagic.no_available_slots') if castable_slot_levels.empty?
+
+        highest_level = castable_slot_levels.max
+        highest_key = if cc_spells_2day.key?(highest_level.to_s)
+                        highest_level.to_s
+                      elsif cc_spells_2day.key?(highest_level)
+                        highest_level
+                      end
+
+        highest_slots = highest_key ? cc_spells_2day[highest_key].to_i : 0
+        if highest_slots <= 0
+          abs_level = highest_level.to_i.abs
+          suffix =  case abs_level % 10
+                    when 1 then 'st'
+                    when 2 then 'nd'
+                    when 3 then 'rd'
+                    else 'th'
+                   end
+          level_label = "#{highest_level}#{suffix}-level"
+
+          return t('pf2emagic.signature_autoheighten_no_slots', :level => level_label)
+        end
+
+        splevel = highest_level.to_s
+      else
+        splevel = level ? level.to_i : base
+
+        # If specified, level must be at least the base level of the spell. Level is an integer here.
+        return t('pf2emagic.invalid_level') if splevel < base
+
+        splevel = splevel.zero? ? 'cantrip' : splevel.to_s
+      end
+
+      # Signature means that you can cast that spell at the level you know it at, at its base level, or any
+      # level in between.
+      castable_levels = cc_spells_2day.keys
+                                 .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
+      max_castable_level = castable_levels.max || 0
+
+      signature_spells = magic.signature_spells[charclass] || {}
+
+      known_signature_levels = signature_spells.select do |_sig_level, sig_spells|
+        Array(sig_spells).include?(spname)
+      end.keys
+
+      is_signature_spell = !known_signature_levels.empty?
+
+      available = if splevel == 'cantrip'
+                    is_signature_spell && base.zero?
+                  else
+                    slot_key = if cc_spells_2day.key?(splevel)
+                                 splevel
+                               elsif cc_spells_2day.key?(splevel.to_i)
+                                 splevel.to_i
+                               end
+                    slots = slot_key ? cc_spells_2day[slot_key] : nil
+                    !slots.nil? && is_signature_spell && splevel.to_i.between?(base, max_castable_level) && (slots > 0)
+                  end
+
+      unless available
+        focus_msg = focus_casting_mismatch_msg(char, charclass, spell)
+        return focus_msg if focus_msg
+
+        return t('pf2emagic.invalid_signature_level')
+      end
 
       # Do the cast and return a caster hash.
 
-      slots = slots - 1
-      cc_spells_2day[splevel] = slots
-      cc_spells[charclass] = cc_spells_2day
-      magic.update(spells_today: cc_spells)
+      if splevel == 'cantrip'
+        hlevel = get_auto_heighten_level(char).to_s
+        splevel = "cantrip/#{hlevel}"
+      else
+        slot_key = if cc_spells_2day.key?(splevel)
+                     splevel
+                   elsif cc_spells_2day.key?(splevel.to_i)
+                     splevel.to_i
+                   end
+        slots = slot_key ? cc_spells_2day[slot_key] : nil
+        return t('pf2emagic.no_available_slots') if slots.nil?
+
+        slots = slots - 1
+        cc_spells_2day[slot_key] = slots
+        cc_spells[charclass] = cc_spells_2day
+        magic.update(spells_today: cc_spells)
+      end
 
       caster_stats['spell level'] = splevel
       caster_stats['spell type'] = 'signature'
@@ -147,7 +231,12 @@ module AresMUSH
       return t('pf2emagic.no_available_slots') unless splist
 
       available = splist.include? spname
-      return t('pf2emagic.not_prepared_at_level') unless available
+      unless available
+        focus_msg = focus_casting_mismatch_msg(char, charclass, spell)
+        return focus_msg if focus_msg
+
+        return t('pf2emagic.not_prepared_at_level')
+      end
 
       # Unless it's a cantrip, deduct the spell from today's prepared list and return a caster hash.
 
@@ -190,19 +279,58 @@ module AresMUSH
 
       # If specified, level must be at least the base level of the spell. Level is an integer here.
       return t('pf2emagic.invalid_level') if splevel < base
-
+      
       splevel = splevel.zero? ? 'cantrip' : splevel.to_s
 
-      # Got a spell open at that level?
+      # Spontaneous casters can cast a spell at a given level only if either:
+      # 1) They know that spell at that specific level in their repertoire, or
+      # 2) It is one of their signature spells and the requested level is valid.
       cc_spells = magic.spells_today
       cc_spells_2day = cc_spells[charclass]
       return t('pf2emagic.no_available_slots') unless cc_spells_2day
 
-      slots = cc_spells_2day[splevel]
-      return t('pf2emagic.no_available_slots') unless slots
+      castable_levels = cc_spells_2day.keys
+                 .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
+      max_castable_level = castable_levels.max || 0
 
-      available = (slots > 0)
-      return t('pf2emagic.no_available_slots') unless available
+      repertoire = magic.repertoire[charclass] || {}
+      known_at_level = Array(repertoire[splevel]).include?(spname) ||
+                       Array(repertoire[splevel.to_i]).include?(spname)
+
+      signature_spells = magic.signature_spells[charclass] || {}
+      known_signature_levels = signature_spells.select do |_sig_level, sig_spells|
+        Array(sig_spells).include?(spname)
+      end.keys
+
+      is_signature_spell = !known_signature_levels.empty?
+
+      valid_signature_level = if splevel == 'cantrip'
+                                is_signature_spell && base.zero?
+                              else
+                                is_signature_spell && splevel.to_i.between?(base, max_castable_level)
+                              end
+
+      can_cast_at_level = known_at_level || valid_signature_level
+      unless can_cast_at_level
+        focus_msg = focus_casting_mismatch_msg(char, charclass, spell)
+        return focus_msg if focus_msg
+
+        return t('pf2emagic.not_in_list')
+      end
+      
+      # Slots are not neccessary for cantrips.
+      if splevel != 'cantrip'
+        slot_key = if cc_spells_2day.key?(splevel)
+                     splevel
+                   elsif cc_spells_2day.key?(splevel.to_i)
+                     splevel.to_i
+                   end
+        slots = slot_key ? cc_spells_2day[slot_key] : nil
+        return t('pf2emagic.no_available_slots') unless slots
+
+        available = (slots > 0)
+        return t('pf2emagic.no_available_slots') unless available
+      end
 
       # Do the cast and return a caster hash. Cantrip recalculates level for auto-heightening.
 
@@ -211,7 +339,7 @@ module AresMUSH
         splevel = splevel + "/#{hlevel}"
       else
         slots = slots - 1
-        cc_spells_2day[splevel] = slots
+        cc_spells_2day[slot_key] = slots
         cc_spells[charclass] = cc_spells_2day
         magic.update(spells_today: cc_spells)
       end
@@ -246,6 +374,23 @@ module AresMUSH
 
       # Innate spells are structured a little differently and may overwrite base caster stats.
       spinfo = innate_spells[spname]
+
+      level = spinfo['level'].to_s
+      if level.downcase != 'cantrip' && level.to_i > 0
+        cc_spells = magic.spells_today || {}
+        innate_today = cc_spells['innate'] || {}
+        level_uses = innate_today[level] || []
+
+        use_index = level_uses.index(spname)
+        return t('pf2emagic.no_available_slots') unless use_index
+
+        level_uses.delete_at(use_index)
+        innate_today[level] = level_uses
+        cc_spells['innate'] = innate_today
+
+        magic.update(spells_today: cc_spells)
+      end
+
       caster_stats['tradition'] = spinfo['tradition']
       caster_stats['spell level'] = spinfo['level']
       caster_stats['spell type'] = 'innate'
@@ -262,7 +407,13 @@ module AresMUSH
 
       # Spell type is either specified in the switch or determined by character class.
       # Note: This function assumes and expects that charclass is passed as titlecase.
-      spell_type = switch ? switch : Pf2emagic.get_caster_type(charclass)
+      spell_type = if switch
+                     switch
+                   elsif charclass.to_s.downcase == 'innate'
+                     'innate'
+                   else
+                     Pf2emagic.get_caster_type(charclass)
+                   end
 
       return t('pf2emagic.not_casting_class', :cc => charclass) unless spell_type
 
@@ -295,6 +446,28 @@ module AresMUSH
       end
 
       msg
+    end
+
+    def self.focus_casting_mismatch_msg(char, charclass, spell)
+      magic = char.magic
+      focus_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+      return nil unless focus_type
+
+      focus_spells = magic.focus_spells[focus_type] || []
+      focus_cantrips = magic.focus_cantrips[focus_type] || []
+
+      spell_match = focus_spells.select { |sp| sp.downcase.match? spell.downcase }
+      cantrip_match = focus_cantrips.select { |sp| sp.downcase.match? spell.downcase }
+
+      return nil if spell_match.empty? && cantrip_match.empty?
+
+      if (spell_match.size + cantrip_match.size) > 1
+        return t('pf2e.multiple_matches', :element => 'spell')
+      end
+
+      return t('pf2emagic.focus_cantrip_cast_cmd', :spell => cantrip_match.first) unless cantrip_match.empty?
+
+      t('pf2emagic.focus_spell_cast_cmd', :spell => spell_match.first)
     end
 
     def self.get_caster_stats(char, charclass, is_focus=false)

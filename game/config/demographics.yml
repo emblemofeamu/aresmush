@@ -21,7 +21,6 @@ demographics:
   - skin
   - height
   - physique
-  - played by
   - birthdate
   disable_auto_shortcuts: false
   editable_properties:
@@ -45,46 +44,48 @@ demographics:
       subjective_pronoun: they
       objective_pronoun: them
       noun: person
-    Robot:
-      possessive_pronoun: their
-      subjective_pronoun: they
-      objective_pronoun: them
-      noun: robot
   groups:
     Region:
       desc: What region does your character call home?
-      wiki: theme:regions
+      wiki: theme:region
       values:
-        Skyhaldborg: The rugged north.
-        Dran: Harsh, wind-swept steppes.
-        Alexandros: The Phoenix Kingdom.
-        Myrddion: The kingdoms of Myrddion. # SPOILER: The kingdoms of the western Empire. 
-        Bludgun: The nation of goblin-kin.
-        Charn: The stygian domain of Charn. # SPOILER: The stygian domain of the Eastern Empire.
-        Desolation: Home of an endless magical storm.
-        Veyshan: Home of the desert nomads and the desert kingdoms. # SPOILER: Home of the desert nomads and the city-states of the One-Hundred and Four.
-        Dragonier: The nation of the dragon kings.
-        Jade Islands: The remains of a shattered land. # SPOILER: The remains of a shattered land, populated by the Kaltoi and merchant-circles
-        Greatwoods: The ancient sildanyari kingdoms.
-        Khazad Duin: The great citadel of the khazadi and its environs.
-        Am'shere: The far-away jungles where the ciith dwell.
-        Rune: The eccentric nation of wizards.
+        Am'shere: The distant jungles that were the ancestral homeland of the ciith, lost temporarily to time but back again.
+        Bludgun: The land of Ten-Thousand Gods, also part of the Altiman Empire.
+        Charn: The stygian domain of the Eastern Empire.
+        The Desolation: Home of an endless magical storm, where the Illuminators now must make their camp.
+        Dran: The Witchlands of Dran, known for powerful elementals, occult magics, and more.
+        The Heartlands: Home to Alexandria, the Mythwood, and others.
+        The Jade Islands: The remains of a shattered continent, populated by the Kaitoi and merchant circles.
+        Khazad Duin: The ancestral homeland of the khazadi, known for its great mountains.
+        Kimitatu: The floating islands of Kimitatu, devoted to the service of dragons.
+        Myrddion: The kingdoms of Myrddion, also called the Western Empire.
+        Periantha: The ancestral homeland of the sildanyari, now home to many in the border communities and the Kingdom of Llyranost.
+        Rune: The eccentric city-state of Rune, known for the intense study of arcane magic.
+        Skyhaldborg: The rugged north with a storied history of war.
+        Tysmycha: The ancestral home of the kailli, known for great forests and hygienic protocols.
+        Veyshan: Home of the desert nomads, the city-states of the One-Hundred and Four, and the Wolfrot Marshes.
     Faith:
-      desc: World philosophy your character ascribes to.
-      wiki: 'theme:faiths'
+      desc: World faith your character ascribes to first and foremost. (They may acknowledge and engage in other forms of faith.)
+      wiki: theme:deity
       values:
-        Holy Order of Ea: The teachings of the descendant faiths of the Aiglosian Empire's religion. # SPOILER: The teachings of the Millennial Empire and its nations.
-        Green Word: The teachings of the peoples of the Greatwoods.
-        Dragonlords: The tales and teachings of the dragons.
-        Other: You have your own ideas on the world and how it works.
+        Adomism: The veneration of the strictures of Adom, the legendary hero of Bludgun.
+        Black Iron Way: The harsh and strict faith of Charn, descended from the Holy Order of Ea.
+        Caminara Toponi: The ancestral Kaitoi veneration of the volcano spirit Toponi and associated Kaitoi traditions.
+        Green Word: The emerging faith of the Green Word, an environmental faith.
+        Holy Order of Ea: The teachings of the descendant faiths of the Aiglosian Empire's religion.
+        Holy Assembly: The Myrrish state temple, descended from the Holy Order of Ea.
+        Skyhaldan Ancestor Worship: The veneration of ancestors in the Skyhaldan tradition.
+        Ten-Thousand Gods: An animist belief from Bludgun that honors great spirits, ancient legends, and ancestors alike.
+        Three Siblings: The Tysmychan veneration of the Three Siblings who founded Tysmycha.
+        Zilvarel Union: The new faith rising in the Kingdom of Llyranost, claiming to resurrect an ancestral worship of Daeus as Eli.
+        Other: You have your own ideas on the world and how it works, or you are a member of a more esoteric (and possibly secret) tradition or smaller tradition.
   help_text:
-    played by: "%xcplayedby <actor>%xn - Your 'dream casting' for your character."
     physique: "%xcphysique <build/body type>%xn - athletic, wiry, slim, pudgy, etc."
     gender: "%xcgender <male/female/other>%xn"
     hair: "%xchair <hair color>%xn"
     eyes: "%xceyes <eye color>%xn"
     skin: "%xcskin <complexion>%xn"
-    birthdate: "%xcbirthdate <month> <day>, <year>%xn or %xcage <years>%xn"
+    birthdate: "%xcbirthdate <ea_month> <day> <year>%xn%r%t%xcbirthdate <rl_month> <day> <year>%xn%r%t%xcbirthday <MM>/<DD>/<YYYY>%xc%r%tor %xcage <years>%cn, - Set your character's birthday or age. See the Calendar of Ea page on the wiki for the Ea months.%xn"
     full name: "%xcfullname <name>%xn - Your character's full name."
   max_age: 1000
   min_age: 18
@@ -106,10 +107,7 @@ demographics:
     groups: group
     demographics: demographic
     birthday: birthdate
-    actors: census played by
-    actor: demographic/set played by=
     fullname: demographic/set full name=
-    playedby: demographic/set played by=
     faith: group/set faith=
     region: group/set region=
     faith/info: group faith

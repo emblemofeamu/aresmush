@@ -1,320 +1,1668 @@
 ---
 pf2e_magicitem:
-  Aeon Stone (Dull Gray): 
-    traits: 
-    - invested
-    - magical
-    - transmutation
-    - uncommon
+  # Level 1 Magic Items
+  Everlight Crystal:
+    traits:
+      - light
+      - magical
     level: 1
-    price: 900
+    price: 1500
+    bulk: 0.1
+    shortdesc: "An *everlight* crystal is one of the most common applications of permanent magic. This stone or gem sheds magical bright light constantly in a 20-foot radius (and dim light for the next 20 feet). The light requires no oxygen, generates no heat, and can't be extinguished, though the crystal can be covered."
+  Magical Hearing Aid:
+    traits:
+      - magical
+    level: 1
+    price: 500
     bulk: 0
-    shortdesc: "This aeon stone has lost all magical properties, but it's still useful as a hands-free target for _light_ use_descrs and similar."
-  Wayfinder: 
-    traits: 
-    - uncommon
-    - evocation
-    - invested
-    - magical
+    shortdesc: "These curved hearing aids hook over the top and sit behind your ear, with a receiver that fits into the ear opening. The external part of the device detects sound waves and, using magic, transfers them down the receiver and into your ear. You can wear one or two depending on your hearing loss, and you can turn your hearing aids on or off using an Interact action."
+  Predictable Silver Piece:
+    traits:
+      - magical
+    level: 1
+    price: 300
+    bulk: 0
+    shortdesc: "This seemingly unremarkable, weathered silver coin bears the bust of an unnamed monarch on the face and a majestic bird on the tail. You can toss the coin without activating it, in which case it follows the normal laws of probability.%r%r**Activate--Cheat Fate** 1 action (manipulate); **Effect** You rub your thumb on one side of the coin with the intent of slightly tweaking the strands of fate, then flip the coin into the air in a coin toss. No matter how the toss is resolved- letting the coin fall to the ground, slapping it down on the back of your hand, or catching it on your open palm-it always lands with the side you rubbed face up."
+  Shining Ammunition:
+    traits:
+      - consumable
+      - light
+      - magical
+    level: 1
+    price: 300
+    bulk: 0
+    shortdesc: "*Shining ammunition* gives off a faint glow. When shot, it sheds bright light in a 20-foot radius (and dim light to the next 20 feet) for 10 minutes. If it hits a target, it sticks, causing the target to shed light in the same radius. A creature can remove the ammunition with an Interact action, but the ammunition itself continues to glow for the rest of the duration or until destroyed."
+  Walking Cauldron:
+    traits:
+      - invested
+      - magical
+    level: 1
+    price: 1200
+    bulk: 4
+    shortdesc: "This iron cauldron stands upon sturdy iron crow's feet. A *walking cauldron* has a land Speed of 25 feet and can be used as a suitable tool to *Craft* potions, oils, or other liquids.%r%rAs a single action, which has the *auditory* and *concentrate* traits, you can command the cauldron to either follow you or to stand in place. When following you, the cauldron does its best to remain within 30 feet of you, but its ungainly movements are too imprecise to predictably direct in a combat encounter or other situation where seconds and precise locations count. It can carry up to 2 Bulk of ingredients for potions or other liquids inside of itself while following you, but if overloaded or if you put anything else inside it, it stands in place and refuses to move until 10 minutes after you remove the excess."
+  # Level 2 Magic Items
+  Antler Arrow:
+    traits:
+      - consumable
+      - magical
+    level: 2
+    price: 700
+    bulk: 0
+    shortdesc: "**Activate** A (manipulate)%r%rCreation of these arrows was inspired by an encounter with a horned archon scout who sought to peacefully restrain their foes. When an activated *antler arrow* hits a target, bone antlers extend to pin it down. The target must succeed at a DC 16 Reflex save or become stuck to the surface, taking the critical specialization effects of a bow.%r%rIf the hit with the *antler arrow* is a critical hit and you have access to the bow critical specialization effect, the DC of the Athletics check increases to 15."
+  Masquerade Scarf:
+    traits:
+      - invested
+      - magical
+    level: 2
+    price: 3000
+    bulk: 0
+    shortdesc: "This delicately embroidered scarf matches with every outfit and can even complete a costume or disguise with illusions.%r%r**Activate--Masquerade** 1 minute (manipulate); **Frequency** once per day; **Effect** You arrange the scarf over your lower face, and it casts a 1st-rank *illusory disguise* spell on you, which ends immediately if the scarf is removed. You can alter the scarf's appearance or make it invisible as part of the *illusory disguise*, but it can still be felt if touched."
+  Wayfinder:
+    traits:
+      - uncommon
+      - invested
+      - magical
     level: 2
     price: 2800
     bulk: 0
-    shortdesc: "This compact compass holds a single indentation meant to hold an aeon stone."
-  Brooch of Shielding: 
-    traits: 
-    - uncommon
-    - abjuration
-    - invested
-    - magical
-    level: 2
-    price: 3000
-    bulk: 0
-    use: 
-      shield:
-        use_descr: Automatically absorbs magic missiles targeting the wearer.
-        charges: 30
-    shortdesc: "This piece of silver or gold jewelry can be used to fasten a cloak or cape. It automatically absorbs _magic missile_ use_descrs targeting the wearer."
-  Hand of the Mage: 
-    traits: 
-    - evocation
-    - invested
-    - magical
-    level: 2
-    price: 3000
-    bulk: 0.1
-    use: 
-      hand:
-        use_descr: Mage Hand
-        frequency: on command
-    shortdesc: "This mummified elf hand hangs on a golden chain, its gnarled fingers locked in a peculiar pattern."
-  Hat of Disguise: 
-    traits: 
-    - illusion
-    - invested
-    - magical
-    level: 2
-    price: 3000
-    bulk: 0
-    use: 
-      disguise:
-        use_descr: Casts a 1st-level _illusory disguise_ on the wearer.
-        frequency: 1/day
-    shortdesc: "This ordinary-looking hat allows you to cloak yourself in illusions."
-  Doubling Rings: 
+    shortdesc: "This compact compass repurposes ancient technology to draw fantastic powers from the mysterious magical items called *aeon stones*. A *wayfinder* functions as a compass.%r%rAn indentation in the middle of the *wayfinder* can hold a single *aeon stone*. Placing an *aeon stone* in this indentation provides you all the benefits of having the *aeon stone* orbiting your head, but it protects the stone from being noticed or stolen as easily. You invest a *wayfinder* and the *aeon stone* within it simultaneously, and they count as only one item toward your investiture limit. An invested *aeon stone* slotted in a *wayfinder* also grants its resonant power.%r%rIf you have more than one *wayfinder* with an invested *aeon stone* on your person at a given time, destructive interference from their resonance prevents you from gaining benefits from any of them. You can still benefit from additional *aeon stones* orbiting your head, just not in *wayfinders*.%r%r**Activate--Light** A (concentrate); **Effect** The *wayfinder* is targeted by a 1st-rank *light* spell."
+  # Level 3 Magic Items
+  Beacon Shot:
     traits:
-    - evocation
-    - invested
-    - magical
+      - consumable
+      - magical
     level: 3
-    price: 5000
+    price: 1000
     bulk: 0
-    shortdesc: "Two magically-linked rings, one golden, one iron. Replicates fundamental runes from one melee weapon to another when both are worn."
-  Hat of the Magi: 
-    traits: 
-    - arcane
-    - conjuration
-    - invested
-    level: 3
-    price: 5000
-    bulk: 0
-    use: 
-      hat:
-        use_descr: Prestidigitation
-    bonus: 
-      Arcana: 1
-    shortdesc: "This hat comes in many forms, such as a colorful turban or a pointy hat with a brim, and can bear symbols or runes. It grants you a +1 item bonus to Arcana checks and allows you to cast the prestidigitation cantrip as an arcane innate use_descr."
-  Persona Mask: 
-    traits: 
-    - fortune
-    - illusion
-    - invested
-    - magical
-    level: 3
-    price: 5000
-    bulk: 0
-    use: 
-      mask:
-        use_descr: "Changes the mask's appearance to an artistic rendition of the dramatic character of the player's choice."
-    shortdesc: "Despite covering the entire face, this alabaster mask does not hinder vision or other senses. Wearing the mask grants a +1 item bonus to Performance checks while acting, orating, performing comedy, or singing."
-  Bracers of Missile Deflection: 
-    traits: 
-    - abjuration
-    - invested
-    - magical
-    level: 3
-    price: 5200
-    bulk: 0.1
-    use: 
-    bracers:
-        use_descr: Deflects a ranged weapon attack that does not critically hit. (Requirements)
-        frequency: 1/day
-    shortdesc: These bracers are made from plates of durable mithral and gleam like the summer sun.
-  Channel Protection Amulet: 
-    traits: 
-    - uncommon
-    - abjuration
-    - invested
-    - magical
-    level: 3
-    price: 5600
-    shortdesc: "This nugget of polished tektite is trapped in a cage of braided wire and hangs from a silken cord. When wearing this amulet, you gain resistance 5 against damage from harm use_descrs if you’re living, or against heal use_descrs if you’re undead."
-  Bracelet of Dashing: 
-    traits: 
-    - invested
-    - magical
-    - transmutation
+    shortdesc: "**Ammunition** arrow, bolt%r%r**Activate** A (manipulate)%r%rThe shaft of a *beacon shot* is studded with tiny flecks of glimmering gemstones. When an activated *beacon shot* hits a target, it embeds itself into that target and spews sparks for 1 minute. If the target is invisible, it becomes merely hidden to creatures who would otherwise be unable to see it. The sparks also negate the concealed condition if the target was otherwise concealed.%r%rA creature can remove the arrow or bolt by using an Interact basic action and succeeding at a DC 20 Athletics check."
+  Bracelet of Dashing:
+    traits:
+      - invested
+      - magical
     level: 3
     price: 5800
     bulk: 0.1
-    use: 
-    bracelet:
-        use_descr: "Frequency once per day; Effect You gain a +10-foot status bonus to Speed for 1 minute."
-        frequency: 1/day
     bonus:
       Acrobatics: 1
-    shortdesc: "This jangling, silvery bracelet makes you lighter on your feet, giving you a +1 item bonus to Acrobatics checks."
-  Coyote Cloak: 
-    traits: 
-    - divination
-    - invested
-    - magical
-    level: 03
+    shortdesc: "This jangling, silvery bracelet makes you lighter on your feet, giving you a +1 item bonus to Acrobatics checks.%r%r**Activate--Jangling Dash** A (concentrate); **Frequency** once per day; **Effect** You gain a +10-foot status bonus to Speed for 1 minute."
+  Bracers of Missile Deflection:
+    traits:
+      - invested
+      - magical
+    level: 3
+    price: 5200
+    bulk: 0.1
+    shortdesc: "These bracers are made from plates of durable dawnsilver and gleam like the summer sun.%r%r**Activate** Reaction (manipulate)%r%r**Effect** The bracers send the missile off-course. You gain a +2 circumstance bonus to AC against the triggering attack. If this would cause the attack to be a failure, the attack misses you."
+  Channel Protection Amulet:
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 3
+    price: 5600
+    bulk: 0
+    shortdesc: "This nugget of polished tektite is trapped in a cage of braided wire and hangs from a silken cord. When wearing this amulet, you gain resistance 5 against damage from *harm* spells if you're living, or against *heal* spells if you're undead."
+  Charlatan's Gloves:
+    traits:
+      - invested
+      - magical
+    level: 3
+    price: 5000
+    bulk: 0.1
+    bonus:
+      Thievery: 1
+    shortdesc: "Tiny silver hooks decorate these fine silk gloves. They grant a +1 item bonus to Thievery and allow you to cast *telekinetic hand* as an innate occult spell."
+  Coyote Cloak:
+    traits:
+      - invested
+      - magical
+    level: 3
     price: 6000
-    bonus: 
+    bulk: 0
+    bonus:
       Survival: 1
     shortdesc: "This dusty coat is made of mangy brown-and-gray coyote fur. You gain a +1 item bonus to Survival checks. If you critically succeed at your Survival check to Subsist, you can feed twice as many additional creatures."
-  Crafter's Eyepiece: 
-    traits: 
-    - invested
-    - magical
-    - transmutation
+  Crafter's Eyepiece:
+    traits:
+      - invested
+      - magical
     level: 3
     price: 6000
-    bonus: 
-      Crafting: 1
-    shortdesc: "This rugged metal eyepiece aids a crafter in making repairs."
-  Dancing Scarf: 
-    traits: 
-    - illusion
-    - invested
-    - magical
-    - visual
-    level: 3
-    price: 6000
-    use: 
-      scarf:
-        use_descr: Become concealed after a successful Performance check to dance.
-    shortdesc: "This long and billowing scarf is typically woven of silk or sheer fabric and adorned with bells or other jangling bits of shiny metal. It grants a +1 item bonus to Performance checks to dance."
-  Pendant of the Occult: 
-    traits: 
-    - divination
-    - invested
-    - occult
-    level: 3
-    price: 6000
-    use: 
-      pendant:
-        use_descr: Cast _guidance_.
+    bulk: 0
     bonus:
-      Occultism: 1
-    shortdesc: "This amulet is hollow and shaped in the form of an unblinking eye. Its cavity typically holds some fragment of occult text."
-  Tracker's Goggles: 
-    traits: 
-    - divination
-    - invested
-    - magical
+      Crafting: 1
+    shortdesc: "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts.%r%rYou gain a +1 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored to 10 + 10 per proficiency rank on a success or 15 + 15 per proficiency rank on a critical success."
+  Dancing Scarf:
+    traits:
+      - invested
+      - magical
+      - visual
     level: 3
     price: 6000
-    shortdesc: "These lenses of forest-green glass are bound in rough leather stitched with crude twine. While wearing these goggles, you gain a +1 bonus to Survival checks to Sense Direction and Track. If you fail a check to Track, you can try again after 30 minutes rather than an hour."
-  Ventriloquist's Ring: 
-    traits: 
-    - illusion
-    - invested
-    - magical
+    bulk: 0
+    bonus:
+      Performance: 1
+    shortdesc: "This long and billowing scarf is typically woven of silk or sheer fabric and adorned with bells or other jangling bits of shiny metal. It grants a +1 item bonus to Performance checks to dance.%r%r**Activate--Swirling Scarf** A (manipulate); **Requirements** On your most recent action, you succeeded at a Performance check to dance; **Effect** You become concealed until the beginning of your next turn."
+  Doubling Rings:
+    traits:
+      - invested
+      - magical
+    level: 3
+    price: 5000
+    bulk: 0
+    shortdesc: "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are *weapon potency* and *striking*, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.%r%rThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield)."
+  Maestro's Instrument (Lesser):
+    traits:
+      - magical
     level: 3
     price: 6000
-    use: 
-      ring:
-        use_descr: Twist the ring to produce the effect of a _ventriloquism_ spell.
-        frequency: 1/day
+    bulk: 1
+    shortdesc: "A *maestro's instrument* can be crafted in the form of any variety of handheld musical instruments. A *maestro's instrument* grants you a +1 item bonus to Performance checks while playing music with the instrument.%r%r**Activate--Charming Performance** 2 actions (manipulate); **Frequency** once per day; **Effect** You play the instrument, causing it to cast a DC 17 *charm* spell.%r%r**Craft Requirements** You must supply a casting of *charm* of the appropriate rank."
+  Persona Mask:
+    traits:
+      - fortune
+      - invested
+      - magical
+    level: 3
+    price: 5000
+    bulk: 0
+    shortdesc: "Despite covering the entire face, this alabaster mask does not hinder vision or other senses. Wearing the mask grants a +1 item bonus to Performance checks while acting, orating, performing comedy, or singing.%r%r**Activate--Assume Role** A (concentrate); **Effect** You change the mask's appearance into an artistic rendition of a dramatic character of your choice."
+  Slumber Arrow:
+    traits:
+      - consumable
+      - magical
+      - mental
+      - sleep
+    level: 3
+    price: 1100
+    bulk: 0
+    shortdesc: "**Activate** A (manipulate)%r%rSleep arrows often have shafts of deep blue or black, and their fletching is exceptionally soft and downy. An activated sleep arrow deals no damage, but a living creature hit by it grows lethargic and must attempt a DC 17 Will saving throw. On a failure, it takes a -5-foot status penalty to its Speeds for 1 round, and is also slowed 1 for 1 round on a critical failure.%r%r**Craft Requirements** Supply one casting of *sleep*."
+  Spellstrike Ammunition (Type I):
+    traits:
+      - consumable
+      - magical
+    level: 3
+    price: 1200
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 1st"
+  Tracker's Goggles:
+    traits:
+      - invested
+      - magical
+    level: 3
+    price: 6000
+    bulk: 0
+    shortdesc: "These lenses of forest-green glass are bound in rough leather stitched with crude twine.%r%rWhile wearing these goggles, you gain a +1 bonus to Survival checks to Sense Direction and Track.%r%rIf you fail a check to Track, you can try again after 30 minutes rather than an hour."
+  Twisting Twine (Lesser):
+    traits:
+      - magical
+    level: 3
+    price: 4500
+    bulk: 0.1
+    shortdesc: "This ball of hempen twine resists efforts to unravel it by hand.%r%r**Activate--Unravel Twine** 1 action (manipulate); **Frequency** once per day; **Effect** You toss the ball of twine into a square within 20 feet. The twine then unravels and animates, attempting to Disarm or Trip (your choice) a creature in the square with a total of +9 to the Athletics check. At the end of your turn, the twine winds itself back into a ball and returns to your hand; if you don't have a free hand, it returns to your space instead."
+  Ventriloquist's Ring:
+    traits:
+      - invested
+      - magical
+    level: 3
+    price: 6000
+    bulk: 0
     bonus:
       Deception: 1
-    shortdesc: "This elegant copper ring has miniature images of songbirds engraved around its circumference."
-  Healer's Gloves: 
-    traits: 
-    - invested
-    - magical
-    - necromancy
+    shortdesc: "This elegant copper ring has miniature images of songbirds engraved around its circumference. You gain a +1 item bonus to Deception checks.%r%r**Activate--Throw Voice** 2 actions (manipulate); **Frequency** once per day; **Effect** Twisting the ring around your finger allows you to magically throw your voice, with the effects of a *ventriloquism* spell (DC 19 Perception)."
+  Vine Arrow:
+    traits:
+      - consumable
+      - magical
+    level: 3
+    price: 1000
+    bulk: 0
+    shortdesc: "**Activate** A (concentrate)%r%rLeafy stalks protrude from the shaft of this rustic arrow. When an activated *vine arrow* hits a target, the arrow's shaft splits and grows, wrapping the target in vines.%r%rThe target takes a -10-foot circumstance penalty to its Speeds for 2d4 rounds, or until it Escapes against a DC of 19. On a critical hit, the target is also immobilized until it Escapes."
+  # Level 4 Magic Items
+  Alchemist Goggles:
+    traits:
+      - invested
+      - magical
+    level: 4
+    price: 10000
+    bulk: 0
+    shortdesc: "These brass goggles are engraved with flame patterns and have thick, heavy lenses.%r%rWhile worn, they give you a +1 item bonus to Crafting checks to Craft alchemical items. When making Strikes with alchemical bombs, you ignore lesser cover.%r%rIf your Strike with an alchemical bomb fails (but doesn't critically fail), you gain a +1 item bonus to the splash damage the target of the Strike takes."
+  Climbing Bolt:
+    traits:
+      - consumable
+      - magical
+    level: 4
+    price: 1500
+    bulk: 0
+    shortdesc: "The shaft of this bolt is wrapped with fine twine. When the bolt strikes a solid surface, the twine unwinds and enlarges into a 50-foot-long rope, securely fastened to the surface the bolt struck. The rope can be pulled free with an Interact action and a successful DC 20 Athletics check."
+  Demon Mask:
+    traits:
+      - invested
+      - magical
+    level: 4
+    price: 8500
+    bulk: 0.1
+    bonus:
+      Intimidation: 1
+    shortdesc: "This terrifying mask is crafted in the visage of a leering demon and grants a +1 item bonus to Intimidation checks.%r%r**Activate--Leering Mask** 2 actions (manipulate); **Frequency** once per day; **Effect** The mask casts a *fear* spell with a DC of 20."
+  Healer's Gloves:
+    traits:
+      - invested
+      - magical
     level: 4
     price: 8000
     bulk: 0.1
-    use: 
-      gloves:
-        use_descr: Restore 2d6+7 HP to a willing, living, adjacent creature.
-        frequency: 1/day
     bonus:
       Medicine: 1
-    shortdesc: "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments."
-  Lifting Belt: 
-    traits: 
-    - invested
-    - magical
-    - transmutation
+    shortdesc: "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments. They give you a +1 item bonus to Medicine checks.%r%r**Activate--Healer's Touch** A (manipulate); **Frequency** once per day; **Effect** You can soothe the wounds of a willing, living, adjacent creature, restoring 2d6+7 Hit Points to that creature. This is a healing vitality effect. You can't harm undead with this healing."
+  Lifting Belt:
+    traits:
+      - invested
+      - magical
     level: 4
     price: 8000
     bulk: 0.1
     bonus:
       Athletics: 1
-      encumbered: 1
-      max_capacity: 1
-    use: 
-      belt:
-        use_descr: Lift an object of up to 8 Bulk as though it were weightless.
-    shortdesc: "This wide leather belt grants you a +1 item bonus to Athletics checks and increases the amount you can easily carry. You can carry Bulk equal to 6 + your Strength modifier before becoming encumbered, and you can hold and carry a total Bulk up to 11 + your Strength modifier."
-  Demon Mask: 
-    traits: 
-    - enchantment
-    - invested
-    - magical
+    shortdesc: "This wide leather belt grants you a +1 item bonus to Athletics checks and increases the amount you can easily carry. You can carry Bulk equal to 6 + your Strength modifier before becoming encumbered, and you can hold and carry a total Bulk up to 11 + your Strength modifier.%r%r**Activate--Assisted Lift** 2 actions (manipulate); **Effect** You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes-you just ignore that weight. The effect lasts until the end of your next turn."
+  Viper Arrow:
+    traits:
+      - consumable
+      - magical
     level: 4
-    price: 8500
-    bulk: 0.1
-    use: 
-      mask:
-        use_descr: Casts _fear_, DC 20.
-        frequency: 1/day
-    bonus:
-      Intimidation: 1
-    shortdesc: "This terrifying mask is crafted in the visage of a leering demon and grants a +1 item bonus to Intimidation checks."
-  Alchemist Goggles: 
-    traits: 
-    - invested
-    - magical
-    - transmutation
+    price: 1700
+    bulk: 0
+    shortdesc: "**Activate** A (manipulate)%r%rThe shaft of this arrow is covered in fine green scales, and its iron head comes to a pair of points almost like fangs.%r%rAfter an activated viper arrow hits a target, the arrow transforms into a viper. The target is affected by the viper's poison, as if it had been bitten. The viper then lands in an open space adjacent to the target.%r%rThe viper has the summoned trait and acts at the end of your turn, even though you didn't use the Sustain a Spell action. It is under the GM's control, but it generally attacks the creature the arrow struck. The viper vanishes after 1 minute or when slain.%r%r**Craft Requirements** Supply one casting of *summon animal*"
+  Wand of Widening (1st-Rank Spell):
+    traits:
+      - magical
+      - wand
     level: 4
     price: 10000
     bulk: 0.1
-    bonus:
-      Alchemical Bombs: 1
-    shortdesc: "These brass goggles are engraved with flame patterns and have thick, heavy lenses. While worn, they give you a +1 item bonus to Crafting checks to Craft alchemical items and a +1 item bonus to attack rolls with alchemical bombs. You can also ignore lesser cover when making Strikes with alchemical bombs."
-  Necklace of Fireballs I: 
-    traits: 
-    - evocation
-    - invested
-    - magical
-    level: 5
-    price: 4400
-    use: 
-      6d6: 
-        use_descr: 6d6 _fireball_, DC 21 Reflex
-        charges: 1
-      4d6 1: 
-        use_descr: 4d6 _fireball_, DC 21 Reflex
-        charges: 1
-      4d6 2: 
-        use_descr: 4d6 _fireball_, DC 21 Reflex
-        charges: 1
-    shortdesc: "This string of beads appears to be a hemp string with lustrous red beads of various sizes hanging from it. When activated, it briefly appears in its true form: a golden chain with golden spheres attached by fine threads."
-  Diplomat's Badge: 
-    traits: 
-    - enchantment 
-    - invested
-    - magical
-    level: 5
-    price: 12500
-    use: 
-      badge:
-        use_descr: "Attempt a DC 20 check to Recall Knowledge about people of a human ethnicity, a non-human ancestry, or some other type of creature. (The GM determines what your options are.) If you succeed, the badge’s bonus increases to +2 for Diplomacy checks with creatures of that group for the rest of the day."
-        frequency: 1/day
-    bonus:
-      Diplomacy: 1
-    shortdesc:  "When displayed prominently, this brass badge makes creatures find you more agreeable. You gain a +1 item bonus to Diplomacy checks."
-  Boots of Elvenkind: 
-    traits: 
-    - invested
-    - magical
-    - transmutation
-    level: 5
-    price: 14500
-    bulk: 0.1
-    use: 
-    boots:
-        use_descr: "Until the end of your turn, you ignore difficult terrain when moving on the ground. If you’re wearing a cloak of elvenkind, you also gain a +5-foot status bonus to your land Speed until the end of your turn."
-        frequency: 1/hour
-    bonus:
-      Acrobatics: 1
-    shortdesc: "These tall, pointed boots are made from soft, supple black or green leather and are decorated with trim and buckles of gold. When worn, the boots allow you to move more nimbly, granting you a +1 item bonus to Acrobatics checks."
-  Goggles of Night: 
-    traits: 
-    - invested
-    - magical
-    - transmutation
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  # Level 5 Magic Items
+  Aeon Stone (Preserving):
+    traits:
+      - uncommon
+      - invested
+      - magical
     level: 5
     price: 15000
-    use: 
-      goggles:
-        use_descr: Rotating the lenses 90 degrees, you gain darkvision for 1 hour.
-        frequency: 1/day
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rThis red crystalline star covers you in a faint aura when you are subject to lingering wounds. You gain resistance 3 to persistent damage. At the end of any turn where the persistent damage can't overcome this resistance, end that condition.%r%rThe resonant power allows you to cast *stabilize* as a primal innate cantrip."
+  Diplomat's Badge:
+    traits:
+      - invested
+      - magical
+    level: 5
+    price: 12500
+    bulk: 0
     bonus:
-      Crafting: 1
-    shortdesc: "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight."
+      Diplomacy: 1
+    shortdesc: "When displayed prominently, this brass badge makes creatures find you more agreeable. You gain a +1 item bonus to Diplomacy checks.%r%r**Activate--Diplomat's Bearing** A (concentrate); **Frequency** once per day; **Effect** Attempt a DC 20 check to Recall Knowledge about people of a human ethnicity, a non-human ancestry, or some other type of creature. (The GM determines what your options are.) If you succeed, the badge's bonus increases to +2 for Diplomacy checks with creatures of that group for the rest of the day."
+  Eternal Eruption:
+    traits:
+      - fire
+      - magical
+    level: 5
+    price: 16000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption* deals 5d6 fire damage on a DC 21 basic Reflex save."
+  Freezing Ammunition:
+    traits:
+      - cold
+      - consumable
+      - magical
+    level: 5
+    price: 2500
+    bulk: 0
+    shortdesc: "**Activate** 1 action (manipulate)%r%rThis chilly ammunition is dark blue and cold to the touch. When activated *freezing ammunition* hits a target, the target must succeed at a DC 19 Fortitude save or be slowed 1 for 1 round by the intense cold (slowed 1 for 1 minute on a critical failure)."
+  Obsidian Goggles:
+    traits:
+      - invested
+      - magical
+    level: 5
+    price: 15000
+    bulk: 0
+    shortdesc: "The sleek, black lenses of these goggles somehow make everything seem more brightly lit. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.%r%r**Activate--Darkvision** 1 action (manipulate); **Frequency** once per day; **Effect** Adjusting your goggles, you gain darkvision for 1 hour."
+  Pocket Stage:
+    traits:
+      - magical
+      - structure
+    level: 5
+    price: 13800
+    bulk: 0.1
+    shortdesc: "This item appears to be a miniature replica of a theater. It includes a small pocket full of minute set dressing and costumed paper dolls.%r%r**Activate--Play with Dolls** (1 minute) (concentrate, manipulate); **Effect** You place the miniature theater on the ground, filling it with any set dressing and up to six figures you choose. Then, you tap a rhythm on the miniature, causing it to grow into a modest stage 20 feet wide and 15 feet deep. It's dressed with the decorations you selected, and simple mannequins wear the costumes you chose. A wooden proscenium arch frames the stage, and simple curtains along the sides conceal the wings. As a magical structure, the stage has the structure trait.%r%rAll the stage's set dressing is illusory and disappears if taken more than 20 feet from the stage. The costumes are physical but with illusory embellishments that fade at the same range, revealing only plain, white smocks."
+  Skeleton Key:
+    traits:
+      - magical
+    level: 5
+    price: 12500
+    bulk: 0
+    shortdesc: "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves' toolkit when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check.%r%rIf the *skeleton key* becomes broken due to a critical failure on the check, it works as normal thieves' toolkit and loses its benefits until repaired.%r%r**Activate--Loosen Lock** Free Action (manipulate); **Frequency** once per day; **Trigger** You attempt to Pick a Lock but haven't rolled yet; **Effect** The key casts *knock* on the lock you're trying to pick."
+  Spellstrike Ammunition (Type II):
+    traits:
+      - consumable
+      - magical
+    level: 5
+    price: 3000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 2nd"
+  Twisting Twine (Moderate):
+    traits:
+      - magical
+    level: 5
+    price: 12500
+    bulk: 0.1
+    shortdesc: "This ball of hempen twine resists efforts to unravel it by hand.%r%r**Activate--Unravel Twine** 1 action (manipulate); **Frequency** once per hour; **Effect** You toss the ball of twine into a square within 20 feet. The twine then unravels and animates, attempting to Disarm or Trip (your choice) a creature in the square with a total of +12 to the Athletics check. At the end of your turn, the twine winds itself back into a ball and returns to your hand; if you don't have a free hand, it returns to your space instead."
+  Wand of Continuation (1st-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 5
+    price: 16000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 6 Magic Items
+  Aeon Stone (Sprouting):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 6
+    price: 22000
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rEncouraging the natural growth of life, this green ovoid can often be found surrounded by new seedlings. Its resonant power allows you to cast *tangle vine* as a primal innate cantrip.%r%r**Activate--Flow of Life** Reaction (concentrate, vitality); **Frequency** once per hour; **Trigger** You are healed by a vitality effect or took void damage; **Effect** You gain 8 temporary Hit Points that last for 1 minute."
+  Charm of Resistance:
+    traits:
+      - invested
+      - magical
+    level: 6
+    price: 24500
+    bulk: 0
+    shortdesc: "This charm, normally hung from the belt or worn around the neck, grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each charm is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a *charm of cold resistance* could be carved in the shape of a yeti, whereas a *charm of fire resistance* would be made from volcanic glass."
+  Choker of Elocution:
+    traits:
+      - invested
+      - magical
+    level: 6
+    price: 20000
+    bulk: 0.1
+    bonus:
+      Society: 1
+    shortdesc: "This platinum choker bears characters from a language's alphabet, and it gives knowledge of that language and the associated culture's customs.%r%rYou gain a +1 item bonus to Society checks and the ability to understand, speak, and write the chosen language.%r%rYour excellent elocution reduces the DC of the flat check to perform an auditory action while deafened from 5 to 3.%r%r**Craft Requirements** You know the language the choker grants."
+  Clandestine Cloak:
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 6
+    price: 23000
+    bulk: 0.1
+    bonus:
+      Diplomacy: -1
+      Intimidation: -1
+      Stealth: 1
+    shortdesc: "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.%r%r**Activate--Cloak Identity** 2 actions (concentrate, manipulate); **Frequency** once per day; **Effect** You pull the cloak's hood up and gain the benefits of *veil of privacy* for 1 hour or until you pull the hood back down, whichever comes first."
+  Cloud Pouch:
+    traits:
+      - magical
+      - water
+    level: 6
+    price: 22500
+    bulk: 1
+    shortdesc: "This small bag is filled with a fine, silvery powder that feels silky to the touch.%r%r**Activate--Disperse** 2 actions (manipulate); **Frequency** once per hour; **Effect** You scatter the dust into the air around you, causing it to condense into a cloud in a 20-ft burst within 10 feet, as the *mist* spell. You can Sustain the activation to make the cloud Fly 20 feet. The cloud lasts 1 minute, and you can Dismiss it."
+  Primeval Mistletoe:
+    traits:
+      - invested
+      - magical
+    level: 6
+    price: 23000
+    bulk: 0
+    bonus:
+      Nature: 1
+    shortdesc: "This sprig of berry-festooned holly and mistletoe doesn't wilt or rot. It can be used as a primal locus, and it grants a +1 item bonus to Nature checks while you wear it.%r%r**Activate--Anoint** 2 actions (manipulate); **Frequency** once per 10 minutes; **Effect** You squeeze juice from one of the berries and smear it onto a weapon made primarily of wood to cast *runic weapon* on it, or onto a creature to cast *runic body* on it.%r%r**Activate--Bind** 2 actions (manipulate); **Frequency** once per day; **Effect** You touch the sprig, then a tree to cast *one with plants* upon yourself, turning into a vine on the touched tree."
+  Terrifying Ammunition:
+    traits:
+      - consumable
+      - emotion
+      - fear
+      - magical
+      - mental
+    level: 6
+    price: 5000
+    bulk: 0
+    shortdesc: "**Activate** 1 action (manipulate)%r%rThis black-and-gray ammunition is etched with occult symbols and tiny, grinning skulls. When activated terrifying ammunition damages a creature, it fills the creature's mind with visions of their own failures, tragedies, and eventually, their own death. The creature must attempt a DC 20 Will save.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature is frightened 1.%r**Failure** The creature is frightened 1 and can't reduce its frightened value below 1 until it spends an action, which has the concentrate trait, to calm itself down.%r**Critical Failure** As failure, but the creature is frightened 2."
+  Traveler's Any-Tool:
+    traits:
+      - magical
+    level: 6
+    price: 20000
+    bulk: 1
+    shortdesc: "Before it's activated, this item appears to be an ash rod capped with steel on either end.%r%r**Activate--Tap** 2 actions (concentrate, manipulate); **Effect** You imagine a specific simple tool, and the any-tool transforms into it. (Usually, you can choose from a tool listed in the gear from Player Core). This transforms the wooden portion into any haft and the metal caps into spades, hammer heads, or the like, allowing for most basic tools but nothing more complex. You can return the item to its rod form with an Interact action."
+  Wand of Widening (2nd-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 6
+    price: 25000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  # Level 7 Magic Items
+  Aeon Stone (Delaying):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 7
+    price: 35000
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rWhen you would die from the dying condition (typically at dying 4), this smooth pink stone automatically activates and reduces your dying value to 1 less than would normally kill you (typically to dying 3). The stone then permanently turns into a *aeon stone (consumed)*. You can benefit from this ability only once per day, even if you have multiple such stones.%r%rThe resonant power allows you to cast 1st-rank *heal* as a divine innate spell once per day."
+  Aeon Stone (Nourishing):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 7
+    price: 32500
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rAfter you've invested and worn this transparent stone for a week continuously, you no longer need to eat or drink. This time resets if you remove the *aeon stone* or it's invested by someone else.%r%rThe resonant power allows you to cast *air bubble* as a primal innate spell once per day."
+  Aeon Stone (Smoothing):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 7
+    price: 31000
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rThis spherical piece of silvery stone helps you ignore minor issues. You can ignore status penalties to skill checks from clumsy 1, enfeebled 1, frightened 1, sickened 1, and stupefied 1 conditions as long as the value of that condition is 1.%r%rIts resonant power allows you to cast *guidance* as an occult innate cantrip."
+  Boots of Bounding:
+    traits:
+      - invested
+      - magical
+    level: 7
+    price: 34000
+    bulk: 0.1
+    shortdesc: "The springy soles of these sturdy leather boots cushion your feet and make each step lighter. These boots give you a +5-foot item bonus to your Speed and a +2 item bonus to Athletics checks to High Jump and Long Jump.%r%rIn addition, when you use the Leap action, you can move 5 feet further if jumping horizontally or 3 feet higher if jumping vertically."
+  Bottled Air:
+    traits:
+      - air
+      - magical
+    level: 7
+    price: 32000
+    bulk: 0.1
+    shortdesc: "Appearing to be an ordinary corked glass bottle, this item contains a limitless supply of fresh air. You must uncork the bottle with an Interact action before you can activate it.%r%r**Activate--Breathe In** 1 action (manipulate); **Effect** You draw a breath of air from the bottle. This allows you to breathe even in an airless or toxic environment. Air doesn't escape the mouth of the bottle, so leaving the open bottle in an airless environment doesn't change the environment."
+  Corrosive Ammunition:
+    traits:
+      - consumable
+      - magical
+    level: 7
+    price: 7000
+    bulk: 0
+    shortdesc: "**Activate** 1 action (manipulate)%r%rThis peculiar ammunition is coated in yellow dust that leaves a stain on anything it touches. When activated corrosive ammunition hits a target, it dissolves across the target's armor. The armor takes 1d8 persistent acid damage that ignores the armor's Hardness; if the target isn't wearing armor, it takes the acid damage instead. This damage occurs at the end of the target's turns.%r%rThe creature can end this effect by spending an Interact action to wipe off the corrosive dust, and otherwise the effect ends once the armor becomes broken."
+  Eternal Eruption of Planar Fire:
+    traits:
+      - fire
+      - magical
+    level: 7
+    price: 36000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of a **frozen lava of Planar Fire**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of Planar Fire* deals 7d6 fire damage on a DC 25 basic Reflex save."
+  Masquerade Scarf (Greater):
+    traits:
+      - invested
+      - magical
+    level: 7
+    price: 34000
+    bulk: 0
+    shortdesc: "This delicately embroidered scarf matches with every outfit and can even complete a costume or disguise with illusions.%r%r**Activate--Masquerade** 2 actions (manipulate); **Effect** You arrange the scarf over your lower face, and it casts a 2nd-rank *illusory disguise* spell on you, which ends immediately if the scarf is removed. You can alter the scarf's appearance or make it invisible as part of the *illusory disguise*, but it can still be felt if touched."
+  Ring of Sustenance:
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 7
+    price: 32500
+    bulk: 0
+    shortdesc: "This polished wooden ring constantly refreshes your body and mind. You don't need to eat or drink while wearing it, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A *ring of sustenance* doesn't function until it's been worn and invested continuously for a week. Removing it resets this interval."
+  Spellstrike Ammunition (Type III):
+    traits:
+      - consumable
+      - magical
+    level: 7
+    price: 7000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 3rd"
+  Twisting Twine (Greater):
+    traits:
+      - magical
+    level: 7
+    price: 30000
+    bulk: 0.1
+    shortdesc: "This ball of hempen twine resists efforts to unravel it by hand.%r%r**Activate--Unravel Twine** 1 action (manipulate); **Effect** You toss the ball of twine into a square within 20 feet. The twine then unravels and animates, attempting to Disarm or Trip (your choice) a creature in the square with a total of +15 to the Athletics check. At the end of your turn, the twine winds itself back into a ball and returns to your hand; if you don't have a free hand, it returns to your space instead."
+  Wand of Continuation (2nd-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 7
+    price: 36000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 8 Magic Items
+  Aeon Stone (Envisioning):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 8
+    price: 42500
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rThis clear cube allows you to communicate with a limited form of telepathy to a range of 100 feet. The messages are transmitted as a simple image each round. These images are the quality of a hasty or childish sketch but can be roughly understood by creatures regardless of language. This provides no special ability to respond to your images.%r%rThe resonant power allows you to cast *translate* as an occult innate spell once per day."
+  Bands of Force:
+    traits:
+      - force
+      - invested
+      - magical
+    level: 8
+    price: 50000
+    bulk: 0.1
+    shortdesc: "Decorated with clear gemstones, these thick metal bands spread an inflexible layer of force over your body. The force grants you a +1 item bonus to AC and saving throws, and a maximum Dexterity modifier of +5 as armor. You can affix talismans to the bands as though they were light armor.%r%r**Activate--Return Force** Reaction (force, manipulate); **Trigger** A creature critically misses you with a melee Strike; **Effect** You Shove the creature using the bands' Athletics modifier of +14."
+  Lover's Gloves:
+    traits:
+      - emotion
+      - invested
+      - magical
+      - mental
+    level: 8
+    price: 50000
+    bulk: 0
+    bonus:
+      Diplomacy: 1
+    shortdesc: "These white silk gloves are adorned in red hearts that glow faintly whenever you are adjacent to someone you feel particularly strongly toward. They buoy your spirit, giving you a +1 item bonus to Diplomacy checks.%r%r**Activate--Bond** 1 action (manipulate); **Frequency** once per day; **Effect** You grasp the hands of a willing creature you have strong positive feelings about, regardless of the nature of those feelings. The creature gains a +1 status bonus to saving throws and 10 temporary Hit Points for 10 minutes. If the creature shares your feelings, you gain the same benefits, and for the duration, when you both roll a success on a saving throw against an emotion effect that causes negative emotions, you both get a critical success instead."
+  Madcap Top:
+    traits:
+      - rare
+      - magical
+    level: 8
+    price: 45900
+    bulk: 0.1
+    shortdesc: "This top has 20 divisions, painted in a chaotic mess of clashing colors. When spun, the top quickly settles on a side and generates a strange magical effect based on the side that lands face-up.%r%r**Activate--Spin the Top** 2 actions (concentrate, manipulate); **Effect** Choose a creature within 60 feet to target and roll a d20 on the table below to determine the top's effect. You make any decisions for a spell cast by the top unless otherwise indicated, except that it must target the creature you chose, or the creature you chose must be the center of the spell's area, if it has an area but no targets. If the spell's range is less than 60 feet, increase the range to 60 feet.%r%rAny spell DC required is DC 27, and any spell attack roll required is +17. If the top casts a spell on you, you don't get a saving throw or other defense against it.%r%rThe top can't be activated again for 1d4 hours"
+  Wand of Widening (3rd-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 8
+    price: 50000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  # Level 9 Magic Items
+  Armbands of Athleticism:
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 64500
+    bulk: 0.1
+    bonus:
+      Athletics: 2
+    shortdesc: "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises.%r%rWhile fastened to your upper arms, the armbands give you a +2 item bonus to Athletics checks.%r%rIn addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move."
+  Bracers of Missile Deflection (Greater):
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 65000
+    bulk: 0.1
+    shortdesc: "These bracers are made from plates of durable dawnsilver and gleam like the summer sun.%r%r**Activate** Reaction (manipulate)%r%r**Effect** The bracers send the missile off-course. You gain a +2 circumstance bonus to AC against the triggering attack. If this would cause the attack to be a failure, the attack misses you."
+  Charlatan's Gloves (Greater):
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 60000
+    bulk: 0.1
+    bonus:
+      Thievery: 2
+    shortdesc: "Tiny silver hooks decorate these fine silk gloves. They grant a +2 item bonus to Thievery and allow you to cast *telekinetic hand* as an innate occult spell.%r%rIf you are also wearing a *charlatan's cape*, whenever you would move an object using *telekinetic hand*, you may instead have it disappear in a puff of smoke and reappear hovering in a space adjacent to yours. This is a teleportation effect. The item hovers until the end of your turn or until retrieved with an Interact action."
+  Coyote Cloak (Greater):
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 65000
+    bulk: 0
+    bonus:
+      Survival: 2
+    shortdesc: "This dusty coat is made of mangy brown-and-gray coyote fur. You gain a +2 item bonus to Survival checks. If you critically succeed at your Survival check to Subsist, you can feed four times as many additional creatures."
+  Dancing Scarf (Greater):
+    traits:
+      - invested
+      - magical
+      - visual
+    level: 9
+    price: 65000
+    bulk: 0
+    bonus:
+      Performance: 2
+    shortdesc: "This long and billowing scarf is typically woven of silk or sheer fabric and adorned with bells or other jangling bits of shiny metal. It grants a +2 item bonus to Performance checks to dance.%r%r**Activate--Swirling Scarf** A (manipulate); **Requirements** On your most recent action, you succeeded at a Performance check to dance; **Effect** You become concealed until the beginning of your next turn. You can also Stride up to half your Speed or Step."
+  Earthsight Box:
+    traits:
+      - uncommon
+      - magical
+      - scrying
+    level: 9
+    price: 57500
+    bulk: 0.1
+    shortdesc: "This fine wooden box is inlaid with Khazadi runes, with hinges and a clasp of forged iron. The box contains a few handfuls of fine sand.%r%r**Activate--Replicate Earth** 1 minute (concentrate, manipulate); **Frequency** once per day; **Effect** You hold the box closed and, while envisioning the terrain, turn the box clockwise three times. When you open the box, the sand reveals, in miniature, the stone terrain surrounding you, to a range of 60 feet. This shows details of paths, hills, embankments, boulders, and even artificial structures like walls and ditches, as long as they're made of stone and earth. If you're underground, it reveals tunnels and voids in the earth within 60 feet at your current depth. The sand maintains its shape until you close the box."
+  Eternal Eruption of the Sky Curtains:
+    traits:
+      - fire
+      - magical
+    level: 9
+    price: 70000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava of the Sky Curtains**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of the Sky Curtains* deals 9d6 fire damage on a DC 27 basic Reflex save."
+  Explosive Ammunition:
+    traits:
+      - consumable
+      - fire
+      - magical
+    level: 9
+    price: 13000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** A (manipulate)%r%rThis piece of ammunition is coated in gritty black soot. When activated *explosive ammunition* hits a target, the missile explodes in a 10-ft burst, dealing 6d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 25 basic Reflex save."
+  Eyes of the Cat:
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 70000
+    bulk: 0
+    shortdesc: "These lenses of amber crystal fit over your eyes. They grant you low-light vision and a +2 item bonus to Perception checks that involve sight."
+  Guise of the Smirking Devil:
+    traits:
+      - auditory
+      - invested
+      - magical
+      - void
+    level: 9
+    price: 70000
+    bulk: 0
+    bonus:
+      Intimidation: 2
+    shortdesc: "This ice-blue half-mask is adorned with a wicked silver grin that covers the wearer's mouth, leaving the rest of the face uncovered. You gain a +2 item bonus to Intimidation checks.%r%r**Activate--Hideous Wail** 2 actions (concentrate, manipulate); **Frequency** once per day; **Effect** The mask emits a soul-chilling scream that deals 6d10 void damage to each living creature in a 20-ft emanation (DC 25 Fortitude save).%r%r**Craft Requirements** Supply a casting of *wails of the damned*."
+  Healer's Gloves (Greater):
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 70000
+    bulk: 0.1
+    bonus:
+      Medicine: 2
+    shortdesc: "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments. They give you a +2 item bonus to Medicine checks.%r%r**Activate--Healer's Touch** A (manipulate); **Frequency** once per day; **Effect** You can soothe the wounds of a willing, living, adjacent creature, restoring 4d6+15 Hit Points to that creature. This is a healing vitality effect. You can't harm undead with this healing."
+  Messenger's Ring:
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 70000
+    bulk: 0
+    bonus:
+      Diplomacy: 2
+    shortdesc: "This silver signet ring changes to match the insignia of a lord or organization you serve (or your own face, if you serve no one else). It grants you a +2 item bonus to Diplomacy checks and lets you cast *message* as an arcane innate spell at will.%r%r**Activate--Dispatch Messenger** 1 minute (concentrate); **Frequency** once per day; **Effect** The ring casts *animal messenger* to your specification. The animal is a magical creature that springs from the ring, and its appearance suits the iconography or heraldry of the lord or organization represented by the ring."
+  Persona Mask (Greater):
+    traits:
+      - fortune
+      - invested
+      - magical
+    level: 9
+    price: 65000
+    bulk: 0
+    shortdesc: "Despite covering the entire face, this alabaster mask does not hinder vision or other senses. Wearing the mask grants a +2 item bonus to Performance checks while acting, orating, performing comedy, or singing.%r%r**Activate--Assume Role** A (concentrate); **Effect** You change the mask's appearance into an artistic rendition of a dramatic character of your choice.%r%r**Activate--Sacrifice Role** Reaction (concentrate, fortune); **Frequency** once per day; **Trigger** You fail a Performance check that benefits from the mask's bonus; **Effect** You change the mask's character and reroll the Performance check, using the second result."
+  Spellstrike Ammunition (Type IV):
+    traits:
+      - consumable
+      - magical
+    level: 9
+    price: 15000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 4th"
+  Storm Arrow:
+    traits:
+      - air
+      - consumable
+      - electricity
+      - magical
+    level: 9
+    price: 13000
+    bulk: 0
+    shortdesc: "**Activate** A (manipulate)%r%rThe head of this arrow is made from gleaming copper.%r%rWhen an activated *storm arrow* hits a target, it is buffeted by raging winds and struck by a bolt of lightning that deals 3d12 electricity damage and the target must attempt a DC 25 Reflex saving throw. If this arrow is shot from a weapon with a *shock* property rune, the save DC increases to 27, though the attack doesn't benefit from the *shock* property rune itself.%r%r**Critical Success** The foe is unaffected.%r**Success** The foe takes half damage and isn't affected by the wind.%r**Failure** The foe takes full damage and is buffeted by winds for 1 round, taking a -2 circumstance penalty to ranged attack rolls and a -10-foot circumstance penalty to its fly Speed.%r**Critical Failure** As failure, but the foe takes double damage."
+  Tracker's Goggles (Greater):
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 66000
+    bulk: 0
+    shortdesc: "These lenses of forest-green glass are bound in rough leather stitched with crude twine.%r%rWhile wearing these goggles, you gain a +2 bonus to Survival checks to Sense Direction and Track.%r%rIf you fail a check to Track, you can try again after 15 minutes rather than an hour."
+  Urn of Ashes:
+    traits:
+      - magical
+      - void
+    level: 9
+    price: 70000
+    bulk: 0
+    shortdesc: "This sealed pewter urn contains the ashes of a benevolent ancestor, with a sliver of lingering spirit that strives to protect you.%r%r**Activate--Doom the Urn** Reaction (concentrate); **Trigger** You would become doomed, or your doomed value would increase; **Requirements** The ashes aren't doomed; **Effect** The ashes in the urn intervene, taking the doomed condition in your place, and you don't gain or increase the value of your doomed condition. Each night when you get a full night's rest, you can reduce your own doomed condition or that of the urn, but not both.%r%r**Activate--Spirit's Wrath** 1 action (attack, concentrate, manipulate); **Frequency** once per round; **Effect** The urn shoots a bolt of void energy at a foe within 30 feet. Attempt a spell attack roll against the target's AC, using a modifier of +15 or your own spell attack modifier, whichever is higher. On a success, the bolt deals 4d4 void damage (doubled on a critical success)."
+  Ventriloquist's Ring (Greater):
+    traits:
+      - invested
+      - magical
+    level: 9
+    price: 67000
+    bulk: 0
+    bonus:
+      Deception: 2
+    shortdesc: "This elegant copper ring has miniature images of songbirds engraved around its circumference. You gain a +2 item bonus to Deception checks.%r%r**Activate--Throw Voice** 2 actions (manipulate); **Frequency** any number of times per day; **Effect** Twisting the ring around your finger allows you to magically throw your voice, with the effects of a 2nd-rank *ventriloquism* spell (DC 27 Perception)."
+  Wand of Continuation (3rd-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 9
+    price: 70000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 10 Magic Items
+  Charlatan's Cape:
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 10
+    price: 98000
+    bulk: 0.1
+    bonus:
+      Deception: 2
+    shortdesc: "This bright red-and-gold cape is often interlaced with glittery threads and serves as a distraction. While wearing the cape, you gain a +2 item bonus to Deception checks.%r%r**Activate--Puff of Smoke** 2 actions (manipulate); **Frequency** once per day; **Effect** You cast *translocate*. The space you leave and the one you appear in are filled with puffs of smoke that make anyone within concealed until they leave the smoke or the end of your next turn, at which point the smoke dissipates. Strong winds immediately disperse the smoke."
+  Charm of Resistance (Greater):
+    traits:
+      - invested
+      - magical
+    level: 10
+    price: 97500
+    bulk: 0
+    shortdesc: "This charm, normally hung from the belt or worn around the neck, grants you resistance 10 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each charm is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a *charm of cold resistance* could be carved in the shape of a yeti, whereas a *charm of fire resistance* would be made from volcanic glass."
+  Choker of Elocution (Greater):
+    traits:
+      - invested
+      - magical
+    level: 10
+    price: 85000
+    bulk: 0.1
+    bonus:
+      Society: 2
+    shortdesc: "This platinum choker bears characters from three language's alphabet, and it gives knowledge of those languages and the associated culture's customs.%r%rYou gain a +2 item bonus to Society checks and the ability to understand, speak, and write the chosen languages.%r%rYour excellent elocution reduces the DC of the flat check to perform an auditory action while deafened from 5 to 3.%r%r**Craft Requirements** You know the languages the choker grants."
+  Clandestine Cloak (Greater):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 10
+    price: 90000
+    bulk: 0.1
+    bonus:
+      Diplomacy: -1
+      Intimidation: -1
+      Stealth: 2
+    shortdesc: "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +2 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.%r%r**Activate--Cloak Identity** 2 actions (concentrate, manipulate); **Frequency** once per day; **Effect** You pull the cloak's hood up and gain the benefits of a 5th-rank *veil of privacy* for 8 hours or until you pull the hood back down, whichever comes first."
+  Crown of Witchcraft:
+    traits:
+      - focused
+      - invested
+      - magical
+    level: 10
+    price: 100000
+    bulk: 0
+    bonus:
+      Intimidation: 1
+    shortdesc: "An elegant accoutrement for a witch who has come into the higher echelons of power, a *crown of witchcraft* typically looks like a garland of flowering twigs, a jeweled circlet, or a tall hat of fine fabric. You gain a +1 item bonus to Intimidation checks, and if you're a witch, you gain a +2 item bonus to your patron skill.%r%rIf you have a familiar, you can attach a small portion of the crown's material to your familiar, such as a strip of fabric from a hat tied around its tail or a sprig of natural material linked to its collar; the familiar doesn't need to invest the item itself. If you do this, your familiar gains the tough pet ability as long as the crown is invested by you.%r%r**Activate--Defiant Hex** Free Action (concentrate); **Frequency** once per day; **Effect** Gain 1 Focus Point, which you can spend only to cast a witch hex spell. If you don't spend this point by the end of this turn, it is lost.%r%r**Craft Requirements** You are a witch."
+  Daredevil Boots:
+    traits:
+      - invested
+      - magical
+    level: 10
+    price: 90000
+    bulk: 0.1
+    bonus:
+      Acrobatics: 2
+    shortdesc: "These brightly colored, soft-soled boots motivate you to perform risky stunts and grant you the agility to succeed. The boots grant you a +2 item bonus to Acrobatics checks and a +1 circumstance bonus to checks to Tumble Through an enemy's space.%r%rThe boots can grip solid surfaces and help you avoid a fall, allowing you to use the Grab an Edge reaction even if your hands aren't free. You treat falls as 10 feet shorter or, if you have the Cat Fall feat, treat your proficiency rank in Acrobatics as one degree better to determine the benefits of that feat. If you have Cat Fall and are already legendary in Acrobatics, you can choose the speed of your fall, from 60 feet per round up to normal falling speed."
+  Demon Mask (Greater):
+    traits:
+      - invested
+      - magical
+    level: 10
+    price: 90000
+    bulk: 0.1
+    bonus:
+      Intimidation: 2
+    shortdesc: "This terrifying mask is crafted in the visage of a leering demon and grants a +2 item bonus to Intimidation checks.%r%r**Activate--Leering Mask** 2 actions (manipulate); **Frequency** once per day; **Effect** The mask casts a 3rd-rank *fear* spell with a DC of 29."
+  Explorer's Yurt:
+    traits:
+      - magical
+      - structure
+    level: 10
+    price: 88000
+    bulk: 1
+    shortdesc: "Before activation, this item appears to be nothing more than a simple rolled-up tent, barely large enough to fit four Medium creatures. Despite attempts to clean it, the tent is perpetually smudged with dirt in various places.%r%r**Activate--Unroll** (10 minutes) (manipulate); **Frequency** once per day; **Effect** The rolled-up tent expands into a spacious yurt complete with a fire pit, 10 bedrolls, various cooking utensils, and basic food and water.%r%rThe yurt can house and feed you and up to nine other Medium creatures that eat roughly as much as a human does; they need not attempt a Survival check to Subsist when you use the yurt. Fires and light inside the yurt do not extend illumination into the area surrounding the yurt, making it harder to spot from a distance.%r%rA large loop of red cloth hangs from one wall. If this loop is pulled, which takes an Interact action, the entire yurt immediately folds back up into its deactivated form, ready for further travel."
+  Fire-Jump Ring:
+    traits:
+      - uncommon
+      - fire
+      - invested
+      - magical
+    level: 10
+    price: 94000
+    bulk: 0
+    bonus:
+      Athletics: 2
+    shortdesc: "This black, metal ring is inset with rubies that occasionally give off wisps of smoke. It grants you a +2 item bonus to Athletics checks.%r%r**Activate--Fire Jump** 2 actions (concentrate, manipulate, teleportation); **Frequency** once per day; **Effect** You Stride (or Burrow or Fly, if you have the corresponding Speed) into any fire large enough to contain you, including magical fires. You vanish into the fire and take no damage from it. You can sense all sufficiently large fires within 100 feet of where you vanish, and you reemerge from any of those fires, either within the fire or adjacent to it. If you end your movement in the fire, it affects you as normal."
+  Maestro's Instrument (Moderate):
+    traits:
+      - magical
+    level: 10
+    price: 90000
+    bulk: 1
+    shortdesc: "A *maestro's instrument* can be crafted in the form of any variety of handheld musical instruments. A *maestro's instrument* grants you a +2 item bonus to Performance checks while playing music with the instrument.%r%r**Activate--Charming Performance** 2 actions (manipulate); **Frequency** once per day; **Effect** You play the instrument, causing it to cast a 4th-rank *charm* spell with DC 27.%r%r**Craft Requirements** You must supply a casting of *charm* of the appropriate rank."
+  Ring of Lies:
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 10
+    price: 85000
+    bulk: 0
+    bonus:
+      Deception: 2
+    shortdesc: "This plain silver ring has an almost oily sheen. While wearing the ring, you gain a +2 item bonus to Deception checks.%r%r**Activate--Sweeten Lies** 2 actions (manipulate); **Frequency** once per day; **Effect** Snapping your fingers on the hand that wears the ring causes the ring to cast *honeyed words* on you with no visual manifestations of a spell being cast."
+  Sanguine Pendant:
+    traits:
+      - invested
+      - magical
+    level: 10
+    price: 100000
+    bulk: 0
+    shortdesc: "This clear crystal pendant contains a drop of blood from a sorcerer that expands and contracts as you cast spells. A sanguine pendant is associated with a specific sorcerer bloodline, and only sorcerers with that bloodline can invest this item. This item gains the trait matching the tradition of that bloodline. The pendant grants a +2 item bonus to both of your bloodline skills.%r%r**Activate--Blood's Call** f (concentrate); **Frequency** once per day; **Effect** You gain 1 Focus Point, which you can spend only to cast a bloodline spell. If you don't spend this Focus Point by the end of this turn, it's lost.%r%r**Craft Requirements** You're a sorcerer with the associated bloodline."
+  Sash of Prowess:
+    traits:
+      - focused
+      - invested
+      - magical
+    level: 10
+    price: 100000
+    bulk: 0
+    bonus:
+      Acrobatics: 2
+      Athletics: 2
+    shortdesc: "This humble sash can be worn around the waist or across the chest. A sash of prowess often bears a coloration or a pattern that represents the monastery in which you trained but can also sport religious symbology. You gain a +2 item bonus to Acrobatics and Athletics skill checks.%r%r**Activate--Effortless Mastery** f (concentrate); **Frequency** once per day; **Trigger** You succeed at an Acrobatics or Athletics skill check; **Effect** You critically succeed instead.%r%r**Activate--Reserves of Inner Strength** f (concentrate); **Frequency** once per day; **Effect** You gain 1 Focus Point, which you can spend only to cast a qi spell. If you don't spend this Focus Point by the end of this turn, it's lost.%r%r**Craft Requirements** You're a monk who can cast qi spells."
+  Shadow Signet:
+    traits:
+      - invested
+      - magical
+    level: 10
+    price: 100000
+    bulk: 0
+    shortdesc: "This obsidian ring allows you to partially warp your spells through the Netherworld, allowing them to strike directly at a target's body.%r%r**Activate** f (concentrate, spellshape)%r%r**Effect** If your next action is to Cast a Spell that requires a spell attack roll against Armor Class, choose Fortitude DC or Reflex DC. You make your spell attack roll against that defense instead of AC. If the spell has multiple targets, the choice of DC applies to all of them."
+  Wand of Widening (4th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 10
+    price: 100000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  Winged Sandals:
+    traits:
+      - air
+      - invested
+      - magical
+    level: 10
+    price: 85000
+    bulk: 0.1
+    shortdesc: "Made from soft leather, with delicate white wings attached near the ankles, these sandals are ensorcelled with powerful air magic.%r%rWhenever you fall while wearing these sandals, they automatically cast *gentle landing* on you. This benefit can't trigger again for 10 minutes.%r%r**Activate--Awaken Wings** 2 actions (air, concentrate); **Frequency** once per day; **Effect** The wings grow in size and propel you through the air, granting you a fly Speed of 30 feet for 10 minutes."
+  # Level 11 Magic Items
+  Alchemist Goggles (Greater):
+    traits:
+      - invested
+      - magical
+    level: 11
+    price: 140000
+    bulk: 0
+    shortdesc: "These brass goggles are engraved with flame patterns and have thick, heavy lenses.%r%rWhile worn, they give you a +2 item bonus to Crafting checks to Craft alchemical items. When making Strikes with alchemical bombs, you ignore lesser cover.%r%rIf your Strike with an alchemical bomb fails (but doesn't critically fail), you gain a +2 item bonus to the splash damage the target of the Strike takes."
+  Countering Charm:
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 11
+    price: 120000
+    bulk: 0.1
+    shortdesc: "This glittering charm is made of a gemstone flawed with a leaden inclusion. Spellcasters can cast spells into *countering charms* that they've invested or that are invested by a willing creature. The spell's effect doesn't occur; the spell's power is instead stored within the charm, replacing any spell previously there. The charm can hold only spells cast from spell slots, not cantrips or focus spells. While the charm is invested, the creature who has invested it knows what spell is stored within and automatically identifies that spell when it's cast.%r%r**Activate--Counter** Reaction (manipulate); **Trigger** You are targeted by or within the area of the spell stored within the charm; **Requirements** You have a free hand; **Effect** You present the charm and attempt to counteract the triggering spell, using the rank of the spell stored in the charm and a counteract modifier of +20. This expends the spell held in the charm."
+  Crafter's Eyepiece (Greater):
+    traits:
+      - invested
+      - magical
+    level: 11
+    price: 120000
+    bulk: 0
+    bonus:
+      Crafting: 2
+    shortdesc: "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts.%r%rYou gain a +2 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored to 10 + 10 per proficiency rank on a success or 15 + 15 per proficiency rank on a critical success.%r%r**Activate--Prototype** 1 minute (manipulate); **Frequency** once per day; **Effect** You calibrate the eyepiece to have it cast a 5th-rank *creation* spell over the course of 1 minute to construct a temporary item."
+  Doubling Rings (Greater):
+    traits:
+      - invested
+      - magical
+    level: 11
+    price: 130000
+    bulk: 0
+    shortdesc: "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are *weapon potency* and *striking*, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.%r%rThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).%r%rThe rings also replicate property runes from the weapon in the gold-ringed hand, so long as the weapon in the iron-ringed hand meets all the prerequisites for a given rune and is not a specific weapon. The weapon in the iron-ringed hand gains the benefits of those runes. All its own runes are suppressed. When you invest the rings, you can elect for the rings to transfer only fundamental runes, in which case they function as standard *doubling rings*."
+  Eternal Eruption of Am'shere:
+    traits:
+      - fire
+      - magical
+    level: 11
+    price: 140000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava of Am'shere**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of Am'shere* deals 11d6 fire damage on a DC 30 basic Reflex save."
+  Gorget of the Primal Roar:
+    traits:
+      - invested
+      - magical
+    level: 11
+    price: 125000
+    bulk: 0.1
+    bonus:
+      Intimidation: 2
+    shortdesc: "This engraved duskwood gorget seems to vibrate with ferocity, granting you a +2 item bonus to Intimidation checks.%r%r**Activate--Primal Roar** A (auditory, concentrate, emotion, fear, mental); **Frequency** once during the duration of each polymorph effect; **Requirements** You're in a non-humanoid form via a polymorph effect; **Effect** You unleash a bestial roar, attempting a single Intimidation check compared to the Will DCs of all enemies within 30 feet to impose the effects below.%r%r**Critical Success** The creature is frightened 2.%r**Success** The creature is frightened 1.%r**Failure** The creature is unaffected."
+  Horn of Exorcism:
+    traits:
+      - magical
+    level: 11
+    price: 125000
+    bulk: 0.1
+    shortdesc: "A *horn of exorcism* is an instrument made from an animal horn, or an object of the same shape from carved wood or ivory.%r%r**Activate--Rattle the Dead** 1 action (auditory, manipulate); **Frequency** once per hour; **Effect** Blowing into the horn frightens ghosts and evil spirits who can hear its call. Make an Intimidation check to Demoralize against all creatures with the undead or unholy trait in a 30-ft emanation. This can affect even a mindless creature with that trait, and you don't take a penalty when you attempt to Demoralize a creature that doesn't understand your language.%r%r**Activate--Sacred Seeds** 2 actions (manipulate); **Frequency** once per day; **Effect** You fill the horn with sacred seeds and then scatter them around you with a twist of your wrist. The horn grants you and your allies in a 30-ft emanation the *ghost touch* property rune on all of your weapon and unarmed Strikes for 1 minute."
+  Obsidian Goggles (Greater):
+    traits:
+      - invested
+      - magical
+    level: 11
+    price: 125000
+    bulk: 0
+    shortdesc: "The sleek, black lenses of these goggles somehow make everything seem more brightly lit. While wearing the goggles, you gain a +2 item bonus to Perception checks involving sight.%r%r**Activate--Darkvision** 1 action (manipulate); **Frequency** any number of times per day; **Effect** Adjusting your goggles, you gain darkvision until you deactivate it as an Interact action or the item is no longer invested by you, whichever comes first."
+  Ring of Maniacal Devices:
+    traits:
+      - invested
+      - magical
+    level: 11
+    price: 117500
+    bulk: 0
+    shortdesc: "This magic ring seems like simple tarnished brass, but it enhances your curiosity about traps and devices of all kinds.%r%rYou can use an Interact action to pull a *thieves' toolkit* from the ring. This toolkit appears in your hand and any part of it folds back into the ring if they would leave your possession.%r%rThey grant you a +2 item bonus to Thievery checks to Disable a Device and to Pick a Lock, and the ring's insights grant you the same bonus to Crafting checks to Craft and Repair snares and traps.%r%r**Activate--Fireball Trap** 10 minutes (manipulate); **Frequency** once per day; **Effect** You create the effects of a *rune trap* trap ritual containing *fireball*. You can have only one trapped rune from a *ring of maniacal devices* active at a time, even if you have multiple rings, and the rune disappears if you lose your investiture in the ring."
+  Skeleton Key (Greater):
+    traits:
+      - magical
+    level: 11
+    price: 125000
+    bulk: 0
+    bonus:
+      Thievery: 2
+    shortdesc: "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves' toolkit when attempting to Pick a Lock, and it grants a +2 item bonus to the Thievery check.%r%rIf the *skeleton key* becomes broken due to a critical failure on the check, it works as normal thieves' toolkit and loses its benefits until repaired.%r%r**Activate--Loosen Lock** Free Action (manipulate); **Frequency** once per hour; **Trigger** You attempt to Pick a Lock but haven't rolled yet; **Effect** The key casts *knock* on the lock you're trying to pick."
+  Spellstrike Ammunition (Type V):
+    traits:
+      - consumable
+      - magical
+    level: 11
+    price: 30000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 5th"
+  Wand of Continuation (4th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 11
+    price: 150000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 12 Magic Items
+  Flying Broomstick:
+    traits:
+      - magical
+    level: 12
+    price: 190000
+    bulk: 1
+    shortdesc: "This broom has a tenuous connection to gravity, and it tends to drift even while stowed. You can ride on the broom using one hand to guide it, and the broom can carry up to one passenger in addition to you.%r%rThe broom moves at a fly Speed of 20 feet. The broom can carry only so much, taking a -10-foot penalty to its Speed if laden with more than 20 Bulk, and crashing to the ground if it carries more than 30 Bulk.%r%r**Activate--Lift Off** 2 actions (concentrate, manipulate); **Effect** You name a destination on the same plane, and the broom speeds toward it at a fly Speed of 40 feet. You must either clutch the broom with two hands in order to ride it, or you need to release the broom to send it off with no rider. If you don't have a good idea of the location, layout, and general direction of the destination, or if your named destination is on another plane, the broom wanders aimlessly, circling back to its starting location after 30 minutes.%r%rIf the broom carries a rider, this activation lasts until 4 hours pass (typically 16 miles of travel), the broom reaches its destination, or you Dismiss the activation. If the broom doesn't have a rider, the activation lasts until the broom reaches its destination. When the activation ends, the broom floats to the ground and can't be activated again for 1 hour."
+  Marvelous Medicines:
+    traits:
+      - magical
+    level: 12
+    price: 180000
+    bulk: 1
+    bonus:
+      Medicine: 2
+    shortdesc: "This healer's toolkit contains a seemingly endless supply of bandages, herbs, and healing items of impeccable quality, granting you a +2 item bonus to Medicine checks.%r%rIf you use the *marvelous medicines* when you Treat Poison or Treat Disease, before you roll your check, the medicines attempt to counteract the poison or disease you're treating, with a counteract rank of 5 and a counteract modifier of +21. This is a healing effect.%r%rThe medicines can't be used to treat the same affliction for that patient again"
+  Penetrating Ammunition:
+    traits:
+      - consumable
+      - magical
+    level: 12
+    price: 40000
+    bulk: 0
+    shortdesc: "**Ammunition** arrow, bolt%r%r**Activate** A (manipulate)%r%rThis ammunition has a slender shape and a viciously pointed tip. When you activate and shoot *penetrating ammunition*, the Strike takes the shape of a 60-ft line originating from you.%r%rRoll one attack roll and compare the result to the AC of each target in the line. The ammunition ignores up to 10 of a target's resistance, and it can penetrate walls up to 1 foot thick with Hardness 10 or less. Each target that takes damage from this ammunition also takes 1d6 bleed damage.%r%rIf your attack roll result is a natural 20, you improve your degree of success only against the first target in the line, but you can still score a critical hit on other targets if your result exceeds their AC by 10 or more.%r%rIf you have access to your bow's critical specialization effect, *penetrating ammunition* applies that effect only against a target in the last square of the line."
+  Ring of Climbing:
+    traits:
+      - invested
+      - magical
+    level: 12
+    price: 175000
+    bulk: 0
+    shortdesc: "Claw-like prongs on his thick golden band bears extend to dig deep into sheer surfaces when you are Climbing. This ring grants you a climb Speed equal to half your land Speed. Penalties to your Speed (including those from your armor) apply before halving."
+  Ring of Swimming:
+    traits:
+      - invested
+      - magical
+    level: 12
+    price: 175000
+    bulk: 0
+    shortdesc: "This blue metal ring grants you a swim Speed equal to half your land Speed. Penalties to your Speed (including from your armor) apply before halving."
+  Wand of Widening (5th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 12
+    price: 200000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  # Level 13 Magic Items
+  Eternal Eruption of the Kueu:
+    traits:
+      - fire
+      - magical
+    level: 13
+    price: 300000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava of the Kueu**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of the Kueu* deals 13d6 fire damage on a DC 32 basic Reflex save."
+  Explosive Ammunition (Greater):
+    traits:
+      - consumable
+      - fire
+      - magical
+    level: 13
+    price: 52000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** A (manipulate)%r%rThis piece of ammunition is coated in gritty black soot. When activated *greater explosive ammunition* hits a target, the missile explodes in a 10-ft burst, dealing 10d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 30 basic Reflex save."
+  Eye of Fortune:
+    traits:
+      - invested
+      - magical
+    level: 13
+    price: 270000
+    bulk: 0
+    shortdesc: "Adherents of Erastil, god of the hunt, create these magical eye patches. An *eye of fortune* has a jeweled eye symbol on its front, allowing you to magically see through the eye patch as though it were transparent.%r%r**Activate--Luck Beyond Sight** Free Action (concentrate, fortune); **Trigger** You attack a concealed or hidden creature and haven't attempted the flat check yet; **Effect** You can roll the flat check for the concealed or hidden condition twice and use the higher result."
+  Propulsive Boots:
+    traits:
+      - invested
+      - magical
+    level: 13
+    price: 300000
+    bulk: 0.1
+    shortdesc: "These sleek red boots make your legs feel like they're bursting with energy. You gain a +5-foot item bonus to your land Speed and to any climb or swim Speeds you have.%r%r**Activate--Quickening Stomp** A (manipulate); **Frequency** once per day; **Effect** You stomp three times and gain the quickened condition for 1 minute. You can use the extra action to Stride, Climb, or Swim. (You must still attempt an Athletics check for the Climb and Swim actions unless you have the appropriate movement type.)"
+  Slates of Distant Letters:
+    traits:
+      - magical
+    level: 13
+    price: 245000
+    bulk: 0.1
+    shortdesc: "This matched pair of slates, roughly one handspan wide and tall, have identical ornate frames. Slates are crafted in pairs, and each works with only the other of its pair. If one slate of a pair is ever broken, the other shatters into non-magical shards. The listed price is for a pair of slates.%r%r**Activate--Send a Message** 2 actions (manipulate); **Frequency** once per hour; **Effect** You use a piece of chalk to write up to 25 words on a slate. As you write, the writing also appears on the other slate in its matched pair, no matter how far away it is, as long as it is on the same plane. Wiping one slate clean erases the writing from both slates. Each slate can be activated once per hour."
+  Spellstrike Ammunition (Type VI):
+    traits:
+      - consumable
+      - magical
+    level: 13
+    price: 60000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 6th"
+  Wand of Continuation (5th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 13
+    price: 300000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 14 Magic Items
+  Bands of Force (Greater):
+    traits:
+      - force
+      - invested
+      - magical
+    level: 14
+    price: 450000
+    bulk: 0.1
+    shortdesc: "Decorated with clear gemstones, these thick metal bands spread an inflexible layer of force over your body. The force grants you a +2 item bonus to AC and saving throws, and a maximum Dexterity modifier of +5 as armor. You can affix talismans to the bands as though they were light armor.%r%r**Activate--Return Force** Reaction (force, manipulate); **Trigger** A creature critically misses you with a melee Strike; **Effect** You Shove the creature using the bands' Athletics modifier of +21."
+  Boots of Bounding (Greater):
+    traits:
+      - invested
+      - magical
+    level: 14
+    price: 425000
+    bulk: 0.1
+    bonus:
+      Athletics: 3
+    shortdesc: "The springy soles of these sturdy leather boots cushion your feet and make each step lighter. These boots give you a +10-foot item bonus to your Speed and a +3 item bonus to Athletics checks to High Jump and Long Jump.%r%rIn addition, when you use the Leap action, you can move 5 feet further if jumping horizontally or 3 feet higher if jumping vertically."
+  Charm of Resistance (Major):
+    traits:
+      - invested
+      - magical
+    level: 14
+    price: 440000
+    bulk: 0
+    shortdesc: "This charm, normally hung from the belt or worn around the neck, grants you resistance 15 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each charm is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a *charm of cold resistance* could be carved in the shape of a yeti, whereas a *charm of fire resistance* would be made from volcanic glass."
+  Crystal Ball (Clear Quartz):
+    traits:
+      - uncommon
+      - magical
+      - scrying
+    level: 14
+    price: 380000
+    bulk: 0.1
+    shortdesc: "This polished crystal sphere enhances scrying magic. Any visual information received through a spell with the scrying trait that was cast by the *crystal ball* appears within the sphere, and any auditory information sounds out from the surface of the sphere. When you cast a spell with the scrying trait by any other means while holding the sphere, you can relay any information you receive in the same way, allowing others to see or hear the target.%r%rThe base version of a crystal ball is a sphere of clear quartz, but other versions are made of different stones.%r%r**Activate--Clairvoyance** 1 minute (concentrate, manipulate); **Frequency** once per hour; **Effect** The *crystal ball* casts *clairvoyance* to your specifications.%r%r**Activate--Scrying** 10 minutes (concentrate, manipulate); **Frequency** twice per day; **Effect** The *crystal ball* casts a DC 33 Will *scrying* spell to your specifications."
+  Ghost Ammunition:
+    traits:
+      - magical
+    level: 14
+    price: 90000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r*Ghost ammunition* is cool to the touch. This ammunition has the benefits of the **ghost touch** property rune and can fly through any obstacle except those that can block incorporeal creatures or effects. Though the ammunition penetrates barriers and ignores all cover, the target still benefits from the flat check from being concealed or hidden. You still can't target an undetected creature without guessing.%r%rAfter it is launched, the ammunition vanishes into mist. However, in the dead of the night 1d4 days later, it reappears in the last quiver or other container it was taken from."
+  Primeval Mistletoe (Greater):
+    traits:
+      - invested
+      - magical
+    level: 14
+    price: 390000
+    bulk: 0
+    bonus:
+      Nature: 2
+    shortdesc: "This sprig of berry-festooned holly and mistletoe doesn't wilt or rot. It can be used as a primal locus, and it grants a +2 item bonus to Nature checks while you wear it.%r%r**Activate--Anoint** 2 actions (manipulate); **Frequency** once per 10 minutes; **Effect** You squeeze juice from one of the berries and smear it onto a weapon made primarily of wood to cast a 6th-rank *runic weapon* on it, or onto a creature to cast a 6th-rank *runic body* on it.%r%r**Activate--Bind** 2 actions (manipulate); **Frequency** once per day; **Effect** You touch the sprig, then a tree to cast *one with plants* upon yourself, turning into a vine on the touched tree.%r%r**Activate--Cultivate** 2 actions (manipulate); **Frequency** once per day; **Effect** You plant the *greater primeval mistletoe* into an area of natural earth or stone. Once planted, the plant immediately sprouts into an area of holly bushes that don't impede movement and that pulse with vitality energy, replicating the effects of a *field of life* spell. You can Sustain the activation up to 1 minute. When this magic ends, the holly bushes revert back into the original *greater primeval mistletoe*."
+  Wand of Widening (6th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 14
+    price: 450000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  # Level 15 Magic Items
+  Countering Charm (Greater):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 15
+    price: 550000
+    bulk: 0.1
+    shortdesc: "This glittering charm is made of a gemstone flawed with a leaden inclusion. Spellcasters can cast spells into *countering charms* that they've invested or that are invested by a willing creature. The spell's effect doesn't occur; the spell's power is instead stored within the charm, replacing any spell previously there. The charm can hold only spells cast from spell slots, not cantrips or focus spells. While the charm is invested, the creature who has invested it knows what spell is stored within and automatically identifies that spell when it's cast.%r%r**Activate--Counter** Reaction (manipulate); **Trigger** You are targeted by or within the area of the spell stored within the charm; **Requirements** You have a free hand; **Effect** You present the charm and attempt to counteract the triggering spell, using the rank of the spell stored in the charm and a counteract modifier of +25. This expends the spell held in the charm."
+  Crystal Ball (Selenite):
+    traits:
+      - uncommon
+      - magical
+      - scrying
+    level: 15
+    price: 700000
+    bulk: 0.1
+    shortdesc: "This polished crystal sphere enhances scrying magic. Any visual information received through a spell with the scrying trait that was cast by the *crystal ball* appears within the sphere, and any auditory information sounds out from the surface of the sphere. When you cast a spell with the scrying trait by any other means while holding the sphere, you can relay any information you receive in the same way, allowing others to see or hear the target.%r%r**Activate--Clairvoyance** 1 minute (concentrate, manipulate); **Frequency** once per hour; **Effect** The *crystal ball* casts *clairvoyance* to your specifications.%r%r**Activate--Scrying** 10 minutes (concentrate, manipulate); **Frequency** twice per day; **Effect** The *crystal ball* casts a DC 36 Will *scrying* spell to your specifications, with the benefits of *see the unseen* on the target."
+  Disintegration Bolt:
+    traits:
+      - uncommon
+      - consumable
+      - magical
+    level: 15
+    price: 130000
+    bulk: 0
+    shortdesc: "**Activate** 1 action (manipulate)%r%rThe shaft of this bolt is scorched and blackened, and handling it coats your fingers with a fine black powder. When an activated *disintegration bolt* hits a target, it is subject to a *disintegrate* spell requiring a DC 34 Fortitude save. As with the spell, a critical hit on the attack roll causes the target's saving throw outcome to be one degree worse.%r%r**Craft Requirements** Supply one casting of *disintegrate*."
+  Eternal Eruption of the Desolation:
+    traits:
+      - fire
+      - magical
+    level: 15
+    price: 650000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava of the Desolation**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of the Desolation* deals 15d6 fire damage on a DC 36 basic Reflex save."
+  Spellstrike Ammunition (Type VII):
+    traits:
+      - consumable
+      - magical
+    level: 15
+    price: 130000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 7th"
+  Stone Bullet:
+    traits:
+      - consumable
+      - magical
+    level: 15
+    price: 130000
+    bulk: 0
+    shortdesc: "**Activate** A (manipulate)%r%rThis sling bullet looks like a petrified serpent's eye. A creature hit by an activated *stone bullet* is subject to the effects of a 6th-rank *petrify* spell (DC 34 Fortitude).%r%r**Craft Requirements** Supply one casting of *petrify*."
+  Wand of Continuation (6th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 15
+    price: 650000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 16 Magic Items
+  Aeon Stone (Amplifying):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 16
+    price: 975000
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rAn *Amplifying aeon stone* must be activated to provide a benefit. The resonant power grants you a +2 item bonus to Arcana, Nature, Occultism, or Religion checks-whichever corresponds to the tradition of the last spell you enhanced with this *aeon stone*.%r%r**Activate--Amplify** 1 action (concentrate, spellshape); **Effect** If your next action is to Cast a Spell, that spell's rank is 1 higher (maximum 10th rank) for the purposes of counteracting and being counteracted."
+  Aeon Stone (Peering):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 16
+    price: 850000
+    bulk: 0
+    shortdesc: "Over millennia, these mysterious, intricately cut gemstones have been hoarded by mystics and fanatics hoping to discover their secrets. Despite their myriad forms and functions, these stones are purportedly all fragments of crystal tools used by otherworldly entities to construct the universe in primeval times.%r%rWhen you invest one of these precisely shaped crystals, the stone orbits your head instead of being worn on your body. You can stow an *aeon stone* with an Interact action, and an orbiting stone can be snatched out of the air with a successful Disarm action against you. A stowed or removed stone remains invested, but its effects are suppressed until you return it to orbit your head again.%r%rThere are various types of *aeon stones*, each with a different appearance and magical effect. Each *aeon stone* also gains a resonant power when slotted into a special magical item called a *wayfinder*.%r%rThis faintly colored prism catches and transforms light. If the aeon stone is in an area of bright light, shades of purple light provide dim light in a 30-foot radius. In that radius, magical items and effects are tinged with purple, the depth of the color revealing their counteract rank.%r%rThe GM also secretly rolls a counteract check against any darkness or illusion effect the light touches. It has a counteract modifier of +25. If the light fails to counteract an effect, it won't try again for 24 hours.%r%rInside a *wayfinder*, the *aeon stone* cannot catch light. However, its resonant power lets you activate or deactivate the *aeon stone's* light emitting from the *wayfinder* as an Interact action."
+  Crystal Ball (Moonstone):
+    traits:
+      - uncommon
+      - magical
+      - scrying
+    level: 16
+    price: 750000
+    bulk: 0.1
+    shortdesc: "This polished crystal sphere enhances scrying magic. Any visual information received through a spell with the scrying trait that was cast by the *crystal ball* appears within the sphere, and any auditory information sounds out from the surface of the sphere. When you cast a spell with the scrying trait by any other means while holding the sphere, you can relay any information you receive in the same way, allowing others to see or hear the target.%r%r**Activate--Clairvoyance** 1 minute (concentrate, manipulate); **Frequency** once per hour; **Effect** The *crystal ball* casts *clairvoyance* to your specifications.%r%r**Activate--Scrying** 10 minutes (concentrate, manipulate); **Frequency** twice per day; **Effect** The *crystal ball* casts a DC 37 Will *scrying* spell to your specifications, with the benefits of *mind reading* on the target, using the same save DC."
+  Quickstrike:
+    traits:
+      - rare
+      - magical
+    level: 16
+    price: 1000000
+    bulk: 0
+    shortdesc: "Attacks with a *quickstrike* weapon are supernaturally swift. While wielding a *quickstrike* weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon."
+  Reinforcing Rune (Major):
+    traits:
+      - magical
+    level: 16
+    price: 800000
+    bulk: 0
+    shortdesc: "Reinforcing runes make a shield significantly more durable, allowing it to effectively block more powerful attacks.%r%rThe shield's Hardness increases by 5, it gains an additional 84 Hit Points, and its BT increases by 42 (maximum 17 Hardness, 136 HP, and 68 BT)."
+  Wand of Widening (7th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 16
+    price: 1000000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  Weapon Potency (+3):
+    traits:
+      - magical
+    level: 16
+    price: 893500
+    bulk: 0
+    shortdesc: "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +3 item bonus, and the weapon can be etched with three property rune.%r%rYou can upgrade the *weapon potency* rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.%r%r**Craft Requirements** You are legendary in Crafting."
+  # Level 17 Magic Items
+  Alchemist Goggles (Major):
+    traits:
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0
+    shortdesc: "These brass goggles are engraved with flame patterns and have thick, heavy lenses.%r%rWhile worn, they give you a +3 item bonus to Crafting checks to Craft alchemical items. When making Strikes with alchemical bombs, you ignore lesser cover.%r%rIf your Strike with an alchemical bomb fails (but doesn't critically fail), you gain a +3 item bonus to the splash damage the target of the Strike takes."
+  Armbands of Athleticism (Greater):
+    traits:
+      - invested
+      - magical
+    level: 17
+    price: 1300000
+    bulk: 0.1
+    bonus:
+      Athletics: 3
+    shortdesc: "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises.%r%rWhile fastened to your upper arms, the armbands give you a +3 item bonus to Athletics checks.%r%rIn addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +10-foot item bonus to the distance you move."
+  Belt of Long Life:
+    traits:
+      - apex
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0.1
+    shortdesc: "This thick leather belt is engraved with imagery of an ancient tree. You gain 15 temporary Hit Points the first time you invest the belt in a day. When you invest the belt, you either increase your Constitution modifier by 1 or increase it to +4, whichever would give you a higher value.%r%r**Activate--Call Upon the Ancient Life** 1 action (manipulate); **Frequency** once per day; **Effect** You draw upon the lifegiving energy of the tree on the belt to gain rapid healing. For 2d4 rounds, at the start of your turn each round, you recover 15 Hit Points."
+  Bracers of Strength:
+    traits:
+      - apex
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0
+    bonus:
+      Athletics: 3
+    shortdesc: "Etchings of powerful bears decorate these brass bracers. You gain a +3 item bonus to Athletics checks and a +2 circumstance bonus to Athletics checks to lift a heavy object, Escape, and Force Open. When you invest the bracers, you either increase your Strength modifier by 1 or increase it to +4, whichever would give you a higher value.%r%r**Activate--Bear Hug** 1 action (manipulate)%r%rAttempt to Grapple a creature. If you succeed, you crush the creature in your grasp, dealing bludgeoning damage to it equal to your Strength modifier. If you critically succeeded, the damage is equal to double your Strength modifier, and the creature suffocates as long as it remains grabbed or restrained by you."
+  Cloak of Swiftness:
+    traits:
+      - apex
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0
+    bonus:
+      Acrobatics: 3
+    shortdesc: "This thin cloak is surprisingly light, as if clouds or the very wind were woven together to make the garment. The cloak grants you a +3 item bonus to Acrobatics checks. When you invest the cloak, you either increase your Dexterity modifier by 1 or increase it to +4, whichever would give you a higher value.%r%r**Activate--Ride the Wind** 1 action (manipulate); **Frequency** once per day; **Effect** You tug on the cloak, wrapping yourself in the power of wind. You gain a fly Speed of 30 feet for 1 hour. While wrapped in the cloak, you become translucent, causing you to become concealed for the duration."
+  Crown of Intellect:
+    traits:
+      - apex
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0
+    shortdesc: "A trio of brilliant gems have been set into this elegant golden crown. You gain a +3 item bonus to checks to Recall Knowledge, regardless of the skill. When you invest the cloak, you either increase your Intelligence modifier by 1 or increase it to +4, whichever would give you a higher value. This gives you additional trained skills and languages, as normal for increasing your Intelligence modifier. You must select skills and languages the first time you invest the crown, and whenever you invest the same *crown of intellect*, you get the same skills and languages you chose the first time.%r%r**Activate--Search Your Mind** 1 action (concentrate); **Frequency** once per hour; **Effect** You gain the effects of *hypercognition*."
+  Crystal Ball (Peridot):
+    traits:
+      - uncommon
+      - magical
+      - scrying
+    level: 17
+    price: 1250000
+    bulk: 0.1
+    shortdesc: "This polished crystal sphere enhances scrying magic. Any visual information received through a spell with the scrying trait that was cast by the *crystal ball* appears within the sphere, and any auditory information sounds out from the surface of the sphere. When you cast a spell with the scrying trait by any other means while holding the sphere, you can relay any information you receive in the same way, allowing others to see or hear the target.%r%r**Activate--Clairvoyance** 1 minute (concentrate, manipulate); **Frequency** once per hour; **Effect** The *crystal ball* casts *clairvoyance* to your specifications.%r%r**Activate--Scrying** 10 minutes (concentrate, manipulate); **Frequency** twice per day; **Effect** The *crystal ball* casts a DC 39 Will *scrying* spell to your specifications, with the benefits of *telepathy* for communicating with the target."
+  Daredevil Boots (Greater):
+    traits:
+      - invested
+      - magical
+    level: 17
+    price: 1400000
+    bulk: 0.1
+    bonus:
+      Acrobatics: 3
+    shortdesc: "These brightly colored, soft-soled boots motivate you to perform risky stunts and grant you the agility to succeed. The boots grant you a +3 item bonus to Acrobatics checks and a +2 circumstance bonus to checks to Tumble Through an enemy's space.%r%rThe boots can grip solid surfaces and help you avoid a fall, allowing you to use the Grab an Edge reaction even if your hands aren't free. You treat falls as 10 feet shorter or, if you have the Cat Fall feat, treat your proficiency rank in Acrobatics as one degree better to determine the benefits of that feat. If you have Cat Fall and are already legendary in Acrobatics, you can choose the speed of your fall, from 60 feet per round up to normal falling speed.%r%r**Activate--Daredevil Impulse** 2 actions (concentrate); **Frequency** once per day; **Effect** The boots cast *unfettered movement* on you."
+  Dread Blindfold:
+    traits:
+      - emotion
+      - fear
+      - invested
+      - magical
+      - mental
+    level: 17
+    price: 1500000
+    bulk: 0
+    bonus:
+      Intimidation: 3
+    shortdesc: "When tied over your eyes, this ragged strip of black linen gives you a +3 item bonus to Intimidation checks and darkvision. You can see through the blindfold, but only using darkvision.%r%rThe first time a particular creature sees you in a day, it must succeed at a DC 37 Will save or be frightened 1. This is an emotion, fear, and mental effect, and your allies become immune to it after about a week.%r%r**Activate--Visions of Terror** Free Action (concentrate); **Frequency** once per minute; **Trigger** You damage a creature with a Strike; **Effect** Your target is gripped by intense fear. This has the effect of a DC 37 *vision of death* spell. The creature is then temporarily immune for 24 hours."
+  Eternal Eruption of Dran:
+    traits:
+      - fire
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava of Dran**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of Dran* deals 17d6 fire damage on a DC 39 basic Reflex save."
+  Headwrap of Wisdom:
+    traits:
+      - apex
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0
+    shortdesc: "This simple scarf is designed for wrapping around the head and comes with a gemmed pin for decoration. When you invest the headwrap, you either increase your Wisdom modifier by 1 or increase it to +4, whichever would give you a higher value.%r%r**Activate--Consider the Consequences** 1 action (concentrate); **Frequency** once per day; **Effect** When you are considering a course of action, you get a gut feeling about whether it's a good idea. You gain the effects of an *augury* spell, except that you receive the result from your own instincts rather than an external source.%r%r**Activate--Reclaim Your Mind** Reaction (concentrate, fortune); **Frequency** once per hour; **Trigger** You fail a saving throw against an effect that makes you confused, fascinated, or stupefied; **Effect** The *headwrap of wisdom* clears your mind. You can reroll the saving throw and use the better result."
+  Messenger's Ring (Greater):
+    traits:
+      - invested
+      - magical
+    level: 17
+    price: 1350000
+    bulk: 0
+    bonus:
+      Diplomacy: 3
+    shortdesc: "This silver signet ring changes to match the insignia of a lord or organization you serve (or your own face, if you serve no one else). It grants you a +3 item bonus to Diplomacy checks and lets you cast *message* as an arcane innate spell at will.%r%r**Activate--Dispatch Messenger** 1 minute (concentrate); **Frequency** once per day; **Effect** The ring casts *animal messenger* to your specification. The animal is a magical creature that springs from the ring, and its appearance suits the iconography or heraldry of the lord or organization represented by the ring.%r%r**Activate--Sending** 3 actions command; **Frequency** once per hour; **Effect** The ring casts *sending* to your specifications."
+  Necklace of Allure:
+    traits:
+      - apex
+      - invested
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0.1
+    bonus:
+      Deception: 2
+      Diplomacy: 2
+    shortdesc: "Several sapphires are set along the length of this brilliant silver necklace. The necklace features an intricately carved pendant in the shape of a wolf's head. You gain a +2 item bonus to Deception and Diplomacy checks. When you invest the necklace, you either increase your Charisma modifier by 1 or increase it to +4, whichever would give you a higher value.%r%r**Activate--Win Them Over** 2 actions (concentrate); **Frequency** once per hour; **Effect** You cast a 4th-rank *charm* spell with a DC 38 Will save."
+  Sanguine Pendant (Greater):
+    traits:
+      - invested
+      - magical
+    level: 17
+    price: 1700000
+    bulk: 0
+    shortdesc: "This clear crystal pendant contains a drop of blood from a sorcerer that expands and contracts as you cast spells. A sanguine pendant is associated with a specific sorcerer bloodline, and only sorcerers with that bloodline can invest this item. This item gains the trait matching the tradition of that bloodline. The pendant grants a +3 item bonus to both of your bloodline skills.%r%r**Activate--Blood's Call** f (concentrate); **Frequency** once per day; **Effect** You gain 1 Focus Point, which you can spend only to cast a bloodline spell. If you don't spend this Focus Point by the end of this turn, it's lost.%r%r**Craft Requirements** You're a sorcerer with the associated bloodline."
+  Sash of Prowess (Greater):
+    traits:
+      - focused
+      - invested
+      - magical
+    level: 17
+    price: 1300000
+    bulk: 0
+    bonus:
+      Acrobatics: 3
+      Athletics: 3
+    shortdesc: "This humble sash can be worn around the waist or across the chest. A sash of prowess often bears a coloration or a pattern that represents the monastery in which you trained but can also sport religious symbology. You gain a +3 item bonus to Acrobatics and Athletics skill checks.%r%r**Activate--Effortless Mastery** f (concentrate); **Frequency** once per day; **Trigger** You succeed at an Acrobatics or Athletics skill check; **Effect** You critically succeed instead.%r%r**Activate--Reserves of Inner Strength** f (concentrate); **Frequency** once per day; **Effect** You gain 1 Focus Point, which you can spend only to cast a qi spell. If you don't spend this Focus Point by the end of this turn, it's lost.%r%r**Craft Requirements** You're a monk who can cast qi spells."
+  Spellstrike Ammunition (Type VIII):
+    traits:
+      - consumable
+      - magical
+    level: 17
+    price: 300000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 8th"
+  Vorpal:
+    traits:
+      - rare
+      - magical
+    level: 17
+    price: 1500000
+    bulk: 0
+    shortdesc: "Originally created as a means of slaying the legendary jabberwock, *vorpal* weapons prove equally effective against nearly any foe with a head.%r%r**Activate--Snicker-Snack** Reaction (concentrate, death, incapacitation); **Trigger** You roll a natural 20 on a Strike with the weapon against a creature that has a head, critically succeed, and deal slashing damage; **Effect** The target must succeed at a DC 37 Fortitude save or be decapitated. This kills any creature except ones that don't require a head to live. For creatures with multiple heads, this usually kills the creature only if you sever its last head."
+  Wand of Continuation (7th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 17
+    price: 1500000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 18 Magic Items
+  Countering Charm (Major):
+    traits:
+      - uncommon
+      - invested
+      - magical
+    level: 18
+    price: 2000000
+    bulk: 0.1
+    shortdesc: "This glittering charm is made of a gemstone flawed with a leaden inclusion. Spellcasters can cast spells into *countering charms* that they've invested or that are invested by a willing creature. The spell's effect doesn't occur; the spell's power is instead stored within the charm, replacing any spell previously there. The charm can hold only spells cast from spell slots, not cantrips or focus spells. While the charm is invested, the creature who has invested it knows what spell is stored within and automatically identifies that spell when it's cast.%r%r**Activate--Counter** Reaction (manipulate); **Trigger** You are targeted by or within the area of the spell stored within the charm; **Requirements** You have a free hand; **Effect** You present the charm and attempt to counteract the triggering spell, using the rank of the spell stored in the charm and a counteract modifier of +30. This expends the spell held in the charm."
+  Crown of Witchcraft (Greater):
+    traits:
+      - focused
+      - invested
+      - magical
+    level: 18
+    price: 2100000
+    bulk: 0
+    bonus:
+      Intimidation: 2
+    shortdesc: "An elegant accoutrement for a witch who has come into the higher echelons of power, a *crown of witchcraft* typically looks like a garland of flowering twigs, a jeweled circlet, or a tall hat of fine fabric. You gain a +2 item bonus to Intimidation checks, and if you're a witch, you gain a +3 item bonus to your patron skill.%r%rIf you have a familiar, you can attach a small portion of the crown's material to your familiar, such as a strip of fabric from a hat tied around its tail or a sprig of natural material linked to its collar; the familiar doesn't need to invest the item itself. If you do this, your familiar gains the tough pet ability as long as the crown is invested by you.%r%r**Activate--Defiant Hex** Free Action (concentrate); **Frequency** once per day; **Effect** Gain 1 Focus Point, which you can spend only to cast a witch hex spell. If you don't spend this point by the end of this turn, it is lost.%r%r**Craft Requirements** You are a witch."
+  Inexplicable Apparatus:
+    traits:
+      - invested
+      - magical
+    level: 18
+    price: 1900000
+    bulk: 2
+    shortdesc: "This strange and intricate harness fits snugly to the torso. Once you invest the apparatus, numerous artificial limbs with various tools, clamps, and lenses whirl into action, following your mental commands effortlessly.%r%rWhen using this apparatus, you gain a +3 item bonus to Crafting checks to Craft, Earn Income, and Repair, and you reduce the minimum time required to Craft an item to 1 day.%r%rIf you succeed at your Crafting check and spend more downtime to continue work on the item after the minimum number of days, each day you spend reduces the remaining raw material cost by an amount based on your level + 1 and your proficiency rank in Crafting; on a critical success, each day reduces the remaining raw material cost by an amount based on your level + 2 and your proficiency rank. If you are 20th level, on a critical success your progress is 50 gp, 100 gp, 200 gp, or 350 gp for trained, expert, master, or legendary proficiency, respectively.%r%r**Activate--Inexplicable Patch** 2 actions (concentrate, manipulate); **Frequency** once per day; **Effect** You command the apparatus to magically jury-rig an item you hold or that's within 5 feet of you. The item is repaired, as a 3rd-rank *mending* spell. This lasts for 10 minutes, after which the item returns to its previous state of disrepair unless you've Repaired it before then."
+  Maestro's Instrument (Greater):
+    traits:
+      - magical
+    level: 18
+    price: 1900000
+    bulk: 1
+    shortdesc: "A *maestro's instrument* can be crafted in the form of any variety of handheld musical instruments. A *maestro's instrument* grants you a +3 item bonus to Performance checks while playing music with the instrument.%r%r**Activate--Charming Performance** 2 actions (manipulate); **Frequency** once per day; **Effect** You play the instrument, causing it to cast a 8th-rank *charm* spell with DC 38.%r%r**Craft Requirements** You must supply a casting of *charm* of the appropriate rank."
+  Marvelous Medicines (Greater):
+    traits:
+      - magical
+    level: 18
+    price: 1900000
+    bulk: 1
+    bonus:
+      Medicine: 3
+    shortdesc: "This healer's toolkit contains a seemingly endless supply of bandages, herbs, and healing items of impeccable quality, granting you a +3 item bonus to Medicine checks.%r%rIf you use the *marvelous medicines* when you Treat Poison or Treat Disease, before you roll your check, the medicines attempt to counteract the poison or disease you're treating, with a counteract rank of 8 and a counteract modifier of +30. This is a healing effect.%r%rThe medicines can't be used to treat the same affliction for that patient again"
+  Obsidian Goggles (Major):
+    traits:
+      - invested
+      - magical
+    level: 18
+    price: 2000000
+    bulk: 0
+    shortdesc: "The sleek, black lenses of these goggles somehow make everything seem more brightly lit. While wearing the goggles, you gain a +3 item bonus to Perception checks involving sight.%r%r**Activate--Darkvision** 1 action (manipulate); **Frequency** any number of times per day; **Effect** Adjusting your goggles, you gain *greater darkvision* until you deactivate it as an Interact action or the item is no longer invested by you, whichever comes first."
+  Possibility Tome:
+    traits:
+      - magical
+    level: 18
+    price: 2200000
+    bulk: 2
+    shortdesc: "An array of semiprecious stones is set into the ornate silver and beaten copper cover of this thick and weighty tome. If you open the book before it's been activated, its vellum pages are blank and pristine, but once activated, words dance and swim onto the pages before your eyes.%r%r**Activate--Skim** 10 minutes (concentrate, manipulate); **Effect** As you flip through the book, you think about a broad topic you want to know more about.%r%rChoose one skill: Arcana, Crafting, Medicine, Nature, Occultism, Religion, Society, or a single subcategory of Lore. The book's pages fill with information about that skill, though only you can see the information.%r%rWhile the pages are full, you can spend an Interact action perusing the book just before attempting a check to Recall Knowledge with the chosen skill. This grants you a +3 item bonus to the check, and if you roll a critical failure, you get a failure instead.%r%rThe information within the book disappears after 24 hours or when the tome is activated again."
+  Ring of Maniacal Devices (Greater):
+    traits:
+      - invested
+      - magical
+    level: 18
+    price: 2100000
+    bulk: 0
+    shortdesc: "This magic ring seems like simple tarnished brass, but it enhances your curiosity about traps and devices of all kinds.%r%rYou can use an Interact action to pull a *thieves' toolkit* from the ring. This toolkit appears in your hand and any part of it folds back into the ring if they would leave your possession.%r%rThey grant you a +3 item bonus to Thievery checks to Disable a Device and to Pick a Lock, and the ring's insights grant you the same bonus to Crafting checks to Craft and Repair snares and traps.%r%r**Activate--Fireball Trap** 10 minutes (manipulate); **Frequency** once per day; **Effect** You create the effects of a *rune trap* ritual containing your choice of either a 7th-rank *howling blizzard* or 7th-rank *fireball*. You can have only one trapped rune from a *ring of maniacal devices* active at a time, even if you have multiple rings, and the rune disappears if you lose your investiture in the ring."
+  Wand of Widening (8th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 18
+    price: 2400000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  # Level 19 Magic Items
+  Crystal Ball (Obsidian):
+    traits:
+      - uncommon
+      - magical
+      - scrying
+    level: 19
+    price: 3200000
+    bulk: 0.1
+    shortdesc: "This polished crystal sphere enhances scrying magic. Any visual information received through a spell with the scrying trait that was cast by the *crystal ball* appears within the sphere, and any auditory information sounds out from the surface of the sphere. When you cast a spell with the scrying trait by any other means while holding the sphere, you can relay any information you receive in the same way, allowing others to see or hear the target.%r%r**Activate--Clairvoyance** 1 minute (concentrate, manipulate); **Frequency** once per hour; **Effect** The *crystal ball* casts *clairvoyance* to your specifications.%r%r**Activate--Scrying** 10 minutes (concentrate, manipulate); **Frequency** twice per day; **Effect** The *crystal ball* casts a DC 41 Will *scrying* spell to your specifications, with the benefits of *truesight* for anything you watch through it."
+  Eternal Eruption of Toponi:
+    traits:
+      - fire
+      - magical
+    level: 19
+    price: 4000000
+    bulk: 0.1
+    shortdesc: "Resembling *frozen lava*, an eternal eruption is made with the same type of time magic, but is built to loop through time, reforming itself after it's used. Determining the difference between the two requires a close examination to see a faint, repeating pattern of red runes.%r%r**Activate--Lava Bomb** 2 actions (concentrate, manipulate); **Effect** You fling the *eternal eruption*, with the effect of **frozen lava of Toponi**. After 2d4 hours, the *eternal eruption* reforms itself in a container on your person, typically the one you most recently stored it in.%r%r*Eternal Eruption of Toponi* deals 19d6 fire damage on a DC 43 basic Reflex save."
+  Guise of the Smirking Devil (Greater):
+    traits:
+      - auditory
+      - invested
+      - magical
+      - void
+    level: 19
+    price: 3500000
+    bulk: 0
+    bonus:
+      Intimidation: 3
+    shortdesc: "This ice-blue half-mask is adorned with a wicked silver grin that covers the wearer's mouth, leaving the rest of the face uncovered. You gain a +3 item bonus to Intimidation checks.%r%r**Activate--Hideous Wail** 2 actions (concentrate, manipulate); **Frequency** once per day; **Effect** The mask casts a 9th-rank *wails of the damned*%r%rEach living creature in a 40-ft emanation takes 8d10 void damage and must attempt a DC 41 Fortitude save.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes full damage.%r**Failure** The creature takes full damage and is drained 1d4.%r**Critical Failure** The creature takes double damage and is drained 4."
+  Reinforcing Rune (Supreme):
+    traits:
+      - magical
+    level: 19
+    price: 3200000
+    bulk: 0
+    shortdesc: "Reinforcing runes make a shield significantly more durable, allowing it to effectively block more powerful attacks.%r%rThe shield's Hardness increases by 7, it gains an additional 108 Hit Points, and its BT increases by 54 (maximum 20 Hardness, 160 HP, and 80 BT)."
+  Spellstrike Ammunition (Type IX):
+    traits:
+      - consumable
+      - magical
+    level: 19
+    price: 800000
+    bulk: 0
+    shortdesc: "**Ammunition** any%r%r**Activate** 2 actions Cast a Spell%r%rMystic patterns create a magic reservoir within this ammunition. You activate *spellstrike ammunition* by Casting a Spell into the ammunition. The spell must be of a spell rank the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated *spellstrike ammunition* is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.%r%rThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC. Combine the Strike and spell's damage for the purpose of resistances and weaknesses.%r%rThe maximum rank of spell the ammunition can hold determines its item level and Price.%r%rMaximum Spell Rank 10th"
+  Third Eye:
+    traits:
+      - invested
+      - magical
+    level: 19
+    price: 4000000
+    bulk: 0
+    shortdesc: "When invested, this ornate crown and its incandescent gemstone meld into your head and take the form of a tattoo. This grants you otherworldly sight and allows you to read auras. No one but you can manipulate the *third eye* while it's invested by you. Your heightened senses and ability to sense emotional auras grant you a +3 item bonus to Perception checks.%r%rYou continuously see magic auras, as a 9th-rank *detect magic* spell, except you see the location of all auras within 30 feet, not just the strongest. If you use a Seek action to study a creature you can see, you can perceive an aura that conveys knowledge of that creature's health, including all conditions and afflictions it has and an approximate percentage of its remaining Hit Points.%r%r**Activate--Truesight** 2 actions (concentrate); **Frequency** once per day; **Effect** You gain the effects of an 8th-rank *truesight* spell."
+  Wand of Continuation (8th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 19
+    price: 4000000
+    bulk: 0.1
+    shortdesc: "This wand increases a spell's duration. Yellow embers spiral over its surface until the spell ends.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally takes 2 actions%r%r**Effect** You Cast the Spell, and its duration is increased by half.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions and a duration no less than 10 minutes and no greater than 1 hour."
+  # Level 20 Magic Items
+  Bands of Force (Major):
+    traits:
+      - force
+      - invested
+      - magical
+    level: 20
+    price: 7000000
+    bulk: 0.1
+    shortdesc: "Decorated with clear gemstones, these thick metal bands spread an inflexible layer of force over your body. The force grants you a +3 item bonus to AC and saving throws, and a maximum Dexterity modifier of +5 as armor. You can affix talismans to the bands as though they were light armor.%r%r**Activate--Return Force** Reaction (force, manipulate); **Trigger** A creature critically misses you with a melee Strike; **Effect** You Shove the creature using the bands' Athletics modifier of +33."
+  Cloth of Nullification:
+    traits:
+      - rare
+      - magical
+    level: 20
+    price: 7500000
+    bulk: 1
+    shortdesc: "This small piece of embroidered cloth is inimical to all magic.%r%r**Activate--Nullify Magic** 2 actions (manipulate); **Effect** You cover a magic item with the cloth or wave the cloth near a magic effect and attempt to counteract the effect or item. The cloth's counteract check modifier is +32, and its counteract rank is 10. Regardless of the result, the cloth of nullification can't be activated again for 2d6 hours. On a success, the effect or item is deactivated for the same amount of time, and its duration, if any, continues to expire during that time. With a successful counteract check, you can instead choose to completely absorb the magic from the effect or item into the cloth of nullification. If you do, both become completely non-magical and their magic can't be recovered, even by the remake spell.%r%rThe cloth of nullification automatically fails to counteract most artifacts and similarly powerful items."
+  Wand of Widening (9th-Rank Spell):
+    traits:
+      - magical
+      - wand
+    level: 20
+    price: 7000000
+    bulk: 0.1
+    shortdesc: "The end of this wand is forked with a peridot setting.%r%r**Activate** Cast a Spell; The activation takes 2 actions if the spell normally takes 1 action to cast, or 3 actions if the spell normally take 2 actions%r%r**Effect** You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.%r%r**Craft Requirements** Supply a casting of a spell of the appropriate rank. The spell must have a casting time of 1 action or 2 actions , can't have a duration, and must have an area of burst (10 feet or more), cone, or line."
+  Whisper of the First Lie:
+    traits:
+      - rare
+      - invested
+      - magical
+    level: 20
+    price: 6000000
+    bulk: 0
+    bonus:
+      Deception: 3
+    shortdesc: "This delicate necklace contains bottled whispers distilled from a divine source rumored to be connected to the first lie ever told.%r%rWhile wearing the necklace, you gain a +3 item bonus to Deception checks, and you can attempt to counteract effects that would force you to tell the truth or determine whether you are lying.%r%rSuccess on this counteract attempt lets you ignore the effect, rather than removing the effect entirely. The counteract rank is 9, with a counteract modifier of +35.%r%r**Activate--Release the Lie** 3 actions (concentrate, manipulate); **Effect** You unstopper the vial and release the lie, creating the effect of a *fabricated truth* (DC 47). The vial is emptied and can never be activated again.%r%r**Craft Requirements** Supply a casting of *fabricated truth*."

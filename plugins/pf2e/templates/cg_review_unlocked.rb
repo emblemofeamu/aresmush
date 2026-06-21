@@ -170,10 +170,6 @@ module AresMUSH
 
       end
 
-      def ancestry_flaw
-        @ancestry_info["abl_flaw"] ? @ancestry_info["abl_flaw"] : "None."
-      end
-
       def bg_boosts
         list = @background_info["abl_boosts"] ? @background_info["abl_boosts"] : []
 
@@ -229,7 +225,7 @@ module AresMUSH
       end
 
       def languages
-        @ancestry_info['languages'] ? @ancestry_info['languages'].sort.join(", ") : "Tradespeak"
+        @ancestry_info['languages'] ? @ancestry_info['languages'].uniq.sort.join(", ") : "Kamin"
       end
 
       def charclass_skills

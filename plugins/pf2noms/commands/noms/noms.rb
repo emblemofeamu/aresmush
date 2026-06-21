@@ -22,7 +22,7 @@ module AresMUSH
 
       def handle
 
-        is_staffer = enactor.has_permission("manage_alts") ? true : false
+        is_staffer = enactor.has_permission?("manage_alts") ? true : false
 
         if is_staffer
           result = ClassTargetFinder.find(self.char, Character, enactor)

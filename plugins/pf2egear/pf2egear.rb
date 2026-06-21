@@ -64,9 +64,18 @@ module AresMUSH
         return PF2UseItemCmd
       when "listmoney"
         return PF2ListMoneyCmd
+      when "etch"
+        case cmd.switch
+          when"potency"
+            return PF2EtchPotencyCmd
+          when "striking"
+            return PF2EtchPowerCmd
+          when "resilient"
+            return PF2EtchPowerCmd
+          when "property"
+            return PF2EtchPropertyCmd
+          end
       end
-
-      nil
     end
 
     def self.get_event_handler(event_name)

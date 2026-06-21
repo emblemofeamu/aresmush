@@ -1,0 +1,267 @@
+---
+pf2e_archetype:
+  Alchemist Archetype:
+    key_abil:
+      - Intelligence
+    initial_dedication:
+      archetype_feature:
+        - Infused Reagents
+      combat_stats:
+        archetype_class_dc: trained
+      skills:
+        - Crafting
+      feat:
+        - Alchemical Crafting
+      action: []
+      reaction: []
+      reagents:
+        alchemist_archetype: [0, 0, 0]
+  Barbarian Archetype:
+    key_abil:
+      - Strength
+    initial_dedication:
+      archetype_feature:
+        - Rage
+      combat_stats:
+        archetype_class_dc: trained
+      skills:
+        - Athletics
+      action: []
+      reaction: []
+  Bard Archetype:
+    key_abil:
+      - Charisma
+    initial_dedication:
+      skills:
+        - Occultism
+        - Performance
+      combat_stats:
+        archetype_class_dc: trained
+      magic_stats:
+        tradition:
+          occult: trained
+        repertoire:
+          cantrip: 2
+        spell_abil: Charisma
+      action:
+        - Cast a Spell
+      reaction: []
+  Champion Archetype:
+    use_deity: true
+    allowed_alignments:
+      - OL
+      - WL
+      - OT
+      - WT
+    key_abil:
+      - Strength
+      - Dexterity
+    initial_dedication:
+      skills:
+        - Religion
+      combat_stats:
+        weapon_prof:
+          simple: trained
+          martial: trained
+          unarmed: trained
+          deity: trained
+        armor_prof:
+          light: trained
+          medium: trained
+          heavy: trained
+          unarmored: trained
+        archetype_class_dc: trained
+      magic_stats:
+        tradition:
+          divine: trained
+        spell_abil: Charisma
+      action: []
+  Cleric Archetype:
+    use_deity: true
+    key_abil:
+      - Wisdom
+    initial_dedication:
+      skills:
+        - Religion
+      combat_stats:
+        archetype_class_dc: trained
+      magic_stats:
+        spell_abil: Wisdom
+        tradition:
+          divine: trained
+        spells_per_day:
+          cantrip: 2
+      action:
+        - Cast a Spell
+      reaction: []
+  Druid Archetype:
+    key_abil:
+      - Wisdom
+    initial_dedication:
+      languages:
+        - Druidic
+      skills:
+        - Nature
+      magic_stats:
+        tradition:
+          primal: trained
+        spell_abil: Wisdom
+        spells_per_day:
+          cantrip: 2
+      action:
+        - Cast a Spell
+      combat_stats:
+        archetype_class_dc: trained
+    anathema:
+      - "Character must not teach the Druidic language to a non-druid."
+      - "Character is not permitted to wear metal armor or carry metal shields."
+      - "Character must not take actions that despoil natural places."
+  Fighter Archetype:
+    key_abil:
+      - Strength
+      - Dexterity
+    initial_dedication:
+      combat_stats:
+        weapon_prof:
+          simple: trained
+          martial: trained
+        archetype_class_dc: trained
+      skill choice:
+        - Acrobatics
+        - Athletics
+  Investigator Archetype:
+    key_abil:
+        - Intelligence
+    initial_dedication:
+      skills:
+        - Society
+        - open
+      archetype_feature:
+        - On the Case
+      combat_stats:
+        archetype_class_dc: trained
+      action:
+        - Pursue A Lead
+      reaction:
+        - Clue In
+  Monk Archetype:
+    key_abil:
+      - Strength
+      - Dexterity
+    initial_dedication:
+      archetype_feature:
+        - Powerful Fist
+      skill choice:
+        - Acrobatics
+        - Athletics
+      combat_stats:
+        weapon_prof:
+          unarmed: trained
+        archetype_class_dc: trained
+      action: []
+      reaction: []
+  Oracle Archetype:
+    key_abil:
+      - Charisma
+    initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
+      magic_stats:
+        tradition:
+          divine: trained
+        spell_abil: Charisma
+        repertoire:
+          cantrip: 2
+      action: []
+      reaction: []
+  Ranger Archetype:
+    key_abil:
+      - Strength
+      - Dexterity
+    initial_dedication:
+      skills:
+        - Survival
+      combat_stats:
+        archetype_class_dc: trained
+      action:
+        - Hunt Prey
+      reaction: []
+  Rogue Archetype:
+    key_abil:
+      - Dexterity
+    initial_dedication:
+      skills:
+        - open
+      skill choice:
+        - Stealth
+        - Thievery
+      choose_feat:
+        - skill
+      archetype_feature:
+        - Surprise Attack
+      combat_stats:
+        armor_prof:
+          light: trained
+        archetype_class_dc: trained
+      action: []
+      reaction: []
+  Sorcerer Archetype:
+    key_abil:
+      - Charisma
+    initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
+      magic_stats:
+        spell_abil: Charisma
+        repertoire:
+          cantrip: 2
+      action: []
+      reaction: []
+  Swashbuckler Archetype:
+    key_abil:
+      - Dexterity
+    HP: 10
+    chargen:
+      archetype_feature:
+        - Stylish Combatant
+        - Panache
+      choose_feat:
+        - charclass
+      combat_stats:
+        archetype_class_dc: trained
+      action: []
+      reaction: []
+  Witch Archetype:
+    key_abil:
+      - Intelligence
+    initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
+      magic_stats:
+        spell_abil: Intelligence
+        spells_per_day:
+          cantrip: 1
+        spellbook:
+          cantrip: 2
+      action:
+        - Cast a Spell
+      reaction: []
+  Wizard Archetype:
+    key_abil: 
+      - Intelligence
+    initial_dedication:
+      combat_stats:
+        archetype_class_dc: trained
+      skills:
+        - Arcana
+      magic_stats:
+        tradition:
+          arcane: trained
+        spell_abil: Intelligence
+        spells_per_day:
+          cantrip: 2
+        spellbook:
+          cantrip: 4
+      action:
+        - Cast a Spell
+      reaction: []

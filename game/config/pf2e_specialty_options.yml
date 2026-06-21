@@ -21,99 +21,490 @@ pf2e_subclass:
       2: Glitterdust
       5: Wall of Stone
       8: Earthquake
+  get_elemental_spell:
+    Air:
+      0: Gale Blast
+      1: Tailwind
+      3: Wall of Wind
+      6: Chain Lightning
+    Earth:
+      0: Scatter Scree
+      1: Pummeling Rubble
+      3: Earthbind
+      6: Petrify
+    Fire:
+      0: Ignition
+      1: Breathe Fire
+      3: Fireball
+      6: Tree of Seasons
+    Metal:
+      0: Electric Arc
+      1: Thunderstrike
+      3: Lightning Bolt
+      6: Chain Lightning
+    Water:
+      0: Frostbite
+      1: Hydraulic Push
+      3: Aqueous Orb
+      6: Scintillating Safeguard
+    Wood:
+      0: Tangle Vine
+      1: Cleanse Cuisine
+      3: Wall of Thorns
+      6: Tangling Creepers
+  get_dragon_spell:
+    Avarice:
+      2: Paranoia
+      5: Synaptic Pulse
+      8: Unrelenting Observation
+    Bestial:
+      2: One with Plants
+      5: Toxic Cloud
+      8: Desiccate
+    Brine:
+      2: Water Breathing
+      5: Corrosive Muck
+      8: Dessicate
+    Cloud:
+      2: Resist Energy
+      5: Howling Blizzard
+      8: Punishing Winds
+    Crystal:
+      2: Expeditious Excavation
+      5: Wall of Stone
+      8: Earthquake
+    Diabolic:
+      2: Blood Vendetta
+      5: Divine Immolation
+      8: Canticle of Everlasting Grief
+    Empyreal:
+      2: Share Life
+      5: Breath of Life
+      8: Divine Inspiration
+    Forest:
+      2: Animal Messenger
+      5: Nature's Pathway
+      8: Punishing Winds
+    Fortune:
+      2: Invisibility
+      5: Scouting Eye
+      8: Uncontrollable Dance
+    Madness:
+      2: Clear Mind
+      5: Overwhelming Memory
+      8: Dream Council
+    Magma:
+      2: Revealing Light
+      5: Toxic Cloud
+      8: Rainbow Fumarole
+    Mirage:
+      2: See the Unseen
+      5: Hallucination
+      8: Disappearance
+    Ossuary:
+      2: Spirit Sense
+      5: Invoke Spirits
+      8: Moment of Renewal
+    Terra:
+      2: Shatter
+      5: Impaling Spike
+      8: Earthquake
+    Umbral:
+      2: Reaper's Lantern
+      5: Shadow Blast
+      8: Disappearance
+  Dragon Exemplar:
+    Avarice:
+      chargen:
+        magic_stats:
+          tradition:
+            occult: trained
+        skills:
+          - Intimidation
+          - Occultism
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              occult: expert
+        15:
+          magic_stats:
+            tradition:
+              occult: master
+        19:
+          magic_stats:
+            tradition:
+              occult: legendary
+    Bestial:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Brine:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Cloud:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Crystal:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Diabolic:
+      chargen:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Intimidation
+          - Religion
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              divine: expert
+        15:
+          magic_stats:
+            tradition:
+              divine: master
+        19:
+          magic_stats:
+            tradition:
+              divine: legendary
+    Empyreal:
+      chargen:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Intimidation
+          - Religion
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              divine: expert
+        15:
+          magic_stats:
+            tradition:
+              divine: master
+        19:
+          magic_stats:
+            tradition:
+              divine: legendary
+    Forest:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Fortune:
+      chargen:
+        magic_stats:
+          tradition:
+            arcane: trained
+        skills:
+          - Intimidation
+          - Arcana
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              arcane: expert
+        15:
+          magic_stats:
+            tradition:
+              arcane: master
+        19:
+          magic_stats:
+            tradition:
+              arcane: legendary
+    Madness:
+      chargen:
+        magic_stats:
+          tradition:
+            occult: trained
+        skills:
+          - Intimidation
+          - Occultism
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              occult: expert
+        15:
+          magic_stats:
+            tradition:
+              occult: master
+        19:
+          magic_stats:
+            tradition:
+              occult: legendary
+    Magma:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Mirage:
+      chargen:
+        magic_stats:
+          tradition:
+            arcane: trained
+        skills:
+          - Intimidation
+          - Arcana
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              arcane: expert
+        15:
+          magic_stats:
+            tradition:
+              arcane: master
+        19:
+          magic_stats:
+            tradition:
+              arcane: legendary
+    Ossuary:
+      chargen:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Intimidation
+          - Religion
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              divine: expert
+        15:
+          magic_stats:
+            tradition:
+              divine: master
+        19:
+          magic_stats:
+            tradition:
+              divine: legendary
+    Terra:
+      chargen:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Intimidation
+          - Nature
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              primal: expert
+        15:
+          magic_stats:
+            tradition:
+              primal: master
+        19:
+          magic_stats:
+            tradition:
+              primal: legendary
+    Umbral:
+      chargen:
+        magic_stats:
+          tradition:
+            occult: trained
+        skills:
+          - Intimidation
+          - Occultism
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              occult: expert
+        15:
+          magic_stats:
+            tradition:
+              occult: master
+        19:
+          magic_stats:
+            tradition:
+              occult: legendary
   Dragon Types:
-    Black:
-      element: acid
-      shape: line
-    Blue:
-      element: electricity
-      shape: line
-    Green:
+    Avarice:
       element: poison
-      shape: cone
-    Red:
-      element: fire
-      shape: cone
-    White:
-      element: cold
-      shape: cone
-    Brass:
-      element: fire
-      shape: line
-    Bronze:
-      element: electricity
-      shape: line
-    Copper:
+    Bestial:
+      element: poison
+    Brine:
       element: acid
-      shape: line
-    Gold:
+    Cloud:
+      element: electricity
+    Crystal:
+      element: piercing
+    Diabolic:
       element: fire
-      shape: cone
-    Silver:
-      element: cold
-      shape: cone
+    Empyreal:
+      element: spirit
+    Forest:
+      element: piercing
+    Fortune:
+      element: force
+    Madness:
+      element: mental
+    Magma:
+      element: fire
+    Mirage:
+      element: mental
+    Ossuary:
+      element: spirit
+    Terra:
+      element: bludgeoning
+    Umbral:
+      element: void
   wizard_school_spells:
-    Abjuration:
+    Department of Mana Syntaxia:
       magic_stats:
         focus_pool: 1
         focus_spell: 
           school:
-          - Protective Ward
-        gated_spell: school
-    Conjuration: 
+            - Protective Wards
+    Department of Accordant Conjury: 
       magic_stats:
         focus_pool: 1
         focus_spell: 
           school:
-          - Augment Summoning
-        gated_spell: school
-    Divination:
+            - Force Bolt
+    Department of Urban Thaumaturgy:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-          - Diviner's Sight
-        gated_spell: school
-    Enchantment:
+            - Earthworks
+    Department of Defensive Cerebralism:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-          - Charming Words
-        gated_spell: school
-    Evocation:
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-          - Force Bolt
-        gated_spell: school
-    Illusion:
+            - Charming Push
+    Department of Mutable Modification:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-          - Warped Terrain
-        gated_spell: school
-    Necromancy:
+            - Scramble Body
+    Department of Null's Purview:
       magic_stats:
         focus_pool: 1
         focus_spell:
           school:
-          - Call Of The Grave
-        gated_spell: school
-    Transmutation:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-          - Physical Boost
-        gated_spell: school
-    Universalist:
+            - Fortify Summoning
+    School of Unified Magical Theory:
       magic_stats:
       # This key overwrites the base wizard class key for this, this is intentional
         spellbook:
           cantrip: 10
           1: 6
         gated_feat: universalist
-
+        focus_pool: 1
+        focus_spell:
+          school:
+            - Hand of the Apprentice

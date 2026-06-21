@@ -17,10 +17,12 @@ module AresMUSH
         [ self.target, self.award ]
       end
 
-      def check_can_award
-        return nil if enactor.has_permission?('award_xp')
-        return t('dispatcher.not_allowed')
-      end
+      # Commenting out for PlayTest
+      # def check_can_award
+      #   return nil if enactor.has_permission?('award_xp')
+      #   return t('dispatcher.not_allowed')
+      #    return nil
+      # end
 
       def check_valid_award
         return nil unless self.award.zero?

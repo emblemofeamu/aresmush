@@ -33,6 +33,7 @@ nginx.default
 sitemap.xml
 redis/
 .bundle
+tmp_export
 
 # Process ID scripts
 # -----------------------------
@@ -45,3 +46,7 @@ killares
 # -----------------------------
 /game/uploads
 /theme_archive
+
+# Emblem of Ea Specific Files
+# -----------------------------
+/plugins/tinker/commands/tinker_cmd.rb

@@ -13,10 +13,10 @@ module AresMUSH
         [ self.name ]
       end
       
-      def check_permission
-        return t('dispatcher.not_allowed') if !Chargen.can_approve?(enactor)
-        return nil
-      end
+      #def check_permission
+      #  return t('dispatcher.not_allowed') if !Chargen.can_approve?(enactor)
+      #  return nil
+      #end
       
       def handle
         ClassTargetFinder.with_a_character(self.name, client, enactor) do |model|

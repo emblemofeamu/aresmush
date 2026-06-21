@@ -3,7 +3,6 @@ toc: 3 - Creating a Character
 summary: Viewing and setting character prologues.
 aliases:
 - bio
-- bg
 - prologue
 ---
 # Prologues
@@ -14,7 +13,7 @@ Prologues let you specify your character's backstory. We are not looking for a n
 * Why are they here?
 * Anything noteworthy about your character
 
-When typing up your background in-client, please use %%r to separate paragraphs.
+When typing up your background in-client, please use \%r to separate paragraphs.
 
 `prologue/set <prologue>` - Sets your prologue. 
 `prologue` - Views your prologue.

@@ -27,16 +27,18 @@ There are six categories of gear in Emblem of Ea's inventory system.
 `gear/rename <category>/<item number> = <nickname>`: Give a weapon, armor, magic item, bag, or shield a nickname. This can be helpful to identify which item is which at a glance.
 `item/view <category> = <item number>`: See more details about a weapon, armor, shield, or magic item. (Alias: `gear/view`)
 
+For equipping and investing gear, see `help equip`.
+
 ## Bag Commands
 
 These commands are specifically related to managing bags. You must buy a bag before you can use it to manage your gear.
 
-`bag <#>`: View the contents of bag <#>.
-`bag/store <category>/<item number> = <#>`: Stores <item> in <category> from your inventory in bag number <#>. (Alias: `bag/put`)
-`bag/retrieve <category>/<item number> = <#>`: Retrieves <item> in <category> from bag number <#> and places it in your inventory. (Alias: `bag/get`)
+`bag <#>`: View the contents of bag `<#>`.
+`bag/store <category>/<item number> = <#>`: Stores `<item>` in `<category>` from your inventory in bag number `<#>`. (Alias: `bag/put`)
+`bag/retrieve <category>/<item number> = <#>`: Retrieves `<item>` in `<category>` from bag number `<#>` and places it in your inventory. (Alias: `bag/get`)
 
 ## Using Items
 
 Using items in PF2 is not limited to consumables. Not all items can be used. If you think an item should be usable and is not, bring it to the attention of the game admins. 
 
-`use <category> = <item number>[/<option>]`: Uses an item in your inventory. <option> should only be specified if there is more than one possible use for the item, which is true of some weapons and magic items. `item/view` should tell you whether this is the case.
+`use <category> = <item number>[/<option>]`: Uses an item in your inventory. `<option>` should only be specified if there is more than one possible use for the item, which is true of some weapons and magic items. `item/view` should tell you whether this is the case.

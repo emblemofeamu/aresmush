@@ -16,15 +16,24 @@ XP rewards per plot are shared publicly on the wiki and may be reviewed there. Y
 
 Note that you cannot `advance` if you are in an active encounter. Scenes are fine, but you cannot advance in the middle of combat.
 
-## Commands
+## General Advancement Commands
+The following commands are broadly useful for the advancement process.
 
-`listxp [<player>]`: View a history of your XP rewards and spends. Those with the _manage_alts_ permission can use the argument to see others' lists. Without it, it will display yours.
-`advance`: Begins the advancement process. No modification to your sheet is made until you enter `advance/done`. 
-`advance/review`: Your guidebook for what you get and the options you need to select. (Alias: `adv/review`)
-`advance/raise <ability or skill> = <ability or skill to raise>`: If adv/review indicates that you have an ability or skill to raise, use this. It will automatically take the current value up one step, so no value specification is necessary, only the skill or ability.
-`advance/feat <type> = <feat>`: If advance/review indicates a feat to select, use this. Dedication feats are selected with class (charclass) feats.
-`advance/option <item> = <option>`: Some feats or class features require you to choose something else. Use this command to select those.
-`advance/spell <type>/<level> = [<old spell>]/<spell>`: Selects a new spell. Type is either 'repertoire' or 'spellbook'. Note that you must either specify the spell to replace or have an open slot.
-`advance/signature <spell>`: If advance/review indicates that this is needed, set a signature spell. 
+**Commands**:
+`listxp`: View a history of your XP rewards and spends.
+`advance`: Begins the advancement process. No modification to your sheet is made until you enter `advance/done`.
+`advance/review`: Your guidebook for what you get in advancement and the options you need to select. (Alternative alias: `adv/review`)
 `advance/done`: Locks your choices, takes you out of advancement mode, and updates your sheet. 
 `advance/reset`: Backs out of advancement and discards all changes.
+
+### Raising Abilities and Skills, and Learning Languages
+See `help advanceskills`, `help advanceabilities`, or `help advancelanguages`.
+
+### Selecting Feats and Class Features
+See `help advancefeats` or `help advancefeatures`.
+
+### Learning Spells
+See `help advancespells`.
+
+### Archetypes and Dedications
+See `help advancearchetypes` or `help advancededications`.

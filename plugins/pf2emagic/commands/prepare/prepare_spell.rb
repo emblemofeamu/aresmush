@@ -42,7 +42,13 @@ module AresMUSH
 
         # A spell level is either a cantrip or a number. Validate and normalize spell level expression.
 
-        level = self.spell_level.zero? ? "cantrip" : self.spell_level.to_s
+        level = if self.spell_level.nil?
+                  nil
+                elsif self.spell_level.zero?
+                  "cantrip"
+                else
+                  self.spell_level.to_s
+                end
 
         msg = Pf2emagic.prepare_spell(self.spell_name, enactor, self.caster_class, level, use_arcane_evo)
 

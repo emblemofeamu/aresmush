@@ -48,7 +48,7 @@ module AresMUSH
         available_items = list.select { |k,v| v['level'] <= charlevel }
 
         # Does that item exist in that category?
-        item = available_items.select { |k,v| k.downcase.match self.item_name }
+        item = available_items.select { |k,v| k.downcase.include? (self.item_name) }
 
         if item.size.zero?
           client.emit_failure t('pf2egear.not_found')

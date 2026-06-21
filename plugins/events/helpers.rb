@@ -126,7 +126,7 @@ module AresMUSH
           f.puts "DTSTART:#{Events.format_timestamp(event.starts)}\r\n"
           f.puts "DTSTAMP:#{Events.format_timestamp(event.updated_at)}\r\n"
           f.puts "SUMMARY:#{event.title}\r\n"
-          f.puts "DESCRIPTION:#{event.description.gsub("%r", "\r\n  ")}\r\n"
+          f.puts "DESCRIPTION:#{event.description&.gsub("%r", "\r\n  ") || ""}\r\n" # Riptide: Custom Ares change: resolving error if an event description is left blank
           f.puts "END:VEVENT\r\n"
         end
         

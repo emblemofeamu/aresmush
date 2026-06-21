@@ -1,24 +1,32 @@
 <%= header %>
 <%= center("#{title_color}Spell Information for #{name}", 78) %>
 <%= divider %>
-<% spell_details_by_charclass.each do |charclass| %>
+<% spell_details_by_charclass.each_with_index do |charclass, index| %>
+<% if index > 0 %>
+<%= divider %>
+<% end %>
 <%= charclass %>
 <% end %>
-
 <% if has_focus_spells %>
 <%= textline("Focus Spells") %>
 <%= revelation_lock_msg if revelation_locked -%>
-
-<% focus_spells.each do |spell| %>
+<% focus_spells.each do |spell| -%>
 <%= spell %>
-
+<% end -%>
 <% end %>
+<% if has_signature_spells %>
+<%= textline("Signature Spells") %>
+<% signature_spells.each do |spell| -%>
+<%= spell %>
+<% end -%>
 <% end %>
 <% if has_innate_spells %>
 <%= textline("Innate Spells") %>
-<% innate_spells.each do |spell| %>
+<% innate_spells.each do |spell| -%>
 <%= spell %>
-
+<% end -%>
+<%= innate_remaining_spells_today %>
 <% end %>
-<% end %>
+<%= divider %>
+<%= help_text %>
 <%= footer %>

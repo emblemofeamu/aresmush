@@ -6,11 +6,13 @@ module AresMUSH
 
     attribute :perception, :default => 'untrained'
     attribute :class_dc, :default => 'untrained'
+    attribute :archetype_class_dcs, :type => DataType::Hash, :default => {}
     attribute :key_abil
 
     attribute :armor_prof, :type => DataType::Hash, :default => {}
 
     attribute :weapon_prof, :type => DataType::Hash, :default => {}
+    attribute :weapon_group_prof, :type => DataType::Hash, :default => {}
 
     attribute :unarmed_attacks, :type => DataType::Hash, :default => {}
     attribute :defense, :type => DataType::Hash, :default => {}
@@ -73,6 +75,21 @@ module AresMUSH
           combat.update("#{key}": value)
         when 'class_dc'
           combat.update("#{key}": value)
+        when 'archetype_class_dcs'
+          existing = combat.archetype_class_dcs || {}
+
+          value.each_pair do |name, info|
+            existing[name] ||= {}
+            normalized_info = {}
+
+            (info || {}).each_pair do |info_key, info_value|
+              normalized_info[info_key.to_s] = info_value
+            end
+
+            existing[name].merge!(normalized_info)
+          end
+
+          combat.update(archetype_class_dcs: existing)
         when 'weapon_prof'
           profs = combat.weapon_prof
           value.each_pair do |type, new_prof|
@@ -99,7 +116,7 @@ module AresMUSH
       mod = Pf2e.get_linked_attr_mod(char, save)
       mod = 0 if !mod
 
-      item = Pf2egear.get_rune_value(Pf2eCombat.get_equipped_armor(char), 'fundamental', 'resilient')
+      item = Pf2egear.get_rune_value(Pf2eCombat.get_equipped_armor(char), 'fundamental', 'power')
       item_bonus = item ? item : 0
 
       prof_bonus + mod + item_bonus
@@ -116,6 +133,43 @@ module AresMUSH
       abil_mod = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, key_ability))
 
       10 + prof_bonus + abil_mod
+    end
+
+    def self.get_archetype_class_dcs(char)
+      combat_stats = char.combat
+
+      return {} if !combat_stats
+
+      archetype_dcs = combat_stats.archetype_class_dcs || {}
+      return {} if archetype_dcs.empty?
+
+      dc_hash = {}
+
+      archetype_dcs.each_pair do |archetype, info|
+        next if !info.is_a?(Hash)
+
+        prof = info['prof'] || info[:prof]
+        key_ability = info['key_abil'] || info[:key_abil]
+
+        if key_ability.to_s.strip.empty?
+          configured_key_abilities = Array(Global.read_config('pf2e_archetype', archetype, 'key_abil')).compact.map { |a| a.to_s.strip }.reject(&:empty?).uniq
+          key_ability = configured_key_abilities.first if configured_key_abilities.size == 1
+        end
+
+        next if prof.to_s.strip.empty?
+        next if key_ability.to_s.strip.empty?
+
+        prof_bonus = Pf2e.get_prof_bonus(char, prof)
+        abil_mod = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, key_ability))
+
+        dc_hash[archetype] = {
+          'dc' => 10 + prof_bonus + abil_mod,
+          'prof' => prof,
+          'key_abil' => key_ability
+        }
+      end
+
+      dc_hash
     end
 
     def self.calculate_ac(char)
@@ -160,9 +214,11 @@ module AresMUSH
       combat = char.combat
 
       char_wp_prof = combat.weapon_prof ? combat.weapon_prof : {}
+      group_profs = combat.weapon_group_prof ? combat.weapon_group_prof : {}
 
       wp_info = Global.read_config('pf2e_weapons', name)
       wp_cat = wp_info['category']
+      wp_group = wp_info['group']
 
       prof_list = [ 'untrained' ]
 
@@ -190,9 +246,10 @@ module AresMUSH
       ancestry_list = wp_info['ancestry']
 
       if ancestry_list
-        char_ancestry = char.pf2_base_info['ancestry']
-        anc_wp_feat = char_ancestry + " Weapon Familiarity"
-
+        char_ancestry = char.pf2_base_info['ancestry'].downcase
+        Global.logger.debug "Char Ancestry - #{char_ancestry}"
+        anc_wp_feat = (["sildanyar","khazad"].include? char_ancestry) ? char_ancestry + "i Weapon Familiarity" : char_ancestry + " Weapon Familiarity"
+        Global.logger.debug "anc_wp_feat - #{anc_wp_feat}"
         if (Pf2e.has_feat?(char, anc_wp_feat) && ancestry_list.include?(char_ancestry))
           prof_list << char_wp_prof['ancestry']
         end
@@ -201,8 +258,16 @@ module AresMUSH
       # Does character get a proficiency in that particular weapon from their deity?
       if char_wp_prof['deity']
         deity_weapon = Global.read_config('pf2e_deities', char.pf2_faith['deity'], 'fav_weapon')
+        if deity_weapon && name.to_s.downcase == deity_weapon.to_s.downcase
+          prof_list << char_wp_prof['deity']
+        end
+      end
 
-        prof_list << char_wp_prof['deity'] if name == deity_weapon
+      # Does character get a proficiency in that particular weapon from a weapon group choice?
+      if wp_group && group_profs[wp_group]
+        group_prof = group_profs[wp_group]
+        group_value = group_prof[wp_cat] || group_prof[wp_cat.to_s]
+        prof_list << group_value if group_value
       end
 
       prof_list = prof_list.compact
@@ -272,12 +337,12 @@ module AresMUSH
       # Alchemical Bombs are their own animal, will do all the deets later.
 
       base_info = char.pf2_base_info
-      use_dex_for_dmg = base_info['specialty'] == 'Thief'
+      use_dex_for_dmg = base_info['specialize'] == 'Thief'
 
       abil_mod = use_dex_for_dmg ? abilmod_with_finesse(char) :
         Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Strength"))
 
-      striking_rune = weapon ? weapon.runes['fundamental']['striking'] : false
+      striking_rune = weapon ? weapon.runes['fundamental']['power'] : false
       striking_rune = 0 if !striking_rune
 
       number_of_dice = 1 + striking_rune
@@ -295,10 +360,12 @@ module AresMUSH
       combat.saves = {}
       combat.perception = 'untrained'
       combat.class_dc = 'untrained'
+      combat.archetype_class_dcs = {}
       combat.key_abil = nil
 
       combat.armor_prof = {}
       combat.weapon_prof = {}
+      combat.weapon_group_prof = {}
       combat.unarmed_attacks = {}
 
       combat.save

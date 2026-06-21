@@ -21,6 +21,7 @@ module AresMUSH
       def handle
 
         char = Pf2e.get_character(self.character, enactor)
+        before_refocus = char.magic.focus_pool['current'].to_i
 
         msg = Pf2emagic.do_refocus(char, enactor)
 
@@ -29,7 +30,16 @@ module AresMUSH
           return
         end
 
-        client.emit_success t('pf2emagic.refocus_ok')
+        after_refocus = char.magic.focus_pool['current'].to_i
+        restored = [ after_refocus - before_refocus, 0 ].max
+
+        success_msg = if restored == 1
+                        t('pf2emagic.refocus_ok_one', :points => restored)
+                      else
+                        t('pf2emagic.refocus_ok_many', :points => restored)
+                      end
+
+        client.emit_success success_msg
 
       end
 

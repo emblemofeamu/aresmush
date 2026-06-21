@@ -45,7 +45,7 @@ module AresMUSH
       end
 
       def award(item)
-        item[2].to_s
+        "#{item[2]} cp"
       end
 
       def reason(item)

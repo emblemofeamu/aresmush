@@ -88,6 +88,13 @@ module AresMUSH
         @details["save"]
       end
 
+      def target
+        #targ = @details["target"]
+        @details["target"]
+
+        #return nil unless targ
+      end
+
     end
   end
 end

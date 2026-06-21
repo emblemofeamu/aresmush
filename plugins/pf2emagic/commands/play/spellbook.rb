@@ -9,7 +9,8 @@ module AresMUSH
         # Usage: spellbook [character=][class/level]
         # Faraday's argparser isn't going to touch this one, so we roll our own.
 
-        self.charclasses = Global.read_config('pf2e_class').keys
+        archetypes = Global.read_config('pf2e_archetype')&.keys || []
+        self.charclasses = (Global.read_config('pf2e_class').keys + archetypes).uniq
 
         if cmd.args
           # Use the size of the arrays to work out what args were supplied.
@@ -53,9 +54,10 @@ module AresMUSH
       end
 
       def check_permissions
-        return nil if enactor.has_permission? "manage_alts"
-        return nil unless self.character
-        return t('dispatcher.not_allowed')
+        return nil if !self.character
+        return nil if Global.read_config('pf2e','open_sheets')
+        return nil if enactor.has_permission?("view_sheets")
+        return t('pf2e.cannot_view_sheet')
       end
 
       def check_invalid_admin_syntax

@@ -1,0 +1,532 @@
+---
+pf2e_archetype_specialty:
+  Alchemist Archetype: {}
+  Barbarian Archetype:
+    Animal:
+      initial_dedication: {}
+      anathema:
+        - "Flagrantly disrespect your animal instinct type."
+        - "Use weapons while raging."
+      choose:
+        choice_name: Animal Instinct
+        choice_description: "Choose the animal this character strives to emulate."
+        choice_type: archetype_subclass_info
+        options:
+          Ape:
+            initial_dedication: {}
+          Bear:
+            initial_dedication: {}
+          Bull:
+            initial_dedication: {}
+          Cat:
+            initial_dedication: {}
+          Deer:
+            initial_dedication: {}
+          Frog:
+            initial_dedication: {}
+          Shark:
+            initial_dedication: {}
+          Snake:
+            initial_dedication: {}
+          Wolf:
+            initial_dedication: {}
+    Dragon:
+      initial_dedication: {}
+      anathema:
+        - "Let a personal insult against you slide."
+        - "If you respect your dragon instinct's dragon type, defy its orders."
+        - "If you abhor your dragon instinct's dragon type, fail to defeat it."
+      choose:
+        choice_name: "Dragon Instinct"
+        choice_description: "The type of dragon this instinct is derived from."
+        choice_type: archetype_subclass_info
+        options:
+          Avarice:
+            initial_dedication: {}
+          Bestial:
+            initial_dedication: {}
+          Brine:
+            initial_dedication: {}
+          Cloud:
+            initial_dedication: {}
+          Crystal:
+            initial_dedication: {}
+          Diabolic:
+            initial_dedication: {}
+          Empyreal:
+            initial_dedication: {}
+          Forest:
+            initial_dedication: {}
+          Fortune:
+            initial_dedication: {}
+          Madness:
+            initial_dedication: {}
+          Magma:
+            initial_dedication: {}
+          Mirage:
+            initial_dedication: {}
+          Ossuary:
+            initial_dedication: {}
+          Terra:
+            initial_dedication: {}
+          Umbral:
+            initial_dedication: {}
+    Fury:
+      anathema: []
+      initial_dedication: {}
+    Giant:
+      anathema:
+        - "Fail to face a personal challenge of strength."
+      initial_dedication: {}
+    Spirit:
+      anathema:
+        - "Disrespect corpses or spirits."
+      initial_dedication: {}
+  Bard Archetype:
+    Enigma:
+      initial_dedication: {}
+    Maestro:
+      initial_dedication: {}
+    Polymath: 
+      initial_dedication: {}
+    Warrior: 
+      initial_dedication: {}
+  Champion Archetype:
+    Beacon:
+      allowed_alignments:
+        - WL
+      edicts:
+        - "Provide a shining example for others."
+        - "Enjoy and share the beauty around you."
+        - "Keep yourself tidy and well groomed."
+      anathema:
+        - "Despoil yourself by associating with fiends and unholy force."
+      initial_dedication: {}
+    Justiciar:
+      allowed_alignments:
+        - OL
+        - OT
+      anathema:
+        - "Cheat or take advantage of others."
+      edicts:
+        - "Follow the law."
+        - "Respect legitimate authorities or leadership."
+      initial_dedication: {}
+    Redeemer:
+      allowed_alignments:
+        - OL
+      edicts:
+        - "Try to redeem those who commit wicked deeds."
+        - "Show compassion to others regardless of their authority or station."
+      anathema:
+        - "Kill a sapient enemy without first offering a chance at redemption."
+      initial_dedication: {}
+    Liberator:
+      allowed_alignments:
+        - WL
+        - WT
+      edicts:
+        - "Oppose slavery and tyranny."
+        - "Fight for others' freedom to make their own decisions."
+        - "Respect choices others make for their own lives."
+      anathema:
+        - "Engage in slavery or tyranny."
+        - "Force or threaten someone to act a certain way."
+      initial_dedication: {}
+  Cleric Archetype: {}
+  Druid Archetype:
+    Animal:
+      initial_dedication:
+        action: []
+        reaction: []
+        skills:
+          - Athletics
+        feat:
+          - Animal Companion
+        anathema:
+          - "Kill an animal needlessly or commit wanton cruelty to one."
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            order:
+            - Heal Animal
+        companion: any
+    Leaf:
+      initial_dedication:
+        skills:
+          - Diplomacy
+        anathema:
+          - "Kill a plant needlessly or commit wanton cruelty to one."
+    Storm:
+      initial_dedication:
+        skills:
+          - Acrobatics
+        edicts:
+          - "Punish those who cause major air pollution or climate shifts."
+        anathema:
+          - "Pollute the air."
+    Wild:
+      initial_dedication:
+        skills:
+          - Intimidation
+        anathema:
+          - "Become reliant on the temptations of civilization."
+  Fighter Archetype: {}
+  Investigator Archetype: {}
+  Monk Archetype: {}
+  Oracle Archetype:
+    Ancestors:
+      initial_dedication:
+        skills:
+          - Society
+        curse: Ancestral Meddling
+    Battle:
+      initial_dedication:
+        skills:
+          - Athletics
+        curse: Hero's Burden
+    Bones:
+      initial_dedication:
+        skills:
+          - Medicine
+        curse: Living Death
+    Cosmos:
+      initial_dedication:
+        skills:
+          - Nature
+        curse: Sky's Call
+    Flames:
+      initial_dedication:
+        skills:
+          - Acrobatics
+        curse: Engulfing Flames
+    Life:
+      initial_dedication:
+        skills:
+          - Medicine
+        curse: Outpouring Life
+    Lore:
+      initial_dedication:
+        skills:
+          - Occultism
+        curse: Torrential Knowledge
+    Tempest:
+      initial_dedication:
+        skills:
+          - Nature
+        curse: Perpetual Storm
+  Ranger Archetype: {}
+  Rogue Archetype: {}
+  Sorcerer Archetype:
+    Aberrant:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            occult: trained
+        skills:
+          - Intimidation
+          - Occultism
+    Angelic:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Diplomacy
+          - Religion
+    Demonic:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Intimidation
+          - Religion
+    Diabolic:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Deception
+          - Religion
+    Draconic:
+      choose:
+        choice_name: Dragon Exemplar
+        choice_description: Choose the dragon type to which you are linked.
+        options:
+          Avarice:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+                - Intimidation
+                - Occultism
+          Bestial:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
+          Brine:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
+          Cloud:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
+          Crystal:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
+          Diabolic:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+                - Intimidation
+                - Religion
+          Empyreal:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+                - Intimidation
+                - Religion
+          Forest:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
+          Fortune:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  arcane: trained
+              skills:
+                - Intimidation
+                - Arcana
+          Madness:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+                - Intimidation
+                - Occultism
+          Magma:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+              - Intimidation
+              - Nature
+          Mirage:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  arcane: trained
+              skills:
+                - Intimidation
+                - Arcana
+          Ossuary:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+                - Intimidation
+                - Religion
+          Terra:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  primal: trained
+              skills:
+                - Intimidation
+                - Nature
+          Umbral:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+                - Intimidation
+                - Occultism
+      initial_dedication:
+        magic_stats:
+          tradition: []
+        skills: []
+    Elemental:
+      choose:
+        choice_name: Elemental Affinity
+        choice_description: Choose the element you have an affinity for.
+        options:
+          Fire:
+          Air:
+          Earth:
+          Water:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Nature
+          - Intimidation
+    Fey:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            primal: trained
+        skills:
+          - Nature
+          - Deception
+    Hag:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            occult: trained
+        skills:
+          - Occultism
+          - Deception
+    Imperial:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+        skills:
+          - Arcana
+          - Society
+    Undead:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+          - Religion
+          - Intimidation
+  Swashbuckler Archetype:
+    Battledancer:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Performance
+        action: []
+        reaction: []
+    Braggart:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Intimidation
+        action: []
+        reaction: []
+    Fencer:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Deception
+        action: []
+        reaction: []
+    Gymnast:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Athletics
+        action: []
+        reaction: []
+    Rascal:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Thievery
+        action: []
+        reaction: []
+    Wit:
+      initial_dedication:
+        skill choice:
+          - Acrobatics
+          - Diplomacy
+        action: []
+        reaction: []
+  Witch Archetype:
+    Curse:
+      initial_dedication:
+        skills:
+          - Occultism
+        magic_stats:
+          tradition:
+            occult: trained
+    Fate:
+      initial_dedication:
+        skills:
+          - Occultism
+        magic_stats:
+          tradition:
+            occult: trained
+    Fervor:
+      initial_dedication:
+        skills:
+          - Religion
+        magic_stats:
+          tradition:
+            divine: trained
+    Night:
+      initial_dedication:
+        skills:
+          - Occultism
+        magic_stats:
+          tradition:
+            occult: trained
+    Rune:
+      initial_dedication:
+        skills:
+          - Arcana
+        magic_stats:
+          tradition:
+            arcane: trained
+    Wild:
+      initial_dedication:
+        skills:
+          - Nature
+        magic_stats:
+          tradition:
+            primal: trained
+    Winter:
+      initial_dedication:
+        skills:
+          - Nature
+        magic_stats:
+          tradition:
+            primal: trained
+  Wizard Archetype:
+    Abjuration: []
+    Conjuration: []
+    Divination: []
+    Enchantment: []
+    Evocation: []
+    Illusion: []
+    Necromancy: []
+    Transmutation: []
+    Universalist: []

@@ -1,28 +1,92 @@
 ---
 pf2e_weapons:
-  Alchemical Bomb:
+  Adze:
+    wp_type: melee
+    category: martial
+    traits:
+      - Forceful
+      - Sweep
+    level: 0
+    price: 100
+    wp_damage: d10
+    wp_damage_type: S
+    hands: 2
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Axe
+  Animal Staff:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 4
+    price: 9000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Animal Staff (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 8
+    price: 46000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Animal Staff (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 190000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Arbalest:
     wp_type: ranged
     category: martial
-    charclass:
-    - Alchemist
-    traits: []
+    traits:
+      - Backstabber
     level: 0
-    price: 0
-    wp_damage: d6
+    price: 800
+    wp_damage: d10
     wp_damage_type: P
-    hands: 1
-    range: 20
-    reload: 0
-    bulk: 0.1
-    group: Bomb
+    hands: 2
+    range: 110
+    reload: 1
+    bulk: 2
+    group: Crossbow
   Bassin Sling Staff:
     wp_type: ranged
     category: martial
     traits:
-    - Bassin
-    - Propulsive
-    ancestry:
-    - Bassin
+      - Uncommon
+      - Bassin
+      - Propulsive
     level: 0
     price: 500
     wp_damage: d10
@@ -36,7 +100,7 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Two-Handed
+      - Two-Handed
     level: 0
     price: 400
     wp_damage: d8
@@ -51,9 +115,7 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Sweep
-    ancestry:
-    - Khazad
+      - Sweep
     level: 0
     price: 100
     wp_damage: d8
@@ -63,12 +125,34 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Axe
+  Bloodletting Kukri:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Agile
+      - Finesse
+      - Magical
+      - Trip
+    level: 6
+    price: 24000
+    wp_damage: d6
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 0.1
+    group: Knife
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
   Blowgun:
     wp_type: ranged
     category: simple
     traits:
-    - Agile
-    - Nonlethal
+      - Agile
+      - Nonlethal
     level: 0
     price: 10
     wp_damage: 1
@@ -82,10 +166,10 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Monk
-    - Parry
-    - Reach
-    - Trip
+      - Monk
+      - Parry
+      - Reach
+      - Trip
     level: 0
     price: 20
     wp_damage: d8
@@ -99,9 +183,9 @@ pf2e_weapons:
     wp_type: ranged
     category: martial
     traits:
-    - Nonlethal
-    - Ranged Trip
-    - Thrown
+      - Nonlethal
+      - Ranged Trip
+      - Thrown
     level: 0
     price: 50
     wp_damage: d6
@@ -111,33 +195,106 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Sling
-  Clan Dagger:
+  Breaching Pike:
     wp_type: melee
-    category: simple
+    category: martial
     traits:
-    - Agile
-    - Khazad
-    - Parry
-    - Versatile (B)
+      - Uncommon
+      - Arvek
+      - Razing
+      - Reach
     level: 0
-    price: 200
-    wp_damage: d4
+    price: 800
+    wp_damage: d6
     wp_damage_type: P
     hands: 1
     range: 0
     reload: 0
+    bulk: 1
+    group: Spear
+  Capturing Spetum:
+    wp_type: melee
+    category: advanced
+    traits:
+      - Uncommon
+      - Hampering
+      - Arvek
+      - Reach
+      - Trip
+    level: 0
+    price: 900
+    wp_damage: d10
+    wp_damage_type: P
+    hands: 2
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Polearm
+  Caterwaul Sling:
+    wp_type: ranged
+    category: simple
+    traits:
+      - Magical
+      - Propulsive
+    level: 5
+    price: 15500
+    wp_damage: d6
+    wp_damage_type: B
+    hands: 1
+    range: 60
+    reload: 1
     bulk: 0.1
-    group: Knife
+    group: Sling
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
+  Chalice of Justice:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Divine
+      - Holy
+      - Versatile (P)
+    level: 14
+    price: 450000
+    wp_damage: d8
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
+  Chaplain's Cudgel:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Shove
+    level: 9
+    price: 65000
+    wp_damage: d6
+    wp_damage_type: B
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
   Claw Blade:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Deadly (d8)
-    - Disarm
-    - Finesse
-    - Oruch
-    - Versatile (P)
+      - Uncommon
+      - Agile
+      - Deadly (d8)
+      - Disarm
+      - Finesse
+      - Versatile (P)
     level: 0
     price: 200
     wp_damage: d4
@@ -150,10 +307,8 @@ pf2e_weapons:
   Club:
     wp_type: melee
     category: simple
-    charclass:
-    - Wizard
     traits:
-    - Thrown
+      - Thrown
     level: 0
     price: 0
     wp_damage: d6
@@ -167,13 +322,10 @@ pf2e_weapons:
     wp_type: ranged
     category: martial
     traits:
-    - Deadly (d10)
-    - Propulsive
-    - Volley (30)
-    ancestry:
-    - Arvek
-    - Sildanyar
-    level: 0
+      - Deadly (d10)
+      - Propulsive
+      - Volley (30)
+    level: 1
     price: 2000
     wp_damage: d8
     wp_damage_type: P
@@ -186,12 +338,9 @@ pf2e_weapons:
     wp_type: ranged
     category: martial
     traits:
-    - Deadly (d10)
-    - Propulsive
-    ancestry:
-    - Arvek
-    - Sildanyar
-    level: 0
+      - Deadly (d10)
+      - Propulsive
+    level: 1
     price: 1400
     wp_damage: d6
     wp_damage_type: P
@@ -203,8 +352,6 @@ pf2e_weapons:
   Crossbow:
     wp_type: ranged
     category: simple
-    charclass:
-    - Wizard
     traits: []
     level: 0
     price: 300
@@ -214,17 +361,31 @@ pf2e_weapons:
     range: 120
     reload: 1
     bulk: 1
-    group: Bow
+    group: Crossbow
+  Cruuk:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Shove
+      - Thrown
+    level: 0
+    price: 40
+    wp_damage: d6
+    wp_damage_type: B
+    hands: 1
+    range: 30
+    reload: 0
+    bulk: 0.1
+    group: Club
   Dagger:
     wp_type: melee
     category: simple
-    charclass:
-    - Wizard
     traits:
-    - Agile
-    - Finesse
-    - Thrown
-    - Versatile (S)
+      - Agile
+      - Finesse
+      - Thrown
+      - Versatile (S)
     level: 0
     price: 20
     wp_damage: d4
@@ -237,7 +398,10 @@ pf2e_weapons:
   Daikyu:
     wp_type: ranged
     category: advanced
-    traits: []
+    traits:
+      - Uncommon
+      - Forceful
+      - Propulsive
     level: 0
     price: 800
     wp_damage: d8
@@ -251,8 +415,8 @@ pf2e_weapons:
     wp_type: ranged
     category: simple
     traits:
-    - Agile
-    - Thrown
+      - Agile
+      - Thrown
     level: 0
     price: 1
     wp_damage: d4
@@ -266,12 +430,11 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Backstabber
-    - Finesse
-    - Goblin
-    ancestry:
-    - Goblin
+      - Uncommon
+      - Agile
+      - Backstabber
+      - Finesse
+      - Goblin
     level: 0
     price: 10
     wp_damage: d6
@@ -281,45 +444,30 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Sword
-  Khazadi Waraxe:
-    wp_type: melee
-    category: advanced
-    traits:
-    - Khazad
-    - Sweep
-    - Two-Handed
-    level: 0
-    price: 300
-    wp_damage: d8
-    wp_damage_type: S
-    wp_damage_2h: d12
-    hands: 1
-    range: 0
-    reload: 0
-    bulk: 2
-    group: Axe
-  Curve Blade:
+  Egalrin Gale Blade:
     wp_type: melee
     category: martial
     traits:
-    - Finesse
-    - Forceful
-    - Sildanyar
+      - Uncommon
+      - Agile
+      - Disarm
+      - Finesse
+      - Egalrin
     level: 0
     price: 400
-    wp_damage: d8
+    wp_damage: d6
     wp_damage_type: S
-    hands: 2
+    hands: 1
     range: 0
     reload: 0
-    bulk: 2
+    bulk: 0.1
     group: Sword
   Falchion:
     wp_type: melee
     category: martial
     traits:
-    - Forceful
-    - Sweep
+      - Forceful
+      - Sweep
     level: 0
     price: 300
     wp_damage: d10
@@ -329,16 +477,54 @@ pf2e_weapons:
     reload: 0
     bulk: 2
     group: Sword
+  Fangwire:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Agile
+      - Backstabber
+      - Deadly (d8)
+      - Finesse
+      - Grapple
+    level: 0
+    price: 400
+    wp_damage: d4
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 0.1
+    group: Brawling
+  Fighter's Fork:
+    wp_type: melee
+    category: martial
+    traits:
+      - Magical
+      - Thrown
+    level: 3
+    price: 5000
+    wp_damage: d8
+    wp_damage_type: P
+    hands: 1
+    range: 20
+    reload: 0
+    bulk: 1
+    group: Spear
+    runes:
+      fundamental:
+        potency: 1
   Filcher's Fork:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Backstabber
-    - Deadly (d6)
-    - Finesse
-    - Bassin
-    - Thrown
+      - Uncommon
+      - Agile
+      - Backstabber
+      - Deadly (d6)
+      - Finesse
+      - Bassin
+      - Thrown
     level: 0
     price: 100
     wp_damage: d4
@@ -352,28 +538,104 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Disarm
-    - Sweep
-    - Trip
+      - Disarm
+      - Sweep
+      - Trip
     level: 0
     price: 80
     wp_damage: d6
     wp_damage_type: B
-    hands: 2
+    hands: 1
     range: 0
     reload: 0
     bulk: 1
     group: Flail
-  Gale Blade:
+  Fluid Form Staff:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Fluid Form Staff (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Fluid Form Staff (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Flying Talon:
+    wp_type: melee
+    category: advanced
+    traits:
+      - Uncommon
+      - Agile
+      - Finesse
+      - Ranged Trip
+      - Tethered
+      - Thrown
+      - Trip
+    level: 1
+    price: 600
+    wp_damage: d4
+    wp_damage_type: P
+    hands: 1
+    range: 10
+    reload: 0
+    bulk: 1
+    group: Flail
+  Four-Ways Dogslicer:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Disarm
-    - Egalrin
-    - Finesse
-    level: 0
-    price: 400
+      - Uncommon
+      - Agile
+      - Backstabber
+      - Cold
+      - Electricity
+      - Finesse
+      - Fire
+      - Goblin
+      - Magical
+    level: 12
+    price: 170000
     wp_damage: d6
     wp_damage_type: S
     hands: 1
@@ -385,8 +647,8 @@ pf2e_weapons:
     wp_type: melee
     category: simple
     traits:
-    - Agile
-    - Free Hand
+      - Agile
+      - Free Hand
     level: 0
     price: 20
     wp_damage: d4
@@ -400,14 +662,11 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Deadly (d8)
-    - Forceful
-    - Reach
-    ancestry:
-    - Arvek
-    - Gnome
+      - Deadly (d8)
+      - Forceful
+      - Reach
     level: 0
-    price: 300
+    price: 100
     wp_damage: d8
     wp_damage_type: S
     hands: 2
@@ -415,29 +674,52 @@ pf2e_weapons:
     reload: 0
     bulk: 2
     group: Polearm
+  Gloom Blade:
+    wp_type: melee
+    category: martial
+    traits:
+      - Agile
+      - Finesse
+      - Magical
+      - Versatile (S)
+    level: 9
+    price: 70000
+    wp_damage: d6
+    wp_damage_type: P
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 0.1
+    group: Sword
+    runes:
+      fundamental:
+        potency: 1
   Gnome Flickmace:
     wp_type: melee
     category: advanced
     traits:
-    - Gnome
-    - Reach
+      - Uncommon
+      - Gnome
+      - Reach
+      - Sweep
     level: 0
     price: 300
-    wp_damage: d8
+    wp_damage: d6
     wp_damage_type: B
     hands: 1
     range: 0
     reload: 0
-    bulk: 2
+    bulk: 1
     group: Flail
   Gnome Hooked Hammer:
     wp_type: melee
     category: martial
     traits:
-    - Gnome
-    - Trip
-    - Two-Handed
-    - Versatile (P)
+      - Uncommon
+      - Gnome
+      - Trip
+      - Two-Handed
+      - Versatile (P)
     level: 0
     price: 200
     wp_damage: d6
@@ -452,7 +734,7 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Sweep
+      - Sweep
     level: 0
     price: 200
     wp_damage: d12
@@ -466,8 +748,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Backswing
-    - Shove
+      - Backswing
+      - Shove
     level: 0
     price: 100
     wp_damage: d10
@@ -481,9 +763,9 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Fatal (d12)
+      - Fatal (d12)
     level: 0
-    price: 200
+    price: 100
     wp_damage: d10
     wp_damage_type: P
     hands: 2
@@ -495,7 +777,7 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Versatile (P)
+      - Versatile (P)
     level: 0
     price: 200
     wp_damage: d12
@@ -509,8 +791,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Reach
-    - Trip
+      - Reach
+      - Trip
     level: 0
     price: 200
     wp_damage: d10
@@ -524,8 +806,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Reach
-    - Versatile (S)
+      - Reach
+      - Versatile (S)
     level: 0
     price: 200
     wp_damage: d10
@@ -535,34 +817,18 @@ pf2e_weapons:
     reload: 0
     bulk: 2
     group: Polearm
-  Handwraps of Mighty Blows:
-    level: 3
-    wp_type: melee
-    category: simple
-    group: Brawling
-    bulk: 0.1
-    traits: 
-    - invested
-    - magical
-    - transmutation
-    hands: 0
-    range: 0
-    reload: 0
-    wp_damage: 1d4
-    wp_damage_type: B
-    runes:
-      fundamental:
-        potency: 1
-  Hatchet:
+  Hand Adze:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Sweep
-    - Thrown
+      - Uncommon
+      - Agile
+      - Finesse
+      - Sweep
+      - Thrown
     level: 0
-    price: 40
-    wp_damage: d6
+    price: 50
+    wp_damage: d4
     wp_damage_type: S
     hands: 1
     range: 10
@@ -581,12 +847,136 @@ pf2e_weapons:
     range: 60
     reload: 1
     bulk: 0.1
-    group: Sling
+    group: Crossbow
+  Handwraps of Mighty Blows (+1):
+    wp_type: melee
+    category: simple
+    traits:
+      - Invested
+      - Magical
+    level: 2
+    price: 3500
+    wp_damage: d4
+    wp_damage_type: B
+    hands: 0
+    range: 0
+    reload: 0
+    bulk: 0
+    group: Brawling
+  Handwraps of Mighty Blows (+1 Striking):
+    level: 4
+    price: 10000
+    wp_type: melee
+    category: simple
+    group: Brawling
+    bulk: 0.1
+    traits: 
+      - Invested
+      - Magical
+    hands: 0
+    range: 0
+    reload: 0
+    wp_damage: d4
+    wp_damage_type: B
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
+  Handwraps of Mighty Blows (+2 Striking):
+    level: 10
+    price: 100000
+    wp_type: melee
+    category: simple
+    group: Brawling
+    bulk: 0.1
+    traits: 
+      - Invested
+      - Magical
+    hands: 0
+    range: 0
+    reload: 0
+    wp_damage: d4
+    wp_damage_type: B
+    runes:
+      fundamental:
+        potency: 2
+        power: 1
+  Handwraps of Mighty Blows (+2 Greater Striking):
+    level: 12
+    price: 200000
+    wp_type: melee
+    category: simple
+    group: Brawling
+    bulk: 0.1
+    traits: 
+      - Invested
+      - Magical
+    hands: 0
+    range: 0
+    reload: 0
+    wp_damage: d4
+    wp_damage_type: B
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Handwraps of Mighty Blows (+3 Greater Striking):
+    level: 16
+    price: 1000000
+    wp_type: melee
+    category: simple
+    group: Brawling
+    bulk: 0.1
+    traits: 
+      - Invested
+      - Magical
+    hands: 0
+    range: 0
+    reload: 0
+    wp_damage: d4
+    wp_damage_type: B
+    runes:
+      fundamental:
+        potency: 3
+        power: 2
+  Handwraps of Mighty Blows (+3 Major Striking):
+    level: 19
+    price: 4000000
+    wp_type: melee
+    category: simple
+    group: Brawling
+    bulk: 0.1
+    traits: 
+      - Invested
+      - Magical
+    hands: 0
+    range: 0
+    reload: 0
+    wp_damage: d4
+    wp_damage_type: B
+    runes:
+      fundamental:
+        potency: 3
+        power: 3
+  Hatchet:
+    wp_type: melee
+    category: martial
+    traits:
+      - Agile
+      - Sweep
+      - Thrown
+    level: 0
+    price: 40
+    wp_damage: d6
+    wp_damage_type: S
+    hands: 1
+    range: 10
+    reload: 0
+    bulk: 0.1
+    group: Axe
   Heavy Crossbow:
     wp_type: ranged
     category: simple
-    charclass:
-    - Wizard
     traits: []
     level: 0
     price: 400
@@ -596,17 +986,16 @@ pf2e_weapons:
     range: 120
     reload: 2
     bulk: 2
-    group: Bow
+    group: Crossbow
   Horsechopper:
     wp_type: melee
     category: martial
     traits:
-    - Goblin
-    - Reach
-    - Trip
-    - Versatile (P)
-    ancestry:
-    - Goblin
+      - Uncommon
+      - Goblin
+      - Reach
+      - Trip
+      - Versatile (P)
     level: 0
     price: 90
     wp_damage: d8
@@ -616,11 +1005,69 @@ pf2e_weapons:
     reload: 0
     bulk: 2
     group: Polearm
+  Hunter's Anthem:
+    wp_type: ranged
+    category: martial
+    traits:
+      - Deadly (d10)
+      - Volley (30)
+    level: 11
+    price: 130000
+    wp_damage: d8
+    wp_damage_type: P
+    hands: 2
+    range: 100
+    reload: 0
+    bulk: 2
+    group: Bow
+    runes:
+      fundamental:
+        potency: 2
+        power: 1
+  Icicle:
+    wp_type: melee
+    category: simple
+    traits:
+      - Cold
+      - Reach
+    level: 16
+    price: 1000000
+    wp_damage: d8
+    wp_damage_type: P
+    hands: 2
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Spear
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+      property:
+        - Frost (Greater)
+  Infiltrator's Accessory:
+    wp_type: melee
+    category: martial
+    traits:
+      - Agile
+      - Concealable
+      - Finesse
+      - Illusion
+      - Magical
+    level: 5
+    price: 15000
+    wp_damage: d6
+    wp_damage_type: P
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
   Javelin:
     wp_type: ranged
     category: simple
     traits:
-    - Thrown
+      - Thrown
     level: 0
     price: 10
     wp_damage: d6
@@ -634,9 +1081,10 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Monk
-    - Trip
+      - Uncommon
+      - Agile
+      - Monk
+      - Trip
     level: 0
     price: 100
     wp_damage: d6
@@ -650,12 +1098,13 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Deadly (d8)
-    - Two-Handed
-    - Versatile (P)
+      - Uncommon
+      - Deadly (d8)
+      - Two-Handed
+      - Versatile (P)
     level: 0
     price: 200
-    wp_damage: d8
+    wp_damage: d6
     wp_damage_type: S
     wp_damage_2h: d10
     hands: 1
@@ -667,9 +1116,10 @@ pf2e_weapons:
     wp_type: melee
     category: simple
     traits:
-    - Agile
-    - Deadly (d6)
-    - Monk
+      - Uncommon
+      - Agile
+      - Deadly (d6)
+      - Monk
     level: 0
     price: 30
     wp_damage: d4
@@ -679,13 +1129,14 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Knife
-  Khakkara:
+  Khakkhara:
     wp_type: melee
     category: martial
     traits:
-    - Shove
-    - Two-Handed
-    - Versatile (P)
+      - Uncommon
+      - Shove
+      - Two-Handed
+      - Versatile (P)
     level: 0
     price: 200
     wp_damage: d6
@@ -696,20 +1147,69 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Club
+  Khazadi Dagger:
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Agile
+      - Khazad
+      - Parry
+      - Versatile (B)
+    level: 0
+    price: 200
+    wp_damage: d4
+    wp_damage_type: P
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 0.1
+    group: Knife
+  Khazadi War Axe:
+    wp_type: melee
+    category: advanced
+    traits:
+      - Uncommon
+      - Khazad
+      - Sweep
+      - Two-Handed
+    level: 0
+    price: 300
+    wp_damage: d8
+    wp_damage_type: S
+    wp_damage_2h: d12
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Axe
+  Khopesh:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Trip
+    level: 0
+    price: 200
+    wp_damage: d8
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
   Kukri:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Finesse
-    - Trip
-    ancestry:
-    - Gnome
+      - Uncommon
+      - Agile
+      - Finesse
+      - Trip
     level: 0
     price: 60
     wp_damage: d6
     wp_damage_type: S
-    wp_damage_2h: d10
     hands: 1
     range: 0
     reload: 0
@@ -719,9 +1219,9 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Deadly (d8)
-    - Jousting (d6)
-    - Reach
+      - Deadly (d8)
+      - Jousting D6
+      - Reach
     level: 0
     price: 100
     wp_damage: d8
@@ -735,8 +1235,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Thrown
+      - Agile
+      - Thrown
     level: 0
     price: 30
     wp_damage: d6
@@ -750,9 +1250,9 @@ pf2e_weapons:
     wp_type: melee
     category: simple
     traits:
-    - Agile
-    - Finesse
-    - Shove
+      - Agile
+      - Finesse
+      - Shove
     level: 0
     price: 40
     wp_damage: d4
@@ -766,8 +1266,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Fatal (d8)
+      - Agile
+      - Fatal (d8)
     level: 0
     price: 40
     wp_damage: d4
@@ -781,11 +1281,8 @@ pf2e_weapons:
     wp_type: ranged
     category: martial
     traits:
-    - Deadly (d10)
-    - Volley (30)
-    ancestry:
-    - Arvek
-    - Sildanyar
+      - Deadly (d10)
+      - Volley (30)
     level: 0
     price: 600
     wp_damage: d8
@@ -797,9 +1294,9 @@ pf2e_weapons:
     group: Bow
   Longspear:
     wp_type: melee
-    category: martial
+    category: simple
     traits:
-    - Reach
+      - Reach
     level: 0
     price: 50
     wp_damage: d8
@@ -812,13 +1309,8 @@ pf2e_weapons:
   Longsword:
     wp_type: melee
     category: martial
-    charclass:
-    - Bard
     traits:
-    - Versatile (P)
-    ancestry:
-    - Arvek
-    - Sildanyar
+      - Versatile (P)
     level: 0
     price: 100
     wp_damage: d8
@@ -832,7 +1324,7 @@ pf2e_weapons:
     wp_type: melee
     category: simple
     traits:
-    - Shove
+      - Shove
     level: 0
     price: 100
     wp_damage: d6
@@ -842,15 +1334,15 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Club
-  Main-gauche:
+  Main-Gauche:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Disarm
-    - Finesse
-    - Parry
-    - Versatile (S)
+      - Agile
+      - Disarm
+      - Finesse
+      - Parry
+      - Versatile (S)
     level: 0
     price: 50
     wp_damage: d4
@@ -860,11 +1352,28 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Knife
+  Mambele:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Deadly (d8)
+      - Disarm
+      - Thrown
+    level: 0
+    price: 60
+    wp_damage: d6
+    wp_damage_type: S
+    hands: 1
+    range: 20
+    reload: 0
+    bulk: 1
+    group: Axe
   Maul:
     wp_type: melee
     category: martial
     traits:
-    - Shove
+      - Shove
     level: 0
     price: 300
     wp_damage: d12
@@ -874,11 +1383,62 @@ pf2e_weapons:
     reload: 0
     bulk: 2
     group: Hammer
+  Mentalist's Staff:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 4
+    price: 9000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Mentalist's Staff (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 8
+    price: 45000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Mentalist's Staff (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 180000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
   Morningstar:
     wp_type: melee
     category: simple
     traits:
-    - Versatile (P)
+      - Versatile (P)
     level: 0
     price: 100
     wp_damage: d6
@@ -892,10 +1452,11 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Backswing
-    - Disarm
-    - Finesse
-    - Monk
+      - Uncommon
+      - Backswing
+      - Disarm
+      - Finesse
+      - Monk
     level: 0
     price: 20
     wp_damage: d6
@@ -905,13 +1466,14 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Club
-  Knuckle Dagger:
+  Oruch Knuckle Dagger:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Disarm
-    - Oruch
+      - Uncommon
+      - Agile
+      - Disarm
+      - Oruch
     level: 0
     price: 70
     wp_damage: d6
@@ -921,18 +1483,18 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Knife
-  Necksplitter:
+  Oruch Necksplitter:
     wp_type: melee
     category: advanced
     traits:
-    - Forceful
-    - Oruch
-    - Sweep
+      - Uncommon
+      - Forceful
+      - Oruch
+      - Sweep
     level: 0
     price: 200
     wp_damage: d8
     wp_damage_type: S
-    wp_damage_2h: d10
     hands: 1
     range: 0
     reload: 0
@@ -942,14 +1504,11 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Fatal (d10)
-    ancestry:
-    - Khazad
+      - Fatal (d10)
     level: 0
     price: 70
     wp_damage: d6
     wp_damage_type: P
-    wp_damage_2h: d10
     hands: 1
     range: 0
     reload: 0
@@ -959,8 +1518,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Disarm
-    - Reach
+      - Disarm
+      - Reach
     level: 0
     price: 200
     wp_damage: d10
@@ -973,15 +1532,10 @@ pf2e_weapons:
   Rapier:
     wp_type: melee
     category: martial
-    charclass:
-    - Bard
-    - Rogue
     traits:
-    - Deadly (d8)
-    - Disarm
-    - Finesse
-    ancestry:
-    - Sildanyar
+      - Deadly (d8)
+      - Disarm
+      - Finesse
     level: 0
     price: 200
     wp_damage: d6
@@ -991,20 +1545,38 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Sword
+  Retribution Axe:
+    wp_type: melee
+    category: martial
+    traits:
+      - Magical
+      - Sweep
+    level: 3
+    price: 6000
+    wp_damage: d12
+    wp_damage_type: S
+    hands: 2
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Axe
+    runes:
+      fundamental:
+        potency: 1
   Sai:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Disarm
-    - Finesse
-    - Monk
-    - Versatile (B)
+      - Uncommon
+      - Agile
+      - Disarm
+      - Finesse
+      - Monk
+      - Versatile (B)
     level: 0
     price: 60
-    wp_damage: d8
-    wp_damage_type: S
-    wp_damage_2h: d10
+    wp_damage: d4
+    wp_damage_type: P
     hands: 1
     range: 0
     reload: 0
@@ -1013,12 +1585,9 @@ pf2e_weapons:
   Sap:
     wp_type: melee
     category: martial
-    charclass:
-    - Bard
-    - Rogue
     traits:
-    - Agile
-    - Nonlethal
+      - Agile
+      - Nonlethal
     level: 0
     price: 10
     wp_damage: d6
@@ -1032,9 +1601,10 @@ pf2e_weapons:
     wp_type: melee
     category: advanced
     traits:
-    - Agile
-    - Finesse
-    - Twin
+      - Uncommon
+      - Agile
+      - Finesse
+      - Twin
     level: 0
     price: 500
     wp_damage: d6
@@ -1042,14 +1612,14 @@ pf2e_weapons:
     hands: 1
     range: 0
     reload: 0
-    bulk: 1
+    bulk: 0.1
     group: Sword
   Scimitar:
     wp_type: melee
     category: martial
     traits:
-    - Forceful
-    - Sweep
+      - Forceful
+      - Sweep
     level: 0
     price: 100
     wp_damage: d6
@@ -1063,8 +1633,8 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Deadly (d10)
-    - Trip
+      - Deadly (d10)
+      - Trip
     level: 0
     price: 200
     wp_damage: d10
@@ -1074,6 +1644,73 @@ pf2e_weapons:
     reload: 0
     bulk: 2
     group: Polearm
+  Searing Blade:
+    wp_type: melee
+    category: martial
+    traits:
+      - Fire
+      - Magical
+      - Versatile (P)
+    level: 13
+    price: 280000
+    wp_damage: d8
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+      property:
+        - Flaming
+  Searing Blade (Greater):
+    wp_type: melee
+    category: martial
+    traits:
+      - Fire
+      - Magical
+      - Versatile (P)
+    level: 17
+    price: 1380000
+    wp_damage: d8
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
+    runes:
+      fundamental:
+        potency: 3
+        power: 2
+      property:
+        - Flaming (Greater)
+  Serpent Dagger:
+    wp_type: melee
+    category: simple
+    traits:
+      - Agile
+      - Finesse
+      - Magical
+      - Poison
+      - Thrown
+      - Versatile (S)
+    level: 5
+    price: 15000
+    wp_damage: d4
+    wp_damage_type: P
+    hands: 1
+    range: 10
+    reload: 0
+    bulk: 0.1
+    group: Knife
+    runes:
+      fundamental:
+        potency: 1
+        power: 1
   Shield Boss:
     wp_type: melee
     category: martial
@@ -1105,14 +1742,8 @@ pf2e_weapons:
   Shortbow:
     wp_type: ranged
     category: martial
-    charclass:
-    - Bard
-    - Rogue
     traits:
-    - Deadly (d10)
-    ancestry:
-    - Arvek
-    - Sildanyar
+      - Deadly (d10)
     level: 0
     price: 300
     wp_damage: d6
@@ -1125,15 +1756,10 @@ pf2e_weapons:
   Shortsword:
     wp_type: melee
     category: martial
-    charclass:
-    - Bard
-    - Rogue
     traits:
-    - Agile
-    - Finesse
-    - Versatile (S)
-    ancestry:
-    - Bassin
+      - Agile
+      - Finesse
+      - Versatile (S)
     level: 0
     price: 90
     wp_damage: d6
@@ -1147,9 +1773,10 @@ pf2e_weapons:
     wp_type: ranged
     category: martial
     traits:
-    - Agile
-    - Monk
-    - Thrown
+      - Uncommon
+      - Agile
+      - Monk
+      - Thrown
     level: 0
     price: 1
     wp_damage: d4
@@ -1163,9 +1790,9 @@ pf2e_weapons:
     wp_type: melee
     category: simple
     traits:
-    - Agile
-    - Finesse
-    - Trip
+      - Agile
+      - Finesse
+      - Trip
     level: 0
     price: 20
     wp_damage: d4
@@ -1175,27 +1802,83 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Knife
+  Sildanyari Curve Blade:
+    wp_type: melee
+    category: martial
+    traits:
+      - Uncommon
+      - Sildanyar
+      - Finesse
+      - Forceful
+    level: 0
+    price: 400
+    wp_damage: d8
+    wp_damage_type: S
+    hands: 2
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Sword
+  Singing Sword:
+    wp_type: melee
+    category: martial
+    traits:
+      - Rare
+      - Intelligent
+      - Occult
+      - Versatile (P)
+    level: 5
+    price: 0
+    wp_damage: d8
+    wp_damage_type: S
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
+  Sky Hammer:
+    wp_type: melee
+    category: martial
+    traits:
+      - Rare
+      - Magical
+      - Shove
+    level: 20
+    price: 7000000
+    wp_damage: d8
+    wp_damage_type: B
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Hammer
+    runes:
+      fundamental:
+        potency: 3
+        power: 3
+      property:
+        - Flaming
+        - Shock
   Sling:
     wp_type: ranged
     category: simple
     traits:
-    - Propulsive
-    ancestry:
-    - Bassin
+      - Propulsive
     level: 0
     price: 0
     wp_damage: d6
     wp_damage_type: B
     hands: 1
     range: 50
-    reload: 0
+    reload: 1
     bulk: 0.1
     group: Sling
   Spear:
     wp_type: melee
     category: simple
     traits:
-    - Thrown
+      - Monk
+      - Thrown
     level: 0
     price: 10
     wp_damage: d6
@@ -1205,28 +1888,48 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Spear
+  Spellguard Blade:
+    wp_type: melee
+    category: martial
+    traits:
+      - Agile
+      - Disarm
+      - Finesse
+      - Magical
+      - Parry
+      - Versatile (S)
+    level: 7
+    price: 32000
+    wp_damage: d4
+    wp_damage_type: P
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 0.1
+    group: Knife
   Spiked Chain:
     wp_type: melee
     category: martial
     traits:
-    - Disarm
-    - Finesse
-    - Trip
+      - Uncommon
+      - Disarm
+      - Finesse
+      - Trip
     level: 0
     price: 300
     wp_damage: d8
     wp_damage_type: S
     hands: 2
     range: 0
-    reload: 1
+    reload: 0
     bulk: 1
     group: Flail
   Spiked Gauntlet:
     wp_type: melee
     category: simple
     traits:
-    - Agile
-    - Free Hand
+      - Agile
+      - Free Hand
     level: 0
     price: 30
     wp_damage: d4
@@ -1236,15 +1939,788 @@ pf2e_weapons:
     reload: 0
     bulk: 0.1
     group: Brawling
+  Spirit Thresher:
+    wp_type: melee
+    category: advanced
+    traits:
+      - Uncommon
+      - Sweep
+      - Versatile (S)
+    level: 0
+    price: 200
+    wp_damage: d12
+    wp_damage_type: S
+    hands: 2
+    range: 0
+    reload: 0
+    bulk: 2
+    group: Flail
+  Spiritsight Crossbow:
+    wp_type: ranged
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Teleportation
+    level: 8
+    price: 45000
+    wp_damage: d8
+    wp_damage_type: P
+    hands: 2
+    range: 120
+    reload: 1
+    bulk: 2
+    group: Crossbow
   Staff:
     wp_type: melee
     category: simple
-    charclass:
-    - Wizard
     traits:
-    - Two-Handed
+      - Monk
+      - Two-Handed
     level: 0
     price: 0
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Arcane Might:
+    wp_type: melee
+    category: simple
+    traits:
+      - Rare
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 190000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Arcane Might (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Rare
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 16
+    price: 1000000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Arcane Might (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Rare
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 20
+    price: 9000000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Control:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Control (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Control (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Elemental Power:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Elemental Power (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Elemental Power (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Fire:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 3
+    price: 6000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Fire (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 8
+    price: 45000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Fire (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 180000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Healing:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 4
+    price: 9000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Healing (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 8
+    price: 47000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Healing (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 180000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Healing (True):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 16
+    price: 920000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Illumination:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 8
+    price: 42500
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Impossible Visions:
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Impossible Visions (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 180000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Impossible Visions (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 16
+    price: 1000000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Impossible Visions (True):
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 20
+    price: 7000000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Phantasms:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Phantasms (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Phantasms (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Protection:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Protection (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Protection (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Providence:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Providence (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Providence (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 410000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Providence (True):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 20
+    price: 6400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Summoning:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Summoning (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of Summoning (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Dead:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Dead (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Dead (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Tempest:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Tempest (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Tempest (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Unblinking Eye:
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 23000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Unblinking Eye (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 10
+    price: 90000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Staff of the Unblinking Eye (Major):
+    wp_type: melee
+    category: simple
+    traits:
+      - Uncommon
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 14
+    price: 400000
     wp_damage: d4
     wp_damage_type: B
     wp_damage_2h: d8
@@ -1257,27 +2733,75 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Deadly (d6)
-    - Finesse
-    - Thrown
-    - Versatile (S)
+      - Agile
+      - Deadly (d6)
+      - Finesse
+      - Thrown
+      - Versatile (S)
     level: 0
     price: 200
     wp_damage: d4
     wp_damage_type: P
     hands: 1
-    range: 80
-    reload: 1
+    range: 20
+    reload: 0
     bulk: 0.1
     group: Knife
+  Storm Flash:
+    wp_type: melee
+    category: martial
+    traits:
+      - Deadly (d8)
+      - Disarm
+      - Electricity
+      - Finesse
+      - Magical
+    level: 14
+    price: 400000
+    wp_damage: d6
+    wp_damage_type: P
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+      property:
+        - Shock
+  Storm Flash (Greater):
+    wp_type: melee
+    category: martial
+    traits:
+      - Deadly (d8)
+      - Disarm
+      - Electricity
+      - Finesse
+      - Magical
+    level: 18
+    price: 2100000
+    wp_damage: d6
+    wp_damage_type: P
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Sword
+    runes:
+      fundamental:
+        potency: 3
+        power: 2
+      property:
+        - Shock (Greater)
   Sword Cane:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - concealable
-    - Finesse
+      - Agile
+      - Concealable
+      - Finesse
     level: 0
     price: 500
     wp_damage: d6
@@ -1291,8 +2815,9 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Monk
-    - Trip
+      - Uncommon
+      - Monk
+      - Trip
     level: 0
     price: 200
     wp_damage: d8
@@ -1302,28 +2827,132 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Sword
-  Trident:
+  Thunder Sling:
+    wp_type: ranged
+    category: martial
+    traits:
+      - Uncommon
+      - Agile
+      - Propulsive
+      - Egalrin
+    level: 0
+    price: 500
+    wp_damage: d6
+    wp_damage_type: P
+    hands: 1
+    range: 50
+    reload: 1
+    bulk: 0.1
+    group: Sling
+  Tiger Fork:
     wp_type: melee
     category: martial
     traits:
-    - Thrown
-    level: 0
-    price: 100
-    wp_damage: d4
-    wp_damage_type: S
+      - Uncommon
+      - Disarm
+      - Grapple
+      - Magical
+      - Thrown
+    level: 5
+    price: 27500
+    wp_damage: d8
+    wp_damage_type: P
     hands: 1
     range: 20
     reload: 0
     bulk: 1
     group: Spear
+  Tricky Pick:
+    wp_type: melee
+    category: advanced
+    traits:
+      - Uncommon
+      - Backstabber
+      - Fatal (d10)
+      - Modular
+    level: 0
+    price: 1000
+    wp_damage: d6
+    wp_damage_type: B
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Pick
+  Trident:
+    wp_type: melee
+    category: martial
+    traits:
+      - Thrown
+    level: 0
+    price: 100
+    wp_damage: d8
+    wp_damage_type: P
+    hands: 1
+    range: 20
+    reload: 0
+    bulk: 1
+    group: Spear
+  Twining Staff:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Monk
+      - Two-Handed
+    level: 6
+    price: 25000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 0
+    group: Club
+  Verdant Staff:
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 6
+    price: 22500
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
+  Verdant Staff (Greater):
+    wp_type: melee
+    category: simple
+    traits:
+      - Magical
+      - Staff
+      - Two-Handed
+    level: 12
+    price: 175000
+    wp_damage: d4
+    wp_damage_type: B
+    wp_damage_2h: d8
+    hands: 1
+    range: 0
+    reload: 0
+    bulk: 1
+    group: Club
   Wakizashi:
     wp_type: melee
     category: martial
     traits:
-    - Agile
-    - Deadly (d8)
-    - Finesse
-    - Versatile (P)
+      - Uncommon
+      - Agile
+      - Deadly (d8)
+      - Finesse
+      - Versatile (P)
     level: 0
     price: 100
     wp_damage: d4
@@ -1331,15 +2960,15 @@ pf2e_weapons:
     hands: 1
     range: 0
     reload: 0
-    bulk: 1
+    bulk: 0.1
     group: Sword
   War Flail:
     wp_type: melee
     category: martial
     traits:
-    - Disarm
-    - Sweep
-    - Trip
+      - Disarm
+      - Sweep
+      - Trip
     level: 0
     price: 200
     wp_damage: d10
@@ -1353,9 +2982,7 @@ pf2e_weapons:
     wp_type: melee
     category: martial
     traits:
-    - Shove
-    ancestry:
-    - Khazad
+      - Shove
     level: 0
     price: 100
     wp_damage: d8
@@ -1368,14 +2995,12 @@ pf2e_weapons:
   Whip:
     wp_type: melee
     category: martial
-    charclass:
-    - Bard
     traits:
-    - Disarm
-    - Finesse
-    - Nonlethal
-    - Reach
-    - Trip
+      - Disarm
+      - Finesse
+      - Nonlethal
+      - Reach
+      - Trip
     level: 0
     price: 10
     wp_damage: d4
@@ -1385,22 +3010,20 @@ pf2e_weapons:
     reload: 0
     bulk: 1
     group: Flail
-  Handwraps of Mighty Blows (+1 Striking):
-    level: 4
+  Whip Claw:
     wp_type: melee
-    category: simple
-    group: Brawling
-    bulk: 0.1
-    traits: 
-    - invested
-    - magical
-    - transmutation
-    hands: 0
+    category: advanced
+    traits:
+      - Uncommon
+      - Finesse
+      - Hampering
+      - Reach
+    level: 0
+    price: 500
+    wp_damage: d6
+    wp_damage_type: S
+    hands: 2
     range: 0
     reload: 0
-    wp_damage: 1d4
-    wp_damage_type: B
-    runes:
-      fundamental:
-        potency: 1
-        striking: 1
+    bulk: 1
+    group: Flail

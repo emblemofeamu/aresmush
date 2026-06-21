@@ -166,10 +166,6 @@ module AresMUSH
         list.sort.join(", ")
       end
 
-      def ancestry_flaw
-        @ancestry_info["abl_flaw"] ? @ancestry_info["abl_flaw"] : "None."
-      end
-
       def bg_boosts
         list = @boosts['background']
         if list.is_a?(Array)
@@ -207,7 +203,7 @@ module AresMUSH
       end
 
       def languages
-        @char.pf2_lang.sort.join(", ")
+        @char.pf2_lang.uniq.sort.join(", ")
       end
 
       def existing_skills
@@ -307,7 +303,8 @@ module AresMUSH
           if rep
             rlist = []
             rep.each_pair do |k,v|
-              rlist << "#{k}: #{v.count("open")}"
+              level_label = k.to_s == '1' ? '1st-level' : k
+              rlist << "#{level_label}: #{v.count("open")}" 
             end
             rcount = rlist.join(", ")
 
@@ -321,7 +318,8 @@ module AresMUSH
           if sbook
             slist = []
             sbook.each_pair do |k,v|
-              slist << "#{k}: #{v.count("open")}"
+              level_label = k.to_s == '1' ? '1st-level' : k
+              slist << "#{level_label}: #{v.count("open")}" 
             end
             scount = slist.join(", ")
 

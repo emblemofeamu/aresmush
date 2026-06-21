@@ -146,3 +146,4 @@ fs3combat:
       message: Treated a teammate in combat.
   permissions:
     manage_combat: Control combats that you didn't organize.
+  gear_blurb: ''

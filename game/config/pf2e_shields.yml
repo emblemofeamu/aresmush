@@ -9,91 +9,171 @@ pf2e_shields:
     price: 100
     speed_penalty: 0
     traits: []
-  Wooden Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 3
-    hp: 12
-    level: 0
-    price: 100
-    speed_penalty: 0
-    traits: []
-  Steel Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 5
-    hp: 20
-    level: 0
-    price: 200
-    speed_penalty: 0
-    traits: []
-  Tower Shield:
-    ac_bonus: 2
-    bulk: 4
-    hardness: 5
-    hp: 20
-    level: 0
-    price: 1000
-    speed_penalty: -5
-    traits: []
-  Cold Iron Buckler (Low-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 3
-    hp: 12
-    level: 2
-    price: 3000
-    speed_penalty: 0
-    traits: []
-  Silver Buckler (Low-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 1
-    hp: 4
-    level: 2
-    price: 3000
-    speed_penalty: 0
-    traits: []
-  Cold Iron Shield (Low-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 5
-    hp: 20
-    level: 2
-    price: 3400
-    speed_penalty: 0
-    traits: []
-  Silver Shield (Low-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 3
-    hp: 12
-    level: 2
-    price: 3400
-    speed_penalty: 0
-    traits: []
-  Glamorous Buckler:
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 3
-    hp: 6
-    level: 2
-    price: 3500
-    speed_penalty: 0
-    traits:
-    - illusion
-    - magical
-  Sturdy Shield (Minor):
+  Dragonslayer's Shield (Avarice):
     ac_bonus: 2
     bulk: 1
     hardness: 8
-    hp: 64
-    level: 4
-    price: 10000
+    hp: 32
+    level: 9
+    price: 67000
     speed_penalty: 0
     traits:
-    - abjuration
-    - magical
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Bestial):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Brine):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Cloud):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Crystal):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Diabolic):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Empyreal):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Forest):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Fortune):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Madness):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Magma):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Mirage):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Ossuary):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Terra):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Umbral):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
   Exploding Shield:
     ac_bonus: 2
     bulk: 1
@@ -103,214 +183,7 @@ pf2e_shields:
     price: 2500
     speed_penalty: 0
     traits:
-    - evocation
-    - magical
-  Lion's Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 6
-    hp: 36
-    level: 6
-    price: 24500
-    speed_penalty: 0
-    traits:
-    - conjuration
-    - magical
-  Spellguard Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 6
-    hp: 24
-    level: 6
-    price: 25000
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
-  Cold Iron Buckler (Standard-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 5
-    hp: 20
-    level: 7
-    price: 30000
-    speed_penalty: 0
-    traits: []
-  Silver Buckler (Standard-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 3
-    hp: 12
-    level: 7
-    price: 30000
-    speed_penalty: 0
-    traits: []
-  Cold Iron Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 7
-    hp: 28
-    level: 7
-    price: 34000
-    speed_penalty: 0
-    traits: []
-  Silver Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 5
-    hp: 20
-    level: 7
-    price: 34000
-    speed_penalty: 0
-    traits: []
-  Spined Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 6
-    hp: 24
-    level: 7
-    price: 36000
-    speed_penalty: 0
-    traits:
-    - evocation
-    - magical
-  Sturdy Shield (Lesser):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 10
-    hp: 80
-    level: 7
-    price: 36000
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
-  Adamantine Buckler (Standard-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 8
-    hp: 32
-    level: 8
-    price: 40000
-    speed_penalty: 0
-    traits: []
-  Darkwood Buckler (Standard-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 3
-    hp: 12
-    level: 8
-    price: 40000
-    speed_penalty: 0
-    traits: []
-  Dragonhide Buckler (Standard-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 2
-    hp: 8
-    level: 8
-    price: 40000
-    speed_penalty: 0
-    traits: []
-  Mithral Buckler (Standard-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 3
-    hp: 12
-    level: 8
-    price: 40000
-    speed_penalty: 0
-    traits: []
-  Adamantine Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 10
-    hp: 40
-    level: 8
-    price: 44000
-    speed_penalty: 0
-    traits: []
-  Darkwood Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 0.1
-    hardness: 5
-    hp: 20
-    level: 8
-    price: 44000
-    speed_penalty: 0
-    traits: []
-  Dragonhide Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 4
-    hp: 12
-    level: 8
-    price: 44000
-    speed_penalty: 0
-    traits: []
-  Mithral Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 0.1
-    hardness: 5
-    hp: 20
-    level: 8
-    price: 44000
-    speed_penalty: 0
-    traits: []
-  Darkwood Tower Shield (Standard-Grade):
-    ac_bonus: 2
-    bulk: 3
-    hardness: 5
-    hp: 20
-    level: 8
-    price: 56000
-    speed_penalty: -5
-    traits: []
-  Force Shield:
-    ac_bonus: 2
-    bulk: 0.1
-    hardness: 8
-    hp: 32
-    level: 9
-    price: 65000
-    speed_penalty: 0
-    traits:
-    - evocation
-    - force
-    - magical
-  Dragonslayer's Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 8
-    hp: null
-    level: 9
-    price: 67000
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
-  Forge Warden:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 10
-    hp: 40
-    level: 10
-    price: 97500
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
-  Sturdy Shield (Moderate):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 13
-    hp: 104
-    level: 10
-    price: 100000
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
+      - magical
   Floating Shield:
     ac_bonus: 1
     bulk: 0.1
@@ -320,148 +193,8 @@ pf2e_shields:
     price: 125000
     speed_penalty: 0
     traits:
-    - magical
-  Arrow-Catching Shield:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 10
-    hp: 60
-    level: 11
-    price: 135000
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
-  Medusa's Scream:
-    ac_bonus: 2
-    bulk: 1
-    hardness: 13
-    hp: 52
-    level: 13
-    price: 300000
-    speed_penalty: 0
-    traits:
-    - magical
-    - transmutation
-  Sturdy Shield (Greater):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 15
-    hp: 120
-    level: 13
-    price: 300000
-    speed_penalty: 0
-    traits:
-    - abjuration
-    - magical
-  Cold Iron Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 8
-    hp: 32
-    level: 15
-    price: 500000
-    speed_penalty: 0
-    traits: []
-  Silver Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 6
-    hp: 24
-    level: 15
-    price: 500000
-    speed_penalty: 0
-    traits: []
-  Cold Iron Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 10
-    hp: 40
-    level: 15
-    price: 550000
-    speed_penalty: 0
-    traits: []
-  Silver Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 8
-    hp: 32
-    level: 15
-    price: 550000
-    speed_penalty: 0
-    traits: []
-  Adamantine Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 11
-    hp: 44
-    level: 16
-    price: 800000
-    speed_penalty: 0
-    traits: []
-  Darkwood Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 6
-    hp: 24
-    level: 16
-    price: 800000
-    speed_penalty: 0
-    traits: []
-  Dragonhide Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 5
-    hp: 20
-    level: 16
-    price: 800000
-    speed_penalty: 0
-    traits: []
-  Mithral Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 6
-    hp: 24
-    level: 16
-    price: 800000
-    speed_penalty: 0
-    traits: []
-  Adamantine Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 13
-    hp: 52
-    level: 16
-    price: 880000
-    speed_penalty: 0
-    traits: []
-  Darkwood Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 0.1
-    hardness: 8
-    hp: 32
-    level: 16
-    price: 880000
-    speed_penalty: 0
-    traits: []
-  Dragonhide Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 7
-    hp: 28
-    level: 16
-    price: 880000
-    speed_penalty: 0
-    traits: []
-  Mithral Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 0.1
-    hardness: 8
-    hp: 32
-    level: 16
-    price: 880000
-    speed_penalty: 0
-    traits: []
+      - uncommon
+      - magical
   Floating Shield (Greater):
     ac_bonus: 1
     bulk: 0.1
@@ -471,7 +204,94 @@ pf2e_shields:
     price: 900000
     speed_penalty: 0
     traits:
-    - magical
+      - uncommon
+      - magical
+  Force Shield:
+    ac_bonus: 2
+    bulk: 0.1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 65000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - force
+      - magical
+  Forge Warden:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 10
+    hp: 40
+    level: 10
+    price: 97500
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Glamorous Buckler:
+    ac_bonus: 1
+    bulk: 0.1
+    hardness: 3
+    hp: 6
+    level: 2
+    price: 3500
+    speed_penalty: 0
+    traits:
+      - magical
+  Indestructible Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 17
+    hp: 136
+    level: 18
+    price: 2400000
+    speed_penalty: 0
+    traits:
+      - rare
+      - magical
+  Lion's Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 6
+    hp: 36
+    level: 6
+    price: 24500
+    speed_penalty: 0
+    traits:
+      - magical
+  Lodestone Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 10
+    hp: 92
+    level: 11
+    price: 135000
+    speed_penalty: 0
+    traits:
+      - magical
+  Martyr's Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 10
+    hp: 80
+    level: 7
+    price: 0
+    speed_penalty: 0
+    traits:
+      - rare
+      - divine
+      - intelligent
+  Medusa's Scream:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 13
+    hp: 52
+    level: 13
+    price: 300000
+    speed_penalty: 0
+    traits:
+      - magical
   Medusa's Scream (Greater):
     ac_bonus: 2
     bulk: 1
@@ -479,48 +299,9 @@ pf2e_shields:
     hp: 60
     level: 16
     price: 900000
-    speed_penalty: null
-    traits:
-    - magical
-    - transmutation
-  Sturdy Shield (Major):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 17
-    hp: 136
-    level: 16
-    price: 1000000
     speed_penalty: 0
     traits:
-    - abjuration
-    - magical
-  Darkwood Tower Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 3
-    hardness: 8
-    hp: 32
-    level: 16
-    price: 1120000
-    speed_penalty: -5
-    traits: []
-  Orichalcum Buckler (High-Grade):
-    ac_bonus: 1
-    bulk: 0.1
-    hardness: 14
-    hp: 56
-    level: 17
-    price: 1200000
-    speed_penalty: 0
-    traits: []
-  Orichalcum Shield (High-Grade):
-    ac_bonus: 2
-    bulk: 1
-    hardness: 16
-    hp: 64
-    level: 17
-    price: 1320000
-    speed_penalty: 0
-    traits: []
+      - magical
   Reflecting Shield:
     ac_bonus: 1
     bulk: 0.1
@@ -530,19 +311,87 @@ pf2e_shields:
     price: 1800000
     speed_penalty: 0
     traits:
-    - abjuration
-    - magical
-  Indestructible Shield:
+      - uncommon
+      - magical
+  Spellguard Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 6
+    hp: 24
+    level: 6
+    price: 25000
+    speed_penalty: 0
+    traits:
+      - magical
+  Spined Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 6
+    hp: 24
+    level: 7
+    price: 36000
+    speed_penalty: 0
+    traits:
+      - magical
+  Steel Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 5
+    hp: 20
+    level: 0
+    price: 200
+    speed_penalty: 0
+    traits: []
+  Sturdy Shield (Greater):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 15
+    hp: 120
+    level: 13
+    price: 300000
+    speed_penalty: 0
+    traits:
+      - magical
+  Sturdy Shield (Lesser):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 10
+    hp: 80
+    level: 7
+    price: 36000
+    speed_penalty: 0
+    traits:
+      - magical
+  Sturdy Shield (Major):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 17
+    hp: 136
+    level: 16
+    price: 1000000
+    speed_penalty: 0
+    traits:
+      - magical
+  Sturdy Shield (Minor):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 64
+    level: 4
+    price: 10000
+    speed_penalty: 0
+    traits:
+      - magical
+  Sturdy Shield (Moderate):
     ac_bonus: 2
     bulk: 1
     hardness: 13
-    hp: 90
-    level: 18
-    price: 2400000
+    hp: 104
+    level: 10
+    price: 100000
     speed_penalty: 0
     traits:
-    - abjuration
-    - magical
+      - magical
   Sturdy Shield (Supreme):
     ac_bonus: 2
     bulk: 1
@@ -552,5 +401,22 @@ pf2e_shields:
     price: 4000000
     speed_penalty: 0
     traits:
-    - abjuration
-    - magical
+      - magical
+  Tower Shield:
+    ac_bonus: 2
+    bulk: 4
+    hardness: 5
+    hp: 20
+    level: 0
+    price: 1000
+    speed_penalty: -5
+    traits: []
+  Wooden Shield:
+    ac_bonus: 2
+    bulk: 1
+    hardness: 3
+    hp: 12
+    level: 0
+    price: 100
+    speed_penalty: 0
+    traits: []

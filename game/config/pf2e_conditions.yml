@@ -9,7 +9,7 @@ pf2e_conditions:
     short_descr: Your movements become clumsy and inexact.
     value: true
     affected_stat:
-    - "Dexterity"
+      - "Dexterity"
     override: false
   Confused:
     short_descr: You lose your wits and attack wildly.
@@ -39,7 +39,7 @@ pf2e_conditions:
     value: true
     override: false
     affected_stat:
-    - "Constitution"
+      - "Constitution"
     daily: -1
   Dying:
     short_descr: You are close to death.
@@ -49,14 +49,13 @@ pf2e_conditions:
     short_descr: You are carrying too much.
     value: false
     affected_stat:
-      Dexterity: -1
       Speed: -10
     override: false
   Enfeebled:
     short_descr: You are physically weakened.
     value: true
     affected_stat:
-    - "Strength"
+      - "Strength"
     override: false
   Fascinated:
     short_descr: You are compelled to focus your attention on something.
@@ -74,12 +73,6 @@ pf2e_conditions:
       Will: -1
     override: false
     daily: false
-  Flat-Footed:
-    short_descr: You are caught off-guard or otherwise unable to fully defend yourself.
-    value: false
-    override: false
-    affected_stat:
-      Base AC: -2
   Fleeing:
     short_descr: You can take no action other than running away.
     value: false
@@ -100,6 +93,12 @@ pf2e_conditions:
     short_descr: You cannot be seen.
     value: false
     override: false
+  Off-Guard:
+    short_descr: You are caught off-guard or otherwise unable to fully defend yourself.
+    value: false
+    override: false
+    affected_stat:
+      Base AC: -2
   Paralyzed:
     short_descr: You are frozen in place.
   Persistent:
@@ -137,9 +136,9 @@ pf2e_conditions:
   Stupefied:
     short_descr: Your thoughts are cloudy and indistinct.
     affected_stat:
-    - "Intelligence"
-    - "Wisdom"
-    - "Charisma"
+      - "Intelligence"
+      - "Wisdom"
+      - "Charisma"
     value: true
     override: false
   Unconscious:

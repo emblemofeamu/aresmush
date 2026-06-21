@@ -21,7 +21,7 @@ module AresMUSH
 
       def check_can_commit
         # Is the argument valid?
-        checkpoints = %w(start info abilities skills)
+        checkpoints = %w(start info abilities skills featskills)
 
         index = checkpoints.index(self.commit)
         options = (checkpoints - ['start']).join(", ")
@@ -42,7 +42,9 @@ module AresMUSH
         when 'abilities'
           commit = Pf2eAbilities.cg_lock_abilities(enactor)
         when 'skills'
-          commit = Pf2eSkills.cg_lock_skills(enactor)
+            commit = Pf2eSkills.cg_lock_skills(enactor, client)
+        when 'featskills'
+          commit = Pf2eSkills.cg_lock_featskills(enactor)
         else
           client.emit_failure "To go back to the beginning, type %x172cg/reset%xn."
         end

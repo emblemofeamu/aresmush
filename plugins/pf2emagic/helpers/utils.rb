@@ -27,21 +27,33 @@ module AresMUSH
       class_list.delete('innate')
 
       class_list.each do |cc|
-        case cc
-        when "Wizard", "Druid", "Cleric", "Witch"
+        caster_type = Pf2emagic.get_caster_type(cc)
+        next unless caster_type
+
+        if caster_type == 'prepared'
           prepared_list = magic.spells_prepared
-
-          spells_today[cc] = prepared_list[cc]
-        when "Bard", "Oracle", "Sorcerer"
-          spontlist = magic.spells_per_day[cc]
-
-          spells_today[cc] = spontlist
+          spells_today[cc] = prepared_list[cc] || {}
         else
-          next
+          spontlist = magic.spells_per_day[cc]
+          spells_today[cc] = spontlist || {}
         end
-
-        magic.update(spells_today: spells_today)
       end
+
+      innate_spells = magic.innate_spells || {}
+      innate_spells_today = {}
+
+      innate_spells.each_pair do |spell_name, info|
+        level = info['level'].to_s
+        next if level.downcase == 'cantrip' || level.to_i.zero?
+
+        uses = innate_spells_today[level] || []
+        uses << spell_name
+        innate_spells_today[level] = uses
+      end
+
+      spells_today['innate'] = innate_spells_today unless innate_spells_today.empty?
+
+      magic.update(spells_today: spells_today)
 
     end
 
@@ -53,14 +65,35 @@ module AresMUSH
       magic = target.magic
       focus_pool = magic.focus_pool
 
-      current, max = focus_pool["current"], focus_pool["max"]
+      current = focus_pool["current"].to_i
+      max = focus_pool["max"].to_i
+
+      focus_spells = magic.focus_spells || {}
+      focus_cantrips = magic.focus_cantrips || {}
+      has_focus_magic = !((focus_spells.keys + focus_cantrips.keys).empty?)
+
+      if max.zero?
+        recalculated_max = get_max_focus_pool(target, 0)
+        recalculated_max = 1 if recalculated_max.zero? && has_focus_magic
+
+        if recalculated_max.zero?
+          return t('pf2emagic.no_focus_pool')
+        end
+
+        max = recalculated_max
+        current = [ current, max ].min
+
+        focus_pool["max"] = max
+        focus_pool["current"] = current
+        magic.update(focus_pool: focus_pool)
+      end
 
       # Max focus pool defaults to zero and is always 1-3 if target has a focus pool.
       return t('pf2emagic.no_focus_pool') if max.zero?
 
       # These checks are skipped if an admin is force-refocusing the target.
       if !enactor.is_admin?
-        return t('pf2emagic.cant_refocus_pool') unless current.zero?
+        return t('pf2emagic.cant_refocus_pool') unless current < max
 
         last_refocus, current_time = magic.last_refocus, Time.now
 
@@ -70,10 +103,52 @@ module AresMUSH
 
         elapsed = (current_time - last_refocus).to_i
 
-        return t('pf2emagic.cant_refocus_time') unless (elapsed > 3600)
+        local_last_refocus = OOCTime.localtime(enactor, last_refocus)
+        formatted_last_refocus = local_last_refocus.strftime("%-l:%M%P")
+
+        return t('pf2emagic.cant_refocus_time', :time => formatted_last_refocus) unless (elapsed > 3600)
       end
 
-      current = max
+      spent = (max - current).to_i
+      charclass_feats = Array(target.pf2_feats['charclass']).map { |f| f.to_s.upcase }
+      charclass_features = Array(target.pf2_features['charclass_features']).map { |f| f.to_s.upcase }
+      charclass = target.pf2_base_info['charclass']
+
+      two_point_refocus_feats = [
+        'DOMAIN FOCUS',
+        'INSPIRATIONAL FOCUS',
+        'PRIMAL FOCUS',
+        'MEDITATIVE FOCUS',
+        "WARDEN'S FOCUS",
+        'BLOODLINE FOCUS',
+        'HEX FOCUS',
+        'BONDED FOCUS'
+      ]
+
+      three_point_refocus_feats = [
+        'DOMAIN WELLSPRING',
+        'PRIMAL WELLSPRING',
+        'MEDITATIVE WELLSPRING',
+        "WARDEN'S WELLSPRING",
+        'BLOODLINE WELLSPRING',
+        'HEX WELLSPRING'
+      ]
+
+      has_two_point_feat = !(charclass_feats & two_point_refocus_feats).empty?
+      has_three_point_feat = !(charclass_feats & three_point_refocus_feats).empty?
+
+      is_oracle = (charclass == 'Oracle')
+      has_major_curse = is_oracle && charclass_features.include?('MAJOR CURSE')
+      has_extreme_curse = is_oracle && charclass_features.include?('EXTREME CURSE')
+
+      restore_points = 1
+      if spent >= 3 && (has_three_point_feat || has_extreme_curse)
+        restore_points = 3
+      elsif spent >= 2 && (has_two_point_feat || has_major_curse)
+        restore_points = 2
+      end
+
+      current = [ current + restore_points, max ].min
 
       focus_pool["current"] = current
       magic.update(focus_pool: focus_pool)

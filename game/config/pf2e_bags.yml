@@ -18,3 +18,92 @@ pf2e_bags:
     bulk: 0.1
     capacity: 8
     bulk_bonus: 0
+  Sleeves of Storage:
+    price: 10000
+    level: 4
+    bulk: 0.1
+    capacity: 10
+    bulk_bonus: 0
+    traits:
+      - extradimensional
+      - invested
+      - magical
+  Spacious Pouch (Type I):
+    price: 7500
+    level: 4
+    bulk: 1
+    capacity: 0
+    bulk_bonus: 25
+    traits:
+      - extradimensional
+      - magical
+  Retrieval Belt:
+    price: 34000
+    level: 7
+    bulk: 0
+    capacity: 1
+    bulk_bonus: 0
+    traits:
+      - uncommon
+      - extradimensional
+      - invested
+      - magical
+  Spacious Pouch (Type II):
+    price: 30000
+    level: 7
+    bulk: 1
+    capacity: 0
+    bulk_bonus: 50
+    traits:
+      - extradimensional
+      - magical
+  Sleeves of Storage (Greater):
+    price: 60000
+    level: 9
+    bulk: 0.1
+    capacity: 20
+    bulk_bonus: 0
+    traits:
+      - extradimensional
+      - invested
+      - magical
+  Retrieval Belt (Greater):
+    price: 60000
+    level: 9
+    bulk: 0
+    capacity: 3
+    bulk_bonus: 0
+    traits:
+      - uncommon
+      - extradimensional
+      - invested
+      - magical
+  Spacious Pouch (Type III):
+    price: 120000
+    level: 11
+    bulk: 1
+    capacity: 0
+    bulk_bonus: 100
+    traits:
+      - extradimensional
+      - magical
+  Spacious Pouch (Type IV):
+    price: 240000
+    level: 13
+    bulk: 1
+    capacity: 0
+    bulk_bonus: 150
+    traits:
+      - extradimensional
+      - magical
+  Retrieval Belt (Major):
+    price: 250000
+    level: 13
+    bulk: 0
+    capacity: 10
+    bulk_bonus: 0
+    traits:
+      - uncommon
+      - extradimensional
+      - invested
+      - magical

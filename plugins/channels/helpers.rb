@@ -91,14 +91,14 @@ module AresMUSH
 
       title = title ? "#{title}%xn" : nil
       channel_message = channel.add_to_history "#{title} #{original_msg}", enactor
-      channel.characters.each do |c|
-        if (!Channels.is_muted?(c, channel))
-          
-          title_display = (title && Channels.show_titles?(c, channel)) ? "#{title} " : ""
-          formatted_msg = "#{Channels.display_name(c, channel)} #{title_display}#{original_msg}"
-          
-          Login.emit_if_logged_in(c, formatted_msg)
-        end
+      channel.characters.select { |c| Login.is_online?(c) }.each do |c|
+        next if Channels.is_muted?(c, channel)
+        next if c.has_channel_blocked?(enactor)
+
+        title_display = (title && Channels.show_titles?(c, channel)) ? "#{title} " : ""
+        formatted_msg = "#{Channels.display_name(c, channel)} #{title_display}#{original_msg}"
+        
+        Login.emit_if_logged_in(c, formatted_msg)
       end
       
       formatted_msg = "#{title} #{original_msg}"
@@ -113,8 +113,16 @@ module AresMUSH
         is_page: false
       }
       
+      web_chars_with_alts_on_chan = Global.client_monitor.web_clients
+                .map { |c| c.char }
+                .uniq
+                .select { |c| c && Channels.has_alt_on_channel?(c, channel) }
+      
       Global.client_monitor.notify_web_clients(:new_chat, "#{data.to_json}", true) do |char|
-        char && Channels.has_alt_on_channel?(char, channel) && !Channels.is_muted?(char, channel)
+        char && 
+        web_chars_with_alts_on_chan.include?(char) &&
+        !Channels.is_muted?(char, channel) &&
+        !char.has_channel_blocked?(enactor)
       end
     end
     
@@ -326,10 +334,25 @@ module AresMUSH
       end
     end
             
+    def self.is_message_visible?(viewer, message)      
+      return false if viewer && viewer.has_channel_blocked?(message.author)
+      return false if message.flagged && !Channels.can_manage_channels?(viewer)
+      return true
+    end
+    
+    def self.parse_default_alias_input(text)
+      text.squish.split(/[, ]/).map { |c| c.strip }.select { |c| !c.blank? }
+    end
+    
     def self.notify_discord_webhook(channel, message, enactor)
       debug_enabled = Global.read_config('channels', 'discord_debug')
-
+      name_subs = Global.read_config('channels', 'discord_name_subs') || {}
+      
       name = enactor.ooc_name
+      name_subs.each do |k, v|
+        name = name.gsub(/#{k}/i, v)
+      end
+      
       url = channel.discord_webhook
 
       if (url.blank?)
@@ -373,9 +396,12 @@ module AresMUSH
         if (lazy_load || chars_on_channel.empty?)
           messages = []
         else
-          messages = channel.sorted_channel_messages.map { |m| {
+          messages = channel.sorted_channel_messages
+            .select { |m| Channels.is_message_visible?(enactor, m) }
+            .map { |m| {
             message: Website.format_markdown_for_html(m.message),
             id: m.id,
+            flagged: m.flagged,
             timestamp: OOCTime.local_short_date_and_time(enactor, m.created_at),
             author: {
               name: m.author_name,
@@ -393,6 +419,7 @@ module AresMUSH
           enabled: chars_on_channel.any?,
           can_join: alts.map { |a| Channels.can_join_channel?(a, channel) }.any?,
           can_talk: alts.map { |a| Channels.can_talk_on_channel?(a, channel) }.any?,
+          can_manage: Channels.can_manage_channels?(enactor),
           muted: Channels.is_muted?(enactor, channel),
           last_activity: channel.last_activity,
           is_recent: channel.last_activity ? (Time.now - channel.last_activity < (86400 * 2)) : false,

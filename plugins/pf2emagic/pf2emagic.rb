@@ -34,6 +34,8 @@ module AresMUSH
         return PF2RefocusCmd
       when "spellbook"
         return PF2MagicSpellbookCmd
+      when "repertoire"
+        return PF2MagicRepertoireCmd
       when 'dfont'
         return PF2DivineFontCmd
       when "cast"

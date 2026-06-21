@@ -44,12 +44,14 @@ pf2e_languages:
     Aesyian: The language of the heavenly hosts.
     Aklo: A language spoken by otherworldly creatures, which is difficult for mortals to learn.
     Dalian: The language of the Dalians, who also live within Skyhaldborg. Skyhaldan language.
-    Infernal: The language of the devils of the Iron Hells.
+    Nassian: The language of the devils of the Iron Hells.
     Jhokunn: The language of the giants and their kin. Jhoch language.
     Kaminean: The very rare precursor tongue to Kamin, spoken primarily within isolated Kaminean families and communities. Vantyrian language.
     Kholo: The language of the gnolls, perhaps closest in relation to Kaillin. Jhoch language.
+    Muan: The language of elemental wood. Elemental language.
     Petran: The language of elemental earth. Elemental language.
     Pyric: The language of elemental fire. Elemental language.
+    Talican: The language of elemental metal. Elemental language.
     Thalassic: The language of elemental water. Elemental language.
     Sussuran: The language of elemental air. Elemental language.
     Old Aiglosian: The precursor tongue of Myrrish and Charneth. Aiglosian language.
@@ -64,7 +66,7 @@ pf2e_languages:
     Mynsandraal: The first and oldest language of the sildanyari, fractured and the subject of great debate. Feytongue language.
     Valgeag: Spoken by the reclusive and underground khazad-rukh, who are not inclined to teach the language to outsiders. Khazadi language.
   secret:
-    Druidic: A secret tongue only taught to druids. Feytongue language.
+    Wildsong: A secret tongue only taught to druids. Feytongue language.
 #  regional: deprecated
 #    Skyhaldborg: Skyhaldan
 #    Dran: Dranish

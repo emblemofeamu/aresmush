@@ -44,6 +44,7 @@ Application managers can view and edit other character backgrounds, in case you 
 `bg/set <name>=<background>` - Sets a background.
 `bg/edit <name>` - Grabs the existing background text into your input buffer.
 `bg <name>` - Views someone else's background.
+`hooks/set <name>=<hooks>` and `hooks/edit <name>` - Sets RP hooks on someone else's background.
 
 If you ever make a mistake and accidentally approve someone, you can unapprove them.
 

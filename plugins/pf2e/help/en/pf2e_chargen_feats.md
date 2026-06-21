@@ -15,6 +15,7 @@ Now that you have locked your skills and selected your languages, it’s time to
 
 `feat <name>`: Lists the details of a feat.
 `feat/info`: Shows the details of all feats that you have so far. Be aware that this command paginates, there may be more than one page!
-`cg/feat <input>=<feat>`: Sets an open feat. Input can be `ancestry`, `archetype`, `charclass`, `dedication`, `general`, `skill`, `special`
+`feat/options <type>:` Shows the list of all feats you qualify for of a specific feat type. Types: `ancestry`, `archetype`, `charclass`, `dedication`, `general`, `skill`.
+`cg/feat <input>=<feat>`: Sets an open feat. Input can be `ancestry`, `archetype`, `charclass`, `dedication`, `general`, `skill`, `special`.
 
-It is not possible to unset a feat at this time, however, you can enter `cg/restore skills` to return to a point just before setting feats.
+It is not possible to unset a feat at this time. However, you can enter `cg/restore skills` to return to a point just before setting feats.

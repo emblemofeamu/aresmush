@@ -13,7 +13,7 @@ en:
         invalid_age: "Please enter a number of years."
         age_outside_limits: "The minimum age is %{min} and the maximum age is %{max}."
         birthdate_set: "Your birthdate has been set to %{birthdate}, making you %{age} years old."
-        invalid_birthdate: "Please specify a date in %{format_str} format."
+        invalid_birthdate: "Please specify a date in one of the following formats:%r%xn(RL month) (Day #) (Year)%r(Ea month) (Day #) (Year)%rMM/DD/YYYY%r%xrFor example, %xnJanuary 20 1000%xr, %xnDarkfeast 20 1000%xr, or %xn1/1/1000"
         
         demo_review: Checking all demographics are set.
         gender_set_to_other: "< Gender is set to 'Other'.  Just making sure that's intentional. >"
@@ -43,6 +43,6 @@ en:
         try_actor_search_or_set: "Maybe you meant actor/set or actor/search?"
         
         demographics_list_header: "Available Demographics"
-        demographics_ediable: "Editable after chargen."
+        demographics_editable: "Editable after chargen."
         
         freeform_group: "That group doesn't have a specific list of values."

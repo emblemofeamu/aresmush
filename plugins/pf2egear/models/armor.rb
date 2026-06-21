@@ -20,6 +20,7 @@ module AresMUSH
     attribute :invested, :type => DataType::Boolean, :default => false
     attribute :invest_on_refresh, :type => DataType::Boolean
     attribute :equipped, :type => DataType::Boolean, :default => false
+    attribute :use, :type => DataType::Hash, :default => {}
 
     reference :character, "AresMUSH::Character"
     reference :bag, "AresMUSH::PF2Bag"

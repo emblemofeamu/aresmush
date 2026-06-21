@@ -88,7 +88,7 @@ module AresMUSH
     def self.emit_to_organizer(combat, message, npcmaster = nil)
       message = message + " (#{npcmaster})" if npcmaster
         
-      client = Login.find_client(combat.organizer)
+      client = Login.find_game_client(combat.organizer)
       if (client)
         client.emit t('fs3combat.organizer_emit', :message => message)
       end
@@ -98,7 +98,7 @@ module AresMUSH
       char = combatant.character
       return if !char
       
-      client = Login.find_client(char)
+      client = Login.find_game_client(char)
       if (client)
         client_message = message.gsub(/#{combatant.name}/, "%xh%xc#{combatant.name}%xn")  
         client_message.split("\n").each do |part|
@@ -108,14 +108,23 @@ module AresMUSH
       end
     end
     
+    def self.combatant_type_names
+      FS3Combat.combatant_types.keys
+    end
+    
+    def self.is_valid_combatant_type?(name)
+      !!FS3Combat.combatant_types.select { |k, v| k.upcase == name.upcase }.first
+    end
+    
     def self.combatant_type_stat(type, stat)
-      type_config = FS3Combat.combatant_types[type]
+      type_config = FS3Combat.combatant_types.select { |k, v| k.upcase == type.upcase }.map { |k, v| v }.first
       type_config[stat]
     end
     
     def self.npc_type(name)
       types = Global.read_config("fs3combat", "npc_types")
-      types.select { |k, v| k.upcase == name.upcase}.values.first || {}
+      name_upcase = name ? name.upcase : nil      
+      types.select { |k, v| k.upcase == name_upcase}.values.first
     end
     
     def self.npc_type_names
@@ -257,7 +266,7 @@ module AresMUSH
         id: combat.id,
         organizer: combat.organizer.name,
         can_manage: can_manage,
-        combatant_types: FS3Combat.combatant_types.keys,
+        combatant_types: FS3Combat.combatant_type_names,
         teams: teams,
         in_combat: viewer_in_combat,
         messages: Website.format_markdown_for_html(combat.messages.join("\n")),

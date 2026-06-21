@@ -4,27 +4,16 @@ module AresMUSH
       include CommandHandler
       
       def check_can_manage
-        return t('dispatcher.not_allowed') if !enactor.has_permission?("tinker")
+        return t('dispatcher.not_allowed') if !enactor.is_coder?
         return nil
       end
       
       def handle
-      
-        char = Character.find_one_by_name("Davi")
-        value = { "cantrip" => 5, 1 => 3, 2 => 1} 
-        
-        to_assign = char.pf2_to_assign
-
-        assignment_list = {}
-        value.each_pair do |level, num|
-            ary = Array.new(num, "open")
-            assignment_list[level] = ary
+        if (args = cmd.to_s.match(/^tinker\/(.*)\s(.*)=(.*)\/(\d+)\/(\d+)$/))
+            client.emit_success "#{cmd}"
+        else
+            client.emit_failure "#{cmd}"
         end
-
-        to_assign["repertoire"] = assignment_list
-
-        char.update(pf2_to_assign: to_assign)
-        
       end
 
     end
