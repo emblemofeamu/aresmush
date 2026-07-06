@@ -339,6 +339,8 @@ pf2e_specialty:
             - Fear
   Champion:
     Beacon:
+      allowed_sanctifications:
+        - Holy
       allowed_alignments:
         - WL
       edicts:
@@ -379,6 +381,8 @@ pf2e_specialty:
               - Lay On Hands
         skills: []
     Redeemer:
+      allowed_sanctifications:
+        - Holy
       allowed_alignments:
         - OL
       edicts:

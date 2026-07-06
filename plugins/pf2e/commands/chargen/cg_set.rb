@@ -29,7 +29,7 @@ module AresMUSH
       end
 
       def handle
-        chargen_elements = %w{ancestry background charclass heritage specialize deity alignment specialize_info}
+        chargen_elements = %w{ancestry background charclass heritage specialize deity alignment specialize_info sanctification}
         selected_element = chargen_elements.find { |o| o.include?(self.element) }
 
         base_info = enactor.pf2_base_info
@@ -79,6 +79,25 @@ module AresMUSH
           selected_option = options.find { |o| o.downcase.include? self.value.downcase }
         elsif selected_element == "alignment"
           options = Global.read_config('pf2e', 'allowed_alignments')
+          selected_option = options.find { |o| o.downcase == self.value.downcase }
+        elsif selected_element == "sanctification"
+          charclass = base_info['charclass']
+
+          if charclass.blank?
+            client.emit_failure t('pf2e.charclass_not_set')
+            return nil
+          elsif !Pf2e.uses_sanctification?(charclass)
+            client.emit_failure t('pf2e.sanctification_wrong_class')
+            return nil
+          end
+
+          options = Pf2e.allowed_sanctifications(charclass, enactor.pf2_faith['deity'], base_info['specialize'])
+
+          if options.empty?
+            client.emit_failure t('pf2e.sanctification_needs_deity')
+            return nil
+          end
+
           selected_option = options.find { |o| o.downcase == self.value.downcase }
         elsif selected_element == "charclass"
           options = Global.read_config('pf2e_class').keys
@@ -148,6 +167,40 @@ module AresMUSH
           end
         end
 
+        # If a champion changes specialty or a cleric changes deity, make sure a sanctification that is already chosen is still valid for the new selection.
+        if enactor.pf2_faith['sanctification'].present? &&
+           ((selected_element == "specialize" && base_info['charclass']&.casecmp?('Champion')) ||
+            (selected_element == "deity" && base_info['charclass']&.casecmp?('Cleric')))
+          current_sanctification = enactor.pf2_faith['sanctification']
+          new_deity = selected_element == "deity" ? selected_option : enactor.pf2_faith['deity']
+          new_specialize = selected_element == "specialize" ? selected_option : base_info['specialize']
+          sanct_options = Pf2e.allowed_sanctifications(base_info['charclass'], new_deity, new_specialize)
+
+          if !sanct_options.empty? && !sanct_options.include?(current_sanctification)
+            client.emit_failure t('pf2e.sanctification_conflict', :element => selected_element, :option => selected_option, :sanctification => current_sanctification, :options => sanct_options.join(", "))
+            return
+          end
+        end
+
+        # If a character chooses another class, clear sanctification.
+        if selected_element == "charclass"
+          current_uses_sanct = Pf2e.uses_sanctification?(base_info['charclass'])
+          new_uses_sanct = Pf2e.uses_sanctification?(selected_option)
+
+          if !new_uses_sanct || (current_uses_sanct && new_uses_sanct)
+            faith_info = enactor.pf2_faith
+            faith_info['sanctification'] = ""
+            enactor.pf2_faith = faith_info
+          end
+        end
+
+        # If a character's deity is Caracoroth, Deimos, Gunahkar, Illotha, Maugrim, Taara, or Thul, they cannot choose the Champion class.
+        if selected_element == "charclass" && selected_option.casecmp?("Champion") &&
+           enactor.pf2_faith['deity'].in?(["Caracoroth", "Deimos", "Gunahkar", "Illotha", "Maugrim", "Taara", "Thul"])
+          client.emit_failure t('pf2e.cg_champion_deity_mismatch', :deity => enactor.pf2_faith['deity'])
+          return
+        end
+
         case selected_element
         when "ancestry", "background", "charclass", "heritage", "specialize", "specialize_info"
           base_info[selected_element] = selected_option
@@ -203,6 +256,11 @@ module AresMUSH
           info[selected_element] = selected_option
 
           enactor.update(pf2_faith: info)
+        when "sanctification"
+          info = enactor.pf2_faith
+          info['sanctification'] = selected_option
+
+          enactor.update(pf2_faith: info)
         end
 
         client.emit_success t('pf2e.option_set', :element => selected_element, :option => selected_option)
@@ -214,6 +272,14 @@ module AresMUSH
           specializations = specialty_config.keys.sort
           if specializations.any?
             client.emit_ooc t('pf2e.cg_charclass_specializations', :class => charclass, :specializations => specializations.join(", "))
+          end
+          # When the player chooses Champion, tell them they can pick from Holy or Unsanctified sanctifications.
+          if charclass.casecmp?("Champion")
+            client.emit_ooc t('pf2e.cg_champion_sanctificationnotice')
+          end
+          # When the player chooses Cleric, tell them they can pick from sanctifications based on their deity.
+          if charclass.casecmp?("Cleric")
+            client.emit_ooc t('pf2e.cg_cleric_sanctificationnotice')
           end
         end
         if selected_element == "ancestry"

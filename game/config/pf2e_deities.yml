@@ -1,6 +1,8 @@
 ---
 pf2e_deities:
   Althea:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - OL
       - BL
@@ -33,6 +35,8 @@ pf2e_deities:
       - Use negative energy spells.
       - Betray the trust of a community.
   Angoron:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - OL
       - BL
@@ -65,6 +69,9 @@ pf2e_deities:
       - Bully those weaker than yourself.
       - Fail to acknowledge when you've been bested.
   Animus:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - BL
       - OT
@@ -95,6 +102,8 @@ pf2e_deities:
       - Allow passion to rule judgement.
       - Use magic for pedestrian purposes.
   Caracoroth:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - WT
     magic_stats:
@@ -123,6 +132,9 @@ pf2e_deities:
       - Talk when actions serve better.
       - Refuse power when it is offered.
   Ceinara:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - BL
       - WL
@@ -153,6 +165,8 @@ pf2e_deities:
       - Destroy an artistic expression.
       - Discourage an artist from pursuing their dreams.
   Daeus:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - OL
       - BL
@@ -183,6 +197,9 @@ pf2e_deities:
       - Mistake vengeance for justice.
       - Cheat, deceive, or undermine those who have placed trust in you.
   Dana:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - BL
       - OT
@@ -213,6 +230,8 @@ pf2e_deities:
       - Suffer the poisoning of the earth.
       - Hunt rampantly.
   Deimos:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - OT
       - BT
@@ -241,6 +260,8 @@ pf2e_deities:
       - Remain silent where you can speak.
       - Believe in innocence.
   Eluna:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - OL
       - BL
@@ -273,6 +294,8 @@ pf2e_deities:
       - Sacrifice the future for short-term benefit.
       - Ignore the guidance found in dreams, divination, and prophecy.
   Gilead:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - BL
       - WL
@@ -302,6 +325,8 @@ pf2e_deities:
       - Smother the wild rather than protect it.
       - Hoard wild resources.
   Gunahkar:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - BT
       - WT
@@ -329,6 +354,8 @@ pf2e_deities:
       - Fail to endure a trial.
       - Seek treatment for personal problems.
   Illotha:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - OT
       - WT
@@ -356,6 +383,9 @@ pf2e_deities:
       - Fail to punish someone that's done wrong.
       - Ignoring someone's quest for vengeance.
   Kor:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - WL
       - BT
@@ -384,6 +414,8 @@ pf2e_deities:
       - Mistake bravery for foolishness.
       - Lie about your accomplishments.
   Maugrim:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - OT
       - BT
@@ -411,6 +443,8 @@ pf2e_deities:
       - Shirk your duties and responsibilities.
       - Take more than you're owed.
   Navos:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - OL
       - BL
@@ -440,6 +474,9 @@ pf2e_deities:
       - Fail to perceive the weight of your own actions.
       - Try to change past events.
   Rada:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - WL
       - OT
@@ -469,6 +506,9 @@ pf2e_deities:
       - Be a false guide to another.
       - Pollute the ocean.
   Reos:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - OL
       - BL
@@ -499,6 +539,9 @@ pf2e_deities:
       - Strive for impossible perfection.
       - Disparage the act of creation.
   Serriel:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - OL
       - BL
@@ -529,6 +572,8 @@ pf2e_deities:
       - Refuse to defend your community.
       - Vandalize a piece of cultural heritage.
   Taara:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - BT
       - WT
@@ -556,6 +601,8 @@ pf2e_deities:
       - Allow the truth to ruin a good story.
       - Give your secrets away for free.
   Tarien:
+    allowed_sanctifications:
+      - Holy
     allowed_alignments:
       - BL
       - WL
@@ -585,6 +632,8 @@ pf2e_deities:
       - Impair someone's freedom without good reason.
       - Purposefully ruin everyone else's fun.
   Thul:
+    allowed_sanctifications:
+      - Unholy
     allowed_alignments:
       - OT
       - BT
@@ -613,6 +662,9 @@ pf2e_deities:
       - Ignore the needs of the dead.
       - Live in fear of death.
   Vardama:
+    allowed_sanctifications:
+      - Holy
+      - Unholy
     allowed_alignments:
       - OL
       - BL
