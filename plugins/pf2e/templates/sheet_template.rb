@@ -123,6 +123,10 @@ module AresMUSH
         @faith_info['alignment']
       end
 
+      def sanctification
+        @faith_info['sanctification']
+      end
+
       def has_code
         if (@faith_info['edicts']) || (@faith_info['anathema'])
           t('pf2e.has_code')

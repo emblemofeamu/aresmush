@@ -232,7 +232,7 @@ module AresMUSH
 
       prereqs.each_pair do |ptype, required|
 
-        if required =~ /\//
+        if required.is_a?(String) && required =~ /\//
           string = required.split("/")
           factor = string[0]
           minimum = string[1]

@@ -655,6 +655,9 @@ pf2e_class:
           - ability
   Champion:
     use_deity: true
+    allowed_sanctifications:
+      - Holy
+      - Unsanctified
     allowed_alignments:
       - OL
       - WL

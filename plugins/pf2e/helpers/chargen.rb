@@ -31,6 +31,33 @@ module AresMUSH
       return nil
     end
 
+    # Returns the sanctification options (Holy/Unholy/Unsanctified) available to a character based on their class, deity, and specialty. Only clerics and champions have access to sanctification. Clerics derive their options from their chosen deity. Champions use a class-wide default (Holy or Unsanctified) unless their specialty (such as Beacon or Redeemer) overrides it.
+    def self.allowed_sanctifications(charclass, deity, specialize)
+      return [] if charclass.blank?
+
+      if charclass.casecmp?('Cleric')
+        return [] if deity.blank?
+        Global.read_config('pf2e_deities', deity, 'allowed_sanctifications') || []
+      elsif charclass.casecmp?('Champion')
+        class_options = Global.read_config('pf2e_class', 'Champion', 'allowed_sanctifications') || []
+
+        if !specialize.blank?
+          specialty_config = Global.read_config('pf2e_specialty', 'Champion', specialize) || {}
+          specialty_options = specialty_config['allowed_sanctifications']
+          return specialty_options if specialty_options
+        end
+
+        class_options
+      else
+        []
+      end
+    end
+
+    def self.uses_sanctification?(charclass)
+      return false if charclass.blank?
+      charclass.casecmp?('Cleric') || charclass.casecmp?('Champion')
+    end
+
     def self.missing_base_info(ancestry, heritage, background, charclass, faith_info)
       if ancestry.blank? || heritage.blank? || background.blank? || charclass.blank?
         error = t('pf2e.missing_base_info')
@@ -52,6 +79,18 @@ module AresMUSH
       needs_specialty = Global.read_config('pf2e', 'subclass_names').keys
       error = needs_specialty.include?(charclass) && specialize.blank?
       messages << t('pf2e.missing_subclass') if error
+
+      # Clerics and champions must choose a sanctification, and it must be valid for their current deity/specialty.
+      if Pf2e.uses_sanctification?(charclass)
+        sanctification = faith['sanctification']
+        sanct_options = Pf2e.allowed_sanctifications(charclass, faith['deity'], specialize)
+
+        if sanctification.blank?
+          messages << t('pf2e.missing_sanctification')
+        elsif !sanct_options.empty? && !sanct_options.include?(sanctification)
+          messages << t('pf2e.sanctification_invalid', :options => sanct_options.join(", "))
+        end
+      end
 
       needs_specialty_subinfo = !specialize.blank? && !charclass.blank? ?
         Global.read_config('pf2e_specialty', charclass, specialize) :
@@ -568,6 +607,13 @@ module AresMUSH
 
       # Traits, Size, Movement, Misc Info
       traits = ancestry_info["traits"] + heritage_info["traits"] + [ charclass.downcase ]
+
+      # Holy and Unholy sanctification each grant a matching trait. Unsanctified grants none.
+      sanctification = faith_info['sanctification']
+      if !sanctification.blank? && !sanctification.casecmp?('Unsanctified')
+        traits << sanctification.downcase
+      end
+
       traits = traits.uniq.sort
 
       enactor.pf2_traits = traits

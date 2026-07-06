@@ -14,6 +14,9 @@
 <%= left("#{item_color}Region%xn: #{region}", 39) %>
 <%= left("#{item_color}Deity%xn: #{deity}", 39) -%>
 <%= left("#{item_color}Alignment%xn: #{alignment}", 26) %>
+<% unless sanctification.blank? %>
+<%= "#{item_color}Sanctification%xn: #{sanctification}" %>
+<% end %>
 <%= section_line("Traits") %>
 <%= traits %>
 <% end %>

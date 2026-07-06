@@ -9,6 +9,9 @@
 <%= left("#{item_color}Background%xn: #{background}", 39) %>
 <%= section_line("Faith Info") %>
 <%= left("#{item_color}Alignment%xn: #{alignment}", 39) -%>
+<% if sanctification %>
+<%= "#{item_color}Sanctification%xn: #{sanctification}" %>
+<% end %>
 <%= left("#{item_color}Deity%xn: #{deity}#{is_devotee}", 39) %>
 <% if has_code %>
 <%= section_line("Code Of Behavior") %>

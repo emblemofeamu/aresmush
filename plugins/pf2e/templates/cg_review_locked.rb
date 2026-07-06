@@ -88,6 +88,12 @@ module AresMUSH
         @faith_info['alignment']
       end
 
+      def sanctification
+        if Pf2e.uses_sanctification?(@charclass)
+          @faith_info['sanctification']
+        end
+      end
+
       def has_code
 
         d_edicts = []
