@@ -95,6 +95,8 @@ pf2e_archetype_specialty:
     Beacon:
       allowed_alignments:
         - WL
+      allowed_sanctifications:
+        - Holy
       edicts:
         - "Provide a shining example for others."
         - "Enjoy and share the beauty around you."
@@ -113,6 +115,8 @@ pf2e_archetype_specialty:
         - "Respect legitimate authorities or leadership."
       initial_dedication: {}
     Redeemer:
+      allowed_sanctifications:
+        - Holy
       allowed_alignments:
         - OL
       edicts:

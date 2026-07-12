@@ -544,6 +544,18 @@ module AresMUSH
           faith_info = char.pf2_faith
           faith_info['deity'] = value
           char.pf2_faith = faith_info
+        when "archetype_sanctification"
+          faith_info = char.pf2_faith
+          faith_info['sanctification'] = value
+          char.pf2_faith = faith_info
+
+          traits = char.pf2_traits.dup
+          traits.reject! { |tr| tr.casecmp?('holy') || tr.casecmp?('unholy') }
+          unless value.blank? || value.casecmp?('Unsanctified')
+            traits << value.downcase
+            traits = traits.uniq.sort
+          end
+          char.pf2_traits = traits
         when "grants"
           value.each_pair do |feat, info|
             do_feat_grants(char, info, charclass, client)
@@ -735,6 +747,8 @@ module AresMUSH
           msg << t('pf2e.adv_item_archetype_key_ability') if needs_choice
         when "archetype deity"
           msg << t('pf2e.adv_item_archetype_deity') if info.to_s.downcase == 'open'
+        when "archetype_sanctification"
+          msg << t('pf2e.adv_item_archetype_sanctification') if info.to_s.downcase == 'open'
         when "special feat"
           msg << t('pf2e.unassigned_gated_feat', :options => info.sort.join(", "))
         when "grants"
