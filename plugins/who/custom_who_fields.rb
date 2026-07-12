@@ -14,19 +14,20 @@ module AresMUSH
       # end
         
       # NOTE! It is very important to return nil if it is NOT a custom field.
-      def self.custom_who_field(char, field_type, value, width)
-        when 'lookingforrp'
-          looking_for_rp = char.looking_for_rp
-          case char.looking_for_rp_type
-            when "scene"
-              flag = "%xgRP%xn"
-            when "text"
-              flag = "%xmTXT%xn"
-          end
-          return looking_for_rp ? flag.ljust(width+6) : ""
-        else 
-          return nil
+
+      case field_type
+      when 'lookingforrp'
+        looking_for_rp = char.looking_for_rp
+        case char.looking_for_rp_type
+        when "scene"
+          flag = "%xgRP%xn"
+        when "text"
+          flag = "%xmTXT%xn"
         end
+        return looking_for_rp ? flag.ljust(width+6) : ""
+      else
+        return nil
+      end
     end 
   end
 end
