@@ -1,12 +1,10 @@
+---
 game:
-    name: "Emblem of Ea RTDEV"
-
-    category: Other
-    
-    description: "Coming Soon"
-    
-    website: ""
-        
-    public_game: false
-    
-    status: In Development
+  category: Other
+  description: 'This is the Ares development site for conversion of Emblem of Ea
+    from BrazilMUX to AresMUSH. It will never become public, and only admins and code testers will 
+    ever have access to it.'
+  name: Emblem of Ea Playtest
+  public_game: false
+  status: Sandbox
+  website: https://test.emblemofeamush.net
