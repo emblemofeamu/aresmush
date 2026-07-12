@@ -17,7 +17,8 @@ plugins:
   - fs3combat
   - fs3skills
   - ranks
-  extras: []
+  extras:
+  - lookingforrp
   optional_plugins:
   - achievements
   - alttracker

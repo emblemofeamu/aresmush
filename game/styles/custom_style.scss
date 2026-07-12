@@ -1515,3 +1515,51 @@ div.letter-style-3 {
         padding: 30px 5px 30px 10px;
     }
 }
+
+/* Looking for Roleplay styling */
+
+.lfrp-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 8px;
+  border-bottom: 2px solid rgba(156, 156, 156, .5);
+}
+
+.lfrp-row .fa-solid {
+  color: #45a366;
+  font-size: .9em;
+  padding-left: 15px;
+  padding-top: 27px;
+}
+
+.lfrp-row .fa-stack {
+  margin-right: -17px;
+}
+
+.fa-mobile-retro::before {
+	background-color: black;
+	border-radius: 5px;
+}
+
+.badge-sidebar-bgs {
+  padding-left: .42em;
+  padding-right: .22em;
+  padding-top: .32em;
+  padding-bottom: .22em;
+  margin-right: 3px;
+  border-radius: .3em;
+  transition: background-color .5s;
+}
+
+.badge-sidebar-bgs:hover {
+  background-color: rgba(255, 238, 225, 0.805);
+  padding-left: .42em;
+  padding-right: .22em;
+  padding-top: .32em;
+  padding-bottom: .22em;
+  margin-right: 3px;
+  border-radius: .3em;
+}

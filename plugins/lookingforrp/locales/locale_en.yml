@@ -1,0 +1,10 @@
+---
+en:
+  lookingforrp:
+    set: "You've been set 'looking for RP' for the next %{duration} hour(s)."
+    set_txt: "You've been set 'looking for txt RP' for the next %{duration} hour(s)."
+    expire: "You have turned off 'looking for RP'."
+    rp_request_emit: "%{name} is looking for RP for the next %{duration} hour(s)."
+    rp_request_emit_txt: "%{name} is looking for TXT RP for the next %{duration} hour(s)."
+    announce_off: "You have toggled RP Requests announcements off."
+    announce_on: "You have toggled RP Requests announcements on."

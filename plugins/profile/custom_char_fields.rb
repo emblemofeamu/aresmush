@@ -38,7 +38,9 @@ module AresMUSH
       # @example
       #    return { goals: Website.format_input_for_html(char.goals) }
       def self.get_fields_for_editing(char, viewer)
-        return {}
+        return {
+          looking_for_rp_announce: char.looking_for_rp_announce == "on" ? true : false ,
+        }
       end
 
       # Gets custom fields for character creation (chargen).
@@ -86,7 +88,7 @@ module AresMUSH
       def self.save_fields_from_profile_edit2(char, enactor, char_data)
         # By default, this calls the old method for backwards compatibility. The old one didn't
         # use enactor. Replace this with your own code.
-        return CustomCharFields.save_fields_from_profile_edit(char, char_data)
+        char.update(looking_for_rp_announce: Website.format_input_for_mush(char_data["custom"]["looking_for_rp_announce"] == true ? "on" : "off"))
       end
 
       

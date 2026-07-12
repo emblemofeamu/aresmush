@@ -1,0 +1,11 @@
+---
+lookingforrp:
+  cron:
+    minute:
+    - 00
+    - 15
+    - 30
+    - 45
+  shortcuts:
+    lookingforrp/txt: lookingforrp/text
+    lfrp: lookingforrp

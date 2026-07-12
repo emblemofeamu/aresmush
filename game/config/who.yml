@@ -23,3 +23,6 @@ who:
   - field: idle
     width: 4
     title: Idle
+  - field: lookingforrp
+    width: 5
+    title: RP?
