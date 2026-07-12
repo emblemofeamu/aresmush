@@ -31,7 +31,8 @@ module AresMUSH
     set :roles, "AresMUSH::Role"
 
     before_save :save_upcase
-
+    before_delete :engine_on_delete
+    
     def is_statue?
       self.is_statue
     end
@@ -127,12 +128,7 @@ module AresMUSH
         names.any? { |n| has_role?(n) }
       end
     end
-
-    def save_upcase
-      self.name_upcase = self.name ? self.name.upcase : nil
-      self.alias_upcase = self.alias ? self.alias.upcase : nil
-    end
-
+    
     def name_and_alias
       if (self.alias.blank?)
         name
@@ -159,8 +155,44 @@ module AresMUSH
          .any? { |b| b.blocked == target }
     end
     
+    def delete_blocks
+      self.blocks.each { |b| b.destroy }
+      BlockRecord.all.select { |b| b.blocked == self }.each { |b| b.destroy }
+    end    
+    
     def self.random_link_code
       (0...8).map { (33 + rand(94)).chr }.join
+    end 
+    
+    def get_or_create_read_tracker
+      return self.read_tracker if self.read_tracker
+      tracker = ReadTracker.create(character: self)
+      self.update(read_tracker: tracker)
+      return tracker
+    end  
+
+
+    # -----------------------------------
+    # CALLBACKS
+    # -----------------------------------
+    
+    def save_upcase
+      self.name_upcase = self.name ? self.name.upcase : nil
+      self.alias_upcase = self.alias ? self.alias.upcase : nil
     end
+    
+    def engine_on_delete
+      if self.read_tracker
+        self.read_tracker.delete
+      end
+      
+      if self.handle
+        self.handle.delete
+      end
+      
+      self.delete_blocks
+    end
+    
+    
   end
 end
