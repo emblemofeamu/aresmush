@@ -48,6 +48,9 @@ pf2e_archetype:
       reaction: []
   Champion Archetype:
     use_deity: true
+    allowed_sanctifications:
+      - Holy
+      - Unsanctified
     allowed_alignments:
       - OL
       - WL

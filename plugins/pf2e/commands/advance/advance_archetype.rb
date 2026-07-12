@@ -64,6 +64,26 @@ module AresMUSH
                 end
               end
 
+              # Check sanctification for Champion Archetype specialties that have sanctification requirements.
+              if archetype == 'Champion Archetype'
+                specialty_info = Global.read_config('pf2e_archetype_specialty', archetype, chosen_specialty) || {}
+                allowed_sanctifications = Array(specialty_info['allowed_sanctifications']).map { |s| s.to_s.strip }.reject(&:empty?)
+
+                unless allowed_sanctifications.empty?
+                  # Get the effective sanctification (pending or current).
+                  effective_sanctification = to_assign['archetype_sanctification']
+                  effective_sanctification = enactor.pf2_faith['sanctification'] if effective_sanctification.blank? || effective_sanctification.casecmp?('open')
+
+                  # Only validate if sanctification is already set (not blank or 'open').
+                  if !effective_sanctification.blank? && !effective_sanctification.casecmp?('open')
+                    unless allowed_sanctifications.any? { |s| s.casecmp?(effective_sanctification) }
+                      client.emit_failure t('pf2e.adv_champion_specialty_sanctification_mismatch', :specialty => chosen_specialty, :sanctification => effective_sanctification, :options => allowed_sanctifications.sort.join(", "))
+                      return
+                    end
+                  end
+                end
+              end
+
               # Get the archetype info.
               archetype_info = enactor.pf2_archetypeinfo
 
@@ -299,6 +319,74 @@ module AresMUSH
               enactor.save
 
               client.emit_success t('pf2e.adv_archetype_key_ability_assigned', :ability => chosen_ability, :archetype => archetype)
+            when 'sanctification'
+              sanctification_archetypes = ['Champion Archetype', 'Cleric Archetype']
+              unless sanctification_archetypes.include?(archetype)
+                client.emit_failure t('pf2e.adv_no_archetype_sanctification_needed')
+                return
+              end
+
+              base_class = enactor.pf2_base_info['charclass']
+
+              # Clerics can't change their sanctification via Champion Archetype.
+              if archetype == 'Champion Archetype' && base_class.casecmp?('Cleric')
+                client.emit_failure t('pf2e.adv_archetype_sanctification_locked', :charclass => base_class)
+                return
+              end
+
+              unless to_assign['archetype_sanctification']&.casecmp?('open')
+                client.emit_failure t('pf2e.adv_no_archetype_sanctification_needed')
+                return
+              end
+
+              valid_options = if archetype == 'Champion Archetype'
+                Array(Global.read_config('pf2e_archetype', archetype, 'allowed_sanctifications'))
+              else
+                # Cleric Archetype
+                if base_class.casecmp?('Champion')
+                  # Champions taking Cleric Archetype may only be Holy.
+                  ['Holy']
+                else
+                  deity = to_assign['archetype deity']
+                  deity = nil if deity.blank? || deity.to_s.casecmp?('open')
+
+                  if deity.blank?
+                    client.emit_failure t('pf2e.adv_archetype_sanctification_needs_deity')
+                    return
+                  end
+
+                  Array(Global.read_config('pf2e_deities', deity, 'allowed_sanctifications'))
+                end
+              end
+
+              # Filter valid_options based on specialty requirements (if specialty already chosen).
+              if archetype == 'Champion Archetype'
+                chosen_specialty = to_assign['archetype_specialty']
+                if chosen_specialty && !chosen_specialty.blank? && !chosen_specialty.casecmp?('open')
+                  specialty_info = Global.read_config('pf2e_archetype_specialty', archetype, chosen_specialty) || {}
+                  specialty_allowed = Array(specialty_info['allowed_sanctifications']).map { |s| s.to_s.strip }.reject(&:empty?)
+
+                  unless specialty_allowed.empty?
+                    valid_options = valid_options.select { |s| specialty_allowed.any? { |sa| sa.casecmp?(s) } }
+                  end
+                end
+              end
+
+              chosen = valid_options.find { |s| s.casecmp?(self.value) }
+              unless chosen
+                client.emit_failure t('pf2e.adv_invalid_archetype_sanctification', :options => valid_options.join(", "))
+                return
+              end
+
+              advancement = enactor.pf2_advancement || {}
+              to_assign['archetype_sanctification'] = chosen
+              advancement['archetype_sanctification'] = chosen
+
+              enactor.pf2_advancement = advancement
+              enactor.pf2_to_assign = to_assign
+              enactor.save
+
+              client.emit_success t('pf2e.adv_archetype_sanctification_assigned', :sanctification => chosen)
             when 'deity'
               unless to_assign['archetype deity']&.casecmp?('open')
                 client.emit_failure t('pf2e.adv_no_archetype_deity_needed')
@@ -310,6 +398,13 @@ module AresMUSH
 
               unless chosen_deity
                 client.emit_failure t('pf2e.adv_invalid_archetype_deity', :options => deities.sort.join(", "))
+                return
+              end
+
+              # Champions may not worship these deities, even via the Champion Archetype.
+              if archetype == 'Champion Archetype' &&
+                 chosen_deity.in?(["Caracoroth", "Deimos", "Gunahkar", "Illotha", "Maugrim", "Taara", "Thul"])
+                client.emit_failure t('pf2e.adv_champion_deity_mismatch', :deity => chosen_deity)
                 return
               end
 
@@ -350,7 +445,7 @@ module AresMUSH
 
               client.emit_success t('pf2e.adv_archetype_deity_assigned', :deity => chosen_deity, :archetype => archetype)
             else
-              client.emit_failure t('pf2e.bad_option', :element => 'archetype assignment', :options => 'specialty, specialtychoice, key ability, deity')
+              client.emit_failure t('pf2e.bad_option', :element => 'archetype assignment', :options => 'specialty, specialtychoice, key ability, deity, sanctification')
               return
             end
         end

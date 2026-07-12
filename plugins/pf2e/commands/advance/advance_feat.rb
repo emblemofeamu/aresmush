@@ -289,12 +289,63 @@ module AresMUSH
 
             # Check if the archetype has specialties to choose from.
             archetype_specialties = Global.read_config('pf2e_archetype_specialty', archetype)
-            
+
             if archetype_specialties && !archetype_specialties.empty?
               # If so, opens up archetype specialty selection in advancement assignment.
               to_assign['archetype_specialty'] = 'open'
               archetype_specialty_list = archetype_specialties.keys.sort.join(", ")
               client.emit_ooc t('pf2e.adv_archetype_specialty_select', :archetype => archetype, :options => archetype_specialty_list)
+            end
+
+            # Handle sanctification for Champion Archetype and Cleric Archetype.
+            if archetype == 'Champion Archetype' || archetype == 'Cleric Archetype'
+              current_sanctification = enactor.pf2_faith['sanctification']
+
+              if archetype == 'Champion Archetype'
+                if base_class_key.casecmp?('Cleric')
+                  # Clerics can't change their sanctification via archetype.
+                  client.emit_ooc t('pf2e.adv_archetype_sanctification_locked', :charclass => base_class_key)
+                else
+                  archetype_allowed = Array(Global.read_config('pf2e_archetype', archetype, 'allowed_sanctifications'))
+                  if !current_sanctification.blank? && archetype_allowed.any? { |s| s.casecmp?(current_sanctification) }
+                    to_assign['archetype_sanctification'] = current_sanctification
+                    advancement['archetype_sanctification'] = current_sanctification
+                    client.emit_ooc t('pf2e.adv_archetype_sanctification_auto', :sanctification => current_sanctification, :archetype => archetype)
+                  else
+                    to_assign['archetype_sanctification'] = 'open'
+                    client.emit_ooc t('pf2e.adv_archetype_sanctification_select', :archetype => archetype, :options => archetype_allowed.join(", "))
+                  end
+                end
+              elsif archetype == 'Cleric Archetype'
+                if base_class_key.casecmp?('Champion')
+                  # Champions taking Cleric Archetype must sanctify as Holy.
+                  if !current_sanctification.blank? && current_sanctification.casecmp?('Holy')
+                    to_assign['archetype_sanctification'] = 'Holy'
+                    advancement['archetype_sanctification'] = 'Holy'
+                    client.emit_ooc t('pf2e.adv_archetype_sanctification_auto', :sanctification => 'Holy', :archetype => archetype)
+                  else
+                    to_assign['archetype_sanctification'] = 'open'
+                    client.emit_ooc t('pf2e.adv_archetype_sanctification_champion_cleric')
+                  end
+                else
+                  deity = to_assign['archetype deity']
+                  deity = nil if deity.blank? || deity.to_s.casecmp?('open')
+                  if !deity.blank?
+                    allowed_from_deity = Array(Global.read_config('pf2e_deities', deity, 'allowed_sanctifications'))
+                    if !current_sanctification.blank? && allowed_from_deity.any? { |s| s.casecmp?(current_sanctification) }
+                      to_assign['archetype_sanctification'] = current_sanctification
+                      advancement['archetype_sanctification'] = current_sanctification
+                      client.emit_ooc t('pf2e.adv_archetype_sanctification_auto', :sanctification => current_sanctification, :archetype => archetype)
+                    else
+                      to_assign['archetype_sanctification'] = 'open'
+                      client.emit_ooc t('pf2e.adv_archetype_sanctification_select', :archetype => archetype, :options => allowed_from_deity.join(", "))
+                    end
+                  else
+                    to_assign['archetype_sanctification'] = 'open'
+                    client.emit_ooc t('pf2e.adv_archetype_sanctification_needs_select', :archetype => archetype)
+                  end
+                end
+              end
             end
           end
         end
