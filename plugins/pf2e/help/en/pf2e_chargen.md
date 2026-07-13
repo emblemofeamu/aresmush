@@ -24,14 +24,15 @@ See [Backgrounds](/wiki/mechanics:backgrounds) for more information. To page thr
 See [Classes](/wiki/mechanics:classes) for more information.
 * `specialize`: Many classes have specialties. If yours does, choose it using this input.
 * `specialize_info`: A few classes need to choose an option for their specialty. If your specialty does, choose it using this input.
-* `alignment`: Your character's alignment, expressed as a two-letter code (True Neutral is N).
+* `alignment`: Your character's alignment, expressed as a two-letter code. See [Alignment](/wiki/mechanics:alignment) for more information.
 * `deity`: Does your character venerate a specific deity above all others? (Optional, except for champions and clerics.)
+* `sanctification`: (Only for clerics and champions.) Your character's choice of sanctification. Champions may choose between Holy and Unsanctified (although some specialties require Holy sanctification). Clerics' sanctification choice depend on their deity choice. See the class page for details.
 
 `ancestry`, `background`, `charclass`, `heritage`, and `alignment` are required for all characters. Please see `cg/review` for other requirements before continuing.
 
 `commit info`: Once you're happy with what you have, input this to finalize it and set up the next phase of chargen.
 **BEWARE:** If you change your mind on any option set in this portion of chargen later, you'll have to `cg/reset` and start your sheet over from the beginning.
 
-`cg/restore <checkpoint>`: If you would like to change your base info, ability scores or skills after you have committed them, this command will restore your character to the point just before the section was committed. Options are: `info`, `abilities`, and `skills`.
+`cg/restore <checkpoint>`: If you would like to change your base info, ability scores or skills after you have committed them, this command will restore your character to the point just before the section was committed. Options are: `info`, `abilities`, and `skills`. For more information, see `help commit`.
 
 `cg/reset`: If you change your mind and want to completely start over, you can do so with this command. This command wipes all options and starts you over at the very beginning.
