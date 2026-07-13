@@ -19,4 +19,4 @@ achievements:
     minute:
     - 30
   notification_category: System Notices
-  notification_days: 1
+  notification_days: 30
