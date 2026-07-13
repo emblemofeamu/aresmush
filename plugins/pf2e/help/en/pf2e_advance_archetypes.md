@@ -17,8 +17,9 @@ Starting at level 2, you can spend a class feat to select a Dedication feat. Sel
 `advance/feat charclass = <feat name>`: Selects a Dedication or Archetype feat (by its `<feat name>`).
 `advance/archetype specialty = <specialty>`: Selects an archetype specialty, if available.
 `advance/archetype specialtychoice = <specialtychoice>`: Selects an archetype specialty choice, if available. (Only for Barbarian Archetype's Animal and Dragon instincts and the Sorcerer Archetype's Elemental and Draconic bloodlines.)
-`advance/archetype deity = <deity>`: Select a deity for your archetype. (Only for Cleric and Champion Archetypes.) Deity is automatically assigned for you if you already have a deity set from chargen.
-`advance/archetype key ability = <key ability>`: If prompted, selects a key ability for your archetype. (Only for some Archetypes.)
+`advance/archetype deity = <deity>`: Selects a deity for your archetype. (Only for Cleric and Champion Archetypes.) Deity is automatically assigned for you if you already have a deity set from chargen.
+`advance/archetype key ability = <key ability>`: Selects a key ability for your archetype. (Only for some Archetypes.)
+`advance/archetype sanctification = <sanctification>`: Selects a sanctification for your archetype. (Only for Cleric and Champion Archetypes.)
 
 Sometimes, archetypes, archetype specialties, and deities chosen for archetypes might give training in skills you're already trained in. Those skills are turned into open slots to train an untrained skill into a trained one. Use the regular `advance/raise skill` command (as outlined in `help advanceskills`) to train those skills.
 
