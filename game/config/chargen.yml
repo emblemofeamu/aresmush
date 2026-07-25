@@ -85,24 +85,12 @@ chargen:
       help: demographics
     groups:
       help: groups
-    prologue:
-      help: prologue
     sheet_basic:
       help: pf2e_chargen
-    sheet_abilities:
-      help: pf2e_chargen_abilities
-    sheet_skills:
-      help: pf2e_chargen_skills
-    sheet_languages:
-      help: pf2e_chargen_languages
-    sheet_feats:
-      help: pf2e_chargen_feats
-    sheet_magic:
-      help: chargen_magic
-    sheet_formulas:
-      help: pf2e_chargen_formulas
     desc:
       help: descriptions
+    prologue:
+      help: prologue
     hooks:
       help: hooks
     registration:
@@ -116,7 +104,7 @@ chargen:
     review:
       title: App Submission
       text: |-
-        You've completed chargen! Review your app one more time, and use `app/submit <optional notes>` to submit your character when you’re ready. Staff will make sure it's a good fit for the game's theme and that your sheet is in line with your prologue. See `help apps` for additional commands if you’re asked to edit your application or if you wish to edit your application.
+        You've completed chargen! Review your app one more time, and use `app/submit <optional notes>` to submit your character when you’re ready. Staff will make sure it's a good fit for the game's theme and that your sheet is in line with your Prologue. See `help apps` for additional commands if you’re asked to edit your application or if you wish to edit your application.
         While you're waiting for approval, you can look at the `help vendor` file to learn about buying gear, and you can interact with the community through the chat channels and through our community Discord!
   welcome_message: "Welcome to Emblem of Ea, %{name}! \n\nLearn more about the newest
     member of the Illuminators: %{profile_link}\n\nRP Hooks:\n%{rp_hooks}"

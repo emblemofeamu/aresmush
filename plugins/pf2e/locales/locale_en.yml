@@ -181,7 +181,7 @@ en:
     condition_needs_value: "This condition requires that a value be associated with it."
     condition_set_ok: "Condition %{condition} set on %{target}."
     charclass_not_set: "You cannot set a specialty until you set your class."
-    chargen_committed: "All set. Your chargen options are locked and your fixed options assigned. Enter '%xucg/next%xU' to continue."
+    chargen_committed: "All set. Your chargen options are locked and your fixed options assigned. Enter '%xwcg/review%xn%xg' to continue."
     choose_key_ability: "Your class or subclass has a choice of key attribute. You must select this before you can commit."
     class_deity_mismatch: "%xrYour alignment is not valid for your deity and class.%xn"
     class_mismatch: "%xrYour alignment is not valid for your class.%xn"

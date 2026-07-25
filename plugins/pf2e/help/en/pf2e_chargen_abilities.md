@@ -1,39 +1,29 @@
 ---
 toc: Pathfinder Second Edition
-summary: Starting character generation - ability boosts.
-order: 3
+summary: Starting character generation - attribute boosts.
+aliases:
+- cg_attributes
 ---
 
-# Pathfinder 2E Chargen - Abilities
+# Pathfinder 2E Chargen - Attributes
 
-Now you can start assigning ability boosts to your ability scores. Some of your stats already have boosts from your Background and Class choices, but you will need to assign other ability boosts before you can move on. Your ability options are: **Strength, Dexterity, Constitution, Wisdom, Intelligence, and Charisma**.
+Now you can start assigning attribute boosts to your attributes. Some of your stats already have boosts from your Background and Class choices, but you will need to assign other attribute boosts before you can move on. Your attribute options are **Strength, Dexterity, Constitution, Wisdom, Intelligence, and Charisma**. For more information about attributes, see [Archives of Nethys's page on character creation](https://2e.aonprd.com/Rules.aspx?ID=2027).
 
-These rules apply to assigning ability boosts:
+## Setting attribute boost commands
+`boost/set ancestry=<attribute>`: Sets one of your two ancestry boosts to `<attribute>`.
+%t On Emblem of Ea MUSH, **ancestry attributes are open.**
+`boost/set background=<attribute>`: Sets one of your background boosts to `<attribute>`.
+%t If your background gives you a choice between two attributes for one of your background boosts, **we recommend you assign the choice boost first before you set the other background boost.**
+`boost/set charclass=<attribute>`: Sets your class boost to `<attribute>` and determines your class's Key Attribute, which is the attribute that your class uses to calculate class and spellcasting DC.
+%t **Not all classes have a charclass boost choice.** See your class's wiki page for details.
+`boost/set free=<attribute>`: Sets one of your free boosts to `<attribute>`.
 
-## You begin with a score of 10 in each ability, which represents an average competency. 
-Each boost increases the ability score by 2. No score may start play at lower than 10 or higher than 18, and only one score may start play at 18.
+## Unsetting attribute boost commands
+If you make a mistake, you can unset a boost that you set.
 
-## When you receive multiple ability boosts from a single source, you must assign each boost to a different score.
-For example: a character assigns one of their two ancestry ability boosts to Dexterity, but cannot assign their other ancestry boosts to Dexterity. That boost must go into one of the other five ability scores.
+`boost/unset ancestry=<attribute>`: Unassigns your ancestry `<attribute>` boost.
+`boost/unset background=<attribute>`: Unassigns your background `<attribute>` boost.
+`boost/unset charclass=<attribute>`: Unassigns your class `<attribute>` boost.
+`boost/unset free=<attribute>`: Unassigns your free `<attribute>` boost.
 
-## Many backgrounds offer a boost that offers a choice between two scores in addition to a free boost. 
-If this is true of your background, it is legal to choose one of the score options for your first boost, and make your open boost the other one. The only requirement is that each boost from a given source go to a different stat. For example: a character with the Feybound background has a boost that they can take in either Dexterity and Charisma in addition to a free boost. The character can take their first boost in Dexterity and their second boost in Charisma.
-
-**When you have a boost that wants you to choose between two scores, such as a Background or a Class boost, we recommend you assign that boost first before you set other free boosts.**
-
-## Commands
-
-`cg/review`: Lists your free boosts, ancestry boosts, background boosts, and your character class’s key ability boost. After you assign a boost to an ability score, `cg/review` shows a list of what boosts you have assigned and have not assigned.
-
-`sheet`: Shows your character sheet.
-
-In the following commands, you must replace the <ability> value with one of the following options: Strength, Dexterity, Constitution, Intelligence, Wisdom, or Charisma.
-
-`boost/set <input>=<ability>`: A `<input>` can be an `ancestry`, `background`, `charclass`, or `free`. Assigns a type of boost to `<ability>`.
-**IMPORTANT**: Setting a `<charclass>` boost, if one is available to you depending on your character's class, determines the Key Ability of the class, which is the ability that your class uses to calculate class and spellcasting DC. Choose your `<charclass>` boost carefully.
-
-`boost/unset <input>=<ability>`: Unassigns that ability for that boost type only. Does not affect other boosts you may have assigned.
-
-%xrboost/unset is currently unavailable. Please use `cg/restore info`%xr followed by `commit info`%xr to reset boosts.%xn
-
-When you are satisfied with what you have, input `commit abilities`. This locks your ability scores and allows you to choose your skills and languages. If you want to change your base info, ability scores or skills afterwards, you will need to restore to the appropriate checkpoint with `cg/restore <checkpoint>` where checkpoint is `info`, `abilities`, or `skills`. If you would like to start your character over, please use `cg/reset`.
+**NOTE:** `boost/unset` is currently unavailable. Please use `cg/restore info` followed by `commit info` to reset boosts.
