@@ -46,49 +46,122 @@ module AresMUSH
         @char.name
       end
 
+      def unset
+      # Shown when there's an option the character still has to choose.
+        "%xh%xrUNSET%xn"
+      end
+
+      def not_applicable
+      # Shown when there's an option that doesn't apply, or can't be chosen until an earlier one is.
+        "-"
+      end
+
+      def show(value)
+        value.blank? ? unset : value
+      end
+
+      def base_info_set
+      # Everything the character must choose has been chosen, so they can commit info.
+        Pf2e.base_info_set?(@char.pf2_base_info, @faith_info)
+      end
+
+      def has_ancestry
+        !@ancestry.blank?
+      end
+
+      def has_background
+        !@background.blank?
+      end
+
+      def has_charclass
+        !@charclass.blank?
+      end
+
+      def show_sofar
+      # Ancestry sets size, speed and part of the HP; class sets the rest of it.
+        has_ancestry || has_charclass
+      end
+
+      def hp_incomplete
+      # HP is only complete once both ancestry and class are set, since each contributes part of the total.
+        if has_ancestry && !has_charclass
+          t('pf2e.cg_hp_incomplete_class')
+        elsif has_charclass && !has_ancestry
+          t('pf2e.cg_hp_incomplete_ancestry')
+        end
+      end
+
+      def show_traits
+      # Traits come from ancestry, heritage, and class.
+        has_ancestry || has_charclass
+      end
+
+      def show_boosts
+      # Boosts come from ancestry, background, and class.
+        has_ancestry || has_background || has_charclass
+      end
+
+      def show_skills
+      # Trained skills come from the character's class, class specialty, background, and (if a cleric or champion) deity.
+        has_charclass || has_background
+      end
+
+      def show_other
+      # Senses and special abilities come from the character's ancestry, heritage, and background; starting languages come from ancestry.
+        has_ancestry || has_background
+      end
+
       def ancestry
-        @ancestry
+        show(@ancestry)
       end
 
       def heritage
-        @heritage
+        show(@heritage)
       end
 
       def background
-        @background
+        show(@background)
       end
 
       def charclass
-        @charclass
+        show(@charclass)
       end
 
       def subclass
-        @subclass
+        return not_applicable if !Pf2e.needs_specialty?(@charclass)
+        show(@subclass)
       end
 
       def subclass_option
-        @subclass_option
+        return not_applicable if !Pf2e.needs_specialty_choice?(@charclass, @subclass)
+        show(@subclass_option)
       end
 
       def deity
-        @faith_info['deity']
+        return show(@faith_info['deity']) if use_deity
+        @faith_info['deity'].blank? ? not_applicable : @faith_info['deity']
       end
 
       def use_deity
-        @charclass_info['use_deity']
+        Pf2e.needs_deity?(@charclass)
       end
 
       def is_devotee
-        alert = use_deity ? " %xh%xy(REQ)%xn" : ""
+        use_deity ? " %xh%xy(REQ)%xn" : ""
+      end
+
+      def deity_optional
+      # Reminder for a character who has picked a class that doesn't require a deity, so that they can pick a deity if they want to for the funsies.
+        has_charclass && !use_deity && @faith_info['deity'].blank?
       end
 
       def alignment
-        @faith_info['alignment']
+        show(@faith_info['alignment'])
       end
 
       def sanctification
         if Pf2e.uses_sanctification?(@charclass)
-          @faith_info['sanctification']
+          show(@faith_info['sanctification'])
         end
       end
 
@@ -137,11 +210,14 @@ module AresMUSH
       end
 
       def size
+        return not_applicable if !has_ancestry
         @ancestry_info["Size"] ? @ancestry_info["Size"] : "M"
       end
 
       def speed
-        @ancestry_info["Speed"] ? @ancestry_info["Speed"] : "?"
+        return not_applicable if !has_ancestry
+        speed = @ancestry_info["Speed"] ? @ancestry_info["Speed"] : "?"
+        "#{speed} feet"
       end
 
       def traits
@@ -149,31 +225,28 @@ module AresMUSH
         h_traits = @heritage_info["traits"] ? @heritage_info["traits"] : []
         c_traits = @charclass_info ? [ @charclass.downcase ] : []
 
-        traits = a_traits + h_traits + c_traits.uniq.difference([ "" ]).sort
+        traits = (a_traits + h_traits + c_traits.uniq.difference([ "" ]).sort).map { |t| t.titlecase }
       end
 
       def free_boosts
         free = 4
       end
 
+      def collapse_open_boosts(msg)
+      # Roll any "open" entries up into a single "N open" count, e.g. ["open", "open"] => "2 open".
+        open_count = msg.count { |item| item == "open" }
+        named = msg.reject { |item| item == "open" }
+        named << "#{open_count} open" if open_count > 0
+        named.join(", ")
+      end
+
       def ancestry_boosts
         list = @ancestry_info["abl_boosts"] ? @ancestry_info["abl_boosts"] : "?"
 
-        msg = []
-        if list.is_a?(Array)
-          list.each do |item|
-            if item.is_a?(Array)
-              msg << item.join( " and ")
-            else
-              msg << item
-            end
-          end
+        return list if !list.is_a?(Array)
 
-          msg.join(", ")
-        else
-          list
-        end
-
+        msg = list.map { |item| item.is_a?(Array) ? item.join(" and ") : item }
+        collapse_open_boosts(msg)
       end
 
       def bg_boosts
@@ -181,17 +254,8 @@ module AresMUSH
 
         return "None." if list.empty?
 
-        msg = []
-
-        list.each do |item|
-          if item.is_a?(Array)
-            msg << item.join(" or ")
-          else
-            msg << item
-          end
-        end
-
-        msg.join(", ")
+        msg = list.map { |item| item.is_a?(Array) ? item.join(" or ") : item }
+        collapse_open_boosts(msg)
       end
 
       def key_ability
@@ -268,6 +332,22 @@ module AresMUSH
 
       def open_skills
         all_skills.size - unique_skills.size
+      end
+
+      def skills_summary
+      # Named skills are locked in as soon as their source is chosen. The number of open skills a class grants isn't
+      # known until a class is picked, and INT-based open skills aren't known until abilities are set in the next stage.
+        parts = []
+        parts << unique_skills.join(", ") unless unique_skills.empty?
+
+        if has_charclass
+          parts << "#{open_skills} open" if open_skills > 0
+        else
+          parts << "your class's number of open skills"
+        end
+
+        parts << "your INT modifier"
+        parts.join(" + ")
       end
 
       def errors

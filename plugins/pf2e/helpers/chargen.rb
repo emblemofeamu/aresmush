@@ -58,27 +58,57 @@ module AresMUSH
       charclass.casecmp?('Cleric') || charclass.casecmp?('Champion')
     end
 
-    def self.missing_base_info(ancestry, heritage, background, charclass, faith_info)
-      if ancestry.blank? || heritage.blank? || background.blank? || charclass.blank?
-        error = t('pf2e.missing_base_info')
-      end
+    def self.needs_specialty?(charclass)
+      return false if charclass.blank?
+      Global.read_config('pf2e', 'subclass_names').keys.include?(charclass)
+    end
 
-      return error if error
-      return nil
+    def self.needs_specialty_choice?(charclass, specialize)
+      return false if charclass.blank? || specialize.blank?
+      info = Global.read_config('pf2e_specialty', charclass, specialize)
+      info ? info.has_key?('choose') : false
+    end
+
+    def self.needs_deity?(charclass)
+      return false if charclass.blank?
+      Global.read_config('pf2e_class', charclass, 'use_deity') ? true : false
+    end
+
+    def self.base_info_set?(base_info, faith_info)
+      charclass = base_info['charclass']
+      specialize = base_info['specialize']
+
+      return false if base_info['ancestry'].blank?
+      return false if base_info['heritage'].blank?
+      return false if base_info['background'].blank?
+      return false if charclass.blank?
+      return false if faith_info['alignment'].blank?
+      return false if needs_specialty?(charclass) && specialize.blank?
+      return false if needs_specialty_choice?(charclass, specialize) && base_info['specialize_info'].blank?
+      return false if needs_deity?(charclass) && faith_info['deity'].blank?
+      return false if uses_sanctification?(charclass) && faith_info['sanctification'].blank?
+
+      true
+    end
+
+    def self.missing_base_info(ancestry, heritage, background, charclass, faith_info)
+      messages = []
+
+      messages << t('pf2e.missing_ancestry') if ancestry.blank?
+      messages << t('pf2e.missing_heritage') if !ancestry.blank? && heritage.blank?
+      messages << t('pf2e.missing_background') if background.blank?
+      messages << t('pf2e.missing_charclass') if charclass.blank?
+
+      messages
     end
 
     def self.chargen_messages(ancestry, heritage, background, charclass, specialize, faith, subclass_info, to_assign=nil)
-      messages = []
-
-      missing_info = Pf2e.missing_base_info(ancestry, heritage, background, charclass, faith)
-      messages << missing_info if missing_info
+      messages = Pf2e.missing_base_info(ancestry, heritage, background, charclass, faith)
 
       bad_alignment = Pf2e.check_alignment(faith['alignment'], charclass, specialize, faith['deity'])
       messages << bad_alignment if bad_alignment
 
-      needs_specialty = Global.read_config('pf2e', 'subclass_names').keys
-      error = needs_specialty.include?(charclass) && specialize.blank?
-      messages << t('pf2e.missing_subclass') if error
+      messages << t('pf2e.missing_subclass') if Pf2e.needs_specialty?(charclass) && specialize.blank?
 
       # Clerics and champions must choose a sanctification, and it must be valid for their current deity/specialty.
       if Pf2e.uses_sanctification?(charclass)
@@ -92,11 +122,9 @@ module AresMUSH
         end
       end
 
-      needs_specialty_subinfo = !specialize.blank? && !charclass.blank? ?
-        Global.read_config('pf2e_specialty', charclass, specialize) :
-        {}
-      missing_subclass_info = needs_specialty_subinfo.has_key?('choose') && subclass_info.blank?
-      messages << t('pf2e.missing_subclass_info') if missing_subclass_info
+      if Pf2e.needs_specialty_choice?(charclass, specialize) && subclass_info.blank?
+        messages << t('pf2e.missing_subclass_info')
+      end
 
       restricted = []
 
