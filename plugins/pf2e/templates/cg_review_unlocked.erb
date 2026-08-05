@@ -3,43 +3,69 @@
 <%= section_line("Basic Info") %>
 <%= left("#{item_color}Ancestry%xn: #{ancestry}", 39) -%>
 <%= left("#{item_color}Heritage%xn: #{heritage}", 39) %>
-<%= left("#{item_color}Class%xn: #{charclass}", 39) -%>
-<%= left("#{item_color}Kit/Specialty%xn: #{subclass}", 39) %>
-<%= left("#{item_color}Specialty Detail%xn: #{subclass_option}", 39) -%>
-<%= left("#{item_color}Background%xn: #{background}", 39) %>
+<%= left("#{item_color}Background%xn: #{background}", 39) -%>
+<%= left("#{item_color}Class%xn: #{charclass}", 39) %>
+<%= left("#{item_color}Specialty%xn: #{subclass}", 39) -%>
+<%= left("#{item_color}Specialty Choice%xn: #{subclass_option}", 39) %>
 <%= section_line("Faith Info") %>
 <%= left("#{item_color}Alignment%xn: #{alignment}", 39) -%>
+<%= left("#{item_color}Deity%xn: #{deity}#{is_devotee}", 39) %>
+<% if deity_optional %>
+<%= t('pf2e.cg_deity_optional') %>
+<% end %>
 <% if sanctification %>
 <%= "#{item_color}Sanctification%xn: #{sanctification}" %>
 <% end %>
-<%= left("#{item_color}Deity%xn: #{deity}#{is_devotee}", 39) %>
 <% if has_code %>
 <%= section_line("Code Of Behavior") %>
 <%= "%xh%xyYour character choices so far include a code of behavior. This code will be visible to other players once you are approved.%xn" %>
 <%= has_code %>
 <% end %>
+<% if show_sofar %>
 <%= section_line("So Far...") %>
 <%= left("#{item_color}HP%xn: #{ahp + chp} + #{con_mod}", 26) -%>
 <%= left("#{item_color}Size%xn: #{size}", 26) -%>
-<%= left("#{item_color}Speed%xn: #{speed} feet", 26) %>
+<%= left("#{item_color}Speed%xn: #{speed}", 26) %>
+<% if hp_incomplete %>
+<%= hp_incomplete %>
+<% end %>
+<% end %>
+<% if show_traits %>
 <%= section_line("Traits") %>
 <%= traits.sort.join(", ") %>
-<%= section_line("Ability Boosts") %>
+<% end %>
+<% if show_boosts %>
+<%= section_line("Attribute Boosts") %>
 <%= "#{item_color}Free Boosts%xn: #{free_boosts}" %>
-<%= "#{item_color}Ancestry Boosts%xn: #{ancestry_boosts}"  %>
+<% if has_ancestry %>
+<%= "#{item_color}Ancestry Boosts%xn: #{ancestry_boosts}" %>
+<% end %>
+<% if has_background %>
 <%= "#{item_color}Background Boosts%xn: #{bg_boosts}" %>
-<%= "#{item_color}Key Ability%xn: #{key_ability}" %>
-<%= section_line("Class Features") %>
-<%= "#{item_color}Skills%xn: #{unique_skills.join(", ")} + #{open_skills} + INT mod open" %>
+<% end %>
+<% if has_charclass %>
+<%= "#{item_color}Key Attribute%xn: #{key_ability}" %>
+<% end %>
+<%= t('pf2e.cg_boosts_next_stage') %>
+<% end %>
+<% if show_skills %>
+<%= section_line("Skills") %>
+<%= "#{item_color}Skills%xn: #{skills_summary}" %>
+<%= t('pf2e.cg_skills_note') %>
+<% end %>
+<% if show_other %>
 <%= section_line("Other Stuff") %>
 <%= "#{item_color}Special Senses and Abilities%xn: #{specials}" %>
+<% if has_ancestry %>
 <%= "#{item_color}Starting Languages%xn: #{languages}" %>
-<%= section_line("Warnings") %>
+<% end %>
+<% end %>
+<%= section_line("Messages") %>
 <%= errors %>
+<% if base_info_set %>
+<%= "%xwEnter '%xccommit info%xn' to finalize this stage of chargen and proceed to the next stage." %>
+<% end %>
 <%= divider %>
-<%= "If you're happy with what you see, type %xccommit info%xn to finalize it." %>
-<%= "All messages in %xrred%xn in Warnings must be resolved before you can commit." %>
-<%= "Messages in %xh%xyyellow%xn are warnings. You can apply with these, but your appstaffer" %>
-<%= "might ask about these items." %>
-<%= "If you change your mind after committing, you must %xccg/reset%xn." %>
+<%= "To view commands for this stage of chargen, see '%xchelp cg_baseinfo%xn'." %>
+<%= "To reset your sheet completely, enter '%xccg/reset%xn'." %>
 <%= footer %>

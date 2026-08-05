@@ -4,6 +4,7 @@ summary: Customizing magic in character generation.
 aliases:
 - addspell
 - dfont
+- cg_magic
 ---
 
 # Managing and Customizing Magic in Character Generation

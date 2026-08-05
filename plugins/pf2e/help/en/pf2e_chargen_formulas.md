@@ -1,7 +1,9 @@
 ---
 toc: Setting Up Formulas
 summary: How to set up formulas in character generation.
-order: 8
+aliases:
+- cg_formula
+- cg_formulas
 ---
 
 # Setting Up Formulas
