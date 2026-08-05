@@ -154,7 +154,7 @@ module AresMUSH
         h_traits = @heritage_info["traits"] ? @heritage_info["traits"] : []
         c_traits = @charclass_info ? [ @charclass.downcase ] : []
 
-        a_traits + h_traits + c_traits.uniq.difference([ "" ]).sort
+        (a_traits + h_traits + c_traits.uniq.difference([ "" ]).sort).map { |t| t.titlecase }
       end
 
       def free_boosts
@@ -167,23 +167,25 @@ module AresMUSH
         "#{assigned} plus #{still_free} free"
       end
 
+      def collapse_open_boosts(msg)
+      # Roll any still-unassigned "open" entries up into a single "N open" count, e.g. ["open", "open"] => "2 open".
+        return msg if !msg.is_a?(Array)
+        open_count = msg.count { |item| item == "open" }
+        named = msg.reject { |item| item == "open" }
+        named << "#{open_count} open" if open_count > 0
+        named.join(", ")
+      end
+
       def ancestry_boosts
-        list = @boosts['ancestry']
-        list.sort.join(", ")
+        collapse_open_boosts(@boosts['ancestry'].sort)
       end
 
       def bg_boosts
         list = @boosts['background']
         if list.is_a?(Array)
-          list = list.map do |v|
-            if v.is_a?(Array)
-              v.join(" or ")
-            else
-              v
-            end
-          end
+          list = list.map { |v| v.is_a?(Array) ? v.join(" or ") : v }
         end
-        list.join(", ")
+        collapse_open_boosts(list)
       end
 
       def key_ability

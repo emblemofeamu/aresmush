@@ -4,6 +4,7 @@ summary: Starting character generation - committing and restoring chargen stages
 aliases:
 - commit
 - restore
+- cg_restore
 ---
 
 # Pathfinder 2E Chargen - Committing and Restoring Chargen Stages

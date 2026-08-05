@@ -1,7 +1,9 @@
 ---
 toc: Pathfinder Second Edition
 summary: Starting character generation - choosing feats.
-order: 5
+aliases:
+- cg_feat
+- cg_feats
 ---
 
 # Pathfinder 2E Chargen - Feats

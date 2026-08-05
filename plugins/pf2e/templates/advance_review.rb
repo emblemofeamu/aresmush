@@ -230,7 +230,7 @@ module AresMUSH
       def help_instructions
         advance_help = t('pf2e.advance_help')
         advance_review_help = t('pf2e.advance_review_help')
-        return "%xc#{advance_help}%xn%r%xc#{advance_review_help}%xn"
+        return "#{advance_help}%r#{advance_review_help}"
       end
 
       def format_open_list(value)
