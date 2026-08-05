@@ -81,12 +81,12 @@ chargen:
         information about your character, and we also suggest judicious use of the
         `cg/review` command, which allows you to see your entire sheet at any time
         along with anything that might bar it from approval.
+    sheet_basic:
+      help: pf2e_chargen
     demographics:
       help: demographics
     groups:
       help: groups
-    sheet_basic:
-      help: pf2e_chargen
     desc:
       help: descriptions
     prologue:
@@ -95,8 +95,6 @@ chargen:
       help: hooks
     registration:
       help: register
-    handles:
-      help: handles
     profile:
       help: profile
     lastwill:
