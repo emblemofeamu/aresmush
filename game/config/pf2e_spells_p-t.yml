@@ -356,7 +356,7 @@ pf2e_spells:
     effect: "Your deity blesses base metals to transform them into precious materials. The metal in the target transforms from its normal metal into cold iron, copper, gold, iron, silver, or steel. If the spell's rank is 8th or higher, add adamantine and dawnsilver to the options. If you transform an object into copper, gold, or silver, its Hardness is reduced to 1. Otherwise, its Hardness is increased to 10 if it was lower. An item transmuted in this way deals damage according to its new material. For example, a steel sword transmuted to cold iron would deal additional damage to a creature with a weakness to cold iron. It can have other effects of the new material at the GM's discretion.%r%rThis change is clearly magical and temporary, so the item's monetary value doesn't change; you couldn't transmute copper coins to gold and use them to purchase something."
     heighten: "**+1:** If you increase the Hardness of the object, the new Hardness is 2 higher."
   Prestidigitation:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -474,7 +474,7 @@ pf2e_spells:
     effect: A protective aura emanates out from you, safeguarding you and your allies. You gain resistance 3 to all damage. Your allies also gain this resistance while in the area.
     heighten: "**+1:** The resistance increases by 1."
   Puff of Poison:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -606,7 +606,7 @@ pf2e_spells:
     effect: "You attempt to call forth the dead creature's soul, requiring the creature's body to be present and relatively intact. The creature must have died within the past 3 days. If Pharasma has decided that the creature's time has come (at the GM's discretion), or if the creature doesn't wish to return to life, this spell automatically fails, but the cost isn't consumed in the casting.%r%rIf the spell is successful, the creature returns to life with 1 Hit Point, no spells prepared or spell slots available, no points in any pools or any other daily resources, and still with any long-term debilitations of the old body. The time spent in the Boneyard leaves the target temporarily debilitated, making it clumsy 2, drained 2, and enfeebled 2 for 1 week; these conditions can't be removed or reduced by any means until the week has passed. The creature is also permanently changed by its time in the afterlife, such as a slight personality shift, a streak of white in the hair, or a strange new birthmark."
     heighten: "**7th:** The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1) × 400 gp.%r**8th:** The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1) × 800 gp.%r**9th:** The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1) × 1,600 gp.%r**10th:** The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1) × 3,200 gp."
   Rallying Anthem:
-    base_level: 2
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -635,7 +635,7 @@ pf2e_spells:
     effect: You cause plants in the area to entangle your foes, with the effects of *entangling flora*. A creature that critically fails the save takes 2d4 persistent bleed damage in addition to being immobilized. Escaping your bramble doesn't end the bleed damage.
     heighten: "**+1:** The bleed damage on a critical failure increases by 1d4."
   Read Aura:
-    base_level: 1
+    base_level: cantrip
     mystery:
       - lore
     traits:
@@ -1026,7 +1026,7 @@ pf2e_spells:
     effect: "You inflict pain upon the target and revel in their anguish. This deals 1d4 mental damage and 1d4 persistent mental damage; the target must attempt a Will save. As long as the target is taking persistent damage from this spell, you gain a +1 status bonus to attack rolls and skill checks against the target.%r%r**Critical Success** The target is unaffected.%r**Success** The target takes half damage and no persistent damage.%r**Failure** The target takes full initial and persistent damage.%r**Critical Failure** The target takes double initial and persistent damage."
     heighten: "**+1:** The initial damage increases by 1d4 and the persistent damage increases by 1d4."
   Scatter Scree:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -1296,7 +1296,7 @@ pf2e_spells:
     effect: A high-frequency sonic attack shatters a nearby object. You deal 2d10 sonic damage to the object, ignoring the object's Hardness if it is 4 or lower.
     heighten: "**+1:** The damage increases by 1d10, and the Hardness the spell ignores increases by 2."
   Shield:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - draconic
     mystery:
@@ -1377,7 +1377,7 @@ pf2e_spells:
     range: see text
     effect: You move so fast you blur across planar boundaries. You teleport up to a distance equal to your Speed within your line of sight.
   Shroud of Night:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - darkness
@@ -1391,7 +1391,7 @@ pf2e_spells:
     duration: 1 minute
     effect: "Your patron blankets the target's eyes in darkness. If you cast this hex on a willing ally (for instance, one with light blindness), the ally can choose which result it gets without rolling.%r%r**Success** The target is unaffected.%r**Failure** The target is shrouded in murky darkness. It treats bright light as dim light, and unless it has greater darkvision, all creatures are concealed to it."
   Sigil:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -1485,7 +1485,7 @@ pf2e_spells:
     effect: "You maintain a brisk performance that keeps allies on the move. You and your allies in the area can Hustle for the spell's duration, in addition to your other exploration activities (your exploration activity is Sustaining this spell). You and your allies then become temporarily immune for 1 day.%r%rIf you enter an encounter while performing this song, you can use your Performance modifier for the initiative roll. You and your affected allies also receive a +1 status bonus to that initiative roll."
     heighten: "**6th:** You can Sustain the Spell for up to 2 hours.%r**9th:** You can Sustain the Spell for up to 4 hours."
   Song of Strength:
-    base_level: 1
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -1807,7 +1807,7 @@ pf2e_spells:
     effect: "A Medium guardian made of magical force appears in an unoccupied space in range. The spiritual guardian is translucent and wields a ghostly echo of one weapon you're wielding or wearing. If you have a deity, the guardian takes the form of one of your deity's attendants or servitors. If you sanctify the spell, the guardian's attacks are sanctified as well.%r%rCreatures can move through the guardian's space but can't end their movement in it. You and your allies can flank with the guardian. The guardian doesn't have any other attributes a creature would normally have, aside from 50 Hit Points that it can't recover by any means and that it can lose only when protecting a creature (see below).%r%rWhen you Cast the Spell and each time you Sustain it, you can have the guardian move to any unoccupied space within 120 feet of you and either attack or protect."
     heighten: "**+2:** The guardian's damage increases by 1d8, and its Hit Points increase by 20."
   Spout:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -1838,7 +1838,7 @@ pf2e_spells:
     effect: "You fling a spray of tiny shooting stars, dealing 2d4 fire damage. Each creature in the area must attempt a Reflex save.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage and is dazzled for 1 round.%r**Failure** The creature takes full damage and is dazzled for 3 rounds.%r**Critical Failure** The creature takes double damage and is dazzled for 1 minute."
     heighten: "**+1:** Increase the damage by 1d4."
   Stabilize:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -1869,7 +1869,7 @@ pf2e_spells:
     effect: As long as you and the target are on the same plane of existence and both alive, you remain aware of its present state. You know the target's direction from you, distance from you, and any conditions affecting it.
     heighten: "**4th:** The spell's range increases to 30 feet, and you can target up to 10 creatures."
   Stoke the Heart:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -2120,7 +2120,7 @@ pf2e_spells:
     duration: 1 minute
     effect: "You summon a creature that has the giant trait and whose level is 5 or lower to fight for you.%r%r**Heightened** See the wiki for more information."
   Summon Instrument:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -2346,7 +2346,7 @@ pf2e_spells:
     duration: 10 minutes
     effect: "You grant the target corpse a semblance of life, which it uses to speak the answers to three questions posed to it. This spell calls on the physical body's latent memories rather than summoning back the deceased's spirit, so the corpse must be mostly intact for the spell to function. The more damage the corpse has taken, the more inaccurate or patchwork its answers are, and it must have a throat and mouth to speak at all. If anyone has previously cast this spell on the corpse in the last week, the spell automatically fails. The corpse can attempt a Will save to resist answering the questions using the statistics of the original creature at its time of death, with the following effects.%r%r**Critical Success** The target can lie or refuse to answer your questions, and the target's spirit haunts you for 24 hours, bothering you and causing you to be unable to gain any rest for that time.%r**Success** The target can provide false information or refuse to answer your questions.%r**Failure** The target must answer truthfully, but its answers can be brief, cryptic, and repetitive. It can still mislead you or attempt to stall so that the spell's duration runs out before you can ask all your questions.%r**Critical Failure** As failure, but the target's answers are more direct and less repetitive, though still cryptic. It takes a -2 status penalty to Deception checks to deceive or mislead you."
   Tangle Vine:
-    base_level: 1
+    base_level: cantrip
     traits:
       - attack
       - cantrip
@@ -2378,7 +2378,7 @@ pf2e_spells:
     duration: 10 minutes
     effect: Dense, twitching creepers sprout from every surface and fill any bodies of water in the area. Any creature moving on the land, or Climbing or Swimming within the creepers, takes a –10-foot circumstance penalty to its Speeds while in the area. Once per round, you can Sustain the spell to make a vine lash out from any square within the expanse of creepers. This vine has a 15-foot reach. Make a melee spell attack roll against the target; on a success, the vine pulls the target into the creepers and makes it immobilized for 1 round or until the creature Escapes (against your spell DC), whichever comes first.
   Telekinetic Hand:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -2421,7 +2421,7 @@ pf2e_spells:
     target: 1 creature
     effect: With a rush of telekinetic power, you move a foe or something they carry. You can attempt to Disarm, Shove, Reposition, or Trip the target using a spell attack roll instead of an Athletics check.
   Telekinetic Projectile:
-    base_level: 1
+    base_level: cantrip
     traits:
       - attack
       - cantrip
@@ -2792,7 +2792,7 @@ pf2e_spells:
     duration: 1 minute
     effect: "You rarely settle for being in just one place. Choose a location within 100 feet of the target that the target can see. You create an illusion of yourself there that only it can see and that mimics all your actions. The target must attempt a Will save.%r%r**Critical Success** The target is unaffected.%r**Success** The target believes you're in the designated location and can't see you in your actual location. The target automatically disbelieves the illusion when you use an action that doesn't make sense in the illusion's position, or if the target attacks, touches, Seeks, or otherwise engages with the illusion. If you use a hostile action against the target, the spell ends.%r**Failure** As success, but the target must succeed at a Will save to disbelieve the illusion when one of the listed events occurs.%r**Critical Failure** As success, but the target must critically succeed at a Will save to disbelieve when one of the listed events occurs."
   Triple Time:
-    base_level: 2
+    base_level: cantrip
     traits:
       - bard
       - cantrip

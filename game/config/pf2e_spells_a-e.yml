@@ -99,7 +99,7 @@ pf2e_spells:
     effect: You ward an area to alert you when creatures enter without your permission. When you cast alarm, select a password. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.
     heighten: "**3rd:** You can specify a trigger for which types of creatures sound the alarm spell."
   Allegro:
-    base_level: 7
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -709,7 +709,7 @@ pf2e_spells:
     effect: A gout of flame sprays from your mouth. You deal 2d6 fire damage to creatures in the area with a basic Reflex save.
     heighten: "**+1:** The damage increases by 2d6."
   Bullhorn:
-    base_level: 1
+    base_level: cantrip
     traits:
       - auditory
       - cantrip
@@ -821,7 +821,7 @@ pf2e_spells:
     range: 1,000 feet
     effect: You call upon the unimaginable power of world-ending cataclysms, ripping a small piece of each cataclysm and combining them together into one horrifically powerful attack. The following effects come down upon all creatures in the area. Treat the resistances of creatures in the area as if they were 10 lower for the purpose of determining the cataclysm's damage. Each creature attempts one basic Reflex save that applies to all five types of damage.
   Caustic Blast:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - demonic
     traits:
@@ -1104,7 +1104,7 @@ pf2e_spells:
     effect: "You drive mental contamination from the target's mind. Attempt to counteract an effect of your choice imposing one of these conditions on the target: fleeing, frightened, and stupefied. If you failed to counteract the effect but you would have if its counteract rank were 2 lower, instead suppress the effect until the beginning of your next turn. The effect's duration doesn't elapse while it's suppressed. This spell can't counteract or suppress conditions that are part of curses, diseases, or a natural state of the target."
     heighten: "**4th:** Add confused, controlled, and slowed to the list of conditions.%r**6th:** As 4th rank, plus add doomed.%r**8th:** As 4th rank, plus add doomed and stunned."
   Clinging Ice:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - cold
@@ -1375,7 +1375,7 @@ pf2e_spells:
     duration: 1 minute
     effect: Eyes form across the touched creature's body, allowing it to see in all directions at once. The subject can't be flanked for the spell's duration. In addition, when the subject succeeds when Seeking, it critically succeeds instead.
   Courageous Anthem:
-    base_level: 1
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -1596,7 +1596,7 @@ pf2e_spells:
     effect: You grant yourself supernatural sight in areas of darkness. You gain Darkvision.
     heighten: "**3rd:** The spell's range is touch and it targets 1 willing creature.%r**5th:** The spell's range is touch and it targets 1 willing creature. The duration is until the next time you make your daily preparations."
   Daze:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - aberrant
       - hag
@@ -1729,7 +1729,7 @@ pf2e_spells:
     effect: Swirling sands of divine devastation surround you, weakening the defenses of all they touch. Reduce the resistances of yourself and creatures in the area by 2.
     heighten: "**+2:** Reduce the resistances by an additional 2."
   Detect Magic:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - imperial
     traits:
@@ -1817,7 +1817,7 @@ pf2e_spells:
     effect: "You channel the primal forces of nature to transform into a Large animal battle form, specifically that of a powerful and terrifying dinosaur. When you Cast this Spell, choose a listed battle form. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.%r%rYou gain the following statistics and abilities regardless of which battle form you choose:%r%rYou also gain specific abilities based on the form you choose:"
     heighten: "**5th:** Your battle form is Huge and your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. You instead gain 20 temporary HP, an attack modifier of +18, a damage bonus of +6, double the damage dice, and Athletics +21.%r**7th:** Your battle form is Gargantuan and your attacks have 20-foot reach, or 25-foot reach if they started with 15-foot reach. You instead gain AC = 21 + your level, 25 temporary HP, an attack modifier of +25, a damage bonus of +15, double the damage dice, and Athletics +25."
   Dirge of Doom:
-    base_level: 3
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -1846,7 +1846,7 @@ pf2e_spells:
     duration: 10 minutes
     effect: You shroud a creature from others' senses. The target becomes invisible, but not merely to vision. The invisibility granted by *disappearance* applies to all precise senses an observer might have. It's still possible for a creature to find the target by Seeking using various senses, looking for disturbed dust, hearing gaps in the sound spectrum, or finding some other way to discover the presence of a creature that is otherwise undetectable.
   Discern Secrets:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - hex
@@ -1996,7 +1996,7 @@ pf2e_spells:
     target: 1 willing creature
     effect: You infuse a target with spiritual energy, refreshing its magic. If it prepares spells, it recovers one 6th-rank or lower spell it previously cast today and can cast that spell again. If it spontaneously casts spells, it recovers one of its 6th-rank or lower spell slots. If it has a focus pool, it regains its Focus Points, as if it had Refocused.
   Divine Lance:
-    base_level: 1
+    base_level: cantrip
     traits:
       - attack
       - cantrip
@@ -2348,7 +2348,7 @@ pf2e_spells:
     effect: "A globe of freezing darkness explodes in the area, dealing 8d10 cold damage to creatures in the area, plus an additional 8d4 void damage to living creatures. Each creature in the area must attempt a Reflex save.%r%rIf the globe overlaps with an area of magical light or affects a creature affected by magical light, eclipse burst attempts to counteract the light effect.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage.%r**Failure** The creature takes full damage.%r**Critical Failure** The creature takes double damage and becomes blinded by the darkness for an unlimited duration."
     heighten: "**+1:** The cold damage increases by 1d10 and the void damage against the living increases by 1d4."
   Electric Arc:
-    base_level: 1
+    base_level: cantrip
     mystery:
       - tempest
     traits:
@@ -2649,7 +2649,7 @@ pf2e_spells:
     duration: unlimited
     effect: The gemstone you touch glows, spreading bright light with a color of your choice in a 20-foot radius (and dim light for the next 20 feet). The spell ends immediately if the gemstone is broken.
   Evil Eye:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - curse
