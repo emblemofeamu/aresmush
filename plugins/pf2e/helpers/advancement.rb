@@ -69,6 +69,35 @@ module AresMUSH
       end
     end
 
+    def self.stage_feat_magic_stats(char, feat_name, feat_details, to_assign, advancement)
+      # Feats carry their magic in a top-level magic_stats block rather than under 'grants'. Stage it
+      # keyed by the feat, the same way the archetype path does, so do_advancement applies it at
+      # commit and any open choices show up on advance/review. Returns the options left to choose.
+      return [] if !feat_details.is_a?(Hash)
+
+      magic_stats = feat_details['magic_stats']
+
+      return [] if !magic_stats.is_a?(Hash) || magic_stats.empty?
+      return [] if !AresMUSH.const_defined?("Pf2emagic")
+
+      base_class_key = char.pf2_base_info['charclass']
+      assessed = PF2Magic.assess_magic_stats(char, magic_stats)
+
+      advancement['magic_stats'] ||= {}
+      wrap_adv_magic_stats(advancement, base_class_key)
+      advancement['magic_stats'][feat_name] = assessed['magic_stats']
+
+      magic_options = assessed['magic_options'] || {}
+
+      magic_options.each_pair do |option, slots|
+        wrap_magic_assign(to_assign, option, base_class_key)
+        to_assign[option] ||= {}
+        to_assign[option][feat_name] = slots
+      end
+
+      magic_options.keys.sort
+    end
+
     def self.archetype_key?(key)
       archetypes = Global.read_config('pf2e_archetype')&.keys || []
       archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
@@ -560,6 +589,10 @@ module AresMUSH
           value.each_pair do |feat, info|
             do_feat_grants(char, info, charclass, client)
           end
+        when "innate"
+          # Innate spells are granted by the magic_stats entry that opened the slot, which records the
+          # chosen spell as its name. Older advancements that stashed the filled slots here too need
+          # no second pass.
         when "repertoire_swap"
           # Already applied during advance/spellswap; no additional work needed here.
         else

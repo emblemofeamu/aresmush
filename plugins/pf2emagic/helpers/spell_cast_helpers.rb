@@ -128,7 +128,7 @@ module AresMUSH
                     when 3 then 'rd'
                     else 'th'
                    end
-          level_label = "#{highest_level}#{suffix}-level"
+          level_label = "#{highest_level}#{suffix}-rank"
 
           return t('pf2emagic.signature_autoheighten_no_slots', :level => level_label)
         end

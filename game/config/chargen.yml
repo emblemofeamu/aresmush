@@ -1,5 +1,6 @@
 ---
 chargen:
+  ability_system_app_review_header: Pathfinder 2e Character Sheet
   achievements:
     created_character:
       type: story

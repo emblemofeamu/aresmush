@@ -187,7 +187,7 @@ module AresMUSH
                 .join(" ")
               if subvalue.is_a? Array
                 display_subheading = subheading == "General" ? "General feat" : subheading == "Ancestry" ? "Ancestry feat" : subheading
-                if ["repertoire", "spellbook"].include?(key)
+                if ["repertoire", "spellbook", "innate"].include?(key)
                   level_heading = format_spell_level_heading(subkey)
                   display_subheading = level_heading.casecmp?("cantrip") ? "Cantrip" : "#{level_heading} spell"
                 end
@@ -278,16 +278,16 @@ module AresMUSH
         label = key.to_s.strip
 
         return "Cantrip" if label.casecmp?("cantrip") || label == "0"
-        return "1st-level" if label == "1"
-        return "2nd-level" if label == "2"
-        return "3rd-level" if label == "3"
-        return "4th-level" if label == "4"
-        return "5th-level" if label == "5"
-        return "6th-level" if label == "6"
-        return "7th-level" if label == "7"
-        return "8th-level" if label == "8"
-        return "9th-level" if label == "9"
-        return "10th-level" if label == "10"
+        return "1st-rank" if label == "1"
+        return "2nd-rank" if label == "2"
+        return "3rd-rank" if label == "3"
+        return "4th-rank" if label == "4"
+        return "5th-rank" if label == "5"
+        return "6th-rank" if label == "6"
+        return "7th-rank" if label == "7"
+        return "8th-rank" if label == "8"
+        return "9th-rank" if label == "9"
+        return "10th-rank" if label == "10"
 
         label
       end

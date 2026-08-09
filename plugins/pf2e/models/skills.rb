@@ -92,6 +92,16 @@ module AresMUSH
       return msgs
     end
 
+    # Languages are handed out alongside skills, so they're counted at the same stage.
+    def self.open_language_count(char)
+      Array(char.pf2_to_assign['open languages']).count("open")
+    end
+
+    def self.language_messages(char)
+      return nil if Pf2eSkills.open_language_count(char).zero?
+      [ t('pf2e.unassigned_lang') ]
+    end
+
     def self.cg_lock_skills(enactor, client=nil)
       # Did they do this already?
       return t('pf2e.cg_locked', :cp => 'skills') if enactor.pf2_skills_locked
@@ -102,6 +112,10 @@ module AresMUSH
       # Take the key and lock 'em up ./~
       return t('pf2e.skill_issues') if errors
 
+      # Languages belong to this stage too, so they can't be left open either.
+      open_lang = Pf2eSkills.open_language_count(enactor)
+      return t('pf2e.lang_issues', :count => open_lang) if open_lang.positive?
+
       Pf2eSkills.apply_bg_skill_feat_assignment(enactor, client)
 
       enactor.update(pf2_skills_locked: true)
@@ -111,8 +125,8 @@ module AresMUSH
     end
 
     def self.cg_lock_featskills(enactor)
-      # Did they do this already?
-      return t('pf2e.cg_locked', :cp => 'featskills') if enactor.pf2_skills_locked
+      # Nothing reopened their skills, so there's nothing here to lock.
+      return t('pf2e.nothing_to_relock') if enactor.pf2_skills_locked
 
       # Any errors that would stop them from locking?
       errors = Pf2eSkills.skills_messages(enactor)
@@ -122,8 +136,7 @@ module AresMUSH
 
       enactor.update(pf2_skills_locked: true)
 
-      # No need to record a checkpoint due to feats being the last step.
-      # Pf2e.record_checkpoint(enactor, "skills")
+      # No checkpoint to record. Skills were already committed and the feats stage doesn't have one.
       return nil
     end
 

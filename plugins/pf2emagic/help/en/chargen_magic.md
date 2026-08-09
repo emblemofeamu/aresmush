@@ -36,7 +36,7 @@ Some class specialties or choices grant you extra spells that must be resolved w
 
 ## Adding Divine Fonts
 
-Clerics have the divine font class feature. Some deities provide a choice between a Heal divine font or a Harm divine font. `cg/review` will tell you if you need to choose.
+Clerics have the divine font class feature. If your deity is a Twilight deity, you can choose between Heal or Harm for your font. If your deity is a Light or Shadow deity, your font is automatically chosen for you.
 
 **Commands**:
 `dfont <input>`: Selects your divine font. `<input>` can be `heal` or `harm`.

@@ -267,6 +267,11 @@ module AresMUSH
           grant_message.each {|msg| client.emit_ooc msg }
         end
 
+        # Feats that grant magic carry a magic_stats block of their own rather than nesting it under
+        # 'grants', so it needs the same handling to reach the character's magic object.
+        magic_message = Pf2e.do_feat_magic_stats(enactor, fdeets, charclass, client)
+        magic_message.each {|msg| client.emit_ooc msg }
+
         Pf2e.apply_init_magic_feat(enactor, fname, fdeets, client)
 
       end

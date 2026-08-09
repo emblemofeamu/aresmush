@@ -15,6 +15,7 @@ module AresMUSH
       end
 
       def show_abilities
+        return true if Pf2e.is_enabled? # Emblem of Ea special; shows PF2e sheet completeness
         return true if FS3Skills.is_enabled?
         return true if Manage.is_extra_installed?("cortex")
         return true if Manage.is_extra_installed?("ffg")
@@ -23,6 +24,11 @@ module AresMUSH
       end
 
       def abilities
+        # Also Emblem of Ea special
+        if (Pf2e.is_enabled?)
+          return Pf2e.app_review(@char)
+        end
+
         if (FS3Skills.is_enabled?)
           return FS3Skills.app_review(@char)
         end

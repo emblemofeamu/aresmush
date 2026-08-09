@@ -386,7 +386,7 @@ module AresMUSH
           if is_cantrip
             "innate cantrip (#{tradition_label})"
           else
-            "#{Pf2emagic.ordinal_level(level_label)}-level spell (#{tradition_label})"
+            "#{Pf2emagic.ordinal_level(level_label)}-rank spell (#{tradition_label})"
           end
         end
 
@@ -400,6 +400,7 @@ module AresMUSH
         msg << t('pf2emagic.cg_innate_spells', :details => details_text)
       end
 
+      return msg
     end
 
     def self.can_take_gated_spell?(char, charclass, level, term, gate, is_dedication=false)

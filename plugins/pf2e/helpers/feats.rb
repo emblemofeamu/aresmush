@@ -592,7 +592,7 @@ module AresMUSH
             if is_cantrip
               "innate cantrip (#{tradition_label})"
             else
-              "innate #{Pf2emagic.ordinal_level(level_label)}-level spell (#{tradition_label})"
+              "innate #{Pf2emagic.ordinal_level(level_label)}-rank spell (#{tradition_label})"
             end
           end
 
@@ -609,7 +609,7 @@ module AresMUSH
 
             level_counts.each_pair do |level_label, count|
               is_cantrip = (level_label == 'cantrip' || level_label == '0')
-              level_text = is_cantrip ? 'cantrip' : "#{Pf2emagic.ordinal_level(level_label)}-level spell"
+              level_text = is_cantrip ? 'cantrip' : "#{Pf2emagic.ordinal_level(level_label)}-rank spell"
               level_text = Pf2emagic.pluralize_label(level_text, count)
 
               if source == 'spellbook'
@@ -732,7 +732,7 @@ module AresMUSH
                 open_skills << 'open'
                 to_assign['open skills'] = open_skills
                 char.update(pf2_to_assign: to_assign)
-                return_msg << "You already had a skill granted by this feat, so you have another free skill to assign. Your skills have been unlocked. Please assign skills using 'skill/set free=<skill>' and then 'commit skills' when done. You may add other feats that grant skills before 'commit featskills'."
+                return_msg << "You already had a skill granted by this feat, so you have another free skill to assign. Your skills have been unlocked. Assign it using 'skill/set free=<skill>', then enter 'commit featskills' to lock your skills again. You may take other feats that grant skills first."
                 char.update(pf2_skills_locked: false)
               else
                 return_msg << "#{char.name} needs to choose a free skill."
@@ -758,6 +758,19 @@ module AresMUSH
       end
 
       return_msg
+    end
+
+    def self.do_feat_magic_stats(char, feat_details, charclass, client)
+      # Feats keep their magic in a top-level magic_stats block instead of under 'grants', so route it
+      # through the same handler the 'grants' path uses. Returns the messages for the caller to emit.
+      return [] if !feat_details.is_a?(Hash)
+
+      magic_stats = feat_details['magic_stats']
+
+      return [] if !magic_stats.is_a?(Hash) || magic_stats.empty?
+      return [] if !AresMUSH.const_defined?("Pf2emagic")
+
+      do_feat_grants(char, { 'magic_stats' => magic_stats }, charclass, client)
     end
 
     def self.apply_init_magic_feat(char, feat_name, feat_details, client)

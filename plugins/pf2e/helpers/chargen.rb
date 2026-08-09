@@ -422,6 +422,8 @@ module AresMUSH
         if details['grants']
           Pf2e.do_feat_grants(enactor, details['grants'], charclass, client)
         end
+
+        Pf2e.do_feat_magic_stats(enactor, details, charclass, client).each { |msg| client.emit_ooc msg }
       end
 
       to_assign = enactor.pf2_to_assign
@@ -470,7 +472,7 @@ module AresMUSH
 
       enactor.pf2_special = specials.uniq
 
-      # Check for and set code of behavior if character has one
+      # Check for and set edicts and anathema if character has one
       edicts = []
       anathema = []
 
@@ -607,13 +609,21 @@ module AresMUSH
       client.emit_ooc "Assessing languages...."
       languages = enactor.pf2_lang
 
-      ancestry_info['languages'].each { |l| languages << l }
+      # Any of the character's base options can grant a language, including their specialty and
+      # its choices. Duplicates are traded in for an open pick below, so they're gathered
+      # before they're uniq'd.
+      [
+        ancestry_info,
+        heritage_info,
+        background_info,
+        class_features_info,
+        subclass_features_info,
+        subclassopt_features_info
+      ].each do |source|
+        next if !source.is_a?(Hash)
 
-      clang = class_features_info['languages']
-      clang.each { |l| languages << l } if clang
-
-      hlang = heritage_info['languages']
-      hlang.each { |l| languages << l } if hlang
+        Array(source['languages']).each { |l| languages << l }
+      end
 
       unique_lang = languages.uniq
 
@@ -634,7 +644,8 @@ module AresMUSH
       end
 
       # Traits, Size, Movement, Misc Info
-      traits = ancestry_info["traits"] + heritage_info["traits"] + [ charclass.downcase ]
+      # The class is not a character trait; it belongs to the class's own feats and features.
+      traits = ancestry_info["traits"] + heritage_info["traits"]
 
       # Holy and Unholy sanctification each grant a matching trait. Unsanctified grants none.
       sanctification = faith_info['sanctification']
@@ -699,21 +710,53 @@ module AresMUSH
       return nil
     end
 
-    def self.assignments_complete?(char)
-      # Assignments are incomplete if any value is "open".
-      to_assign = char.pf2_to_assign
+    def self.app_review(char)
+      message = t('pf2e.app_sheet_review')
 
-      to_assign.each_pair do |k,v|
-        if v.is_a?(Hash)
-          return false if v['selected'] == 'open'
-          next
-        end
+      status = Pf2e.sheet_complete?(char) ?
+               t('pf2e.app_sheet_ok') :
+               t('pf2e.app_sheet_incomplete')
 
-        next unless v.respond_to?(:include?) && v.include?("open")
-        return false
-      end
+      "#{message}%r%R%T#{status}"
+    end
+
+    def self.sheet_complete?(char)
+      # Mirrors PF2CGReviewLockDisplay#sheet_complete so 'app' and 'cg/review' agree: the sheet is
+      # done once the character has committed through the skills stage with nothing outstanding.
+      # An unstarted sheet has no assignments to be missing, so the locks are checked first.
+      return false if !char.pf2_baseinfo_locked
+      return false if !char.pf2_skills_locked
+      return false if !%w(skills featskills).include?(char.pf2_checkpoint)
+
+      return false if Pf2eAbilities.abilities_messages(char)&.any?
+      return false if Pf2eSkills.skills_messages(char)&.any?
+      return false if Pf2eSkills.language_messages(char)&.any?
+      return false if Pf2e.feat_messages(char)&.any?
+      return false if Pf2e.open_magic_choices?(char)
 
       return true
+    end
+
+    def self.open_magic_choices?(char)
+      # Read from to_assign directly: cg_magic_warnings covers the font and innate spells, but
+      # unfilled repertoire and spellbook slots are counted separately by cg/review.
+      return false if !AresMUSH.const_defined?("Pf2emagic")
+
+      to_assign = char.pf2_to_assign
+
+      return true if to_assign['divine font'].is_a?(Array)
+
+      %w(repertoire spellbook).each do |list|
+        spells = to_assign[list]
+        next if !spells.is_a?(Hash)
+
+        return true if spells.each_value.any? { |slots| Array(slots).include?("open") }
+      end
+
+      magic = char.magic
+      return true if magic && magic.innate_spells.any? { |k,_| k.to_s.casecmp?('open') }
+
+      return false
     end
 
     def self.record_checkpoint(char, checkpoint)
@@ -754,7 +797,12 @@ module AresMUSH
         checkpoint_info = {
           "info" => char.pf2_cg_assigned["info"],
           "abilities" => char.pf2_cg_assigned["abilities"],
-          "skills" => { "pf2_to_assign" => char.pf2_to_assign }
+          # Languages are chosen during the skills stage but live on the character rather than in
+          # to_assign, so they need their own entry to survive a restore.
+          "skills" => {
+            "pf2_to_assign" => char.pf2_to_assign,
+            "pf2_lang" => char.pf2_lang
+          }
         }
         
         char.skills.each do |skill|
@@ -840,7 +888,13 @@ module AresMUSH
           restore_checkpoint(char, "abilities")
           Pf2eAbilities.cg_lock_abilities(char)
           char.pf2_to_assign = checkpoint_info_backup["skills"]["pf2_to_assign"]
-          
+
+          # cg_lock_base_options rebuilt pf2_lang from the base grants alone, which drops anything the
+          # player picked with lang/set. Checkpoints taken before this key existed have nothing to
+          # restore, so those fall back to the rebuilt list.
+          saved_lang = checkpoint_info_backup["skills"]["pf2_lang"]
+          char.pf2_lang = saved_lang if saved_lang
+
           # name, char, prof, cg_skill=false
           char.skills.each do |skill|
             prof_level = skills_checkpoint[skill.name]["prof_level"]

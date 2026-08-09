@@ -7,6 +7,11 @@ module AresMUSH
       File.dirname(__FILE__)
     end
 
+    # For app/review stuff. This plugin should never be disabled in the game though
+    def self.is_enabled?
+      !Global.plugin_manager.is_disabled?("pf2e")
+    end 
+
     def self.shortcuts
       Global.read_config("pf2e", "shortcuts")
     end

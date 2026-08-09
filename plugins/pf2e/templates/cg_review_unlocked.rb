@@ -223,9 +223,8 @@ module AresMUSH
       def traits
         a_traits = @ancestry_info["traits"] ? @ancestry_info["traits"] : []
         h_traits = @heritage_info["traits"] ? @heritage_info["traits"] : []
-        c_traits = @charclass_info ? [ @charclass.downcase ] : []
 
-        traits = (a_traits + h_traits + c_traits.uniq.difference([ "" ]).sort).map { |t| t.titlecase }
+        traits = (a_traits + h_traits).uniq.difference([ "" ]).sort.map { |t| t.titlecase }
       end
 
       def free_boosts
@@ -295,7 +294,12 @@ module AresMUSH
       end
 
       def languages
-        @ancestry_info['languages'] ? @ancestry_info['languages'].uniq.sort.join(", ") : "Kamin"
+      # Ancestry is the usual source, but a heritage, background, class, or specialty can grant one too.
+        sources = [ @ancestry_info, @heritage_info, @background_info, @class_features_info, @subclass_features_info ]
+
+        langs = sources.select { |source| source.is_a?(Hash) }.flat_map { |source| Array(source['languages']) }
+
+        langs.empty? ? "Kamin" : langs.uniq.sort.join(", ")
       end
 
       def charclass_skills
@@ -351,8 +355,23 @@ module AresMUSH
       end
 
       def errors
-        msgs = Pf2e.chargen_messages(@ancestry, @heritage, @background, @charclass, @subclass, @char.pf2_faith, @subclass_option, @to_assign)
-        msgs ? msgs : t('pf2e.cg_options_ok')
+      # Memoized because the template asks for this three times and each pass re-reads config.
+        return @errors if defined?(@errors)
+
+        @errors = Pf2e.chargen_messages(@ancestry, @heritage, @background, @charclass, @subclass, @char.pf2_faith, @subclass_option, @to_assign)
+      end
+
+      def has_messages
+        !!errors
+      end
+
+      def show_message_section
+      # With nothing outstanding, the commit prompt alone says everything an all-clear line would.
+        has_messages || base_info_set
+      end
+
+      def commit_prompt
+        t('pf2e.cg_stage_commit_prompt', :checkpoint => 'info')
       end
 
     end

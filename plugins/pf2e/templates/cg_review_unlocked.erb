@@ -17,8 +17,8 @@
 <%= "#{item_color}Sanctification%xn: #{sanctification}" %>
 <% end %>
 <% if has_code %>
-<%= section_line("Code Of Behavior") %>
-<%= "%xh%xyYour character choices so far include a code of behavior. This code will be visible to other players once you are approved.%xn" %>
+<%= section_line("Edicts & Anathema") %>
+<%= "%xh%xcYour character choices so far include edicts and anathema.%xn" %>
 <%= has_code %>
 <% end %>
 <% if show_sofar %>
@@ -60,10 +60,14 @@
 <%= "#{item_color}Starting Languages%xn: #{languages}" %>
 <% end %>
 <% end %>
+<% if show_message_section %>
 <%= section_line("Messages") %>
+<% if has_messages %>
 <%= errors %>
+<% end %>
 <% if base_info_set %>
-<%= "%xwEnter '%xccommit info%xn' to finalize this stage of chargen and proceed to the next stage." %>
+<%= commit_prompt %>
+<% end %>
 <% end %>
 <%= divider %>
 <%= "To view commands for this stage of chargen, see '%xchelp cg_baseinfo%xn'." %>

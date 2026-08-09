@@ -408,6 +408,17 @@ module AresMUSH
           advancement['grants'] = adv_grants unless adv_grants.empty?
         end
 
+        # Feats that grant magic keep it in their own magic_stats block, outside 'grants'.
+        if fdetails['magic_stats']
+          magic_options = Pf2e.stage_feat_magic_stats(enactor, fname, fdetails, to_assign, advancement)
+
+          if magic_options.empty?
+            client.emit_ooc t('pf2e.feat_grants_magic')
+          else
+            client.emit_ooc t('pf2e.adv_item_magic', :options => magic_options.join(" and "))
+          end
+        end
+
         enactor.pf2_advancement = advancement
         enactor.pf2_to_assign = to_assign
         enactor.save
@@ -575,6 +586,17 @@ module AresMUSH
           matched_gate = to_assign['gated_feat_options'].keys.find { |g| g.to_s.casecmp?(self.gate) }
           to_assign['gated_feat_options'].delete(matched_gate) if matched_gate
           to_assign.delete('gated_feat_options') if to_assign['gated_feat_options'].empty?
+        end
+
+        # Gated feats grant magic the same way any other feat does.
+        if fdetails['magic_stats']
+          magic_options = Pf2e.stage_feat_magic_stats(enactor, fname, fdetails, to_assign, advancement)
+
+          if magic_options.empty?
+            client.emit_ooc t('pf2e.feat_grants_magic')
+          else
+            client.emit_ooc t('pf2e.adv_item_magic', :options => magic_options.join(" and "))
+          end
         end
 
         enactor.pf2_advancement = advancement
