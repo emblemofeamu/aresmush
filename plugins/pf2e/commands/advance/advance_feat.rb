@@ -274,7 +274,7 @@ module AresMUSH
                   to_assign[k] ||= {}
                   to_assign[k][archetype] = v
                 end
-                client.emit_ooc t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(" and "))
+                Pf2e.magic_option_messages(magic_options.keys).each { |msg| client.emit_ooc msg }
               end
             end
             # Handle archetype features, if present.
@@ -415,7 +415,7 @@ module AresMUSH
           if magic_options.empty?
             client.emit_ooc t('pf2e.feat_grants_magic')
           else
-            client.emit_ooc t('pf2e.adv_item_magic', :options => magic_options.join(" and "))
+            Pf2e.magic_option_messages(magic_options).each { |msg| client.emit_ooc msg }
           end
         end
 
@@ -595,7 +595,7 @@ module AresMUSH
           if magic_options.empty?
             client.emit_ooc t('pf2e.feat_grants_magic')
           else
-            client.emit_ooc t('pf2e.adv_item_magic', :options => magic_options.join(" and "))
+            Pf2e.magic_option_messages(magic_options).each { |msg| client.emit_ooc msg }
           end
         end
 

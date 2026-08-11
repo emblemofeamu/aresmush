@@ -98,6 +98,16 @@ module AresMUSH
       magic_options.keys.sort
     end
 
+    def self.magic_option_messages(options)
+      innate, rest = Array(options).map(&:to_s).uniq.partition { |option| option.casecmp?('innate') }
+
+      msg = []
+      msg << t('pf2e.adv_item_magic', :options => rest.sort.join(" and ")) unless rest.empty?
+      msg << t('pf2e.adv_item_innate_spells') unless innate.empty?
+
+      msg
+    end
+
     def self.archetype_key?(key)
       archetypes = Global.read_config('pf2e_archetype')&.keys || []
       archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
@@ -257,14 +267,14 @@ module AresMUSH
             magic_options.each_pair do |k,v|
               to_assign[k] = v
             end
-            return_msg << t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(" and "))
+            return_msg.concat(magic_option_messages(magic_options.keys))
           end
         when "raise"
           # Value is an array of all the things you can choose to raise.
           # In this case, we put into to_assign what is to be raised as a key with an empty value.
 
           value.each do |item|
-            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : "open"
+            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : [ "open" ]
             return_msg << t('pf2e.adv_item_raise', :item => item)
           end
         when "choose"
@@ -729,7 +739,9 @@ module AresMUSH
             end
           end
 
-          if info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
+          if item == "innate"
+            msg << t('pf2e.adv_item_innate_spells') if needs_open.call(info)
+          elsif info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
             info.each_pair do |class_key, value|
               next unless needs_open.call(value)
 
@@ -741,8 +753,7 @@ module AresMUSH
               end
             end
           else
-            needs_spell_choice = needs_open.call(info)
-            msg << t('pf2e.adv_item_spells', :options => item) if needs_spell_choice
+            msg << t('pf2e.adv_item_spells', :options => item) if needs_open.call(info)
           end
         when "signature"
           needs_signature = false

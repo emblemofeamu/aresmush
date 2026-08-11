@@ -111,11 +111,11 @@ module AresMUSH
             return
           end
 
-          spell = result
+          spell = result[0]
 
           update_innate_advancement(spell, list, type_option, level, class_key)
 
-          client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
+          client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
           return
         end
 
@@ -320,7 +320,7 @@ module AresMUSH
         return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
         return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
 
-        to_add
+        [ to_add ]
       end
 
       def level_label(level)
@@ -366,8 +366,6 @@ module AresMUSH
 
         type_option[level] = list
 
-        # Only to_assign tracks the filled slot. The spell itself is granted at commit from the
-        # magic_stats entry above; do_advancement has no key of its own for innate spells.
         to_assign = enactor.pf2_to_assign
 
         if class_key
