@@ -1042,6 +1042,8 @@ pf2e_feats:
   Eat Fortune:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - concentrate
       - divine
@@ -1066,6 +1068,8 @@ pf2e_feats:
   Egalrin Feather Fan:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     grants:
@@ -1077,6 +1081,8 @@ pf2e_feats:
   Egalrin Lore:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     grants:
@@ -1091,6 +1097,8 @@ pf2e_feats:
   Egalrin Weapon Familiarity:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: "You gain access to all uncommon weapons with the egalrin trait plus the katana, khakkara, temple sword, and wakizashi. You have familiarity with these weapons—for the purpose of proficiency, you treat any of these that are martial weapons as simple weapons and any that are advanced weapons as martial weapons.%r%rDuring your daily preparations, you can practice with a weapon from the sword group that's in your possession. You gain familiarity with that weapon as well. This lasts until you practice with a different sword in the same way.%r%rAt 5th level, whenever you get a critical hit with one of these weapons, you get its critical specialization effect."
@@ -1549,6 +1557,8 @@ pf2e_feats:
   Great Egalrin Form:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You take on the imposing form of a large, winged spirit. Once per day, as part of using Long-Nosed Form, you also gain the benefits of 4th-rank *enlarge* and *fly*. This lasts for 5 minutes or until you shift out of your Long-Nosed Form, whichever happens first.
@@ -1702,6 +1712,8 @@ pf2e_feats:
   Harbinger's Caw:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - auditory
       - divine
@@ -1913,6 +1925,8 @@ pf2e_feats:
   Jinx Glutton:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You can Eat Fortune once per hour, rather than once per day.
@@ -2085,6 +2099,8 @@ pf2e_feats:
   Long-Nosed Form:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - concentrate
       - polymorph
@@ -2119,6 +2135,8 @@ pf2e_feats:
   Magpie Snatch:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You move quickly, snatching a shiny item that catches your eye. Stride twice, and you can Interact to pick up an unattended object at any point during your movement.
@@ -2139,11 +2157,13 @@ pf2e_feats:
   Mariner's Fire:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     magic_stats:
       innate_spell:
-        level: 1
+        level: cantrip
         name: Ignition
         tradition: primal
         cast_stat: Charisma
@@ -2202,8 +2222,10 @@ pf2e_feats:
   Mountain's Stoutness:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Khazad
     traits:
-      - dwarf
+      - khazad
     shortdesc: "Your hardiness lets you withstand more punishment than most. Increase your maximum Hit Points by your level. When you have the dying 1 condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value).%r%rIf you also have the Toughness feat, the Hit Points gained from it and this feat are cumulative, and the DC of your recovery checks is equal to 6 + your dying value."
     prereq:
       level: 9
@@ -2440,6 +2462,8 @@ pf2e_feats:
   One-Toed Hop:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: Assuming a peculiar stance, you make a short hop on each toe. You make a vertical Leap without triggering reactions that can be triggered by move actions or upon leaving or entering a square.
@@ -2801,7 +2825,7 @@ pf2e_feats:
       - kailli
     magic_stats:
       innate_spell:
-        level: 1
+        level: 2
         name: Animal Messenger
         tradition: primal
         cast_stat: Charisma
@@ -2949,6 +2973,8 @@ pf2e_feats:
   Scavenger's Search:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You're always on the lookout for supplies and valuables. You gain a +2 circumstance bonus to locate objects (including secret doors and hazards) you search for within 30 feet with a Seek action.
@@ -3198,6 +3224,8 @@ pf2e_feats:
   Soaring Flight:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: "**Frequency** once per round%r%rYou Fly. If you don't normally have a fly Speed, you gain a fly Speed of 20 feet for this movement. If you aren't on solid ground at the end of this movement, you fall."
@@ -3209,6 +3237,8 @@ pf2e_feats:
   Soaring Form:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You have a fly Speed of 20 feet at all times.
@@ -3261,6 +3291,8 @@ pf2e_feats:
   Squawk!:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: "**Trigger** You critically fail a Deception, Diplomacy, or Intimidation check against a creature that doesn't have the egalrin trait.%r%rYou let out an awkward squawk, ruffle your feathers, or fake some other birdlike tic to cover up a social misstep or faux pas. You get a failure on the triggering check, rather than a critical failure. All creatures that witnessed you Squawk are temporarily immune for 24 hours."
@@ -3366,6 +3398,8 @@ pf2e_feats:
   Storm's Lash:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     magic_stats:
@@ -3550,6 +3584,8 @@ pf2e_feats:
   Thunder God's Fan:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: Your fan unleashes the fury of the storm. You can use the Wave Fan activation one additional time per day. Add a 5th-rank *lightning bolt* spell to the spells contained within your fan.
@@ -3605,6 +3641,8 @@ pf2e_feats:
   Trickster Egalrin:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You can transform yourself or the bodies of others to express your displeasure. Once per day, you can cast either *aerial form* or *cursed metamorphosis* as a 7th-rank primal innate spell. You must take the form of a bird when casting this aerial form.
@@ -3633,6 +3671,8 @@ pf2e_feats:
   Uncanny Agility:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     grants:
@@ -3923,6 +3963,8 @@ pf2e_feats:
   Wind God's Fan:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: Your fan can stir up even more powerful winds. You can use the Wave Fan activation one additional time per day. Add a 3rd-rank *wall of wind* spell to the spells contained within your fan.

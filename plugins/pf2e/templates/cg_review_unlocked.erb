@@ -36,7 +36,6 @@
 <% end %>
 <% if show_boosts %>
 <%= section_line("Attribute Boosts") %>
-<%= "#{item_color}Free Boosts%xn: #{free_boosts}" %>
 <% if has_ancestry %>
 <%= "#{item_color}Ancestry Boosts%xn: #{ancestry_boosts}" %>
 <% end %>
@@ -44,14 +43,40 @@
 <%= "#{item_color}Background Boosts%xn: #{bg_boosts}" %>
 <% end %>
 <% if has_charclass %>
-<%= "#{item_color}Key Attribute%xn: #{key_ability}" %>
+<%= "#{item_color}Key Attribute Boost%xn: #{key_ability}" %>
 <% end %>
+<%= "#{item_color}Free Boosts%xn: #{free_boosts}" %>
 <%= t('pf2e.cg_boosts_next_stage') %>
 <% end %>
 <% if show_skills %>
 <%= section_line("Skills") %>
-<%= "#{item_color}Skills%xn: #{skills_summary}" %>
+<%= "#{item_color}Starting Skills%xn: #{starting_skills}" %>
+<% if bg_skill_choice %>
+<%= "#{item_color}Background Skill Choice%xn: #{bg_skill_choice}" %>
+<% end %>
+<% if class_skill_choice %>
+<%= "#{item_color}Class Skill Choice%xn: #{class_skill_choice}" %>
+<% end %>
+<%= "#{item_color}Free Skills%xn: #{free_skills}" %>
 <%= t('pf2e.cg_skills_note') %>
+<% end %>
+<% if show_magic %>
+<%= section_line("Magic") %>
+<% if tradition %>
+<%= "#{item_color}Tradition%xn: #{tradition}" %>
+<% end %>
+<% if divine_font %>
+<%= "#{item_color}Divine Font%xn: #{divine_font}" %>
+<% end %>
+<% if innate_spells %>
+<%= innate_spells %>
+<% end %>
+<% if spells_to_choose %>
+<%= spells_to_choose %>
+<% end %>
+<% if magic_notes %>
+<%= magic_notes %>
+<% end %>
 <% end %>
 <% if show_other %>
 <%= section_line("Other Stuff") %>

@@ -73,20 +73,12 @@ module AresMUSH
 
       msgs << t('pf2e.unassigned_openskill') if choose_open_skill
 
+      # The options themselves are listed in the Skills section of cg/review.
       bg_choice = to_assign['bg skill choice']
-      if bg_choice && bg_choice['selected'] == 'open'
-        bg_options = Array(bg_choice['options']).compact
-        if bg_options.size > 5
-          msgs << t('pf2e.unassigned_bg_skill_choice_many')
-        else
-          msgs << t('pf2e.unassigned_bg_skill_choice', :options => bg_options.sort.join(", "))
-        end
-      end
+      msgs << t('pf2e.unassigned_bg_skill_choice') if bg_choice && bg_choice['selected'] == 'open'
 
       class_choice = to_assign['class skill choice']
-      if class_choice && class_choice['selected'] == 'open'
-        msgs << t('pf2e.unassigned_class_skill_choice', :options => class_choice['options'].sort.join(", "))
-      end
+      msgs << t('pf2e.unassigned_class_skill_choice') if class_choice && class_choice['selected'] == 'open'
 
       return nil if msgs.empty?
       return msgs

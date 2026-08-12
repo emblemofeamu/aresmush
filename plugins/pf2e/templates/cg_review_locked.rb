@@ -28,6 +28,13 @@ module AresMUSH
         @baseinfolock = @char.pf2_baseinfo_locked
         @class_features_info = @charclass_info['chargen']
         @subclass_features_info = @subclass_info['chargen']
+
+        subclass_choose = @subclass_info['choose']
+        subclass_options = subclass_choose.is_a?(Hash) ? subclass_choose['options'] : nil
+        @subclass_option_info = (subclass_options.is_a?(Hash) && !@subclass_option.blank?) ?
+                                subclass_options[@subclass_option] : nil
+        @subclassopt_features_info = @subclass_option_info.is_a?(Hash) ? @subclass_option_info['chargen'] : nil
+
         @to_assign = @char.pf2_to_assign
         @boosts = @char.pf2_boosts_working
 
@@ -51,7 +58,7 @@ module AresMUSH
 
       def feats_stage_done?
       # Feats are the last thing to assign and have no commit of their own, so the sheet is
-      # finished once nothing is outstanding. Must not call anything that calls stage.
+      # finished once nothing is outstanding.
         @char.pf2_skills_locked && feat_messages.empty? && magic_messages.empty?
       end
 
@@ -114,8 +121,6 @@ module AresMUSH
       end
 
       def show(value)
-      # Options are locked by this point, so a blank one is one the character doesn't have rather than
-      # one they still need to pick.
         value.blank? ? "-" : value
       end
 
@@ -234,7 +239,7 @@ module AresMUSH
                    "None assigned" :
                    open_list.difference([ "open" ]).sort.join(", ")
 
-        "#{assigned} plus #{still_free} free"
+        "#{assigned}, #{still_free} open"
       end
 
       def collapse_open_boosts(msg)
@@ -298,6 +303,45 @@ module AresMUSH
         @char.pf2_lang.uniq.sort.join(", ")
       end
 
+      def chosen_languages
+        Array(@to_assign['open languages']).reject { |lang| lang == 'open' }.uniq
+      end
+
+      def starting_languages
+        granted = @char.pf2_lang.uniq - chosen_languages
+
+        groups = [
+          [ 'Ancestry Languages',   config_list(@ancestry_info, 'languages') ],
+          [ 'Heritage Languages',   config_list(@heritage_info, 'languages') ],
+          [ 'Background Languages', config_list(@background_info, 'languages') ],
+          [ 'Class Languages',      config_list(@class_features_info, 'languages') ],
+          [ 'Specialty Languages',  config_list(@subclass_features_info, 'languages') +
+                                    config_list(@subclassopt_features_info, 'languages') ]
+        ]
+
+        display = grouped_display(attribute_sources(groups, granted, 'Other Languages'), t('pf2e.cg_none_granted'))
+
+        notes = []
+        notes << t('pf2e.cg_duplicate_languages_note') if duplicate_grants?(groups)
+        notes << t('pf2e.cg_bonus_languages_note', :count => bonus_languages) if bonus_languages.positive?
+
+        display + notes.map { |note| "%r%b%b#{note}" }.join
+      end
+
+      def language_sources
+        [ @ancestry_info, @heritage_info, @background_info,
+          @class_features_info, @subclass_features_info, @subclassopt_features_info ]
+      end
+
+      def bonus_languages
+      # For humans, who get a language bonus beyond high Int.
+        language_sources.sum { |source| source.is_a?(Hash) ? source['bonus_languages'].to_i : 0 }
+      end
+
+      def chosen_languages_display
+        chosen_languages.empty? ? t('pf2e.cg_none_so_far') : chosen_languages.sort.join(", ")
+      end
+
       def existing_skills
         char_skills = @char.skills
 
@@ -310,15 +354,139 @@ module AresMUSH
         list.sort.join(", ")
       end
 
+      def trained_skills(cg_granted)
+        @char.skills
+             .select { |skill| skill.prof_level == 'trained' && !!skill.cg_skill == cg_granted }
+             .map { |skill| skill.name }
+             .sort
+      end
+
+      def starting_skills
+        granted = trained_skills(true)
+
+        groups = [
+          [ 'Background Skills', config_list(@background_info, 'skills') ],
+          [ 'Heritage Skills',   config_list(@heritage_info, 'skills') ],
+          [ 'Class Skills',      config_list(@class_features_info, 'skills') ],
+          [ 'Specialty Skills',  config_list(@subclass_features_info, 'skills') +
+                                 config_list(@subclassopt_features_info, 'skills') +
+                                 draconic_skills ],
+          [ 'Deity Skill',       deity_granted_skills ]
+        ]
+
+        display = grouped_display(attribute_sources(groups, granted, 'Other Skills'), t('pf2e.cg_none_granted'))
+
+        return display if !duplicate_grants?(groups)
+
+        "#{display}%r%b%b#{t('pf2e.cg_duplicate_skills_note')}"
+      end
+
+      def duplicate_grants?(groups)
+        granted = groups.flat_map { |_label, list| list }
+
+        granted.uniq.size != granted.size
+      end
+
+      def deity_granted_skills
+      # Clerics and champions train their deity's skill.
+        return [] if !use_deity || deity.blank?
+
+        Array(Global.read_config('pf2e_deities', deity, 'divine_skill'))
+      end
+
+      def draconic_skills
+        return [] if @charclass != 'Sorcerer' || @subclass != 'Draconic' || @subclass_option.blank?
+
+        exemplar = Global.read_config('pf2e_subclass', 'Dragon Exemplar', @subclass_option) || {}
+
+        config_list(exemplar['chargen'], 'skills')
+      end
+
+      def chosen_skills
+      # Everything trained since base info locked, split by the choice that trained it.
+        chosen = trained_skills(false)
+
+        groups = [
+          [ 'Background Skill Choice', Array(selected_skill_choice('bg skill choice')) ],
+          [ 'Class Skill Choice',      Array(selected_skill_choice('class skill choice')) ],
+          [ 'Free Skills',             Array(@to_assign['open skills']).reject { |s| s == 'open' } ]
+        ]
+
+        grouped_display(attribute_sources(groups, chosen, 'Feat Skills'), t('pf2e.cg_none_so_far'))
+      end
+
+      def selected_skill_choice(key)
+        choice = @to_assign[key]
+        return nil if !choice.is_a?(Hash)
+
+        selected = choice['selected']
+        selected.blank? || selected == 'open' ? nil : selected
+      end
+
+      def config_list(source, key)
+        return [] if !source.is_a?(Hash)
+
+        Array(source[key]).difference([ "open" ])
+      end
+
+      def attribute_sources(groups, held, leftover_label)
+        claimed = []
+
+        rows = groups.map do |label, list|
+          items = list.uniq.select { |item| held.include?(item) }
+          claimed += items
+
+          [ label, items ]
+        end
+
+        leftover = held - claimed
+        rows << [ leftover_label, leftover ] if !leftover.empty?
+
+        rows.reject { |_label, items| items.empty? }
+      end
+
+      def grouped_display(rows, empty_msg)
+      # Rows hang under their heading, indented, one source per line.
+        return empty_msg if rows.empty?
+
+        rows.map { |label, items| "%r%b%b#{item_color}#{label}%xn: #{items.join(", ")}" }.join
+      end
+
       def open_skills
-        @to_assign['open skills'].count("open")
+        count = @to_assign['open skills'].count("open")
+
+        count.zero? ? t('pf2e.cg_no_free_skills') : count
+      end
+
+      # A background or class skill list longer than this is spammy, so it points at the wiki instead.
+      MANY_SKILL_OPTIONS = 5
+
+      def bg_skill_choice
+        skill_choice_options('bg skill choice')
+      end
+
+      def class_skill_choice
+        skill_choice_options('class skill choice')
+      end
+
+      def skill_choice_options(key)
+      # Only a choice still to be made shows up here; once chosen, the skill is in Current Skills.
+        choice = @to_assign[key]
+        return nil if !choice.is_a?(Hash) || choice['selected'] != 'open'
+
+        options = Array(choice['options']).compact
+        return nil if options.empty?
+        return t('pf2e.cg_skill_choice_many') if options.size > MANY_SKILL_OPTIONS
+
+        options.sort.join(" or ")
       end
 
       def open_languages
-        Pf2eSkills.open_language_count(@char)
+        count = Pf2eSkills.open_language_count(@char)
+
+        count.zero? ? t('pf2e.cg_no_free_languages') : count
       end
 
-      # Feat slots the character still has to fill, keyed by the to_assign entry that tracks them.
       FEAT_SLOTS = {
         'ancestry feat'  => 'ancestry',
         'charclass feat' => 'class',
@@ -348,8 +516,6 @@ module AresMUSH
         value.to_s == 'open' ? 1 : 0
       end
 
-      # Which help topics and commit keyword belong to each stage. The feats stage has no commit
-      # of its own; 'commit featskills' shows up there only when a feat has reopened skills.
       STAGE_INFO = {
         'attributes' => { :help => [ 'cg_attributes' ],           :commit => 'abilities' },
         'skills'     => { :help => [ 'cg_skills', 'cg_languages' ], :commit => 'skills' },
@@ -364,7 +530,6 @@ module AresMUSH
       end
 
       def show_lock_msg
-      # A finished sheet has no stage left to explain; it says its piece in the Messages section.
         stage != 'final'
       end
 
@@ -410,7 +575,6 @@ module AresMUSH
       end
 
       def show_message_section
-      # With nothing outstanding, the commit prompt alone says everything an all-clear line would.
         has_messages || ready_to_commit || sheet_complete
       end
 
@@ -459,8 +623,6 @@ module AresMUSH
       end
 
       def unassigned_abilities_msg
-      # The catch-all line abilities_messages emits, replaced here by the per-category messages above.
-        # Mirrors the loop in Pf2eAbilities.abilities_messages so the reconstructed line matches exactly.
         a = []
         @boosts.each_pair do |k,v|
           a << k if v.include?("open") || v.any? { |x| x.is_a?(Array) }
@@ -485,8 +647,6 @@ module AresMUSH
       def magic_messages
         return [] if !has_magic
 
-        # Divine fonts and open innate spells are reported alongside the list messages below, not
-        # instead of them, so nothing is hidden by an earlier warning.
         msgs = Pf2emagic.cg_magic_warnings(@magic, @to_assign) || []
 
         # The per-level counts live in the Magic section; these just say which list still needs filling.
@@ -497,7 +657,6 @@ module AresMUSH
       end
 
       def open_spells_by_level(list)
-      # Levels with nothing left to choose are dropped, so a fully assigned repertoire reports nothing.
         spells = @to_assign[list]
 
         return {} if !spells.is_a?(Hash)
@@ -524,8 +683,6 @@ module AresMUSH
       end
 
       def divine_font
-      # Shown whether or not it was a choice: a deity with a single font assigns it silently, and the
-      # character has no other way to find out which one they got.
         pending = @to_assign['divine font']
 
         if pending.is_a?(Array)
@@ -540,20 +697,48 @@ module AresMUSH
       end
 
       def innate_spells
-      # Innate spells come from feats rather than a spell list, so they're listed here in full. An
-      # unchosen one is the only prompt the character gets outside the Messages section.
         spells = (@magic && @magic.innate_spells) || {}
 
         return nil if spells.empty?
 
-        lines = spells.map do |name, info|
-          label = name.to_s.casecmp?('open') ? t('pf2emagic.cg_innate_unchosen') : name
-          tradition = Array(info['tradition']).first.to_s
+        innate_blocks(spells.map { |name, info| [ name, info['tradition'], info['level'] ] })
+      end
 
-          "%b%b#{item_color}#{innate_level_label(info['level'])}%xn: #{label} (#{Pf2e.pretty_string(tradition)})"
+      def innate_blocks(entries)
+        grouped = {}
+
+        entries.each do |name, tradition, level|
+          trad_label = Pf2e.pretty_string(Array(tradition).first.to_s)
+          rank = innate_level_label(level)
+
+          grouped[trad_label] ||= {}
+          grouped[trad_label][rank] ||= []
+          grouped[trad_label][rank] << name
         end
 
-        ([ "#{item_color}Innate Spells%xn:" ] + lines).join("%r")
+        blocks = grouped.map do |trad_label, ranks|
+          lines = ranks.map { |rank, names| "%b%b#{item_color}#{rank}%xn: #{innate_rank_entries(names)}" }
+
+          ([ "#{item_color}#{innate_heading(trad_label)}%xn:" ] + lines).join("%r")
+        end
+
+        blocks.join("%r")
+      end
+
+      def innate_heading(trad_label)
+        return t('pf2emagic.cg_innate_to_choose_plain') if trad_label.blank?
+
+        t('pf2emagic.cg_innate_to_choose', :tradition => trad_label)
+      end
+
+      def innate_rank_entries(names)
+        open_count = names.count { |name| name.to_s.casecmp?('open') }
+        chosen = names.reject { |name| name.to_s.casecmp?('open') }
+
+        entries = chosen
+        entries += [ "#{open_count} open" ] if open_count > 0
+
+        entries.join(", ")
       end
 
       def innate_level_label(level)
@@ -563,15 +748,12 @@ module AresMUSH
       end
 
       def spells_to_choose
-      # Indented breakdown shown under the Magic section, e.g. "  Cantrip(s): 4".
         blocks = [
-          spell_choice_block('repertoire', t('pf2emagic.cg_rep_to_choose')),
-          spell_choice_block('spellbook', t('pf2emagic.cg_spellbook_to_choose'))
+          spell_choice_block('repertoire', spell_list_label('Repertoire', 'pf2emagic.cg_rep_to_choose')),
+          spell_choice_block('spellbook', spell_list_label('Spellbook', 'pf2emagic.cg_spellbook_to_choose'))
         ].compact
 
         if blocks.empty?
-          # Say so explicitly rather than leaving the section bare, but only for characters who have a
-          # list to fill in the first place. Innate- or focus-only casters have nothing to report here.
           return t('pf2emagic.cg_all_spells_assigned') if has_repertoire || has_spellbook
           return nil
         end
@@ -601,11 +783,75 @@ module AresMUSH
         @magic && !@magic.spellbook.empty?
       end
 
+      def casting_tradition
+        return nil if !@magic
+
+        traditions = @magic.tradition || {}
+        trad_info = traditions[@charclass]
+
+        if !trad_info
+          # An archetype can add a second casting class, but in chargen there is only ever the one.
+          casting_classes = traditions.keys.reject { |key| key.to_s.strip == 'innate' }
+          trad_info = traditions[casting_classes.first] if casting_classes.size == 1
+        end
+
+        return nil if !trad_info.is_a?(Array) || trad_info.first.blank?
+
+        Pf2e.pretty_string(trad_info.first)
+      end
+
+      def spell_list_label(list, plain_key)
+        return t(plain_key) if !casting_tradition
+
+        t('pf2emagic.cg_spells_to_choose', :list => list, :tradition => casting_tradition)
+      end
+
+      def prepares_from_tradition?
+      # Clerics and druids prepare from their tradition's whole spell list. Unlike a witch or a
+      # wizard, they have no list to fill.
+        return false if !@magic || @magic.spells_per_day.empty?
+
+        !has_repertoire && !has_spellbook
+      end
+
+      def prepared_list_note
+        return t('pf2emagic.cg_prepared_list_note_plain') if !casting_tradition
+
+        t('pf2emagic.cg_prepared_list_note', :tradition => casting_tradition)
+      end
+
+      def open_innate_spells?
+      # An unnamed innate spell is still waiting to be picked.
+        return false if !@magic
+
+        @magic.innate_spells.keys.any? { |name| name.to_s.casecmp?('open') }
+      end
+
+      def no_spells_to_select?
+      # A champion or ranger has a tradition and no spells whatsoever; feats are where their magic
+      # eventually comes from.
+        return false if !casting_tradition
+        return false if prepares_from_tradition? || has_repertoire || has_spellbook
+
+        !open_innate_spells?
+      end
+
       def magic_notes
+      # A finished sheet has nothing left to explain, and the Messages section covers anything that
+      # is still outstanding.
+        return nil if stage == 'final'
+
         notes = [ t('pf2emagic.cg_magic_note') ]
 
         notes << t('pf2emagic.cg_repertoire_note') if has_repertoire
         notes << t('pf2emagic.cg_spellbook_note') if has_spellbook
+
+        if prepares_from_tradition?
+          notes << prepared_list_note
+          notes << t('pf2emagic.cg_prepare_after_approval_note')
+        end
+
+        notes << t('pf2emagic.cg_no_spells_note') if no_spells_to_select?
 
         notes.join("%r")
       end

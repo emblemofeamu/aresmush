@@ -30,7 +30,7 @@
 <%= section_line("Attribute Boosts") %>
 <%= "#{item_color}Ancestry Boosts%xn: #{ancestry_boosts}" %>
 <%= "#{item_color}Background Boosts%xn: #{bg_boosts}" %>
-<%= "#{item_color}Key Attribute%xn: #{key_ability}" %>
+<%= "#{item_color}Key Attribute Boost%xn: #{key_ability}" %>
 <%= "#{item_color}Free Boosts%xn: #{free_boosts}" %>
 <% end %>
 <% if show_attributes %>
@@ -42,8 +42,15 @@
 <% if sheet_complete %>
 <%= "#{item_color}Skills%xn: #{existing_skills}" %>
 <% else %>
-<%= "#{item_color}Current Skills%xn: #{existing_skills}" %>
+<%= "#{item_color}Starting Skills%xn: #{starting_skills}" %>
+<% if bg_skill_choice %>
+<%= "#{item_color}Background Skill Choice%xn: #{bg_skill_choice}" %>
+<% end %>
+<% if class_skill_choice %>
+<%= "#{item_color}Class Skill Choice%xn: #{class_skill_choice}" %>
+<% end %>
 <%= "#{item_color}Free Skills%xn: #{open_skills}" %>
+<%= "#{item_color}Chosen Skills%xn: #{chosen_skills}" %>
 <% end %>
 <% end %>
 <% if show_languages %>
@@ -51,8 +58,9 @@
 <% if sheet_complete %>
 <%= "#{item_color}Languages%xn: #{languages}" %>
 <% else %>
-<%= "#{item_color}Starting Languages%xn: #{languages}" %>
+<%= "#{item_color}Starting Languages%xn: #{starting_languages}" %>
 <%= "#{item_color}Extra Languages%xn: #{open_languages}" %>
+<%= "#{item_color}Chosen Languages%xn: #{chosen_languages_display}" %>
 <% end %>
 <% end %>
 <% if show_feats %>
@@ -70,7 +78,9 @@
 <% if spells_to_choose %>
 <%= spells_to_choose %>
 <% end %>
+<% if magic_notes %>
 <%= magic_notes %>
+<% end %>
 <% end %>
 <% if show_other %>
 <%= section_line("Other Stuff") %>

@@ -609,33 +609,30 @@ module AresMUSH
       client.emit_ooc "Assessing languages...."
       languages = enactor.pf2_lang
 
-      # Any of the character's base options can grant a language, including their specialty and
-      # its choices. Duplicates are traded in for an open pick below, so they're gathered
-      # before they're uniq'd.
-      [
+      lang_sources = [
         ancestry_info,
         heritage_info,
         background_info,
         class_features_info,
         subclass_features_info,
         subclassopt_features_info
-      ].each do |source|
-        next if !source.is_a?(Hash)
+      ].select { |source| source.is_a?(Hash) }
 
+      lang_sources.each do |source|
         Array(source['languages']).each { |l| languages << l }
       end
 
       unique_lang = languages.uniq
 
       enactor.pf2_lang = languages.uniq
-      
-      # PC may choose another language to replace a duplicate.
 
-      if (languages.count != unique_lang.count)
-        extra_lang = languages.count - unique_lang.count
+      # bonus_languages is for an ancestry like Human that grants a bonus language on top of extra skills from being a smartypants.
+      bonus_lang = lang_sources.sum { |source| source['bonus_languages'].to_i }
+      extra_lang = (languages.count - unique_lang.count) + bonus_lang
 
-        ary = []
-        open_languages = ary.fill("open", nil, extra_lang)
+      if extra_lang.positive?
+        open_languages = Array.new(extra_lang, "open")
+
         if to_assign['open languages'].nil?
           to_assign['open languages'] = open_languages
         else
@@ -644,7 +641,6 @@ module AresMUSH
       end
 
       # Traits, Size, Movement, Misc Info
-      # The class is not a character trait; it belongs to the class's own feats and features.
       traits = ancestry_info["traits"] + heritage_info["traits"]
 
       # Holy and Unholy sanctification each grant a matching trait. Unsanctified grants none.
@@ -721,9 +717,6 @@ module AresMUSH
     end
 
     def self.sheet_complete?(char)
-      # Mirrors PF2CGReviewLockDisplay#sheet_complete so 'app' and 'cg/review' agree: the sheet is
-      # done once the character has committed through the skills stage with nothing outstanding.
-      # An unstarted sheet has no assignments to be missing, so the locks are checked first.
       return false if !char.pf2_baseinfo_locked
       return false if !char.pf2_skills_locked
       return false if !%w(skills featskills).include?(char.pf2_checkpoint)
@@ -738,8 +731,6 @@ module AresMUSH
     end
 
     def self.open_magic_choices?(char)
-      # Read from to_assign directly: cg_magic_warnings covers the font and innate spells, but
-      # unfilled repertoire and spellbook slots are counted separately by cg/review.
       return false if !AresMUSH.const_defined?("Pf2emagic")
 
       to_assign = char.pf2_to_assign
