@@ -28,11 +28,19 @@ module AresMUSH
       end
 
       def traits
-        @details["traits"].sort.join(", ")
+        t = @details["traits"]
+
+        return nil unless t
+
+        t.sort.join(", ")
       end
 
       def cast
-        @details["cast"].join(", ")
+        c = @details["requirements"]
+
+        return nil unless c
+
+        c.is_a?(Array) ? c.join(", ") : c
       end
 
       def area
@@ -54,14 +62,17 @@ module AresMUSH
 
         h = []
 
-        if string.is_a?(Hash)
+        case string
+        when Hash
           string.each_pair do |k,v|
             h << "#{k}: #{v}"
           end
-        else
+        when Array
           string.each_with_index do |v,i|
             h << "#{i + base_level.to_i}: #{v}"
           end
+        else
+          h << string
         end
 
         h.join("%r")

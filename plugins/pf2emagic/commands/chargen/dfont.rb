@@ -56,7 +56,7 @@ module AresMUSH
 
         magic.update divine_font: self.font
 
-        client.emit_success t('pf2emagic.dfont_updated', :font => self.font)
+        client.emit_success t('pf2emagic.dfont_updated', :font => self.font.titleize)
       end
     end
   end

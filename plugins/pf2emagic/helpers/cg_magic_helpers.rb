@@ -376,30 +376,10 @@ module AresMUSH
       innate_spells = magic&.innate_spells || {}
       open_innate = innate_spells.select { |k, _| k.to_s.casecmp?('open') }
 
-      if !open_innate.empty?
-        labels = open_innate.values.map do |info|
-          level_label = info['level'].to_s.downcase
-          is_cantrip = (level_label == 'cantrip' || level_label == '0')
-          tradition = Array(info['tradition']).first
-          tradition_label = tradition.to_s.empty? ? 'unknown tradition' : tradition.to_s
+      # The rank and tradition of each open slot are listed in the Magic section of cg/review.
+      msg << t('pf2emagic.cg_innate_spells') if !open_innate.empty?
 
-          if is_cantrip
-            "innate cantrip (#{tradition_label})"
-          else
-            "#{Pf2emagic.ordinal_level(level_label)}-level spell (#{tradition_label})"
-          end
-        end
-
-        counts = labels.tally
-        details = counts.map do |label, count|
-          plural_label = Pf2emagic.pluralize_label(label, count)
-          "#{count} #{plural_label}"
-        end
-
-        details_text = Pf2emagic.join_with_and(details)
-        msg << t('pf2emagic.cg_innate_spells', :details => details_text)
-      end
-
+      return msg
     end
 
     def self.can_take_gated_spell?(char, charclass, level, term, gate, is_dedication=false)

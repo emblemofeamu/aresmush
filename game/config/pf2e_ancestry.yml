@@ -345,7 +345,7 @@ pf2e_ancestry:
       - open
     languages:
       - Kamin
-      - Kamin
+    bonus_languages: 1
     traits:
       - human
       - humanoid

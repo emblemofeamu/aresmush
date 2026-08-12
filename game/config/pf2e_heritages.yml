@@ -219,7 +219,7 @@ pf2e_heritage:
     magic_stats:
       innate_spell:
         level: cantrip
-        name: Disrupt Undead
+        name: Vitality Lash
         tradition: primal
         cast_stat: Charisma
     special:
@@ -676,7 +676,7 @@ pf2e_heritage:
   Seer:
     magic_stats:
       innate_spell:
-        level: 1
+        level: cantrip
         name: Detect Magic
         tradition: arcane
         cast_stat: Charisma

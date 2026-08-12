@@ -3,8 +3,18 @@ pf2e_feats:
   Accursed Claws:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: Your claws carry your mother's hag magic. When you critically hit with a claw Strike, the target takes an additional 1d4 persistent mental damage.
@@ -99,8 +109,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - lineage
       - aesa
@@ -164,6 +184,18 @@ pf2e_feats:
   Ashen One Lore:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     grants:
@@ -178,6 +210,18 @@ pf2e_feats:
   Ashen One Magic:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     magic_stats:
@@ -194,6 +238,18 @@ pf2e_feats:
   Ashen One Weapon Familiarity:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: "You have familiarity with the bo staff, longbow, composite longbow, scythe, and staff—for the purpose of proficiency, you treat any of these that are martial weapons as simple weapons and any that are advanced weapons as martial weapons.%r%rAt 5th level, whenever you get a critical hit with one of these weapons, you get its critical specialization effect."
@@ -278,8 +334,18 @@ pf2e_feats:
   Bestial Manifestation:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - niasa
     shortdesc: "Part of your body has an animalistic influence from a planar creature. Your hands end in claws, you have hooves instead of feet, sharp teeth fill your mouth, or a tail extends from your spine. You gain your choice of one of the following unarmed attacks. The attack is in the brawling group and has the listed damage die and traits.%r%r* **Claw** 1d4 slashing (agile, finesse, unarmed, versatile piercing)%r%r* **Hoof** 1d6 bludgeoning (finesse, unarmed)%r%r* **Jaws** 1d6 piercing (finesse, unarmed)%r%r**Tail** 1d4 bludgeoning (agile, finesse, unarmed)%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat, nor can you change the type of attack you gained."
@@ -300,8 +366,18 @@ pf2e_feats:
   Blessed Blood (Aesa):
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - aesa
     shortdesc: Your spilled blood is sanctified, with effects similar to those of Holy Water. Whenever a fiend, undead, or creature with a weakness to holy drinks your blood or deals piercing or slashing damage to you with jaws, fangs, or a similar attack, that creature takes 1d6 spirit damage with the holy trait. You gain a +4 circumstance bonus to Crafting checks to Craft *holy water* using your blood as one of the ingredients.
@@ -310,8 +386,18 @@ pf2e_feats:
   Bloodletting Fangs:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     shortdesc: You emulate your vampiric parent's techniques for drawing blood from a victim. Your fangs Strikes deal an additional 1d4 persistent bleed damage on a critical hit.
@@ -378,8 +464,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
       - lineage
@@ -413,8 +509,18 @@ pf2e_feats:
   Called:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: You've heard the Call, and by resisting it, you've developed a bulwark against effects that target your mind. You gain a +1 circumstance bonus to Will saving throws against mental effects. If you roll a success on your saving throw against a mental effect that would make you controlled, you get a critical success instead.
@@ -424,8 +530,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
       - lineage
@@ -525,8 +641,18 @@ pf2e_feats:
   Celestial Magic:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - aesa
     shortdesc: "You possess celestial magic. Choose two of the following spells: *clear mind*, *everlight*, *humanoid form*, *revealing light*, *share life*, or *sure footing*. You can use each of the chosen spells once per day as 2nd-rank divine innate spells.%r%rAngelkin typically take *clear mind* and *humanoid form*, lawbringers typically have *everlight* and *share life*, and musetouched typically have *revealing light* and *sure footing*."
@@ -539,8 +665,18 @@ pf2e_feats:
   Celestial Mercy:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - aesa
     magic_stats:
@@ -560,8 +696,18 @@ pf2e_feats:
   Changeling Lore:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     grants:
@@ -744,6 +890,18 @@ pf2e_feats:
   Deliberate Death:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: "**Frequency** once per day%r%r**Trigger** You are about to gain the dying condition as a result of another creature's attack or ability, and that creature is within your melee reach.%r%rOnce, you died because someone—murderer, monster, or soldier—chose to strike you down. Just before losing consciousness, make a melee Strike against the triggering creature.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat."
@@ -764,8 +922,18 @@ pf2e_feats:
   Divine Countermeasures:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -776,8 +944,18 @@ pf2e_feats:
   Divine Declaration:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -794,8 +972,18 @@ pf2e_feats:
   Divine Wings:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - divine
@@ -811,8 +999,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
       - lineage
@@ -822,8 +1020,15 @@ pf2e_feats:
   Earned Glory:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Silyara
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
     traits:
       - silyara
     grants:
@@ -837,6 +1042,8 @@ pf2e_feats:
   Eat Fortune:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - concentrate
       - divine
@@ -861,6 +1068,8 @@ pf2e_feats:
   Egalrin Feather Fan:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     grants:
@@ -872,6 +1081,8 @@ pf2e_feats:
   Egalrin Lore:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     grants:
@@ -886,6 +1097,8 @@ pf2e_feats:
   Egalrin Weapon Familiarity:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: "You gain access to all uncommon weapons with the egalrin trait plus the katana, khakkara, temple sword, and wakizashi. You have familiarity with these weapons—for the purpose of proficiency, you treat any of these that are martial weapons as simple weapons and any that are advanced weapons as martial weapons.%r%rDuring your daily preparations, you can practice with a weapon from the sword group that's in your possession. You gain familiarity with that weapon as well. This lasts until you practice with a different sword in the same way.%r%rAt 5th level, whenever you get a critical hit with one of these weapons, you get its critical specialization effect."
@@ -906,8 +1119,18 @@ pf2e_feats:
   Enthralling Allure:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     magic_stats:
@@ -936,8 +1159,18 @@ pf2e_feats:
   Eternal Wings:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -972,8 +1205,18 @@ pf2e_feats:
   Extraplanar Supplication:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -984,8 +1227,18 @@ pf2e_feats:
   Eyes of Night:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     shortdesc: "You can see in the darkness as easily as a true vampire. You gain darkvision.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat."
@@ -995,8 +1248,18 @@ pf2e_feats:
   Fangs:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     shortdesc: "Your incisors have grown into true fangs: long, sharp, and well-suited to drawing blood. You gain a fangs unarmed attack that deals 1d6 piercing damage. Your fangs are in the brawling group and have the grapple and unarmed traits."
@@ -1040,8 +1303,18 @@ pf2e_feats:
   Fiendish Magic:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - niasa
     shortdesc: "You possess fiendish magic. Choose two of the following spells: *disguise magic*, *false vitality*, *invisibility*, *see the unseen*, *shatter*, or *paranoia*. You can use each of the chosen spells once per day as 2nd-rank divine innate spells.%r%rGrimspawn typically take *false vitality* and *see the unseen*, pitborn typically take *paranoia* and *shatter*, and hellspawn typically take *invisibility* and *disguise magic*."
@@ -1084,8 +1357,18 @@ pf2e_feats:
   Form of the Bat:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - concentrate
       - dar
@@ -1134,6 +1417,18 @@ pf2e_feats:
   Ghost Hunter:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: Your connection to the Gray Halls ensures that your blows strike true against spectral beings. Your weapon and unarmed Strikes against incorporeal creatures become magical. If they are already magical, they instead gain the effects of a *ghost touch* property rune.
@@ -1214,6 +1509,18 @@ pf2e_feats:
   Gravesight:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: "You can see in the darkness as easily as a psychopomp. You gain darkvision.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat."
@@ -1223,6 +1530,18 @@ pf2e_feats:
   Gray Halls's Call:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
       - uncommon
@@ -1238,6 +1557,8 @@ pf2e_feats:
   Great Egalrin Form:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You take on the imposing form of a large, winged spirit. Once per day, as part of using Long-Nosed Form, you also gain the benefits of 4th-rank *enlarge* and *fly*. This lasts for 5 minutes or until you shift out of your Long-Nosed Form, whichever happens first.
@@ -1265,8 +1586,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - lineage
       - niasa
@@ -1301,8 +1632,18 @@ pf2e_feats:
   Hag Claws:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: "When you came of age, your fingernails grew long and sharp. You gain a claw unarmed attack that deals 1d4 slashing damage. Your claws are in the brawling group and have the agile, finesse, and unarmed traits.%r%r**Special** Hag claws can develop at any point in a changeling's life. You can select this feat anytime you would gain an ancestry feat, but you can't retrain out of it."
@@ -1311,8 +1652,18 @@ pf2e_feats:
   Hag Magic:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: "Through your heritage, you can replicate a hag's magic. Choose one common spell of 4th rank or lower from those available to a coven, including the spells contributed to a coven by a hag of your mother's type. You can cast this spell once per day as a 4th-rank occult innate spell.%r%rSpells available to all covens are *augury*, *charm*, *clairaudience*, *clairvoyance*, *dream message*, and *illusory disguise*. The eligible spells granted by the most prominent types of hag are:%r%r**Cuckoo Hag** *nightmare*, *spellwrack*%r%r**Iron Hag** *earthbind*, *spellwrack*%r%r**Sea Hag** *humanoid form*, *mariner's curse*, *water walk*%r%r**Sweet Hag** *charm*, *honeyed words*, *outcast's curse*"
@@ -1321,8 +1672,18 @@ pf2e_feats:
   Hag's Sight:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: You've nurtured the supernatural abilities gifted by your hag mother, particularly your sight. You gain darkvision.
@@ -1331,16 +1692,28 @@ pf2e_feats:
   Halo:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
-      - niasa
+      - Aesa
     shortdesc: You have a halo of light and goodness that sheds light with the effects of a divine *light* cantrip. A cantrip is heightened to a spell rank equal to half your level rounded up. You can Sustain to suppress or reestablish the halo.
     prereq:
       level: 1
   Harbinger's Caw:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - auditory
       - divine
@@ -1375,8 +1748,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - lineage
       - niasa
@@ -1489,7 +1872,14 @@ pf2e_feats:
     feat_type:
       - Ancestry
     assoc_ancestry:
-      - Silyara
+      - Arvek
+      - Bassin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
     traits:
       - silyara
     shortdesc: Your actions inspire your allies to great achievements. Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.
@@ -1535,6 +1925,8 @@ pf2e_feats:
   Jinx Glutton:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You can Eat Fortune once per hour, rather than once per day.
@@ -1641,8 +2033,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - lineage
       - aesa
@@ -1676,6 +2078,18 @@ pf2e_feats:
   Lifesense:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - divine
       - ashen one
@@ -1685,6 +2099,8 @@ pf2e_feats:
   Long-Nosed Form:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - concentrate
       - polymorph
@@ -1719,6 +2135,8 @@ pf2e_feats:
   Magpie Snatch:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You move quickly, snatching a shiny item that catches your eye. Stride twice, and you can Interact to pick up an unattended object at any point during your movement.
@@ -1739,11 +2157,13 @@ pf2e_feats:
   Mariner's Fire:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     magic_stats:
       innate_spell:
-        level: 1
+        level: cantrip
         name: Ignition
         tradition: primal
         cast_stat: Charisma
@@ -1765,8 +2185,18 @@ pf2e_feats:
   Mist Child:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: You blend in with unnatural subtlety. When you are concealed or hidden, increase the DC of the flat check to target you to 6 if you're concealed or 12 if you're hidden.
@@ -1775,8 +2205,15 @@ pf2e_feats:
   Monstrous Peacemaker:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Ghaluch
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Sildanyar
     traits:
       - ghaluch
     shortdesc: Your dual nature has given you a unique perspective, allowing you to bridge the gap between sentient humanoids and the many intelligent creatures in the world that others consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and oruch). You also gain this bonus on Perception checks to Sense the Motives of such creatures.
@@ -1785,8 +2222,10 @@ pf2e_feats:
   Mountain's Stoutness:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Khazad
     traits:
-      - dwarf
+      - khazad
     shortdesc: "Your hardiness lets you withstand more punishment than most. Increase your maximum Hit Points by your level. When you have the dying 1 condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value).%r%rIf you also have the Toughness feat, the Hit Points gained from it and this feat are cumulative, and the DC of your recovery checks is equal to 6 + your dying value."
     prereq:
       level: 9
@@ -1804,8 +2243,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - lineage
       - aesa
@@ -1839,8 +2288,18 @@ pf2e_feats:
   Necromantic Physiology:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     shortdesc: Your unusual physiology has developed in a way that makes it difficult for parasites and other infestations to prey upon you. You gain a +2 circumstance bonus to saving throws against diseases. If you roll a success on a saving throw against a disease, you get a critical success instead. If you have a different ability that would improve the save in this way (such as the battle hardened fighter class feature), if you roll a critical failure on the save you get a failure instead.
@@ -1849,8 +2308,18 @@ pf2e_feats:
   Nephilim Eyes:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -1862,8 +2331,18 @@ pf2e_feats:
   Nephilim Lore:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -1882,8 +2361,18 @@ pf2e_feats:
   Nephilim Resistance:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -1894,8 +2383,18 @@ pf2e_feats:
   Night Magic:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     magic_stats:
@@ -1912,8 +2411,18 @@ pf2e_feats:
   Nimble Hooves:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - niasa
     shortdesc: "You possess hooves, ankle wings, or some other feature that hastens your movement. Your Speed increases by 5 feet.%r%r**Special** The Speed increase from this feat isn't cumulative with any Speed increase from other ancestry feats."
@@ -1932,8 +2441,18 @@ pf2e_feats:
   Occult Resistance:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
     shortdesc: Your study of occult practices has shown you how to best defend against them. You gain a +1 circumstance bonus to all saving throws against occult effects.
@@ -1943,6 +2462,8 @@ pf2e_feats:
   One-Toed Hop:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: Assuming a peculiar stance, you make a short hop on each toe. You make a vertical Leap without triggering reactions that can be triggered by move actions or upon leaving or entering a square.
@@ -1980,8 +2501,15 @@ pf2e_feats:
   Oruch Sight:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Ghaluch
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Sildanyar
     traits:
       - ghaluch
     shortdesc: "Your oruch blood grants you the keen vision of your forebears. You gain darkvision, allowing you to see in darkness and dim light just as well as you can in bright light. However, in darkness, you see in black and white only.%r%r**Special** You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat."
@@ -2034,7 +2562,7 @@ pf2e_feats:
       - sildanyar
     magic_stats:
       innate_spell:
-        level: 1
+        level: cantrip
         name: open
         tradition: arcane
         cast_stat: Intelligence
@@ -2087,8 +2615,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - lineage
       - niasa
@@ -2211,6 +2749,18 @@ pf2e_feats:
   Quietus Strikes:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: Your connection to the Gray Halls empowers you to bring death to all forms of life and unlife, exploiting their weaknesses. All your weapon and unarmed Strikes are magical and deal 1 additional void damage to living creatures and 1 additional vitality damage to undead. The extra damage increases to 2 if the Strike has a *+3 potency rune*.
@@ -2275,7 +2825,7 @@ pf2e_feats:
       - kailli
     magic_stats:
       innate_spell:
-        level: 1
+        level: 2
         name: Animal Messenger
         tradition: primal
         cast_stat: Charisma
@@ -2351,6 +2901,18 @@ pf2e_feats:
   Resist Ruin:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     magic_stats:
@@ -2411,6 +2973,8 @@ pf2e_feats:
   Scavenger's Search:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You're always on the lookout for supplies and valuables. You gain a +2 circumstance bonus to locate objects (including secret doors and hazards) you search for within 30 feet with a Seek action.
@@ -2433,8 +2997,18 @@ pf2e_feats:
   Scion of Many Planes:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -2492,8 +3066,15 @@ pf2e_feats:
   Sil Atavism:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Silyara
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
     traits:
       - silyara
     shortdesc: "Your sildanyari blood runs particularly strong, granting you features far more sildanyari than those of a typical silyara. You may also have been raised among sildanyari, steeped in your sildanyari ancestors' heritage. You gain the benefits of the sildanyar heritage of your sildanyari parent or ancestors. You typically can't select a heritage that depends on or improves an sildanyari feature you don't have.%r%r**Special** You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat."
@@ -2539,8 +3120,18 @@ pf2e_feats:
   Skillful Tail:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - niasa
     shortdesc: You've always had a tail, but with practice, you've learned to use it for more than signaling your mood. You can perform simple Interact actions with your tail, such as opening an unlocked door. Your tail can't perform actions that require fingers or significant manual dexterity, including any action that would require a check to accomplish, and you can't use it to hold items.
@@ -2572,8 +3163,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Changeling
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - changeling
       - lineage
@@ -2583,8 +3184,18 @@ pf2e_feats:
   Slip Sideways:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Niasa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - niasa
     magic_stats:
@@ -2613,6 +3224,8 @@ pf2e_feats:
   Soaring Flight:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: "**Frequency** once per round%r%rYou Fly. If you don't normally have a fly Speed, you gain a fly Speed of 20 feet for this movement. If you aren't on solid ground at the end of this movement, you fall."
@@ -2624,6 +3237,8 @@ pf2e_feats:
   Soaring Form:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You have a fly Speed of 20 feet at all times.
@@ -2646,6 +3261,18 @@ pf2e_feats:
   Spirit Soother:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: You are attuned to the minute sounds and sensations of restless spirits. Even if you aren't Searching, you can attempt a check to find haunts that normally require you to be Searching. You still need to meet any other requirements to find the haunt. You gain a +1 circumstance bonus to checks to disable haunts.
@@ -2664,6 +3291,8 @@ pf2e_feats:
   Squawk!:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: "**Trigger** You critically fail a Deception, Diplomacy, or Intimidation check against a creature that doesn't have the egalrin trait.%r%rYou let out an awkward squawk, ruffle your feathers, or fake some other birdlike tic to cover up a social misstep or faux pas. You get a failure on the triggering check, rather than a critical failure. All creatures that witnessed you Squawk are temporarily immune for 24 hours."
@@ -2769,6 +3398,8 @@ pf2e_feats:
   Storm's Lash:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     magic_stats:
@@ -2784,8 +3415,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
       - lineage
@@ -2805,8 +3446,18 @@ pf2e_feats:
   Summon Nephilim Kin:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Aesa
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
       - Niasa
     traits:
       - aesa
@@ -2819,8 +3470,15 @@ pf2e_feats:
   Supernatural Charm:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Silyara
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
     traits:
       - silyara
     magic_stats:
@@ -2846,8 +3504,18 @@ pf2e_feats:
     feat_type:
       - Ancestry
       - Lineage
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
       - lineage
@@ -2870,8 +3538,18 @@ pf2e_feats:
   Symphony of Blood:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     magic_stats:
@@ -2906,6 +3584,8 @@ pf2e_feats:
   Thunder God's Fan:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: Your fan unleashes the fury of the storm. You can use the Wave Fan activation one additional time per day. Add a 5th-rank *lightning bolt* spell to the spells contained within your fan.
@@ -2961,6 +3641,8 @@ pf2e_feats:
   Trickster Egalrin:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: You can transform yourself or the bodies of others to express your displeasure. Once per day, you can cast either *aerial form* or *cursed metamorphosis* as a 7th-rank primal innate spell. You must take the form of a bird when casting this aerial form.
@@ -2989,6 +3671,8 @@ pf2e_feats:
   Uncanny Agility:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     grants:
@@ -3024,8 +3708,18 @@ pf2e_feats:
   Undead Slayer:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     shortdesc: Your knowledge of your own not-quite-living anatomy, combined with your experience in combat, helps you take down undead foes with ease. Against undead creatures, you gain a circumstance bonus to damage with weapon and unarmed Strikes equal to the number of weapon damage dice for the Strike. This bonus increases to double the number of weapon damage dice if your target has the vampire trait.
@@ -3095,8 +3789,18 @@ pf2e_feats:
   Vampire Lore:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     grants:
@@ -3176,8 +3880,18 @@ pf2e_feats:
   Voice of the Night:
     feat_type:
       - Ancestry
-    assoc_ancestry:
-      - Dar
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - dar
     shortdesc: You hear and understand the words of creatures you share the darkness with. You can ask questions of, receive answers from, and use the Diplomacy skill with bats, rats, and wolves. You also gain a +1 circumstance bonus to Make an Impression on such animals.
@@ -3196,6 +3910,18 @@ pf2e_feats:
   Ward Against Corruption:
     feat_type:
       - Ancestry
+    assoc_ancestry: 
+      - Arvek
+      - Bassin
+      - Ciith 
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
     traits:
       - ashen one
     shortdesc: Your soul is warded against the power of undeath and plague, as well as that of the evil former psychopomps known as sahkils. You gain a +1 circumstance bonus to saving throws against death effects, disease, and all effects from undead or sahkils. This bonus increases to +2 against an undead or sahkil's death effect or disease.
@@ -3237,6 +3963,8 @@ pf2e_feats:
   Wind God's Fan:
     feat_type:
       - Ancestry
+    assoc_ancestry:
+      - Egalrin
     traits:
       - egalrin
     shortdesc: Your fan can stir up even more powerful winds. You can use the Wave Fan activation one additional time per day. Add a 3rd-rank *wall of wind* spell to the spells contained within your fan.

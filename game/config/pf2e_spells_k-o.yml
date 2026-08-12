@@ -25,7 +25,7 @@ pf2e_spells:
     trigger: You roll initiative and can see a creature, you succeed at an attack roll against a creature, or a creature fails a saving throw against one of your spells
     effect: "You quickly remind yourself of useful information. Use a Recall Knowledge action, rolling the appropriate skill check to identify the triggering creature's abilities. You can roll your check twice and use the better result."
   Know the Way:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -163,7 +163,7 @@ pf2e_spells:
     duration: 1 minute
     effect: "You create an immobile, invisible prison of hardened wood suffused with vital energy from the Forge of Creation. The cage is a 20-foot cube made of wooden branches, each a half inch thick and a half inch apart. Each creature in the area where you create the cage must attempt a Reflex save. If such a creature fails, it becomes trapped inside the cage. If it succeeds, it's pushed outside the cage into a space of its choice. If a creature in the area is too big to fit inside the prison, the spell automatically fails.%r%rThe cage has AC 10, Hardness 20, and 40 Hit Points, and it's immune to critical hits and precision damage, though it has weakness 5 to void damage. A creature capable of passing through the space between the bars (typically a Tiny creature) can leave; all others are confined within. The vitality energy suffusing the wood prevents incorporeal undead creatures from passing through the beams. Attacks with a weapon too large to fit between the bars can't pass through the cage, and the bars provide standard cover even against attacks that can pass through the gaps. Spells and most area effects (such as dragon breath) can pass through the cage uninhibited."
   Light:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - angelic
     mystery:
@@ -235,7 +235,7 @@ pf2e_spells:
     actions: free
     effect: "You add a flourish to your composition to extend its benefits. If your next action is to cast a cantrip composition with a duration of 1 round, attempt a Performance check. The DC is usually a standard-difficulty DC of a level equal to the highest-level target of your composition, but the GM can assign a different DC based on the circumstances. The effect depends on the result of your check.%r%r**Critical Success** The composition lasts 4 rounds.%r**Success** The composition lasts 3 rounds.%r**Failure** The composition lasts 1 round, but you don't spend the Focus Point for casting this spell."
   Live Wire:
-    base_level: 1
+    base_level: cantrip
     traits:
       - attack
       - cantrip
@@ -509,7 +509,7 @@ pf2e_spells:
     effect: You repair the target item. You restore 5 Hit Points per spell rank to the target, potentially removing the broken condition if this repairs it past the item's Broken Threshold. You can't replace lost pieces or repair an object that's been completely destroyed.
     heighten: "**2nd:** You can target a non-magical object of 1 Bulk or less.%r**3rd:** You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less."
   Message:
-    base_level: 1
+    base_level: cantrip
     traits:
       - auditory
       - cantrip
@@ -909,7 +909,7 @@ pf2e_spells:
     effect: You emit a cloud of toxic smoke that temporarily obscures you from sight. Each creature except you in the area when you Cast the Spell takes 1d6 poison damage (basic Fortitude save). A creature that critically fails the saving throw also becomes sickened 1. All creatures in the area become concealed, and all creatures outside the smoke become concealed to creatures within it. This smoke can be dispersed by a strong wind.
     heighten: "**+1:** The damage increases by 1d6"
   Nudge Fate:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate

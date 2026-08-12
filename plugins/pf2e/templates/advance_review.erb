@@ -1,8 +1,11 @@
 <%= header %>
 <%= center("#{title_color}#{title}", 78) %>%xn
 <%= divider %>
+<% if has_advancement %>
+<%= section_line("Options So Far") %>
 <% advancement.each do |item| %>
 <%= item %>
+<% end %>
 <% end %>
 <% if has_options %>
 <%= section_line("Options To Choose") %>

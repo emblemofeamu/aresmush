@@ -5,18 +5,20 @@
 <%= left("#{item_color}Heritage%xn: #{heritage}", 39) %>
 <%= left("#{item_color}Background%xn: #{background}", 39) -%>
 <%= left("#{item_color}Class%xn: #{charclass}", 39) %>
-<%= left("#{item_color}Specialty%xn: #{subclass}", 39) -%>
-<%= left("#{item_color}Specialty Choice%xn: #{subclass_option}", 39) %>
+<%= left("#{item_color}Specialty%xn: #{show(subclass)}", 39) -%>
+<%= left("#{item_color}Specialty Choice%xn: #{show(subclass_option)}", 39) %>
 <%= section_line("Faith Info") %>
-<%= left("#{item_color}Alignment%xn: #{alignment}", 39) -%>
+<%= left("#{item_color}Alignment%xn: #{show(alignment)}", 39) -%>
+<%= left("#{item_color}Deity%xn: #{show(deity)}#{is_devotee}", 39) %>
 <% if sanctification %>
 <%= "#{item_color}Sanctification%xn: #{sanctification}" %>
 <% end %>
-<%= left("#{item_color}Deity%xn: #{deity}#{is_devotee}", 39) %>
 <% if has_code %>
+<% if sheet_complete %>
 <%= section_line("Edicts & Anathema") %>
-<%= "%xh%xyYour character choices include edicts and anathema.%xn" %>
+<%= "%xh%xcYour character choices include edicts and anathema.%xn" %>
 <%= has_code %>
+<% end %>
 <% end %>
 <%= section_line("So Far...") %>
 <%= left("#{item_color}HP%xn: #{ahp + chp} + #{con_mod}", 26) -%>
@@ -24,29 +26,82 @@
 <%= left("#{item_color}Speed%xn: #{speed} feet", 26) %>
 <%= section_line("Traits") %>
 <%= traits.sort.join(", ") %>
+<% if show_boosts %>
 <%= section_line("Attribute Boosts") %>
-<%= "#{item_color}Free Boosts%xn: #{free_boosts}" %>
-<%= "#{item_color}Ancestry Boosts%xn: #{ancestry_boosts}"  %>
+<%= "#{item_color}Ancestry Boosts%xn: #{ancestry_boosts}" %>
 <%= "#{item_color}Background Boosts%xn: #{bg_boosts}" %>
-<%= "#{item_color}Key Attribute%xn: #{key_ability}" %>
-<%= section_line("Skills") %>
-<%= "#{item_color}Current Skills%xn: #{existing_skills}" %>
-<%= "#{item_color}Free Skills%xn: #{open_skills}" %>
-<% if bglore_choice %>
-<%= "%xyYou need to choose which lore you get from your background. Options: #{bglore_choice}%xn" %>
+<%= "#{item_color}Key Attribute Boost%xn: #{key_ability}" %>
+<%= "#{item_color}Free Boosts%xn: #{free_boosts}" %>
 <% end %>
+<% if show_attributes %>
+<%= section_line("Attributes") %>
+<%= attribute_scores %>
+<% end %>
+<% if show_skills %>
+<%= section_line("Skills") %>
+<% if sheet_complete %>
+<%= "#{item_color}Skills%xn: #{existing_skills}" %>
+<% else %>
+<%= "#{item_color}Starting Skills%xn: #{starting_skills}" %>
+<% if bg_skill_choice %>
+<%= "#{item_color}Background Skill Choice%xn: #{bg_skill_choice}" %>
+<% end %>
+<% if class_skill_choice %>
+<%= "#{item_color}Class Skill Choice%xn: #{class_skill_choice}" %>
+<% end %>
+<%= "#{item_color}Free Skills%xn: #{open_skills}" %>
+<%= "#{item_color}Chosen Skills%xn: #{chosen_skills}" %>
+<% end %>
+<% end %>
+<% if show_languages %>
+<%= section_line("Languages") %>
+<% if sheet_complete %>
+<%= "#{item_color}Languages%xn: #{languages}" %>
+<% else %>
+<%= "#{item_color}Starting Languages%xn: #{starting_languages}" %>
+<%= "#{item_color}Extra Languages%xn: #{open_languages}" %>
+<%= "#{item_color}Chosen Languages%xn: #{chosen_languages_display}" %>
+<% end %>
+<% end %>
+<% if show_feats %>
 <%= section_line("Feats") %>
 <%= "#{item_color}Feats%xn: #{feats}" %>
+<% end %>
+<% if show_magic %>
 <%= section_line("Magic") %>
-<%= "Use the %xcmagic%xn command to see your current magic stats." %>
+<% if divine_font %>
+<%= divine_font %>
+<% end %>
+<% if innate_spells %>
+<%= innate_spells %>
+<% end %>
+<% if spells_to_choose %>
+<%= spells_to_choose %>
+<% end %>
+<% if magic_notes %>
+<%= magic_notes %>
+<% end %>
+<% end %>
+<% if show_other %>
 <%= section_line("Other Stuff") %>
 <%= "#{item_color}Special Senses and Abilities%xn: #{specials}" %>
-<%= "#{item_color}Starting Languages%xn: #{languages}" %>
-<%= "#{item_color}Extra Languages%xn: #{open_languages}" %>
+<% end %>
+<% if show_message_section %>
 <%= section_line("Messages") %>
+<% if has_messages %>
 <%= errors %>
+<% end %>
+<% if ready_to_commit %>
+<%= commit_prompt %>
+<% end %>
+<% if sheet_complete %>
+<%= complete_msg %>
+<% end %>
+<% end %>
 <%= divider %>
+<% if show_lock_msg %>
 <%= lock_msg %>
+<% end %>
 <%= "To return to an earlier stage in sheet generation, see '%xchelp cg_restore%xn'." %>
 <%= "To reset your sheet completely, enter '%xccg/reset%xn'." %>
 <%= footer %>

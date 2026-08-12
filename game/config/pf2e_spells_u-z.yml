@@ -176,7 +176,7 @@ pf2e_spells:
     effect: You transform your flesh and organs into a bizarre amalgam of glistening skin, rough scales, tufts of hair, and tumorous protuberances. This has the following effects.%r%r%t- You gain resistance 10 to precision damage and resistance 10 to extra damage from critical hits. If the resistance is greater than the extra damage, it reduces the extra damage to 0 but doesn't reduce the attack's normal damage.%r%t- You gain darkvision.%r%t- Acid oozes from your skin. Any creature that hits you with an unarmed attack or with a non-reach melee weapon takes 2d6 acid damage.
     heighten: "**+2:** The resistances increase by 5, and the acid damage increases by 1d6."
   Uplifting Overture:
-    base_level: 1
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -403,7 +403,7 @@ pf2e_spells:
     effect: Vitality radiates outward from you, allowing others to supplicate and receive healing. Once per round, either you or an ally can use an Interact action to supplicate and lay hands upon you to regain Hit Points. Each time the beacon heals someone, it decreases in strength. It restores 4d10 Hit Points to the first creature, 4d8 Hit Points to the second, 4d6 Hit Points to the third, and 4d4 Hit Points to the fourth, after which the spell ends. You can have only one vital beacon active at a time.
     heighten: "**+1:** The beacon restores one additional die of Hit Points each time it heals, using the same die size as the others for that step."
   Vitality Lash:
-    base_level: 1
+    base_level: cantrip
     mystery:
       - life
     traits:
@@ -420,7 +420,7 @@ pf2e_spells:
     effect: You demolish the target's corrupted essence with energy from Creation's Forge. You deal 2d6 vitality damage with a basic Fortitude save. If the creature critically fails the save, it is also enfeebled 1 until the start of your next turn.
     heighten: "**+1:** The damage increases by 1d6."
   Void Warp:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - undead
     mystery:
@@ -798,7 +798,7 @@ pf2e_spells:
     duration: until you leave the stance
     effect: "You take on the stance of the flowing winds, sending out waves of energy at a distance. You can make wind crash unarmed Strikes as ranged Strikes against targets within 30 feet. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, nonlethal, propulsive, and unarmed traits. Wind crash Strikes ignore concealment and all cover.%r%rWhile in *wild winds stance*, you gain a +2 circumstance bonus to AC against ranged attacks."
   Wilding Word:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - hex

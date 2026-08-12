@@ -147,7 +147,7 @@ module AresMUSH
         return 'Cantrips' if level_str.downcase == 'cantrip'
 
         level_num = level_str.to_i
-        "#{ordinal(level_num)}-level"
+        "#{ordinal(level_num)}-rank"
       end
 
       def ordinal(number)

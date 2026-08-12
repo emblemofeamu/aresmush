@@ -185,8 +185,9 @@ module AresMUSH
         trad = Pf2e.pretty_string(trad_info[0])
         prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
         atk = PF2Magic.get_spell_attack_bonus(char, charclass)
+        divine_font = format_divine_font(charclass)
         focus_pool = format_focus_pool(charclass)
-        stat_block_break = focus_pool.empty? ? "%r%r" : "%r"
+        stat_block_break = (divine_font.empty? && focus_pool.empty?) ? "%r%r" : "%r"
 
         trad_string = "#{title_color}#{charclass}%xn: #{trad} (#{prof})%b%b%bBonus: #{atk}#{stat_block_break}"
 
@@ -201,9 +202,9 @@ module AresMUSH
           list << "%b%b#{item_color}#{display_level}:%xn #{splist.sort.join(", ")}"
         end
 
-        return "#{trad_string}#{focus_pool}#{prepared_msg} None." if list.empty?
+        return "#{trad_string}#{divine_font}#{focus_pool}#{prepared_msg} None." if list.empty?
 
-        "#{trad_string}#{focus_pool}#{prepared_msg}%r#{list.join("%r")}"
+        "#{trad_string}#{divine_font}#{focus_pool}#{prepared_msg}%r#{list.join("%r")}"
       end
 
       def format_spont_spells(char, charclass, spells_today, trad_info)
@@ -235,6 +236,17 @@ module AresMUSH
                          end
 
         "#{trad_string}#{focus_pool}#{remaining_msg}#{remaining_data}"
+      end
+
+      def format_divine_font(charclass)
+        # The font comes from the deity and shapes the cleric's spell slots, so it belongs in that
+        # class' stat block rather than in a section of its own.
+        return '' unless charclass.to_s.casecmp?('Cleric')
+
+        font = @magic.divine_font
+        return '' if font.blank?
+
+        "#{item_color}Divine Font:%xn #{Pf2e.pretty_string(font)}%r"
       end
 
       def format_focus_pool(charclass)
@@ -279,7 +291,8 @@ module AresMUSH
         p_short = prof.to_s.slice(0).to_s.upcase
 
         level = values['level']
-        name = Pf2e.pretty_string(name)
+        # A spell the character was granted but hasn't picked yet is stored under the key 'open'.
+        name = name.to_s.casecmp?('open') ? t('pf2emagic.cg_innate_unchosen') : Pf2e.pretty_string(name)
         trad = Pf2e.pretty_string(values['tradition'])
 
         amod = Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, values['cast_stat'])
@@ -294,7 +307,7 @@ module AresMUSH
         return 'Cantrip' if level_str.downcase == 'cantrip'
 
         level_num = level_str.to_i
-        "#{ordinal(level_num)}-level"
+        "#{ordinal(level_num)}-rank"
       end
 
       def ordinal(number)

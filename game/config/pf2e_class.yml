@@ -1390,15 +1390,22 @@ pf2e_class:
             choice_description: "Choose a weapon group for your weapon mastery."
             choice_type: charclass_option
             options:
-            - Club
-            - Knife
-            - Brawling
-            - Spear
-            - Sword
-            - Axe
-            - Flail
-            - Polearm
-            - Hammer
+              - Axe
+              - Bomb
+              - Bow
+              - Brawling
+              - Club
+              - Crossbow
+              - Dart
+              - Flail
+              - Hammer
+              - Knife
+              - Pick
+              - Polearm
+              - Shield
+              - Sling
+              - Spear
+              - Sword
       6:
         choose_feat:
           - charclass
@@ -1470,15 +1477,22 @@ pf2e_class:
             choice_description: "Choose a weapon group for your weapon legend feat."
             choice_type: charclass_option
             options:
-            - Club
-            - Knife
-            - Brawling
-            - Spear
-            - Sword
-            - Axe
-            - Flail
-            - Polearm
-            - Hammer
+              - Axe
+              - Bomb
+              - Bow
+              - Brawling
+              - Club
+              - Crossbow
+              - Dart
+              - Flail
+              - Hammer
+              - Knife
+              - Pick
+              - Polearm
+              - Shield
+              - Sling
+              - Spear
+              - Sword
       14:
         choose_feat:
           - charclass

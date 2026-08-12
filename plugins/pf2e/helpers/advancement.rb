@@ -69,6 +69,45 @@ module AresMUSH
       end
     end
 
+    def self.stage_feat_magic_stats(char, feat_name, feat_details, to_assign, advancement)
+      # Feats carry their magic in a top-level magic_stats block rather than under 'grants'. Stage it
+      # keyed by the feat, the same way the archetype path does, so do_advancement applies it at
+      # commit and any open choices show up on advance/review. Returns the options left to choose.
+      return [] if !feat_details.is_a?(Hash)
+
+      magic_stats = feat_details['magic_stats']
+
+      return [] if !magic_stats.is_a?(Hash) || magic_stats.empty?
+      return [] if !AresMUSH.const_defined?("Pf2emagic")
+
+      base_class_key = char.pf2_base_info['charclass']
+      assessed = PF2Magic.assess_magic_stats(char, magic_stats)
+
+      advancement['magic_stats'] ||= {}
+      wrap_adv_magic_stats(advancement, base_class_key)
+      advancement['magic_stats'][feat_name] = assessed['magic_stats']
+
+      magic_options = assessed['magic_options'] || {}
+
+      magic_options.each_pair do |option, slots|
+        wrap_magic_assign(to_assign, option, base_class_key)
+        to_assign[option] ||= {}
+        to_assign[option][feat_name] = slots
+      end
+
+      magic_options.keys.sort
+    end
+
+    def self.magic_option_messages(options)
+      innate, rest = Array(options).map(&:to_s).uniq.partition { |option| option.casecmp?('innate') }
+
+      msg = []
+      msg << t('pf2e.adv_item_magic', :options => rest.sort.join(" and ")) unless rest.empty?
+      msg << t('pf2e.adv_item_innate_spells') unless innate.empty?
+
+      msg
+    end
+
     def self.archetype_key?(key)
       archetypes = Global.read_config('pf2e_archetype')&.keys || []
       archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
@@ -228,14 +267,14 @@ module AresMUSH
             magic_options.each_pair do |k,v|
               to_assign[k] = v
             end
-            return_msg << t('pf2e.adv_item_magic', :options => magic_options.keys.sort.join(" and "))
+            return_msg.concat(magic_option_messages(magic_options.keys))
           end
         when "raise"
           # Value is an array of all the things you can choose to raise.
           # In this case, we put into to_assign what is to be raised as a key with an empty value.
 
           value.each do |item|
-            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : "open"
+            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : [ "open" ]
             return_msg << t('pf2e.adv_item_raise', :item => item)
           end
         when "choose"
@@ -560,6 +599,10 @@ module AresMUSH
           value.each_pair do |feat, info|
             do_feat_grants(char, info, charclass, client)
           end
+        when "innate"
+          # Innate spells are granted by the magic_stats entry that opened the slot, which records the
+          # chosen spell as its name. Older advancements that stashed the filled slots here too need
+          # no second pass.
         when "repertoire_swap"
           # Already applied during advance/spellswap; no additional work needed here.
         else
@@ -696,7 +739,9 @@ module AresMUSH
             end
           end
 
-          if info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
+          if item == "innate"
+            msg << t('pf2e.adv_item_innate_spells') if needs_open.call(info)
+          elsif info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
             info.each_pair do |class_key, value|
               next unless needs_open.call(value)
 
@@ -708,8 +753,7 @@ module AresMUSH
               end
             end
           else
-            needs_spell_choice = needs_open.call(info)
-            msg << t('pf2e.adv_item_spells', :options => item) if needs_spell_choice
+            msg << t('pf2e.adv_item_spells', :options => item) if needs_open.call(info)
           end
         when "signature"
           needs_signature = false

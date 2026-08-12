@@ -215,7 +215,7 @@ pf2e_spells:
     effect: "You become living flame, giving you fire immunity, resistance 10 to precision damage, and weakness 5 to cold and to water. Any creature that touches you or damages you with an unarmed attack or non-reach melee weapon takes 3d6 fire damage.%r%rYour unarmed attacks deal an additional 1d4 fire damage, and your fire spells deal one additional die of fire damage (of the same damage die the spell uses). You can cast *ignition* as an innate spell; the casting is reduced from 2 actions to 1.%r%rIn fire form, you have a fly Speed of 40 feet and don't need to breathe."
     heighten: "**9th:** Creatures touching you take 4d6 fire damage instead of 3d6, your unarmed attacks deal 2d4 additional fire damage, and you have a fly Speed of 60 feet."
   Figment:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - fey
     traits:
@@ -396,7 +396,7 @@ pf2e_spells:
     effect: The target can soar through the air, gaining a fly Speed equal to its Speed or 20 feet, whichever is greater.
     heighten: "**7th:** The duration increases to 1 hour."
   Forbidding Ward:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - concentrate
@@ -489,7 +489,7 @@ pf2e_spells:
     actions: 3
     effect: "You temporarily stop time for everything but yourself, allowing you to use several actions in what appears to others to be no time at all. Immediately after casting *freeze time*, you can use up to 9 actions in 3 sets of up to 3 actions each.%r%rAfter each set of actions, 1 round passes, but for only you, effects specifically targeting or affecting you, and effects that you create during the stoppage. All other creatures and objects are invulnerable to your attacks, and you can't target or affect them with anything.%r%rOnce you have finished your actions, time begins to flow again for the rest of the world. If you created an effect with a duration that extends beyond *freeze time*'s duration, such as *wall of fire*, it immediately affects others again, but it doesn't have any of the effects that happen only when you first Cast the Spell."
   Frostbite:
-    base_level: 1
+    base_level: cantrip
     traits:
       - cantrip
       - cold
@@ -518,7 +518,7 @@ pf2e_spells:
     effect: "Toxic spores swarm over creatures in the area, causing them to erupt in grotesque fungal growths. These noxious growths deal 2d6 persistent poison damage, and each creature must attempt a Fortitude save.%r%r**Critical Success** The creature is unaffected.%r**Success** The target takes half the persistent poison damage.%r**Failure** The target takes the full persistent poison damage. While it's taking this persistent poison damage, it has weakness 1 to fire and weakness 1 to slashing.%r**Critical Failure** As failure, but double the persistent poison damage. While it's taking this persistent poison damage, it has weakness 2 to fire and weakness 2 to slashing."
     heighten: "**+2:** The persistent damage increases by 2d6, and the weakness increases by 1, or by 2 on a critical failure."
   Gale Blast:
-    base_level: 1
+    base_level: cantrip
     traits:
       - air
       - cantrip
@@ -676,7 +676,7 @@ pf2e_spells:
     target: 1 creature
     effect: "Your touch afflicts the target with goblin pox, an irritating allergenic rash. The target must attempt a Fortitude save.%r%r**Goblin Pox** (disease) **Level** 1; Creatures that have the goblin trait and goblin dogs are immune%r%r**Stage 1** sickened 1 (1 round); **Stage 2** sickened 1 and slowed 1 (1 round); **Stage 3** sickened 1 and the creature can't reduce its Sickened value below 1 (1 day)%r%r**Critical Success** The target is unaffected.%r**Success** The target is sickened 1.%r**Failure** The target is afflicted with goblin pox at stage 1.%r**Critical Failure** The target is afflicted with goblin pox at stage 2."
   Gouging Claw:
-    base_level: 1
+    base_level: cantrip
     traits:
       - attack
       - cantrip
@@ -771,7 +771,7 @@ pf2e_spells:
     effect: "This gruesome spell causes the target to grow excess limbs and organs, whether it be fingers multiplying until hands resemble bushes, eyes popping open in bizarre places, legs sprouting from the side of the body, or some other result. The target takes 10d6 piercing damage (basic Fortitude save) as the new features erupt. This spell has no effect on a target with a mutable anatomy or no limbs, such as an ooze or a protean. The growths rot rapidly and fall away after 1 round.%r%rIn addition, unless the initial target critically succeeds, creatures within 30 feet of the target, including the target, must attempt Will saves, after which they're temporarily immune to this secondary effect of grisly growths for 1 hour. This additional effect is a mental and visual effect.%r%r**Success** The creature is unaffected.%r**Failure** The creature is sickened 1.%r**Critical Failure** The creature is sickened 2."
     heighten: "**+1:** The damage increases by 2d6."
   Guidance:
-    base_level: 1
+    base_level: cantrip
     mystery:
       - ancestors
     traits:
@@ -875,7 +875,7 @@ pf2e_spells:
     effect: Magic empowers the target to act faster. It gains the quickened condition and can use the extra action each round only for Strike and Stride actions.
     heighten: "**7th:** You can target up to 6 creatures."
   Haunting Hymn:
-    base_level: 1
+    base_level: cantrip
     traits:
       - auditory
       - cantrip
@@ -1053,7 +1053,7 @@ pf2e_spells:
     effect: "You briefly transform your features into the horrific visage of a hag, striking fear into your enemies. Foes in the area must attempt a Will save.%r%r**Success** The foe is unaffected.%r**Failure** The foe is frightened 1.%r**Critical Failure** The foe is frightened 2."
     heighten: "**5th:** Foes in the area are frightened 1 on a success, frightened 2 on a failure, and frightened 3 and fleeing for 1 round on a critical failure. They are still unaffected on a critical success."
   House of Imaginary Walls:
-    base_level: 5
+    base_level: cantrip
     traits:
       - bard
       - cantrip
@@ -1232,7 +1232,7 @@ pf2e_spells:
     trigger: You or an ally in range attempt to use a mental effect to convince a creature to do something (such as a Coerce, Request, or a *suggestion* spell).
     effect: "You strengthen a target's ambition, increase its resentment of allies, and make its allegiances more susceptible to change. The target must attempt a Will save.%r%r**Critical Success** The target is unaffected and realized you attempted to influence its reaction with magic.%r**Success** The target takes a -1 status penalty to its defenses against the triggering effect. This penalty is -2 if the target is being encouraged to advance its own ambitions.The target doesn't realize you Cast the Spell on it.%r**Failure** As success, but the penalty is -4 if the target is being encouraged to advance its own ambitions.%r**Critical Failure** As success, but the creature automatically follows a suggestion that advances its own ambitions."
   Ignition:
-    base_level: 1
+    base_level: cantrip
     bloodline:
       - diabolic
     mystery:

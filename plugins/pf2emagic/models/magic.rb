@@ -46,6 +46,11 @@ module AresMUSH
       info.each_pair do |key, value|
         case key
         when "innate_spell"
+          # The entry itself belongs in magic_stats so update_magic grants the spell when the
+          # advancement is committed. An 'open' name additionally needs a slot to choose it in, and
+          # the stats entry is what advance/spell reads for the slot's rank and tradition.
+          magic_stats["innate_spell"] = value.dup
+
           names = Array(value['name'])
           open_count = names.count { |n| n.to_s.downcase == 'open' }
 
@@ -418,6 +423,7 @@ module AresMUSH
       magic.spells_today = {}
       magic.tradition = { "innate"=>["innate", "trained"] }
       magic.prepared_lists = {}
+      magic.divine_font = nil
 
       magic.save
 

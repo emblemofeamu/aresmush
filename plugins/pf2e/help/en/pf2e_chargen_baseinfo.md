@@ -8,6 +8,8 @@ aliases:
 
 The first thing you'll need to do in the Pathfinder 2E part of the character creation process is set your basic character information.
 
+**Note**: If you're using [Pathbuilder 2e](https://pathbuilder2e.com/) or another character builder tool to help you in the character creation process, be aware that many ancestries and heritages have been renamed. See [Ea Conversion Guide](/wiki/resource:ea-conversion) for help finding your equivalent character options.
+
 ### Ancestry & Heritage
 `cg/set ancestry = <ancestry>`: Sets your ancestry, which is broadly what people your character is descended from. Set your ancestry before choosing `heritage`. 
 %tSee [Ancestries](/wiki/mechanics:ancestry) for more information about your `<ancestry>` options.
@@ -17,7 +19,7 @@ The first thing you'll need to do in the Pathfinder 2E part of the character cre
 ### Background
 `cg/set background = <background>`: Your character's life before they became a Slayer and a member of the Illuminators.
 %tSee [Backgrounds](/wiki/mechanics:backgrounds) for more information about your `<background>` options. 
-%t **Note:** To page through `cg/info backgrounds`, add the page number you want to read after `cg/info`, such as `cg/info2 backgrounds`.
+**Note:** To page through `cg/info backgrounds`, add the page number you want to read after `cg/info`, such as `cg/info2 backgrounds`.
 
 ### Class & Specialty
 `cg/set charclass = <charclass>`: Your character's class; their field of expertise.

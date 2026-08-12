@@ -105,17 +105,17 @@ module AresMUSH
             return
           end
 
-          result = resolve_innate_spell(level, self.value, list)
+          result = resolve_innate_spell(level, self.value, list, class_key)
           if result.is_a?(String)
             client.emit_failure result
             return
           end
 
-          spell = result
+          spell = result[0]
 
-          update_innate_advancement(spell, list, type_option, level)
+          update_innate_advancement(spell, list, type_option, level, class_key)
 
-          client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
+          client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
           return
         end
 
@@ -244,10 +244,31 @@ module AresMUSH
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
       end
 
-      def resolve_innate_spell(level, value, list)
+      def innate_stats(advancement, class_key)
+      # magic_stats is either a flat block of stats or one keyed by the source that granted them (a
+      # class, an archetype, or a feat), so the pending innate entry is looked up both ways. The hash
+      # is returned rather than a copy so callers can record a choice on it in place.
+        magic_stats = advancement['magic_stats']
+
+        return nil if !magic_stats.is_a?(Hash)
+        return magic_stats['innate_spell'] if magic_stats['innate_spell'].is_a?(Hash)
+
+        source = if class_key
+          magic_stats.keys.find { |k| k.to_s.casecmp?(class_key.to_s) }
+        else
+          magic_stats.keys.find { |k| magic_stats[k].is_a?(Hash) && magic_stats[k]['innate_spell'].is_a?(Hash) }
+        end
+
+        return nil if !source
+
+        stats = magic_stats[source]
+
+        stats.is_a?(Hash) ? stats['innate_spell'] : nil
+      end
+
+      def resolve_innate_spell(level, value, list, class_key=nil)
         advancement = enactor.pf2_advancement || {}
-        magic_stats = advancement['magic_stats'] || {}
-        pending = magic_stats['innate_spell']
+        pending = innate_stats(advancement, class_key)
 
         return t('pf2emagic.innate_no_new_spells') unless pending
 
@@ -299,7 +320,7 @@ module AresMUSH
         return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
         return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
 
-        to_add
+        [ to_add ]
       end
 
       def level_label(level)
@@ -313,13 +334,14 @@ module AresMUSH
                  else 'th'
                  end
 
-        "#{abs_level}#{suffix}-level"
+        "#{abs_level}#{suffix}-rank"
       end
 
-      def update_innate_advancement(spell, list, type_option, level)
+      def update_innate_advancement(spell, list, type_option, level, class_key=nil)
         advancement = enactor.pf2_advancement || {}
-        magic_stats = advancement['magic_stats'] || {}
-        pending = magic_stats['innate_spell'] || {}
+        pending = innate_stats(advancement, class_key)
+
+        return unless pending
 
         names = Array(pending['name'])
         replace_index = if self.old_value
@@ -330,10 +352,9 @@ module AresMUSH
 
         return unless replace_index
 
+        # Recorded on the pending entry itself, which is part of the advancement hash saved below.
         names[replace_index] = spell
         pending['name'] = names.size == 1 ? names.first : names
-        magic_stats['innate_spell'] = pending
-        advancement['magic_stats'] = magic_stats
 
         open_slot = list.index("open")
         open_slot = list.index { |s| s.to_s.casecmp?(self.old_value) } if open_slot.nil? && self.old_value
@@ -344,9 +365,15 @@ module AresMUSH
         end
 
         type_option[level] = list
+
         to_assign = enactor.pf2_to_assign
-        to_assign[self.type] = type_option
-        advancement[self.type] = type_option
+
+        if class_key
+          to_assign[self.type] ||= {}
+          to_assign[self.type][class_key] = type_option
+        else
+          to_assign[self.type] = type_option
+        end
 
         enactor.pf2_advancement = advancement
         enactor.pf2_to_assign = to_assign
