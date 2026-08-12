@@ -636,29 +636,11 @@ pf2e_specialty:
           focus_spell:
             revelation:
               - Ancestral Touch
-        feat:
-          - Whispers of Weakness
-      choose:
-        choice_name: Associated Oracle Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Death:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Death's Call
-          Family:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Soothing Words
         curse: Ancestral Meddling
         action: []
         reaction: []
-        feat: []
+        feat:
+          - Whispers of Weakness
     Battle:
       chargen:
         skills:
@@ -675,35 +657,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Oracular Warning
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Destruction:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - City of Destruction
-          Might:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Athletic Rush
-          Protection:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Protector's Sacrifice
-          Zeal:
-            chargen:
-              magic_stats:
-                domain_focus_spell:  
-                  revelation:
-                    - Weapon Surge
     Bones:
       chargen:
         skills:
@@ -720,23 +673,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Nudge the Scales
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Death:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Death's Call
-          Undeath:
-          chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Touch of Undeath
     Cosmos:
       chargen:
         skills:
@@ -753,23 +689,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Oracular Warning
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Darkness:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Cloak of Shadow
-          Moon:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Moonbeam
     Flames:
       chargen:
         skills:
@@ -786,23 +705,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Foretell Harm
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Fire:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Fire Ray
-          Sun:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Dazzling Flash
     Life:
       chargen:
         skills:
@@ -819,35 +721,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Nudge the Scales
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Death:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Death's Call
-          Healing:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Healer's Blessing
-          Pain:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Savor the Sting
-          Soul:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Eject Soul
     Lore:
       chargen:
         skills:
@@ -864,35 +737,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Whispers of Weakness
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Knowledge:
-            chargen:
-                magic_stats:
-                  domain_focus_spell:
-                    revelation:
-                      - Scholarly Recollection
-          Magic:
-            chargen:
-                magic_stats:
-                  domain_focus_spell:
-                    revelation:
-                      - Magic's Vessel
-          Secrecy:
-            chargen:
-                magic_stats:
-                  domain_focus_spell:
-                    revelation:
-                      - Whispering Quiet
-          Truth:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Word of Truth
     Tempest:
       chargen:
         skills:
@@ -909,23 +753,6 @@ pf2e_specialty:
         reaction: []
         feat:
           - Foretell Harm
-      choose:
-        choice_name: Associated Domain
-        choice_description: "Choose the domain your second revelation spell comes from."
-        choice_type: subclass_info
-        options:
-          Air:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Pushing Gust
-          Water:
-            chargen:
-              magic_stats:
-                domain_focus_spell:
-                  revelation:
-                    - Tidal Surge
   Ranger:
     Flurry: {}
     Outwit: {}
