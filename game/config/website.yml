@@ -74,8 +74,8 @@ website:
       route: census
     - title: Locations
       route: locations
-    - title: Combats
-      route: combats
+    - title: RP Preferences
+      route: prefs
     - divider: true
     - title: Files
       route: files

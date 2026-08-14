@@ -348,6 +348,10 @@ pf2e_feats:
       - Skill
       - General
     assoc_skill: Society
+    grants:
+      assign:
+        - open languages
+        - open languages
     shortdesc: "You easily pick up new languages. You learn two new languages, chosen from common languages, uncommon languages, and any others you have access to. You learn an additional language if you are or become a master in Society and again if you are or become legendary.%r%r**Special** You can select this feat multiple times. Each time, you learn additional languages."
     prereq:
       level: 1

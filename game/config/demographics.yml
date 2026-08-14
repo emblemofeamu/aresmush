@@ -18,7 +18,7 @@ demographics:
   - gender
   - hair
   - eyes
-  - skin
+  - integument
   - height
   - physique
   - birthdate
@@ -84,7 +84,7 @@ demographics:
     gender: "%xcgender <male/female/other>%xn"
     hair: "%xchair <hair color>%xn"
     eyes: "%xceyes <eye color>%xn"
-    skin: "%xcskin <complexion>%xn"
+    integument: "%xcintegument <color/type>%xn - Color or composition of your skin/fur/scales/feathers."
     birthdate: "%xcbirthdate <ea_month> <day> <year>%xn%r%t%xcbirthdate <rl_month> <day> <year>%xn%r%t%xcbirthday <MM>/<DD>/<YYYY>%xc%r%tor %xcage <years>%cn, - Set your character's birthday or age. See the Calendar of Ea page on the wiki for the Ea months.%xn"
     full name: "%xcfullname <name>%xn - Your character's full name."
   max_age: 1000
@@ -95,9 +95,8 @@ demographics:
     manage_demographics: Edit demographics on other players.
   private_properties: []
   required_properties:
-  - hair
   - eyes
-  - skin
+  - integument
   - height
   - physique
   - full name
