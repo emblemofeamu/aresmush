@@ -118,6 +118,7 @@ en:
     bad_id: "Invalid %{type} ID."
     bad_instruction: "Instruction must be one of 'add' or 'delete'."
     bad_option: "Not a valid option. Valid options for %{element}: %{options}."
+    bad_option_condensedskill: "Not a valid skill. See the '%xwSkills%xn%xr' page on the wiki for a complete list of skills."
     bad_prp_type: "PRP type must be one of 'standard' or 'dc'."
     bad_section: "Section %{section} is not a valid section."
     bad_skill: "No skill named '%xw%{name}%xn%xr' in the list of valid skills. See '%xwhelp skills%xn%xr' for a list of valid skills.%xn"
