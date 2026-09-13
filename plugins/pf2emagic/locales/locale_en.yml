@@ -19,6 +19,8 @@ en:
     cg_font_unchosen: "Not chosen (%{options})"
     cg_rep_to_choose: "Repertoire spells left to choose"
     cg_spellbook_to_choose: "Spellbook spells left to choose"
+    cg_spellbook_restricted: "%{count} from your %{restriction} (%{spells})"
+    any_rank_heading: "Any spell rank you can cast"
     cg_spells_to_choose: "%{list} (%{tradition}) spells left to choose"
     cg_spells_to_choose_start: "%{list} (%{tradition}) spells to choose"
     cg_spells_to_choose_start_plain: "%{list} spells to choose"
@@ -61,6 +63,8 @@ en:
     multiple_matches: "More than one %{item} matches your search. Please choose one."
 
     no_available_slots: "No available slots at the specified rank."
+    no_unrestricted_spellbook: "Your remaining spellbook entries at that rank are restricted, and that spell isn't eligible for them. Add an eligible spell, or swap something already written in."
+    no_unrestricted_slots: "Your only remaining slot at that rank is restricted, and that spell isn't eligible for it. Prepare an eligible spell there, or unprepare something else first."
     no_focus_pool: "This character does not have focus spells."
     focus_cantrip_wrong_cmd: "%{spell} is a focus cantrip, not a focus spell. Use '%xwcast/focusc%xn%xr' to cast the spell."
     focus_cantrip_cast_cmd: "%{spell} is a focus cantrip. Use '%xwcast/focusc%xn%xr' to cast focus cantrips."
@@ -85,6 +89,7 @@ en:
     not_spellbook_eligible: "This spell is a focus or class spell and cannot be added to a spellbook or repertoire."
 
     prepared_spells_title: "Spells Prepared for %{name}"
+    prepared_spells_help: "%xcThis screen shows all spells you've prepared. See '%xw%xhmagic%xn%xc' for your remaining prepared spells after casting.%xn"
     refocus_ok_one: "You refocus yourself and restore %{points} Focus Point."
     refocus_ok_many: "You refocus yourself and restore %{points} Focus Points."
     revelation_locked: "%xrYour revelation spells are currently locked by your curse.%xn"
@@ -109,4 +114,4 @@ en:
     signature_not_in_repertoire: "That spell is not in your repertoire at rank %{level}."
     signature_autoheighten_no_slots: "You have exhausted all %{level} spell slots for signature spell auto-heightening."
     repertoire_help: "%xcSee '%xwrepertoire%xn%xc' for your repertoire spells.%xn"
-    spellbook_help: "%xcSee '%xwspellbook%xn%xc' for your spellbook spells.%xn"
+    spellbook_help: "%xcSee '%xwspellbook%xn%xc' for your known spells and total spell slots.%xn"

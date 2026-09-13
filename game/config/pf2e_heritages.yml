@@ -527,7 +527,8 @@ pf2e_heritage:
     attack: {}
   # Khazad Heritages
   Ancient-Blooded:
-    reaction: Call On Ancient Blood
+    reaction: 
+      - Call On Ancient Blood
     action: []
     attack: {}
     traits: []
@@ -707,7 +708,6 @@ pf2e_heritage:
     skills: []
     special: []
     traits: []
-  # Limited Heritages
   Ghaluch:
     traits:
       - oruch

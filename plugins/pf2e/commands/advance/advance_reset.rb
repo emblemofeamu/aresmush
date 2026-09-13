@@ -12,7 +12,21 @@ module AresMUSH
       end
 
       def handle
-        advancement = enactor.pf2_advancement
+        advancement = enactor.pf2_advancement || {}
+
+        # Take back archetype features granted during this advancement.
+        granted_features = Array(advancement['archetype_features'])
+
+        if !granted_features.empty?
+          features = enactor.pf2_features
+          remaining = Array(features['archetype_features']).reject do |held|
+            granted_features.any? { |granted| granted.to_s.casecmp?(held.to_s) }
+          end
+
+          features['archetype_features'] = remaining
+
+          enactor.pf2_features = features
+        end
 
         # Remove a spell swap done during this advancement.
         if advancement['repertoire_swap']

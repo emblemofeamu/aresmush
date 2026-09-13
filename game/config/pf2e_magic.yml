@@ -263,19 +263,29 @@ pf2e_magic:
     devotion: Wisdom
     domain: Wisdom
     hex: Intelligence
-    ki: Wisdom
+    qi: Wisdom
     order: Wisdom
     revelation: Charisma
     school: Intelligence  
     warden: Wisdom
-  focus_type_by_class:
+  focus_type_by_source:
     Bard: composition
     Champion: devotion
     Cleric: domain
     Druid: order
-    Monk: ki
+    Monk: qi
     Oracle: revelation
     Ranger: warden
     Sorcerer: bloodline
     Witch: hex
     Wizard: school
+    Bard Archetype: composition
+    Champion Archetype: devotion
+    Cleric Archetype: domain
+    Druid Archetype: order
+    Monk Archetype: qi
+    Oracle Archetype: revelation
+    Ranger Archetype: warden
+    Sorcerer Archetype: bloodline
+    Witch Archetype: hex
+    Wizard Archetype: school

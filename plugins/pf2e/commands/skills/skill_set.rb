@@ -5,6 +5,8 @@ module AresMUSH
 
       attr_accessor :type, :value
 
+      CHOICE_TYPES = [ 'bg skill choice', 'class skill choice', 'specialty skill choice' ]
+
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_equals_arg2)
         self.type = downcase_arg(args.arg1)
@@ -44,7 +46,8 @@ module AresMUSH
           'background' => 'bgskill',
           'free' => 'open skills',
           'bgchoice' => 'bg skill choice',
-          'classchoice' => 'class skill choice'
+          'classchoice' => 'class skill choice',
+          'specialtychoice' => 'specialty skill choice'
         }
         options = skill_types.keys
         to_assign = enactor.pf2_to_assign
@@ -84,7 +87,12 @@ module AresMUSH
           skill_for_char = Pf2eSkills.create_skill_for_char(self.value, enactor)
         end
 
-        if !(skill_for_char.prof_level == 'untrained')
+        already_trained = !(skill_for_char.prof_level == 'untrained')
+
+        # skill/set bgchoice allows a player to select a skill they already have from other sources, because PF2e turns that duplicate into a free skill of their choice. Let the skill selection still count for any automatic feat assignments, like Scholar's Assurance following the skill selected with skill/set bgchoice.
+        duplicate_choice = already_trained && CHOICE_TYPES.include?(assignment_type)
+
+        if already_trained && !duplicate_choice
           client.emit_failure t('pf2e.already_has_skill')
           return
         end
@@ -123,7 +131,7 @@ module AresMUSH
           end
 
           skill_options[loc] = self.value
-        when "bg skill choice", "class skill choice"
+        when "bg skill choice", "class skill choice", "specialty skill choice"
           if !skill_options.is_a?(Hash)
             client.emit_failure t('pf2e.cannot_assign_type', :element=>"skill")
             return
@@ -141,15 +149,32 @@ module AresMUSH
           end
 
           skill_options['selected'] = self.value
+
+          # Flagged so skill/unset knows to hand the free skill back rather than untrain a skill the character holds from somewhere else. Cleared when the pick isn't a duplicate.
+          if duplicate_choice
+            skill_options['duplicate'] = true
+          else
+            skill_options.delete('duplicate')
+          end
         end
 
         to_assign[assignment_type] = skill_options
 
+        if duplicate_choice
+          open_skills = Array(to_assign['open skills'])
+          open_skills << 'open'
+          to_assign['open skills'] = open_skills
+        end
+
         enactor.update(pf2_to_assign: to_assign)
 
-        skill_for_char.update(prof_level: 'trained')
+        skill_for_char.update(prof_level: 'trained') unless already_trained
 
-        client.emit_success t('pf2e.add_ok', :item=>self.value, :list=>'skills')
+        if duplicate_choice
+          client.emit_success t('pf2e.skill_choice_duplicate', :item=>self.value)
+        else
+          client.emit_success t('pf2e.add_ok', :item=>self.value, :list=>'skills')
+        end
       end
 
     end

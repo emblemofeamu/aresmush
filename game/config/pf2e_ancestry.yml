@@ -35,7 +35,7 @@ pf2e_ancestry:
         - Arvek Lore
         - Arvek Weapon Familiarity
         - Cantorian Reinforcement 
-        - Leech-Clipper
+        - Leech-Clip
         - Remorseless Lash
         - Sneaky
         - Stone Face
@@ -56,6 +56,23 @@ pf2e_ancestry:
       17:
         - Cantorian Restoration
         - Rallying Cry
+    adopted_feats:
+      - Alchemical Scholar
+      - Arvek Lore
+      - Arvek Weapon Familiarity
+      - Leech-Clip
+      - Remorseless Lash
+      - Sneaky
+      - Stone Face
+      - Agonizing Rebuke
+      - Expert Drill Sergeant
+      - Recognize Ambush
+      - Fell Rider
+      - Pride in Arms
+      - Squad Tactics
+      - Can't Fall Here
+      - War Conditioning
+      - Rallying Cry
   Bassin:
     HP: 6
     Size: S
@@ -103,13 +120,24 @@ pf2e_ancestry:
       9:
         - Dance Underfoot
         - Guiding Luck
-        - Irrepressible
+        - Irrepressible (Bassin)
         - Unhampered Passage
       13:
         - Ceaseless Shadows
         - Toppling Dance
       17:
         - Shadow Self
+    adopted_feats:
+      - Bassin Lore
+      - Bassin Weapon Familiarity
+      - Folksy Patter
+      - Prairie Rider
+      - Titan Slinger
+      - Unfettered Bassin
+      - Watchful Bassin
+      - Irrepressible (Bassin)
+      - Unhampered Passage
+      - Shadow Self
   Ciith:
     HP: 8
     Size: M
@@ -127,9 +155,11 @@ pf2e_ancestry:
       Claw:
         damage: 1d4
         damage_type: S
+        group: Brawling
         traits:
           - agile
           - finesse
+          - unarmed
     bonus_feats:
       - Breath Control
     heritages:
@@ -151,7 +181,6 @@ pf2e_ancestry:
         - Ciith Lore
         - Marsh Runner
         - Parthenogenic Hatchling
-        - Razor Claws
         - Reptile Speaker
       5:
         - Envenom Fangs
@@ -170,6 +199,14 @@ pf2e_ancestry:
       17:
         - Fossil Rider 
         - Scion Transformation
+    adopted_feats:
+      - Bone Magic
+      - Ciith Lore
+      - Reptile Speaker
+      - Terrain Advantage
+      - Bone Investiture
+      - Primal Rampage
+      - Fossil Rider
   Egalrin:
     HP: 6
     Size: M
@@ -189,7 +226,7 @@ pf2e_ancestry:
       Beak:
         damage: 1d6
         damage_type: P
-        group: brawling
+        group: Brawling
         traits:
           - finesse
           - unarmed
@@ -232,6 +269,17 @@ pf2e_ancestry:
       17:
         - Great Egalrin Form
         - Trickster Egalrin
+    adopted_feats:
+      - Egalrin Lore
+      - Egalrin Weapon Familiarity
+      - Mariner's Fire
+      - Scavenger's Search
+      - Squawk!
+      - Storm's Lash
+      - Uncanny Agility
+      - Magpie Snatch
+      - Harbinger's Caw
+      - Trickster Egalrin
   Goblin:
     HP: 6
     Size: S
@@ -281,7 +329,23 @@ pf2e_ancestry:
       13:
         - Very, Very Sneaky
       17:
-        - Reckless Abandon (Goblin)
+        - Reckless Abandon
+    adopted_feats:
+      - Burn It!
+      - City Scavenger
+      - Goblin Lore
+      - Goblin Scuttle
+      - Goblin Song
+      - Goblin Weapon Familiarity
+      - Rough Rider
+      - Very Sneaky
+      - Kneecap
+      - Loud Singer
+      - Vandal
+      - Cave Climber
+      - Skittering Scuttle
+      - Very, Very Sneaky
+      - Reckless Abandon
   Gnome:
     HP: 8
     Size: S
@@ -318,7 +382,6 @@ pf2e_ancestry:
         - Animal Accomplice
         - Animal Elocutionist
         - Fey Fellowship
-        - First World Magic
         - Gnome Obsession
         - Gnome Weapon Familiarity
         - Illusion Sense
@@ -336,6 +399,13 @@ pf2e_ancestry:
         - Instinctive Obfuscation
       17:
         - Homeward Bound
+    adopted_feats:
+      - Animal Accomplice
+      - Animal Elocutionist
+      - Gnome Obsession
+      - Gnome Weapon Familiarity
+      - Razzle-Dazzle
+      - Project Persona
   Human:
     HP: 8
     Size: M
@@ -384,6 +454,18 @@ pf2e_ancestry:
         - Stubborn Persistence
       17:
         - Heroic Presence
+    adopted_feats:
+      - Adapted Cantrip
+      - General Training
+      - Natural Ambition
+      - Natural Skill
+      - Adaptive Adept
+      - Clever Improviser
+      - Sense Allies
+      - Group Aid
+      - Hardy Traveler
+      - Multitalented
+      - Advanced General Training
   Kailli:
     HP: 6
     Size: S
@@ -392,7 +474,7 @@ pf2e_ancestry:
       Jaws:
         damage: 1d4
         damage_type: P
-        group: brawling
+        group: Brawling
         traits:
           - agile
           - finesse
@@ -449,6 +531,19 @@ pf2e_ancestry:
       17:
         - Call the Swarm
         - Greater than the Sum
+    adopted_feats:
+      - Kailli Lore
+      - Pack Rat
+      - Rat Familiar
+      - Ratspeak
+      - Tinkering Fingers
+      - Warren Navigator
+      - Cornered Fury
+      - Lab Rat
+      - Rat Magic
+      - Skittering Sneak
+      - Call the Swarm
+      - Greater than the Sum
   Khazad:
     HP: 10
     Size: M
@@ -491,6 +586,7 @@ pf2e_ancestry:
         - Khazadi Reinforcement
       9:
         - Echoes in Stone
+        - Mountain's Stoutness
         - Stone Bones
         - Stonewalker
       13:
@@ -499,6 +595,16 @@ pf2e_ancestry:
       17:
         - Stonegate
         - Stonewall
+    adopted_feats:
+      - Khazadi Doughtiness
+      - Khazadi Lore
+      - Khazadi Weapon Familiarity
+      - Stonemason's Eye
+      - Unburdened Iron
+      - Defy the Darkness
+      - Khazadi Reinforcement
+      - Stonewalker
+      - Stonegate
   Oruch:
     HP: 10
     Size: M
@@ -522,22 +628,21 @@ pf2e_ancestry:
       - Changeling
       - Dar
       - Deep Oruch
-      - Grave Oruch
+      - Grave
       - Hold-Scarred
       - Niasa
       - Silyara
       - Rainfall
-      - Winter Oruch
+      - Winter
     feats:
       1:
         - Beast Trainer
-        - Hold Mark
         - Iron Fists
         - Oruch Ferocity
         - Oruch Lore
         - Oruch Superstition
         - Oruch Weapon Familiarity
-        - Tusks
+        - Tusks (Oruch)
       5:
         - Athletic Might
         - Bloody Blows
@@ -552,6 +657,16 @@ pf2e_ancestry:
         - Spell Devourer
       17:
         - Rampaging Ferocity
+    adopted_feats:
+      - Beast Trainer
+      - Oruch Lore
+      - Oruch Superstition
+      - Oruch Weapon Familiarity
+      - Athletic Might
+      - Bloody Blows
+      - Scar-Thick Skin
+      - Pervasive Superstition
+      - Spell Devourer
   Sildanyar:
     HP: 6
     Size: M
@@ -583,7 +698,6 @@ pf2e_ancestry:
       1:
         - Ancestral Longevity
         - Forlorn
-        - Know Your Own
         - Nimble Sil
         - Otherworldly Magic
         - Sildanyari Lore
@@ -602,3 +716,13 @@ pf2e_ancestry:
         - Universal Longevity
       17:
         - Magic Rider
+    adopted_feats:
+      - Ancestral Longevity
+      - Sildanyari Lore
+      - Sildanyari Weapon Familiarity
+      - Unwavering Mien
+      - Expert Longevity
+      - Sildanyar Step
+      - Tree Climber (Sildanyar)
+      - Avenge Ally
+      - Universal Longevity

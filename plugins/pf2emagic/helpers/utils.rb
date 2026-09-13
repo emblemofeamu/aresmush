@@ -1,6 +1,24 @@
 module AresMUSH
   module Pf2emagic
 
+    ANY_RANK = 'any'
+
+    def self.any_rank?(key)
+      key.to_s.casecmp?(ANY_RANK)
+    end
+
+    def self.adapted_spell?(char, charclass, spell_name)
+      magic = char.magic
+      return false unless magic
+
+      entry = (magic.adapted_spells || {}).find { |name, _| name.to_s.casecmp?(spell_name.to_s) }
+      return false unless entry
+
+      klass = entry[1].is_a?(Hash) ? entry[1]['class'].to_s : ''
+
+      klass.empty? || klass.casecmp?(charclass.to_s)
+    end
+
     def self.is_caster?(char)
       magic = char.magic
       return false unless magic
@@ -157,6 +175,27 @@ module AresMUSH
       return nil
     end
 
+    def self.curriculum_spells(char, charclass, level)
+      specialize = char.pf2_base_info['specialize']
+      return [] if specialize.blank?
+
+      specialty = Global.read_config('pf2e_specialty', charclass.to_s, specialize)
+      return [] unless specialty.is_a?(Hash)
+
+      curriculum = specialty['curriculum']
+      return [] unless curriculum.is_a?(Hash)
+
+      key = curriculum.keys.find { |k| k.to_s.casecmp?(level.to_s) }
+
+      Array(key && curriculum[key]).compact.map(&:to_s)
+    end
+
+    def self.apply_stat_delta(current, value)
+      return value unless value.is_a?(String) && value.strip.match?(/\A[+-]\d+\z/)
+
+      current.to_i + value.strip.to_i
+    end
+
     def self.get_max_focus_pool(char, change)
       magic = char.magic
 
@@ -246,6 +285,22 @@ module AresMUSH
     def self.sort_level_spell_list(spells)
       # This function takes a hash and sorts it by integer-converted key.
       spells.sort {|a,b| a.first.to_i <=> b.first.to_i}.to_h
+    end
+
+    # The display name for a spell rank, the same everywhere a rank is shown regardless of the
+    # caster's class.
+    def self.rank_label(level)
+      return 'Cantrip' if level.to_s.strip.casecmp?('cantrip') || level.to_i.zero?
+
+      n = level.to_i
+      suffix = case n % 10
+               when 1 then 'st'
+               when 2 then 'nd'
+               when 3 then 'rd'
+               else 'th'
+               end
+
+      "#{n}#{suffix}-rank"
     end
 
   end

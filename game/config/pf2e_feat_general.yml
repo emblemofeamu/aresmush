@@ -1,109 +1,53 @@
 ---
 pf2e_feats:
   # Level 1 General Feats
-  Adopted Ancestry (Arvek):
+  Adopted Ancestry:
     feat_type:
       - General
-    grants:
-      assign:
-        feat:
-          - Arvek
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Bassin):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Bassin
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Ciith):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Ciith
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Gnome):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Gnome
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Goblin):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Goblin
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Human):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Human
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Kailli):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Kailli
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Khazad):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Khazad
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Oruch):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Oruch
-    shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
-    prereq:
-      level: 1
-  Adopted Ancestry (Sildanyar):
-    feat_type:
-      - General
-    grants:
-      assign:
-        feat:
-          - Sildanyar
+    feat_choice:
+      summary: another ancestry
+      from: ancestries
     shortdesc: You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry or another ancestry to which you have access. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.
     prereq:
       level: 1
   Armor Proficiency:
+    repeatable: true
     feat_type:
       - General
+    feat_choice:
+      auto: next_armor_category
+      summary: your next armor category
+      options:
+        Light:
+          grants:
+            combat_stats:
+              armor_prof:
+                light: trained
+          at_level:
+            13:
+              combat_stats:
+                armor_prof:
+                  light: expert
+        Medium:
+          grants:
+            combat_stats:
+              armor_prof:
+                medium: trained
+          at_level:
+            13:
+              combat_stats:
+                armor_prof:
+                  medium: expert
+        Heavy:
+          grants:
+            combat_stats:
+              armor_prof:
+                heavy: trained
+          at_level:
+            13:
+              combat_stats:
+                armor_prof:
+                  heavy: expert
     shortdesc: "You become trained in light armor. If you already were trained in light armor, you gain training in medium armor. If you were trained in both, you become trained in heavy armor. If you are at least 13th level, you become an expert in this armor type.%r%r**Special** You can select this feat more than once. Each time, you become trained in the next type of armor, as detailed above."
     prereq:
       level: 1
@@ -116,12 +60,47 @@ pf2e_feats:
   Canny Acumen:
     feat_type:
       - General
-    grants:
-      misc: 
-      - Fortitude/expert
-      - Reflex/expert
-      - Will/expert
-      - Perception/expert
+    feat_choice:
+      summary: Fortitude, Reflex, Will, or Perception
+      options:
+        Fortitude:
+          grants:
+            combat_stats:
+              saves:
+                fortitude: expert
+          at_level:
+            17:
+              combat_stats:
+                saves:
+                  fortitude: master
+        Reflex:
+          grants:
+            combat_stats:
+              saves:
+                reflex: expert
+          at_level:
+            17:
+              combat_stats:
+                saves:
+                  reflex: master
+        Will:
+          grants:
+            combat_stats:
+              saves:
+                will: expert
+          at_level:
+            17:
+              combat_stats:
+                saves:
+                  will: master
+        Perception:
+          grants:
+            combat_stats:
+              perception: expert
+          at_level:
+            17:
+              combat_stats:
+                perception: master
     shortdesc: Your avoidance or observation is beyond the ken of most in your profession. Choose Fortitude saves, Reflex saves, Will saves, or Perception. You become an expert in your choice. At 17th level, you become a master in your choice.
     prereq:
       level: 1
@@ -184,8 +163,25 @@ pf2e_feats:
     prereq:
       level: 1
   Weapon Proficiency:
+    repeatable: true
     feat_type:
       - General
+    grants:
+      combat_stats:
+        weapon_prof:
+          martial: trained
+          chosen: trained
+    at_level:
+      11:
+        combat_stats:
+          weapon_prof:
+            martial: expert
+            chosen: expert
+    feat_choice:
+      from_instance: 2
+      summary: advanced weapon
+      from_weapons:
+        category: advanced
     shortdesc: "You become trained in all martial weapons. If you were already trained in all martial weapons, you become trained in one advanced weapon of your choice. If you are at least 11th level, you also become an expert in these weapons.%r%r**Special** You can select this feat more than once. Each time you do, you become trained in an advanced weapon."
     prereq:
       level: 1
@@ -193,8 +189,11 @@ pf2e_feats:
   Ancestral Paragon:
     feat_type:
       - General
-    grants:
-      gated_feat: Ancestral Paragon
+    feat_choice:
+      summary: 1st-level ancestry feat
+      from_feats:
+        feat_type: Ancestry
+        max_level: 1
     shortdesc: Whether through instinct, study, or magic, you feel a deeper connection to your ancestry. You gain a 1st-level ancestry feat.
     prereq:
       level: 3
@@ -246,7 +245,7 @@ pf2e_feats:
     shortdesc: You take your time searching to ensure you find everything. When Searching, you can take twice as long to search. Normally this means you Search at up to one quarter of your Speed, to a maximum of 150 feet per minute to check everything, or 75 feet per minute to check everything before you walk into an area. If you do and the GM rolls your secret check to Seek to notice something, you gain a +2 circumstance bonus to that Perception check and if you succeed, you get a critical success instead.
     prereq:
       level: 3
-      skill: Perception/expert
+      combat_stats: Perception/expert
   Untrained Improvisation:
     feat_type:
       - General
@@ -260,7 +259,7 @@ pf2e_feats:
     shortdesc: You have a system that lets you search at great speed, finding details and secrets twice as quickly as others can. When Searching, you take half as long as usual to Search a given area. This means that while exploring, you double the Speed you can move while ensuring you've Searched an area before walking into it (up to half your Speed). If you're legendary in Perception, you instead Search areas four times as quickly.
     prereq:
       level: 7
-      skill: Perception/master
+      combat_stats: Perception/master
   Numb to Death:
     feat_type:
       - General
@@ -320,7 +319,7 @@ pf2e_feats:
     shortdesc: When you scout, you are particularly alert for danger, granting your allies precious moments to prepare to fight. When using the Scout exploration activity, you grant your allies a +2 circumstance bonus to their initiative rolls instead of a +1 circumstance bonus.
     prereq:
       level: 11
-      skill: Perception/master
+      combat_stats: Perception/master
   # Level 19 General Feats
   True Perception:
     feat_type:
@@ -330,4 +329,4 @@ pf2e_feats:
     shortdesc: Your perceptive abilities and ability to process sensory information are so far beyond the pale that you notice minute discrepancies in all sorts of illusions and physical transformations. You are constantly under the effects of a 6th-rank *truesight* spell, using your Perception modifier for the counteract check.
     prereq:
       level: 19
-      skill: Perception/legendary
+      combat_stats: Perception/legendary

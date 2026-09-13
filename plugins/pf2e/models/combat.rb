@@ -210,13 +210,27 @@ module AresMUSH
       abil_mod + prof_bonus + item_bonus
     end
 
+    # Stat block for anything that can be attacked with, by name.
+    #
+    # Alchemical bombs are martial thrown weapons but they are also one-use items, so they live in pf2e_consumables rather than pf2e_weapons.
+    def self.weapon_info(name)
+      Global.read_config('pf2e_weapons', name) || Global.read_config('pf2e_consumables', name)
+    end
+
+    def self.bomb?(wp_info)
+      Array(wp_info['traits']).any? { |t| t.to_s.casecmp?('bomb') }
+    end
+
     def self.get_weapon_prof(char, name)
       combat = char.combat
 
       char_wp_prof = combat.weapon_prof ? combat.weapon_prof : {}
       group_profs = combat.weapon_group_prof ? combat.weapon_group_prof : {}
 
-      wp_info = Global.read_config('pf2e_weapons', name)
+      wp_info = weapon_info(name)
+
+      return 'untrained' if !wp_info
+
       wp_cat = wp_info['category']
       wp_group = wp_info['group']
 
@@ -263,6 +277,20 @@ module AresMUSH
         end
       end
 
+      # Did the character choose this specific weapon, e.g. the advanced weapon picked for a
+      # second or later Weapon Proficiency?
+      if char_wp_prof['chosen']
+        chosen = Pf2e.chosen_weapons(char)
+        prof_list << char_wp_prof['chosen'] if chosen.any? { |w| w.to_s.casecmp?(name.to_s) }
+      end
+
+      # Alchemical bombs are martial thrown weapons, so the martial category above already
+      # covers anyone trained in martial weapons. This is for the alchemist, who gains bombs
+      # on a track of their own without ever becoming trained in martial weapons.
+      if char_wp_prof['bomb'] && bomb?(wp_info)
+        prof_list << char_wp_prof['bomb']
+      end
+
       # Does character get a proficiency in that particular weapon from a weapon group choice?
       if wp_group && group_profs[wp_group]
         group_prof = group_profs[wp_group]
@@ -275,6 +303,46 @@ module AresMUSH
       # Of everything we've accumulated, the character's proficiency with that weapon is the best one in the list.
       Pf2e.select_best_prof(prof_list)
 
+    end
+
+    # The character's proficiency with one named unarmed attack.
+    def self.get_unarmed_prof(char, name, atk_info = nil)
+      combat = char.combat
+
+      return 'untrained' if !combat
+
+      char_wp_prof = combat.weapon_prof ? combat.weapon_prof : {}
+      group_profs = combat.weapon_group_prof ? combat.weapon_group_prof : {}
+
+      atk_info ||= (combat.unarmed_attacks || {})[name] || {}
+
+      prof_list = [ 'untrained' ]
+
+      # The flat category proficiency.
+      prof_list << char_wp_prof['unarmed']
+
+      # A deity's favoured weapon can name an unarmed attack rather than a weapon, the way Navos's is a fist.
+      if char_wp_prof['deity']
+        faith = char.pf2_faith || {}
+        deity_weapon = Global.read_config('pf2e_deities', faith['deity'], 'fav_weapon') if !faith['deity'].blank?
+        prof_list << char_wp_prof['deity'] if deity_weapon && name.to_s.casecmp?(deity_weapon.to_s)
+      end
+
+      # Did a feat choice name this specific attack?
+      if char_wp_prof['chosen']
+        chosen = Pf2e.chosen_weapons(char)
+        prof_list << char_wp_prof['chosen'] if chosen.any? { |w| w.to_s.casecmp?(name.to_s) }
+      end
+
+      # Weapon group proficiency.
+      group = atk_info['group']
+      if !group.blank?
+        group_key = group_profs.keys.find { |g| g.to_s.casecmp?(group.to_s) }
+        group_prof = group_key ? group_profs[group_key] : nil
+        prof_list << group_prof['unarmed'] if group_prof.is_a?(Hash) && group_prof['unarmed']
+      end
+
+      Pf2e.select_best_prof(prof_list.compact)
     end
 
     def self.get_armor_prof(char, name)

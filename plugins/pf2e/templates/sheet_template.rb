@@ -253,32 +253,14 @@ module AresMUSH
       end
 
       def feats
-        charclass_list = @char.pf2_feats['charclass']
-        ancestry_list = @char.pf2_feats['ancestry']
-        general_list = @char.pf2_feats['general']
-        skill_list = @char.pf2_feats['skill']
-        dedication_list = @char.pf2_feats['dedication'] || []
-
         list = []
 
-        charclass_list.each do |c|
-          list << format_feat(c,'charclass')
-        end
-
-        ancestry_list.each do |a|
-          list << format_feat(a,'ancestry')
-        end
-
-        general_list.each do |g|
-          list << format_feat(g,'general')
-        end
-
-        skill_list.each do |s|
-          list << format_feat(s,'skill')
-        end
-
-        dedication_list.each do |d|
-          list << format_feat(d,'dedication')
+        # Each stored instance becomes its own entry, so a repeatable feat shows once per
+        # taking with the choice that instance was taken for.
+        %w(charclass ancestry general skill dedication).each do |type|
+          Pf2e.feat_display_list(@char, @char.pf2_feats[type] || []).each do |name|
+            list << format_feat(name, type)
+          end
         end
 
         list.sort.join(", ")
@@ -350,12 +332,14 @@ module AresMUSH
         list.join(", ")
       end
 
+      WEAPON_CATEGORIES = %w{simple martial unarmed advanced bomb}
+
       def weapon_prof
         list = []
 
         w_profs = combat_stats.weapon_prof
 
-        wlist = w_profs.keys.sort
+        wlist = WEAPON_CATEGORIES.select { |wtype| w_profs[wtype] }.sort
 
         wlist.each_with_index do |wtype,i|
           prof = w_profs[wtype]
@@ -364,6 +348,36 @@ module AresMUSH
         end
 
         list.join(", ")
+      end
+
+      def individual_weapon_prof
+        return "" if !combat_stats
+
+        chosen = Pf2e.chosen_weapons(@char)
+        deity_weapon = deity_fav_weapon
+
+        names = chosen.dup
+        names << deity_weapon if deity_weapon && !names.any? { |n| n.to_s.casecmp?(deity_weapon) }
+
+        names.sort.map do |name|
+          prof = Pf2eCombat.get_weapon_prof(@char, name)
+          tag = (deity_weapon && name.to_s.casecmp?(deity_weapon)) ? " (Deity Weapon)" : ""
+
+          "%xh#{name}%xn#{tag} (#{prof[0].upcase})"
+        end.join(", ")
+      end
+
+      def deity_fav_weapon
+        return nil if !combat_stats.weapon_prof['deity']
+
+        deity_name = @faith_info['deity']
+        return nil if deity_name.blank?
+
+        fav_weapon = Global.read_config('pf2e_deities', deity_name, 'fav_weapon')
+        return nil if fav_weapon.blank?
+
+        weapons = Global.read_config('pf2e_weapons') || {}
+        weapons.keys.find { |w| w.to_s.casecmp?(fav_weapon.to_s) }
       end
 
       def weapon_group_prof
@@ -459,7 +473,7 @@ module AresMUSH
         fmt_name = "%xh#{name.capitalize}%xn"
         fmt_prof = prof[0].upcase
 
-        "#{fmt_name}: #{fmt_prof}"
+        "#{fmt_name} (#{fmt_prof})"
       end
 
       def format_feat(name, type)

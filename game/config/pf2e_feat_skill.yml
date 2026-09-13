@@ -11,9 +11,23 @@ pf2e_feats:
       level: 1
       skill: Acrobatics/trained
   Additional Lore:
+    repeatable: true
     feat_type:
       - Skill
       - General
+    feat_choice:
+      summary: Lore subcategory
+      from_lores:
+      at_level:
+        3:
+          raise_skill:
+            - chosen
+        7:
+          raise_skill:
+            - chosen
+        15:
+          raise_skill:
+            - chosen
     shortdesc: "Your knowledge has expanded to encompass a new field. Choose a Lore skill subcategory. You become trained in it. At 3rd, 7th, and 15th levels, you gain an additional skill increase you can apply only to the chosen Lore subcategory.%r%r**Special** You can select this feat more than once. Each time you must select a new subcategory of Lore and you gain the additional skill increases to that subcategory for the listed levels."
     prereq:
       level: 1
@@ -56,16 +70,19 @@ pf2e_feats:
         - Athletics/trained
         - Warfare Lore/trained
   Assurance:
+    repeatable: true
     feat_type:
       - Skill
       - General
     traits:
       - Fortune
+    feat_choice:
+      summary: skill you are trained in
+      from_skills:
+        min_prof: trained
     shortdesc: "Even in the worst circumstances, you can perform basic tasks. Choose a skill you're trained in. You can forgo rolling a skill check for that skill to instead receive a result of 10 + your proficiency bonus (do not apply any other bonuses, penalties, or modifiers).%r%r**Special** You can select this feat multiple times. Each time, choose a different skill and gain the benefits for that skill."
     prereq:
       level: 1
-      misc:
-        - trained in at least one skill
   Battle Medicine:
     feat_type:
       - Skill
@@ -344,6 +361,7 @@ pf2e_feats:
       level: 1
       skill: Deception/trained
   Multilingual:
+    repeatable: true
     feat_type:
       - Skill
       - General
@@ -406,8 +424,29 @@ pf2e_feats:
     shortdesc: "You carry a small token of protection from a site holy to your faith. You gain a wooden religious symbol for your deity for free. As long as this religious symbol is in your possession, when you tie an adversary's initiative roll, you go first.%r%rIf you lose this religious symbol, you must purchase or Craft a replacement and attune it. Such a token usually costs at least 1 sp, and the attunement takes 10 minutes of prayer. You can also attune a different religious symbol with the same amount of time, but you lose the benefit of the previous religious symbol."
     prereq:
       level: 1
-      misc:
-        - follower of a specific religion
+      ordeity:
+        - Althea
+        - Angoron
+        - Animus
+        - Caracoroth
+        - Ceinara
+        - Dana
+        - Daeus
+        - Deimos
+        - Eluna
+        - Gilead
+        - Gunahkar
+        - Illotha
+        - Kor
+        - Maugrim
+        - Navos
+        - Rada
+        - Reos
+        - Serriel
+        - Taara
+        - Tarien
+        - Thul
+        - Vardama
       skill: Religion/trained
   Quick Coercion:
     feat_type:
@@ -532,22 +571,14 @@ pf2e_feats:
         - Alcohol Lore/trained
         - Cooking Lore/trained
         - Crafting/trained
-  Sign Language:
-    feat_type:
-      - Skill
-      - General
-    assoc_skill: Society
-    shortdesc: "You learn the sign languages associated with the languages you know, allowing you to sign and understand signs. Sign languages typically require both hands to convey more complex concepts, and they are visual rather than auditory.%r%rSign language is difficult to understand during combat due to the level of attention needed, unlike basic gestures like pointing at a foe to suggest a target. Sign language is hard to use in areas of low visibility, just like speech is difficult in a noisy environment."
-    prereq:
-      level: 1
-      skill: Society/trained
   Skill Training:
+    repeatable: true
     feat_type:
       - Skill
       - General
     grants:
       skill:
-        - choice
+        - open
     shortdesc: "You become trained in the skill of your choice.%r%r**Special** You can select this feat multiple times, choosing a new skill to become trained in each time."
     prereq:
       level: 1
@@ -617,15 +648,29 @@ pf2e_feats:
       level: 1
       skill: Survival/trained
   Terrain Expertise:
+    repeatable: true
     feat_type:
       - Skill
       - General
     assoc_skill: Survival
+    feat_choice:
+      summary: terrain type
+      options:
+        Aquatic:
+        Arctic:
+        Desert:
+        Forest:
+        Mountain:
+        Plains:
+        Sky:
+        Swamp:
+        Underground:
     shortdesc: "Your experience in navigating a certain type of terrain makes you supremely confident while doing so. You gain a +1 circumstance bonus to Survival checks in one of the following types of terrain, chosen when you select this feat: aquatic, arctic, desert, forest, mountain, plains, sky, swamp, or underground.%r%r**Special** You can select this feat more than once, choosing a different type of terrain each time."
     prereq:
       level: 1
       skill: Survival/trained
   Terrain Stalker:
+    repeatable: true
     feat_type:
       - Skill
       - General
@@ -720,6 +765,7 @@ pf2e_feats:
         - Occultism/expert
         - Religion/expert
   Automatic Knowledge:
+    repeatable: true
     feat_type:
       - Skill
       - General
@@ -807,8 +853,29 @@ pf2e_feats:
     shortdesc: "Your knowledge of the tenets of your faith gives you insight into the best ways to get others of your faith to help you or to follow your directions.%r%rWhen you Request something of or Coerce members of your own faith, you can attempt a Religion check instead of Diplomacy or Intimidation, and you gain a +2 circumstance bonus to the check. On a critically failed attempt to make a Request, the target's attitude toward you doesn't worsen."
     prereq:
       level: 2
-      misc:
-        - follower of a specific religion
+      ordeity:
+        - Althea
+        - Angoron
+        - Animus
+        - Caracoroth
+        - Ceinara
+        - Dana
+        - Daeus
+        - Deimos
+        - Eluna
+        - Gilead
+        - Gunahkar
+        - Illotha
+        - Kor
+        - Maugrim
+        - Navos
+        - Rada
+        - Reos
+        - Serriel
+        - Taara
+        - Tarien
+        - Thul
+        - Vardama
       skill: Religion/expert
   Eyes of the City:
     feat_type:
@@ -954,8 +1021,29 @@ pf2e_feats:
     shortdesc: You imbue water with your deity's blessing. Choose a container of water with light Bulk possessed by you or an ally within your reach. Until the end of your next turn, it becomes holy water or unholy water. You can choose holy water if your deity allows holy sanctification, unholy water if your deity allows unholy sanctification, or either if your deity allows both sanctifications. This is a temporary effect and doesn't impart monetary value or allow the water to be used for costs of rituals or the like. If you're a master in Religion, you can sanctify two containers when you take this action, and if you're legendary, you can sanctify three.
     prereq:
       level: 2
-      misc:
-        - must worship a deity that lists "holy" or "unholy" in their sanctification
+      ordeity:
+        - Althea
+        - Angoron
+        - Animus
+        - Caracoroth
+        - Ceinara
+        - Dana
+        - Daeus
+        - Deimos
+        - Eluna
+        - Gilead
+        - Gunahkar
+        - Illotha
+        - Kor
+        - Maugrim
+        - Navos
+        - Rada
+        - Reos
+        - Serriel
+        - Taara
+        - Tarien
+        - Thul
+        - Vardama
       skill: Religion/expert
   Shadow Mark:
     feat_type:
@@ -1173,8 +1261,29 @@ pf2e_feats:
     shortdesc: "You point out a detail that incontrovertibly supports your faith, causing a listener's mind to whirl. Attempt a Diplomacy check and compare the result to the Will DC of a single target that can hear you and understands your language; that target is then temporarily immune to Evangelize with respect to your deity or philosophy for 1 day. A creature that already agrees with you is unaffected, and at the GM's discretion, a target that genuinely changes its perspective to support your faith as a result of the argument is also otherwise unaffected.%r%r**Critical Success** The target is stupefied 2 for 1 round.%r**Success** The target is stupefied 1 for 1 round.%r**Failure** The target is unaffected."
     prereq:
       level: 7
-      misc:
-        - follower of a specific religion or philosophy
+      ordeity:
+        - Althea
+        - Angoron
+        - Animus
+        - Caracoroth
+        - Ceinara
+        - Dana
+        - Daeus
+        - Deimos
+        - Eluna
+        - Gilead
+        - Gunahkar
+        - Illotha
+        - Kor
+        - Maugrim
+        - Navos
+        - Rada
+        - Reos
+        - Serriel
+        - Taara
+        - Tarien
+        - Thul
+        - Vardama
       skill: Diplomacy/master
   Foil Senses:
     feat_type:
@@ -1316,8 +1425,8 @@ pf2e_feats:
     prereq:
       level: 7
       skill: 
-      - Acrobatics/expert
-      - Thievery/expert
+        - Acrobatics/expert
+        - Thievery/expert
   Wall Jump:
     feat_type:
       - Skill

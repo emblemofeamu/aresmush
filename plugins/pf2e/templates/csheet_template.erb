@@ -19,6 +19,13 @@
 <% weapons.each do |weapon| %>
 <%= weapon %>
 <% end %>
+<% unless crit_spec.empty? %>
+<%= section_line("Critical Specialization") %>
+<%= "Applies on a critical hit.#{crit_spec_sources}" %>
+<% crit_spec.each do |line| %>
+<%= line %>
+<% end %>
+<% end %>
 <%= section_line("Defense") %>
 <%= left("#{item_color}HP%xn: #{hp}",39) -%>
 <%= left("#{item_color}Temp HP%xn: #{temp_hp}",39) %>

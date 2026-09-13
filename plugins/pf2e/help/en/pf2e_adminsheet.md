@@ -37,15 +37,9 @@ Game admins and those they designate can make some modifications to characters' 
 `<skill name>`: The name of the skill to train.
 `<proficiency level>`: `untrained`, `trained`, `expert`, `master`, `legendary`
 
-### Setting feats
-**Command**:
-`admin/set <character>/feat = <feat type> [add|delete] <feat name>`
-
-**Key**:
-`<character>`: The character's name.
-`<feat type>`: `ancestry`, `charclass`, `skill`, `general`, `archetype`, `dedication`
-`[add|delete]`: Choose `add` to add a feat; `delete` to remove a feat.
-`<feat name>`: The name of the feat.
+### Changing feats
+Feats cannot be set directly. To change a character's feats, use `admin/rollback` to send them back to the level where the
+choice was made and let them redo it, or `admin/respec` to let them rebuild the character from scratch while keeping their XP.
 
 ### Setting alignment and deity
 **Command**:

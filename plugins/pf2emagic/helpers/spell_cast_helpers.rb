@@ -422,7 +422,7 @@ module AresMUSH
 
       case spell_type
       when 'focusc'
-        focus_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+        focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
 
         msg = cast_focus_cantrip(char, charclass, focus_type, spell, target_list)
       when 'focus'
@@ -431,7 +431,7 @@ module AresMUSH
 
         return t('pf2emagic.revelation_locked') if revelation_lock
 
-        focus_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+        focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
         msg = cast_focus_spell(char, charclass, focus_type, spell, target_list)
       when 'innate'
         msg = cast_innate_spell(char, spell, target_list)
@@ -450,7 +450,7 @@ module AresMUSH
 
     def self.focus_casting_mismatch_msg(char, charclass, spell)
       magic = char.magic
-      focus_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+      focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
       return nil unless focus_type
 
       focus_spells = magic.focus_spells[focus_type] || []

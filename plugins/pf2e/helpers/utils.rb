@@ -2,21 +2,26 @@ module AresMUSH
   module Pf2e
 
     # p can be passed to this method as nil
+    #
     def self.get_prof_bonus(char, p="untrained")
       p = "untrained" unless p
       level = (p == "untrained") ? 0 : char.pf2_level
 
-      allow_untrained_improv = Global.read_config('pf2e', 'use_untrained_improv')
-
-      if (p == "untrained" && allow_untrained_improv)
-        if Pf2eFeats.has_feat?(char, "Untrained Improvisation")
-          bonus = level < 7 ? (level / 2).floor : level
-          return bonus
-        end
+      if p == "untrained" && Pf2e.has_feat?(char, "Untrained Improvisation")
+        return untrained_improv_bonus(char.pf2_level)
       end
 
       profs = { "untrained"=>0, "trained"=>2, "expert"=>4, "master"=>6, "legendary"=>8 }
       profs[p] + level
+    end
+
+    # Untrained Improvisation: level - 2, improving to level - 1 at 5th and full level at 7th.
+    def self.untrained_improv_bonus(level)
+      return level if level >= 7
+
+      step = level >= 5 ? 1 : 2
+
+      [ level - step, 0 ].max
     end
 
     def self.get_linked_attr_mod(char, value, type=nil)
@@ -199,6 +204,19 @@ module AresMUSH
       string.split.map { |w| w.capitalize }.join(" ")
     end
 
+    # Fronts a noun phrase with 'a' or 'an' so it can be dropped into a sentence.
+    ARTICLE_DETERMINERS = %w(a an the your our their his her its this that these those one any each every some no)
+
+    def self.with_article(phrase)
+      text = phrase.to_s.strip
+
+      return text if text.empty?
+      return text if ARTICLE_DETERMINERS.include?(text.split.first.to_s.downcase)
+      return text if text =~ /\A[A-Z]/
+
+      text =~ /\A[aeiou8]/i ? "an #{text}" : "a #{text}"
+    end
+
     def self.award_xp(target, amount)
       xp = target.pf2_xp + amount
       target.update(pf2_xp: xp)
@@ -247,10 +265,11 @@ module AresMUSH
       return true
     end
 
+    # The highest proficiency rank in the list.
     def self.select_best_prof(array)
       profs = %w{untrained trained expert master legendary}
 
-      array.sort_by{ |a,b| profs.index(a) <=> profs.index(b) }.pop
+      array.compact.max_by { |a| profs.index(a.to_s) || -1 } || 'untrained'
     end
 
     def self.cannot_respec(char)
@@ -305,7 +324,8 @@ module AresMUSH
       char.advancing = nil
       char.pf2_last_refresh = nil
       char.pf2_cg_assigned = {}
-      char.pf2_adv_assigned = {}
+      char.pf2_level_tracker = {}
+      Pf2e.delete_level_snapshots(char)
       char.pf2_size = ""
       char.pf2_roll_aliases = {}
       char.pf2_actions = {}
@@ -366,7 +386,8 @@ module AresMUSH
       char.pf2_level = 1
       char.pf2_viewsheet = {}
       char.pf2_cg_assigned = {}
-      char.pf2_adv_assigned = {}
+      char.pf2_level_tracker = {}
+      Pf2e.delete_level_snapshots(char)
       char.pf2_size = ""
       char.pf2_roll_aliases = {}
       char.pf2_actions = {}
@@ -423,17 +444,10 @@ module AresMUSH
     end
 
     def self.treat_as_charclass?(char, charclass)
-    #  # Determine whether a class' features apply to this character.
+    # Determine whether a class' features apply to this character.
       charclass = charclass.upcase
     
       return true if char.pf2_base_info['charclass'].upcase == charclass
-    #
-    #  if dedication_gets
-    #    dedication_feat = charclass + "Dedication"
-    #
-    #    return true if Pf2e.has_feat?(char, dedication_feat)
-    #  end
-    #
       return false
     end
 

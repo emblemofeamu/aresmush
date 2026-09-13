@@ -55,6 +55,8 @@ module AresMUSH
           return PF2ChargenInfoCmd
         when "feat"
           return PF2FeatSetCmd
+        when "option"
+          return PF2ChargenOptionCmd
         end
       when "roll"
         case cmd.switch
@@ -62,6 +64,8 @@ module AresMUSH
           return PF2RollCommand
         when "for"
           return PF2RollForCommand
+        when "taketen"
+          return PF2TakeTenCommand
         when "listalias"
           return PF2ListRollAliasCmd
         when "alias"
@@ -96,8 +100,6 @@ module AresMUSH
         case cmd.switch
         when "info"
           return PF2FeatInfoCmd
-        when "options"
-          return PF2FeatOptionsCmd
         when "search"
           return PF2FeatSearchCmd
         when nil
@@ -149,6 +151,8 @@ module AresMUSH
           return PF2AdminResetCmd
         when "respec"
           return PF2AdminRespecCmd
+        when "rollback"
+          return PF2AdminRollbackCmd
         end
       when "advance"
         if cmd.switch&.start_with?("language=")
@@ -172,6 +176,8 @@ module AresMUSH
           return PF2AdvanceSwapSpellCmd
         when "option"
           return PF2AdvanceOptionCmd
+        when "info"
+          return PF2AdvanceInfoCmd
         when "archetype"
           return PF2AdvanceArchetypeCmd
         when "language"
@@ -217,6 +223,11 @@ module AresMUSH
     end
 
     def self.get_event_handler(event_name)
+      case event_name
+      when "CharApprovedEvent"
+        return CharApprovedHandler
+      end
+
       nil
     end
 

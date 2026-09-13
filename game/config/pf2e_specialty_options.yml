@@ -120,8 +120,8 @@ pf2e_subclass:
           tradition:
             occult: trained
         skills:
-          - Intimidation
-          - Occultism
+        - Intimidation
+        - Occultism
       advance:
         7:
           magic_stats:
@@ -141,8 +141,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -162,8 +162,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -183,8 +183,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -204,8 +204,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -225,8 +225,8 @@ pf2e_subclass:
           tradition:
             divine: trained
         skills:
-          - Intimidation
-          - Religion
+        - Intimidation
+        - Religion
       advance:
         7:
           magic_stats:
@@ -246,8 +246,8 @@ pf2e_subclass:
           tradition:
             divine: trained
         skills:
-          - Intimidation
-          - Religion
+        - Intimidation
+        - Religion
       advance:
         7:
           magic_stats:
@@ -267,8 +267,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -288,8 +288,8 @@ pf2e_subclass:
           tradition:
             arcane: trained
         skills:
-          - Intimidation
-          - Arcana
+        - Intimidation
+        - Arcana
       advance:
         7:
           magic_stats:
@@ -309,8 +309,8 @@ pf2e_subclass:
           tradition:
             occult: trained
         skills:
-          - Intimidation
-          - Occultism
+        - Intimidation
+        - Occultism
       advance:
         7:
           magic_stats:
@@ -330,8 +330,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -351,8 +351,8 @@ pf2e_subclass:
           tradition:
             arcane: trained
         skills:
-          - Intimidation
-          - Arcana
+        - Intimidation
+        - Arcana
       advance:
         7:
           magic_stats:
@@ -372,8 +372,8 @@ pf2e_subclass:
           tradition:
             divine: trained
         skills:
-          - Intimidation
-          - Religion
+        - Intimidation
+        - Religion
       advance:
         7:
           magic_stats:
@@ -393,8 +393,8 @@ pf2e_subclass:
           tradition:
             primal: trained
         skills:
-          - Intimidation
-          - Nature
+        - Intimidation
+        - Nature
       advance:
         7:
           magic_stats:
@@ -414,8 +414,8 @@ pf2e_subclass:
           tradition:
             occult: trained
         skills:
-          - Intimidation
-          - Occultism
+        - Intimidation
+        - Occultism
       advance:
         7:
           magic_stats:
@@ -460,51 +460,3 @@ pf2e_subclass:
       element: bludgeoning
     Umbral:
       element: void
-  wizard_school_spells:
-    Department of Mana Syntaxia:
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-            - Protective Wards
-    Department of Accordant Conjury: 
-      magic_stats:
-        focus_pool: 1
-        focus_spell: 
-          school:
-            - Force Bolt
-    Department of Urban Thaumaturgy:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Earthworks
-    Department of Defensive Cerebralism:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Charming Push
-    Department of Mutable Modification:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Scramble Body
-    Department of Null's Purview:
-      magic_stats:
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Fortify Summoning
-    School of Unified Magical Theory:
-      magic_stats:
-      # This key overwrites the base wizard class key for this, this is intentional
-        spellbook:
-          cantrip: 10
-          1: 6
-        gated_feat: universalist
-        focus_pool: 1
-        focus_spell:
-          school:
-            - Hand of the Apprentice

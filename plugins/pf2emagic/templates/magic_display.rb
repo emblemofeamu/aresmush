@@ -64,7 +64,7 @@ module AresMUSH
       def focus_spells
         tradition = @magic.tradition
 
-        fstype_to_cc = Global.read_config('pf2e_magic', 'focus_type_by_class').invert
+        focus_sources = Global.read_config('pf2e_magic', 'focus_type_by_source') || {}
 
         focus_spells = @magic.focus_spells
         focus_cantrips = @magic.focus_cantrips
@@ -76,7 +76,9 @@ module AresMUSH
 
         list = []
         fs.each do |fs|
-          charclass = fstype_to_cc[fs]
+          charclass = focus_source_for(focus_sources, fs, tradition)
+          next unless charclass
+
           trad_info = tradition[charclass]
           spell_list = focus_spells[fs]
           cantrip_list = focus_cantrips[fs]
@@ -84,6 +86,14 @@ module AresMUSH
         end
 
         list
+      end
+
+      # The casting source a focus type belongs to for this character.
+      def focus_source_for(focus_sources, focus_type, tradition)
+        sources = focus_sources.select { |_source, type| type.to_s.casecmp?(focus_type.to_s) }.keys
+
+        tradition.keys.find { |held| sources.any? { |source| source.to_s.casecmp?(held.to_s) } } ||
+          sources.first
       end
 
       def has_signature_spells
@@ -132,6 +142,34 @@ module AresMUSH
         end
 
         list
+      end
+
+      def has_adapted_spells
+        !(@magic.adapted_spells || {}).empty?
+      end
+
+      def adapted_spells
+        tradition = @magic.tradition || {}
+        fallback_class = tradition.keys.find { |cc| Pf2emagic.get_caster_type(cc) }
+
+        # charclass => { [ base_level, original tradition, no_heighten ] => [ spell, ... ] }
+        by_class = Hash.new { |h, k| h[k] = Hash.new { |g, j| g[j] = [] } }
+
+        (@magic.adapted_spells || {}).each_pair do |name, info|
+          info = {} unless info.is_a?(Hash)
+
+          charclass = info['class'].to_s
+          charclass = (fallback_class || 'Any Class') if charclass.empty?
+
+          key = [ info['base_level'].to_i, info['tradition'].to_s, !!info['no_heighten'] ]
+          by_class[charclass][key] << name
+        end
+
+        by_class.keys.sort.map do |charclass|
+          groups = by_class[charclass].sort_by { |(level, trad, _nh), _spells| [ level, trad ] }
+
+          format_adapted_spells(@char, charclass, tradition[charclass], groups)
+        end
       end
 
       def has_innate_spells
@@ -250,7 +288,7 @@ module AresMUSH
       end
 
       def format_focus_pool(charclass)
-        focus_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+        focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
         return '' unless focus_type
 
         focus_spells = @magic.focus_spells || {}
@@ -270,11 +308,15 @@ module AresMUSH
 
       def format_focus_spells(char, charclass, fstype, trad_info, spell_list=nil, cantrip_list=nil)
         # Stat Block
-        trad = Pf2e.pretty_string(trad_info[0])
-        prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
-        atk = PF2Magic.get_spell_attack_bonus(char, charclass)
+        trad_string = if Array(trad_info).size >= 2
+          trad = Pf2e.pretty_string(trad_info[0])
+          prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
+          atk = PF2Magic.get_spell_attack_bonus(char, charclass)
 
-        trad_string = "#{title_color}#{charclass}%xn: #{trad} (#{prof})%b%b%bBonus: #{atk}%r"
+          "#{title_color}#{charclass}%xn: #{trad} (#{prof})%b%b%bBonus: #{atk}%r"
+        else
+          "#{title_color}#{charclass}%xn%r"
+        end
 
         # Spell List Block
 
@@ -283,6 +325,32 @@ module AresMUSH
         spells = !Array(spell_list).empty? ? "%b%b#{item_color}Focus Spells (#{fstype.capitalize}):%xn #{spell_list.sort.join(", ")}" : ""
 
         "#{trad_string}#{cantrips}#{spells}"
+      end
+
+      def format_adapted_spells(char, charclass, trad_info, groups)
+        trad_string = if Array(trad_info).size >= 2
+          trad = Pf2e.pretty_string(trad_info[0])
+          prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
+          atk = PF2Magic.get_spell_attack_bonus(char, charclass)
+
+          "#{title_color}#{charclass}%xn: #{trad} (#{prof})%b%b%bBonus: #{atk}%r"
+        else
+          "#{title_color}#{charclass}%xn%r"
+        end
+
+        blocks = groups.map do |(base_level, orig_trad, no_heighten), spells|
+          rank_label = base_level.to_i.zero? ? 'Cantrips' : spell_level_label(base_level)
+
+          origin = "originally #{Pf2e.pretty_string(orig_trad)}"
+          origin += ", not heightened" if no_heighten
+
+          heading = "%b%b#{item_color}#{rank_label} (#{origin}):%xn"
+          lines = spells.sort.map { |s| "%b%b%b%b#{Pf2e.pretty_string(s)}" }
+
+          "#{heading}%r#{lines.join("%r")}"
+        end
+
+        "#{trad_string}#{blocks.join("%r")}"
       end
 
       def format_innate_spells(char, name, values, prof)

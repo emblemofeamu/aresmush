@@ -36,16 +36,16 @@ module AresMUSH
 
               # Validate the specialty choice.
               valid_specialties = Global.read_config('pf2e_archetype_specialty', archetype)
+              chosen_specialty = valid_specialties&.keys&.find { |name| name.to_s.casecmp?(self.value.to_s.strip) }
 
-              unless valid_specialties && valid_specialties.key?(self.value.capitalize)
+              unless chosen_specialty
                 valid_list = valid_specialties&.keys&.sort&.join(", ") || "none"
                 client.emit_failure t('pf2e.adv_invalid_archetype_specialty', :archetype => archetype, :options => valid_list)
                 return
               end
 
               # Assign the specialty.
-              to_assign['archetype_specialty'] = self.value.capitalize
-              chosen_specialty = self.value.capitalize
+              to_assign['archetype_specialty'] = chosen_specialty
 
               if archetype == 'Champion Archetype' && Global.read_config('pf2e', 'use_alignment')
                 alignment = enactor.pf2_faith['alignment']
@@ -179,7 +179,7 @@ module AresMUSH
               end
               enactor.save
 
-              client.emit_success t('pf2e.adv_archetype_specialty_assigned', :specialty => self.value.capitalize)
+              client.emit_success t('pf2e.adv_archetype_specialty_assigned', :specialty => chosen_specialty)
             when 'specialtychoice'
               choice_assignments = to_assign['archetype specialty choice'] || {}
               choice_entry = nil

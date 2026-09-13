@@ -153,7 +153,7 @@ pf2e_background:
       - Deimosian Lore
       - Elunan Lore
       - Gileadean Lore
-      - Gunakharan Lore
+      - Gunahkaran Lore
       - Illothan Lore
       - Korite Lore
       - Maugrimite Lore
@@ -179,7 +179,7 @@ pf2e_background:
       - Society
       - Accounting Lore
     feat:
-      - Eye For Numbers
+      - Eye for Numbers
     special: []
     action: []
     reaction: []
@@ -324,7 +324,7 @@ pf2e_background:
       - Deimosian Lore
       - Elunan Lore
       - Gileadean Lore
-      - Gunakharan Lore
+      - Gunahkaran Lore
       - Illothan Lore
       - Korite Lore
       - Maugrimite Lore
@@ -346,7 +346,7 @@ pf2e_background:
       - Asura Lore
       - Azata Lore
       - Cave Worm Lore
-      - Couatl Lore
+      - Coatl Lore
       - Daemon Lore
       - Devil Lore
       - Dinosaur Lore
@@ -375,7 +375,7 @@ pf2e_background:
       - Werecreature Lore
       - Zombie Lore
     feat:
-      - Schooled In Secrets
+      - Schooled in Secrets
     special: []
     action: []
     reaction: []
@@ -413,13 +413,9 @@ pf2e_background:
     skill choice:
       - Driving Lore
       - Piloting Lore
-    feat assignment:
-      Acrobatics:
-        skill_feat:
-          - Assurance (Piloting Lore)
-      Athletics:
-        skill_feat:
-          - Assurance (Driving Lore)
+    feat:
+      - name: Assurance
+        choice_from: skill choice
     special: []
     action: []
     reaction: []
@@ -519,7 +515,8 @@ pf2e_background:
       - Athletics
       - Farming Lore
     feat:
-      - Assurance (Athletics)
+      - name: Assurance
+        choice: Athletics
     special: []
     action: []
     reaction: []
@@ -566,7 +563,7 @@ pf2e_background:
       - Deception
       - Games Lore
     feat:
-      - Lie To Me
+      - Lie to Me
     special: []
     reaction: []
   Gladiator:
@@ -612,7 +609,7 @@ pf2e_background:
       - Asura Lore
       - Azata Lore
       - Cave Worm Lore
-      - Couatl Lore
+      - Coatl Lore
       - Daemon Lore
       - Devil Lore
       - Dinosaur Lore
@@ -745,13 +742,13 @@ pf2e_background:
     skill choice:
       - Acrobatics
       - Athletics
+    # A different feat depending on which skill they chose. Entries take the same shape as a
+    # plain 'feat' list, so one of them could carry a choice of its own if it ever needed to.
     feat assignment:
       Acrobatics:
-        skill_feat:
-          - Cat Fall
+        - Cat Fall
       Athletics:
-        skill_feat:
-          - Quick Jump
+        - Quick Jump
     special: []
     action: []
     reaction: []
@@ -775,7 +772,8 @@ pf2e_background:
       - Survival
       - Mining Lore
     feat:
-      - Terrain Expertise (Underground)
+      - name: Terrain Expertise
+        choice: Underground
     special: []
     action: []
     reaction: []
@@ -809,8 +807,12 @@ pf2e_background:
       - Sky Terrain Lore
       - Swamp Terrain Lore
       - Underground Terrain Lore
+    # Assurance is always with Survival here, not with the terrain lore they picked. This
+    # background looks like Driver, whose Assurance does follow its skill choice, so the
+    # two are deliberately written differently.
     feat:
-      - Assurance (Survival)
+      - name: Assurance
+        choice: Survival
     special: []
     action: []
     reaction: []
@@ -843,7 +845,7 @@ pf2e_background:
       - Deimosian Lore
       - Elunan Lore
       - Gileadean Lore
-      - Gunakharan Lore
+      - Gunahkaran Lore
       - Illothan Lore
       - Korite Lore
       - Maugrimite Lore
@@ -875,34 +877,14 @@ pf2e_background:
   Raised by Belief:
     abl_boosts:
       - open
-      - open
+      - from: divine ability
+    requires_deity: true
     skills:
-      - Religion
-    skill choice:
-      - Althean Lore
-      - Angorite Lore
-      - Animusian Lore
-      - Caracorothan Lore
-      - Ceinaran Lore
-      - Daeusite Lore
-      - Danan Lore
-      - Deimosian Lore
-      - Elunan Lore
-      - Gileadean Lore
-      - Gunakharan Lore
-      - Illothan Lore
-      - Korite Lore
-      - Maugrimite Lore
-      - Navosian Lore
-      - Radan Lore
-      - Reosian Lore
-      - Serrielite Lore
-      - Taaran Lore
-      - Tarienite Lore
-      - Thulite Lore
-      - Vardaman Lore
+      - from: divine skill
+      - from: related lore
     feat:
-      - Assurance (Religion)
+      - name: Assurance
+        choice_from: divine skill
     special: []
     action: []
     reaction: []
@@ -917,8 +899,8 @@ pf2e_background:
       - Bludgun Lore
       - Charn Lore
       - Dran Lore
-      - Desolation Lore
-      - Heartlands Lore
+      - The Desolation Lore
+      - The Heartlands Lore
       - Jade Islands Lore
       - Khazad Duin Lore
       - Kimitatu Lore
@@ -938,7 +920,7 @@ pf2e_background:
       - [ Constitution, Wisdom ]
       - open
     skills: 
-      - Great Halls Lore
+      - Gray Halls Lore
     feat:
       - Diehard
     special: []
@@ -992,8 +974,8 @@ pf2e_background:
       - Bludgun Lore
       - Charn Lore
       - Dran Lore
-      - Desolation Lore
-      - Heartlands Lore
+      - The Desolation Lore
+      - The Heartlands Lore
       - Jade Islands Lore
       - Khazad Duin Lore
       - Kimitatu Lore
@@ -1019,19 +1001,9 @@ pf2e_background:
       - Nature
       - Occultism
       - Religion
-    feat assignment:
-      Arcana:
-        skill_feat:
-          - Assurance (Arcana)
-      Nature:
-        skill_feat:
-          - Assurance (Nature)
-      Occultism:
-        skill_feat:
-          - Assurance (Occultism)
-      Religion:
-        skill_feat:
-          - Assurance (Religion)
+    feat:
+      - name: Assurance
+        choice_from: skill choice
     special: []
     action: []
     reaction: []
@@ -1169,8 +1141,8 @@ pf2e_background:
       - Bludgun Lore
       - Charn Lore
       - Dran Lore
-      - Desolation Lore
-      - Heartlands Lore
+      - The Desolation Lore
+      - The Heartlands Lore
       - Jade Islands Lore
       - Khazad Duin Lore
       - Kimitatu Lore
@@ -1194,13 +1166,9 @@ pf2e_background:
     skill choice:
       - Performance
       - Society
-    feat assignment:
-      Performance:
-        skill_feat:
-          - Assurance (Performance)
-      Society:
-        skill_feat:
-          - Assurance (Society)
+    feat:
+      - name: Assurance
+        choice_from: skill choice
     special: []
     action: []
     reaction: []

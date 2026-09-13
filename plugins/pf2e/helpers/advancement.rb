@@ -22,7 +22,8 @@ module AresMUSH
 
     def self.level_key?(key)
       key_str = key.to_s.downcase
-      key_str == 'cantrip' || key_str.match?(/\A-?\d+\z/)
+
+      key_str == 'cantrip' || key_str == Pf2emagic::ANY_RANK || key_str.match?(/\A-?\d+\z/)
     end
 
     def self.wrap_magic_assign(to_assign, key, base_class_key)
@@ -70,9 +71,6 @@ module AresMUSH
     end
 
     def self.stage_feat_magic_stats(char, feat_name, feat_details, to_assign, advancement)
-      # Feats carry their magic in a top-level magic_stats block rather than under 'grants'. Stage it
-      # keyed by the feat, the same way the archetype path does, so do_advancement applies it at
-      # commit and any open choices show up on advance/review. Returns the options left to choose.
       return [] if !feat_details.is_a?(Hash)
 
       magic_stats = feat_details['magic_stats']
@@ -80,22 +78,83 @@ module AresMUSH
       return [] if !magic_stats.is_a?(Hash) || magic_stats.empty?
       return [] if !AresMUSH.const_defined?("Pf2emagic")
 
+      magic_stats = resolve_caster_type_stats(char, magic_stats)
+
+      return [] if magic_stats.empty?
+
       base_class_key = char.pf2_base_info['charclass']
       assessed = PF2Magic.assess_magic_stats(char, magic_stats)
 
       advancement['magic_stats'] ||= {}
       wrap_adv_magic_stats(advancement, base_class_key)
-      advancement['magic_stats'][feat_name] = assessed['magic_stats']
+
+      stats = assessed['magic_stats'] || {}
+      feat_stats, class_stats = split_feat_magic(stats, FEAT_KEYED_MAGIC_STATS)
+
+      advancement['magic_stats'][feat_name] = feat_stats unless feat_stats.empty?
+
+      unless class_stats.empty?
+        advancement['magic_stats'][base_class_key] =
+          merge_magic_stats(advancement['magic_stats'][base_class_key], class_stats)
+      end
 
       magic_options = assessed['magic_options'] || {}
 
       magic_options.each_pair do |option, slots|
         wrap_magic_assign(to_assign, option, base_class_key)
         to_assign[option] ||= {}
-        to_assign[option][feat_name] = slots
+
+        if FEAT_KEYED_MAGIC_OPTIONS.include?(option.to_s)
+          to_assign[option][feat_name] = slots
+        else
+          to_assign[option][base_class_key] =
+            merge_spell_slots(to_assign[option][base_class_key], slots)
+        end
       end
 
       magic_options.keys.sort
+    end
+
+    FEAT_KEYED_MAGIC_STATS = %w(innate_spell)
+    FEAT_KEYED_MAGIC_OPTIONS = %w(innate)
+
+    def self.split_feat_magic(stats, feat_keys)
+      feat_stats = stats.select { |key, _value| feat_keys.include?(key.to_s) }
+      class_stats = stats.reject { |key, _value| feat_keys.include?(key.to_s) }
+
+      [ feat_stats, class_stats ]
+    end
+
+    def self.merge_magic_stats(existing, added)
+      return added unless existing.is_a?(Hash)
+      return existing unless added.is_a?(Hash)
+
+      added.each_with_object(existing.dup) do |(key, value), merged|
+        current = merged[key]
+
+        merged[key] = if current.is_a?(Hash) && value.is_a?(Hash)
+          current.merge(value)
+        elsif current.is_a?(Array) && value.is_a?(Array)
+          current + value
+        else
+          value
+        end
+      end
+    end
+
+    def self.merge_spell_slots(existing, added)
+      return added if existing.nil?
+      return existing if added.nil?
+
+      if existing.is_a?(Hash) && added.is_a?(Hash)
+        added.each_with_object(existing.dup) do |(level, slots), merged|
+          merged[level] = Array(merged[level]) + Array(slots)
+        end
+      elsif existing.is_a?(Array) && added.is_a?(Array)
+        existing + added
+      else
+        added
+      end
     end
 
     def self.magic_option_messages(options)
@@ -113,9 +172,6 @@ module AresMUSH
       archetypes.any? { |arch| arch.to_s.casecmp?(key.to_s) }
     end
 
-    def self.lore_skill?(skill_name)
-      skill_name.to_s.strip.downcase.end_with?('lore')
-    end
 
     def self.open_skill_token?(value)
       token = value.to_s.strip.downcase
@@ -251,11 +307,9 @@ module AresMUSH
             return_msg << t('pf2e.adv_item_feat', :value => feat)
           end
           to_assign['feats'] = hash
-        when "gated_feat"
-          # Value in this case is the name of the gate.
-          # Stash into to_assign as is.
-
-          to_assign[value] = 'open'
+        when "feat_choice", "grant_choice"
+          # Handled once after this loop, since granted_choice_names reads both keys off the
+          # whole entry and a level carrying both would otherwise open every slot twice.
         when "magic_stats"
           assess_magic = PF2Magic.assess_magic_stats(char, value)
 
@@ -277,7 +331,7 @@ module AresMUSH
             to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : [ "open" ]
             return_msg << t('pf2e.adv_item_raise', :item => item)
           end
-        when "choose"
+        when "choose", "charclass_choice"
           name = value['choice_name']
           options = value['options']
           to_choose = to_assign['class option'] || {}
@@ -288,27 +342,42 @@ module AresMUSH
 
           to_assign['class option'] = to_choose
         when "charclass_feature"
-          if value.is_a?(Hash) && value['choose']
-            choose_info = value['choose']
-            name = choose_info['choice_name']
-            options = choose_info['options']
-
-            to_choose = to_assign['class option'] || {}
-            to_choose[name] = options.is_a?(Hash) ? options : Array(options)
-            to_assign['class option'] = to_choose
-
-            display_options = options.is_a?(Hash) ? options.keys : Array(options)
-            return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
-
-            remaining = value.dup
-            remaining.delete('choose')
-            advancement[key] = remaining unless remaining.empty?
-          else
-            advancement[key] = value
-          end
+          advancement[key] = value
         else
           advancement[key] = value
         end
+      end
+
+      # Feat choices this level opens.
+      granted_choice_names(info).each do |name|
+        open_feat_choice(to_assign, name)
+
+        block = find_choice_block(char, name)
+        summary = block ? choice_summary(block) : 'eligible option'
+
+        return_msg << t('pf2e.adv_item_feat_choice', :choice => name, :summary => with_article(summary))
+      end
+
+      # Fold in anything an earlier feat choice deferred to this level, such as Canny Acumen.
+      new_level = char.pf2_level + 1
+
+      deferred_choice_grants(char, new_level).each do |choice_name, label, grants|
+        next unless grants.is_a?(Hash)
+
+        advancement['grants'] ||= {}
+        advancement['grants']["#{choice_name} (#{label})"] = grants
+
+        return_msg << t('pf2e.adv_deferred_choice', :choice => "#{choice_name} (#{label})", :level => new_level)
+      end
+
+      # Level clauses on feats they already hold, such as Weapon Proficiency going to expert at 11.
+      deferred_feat_grants(char, new_level).each do |feat, lvl, grants|
+        next unless grants.is_a?(Hash)
+
+        advancement['grants'] ||= {}
+        advancement['grants']["#{feat} (level #{lvl})"] = grants
+
+        return_msg << t('pf2e.adv_deferred_feat', :feat => feat, :level => lvl)
       end
 
       char.update(pf2_to_assign: to_assign)
@@ -349,6 +418,8 @@ module AresMUSH
           Pf2eCombat.update_combat_stats(char, value)
         when "magic_stats"
           # Ignore any return, this key only includes items that do not populate to_assign.
+          # Every stat key update_magic understands has to be listed: an unlisted one makes the
+          # whole block look class-keyed, and each stat then gets dispatched as if it were a class.
           stat_keys = %w(
             spell_abil
             tradition
@@ -365,6 +436,8 @@ module AresMUSH
             addrepertoire
             addspellbook
             divine_font
+            restricted_slots
+            restricted_spellbook
           )
 
           if value.is_a?(Hash) && value.keys.any? { |k| !stat_keys.include?(k.to_s) }
@@ -447,19 +520,31 @@ module AresMUSH
             char.pf2_features = features
 
             case feature
-            when "Path to Perfection"
+            when "Path to Perfection", "Second Path to Perfection", "Third Path to Perfection"
               combat = char.combat
               saves = combat.saves
               path = saves['Path to Perfection'] || []
-              value = (path.size == 2) ? 'master' : 'legendary'
 
-              path << option
+              already_chosen = path.any? { |s| s.to_s.casecmp?(option.to_s) }
 
-              saves[option] = value
+              # Second must be a different save; Third must be one of the earlier two.
+              if feature == "Third Path to Perfection" && !already_chosen
+                client.emit_failure t('pf2e.path_perfection_needs_earlier', :option => option)
+                next
+              elsif feature != "Third Path to Perfection" && already_chosen
+                client.emit_failure t('pf2e.path_perfection_needs_new', :option => option)
+                next
+              end
+
+              rank = (feature == "Third Path to Perfection") ? 'legendary' : 'master'
+
+              path << option unless already_chosen
+
+              saves[option] = rank
               saves['Path to Perfection'] = path
 
               combat.update(saves: saves)
-            when "Weapon Mastery"
+            when "Fighter Weapon Mastery"
               combat = Pf2eCombat.get_create_combat_obj(char)
               group_profs = combat.weapon_group_prof || {}
               group_profs[option] = {
@@ -610,38 +695,41 @@ module AresMUSH
         end
       end
 
-      advancement = char.pf2_adv_assigned || {}
-      advancement["level"] = to_process
+      # The level this advancement completes.
+      new_level = char.pf2_level + 1
 
-      # Record archetype and specialty if they were selected
+      # Record what was chosen against the level it was chosen at.
       to_assign = char.pf2_to_assign
-      if to_assign['archetype']
-        advancement['archetype'] = to_assign['archetype']
+
+      entry = { 'advancement' => to_process }
+      entry['archetype'] = to_assign['archetype'] if to_assign['archetype']
+      entry['archetype_specialty'] = to_assign['archetype_specialty'] if to_assign['archetype_specialty']
+      entry['archetype_specialty_choice'] = to_assign['archetype specialty choice'] if to_assign['archetype specialty choice']
+
+      if to_assign['feat_choices'].is_a?(Hash) && !to_assign['feat_choices'].empty?
+        entry['feat_choices'] = to_assign['feat_choices']
       end
-      if to_assign['archetype_specialty']
-        advancement['archetype_specialty'] = to_assign['archetype_specialty']
-      end
-        if to_assign['archetype specialty choice']
-          advancement['archetype_specialty_choice'] = to_assign['archetype specialty choice']
-        end
+
+      tracker = char.pf2_level_tracker || {}
+      tracker[new_level.to_s] = (tracker[new_level.to_s] || {}).merge(entry)
+      char.pf2_level_tracker = tracker
 
       # Deduct the XP.
-      xp = char.pf2_xp
-      xp = xp - 1000
-      char.pf2_xp = xp
+      char.pf2_xp = char.pf2_xp - ADVANCEMENT_XP_COST
 
       # Update level.
-      level = char.pf2_level
-      level = level + 1
-      char.pf2_level = level
+      char.pf2_level = new_level
 
       # Record everything and kick out of advancement mode.
-      char.pf2_adv_assigned = advancement
       char.pf2_to_assign = {}
       char.pf2_advancement = {}
       char.advancing = false
 
       char.save
+
+      # Snapshot the finished sheet so admin rollback can put them back here later.
+      Pf2e.capture_level_snapshot(char, new_level)
+
       return nil
     end
 
@@ -793,25 +881,19 @@ module AresMUSH
           msg << t('pf2e.adv_item_archetype_deity') if info.to_s.downcase == 'open'
         when "archetype_sanctification"
           msg << t('pf2e.adv_item_archetype_sanctification') if info.to_s.downcase == 'open'
-        when "special feat"
-          msg << t('pf2e.unassigned_gated_feat', :options => info.sort.join(", "))
+        when "feat choice"
+          # Only the fact that a choice is outstanding, and where to see its options.
+          info.each_pair do |name, slots|
+            next unless Array(slots).include?('open')
+
+            block = Pf2e.find_choice_block(char, name)
+            summary = block ? Pf2e.choice_summary(block) : 'eligible option'
+
+            msg << t('pf2e.adv_item_feat_choice_pending', :summary => Pf2e.with_article(summary))
+          end
         when "grants"
           info.keys.each do |feat|
-            grant_info = info[feat]
-            if grant_info.is_a?(Hash) && grant_info['gated_feat']
-              gate = grant_info['gated_feat']
-              summary = Pf2e.gated_feat_summary(gate)
-              msg << t('pf2e.adv_item_gated_feat_summary', :gate => gate, :summary => summary, :gate_underscore => gate.downcase.gsub(" ", "_"))
-            else
-              msg << t('pf2e.adv_item_grants', :feat => feat)
-            end
-          end
-        else
-          if info.is_a?(String) && info.downcase == 'open'
-            options = Pf2e.get_gated_feat_options(char, item)
-            if options && !options.empty?
-              msg << t('pf2e.adv_item_gated_feat', :gate => item, :options => options.sort.join(', '))
-            end
+            msg << t('pf2e.adv_item_grants', :feat => feat)
           end
         end
 

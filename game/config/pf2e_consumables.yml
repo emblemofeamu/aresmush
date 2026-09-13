@@ -2,6 +2,8 @@
 pf2e_consumables:
   # Item Level 1
   Acid Flask (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -22,6 +24,8 @@ pf2e_consumables:
       - snare
       - trap
   Alchemist's Fire (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -69,6 +73,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Blasting Stone (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -79,6 +85,8 @@ pf2e_consumables:
       - sonic
       - splash
   Blight Bomb (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -89,6 +97,8 @@ pf2e_consumables:
       - poison
       - splash
   Bottled Lightning (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -136,6 +146,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Dread Ampoule (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -181,6 +193,8 @@ pf2e_consumables:
       - alchemical
       - consumable
   Frost Vial (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -199,6 +213,8 @@ pf2e_consumables:
       - magical
       - potion
   Ghost Charge (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -233,6 +249,8 @@ pf2e_consumables:
       - consumable
       - light
   Glue Bomb (Lesser):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 1
     price: 300
@@ -490,17 +508,6 @@ pf2e_consumables:
       - splash
       - thrown
       - unholy
-  Versatile Vial:
-    bulk: 0
-    level: 1
-    price: 0
-    traits:
-      - acid
-      - alchemical
-      - bomb
-      - consumable
-      - infused
-      - splash
   Wolf Fang:
     bulk: 0
     level: 1
@@ -718,6 +725,8 @@ pf2e_consumables:
       - healing
   # Item Level 3
   Acid Flask (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -728,6 +737,8 @@ pf2e_consumables:
       - consumable
       - splash
   Alchemist's Fire (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -763,6 +774,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Blasting Stone (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -773,6 +786,8 @@ pf2e_consumables:
       - sonic
       - splash
   Blight Bomb (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -783,6 +798,8 @@ pf2e_consumables:
       - poison
       - splash
   Bottled Lightning (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -822,6 +839,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Dread Ampoule (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -851,6 +870,8 @@ pf2e_consumables:
       - magical
       - talisman
   Frost Vial (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -861,6 +882,8 @@ pf2e_consumables:
       - consumable
       - splash
   Ghost Charge (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -871,6 +894,8 @@ pf2e_consumables:
       - splash
       - vitality
   Glue Bomb (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 3
     price: 1000
@@ -1076,6 +1101,8 @@ pf2e_consumables:
       - consumable
       - elixir
   Crystal Shards (Moderate):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 4
     price: 1600
@@ -2192,6 +2219,8 @@ pf2e_consumables:
       - poison
   # Item Level 11
   Acid Flask (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2202,6 +2231,8 @@ pf2e_consumables:
       - consumable
       - splash
   Alchemist's Fire (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2222,6 +2253,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Blasting Stone (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2232,6 +2265,8 @@ pf2e_consumables:
       - sonic
       - splash
   Blight Bomb (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2251,6 +2286,8 @@ pf2e_consumables:
       - contact
       - poison
   Bottled Lightning (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2281,6 +2318,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Dread Ampoule (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 30000
@@ -2294,6 +2333,8 @@ pf2e_consumables:
       - poison
       - splash
   Frost Vial (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2312,6 +2353,8 @@ pf2e_consumables:
       - fire
       - magical
   Ghost Charge (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2322,6 +2365,8 @@ pf2e_consumables:
       - splash
       - vitality
   Glue Bomb (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 11
     price: 25000
@@ -2481,6 +2526,8 @@ pf2e_consumables:
       - consumable
       - elixir
   Crystal Shards (Greater):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 12
     price: 35000
@@ -3143,6 +3190,8 @@ pf2e_consumables:
       - elixir
   # Item Level 17
   Acid Flask (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3153,6 +3202,8 @@ pf2e_consumables:
       - consumable
       - splash
   Alchemist's Fire (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3173,6 +3224,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Blasting Stone (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3183,6 +3236,8 @@ pf2e_consumables:
       - sonic
       - splash
   Blight Bomb (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3193,6 +3248,8 @@ pf2e_consumables:
       - poison
       - splash
   Bottled Lightning (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3231,6 +3288,8 @@ pf2e_consumables:
       - mutagen
       - polymorph
   Dread Ampoule (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 300000
@@ -3289,6 +3348,8 @@ pf2e_consumables:
       - potion
       - sonic
   Frost Vial (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3307,6 +3368,8 @@ pf2e_consumables:
       - fire
       - magical
   Ghost Charge (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3317,6 +3380,8 @@ pf2e_consumables:
       - splash
       - vitality
   Glue Bomb (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 17
     price: 250000
@@ -3407,6 +3472,8 @@ pf2e_consumables:
       - elixir
       - healing
   Crystal Shards (Major):
+    category: martial
+    group: Bomb
     bulk: 0.1
     level: 18
     price: 400000

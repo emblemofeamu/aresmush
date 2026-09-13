@@ -4,20 +4,12 @@ module AresMUSH
     class PF2AdvanceFeatCmd
       include CommandHandler
 
-      attr_accessor :type, :value, :gate
+      attr_accessor :type, :value
 
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_equals_arg2)
 
-        if args.arg1
-          find_gate = args.arg1.split("/")
-          self.type = downcase_arg(find_gate[0])
-          self.gate = downcase_arg(find_gate[1])
-        else
-          self.type = nil
-          self.gate = nil
-        end
-
+        self.type = downcase_arg(args.arg1)
         self.value = downcase_arg(args.arg2)
       end
 
@@ -31,11 +23,6 @@ module AresMUSH
       end
 
       def handle
-        if self.type == 'special'
-          handle_gated_feat
-          return
-        end
-
         if self.type == 'class'
           client.emit_failure t('pf2e.adv_dont_use_class_for_class_feats', :feat => self.value) 
           return
@@ -89,11 +76,25 @@ module AresMUSH
           return
         end
 
-        # Qualification checks for all kinds of stuff, including whether the feat in question exists.
-        qualifies = Pf2e.can_take_gated_feat?(enactor, fname, self.type)
+        # Is the feat actually of the type they are filling?
+        feat_types = Array(fdetails['feat_type']).compact.map { |f| f.to_s.downcase }
 
-        unless qualifies
-          client.emit_failure t('pf2e.feat_fails_gate')
+        unless feat_types.include?(self.type)
+          client.emit_failure t('pf2e.bad_feat_type', :type => self.type, :keys => feat_types.sort.join(", "))
+          return
+        end
+
+        # No double-dipping on base class / dedication, per Paizo RAW.
+        unless Pf2e.dedication_allowed?(enactor, fdetails)
+          client.emit_failure t('pf2e.does_not_qualify')
+          return
+        end
+
+        # Do they already have it, and if so, may they take it again? 
+        repeat_block = Pf2e.feat_repeat_block(enactor, fname, fdetails, nil, enactor.pf2_level + 1)
+
+        if repeat_block
+          client.emit_failure repeat_block
           return
         end
 
@@ -108,7 +109,7 @@ module AresMUSH
           meets_prereqs = Pf2e.meets_prereqs?(enactor, prereqs, cl)
 
           unless meets_prereqs
-            client.emit_failure t('pf2e.feat_fails_prereq')
+            client.emit_failure Pf2e.explain_feat_block(enactor, fdetails) || t('pf2e.feat_fails_prereq')
             return
           end
         end
@@ -281,9 +282,15 @@ module AresMUSH
             archetype_features = Array(archetype_features_info['archetype_feature']).compact.map { |f| f.to_s.strip }.reject(&:empty?)
             if !archetype_features.empty?
               features = enactor.pf2_features
-              features['archetype_features'] ||= []
-              features['archetype_features'].concat(archetype_features).uniq!
+              held = features['archetype_features'] ||= []
+
+              added = archetype_features.reject { |f| held.any? { |h| h.to_s.casecmp?(f.to_s) } }
+
+              held.concat(added)
               enactor.pf2_features = features
+
+              advancement['archetype_features'] = Array(advancement['archetype_features']) + added unless added.empty?
+
               client.emit_ooc t('pf2e.adv_archetype_features_assigned', :features => archetype_features.join(", "))
             end
 
@@ -419,11 +426,49 @@ module AresMUSH
           end
         end
 
+        # Level clauses the character already qualifies for, including one keyed to the level being advanced into.
+        Pf2e.feat_at_level_catch_up(fdetails, enactor.pf2_level + 1).each do |lvl, payload|
+          adv_grants = advancement['grants'] || {}
+          adv_grants["#{fname} (level #{lvl})"] = payload
+          advancement['grants'] = adv_grants
+
+          client.emit_ooc t('pf2e.feat_level_clause_applied', :feat => fname, :level => lvl)
+        end
+
+        # A feat carrying its own choice opens it for the player to resolve with advance/option.
+        choice_block = Pf2e.feat_choice_def(fdetails)
+        instance = Pf2e.feat_taken_count(enactor, fname) + 1
+
+        choice_block = nil unless Pf2e.feat_choice_opens_at?(choice_block, instance)
+
+        # An auto-resolved choice is decided by current state, so work the label out now, against the staged advancement as well as the sheet.
+        auto_choice = choice_block && Pf2e.auto_choice?(choice_block)
+        auto_label = auto_choice ? Pf2e.auto_choice_label(enactor, choice_block, advancement) : nil
+
+        # Nothing to open when the auto resolver has nothing left to give.
+        Pf2e.open_feat_choice(to_assign, fname) if choice_block && (!auto_choice || auto_label)
+
         enactor.pf2_advancement = advancement
         enactor.pf2_to_assign = to_assign
         enactor.save
 
         client.emit_success t('pf2e.adv_feat_selected', :feat => fname, :type => key.gsub("charclass", "class"))
+
+        if auto_choice
+          # stage_feat_choice re-reads and saves the character, so it runs after the save above.
+          if auto_label
+            Pf2e.stage_feat_choice(enactor, fname, choice_block, auto_label, client).each { |msg| client.emit_ooc msg }
+
+            client.emit_ooc t('pf2e.choice_auto_resolved', :choice => fname, :value => auto_label)
+          else
+            client.emit_ooc t('pf2e.choice_auto_none', :choice => fname)
+          end
+        elsif choice_block
+          client.emit_ooc t('pf2e.choice_opened',
+            :choice => fname,
+            :summary => Pf2e.choice_summary(choice_block),
+            :cmd => Pf2e.choice_info_cmd(enactor))
+        end
 
         # Display notification about archetype if the user selects a Dedication feat.
         if fdetails['feat_type']&.include?('Dedication')
@@ -432,178 +477,6 @@ module AresMUSH
             client.emit_ooc t('pf2e.adv_archetype_assigned', :archetype => assoc_archetypes.first)
           end
         end
-      end
-
-      def handle_gated_feat
-        to_assign = enactor.pf2_to_assign
-        grants = to_assign['grants'] || {}
-
-        gate_options = grants.values.filter_map do |grant_info|
-          grant_info.is_a?(Hash) ? grant_info['gated_feat'] : nil
-        end
-
-        if gate_options.empty?
-          client.emit_failure t('pf2e.adv_not_an_option')
-          return
-        end
-
-        unless self.gate
-          client.emit_failure t('pf2e.must_specify_gate', :options => gate_options.sort.join(", "))
-          return
-        end
-
-        unless gate_options.any? { |g| g.to_s.casecmp?(self.gate) }
-          client.emit_failure t('pf2e.no_such_gate', :gate => self.gate)
-          return
-        end
-
-        if self.gate.to_s.casecmp?('canny acumen')
-          choice = self.value.to_s.downcase
-          choice_label = case choice
-          when 'fortitude'
-            'Fortitude'
-          when 'reflex'
-            'Reflex'
-          when 'will'
-            'Will'
-          when 'perception'
-            'Perception'
-          else
-            nil
-          end
-
-          unless choice_label
-            client.emit_failure t('pf2e.canny_acumen_invalid')
-            return
-          end
-
-          added_stats = if choice == 'perception'
-            { 'perception' => 'expert' }
-          else
-            { 'saves' => { choice => 'expert' } }
-          end
-
-          advancement = enactor.pf2_advancement
-          advancement['combat_stats'] ||= {}
-          advancement['combat_stats'] = Pf2e.merge_combat_stats(advancement['combat_stats'], added_stats)
-          enactor.pf2_advancement = advancement
-
-          grants.each_pair do |grant_feat, grant_info|
-            next unless grant_info.is_a?(Hash)
-            next unless grant_info['gated_feat']&.casecmp?(self.gate)
-
-            grant_info.delete('gated_feat')
-            if grant_info.empty?
-              grants.delete(grant_feat)
-            end
-            break
-          end
-
-          if grants.empty?
-            to_assign.delete('grants')
-          else
-            to_assign['grants'] = grants
-          end
-
-          if to_assign['gated_feat_options']
-            matched_gate = to_assign['gated_feat_options'].keys.find { |g| g.to_s.casecmp?(self.gate) }
-            to_assign['gated_feat_options'].delete(matched_gate) if matched_gate
-            to_assign.delete('gated_feat_options') if to_assign['gated_feat_options'].empty?
-          end
-
-          enactor.pf2_to_assign = to_assign
-          enactor.save
-
-          client.emit_success t('pf2e.adv_gate_selected', :gate => 'Canny Acumen', :choice => choice_label)
-          return
-        end
-
-        feat = Pf2e.get_feat_details(self.value)
-
-        if feat.is_a?(String)
-          if feat == 'ambiguous'
-            options = Pf2e.get_feat_match_options(self.value)
-            msg = t('pf2e.multiple_feat_matches', :options => options.join(", "))
-          else
-            msg = t('pf2e.bad_feat_name', :name => self.value)
-          end
-
-          client.emit_failure msg
-          return
-        end
-
-        fname = feat[0]
-        fdetails = feat[1]
-
-        if fdetails['feat_type']&.include?('Dedication') && !Pf2e.dedication_archetype_ready?(enactor)
-          client.emit_failure t('pf2e.adv_dedication_requires_archetype_feats')
-          return
-        end
-
-        qualifies = Pf2e.can_take_gated_feat?(enactor, fname, self.gate)
-
-        unless qualifies
-          client.emit_failure t('pf2e.feat_fails_gate')
-          return
-        end
-
-        prereqs = fdetails['prereq']
-        if prereqs
-          cl = enactor.pf2_level + 1
-          meets_prereqs = Pf2e.meets_prereqs?(enactor, prereqs, cl)
-          unless meets_prereqs
-            client.emit_failure t('pf2e.feat_fails_prereq')
-            return
-          end
-        end
-
-        advancement = enactor.pf2_advancement
-        feats_to_do = advancement['feats'] || {}
-        type_key = fdetails['feat_type']&.first&.downcase || 'general'
-        type_feats_to_do = feats_to_do[type_key] || []
-        type_feats_to_do << fname
-        feats_to_do[type_key] = type_feats_to_do
-        advancement['feats'] = feats_to_do
-
-        grants.each_pair do |grant_feat, grant_info|
-          next unless grant_info.is_a?(Hash)
-          next unless grant_info['gated_feat']&.casecmp?(self.gate)
-
-          grant_info.delete('gated_feat')
-          if grant_info.empty?
-            grants.delete(grant_feat)
-          end
-          break
-        end
-
-        if grants.empty?
-          to_assign.delete('grants')
-        else
-          to_assign['grants'] = grants
-        end
-
-        if to_assign['gated_feat_options']
-          matched_gate = to_assign['gated_feat_options'].keys.find { |g| g.to_s.casecmp?(self.gate) }
-          to_assign['gated_feat_options'].delete(matched_gate) if matched_gate
-          to_assign.delete('gated_feat_options') if to_assign['gated_feat_options'].empty?
-        end
-
-        # Gated feats grant magic the same way any other feat does.
-        if fdetails['magic_stats']
-          magic_options = Pf2e.stage_feat_magic_stats(enactor, fname, fdetails, to_assign, advancement)
-
-          if magic_options.empty?
-            client.emit_ooc t('pf2e.feat_grants_magic')
-          else
-            Pf2e.magic_option_messages(magic_options).each { |msg| client.emit_ooc msg }
-          end
-        end
-
-        enactor.pf2_advancement = advancement
-        enactor.pf2_to_assign = to_assign
-        enactor.save
-
-        client.emit_success t('pf2e.adv_feat_selected', :feat => fname, :type => type_key)
       end
 
     end

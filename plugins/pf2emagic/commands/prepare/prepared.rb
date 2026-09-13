@@ -17,8 +17,6 @@ module AresMUSH
       def handle
         magic = enactor.magic
 
-        # If they specified a
-
         prepared_spells = magic.spells_prepared
 
         if prepared_spells.empty?
@@ -27,15 +25,18 @@ module AresMUSH
         end
 
         if self.caster_class
-          prepared_spells = prepared_spells[self.caster_class] || {}
+          class_spells = prepared_spells[self.caster_class] || {}
 
-          if prepared_spells.empty?
+          if class_spells.empty?
             client.emit_failure t('pf2emagic.no_prepared_spells_class', :cc => self.caster_class)
             return
           end
+
+          # Keep the { class => { rank => spells } } shape the template expects.
+          prepared_spells = { self.caster_class => class_spells }
         end
 
-        template = PF2DisplayPreparedSpellsTemplate.new(enactor, prepared_spells)
+        template = PF2DisplayPreparedSpellsTemplate.new(enactor, prepared_spells, client)
 
         client.emit template.render
 

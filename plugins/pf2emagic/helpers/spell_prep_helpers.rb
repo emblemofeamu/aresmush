@@ -49,9 +49,13 @@ module AresMUSH
 
       return t('pf2emagic.cant_prepare_level') if (spell_level.to_i > level.to_i)
 
+      # An adapted spell (Adapted Cantrip and friends) may be prepared through this class
+      # even though it is off the class's tradition list and not in any spellbook.
+      is_adapted = Pf2emagic.adapted_spell?(char, cc, spell_name)
+
       needs_spellbook = spell_details['traits'].intersect?(['rare', 'uncommon', 'unique'])
 
-      if use_arcane_evo || needs_spellbook || cc == 'Wizard'
+      if !is_adapted && (use_arcane_evo || needs_spellbook || cc == 'Wizard')
         is_in_spellbook = spellbook_check(magic, cc, level, spell_name)
         return t('pf2emagic.not_in_spellbook') unless is_in_spellbook[0]
         make_signature = is_in_spellbook[1]
@@ -74,7 +78,7 @@ module AresMUSH
 
       spell_trad = spell_details['tradition']
 
-      return t('pf2emagic.cant_prepare_trad', :cc => cc) unless spell_trad.include? tradition[0].downcase
+      return t('pf2emagic.cant_prepare_trad', :cc => cc) unless is_adapted || spell_trad.include?(tradition[0].downcase)
 
       if use_arcane_evo
         repertoire = obj.repertoire
@@ -91,6 +95,10 @@ module AresMUSH
       max_spells_per_day = max_spells_per_day(char, cc, level)
 
       return t('pf2emagic.no_available_slots') unless spell_list_for_level.size < max_spells_per_day
+
+      unless prepared_set_fits?(char, cc, level, spell_list_for_level + [ spell_name ])
+        return t('pf2emagic.no_unrestricted_slots')
+      end
 
       # If all checks succeed, prepare the spell and return a hash.
 
@@ -170,6 +178,60 @@ module AresMUSH
       [prepare_ok, make_signature]
     end
 
+    def self.open_spells_per_day(char, charclass, level)
+      magic = char.magic
+      return 0 unless magic
+
+      list = magic.spells_per_day[charclass]
+      return 0 unless list
+
+      list[level].to_i
+    end
+
+    # { restriction => count } for one rank.
+    def self.restricted_slots_at(char, charclass, level)
+      magic = char.magic
+      return {} unless magic
+
+      for_class = (magic.restricted_slots || {})[charclass]
+      return {} unless for_class.is_a?(Hash)
+
+      for_class.each_with_object({}) do |(restriction, by_rank), hash|
+        count = Pf2emagic.restricted_count_at_rank(by_rank, level)
+        hash[restriction] = count if count.positive?
+      end
+    end
+
+    def self.restricted_spell_list(char, charclass, restriction, level)
+      case restriction.to_s.downcase
+      when 'curriculum'
+        Pf2emagic.curriculum_spells(char, charclass, level)
+      else
+        Global.logger.error "Unknown restricted slot '#{restriction}' for #{char.name}."
+        []
+      end
+    end
+
+    # Whether a set of prepared spells fits the slots available at a rank.
+    def self.prepared_set_fits?(char, charclass, level, spells)
+      open = open_spells_per_day(char, charclass, level)
+      restricted = restricted_slots_at(char, charclass, level)
+
+      return spells.size <= open if restricted.empty?
+      return false if spells.size > open + restricted.values.sum
+
+      if restricted.size > 1
+        Global.logger.error "More than one restricted slot type at rank #{level} for #{char.name}; only the first is enforced."
+      end
+
+      restriction, count = restricted.first
+      eligible = restricted_spell_list(char, charclass, restriction, level).map { |s| s.to_s.downcase }
+
+      others = spells.reject { |s| eligible.include?(s.to_s.downcase) }
+
+      others.size <= open && spells.size <= open + count
+    end
+
     def self.max_spells_per_day(char, charclass, level)
       # Determines how many spells per day of that level the character can cast, for full spellcasting classes.
       # Not useful for focus-only classes.
@@ -186,7 +248,7 @@ module AresMUSH
 
       sublist = list[level]
 
-      sublist ? sublist : 0
+      sublist.to_i + restricted_slots_at(char, charclass, level).values.sum
     end
 
     def self.max_spell_level_available(char, charclass)

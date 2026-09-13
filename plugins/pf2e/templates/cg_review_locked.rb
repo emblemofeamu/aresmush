@@ -365,7 +365,7 @@ module AresMUSH
         granted = trained_skills(true)
 
         groups = [
-          [ 'Background Skills', config_list(@background_info, 'skills') ],
+          [ 'Background Skills', Pf2e.config_skills(@char, @background_info).difference([ "open" ]) ],
           [ 'Heritage Skills',   config_list(@heritage_info, 'skills') ],
           [ 'Class Skills',      config_list(@class_features_info, 'skills') ],
           [ 'Specialty Skills',  config_list(@subclass_features_info, 'skills') +
@@ -409,6 +409,7 @@ module AresMUSH
         groups = [
           [ 'Background Skill Choice', Array(selected_skill_choice('bg skill choice')) ],
           [ 'Class Skill Choice',      Array(selected_skill_choice('class skill choice')) ],
+          [ 'Specialty Skill Choice',  Array(selected_skill_choice('specialty skill choice')) ],
           [ 'Free Skills',             Array(@to_assign['open skills']).reject { |s| s == 'open' } ]
         ]
 
@@ -458,25 +459,29 @@ module AresMUSH
         count.zero? ? t('pf2e.cg_no_free_skills') : count
       end
 
-      # A background or class skill list longer than this is spammy, so it points at the wiki instead.
+      # A skill choice list longer than this is spammy, so it points at the wiki instead.
       MANY_SKILL_OPTIONS = 5
 
       def bg_skill_choice
-        skill_choice_options('bg skill choice')
+        skill_choice_options('bg skill choice', "background's")
       end
 
       def class_skill_choice
-        skill_choice_options('class skill choice')
+        skill_choice_options('class skill choice', "class's")
       end
 
-      def skill_choice_options(key)
+      def specialty_skill_choice
+        skill_choice_options('specialty skill choice', "specialty's")
+      end
+
+      def skill_choice_options(key, source)
       # Only a choice still to be made shows up here; once chosen, the skill is in Current Skills.
         choice = @to_assign[key]
         return nil if !choice.is_a?(Hash) || choice['selected'] != 'open'
 
         options = Array(choice['options']).compact
         return nil if options.empty?
-        return t('pf2e.cg_skill_choice_many') if options.size > MANY_SKILL_OPTIONS
+        return t('pf2e.cg_skill_choice_many', :source => source) if options.size > MANY_SKILL_OPTIONS
 
         options.sort.join(" or ")
       end
@@ -495,7 +500,7 @@ module AresMUSH
       }
 
       def feats
-        assigned = @char.pf2_feats.values.flatten.sort
+        assigned = Pf2e.feat_display_list(@char, @char.pf2_feats.values.flatten).sort
         (assigned + open_feat_slots).join(", ")
       end
 
@@ -670,13 +675,17 @@ module AresMUSH
           next if open.zero?
 
           label = spell_level_label(level)
-          counts[label] = counts.fetch(label, 0) + open
+          entry = counts[label] ||= { :count => 0, :levels => [] }
+
+          entry[:count] += open
+          entry[:levels] << level
         end
 
         counts
       end
 
       def spell_level_label(level)
+        return t('pf2emagic.any_rank_heading') if Pf2emagic.any_rank?(level)
         return "Cantrip(s)" if level.to_s.downcase == 'cantrip'
 
         "#{Pf2emagic.ordinal_level(level)}-rank"
@@ -766,9 +775,57 @@ module AresMUSH
 
         return nil if counts.empty?
 
-        lines = counts.map { |level_label, count| "%b%b#{item_color}#{level_label}%xn: #{count}" }
+        lines = counts.map do |level_label, entry|
+          reserved = restriction_parts(list, entry[:levels])
+          free = entry[:count] - reserved.sum { |count, _phrase| count }
+
+          pieces = []
+          pieces << free.to_s if free.positive? || reserved.empty?
+          pieces.concat(reserved.map { |_count, phrase| phrase })
+
+          "%b%b#{item_color}#{level_label}%xn: #{pieces.join(" + ")}"
+        end
 
         ([ "#{item_color}#{label}%xn:" ] + lines).join("%r")
+      end
+
+      def restriction_parts(list, levels)
+        return [] if list != 'spellbook' || !@magic
+
+        for_class = (@magic.restricted_spellbook || {})[@charclass]
+        return [] if !for_class.is_a?(Hash)
+
+        for_class.filter_map do |restriction, by_rank|
+          next if !by_rank.is_a?(Hash)
+
+          count = levels.sum { |level| restricted_count_at(by_rank, level) }
+          next if count.zero?
+
+          spells = levels.flat_map { |level| Pf2emagic.restricted_spell_list(@char, @charclass, restriction, level) }
+
+          next if spells.empty?
+
+          [ count, t('pf2emagic.cg_spellbook_restricted',
+                     :count => count,
+                     :restriction => restriction,
+                     :spells => spell_options(spells.uniq.sort)) ]
+        end
+      end
+
+      # "A", "A or B", "A, B, or C" -- a bare "or" between every entry reads badly past two.
+      def spell_options(spells)
+        return spells.first.to_s if spells.size < 2
+        return spells.join(" or ") if spells.size == 2
+
+        "#{spells[0..-2].join(", ")}, or #{spells.last}"
+      end
+
+      # Rank keys survive a round trip through the database as strings, so they are matched
+      # loosely here the way the magic helpers match them.
+      def restricted_count_at(by_rank, level)
+        key = by_rank.keys.find { |k| k.to_s.casecmp?(level.to_s) }
+
+        key ? by_rank[key].to_i : 0
       end
 
       def has_repertoire

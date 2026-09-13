@@ -94,6 +94,28 @@ module AresMUSH
           type_option[level]
         end
 
+        list_key = level
+        spent_from_pool = false
+
+        if self.type == "spellbook" && type_option.is_a?(Hash) &&
+           spellbook_rank_full_for?(list, level, class_key || charclass)
+          pool_key = type_option.keys.find { |k| Pf2emagic.any_rank?(k) }
+          pool = pool_key && type_option[pool_key]
+
+          if Array(pool).include?("open")
+            msg = any_rank_spend_error(level)
+
+            if msg
+              client.emit_failure msg
+              return
+            end
+
+            list = pool
+            list_key = pool_key
+            spent_from_pool = true
+          end
+        end
+
         unless list
           client.emit_failure t('pf2e.adv_no_spell_slots_level', :type => self.type, :level => level_label(level))
           return
@@ -206,21 +228,28 @@ module AresMUSH
 
         # because Ruby is stupid and doesn't let you replace at an index directly.
         list.delete_at open_slot
-        list << spell
+
+        if spent_from_pool && type_option.is_a?(Hash)
+          (type_option[level] ||= []) << spell
+        else
+          list << spell
+        end
 
         # Because I was stupid and repertoire is a Hash and spellbook is an array.
 
         if self.type == "spellbook"
-          type_option[level] = list if type_option.is_a?(Hash)
+          type_option[list_key] = list if type_option.is_a?(Hash)
+
+          resolved = type_option.is_a?(Hash) ? type_option : list
 
           if class_key
             to_assign[self.type] ||= {}
-            to_assign[self.type][class_key] = type_option.is_a?(Hash) ? type_option : list
+            to_assign[self.type][class_key] = resolved
             advancement[self.type] ||= {}
-            advancement[self.type][class_key] = type_option.is_a?(Hash) ? type_option : list
+            advancement[self.type][class_key] = resolved
           else
-            to_assign[self.type] = list
-            advancement[self.type] = list
+            to_assign[self.type] = resolved
+            advancement[self.type] = resolved
           end
         elsif self.type == "repertoire" || self.type == "signature"
           type_option[level] = list
@@ -242,6 +271,44 @@ module AresMUSH
         enactor.save
 
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
+      end
+
+      # Keep prepared casters from adding spells to spellbooks higher than what they can actually cast.
+      def any_rank_spend_error(level)
+        return t('pf2e.adv_any_rank_cantrip') if level.to_s.casecmp?('cantrip')
+
+        charclass = enactor.pf2_base_info['charclass']
+        max = Pf2e.preview_max_spell_rank(enactor, charclass)
+
+        return nil if max && level.to_i <= max.to_i
+
+        t('pf2e.adv_any_rank_no_slots', :level => level_label(level))
+      end
+
+      def spellbook_rank_full_for?(rank_list, level, charclass)
+        opens = Array(rank_list).count { |s| s.to_s.casecmp?('open') }
+        return true if opens.zero?
+
+        for_class = Pf2emagic.advancement_restricted_spellbook(enactor, charclass)
+        return false unless for_class.is_a?(Hash)
+
+        restriction = nil
+        reserved = 0
+        for_class.each_pair do |name, by_rank|
+          count = Pf2emagic.restricted_count_at_rank(by_rank, level)
+          next unless count.positive?
+
+          restriction = name
+          reserved = count
+        end
+        return false if reserved.zero?
+
+        eligible = Pf2emagic.restricted_spell_list(enactor, charclass, restriction, level).map { |s| s.to_s.downcase }
+        return false if eligible.include?(self.value.to_s.downcase)
+
+        already_eligible = Array(rank_list).count { |s| eligible.include?(s.to_s.downcase) }
+
+        opens <= [ reserved - already_eligible, 0 ].max
       end
 
       def innate_stats(advancement, class_key)

@@ -36,7 +36,7 @@ module AresMUSH
       end
 
       def build_advancement
-        adv = prune_open_advancement(@char.pf2_advancement).merge(chosen_assignments)
+        adv = annotate_feat_choices(prune_open_advancement(@char.pf2_advancement).merge(chosen_assignments))
 
         list = []
 
@@ -112,17 +112,25 @@ module AresMUSH
         list = []
 
         pending_options.each_pair do |key, value|
-          next if key == "signature" || key == "gated_feat_options"
+          next if key == "signature"
 
           if key == "grants" && value.is_a?(Hash)
             value.each_pair do |feat, grant_info|
-              if grant_info.is_a?(Hash) && grant_info['gated_feat']
-                gate = grant_info['gated_feat']
-                summary = Pf2e.gated_feat_summary(gate)
-                list << "#{item_color}#{feat}:%xn #{summary}"
-              else
-                list << "#{item_color}#{feat}:%xn #{grant_info}"
-              end
+              list << "#{item_color}#{feat}:%xn #{grant_info}"
+            end
+            next
+          end
+
+          # Outstanding feat choices, shown by what they are for rather than by listing
+          # every option, which can run to hundreds. advance/info has the full list.
+          if key == "feat choice" && value.is_a?(Hash)
+            value.each_pair do |name, slots|
+              next unless Array(slots).include?('open')
+
+              block = Pf2e.find_choice_block(@char, name)
+              summary = block ? Pf2e.choice_summary(block) : 'eligible option'
+
+              list << "#{item_color}#{name}:%xn #{summary}"
             end
             next
           end
@@ -164,6 +172,15 @@ module AresMUSH
 
               unless innate_lines.empty?
                 list.concat(innate_lines)
+                next
+              end
+            end
+
+            if rank_keyed_spell_list?(key, value)
+              spell_lines = spell_option_lines(value, key)
+
+              unless spell_lines.empty?
+                list << "#{item_color}#{heading} Spells:%xn #{spell_lines.join}"
                 next
               end
             end
@@ -225,7 +242,7 @@ module AresMUSH
 
       CHOICE_FROM_LIST_KEYS = [ 'raise skill choice', 'archetype key ability' ]
 
-      UNRESOLVED_UNTIL_CLEARED_KEYS = [ 'grants', 'gated_feat_options', 'special feat' ]
+      UNRESOLVED_UNTIL_CLEARED_KEYS = [ 'grants', 'feat choice' ]
 
       def pending_option(key, value)
         return value if UNRESOLVED_UNTIL_CLEARED_KEYS.include?(key.to_s)
@@ -274,6 +291,28 @@ module AresMUSH
         end
 
         chosen
+      end
+
+      def annotate_feat_choices(adv)
+        feats = adv['feats']
+        chosen = @to_assign['feat_choices']
+
+        return adv unless feats.is_a?(Hash) && chosen.is_a?(Hash)
+
+        annotated = feats.each_with_object({}) do |(type, names), hash|
+          hash[type] = Array(names).map { |name| feat_choice_label(name, chosen) }
+        end
+
+        adv.merge('feats' => annotated)
+      end
+
+      def feat_choice_label(name, chosen)
+        key = chosen.keys.find { |k| k.to_s.casecmp?(name.to_s) }
+        labels = key ? Array(chosen[key]) : []
+
+        return name if labels.empty?
+
+        "#{name} (#{labels.join(', ')})"
       end
 
       def messages
@@ -526,6 +565,46 @@ module AresMUSH
         lines
       end
 
+      SPELL_LIST_KEYS = %w(repertoire spellbook innate)
+
+      def rank_keyed_spell_list?(key, value)
+        return false unless SPELL_LIST_KEYS.include?(key.to_s)
+        return false unless value.is_a?(Hash) && !value.empty?
+
+        value.keys.all? { |level| Pf2e.level_key?(level) }
+      end
+
+      def spell_option_lines(value, key = nil)
+        restrictions = key.to_s == 'spellbook' ? spellbook_pick_restrictions : {}
+
+        value.filter_map do |level, slots|
+          next unless slots.is_a?(Array) && !slots.empty?
+
+          heading = format_spell_level_heading(level)
+          restriction = restrictions[level.to_s]
+          heading = "#{heading} #{restriction} spells" if restriction
+
+          "%r%b%b#{item_color}#{heading}:%xn #{format_open_list(slots)}"
+        end
+      end
+
+      def spellbook_pick_restrictions
+        @spellbook_pick_restrictions ||= begin
+          charclass = @char.pf2_base_info['charclass']
+          for_class = Pf2emagic.advancement_restricted_spellbook(@char, charclass)
+
+          map = {}
+          for_class.each_pair do |restriction, by_rank|
+            next unless by_rank.is_a?(Hash)
+
+            by_rank.each_pair do |rank, count|
+              map[rank.to_s] = restriction.to_s if count.to_i.positive?
+            end
+          end
+          map
+        end
+      end
+
       def format_or_list(value)
         list = Array(value).compact.map { |entry| entry.to_s.strip }.reject(&:empty?)
         return "" if list.empty?
@@ -575,6 +654,7 @@ module AresMUSH
       def format_spell_level_heading(key)
         label = key.to_s.strip
 
+        return t('pf2emagic.any_rank_heading') if Pf2emagic.any_rank?(label)
         return "Cantrip" if label.casecmp?("cantrip") || label == "0"
         return "1st-rank" if label == "1"
         return "2nd-rank" if label == "2"

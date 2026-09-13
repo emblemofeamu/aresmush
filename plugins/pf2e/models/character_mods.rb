@@ -28,7 +28,7 @@ module AresMUSH
     attribute :pf2_viewsheet, :type => DataType::Hash, :default => {}
     attribute :pf2_to_assign, :type => DataType::Hash, :default => {}
     attribute :pf2_cg_assigned, :type => DataType::Hash, :default => {}
-    attribute :pf2_adv_assigned, :type => DataType::Hash, :default => {}
+    attribute :pf2_level_tracker, :type => DataType::Hash, :default => {}
     attribute :pf2_size, :default => ""
     attribute :pf2_movement, :type => DataType::Hash, :default => {}
     attribute :pf2_roll_aliases, :type => DataType::Hash, :default => {}
@@ -49,6 +49,7 @@ module AresMUSH
     reference :combat, "AresMUSH::Pf2eCombat"
     reference :magic, "AresMUSH::PF2Magic"
     set :encounters, "AresMUSH::PF2Encounter"
+    collection :level_snapshots, "AresMUSH::Pf2eLevelSnapshot"
 
     before_delete :delete_pf2
 
@@ -58,6 +59,7 @@ module AresMUSH
       self.hp.delete if self.hp
       self.combat.delete if self.combat
       self.magic.delete if self.magic
+      self.level_snapshots.each { |s| s.delete }
       self.encounters.each {|e| e.delete self}
     end
 

@@ -1,0 +1,34 @@
+module AresMUSH
+  module Pf2e
+    class CharApprovedHandler
+      def on_event(event)
+        char = Character[event.char_id]
+        return unless char
+
+        level = char.pf2_level
+        tracker = char.pf2_level_tracker || {}
+
+        return if tracker.values.any? { |entry| entry.is_a?(Hash) && entry['source'] }
+
+        entry = {
+          'base_info' => char.pf2_base_info,
+          'boosts' => char.pf2_boosts_working,
+          'feats' => char.pf2_feats,
+          'languages' => char.pf2_lang,
+          'faith' => char.pf2_faith,
+          'skills' => char.skills.each_with_object({}) do |skill, hash|
+            next if skill.prof_level.to_s == 'untrained'
+            hash[skill.name] = skill.prof_level
+          end
+        }
+
+        entry['source'] = level > 1 ? 'respec' : 'chargen'
+
+        Pf2e.record_level(char, level, entry)
+
+        # Baseline snapshot, so a later rollback has something to restore back to.
+        Pf2e.capture_level_snapshot(char, level)
+      end
+    end
+  end
+end

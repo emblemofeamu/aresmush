@@ -13,8 +13,11 @@ module AresMUSH
     attribute :spell_abil, :type => DataType::Hash, :default => {}
     attribute :spellbook, :type => DataType::Hash, :default => {}
     attribute :spells_per_day, :type => DataType::Hash, :default => {}
+    attribute :restricted_slots, :type => DataType::Hash, :default => {}
+    attribute :restricted_spellbook, :type => DataType::Hash, :default => {}
     attribute :spells_prepared, :type => DataType::Hash, :default => {}
     attribute :spells_today, :type => DataType::Hash, :default => {}
+    attribute :adapted_spells, :type => DataType::Hash, :default => {}
     attribute :tradition, :type => DataType::Hash, :default => { "innate"=>["innate", "trained"] }
     attribute :prepared_lists, :type => DataType::Hash, :default => {}
     attribute :divine_font
@@ -72,16 +75,18 @@ module AresMUSH
 
           magic_options["repertoire"] = assignment_list
         when "spellbook"
+          assignment_list = magic_options["spellbook"] || {}
+
           if value.is_a?(Hash)
-            assignment_list = {}
             value.each_pair do |level, num|
-              assignment_list[level] = Array.new(num, "open")
+              assignment_list[level] = Array(assignment_list[level]) + Array.new(num, "open")
             end
-            magic_options["spellbook"] = assignment_list
           else
-            ary = Array.new(value, "open")
-            magic_options["spellbook"] = ary
+            key = Pf2emagic::ANY_RANK
+            assignment_list[key] = Array(assignment_list[key]) + Array.new(value.to_i, "open")
           end
+
+          magic_options["spellbook"] = assignment_list
         when "signature_spell", "signature_spells"
           # This key means that the character needs to pick a spell from their repertoire as a signature spell.
           # Structure of value: { level to pick from => number of spells to add }
@@ -139,12 +144,47 @@ module AresMUSH
           spd_for_class = spells_per_day[charclass] ? spells_per_day[charclass] : {}
 
           value.each_pair do |level, num|
-            spd_for_class[level] = num
+            spd_for_class[level] = Pf2emagic.apply_stat_delta(spd_for_class[level], num)
           end
 
           spells_per_day[charclass] = spd_for_class
 
           magic.spells_per_day = spells_per_day
+        when "restricted_slots"
+          # Structure: { charclass => { restriction => { "cantrip" => 1, 1 => 1 } } }
+
+          restricted = magic.restricted_slots
+          for_class = restricted[charclass] ? restricted[charclass] : {}
+
+          value.each_pair do |restriction, by_rank|
+            existing = for_class[restriction] ? for_class[restriction] : {}
+
+            (by_rank || {}).each_pair do |rank, num|
+              existing[rank] = Pf2emagic.apply_stat_delta(existing[rank], num)
+            end
+
+            for_class[restriction] = existing
+          end
+
+          restricted[charclass] = for_class
+
+          magic.restricted_slots = restricted
+        when "restricted_spellbook"
+          restricted = magic.restricted_spellbook
+          for_class = restricted[charclass] ? restricted[charclass] : {}
+
+          value.each_pair do |restriction, by_rank|
+            existing = for_class[restriction] ? for_class[restriction] : {}
+
+            (by_rank || {}).each_pair do |rank, num|
+              existing[rank] = Pf2emagic.apply_stat_delta(existing[rank], num)
+            end
+
+            for_class[restriction] = existing
+          end
+
+          restricted[charclass] = for_class
+          magic.restricted_spellbook = restricted
         when "repertoire"
           # Structure: { "cantrip" => 5, 1 => 3, 2 => 1 }
           # This key gets dumped into to_assign as repertoire and represents spells that need to be chosen
@@ -272,12 +312,17 @@ module AresMUSH
 
           magic.focus_cantrips = focus_cantrips
         when "spellbook"
-          # Spells need to be chosen, redirect to to_assign
+          # Spells need to be chosen, redirect to to_assign.
 
-          assignment_list = {}
-          value.each_pair do |level, num|
-            ary = Array.new(num, "open")
-            assignment_list[level] = ary
+          assignment_list = to_assign["spellbook"] || {}
+
+          if value.is_a?(Hash)
+            value.each_pair do |level, num|
+              assignment_list[level] = Array(assignment_list[level]) + Array.new(num, "open")
+            end
+          else
+            key = Pf2emagic::ANY_RANK
+            assignment_list[key] = Array(assignment_list[key]) + Array.new(value.to_i, "open")
           end
 
           to_assign["spellbook"] = assignment_list
@@ -302,6 +347,25 @@ module AresMUSH
 
           spellbook[charclass] = csb
           magic.spellbook = spellbook
+        when "adapted_spell"
+          # Structure: { "name" => spell, "tradition" => trad, "base_level" => n,
+          #                       "source" => feat, "no_heighten" => bool }
+          name = value['name'].to_s
+
+          unless name.empty?
+            adapted_class = Pf2emagic.get_caster_type(charclass) ? charclass : nil
+
+            adapted = magic.adapted_spells
+            adapted[name] = {
+              'tradition'  => value['tradition'].to_s.downcase,
+              'base_level' => value['base_level'].to_i,
+              'source'     => value['source'],
+              'class'      => adapted_class
+            }
+            adapted[name]['no_heighten'] = true if value['no_heighten']
+
+            magic.adapted_spells = adapted
+          end
         when "signature_spell", "signature_spells"
           # This key means that the character needs to pick a spell from their repertoire as a signature spell.
           # Structure of value: { level to pick from => number of spells to add }
@@ -336,13 +400,8 @@ module AresMUSH
           else
             magic.update(divine_font: value.first)
           end
-        when 'gated_feat'
-          # Gated or special feats can be acquired by wizard schools and so can be populated under magic stats.
-          list = to_assign["special feat"] || []
-
-          list << value
-
-          to_assign['special feat'] = list
+        when 'grant_choice'
+          Array(value).compact.each { |name| Pf2e.open_feat_choice(to_assign, name.to_s) }
         when 'gated_spell'
           sublist_name = value + " spell"
 
@@ -410,20 +469,15 @@ module AresMUSH
       # Don't do anything unless magic is created.
       return nil unless magic
 
-      magic.focus_cantrips = {}
-      magic.focus_spells = {}
-      magic.focus_pool = { "max"=>0, "current"=>0 }
-      magic.innate_spells = {}
-      magic.signature_spells = {}
-      magic.repertoire = {}
-      magic.spell_abil = {}
-      magic.spellbook = {}
-      magic.spells_per_day = {}
-      magic.spells_prepared = {}
-      magic.spells_today = {}
-      magic.tradition = { "innate"=>["innate", "trained"] }
-      magic.prepared_lists = {}
+      (default_values || {}).each_pair do |attr, value|
+        copy = value.is_a?(Hash) || value.is_a?(Array) ? Marshal.load(Marshal.dump(value)) : value
+        magic.public_send("#{attr}=", copy)
+      end
+
+      # Attributes with no declared default that a reset should still clear.
       magic.divine_font = nil
+      magic.revelation_locked = nil
+      magic.last_refocus = nil
 
       magic.save
 
