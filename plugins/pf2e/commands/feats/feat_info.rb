@@ -47,7 +47,7 @@ module AresMUSH
 
         # Do it. 
 
-        list_details = Pf2e.generate_list_details(feat_list)
+        list_details = Pf2e.generate_list_details(feat_list, char)
 
         paginator = Paginator.paginate(list_details, cmd.page, 3)
 

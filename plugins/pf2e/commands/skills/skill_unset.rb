@@ -5,6 +5,8 @@ module AresMUSH
 
       attr_accessor :type, :value
 
+      CHOICE_TYPES = [ 'bg skill choice', 'class skill choice', 'specialty skill choice' ]
+
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_equals_arg2)
         self.type = downcase_arg(args.arg1)
@@ -45,10 +47,12 @@ module AresMUSH
 
           bg_choice = assigned["bg skill choice"]
           class_choice = assigned["class skill choice"]
+          specialty_choice = assigned["specialty skill choice"]
 
           if open_skills.include?(self.value) ||
              (bg_choice && bg_choice['selected'] == self.value) ||
-             (class_choice && class_choice['selected'] == self.value)
+             (class_choice && class_choice['selected'] == self.value) ||
+             (specialty_choice && specialty_choice['selected'] == self.value)
             return t('pf2e.invalid_skill_change')
           end
         else
@@ -64,7 +68,8 @@ module AresMUSH
           'background' => 'bgskill',
           'free' => 'open skills',
           'bgchoice' => 'bg skill choice',
-          'classchoice' => 'class skill choice'
+          'classchoice' => 'class skill choice',
+          'specialtychoice' => 'specialty skill choice'
         }
         options = skill_types.keys
         to_assign = enactor.pf2_to_assign
@@ -94,18 +99,25 @@ module AresMUSH
           return
         end
 
+        # Was this choice a duplicate of a skill they hold elsewhere?
+
+        duplicate_choice = CHOICE_TYPES.include?(assignment_type) &&
+                           skill_options.is_a?(Hash) &&
+                           skill_options['duplicate'] &&
+                           skill_options['selected'] == self.value
+
         # Do they have this skill?
 
         skill_for_char = Pf2eSkills.find_skill(self.value, enactor)
 
-        if skill_for_char.prof_level == 'untrained'
+        if !duplicate_choice && skill_for_char.prof_level == 'untrained'
           client.emit_failure t('pf2e.does_not_have', :item=>'skill')
           return
         end
 
         # Is this skill set by chargen options? If so, they can't change it.
 
-        if skill_for_char.cg_skill
+        if !duplicate_choice && skill_for_char.cg_skill
           client.emit_failure t('pf2e.element_cglocked', :element=>'skill')
           return
         end
@@ -127,7 +139,7 @@ module AresMUSH
           end
 
           skill_options[index] = 'open'
-        when "bg skill choice", "class skill choice"
+        when "bg skill choice", "class skill choice", "specialty skill choice"
           if !skill_options.is_a?(Hash)
             client.emit_failure t('pf2e.cannot_assign_type', :element=>"skill")
             return
@@ -138,6 +150,22 @@ module AresMUSH
             return
           end
 
+          if duplicate_choice
+            # Take back the free skill this choice granted. If they've already spent it, they have to say which one it was before this choice can be reopened.
+            open_skills = Array(to_assign['open skills'])
+            index = open_skills.index('open')
+
+            if !index
+              client.emit_failure t('pf2e.free_skill_spent', :item=>self.value)
+              return
+            end
+
+            open_skills.delete_at(index)
+            to_assign['open skills'] = open_skills
+
+            skill_options.delete('duplicate')
+          end
+
           skill_options['selected'] = 'open'
         end
 
@@ -145,7 +173,7 @@ module AresMUSH
 
         enactor.update(pf2_to_assign: to_assign)
 
-        skill_for_char.update(prof_level: 'untrained')
+        skill_for_char.update(prof_level: 'untrained') unless duplicate_choice
 
         client.emit_success t('pf2e.reset_ok', :element=>assignment_type, :option=>self.value)
       end

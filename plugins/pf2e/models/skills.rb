@@ -80,6 +80,9 @@ module AresMUSH
       class_choice = to_assign['class skill choice']
       msgs << t('pf2e.unassigned_class_skill_choice') if class_choice && class_choice['selected'] == 'open'
 
+      specialty_choice = to_assign['specialty skill choice']
+      msgs << t('pf2e.unassigned_specialty_skill_choice') if specialty_choice && specialty_choice['selected'] == 'open'
+
       return nil if msgs.empty?
       return msgs
     end
@@ -108,7 +111,7 @@ module AresMUSH
       open_lang = Pf2eSkills.open_language_count(enactor)
       return t('pf2e.lang_issues', :count => open_lang) if open_lang.positive?
 
-      Pf2eSkills.apply_bg_skill_feat_assignment(enactor, client)
+      Pf2eSkills.apply_bg_granted_feats(enactor, client)
 
       enactor.update(pf2_skills_locked: true)
 
@@ -160,65 +163,63 @@ module AresMUSH
       end
     end
 
-    def self.apply_bg_skill_feat_assignment(enactor, client)
+    def self.apply_bg_granted_feats(enactor, client)
       base_info = enactor.pf2_base_info
       background = base_info ? base_info['background'] : nil
       return if background.blank?
 
-      background_info = Global.read_config('pf2e_background', background) || {}
-      assignment = background_info['feat assignment']
-      return if assignment.blank?
+      entries = deferred_bg_feats(background) + assigned_bg_feats(enactor, background)
+      return if entries.empty?
 
-      to_assign = enactor.pf2_to_assign
-      bg_choice = to_assign['bg skill choice'] || {}
-      selected = bg_choice['selected']
-      return if selected.blank? || selected == 'open'
-
-      choice_pair = assignment.find { |choice, _| choice.to_s.casecmp?(selected.to_s) }
-      return unless choice_pair
-
-      choice_assignment = choice_pair[1] || {}
-      feats = enactor.pf2_feats
       charclass = base_info['charclass']
 
-      choice_assignment.each_pair do |type_key, feat_list|
-        feat_type = Pf2eSkills.normalize_feat_type(type_key)
-        next unless feat_type
+      entries.each do |entry|
+        parsed = Pf2e.granted_feat_entry(entry)
 
-        list = feats[feat_type] || []
-        Array(feat_list).each do |feat_name|
-          feat_info = Pf2e.get_feat_details(feat_name)
-          next if feat_info.is_a?(String)
-
-          canonical_name = feat_info[0]
-          next if list.any? { |f| f.to_s.casecmp?(canonical_name.to_s) }
-
-          list << canonical_name
-
-          if client
-            details = feat_info[1]
-            if details && details['grants']
-              Pf2e.do_feat_grants(enactor, details['grants'], charclass, client)
-            end
-          end
+        unless parsed
+          Global.logger.error "Background '#{background}' has a feat entry naming no feat."
+          next
         end
 
-        feats[feat_type] = list
-      end
+        fname, label, source, filter = parsed
+        found = Pf2e.get_feat_details(fname)
 
-      enactor.update(pf2_feats: feats)
+        if found.is_a?(String)
+          Global.logger.error "Background '#{background}' grants '#{fname}', which did not resolve (#{found})."
+          next
+        end
+
+        label = Pf2e.granted_choice_label(enactor, source) if source.present?
+
+        msgs = Pf2e.add_granted_feat(enactor, found[0], found[1], charclass, client)
+        msgs.concat(Pf2e.resolve_granted_choice(enactor, found[0], found[1], label, client, filter))
+
+        msgs.each { |msg| client.emit_ooc msg } if client
+      end
     end
 
-    def self.normalize_feat_type(type_key)
-      return nil if type_key.blank?
+    def self.deferred_bg_feats(background)
+      entries = (Global.read_config('pf2e_background', background) || {})['feat']
 
-      key = type_key.to_s.strip.downcase.gsub(/\s+/, '_')
-      key = key.sub(/_feat\z/, '')
+      Array(entries).select do |entry|
+        parsed = Pf2e.granted_feat_entry(entry)
 
-      allowed = %w(ancestry charclass general skill)
-      return key if allowed.include?(key)
+        parsed && Pf2e.deferred_choice_source?(parsed[2])
+      end
+    end
 
-      nil
+    # The 'feat assignment' entries matching the skill they chose, if the background has any.
+    def self.assigned_bg_feats(char, background)
+      assignment = (Global.read_config('pf2e_background', background) || {})['feat assignment']
+      return [] unless assignment.is_a?(Hash)
+
+      selected = Pf2e.granted_choice_label(char, 'skill choice')
+      return [] if selected.blank?
+
+      pair = assignment.find { |choice, _| choice.to_s.casecmp?(selected.to_s) }
+      return [] unless pair
+
+      Array(pair[1])
     end
 
   end

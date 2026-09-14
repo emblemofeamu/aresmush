@@ -5,6 +5,7 @@ aliases:
 - cast
 - refocus
 - casting
+- spellcasting
 ---
 
 # Casting Spells in Pathfinder 2e

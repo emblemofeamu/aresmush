@@ -47,7 +47,7 @@ pf2e_specialty:
         skills: []
       choose:
         choice_name: Animal Instinct
-        choice_description: "Choose the animal this character strives to emulate."
+        choice_description: Choose the animal this character strives to emulate.
         choice_type: subclass_info
         options:
           Ape:
@@ -56,87 +56,87 @@ pf2e_specialty:
                 damage: d10
                 damage_type: B
                 traits:
-                  - grapple
-                  - unarmed
+                - grapple
+                - unarmed
           Bear:
             attack:
               Bear Jaws:
                 damage: d10
                 damage_type: P
                 traits:
-                  - unarmed
+                - unarmed
               Bear Claws:
                 damage: d6
                 damage_type: S
                 traits:
-                  - agile
-                  - unarmed
+                - agile
+                - unarmed
           Bull:
             attack:
               Bull Horn:
                 damage: d10
                 damage_type: P
                 traits:
-                  - shove
-                  - unarmed
+                - shove
+                - unarmed
           Cat:
             attack:
               Cat Jaws:
                 damage: d10
                 damage_type: P
                 traits:
-                  - unarmed
+                - unarmed
               Cat Claws:
                 damage: d6
                 damage_type: S
                 traits:
-                  - agile
-                  - unarmed
+                - agile
+                - unarmed
           Deer:
             attack:
               Deer Antler:
                 damage: d8
                 damage_type: P
                 traits:
-                  - charge
-                  - unarmed
+                - charge
+                - unarmed
           Frog:
             attack:
               Frog Jaws:
                 damage: d10
                 damage_type: B
                 traits:
-                  - unarmed
+                - unarmed
               Frog Tongue:
                 damage: d4
                 damage_type: B
                 traits:
-                  - agile
-                  - unarmed
+                - agile
+                - unarmed
           Shark:
             attack:
               Shark Jaws:
                 damage: d10
                 damage_type: P
                 traits:
-                  - grapple
-                  - unarmed
+                - grapple
+                - unarmed
           Snake:
             attack:
               Snake Fangs:
                 damage: d10
                 damage_type: P
                 traits:
-                  - grapple
-                  - unarmed
+                - grapple
+                - unarmed
           Wolf:
             attack:
               Wolf Jaws:
                 damage: d10
                 damage_type: P
                 traits:
-                  - trip
-                  - unarmed
+                - trip
+                - unarmed
       instinct_ability: Bestial Rage
       rage_ability:
         Ape:
@@ -145,50 +145,50 @@ pf2e_specialty:
               damage: d12
               damage_type: B
               traits:
-                - grapple
-                - unarmed
+              - grapple
+              - unarmed
         Bear:
           attack:
             Bear Jaws:
               damage: d12
               damage_type: P
               traits:
-                - unarmed
+              - unarmed
             Bear Claws:
               damage: d8
               damage_type: S
               traits:
-                - agile
-                - unarmed
+              - agile
+              - unarmed
         Bull:
           attack:
             Bull Horn:
               damage: d12
               damage_type: P
               traits:
-                - shove
-                - unarmed
+              - shove
+              - unarmed
         Cat:
           attack:
             Cat Jaws:
               damage: d12
               damage_type: P
               traits:
-                - unarmed
+              - unarmed
             Cat Claws:
               damage: d8
               damage_type: S
               traits:
-                - agile
-                - unarmed
+              - agile
+              - unarmed
         Deer:
           attack:
             Deer Antler:
               damage: d10
               damage_type: P
               traits:
-                - charge
-                - unarmed
+              - charge
+              - unarmed
               reach: 10
         Frog:
           attack:
@@ -196,13 +196,13 @@ pf2e_specialty:
               damage: d12
               damage_type: B
               traits:
-                - unarmed
+              - unarmed
             Frog Tongue:
               damage: d6
               damage_type: B
               traits:
-                - agile
-                - unarmed
+              - agile
+              - unarmed
               reach: 10
         Shark:
           attack:
@@ -210,26 +210,28 @@ pf2e_specialty:
               damage: d12
               damage_type: P
               traits:
-                - grapple
-                - unarmed
+              - grapple
+              - unarmed
         Snake:
           attack:
             Snake Fangs:
               damage: d12
               damage_type: P
               traits:
-                - grapple
-                - unarmed
+              - grapple
+              - unarmed
         Wolf:
           attack:
             Wolf Jaws:
               damage: d12
               damage_type: P
               traits:
-                - trip
-                - unarmed
+              - trip
+              - unarmed
       rage_resistance:
-        damage_type: ["S", "P"]
+        damage_type:
+        - S
+        - P
     Dragon:
       chargen:
         action: []
@@ -238,8 +240,8 @@ pf2e_specialty:
         feat: []
         magic_stats: {}
       choose:
-        choice_name: "Dragon Instinct"
-        choice_description: "The type of dragon this instinct is derived from."
+        choice_name: Dragon Instinct
+        choice_description: The type of dragon this instinct is derived from.
         choice_type: subclass_info
         options:
           Avarice:
@@ -259,18 +261,20 @@ pf2e_specialty:
           Umbral:
       instinct_ability: Draconic Rage
       rage_resistance:
-        damage_type: [ "P" ]
+        damage_type:
+        - P
     Fury:
       choose_feat:
-        - charclass
+      - charclass
       rage_ability: Fury Rage
       rage_resistance: Fury Resistance
     Giant:
       anathema:
-        - "Fail to face a personal challenge of strength."
+      - Fail to face a personal challenge of strength.
       instinct_ability: Titan Mauler
       rage_resistance:
-        damage_type: ["B"]
+        damage_type:
+        - B
       choose:
         choice_name: Rage Resistance Element
         choice_description: Choose the element to which your rage resistance applies.
@@ -299,129 +303,113 @@ pf2e_specialty:
         reaction: []
         skills: []
         feat:
-          - Bardic Lore
+        - Bardic Lore
         magic_stats:
           addrepertoire:
-            1: 
-              - True Strike
+            1:
+            - True Strike
     Maestro:
       chargen:
         action: []
         reaction: []
         skills: []
         feat:
-          - Lingering Composition
+        - Lingering Composition
         magic_stats:
           addrepertoire:
-            1: 
-              - Soothe
+            1:
+            - Soothe
     Polymath:
       chargen:
         action: []
         reaction: []
         skills: []
         feat:
-          - Versatile Performance
+        - Versatile Performance
         magic_stats:
           addrepertoire:
             1:
-              - Unseen Servant
+            - Unseen Servant
     Warrior:
       chargen:
         action: []
         reaction: []
         skills: []
         feat:
-          - Martial Performance
+        - Martial Performance
         magic_stats:
           addrepertoire:
-            1: 
+            1:
             - Fear
   Champion:
     Beacon:
       allowed_sanctifications:
-        - Holy
+      - Holy
       allowed_alignments:
-        - WL
+      - WL
       edicts:
-        - "Provide a shining example for others."
-        - "Enjoy and share the beauty around you."
-        - "Keep yourself tidy and well groomed."
+      - Provide a shining example for others.
+      - Enjoy and share the beauty around you.
+      - Keep yourself tidy and well groomed.
       anathema:
-        - "Despoil yourself by associating with fiends and unholy force."
+      - Despoil yourself by associating with fiends and unholy force.
       chargen:
         action: []
         reaction:
-          - Flash of Grandeur
+        - Flash of Grandeur
         feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
+        magic_stats: {}
         skills: []
     Justiciar:
       allowed_alignments:
-        - OT
-        - OL
+      - OT
+      - OL
       anathema:
-        - "Cheat or take advantage of others."
+      - Cheat or take advantage of others.
       edicts:
-        - "Follow the law."
-        - "Respect legitimate authorities or leadership."
+      - Follow the law.
+      - Respect legitimate authorities or leadership.
       chargen:
         action: []
         reaction:
-          - Retributive Strike
+        - Retributive Strike
         feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
+        magic_stats: {}
         skills: []
     Redeemer:
       allowed_sanctifications:
-        - Holy
+      - Holy
       allowed_alignments:
-        - OL
+      - OL
       edicts:
-        - "Try to redeem those who commit wicked deeds."
-        - "Show compassion to others regardless of their authority or station."
+      - Try to redeem those who commit wicked deeds.
+      - Show compassion to others regardless of their authority or station.
       anathema:
-        - "Kill a sapient enemy without first offering a chance at redemption."
+      - Kill a sapient enemy without first offering a chance at redemption.
       chargen:
         action: []
         reaction:
-          - Glimpse of Redemption
+        - Glimpse of Redemption
         feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
+        magic_stats: {}
         skills: []
     Liberator:
       allowed_alignments:
-        - WL
-        - WT
+      - WL
+      - WT
       edicts:
-        - "Oppose slavery and tyranny."
-        - "Fight for others' freedom to make their own decisions."
-        - "Respect choices others make for their own lives."
+      - Oppose slavery and tyranny.
+      - Fight for others' freedom to make their own decisions.
+      - Respect choices others make for their own lives.
       anathema:
-        - "Engage in slavery or tyranny."
-        - "Force or threaten someone to act a certain way."
+      - Engage in slavery or tyranny.
+      - Force or threaten someone to act a certain way.
       chargen:
         action: []
         reaction:
-          - Liberating Step
+        - Liberating Step
         feat: []
-        magic_stats:
-          focus_pool: 1
-          focus_spell:
-            devotion:
-              - Lay On Hands
+        magic_stats: {}
         skills: []
   Cleric:
     Cloistered:
@@ -429,14 +417,14 @@ pf2e_specialty:
         action: []
         reaction: []
         feat:
-          - Domain Initiate
+        - Domain Initiate
         charclass_feature:
-          - 'First Doctrine (Cloistered)'
+        - First Doctrine (Cloistered)
         skills: []
       advance:
         3:
           charclass_feature:
-            - 'Second Doctrine (Cloistered)'
+          - Second Doctrine (Cloistered)
           combat_stats:
             saves:
               fortitude: expert
@@ -445,10 +433,10 @@ pf2e_specialty:
             tradition:
               divine: expert
           charclass_feature:
-            - 'Third Doctrine (Cloistered)'
+          - Third Doctrine (Cloistered)
         11:
           charclass_feature:
-            - 'Fourth Doctrine (Cloistered)'
+          - Fourth Doctrine (Cloistered)
           combat_stats:
             weapon_prof:
               deity: expert
@@ -456,131 +444,133 @@ pf2e_specialty:
               unarmed: expert
         15:
           charclass_feature:
-            - 'Fifth Doctrine (Cloistered)'
+          - Fifth Doctrine (Cloistered)
           magic_stats:
             tradition:
               divine: master
         19:
           charclass_feature:
-            - 'Final Doctrine (Cloistered)'
+          - Final Doctrine (Cloistered)
           magic_stats:
             tradition:
               divine: legendary
     Warpriest:
-        chargen:
-          action: []
-          combat_stats:
-            armor_prof:
-              light: trained
-              medium: trained
+      chargen:
+        action: []
+        combat_stats:
+          armor_prof:
+            light: trained
+            medium: trained
+          saves:
             fortitude: expert
-          feat:
-            - Shield Block
-          reaction:
-            - Shield Block
+        feat:
+        - Shield Block
+        reaction:
+        - Shield Block
+        charclass_feature:
+        - First Doctrine (Warpriest)
+        skills: []
+      advance:
+        3:
           charclass_feature:
-            - 'First Doctrine (Warpriest)'
-          skills: []
-        advance:
-          3:
-            charclass_feature:
-              - 'Second Doctrine (Warpriest)'
-            combat_stats:
-              weapon_prof:
-                martial: trained
-          7:
-            combat_stats:
-              weapon_prof:
-                deity: expert
-                martial: expert
-                simple: expert
-                unarmed: expert
-            charclass_feature:
-              - 'Third Doctrine (Warpriest)'
-          11:
-            charclass_feature:
-              - 'Fourth Doctrine (Warpriest)'
-            magic_stats:
-              tradition:
-                divine: expert
-          15:
-            charclass_feature:
-              - 'Fifth Doctrine (Warpriest)'
-            combat_stats:
-              saves:
-                fortitude: master
-          19:
-            charclass_feature:
-              - 'Final Doctrine (Warpriest)'
-            magic_stats:
-              tradition:
-                divine: master
-            combat_stats:
-              weapon_prof:
-                deity: master
+          - Second Doctrine (Warpriest)
+          combat_stats:
+            weapon_prof:
+              martial: trained
+        7:
+          combat_stats:
+            weapon_prof:
+              deity: expert
+              martial: expert
+              simple: expert
+              unarmed: expert
+          charclass_feature:
+          - Third Doctrine (Warpriest)
+        11:
+          charclass_feature:
+          - Fourth Doctrine (Warpriest)
+          magic_stats:
+            tradition:
+              divine: expert
+        15:
+          charclass_feature:
+          - Fifth Doctrine (Warpriest)
+          combat_stats:
+            saves:
+              fortitude: master
+        19:
+          charclass_feature:
+          - Final Doctrine (Warpriest)
+          magic_stats:
+            tradition:
+              divine: master
+          combat_stats:
+            weapon_prof:
+              deity: master
   Druid:
     Animal:
       chargen:
         action: []
         reaction: []
         skills:
-          - Athletics
+        - Athletics
         feat:
-          - Animal Companion
+        - Animal Companion
         anathema:
-          - "Commit wanton cruelty to animals or kill animals unnecessarily."
+        - Commit wanton cruelty to animals or kill animals unnecessarily.
         magic_stats:
           focus_pool: 1
           focus_spell:
             order:
-              - Heal Animal
+            - Heal Animal
         companion: any
     Leaf:
       chargen:
         action: []
         reaction: []
         skills:
-          - Diplomacy
+        - Diplomacy
         feat:
-          - Leshy Familiar
+        - Leshy Familiar
         magic_stats:
           focus_spell:
             order:
-              - Cornucopia
+            - Cornucopia
           focus_pool: 1
         anathema:
-          - "Commit wanton cruelty to plants or fungi or kill them unnecessarily."
+        - Commit wanton cruelty to plants or fungi or kill them unnecessarily.
         familiar: Leshy
     Storm:
       chargen:
         action: []
         reaction: []
         skills:
-          - Acrobatics
+        - Acrobatics
         feat:
-          - Storm Born
+        - Storm Born
         magic_stats:
           focus_pool: 1
           focus_spell:
             order:
-              - Tempest Surge
+            - Tempest Surge
         anathema:
-          - "Pollute the air, allow those who cause major air pollution or climate shifts to go unpunished."
+        - Pollute the air, allow those who cause major air pollution or climate shifts
+          to go unpunished.
     Untamed:
       chargen:
         action: []
         reaction: []
         skills:
-          - Intimidation
+        - Intimidation
         feat:
-          - Untamed Form
+        - Untamed Form
         magic_stats:
           focus_pool: 1
           focus_spell:
             order:
-              - Untamed Shift
+            - Untamed Shift
         anathema:
-          - "Become fully domesticated by the temptations of civilization."
+        - Become fully domesticated by the temptations of civilization.
   Fighter: {}
   Investigator:
     Alchemical Sciences:
@@ -588,171 +578,175 @@ pf2e_specialty:
         reaction: []
         magic_stats: {}
         skills:
-          - Crafting
+        - Crafting
         feat:
-          - Alchemical Crafting
+        - Alchemical Crafting
         formula_book: 2
         action:
-          - Quick Tincture
+        - Quick Tincture
     Empiricism:
       chargen:
         feat:
-          - That's Odd
+        - That's Odd
         action:
-          - Expeditious Inspection
+        - Expeditious Inspection
         reaction: []
         magic_stats: {}
     Forensic Medicine:
       chargen:
         skills:
-          - Medicine
+        - Medicine
         feat:
-          - Forensic Acumen
-          - Battle Medicine
+        - Forensic Acumen
+        - Battle Medicine
         action: []
         reaction: []
         magic_stats: {}
     Interrogation:
       chargen:
         skills:
-          - Diplomacy
+        - Diplomacy
         feat:
-          - No Cause For Alarm
+        - No Cause for Alarm
         action:
-          - Pointed Question
+        - Pointed Question
         reaction: []
         magic_stats: {}
   Monk: {}
   Oracle:
     Ancestors:
       chargen:
-        gated_feat: ancestry
+        feat_choice:
+          Ancestors Mystery:
+            summary: ancestry feat
+            from_feats:
+              feat_type: Ancestry
         skills:
-          - Society
+        - Society
         magic_stats:
           addrepertoire:
             cantrip:
-              - Guidance
+            - Guidance
           focus_spell:
             revelation:
-              - Ancestral Touch
+            - Ancestral Touch
         curse: Ancestral Meddling
         action: []
         reaction: []
         feat:
-          - Whispers of Weakness
+        - Whispers of Weakness
     Battle:
       chargen:
         skills:
-          - Athletics
+        - Athletics
         magic_stats:
           addrepertoire:
             cantrip:
-              - Shield
+            - Shield
           focus_spell:
             revelation:
-              - Weapon Trance
+            - Weapon Trance
         curse: Mortal Warrior
         action: []
         reaction: []
         feat:
-          - Oracular Warning
+        - Oracular Warning
     Bones:
       chargen:
         skills:
-          - Medicine
+        - Medicine
         magic_stats:
           addrepertoire:
             cantrip:
-              - Void Warp
+            - Void Warp
           focus_spell:
             revelation:
-              - Soul Siphon
+            - Soul Siphon
         curse: Living Death
         action: []
         reaction: []
         feat:
-          - Nudge the Scales
+        - Nudge the Scales
     Cosmos:
       chargen:
         skills:
-          - Nature
+        - Nature
         magic_stats:
           addrepertoire:
             cantrip:
-              - Light
+            - Light
           focus_spell:
             revelation:
-              - Spray of Stars
+            - Spray of Stars
         curse: Sky's Call
         action: []
         reaction: []
         feat:
-          - Oracular Warning
+        - Oracular Warning
     Flames:
       chargen:
         skills:
-          - Acrobatics
+        - Acrobatics
         magic_stats:
           addrepertoire:
             cantrip:
-              - Ignition
+            - Ignition
           focus_spell:
             revelation:
-              - Incendiary Aura
+            - Incendiary Aura
         curse: Engulfing Flames
         action: []
         reaction: []
         feat:
-          - Foretell Harm
+        - Foretell Harm
     Life:
       chargen:
         skills:
-          - Medicine
+        - Medicine
         magic_stats:
           addrepertoire:
             cantrip:
-              - Stabilize
+            - Stabilize
           focus_spell:
             revelation:
-              - Life Link
+            - Life Link
         curse: Outpouring Life
         action: []
         reaction: []
         feat:
-          - Nudge the Scales
+        - Nudge the Scales
     Lore:
       chargen:
         skills:
-          - Occultism
+        - Occultism
         magic_stats:
           addrepertoire:
             cantrip:
-              - Read Aura
+            - Read Aura
           focus_spell:
             revelation:
-              - Brain Drain
+            - Brain Drain
         curse: Torrential Knowledge
         action: []
         reaction: []
         feat:
-          - Whispers of Weakness
+        - Whispers of Weakness
     Tempest:
       chargen:
         skills:
-          - Nature
+        - Nature
         magic_stats:
           addrepertoire:
             cantrip:
-              - Electric Arc
+            - Electric Arc
           focus_spell:
             revelation:
-              - Tempest Touch
+            - Tempest Touch
           curse: Perpetual Storm
         action: []
         reaction: []
         feat:
-          - Foretell Harm
+        - Foretell Harm
   Ranger:
     Flurry: {}
     Outwit: {}
@@ -761,26 +755,23 @@ pf2e_specialty:
     Mastermind:
       chargen:
         skills:
-          - Society
+        - Society
+        skill choice:
+        - Arcana
+        - Nature
+        - Occultism
+        - Religion
         action: []
         reaction: []
         feat: []
         magic_stats: {}
-      choose:
-        choice_name: Second Trained Skill
-        choice_description: Your racket grants Society and one other skill as class skills. Choose the second.
-        options:
-          Arcana:
-          Nature:
-          Occultism:
-          Religion:
       key_abil:
-        - Dexterity
-        - Intelligence
+      - Dexterity
+      - Intelligence
     Ruffian:
       chargen:
         skills:
-          - Intimidation
+        - Intimidation
         combat_stats:
           armor_prof:
             medium: trained
@@ -789,30 +780,30 @@ pf2e_specialty:
         feat: []
         magic_stats: {}
       key_abil:
-        - Dexterity
-        - Strength
+      - Dexterity
+      - Strength
     Scoundrel:
       chargen:
         skills:
-          - Deception
-          - Diplomacy
+        - Deception
+        - Diplomacy
         action: []
         reaction: []
         feat: []
         magic_stats: {}
       key_abil:
-        - Dexterity
-        - Charisma
+      - Dexterity
+      - Charisma
     Thief:
       chargen:
         skills:
-          - Thievery
+        - Thievery
         action: []
         reaction: []
         feat: []
         magic_stats: {}
       key_abil:
-        - Dexterity
+      - Dexterity
   Sorcerer:
     Aberrant:
       chargen:
@@ -820,16 +811,16 @@ pf2e_specialty:
           tradition:
             occult: trained
           addrepertoire:
-            cantrip: 
-              - Daze
-            1: 
-              - Phantom Pain
+            cantrip:
+            - Daze
+            1:
+            - Phantom Pain
           focus_spell:
             bloodline:
-              - Tentacular Limbs
+            - Tentacular Limbs
         skills:
-          - Intimidation
-          - Occultism
+        - Intimidation
+        - Occultism
         action: []
         reaction: []
         feat: []
@@ -838,46 +829,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Stupefy
+              - Stupefy
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Vampiric Feast
+              - Vampiric Feast
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Confusion
+              - Confusion
             tradition:
               occult: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Slither
+              - Slither
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Never Mind
+              - Never Mind
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Warp Mind
+              - Warp Mind
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Uncontrollable Dance
+              - Uncontrollable Dance
             tradition:
               occult: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Unfathomable Song
+              - Unfathomable Song
         19:
           magic_stats:
             tradition:
@@ -889,15 +880,15 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Light
+            - Light
             1:
-              - Heal
+            - Heal
           focus_spell:
             bloodline:
-              - Angelic Halo
+            - Angelic Halo
         skills:
-          - Diplomacy
-          - Religion
+        - Diplomacy
+        - Religion
         action: []
         reaction: []
         feat: []
@@ -906,46 +897,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Spiritual Armament
+              - Spiritual Armament
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Holy Light
+              - Holy Light
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Divine Wrath
+              - Divine Wrath
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Divine Immolation
+              - Divine Immolation
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Blessed Boundary
+              - Blessed Boundary
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Divine Decree
+              - Divine Decree
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Moment of Renewal
+              - Moment of Renewal
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Foresight
+              - Foresight
         19:
           magic_stats:
             tradition:
@@ -957,15 +948,15 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Caustic Blast
+            - Caustic Blast
             1:
-              - Fear
+            - Fear
           focus_spell:
             bloodline:
-              - Glutton's Jaws
+            - Glutton's Jaws
         skills:
-          - Intimidation
-          - Religion
+        - Intimidation
+        - Religion
         action: []
         reaction: []
         feat: []
@@ -974,46 +965,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Enlarge
+              - Enlarge
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Slow
+              - Slow
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Divine Wrath
+              - Divine Wrath
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Blister
+              - Blister
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Disintegrate
+              - Disintegrate
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Divine Decree
+              - Divine Decree
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Canticle of Everlasting Grief
+              - Canticle of Everlasting Grief
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Implosion
+              - Implosion
         19:
           magic_stats:
             tradition:
@@ -1025,15 +1016,15 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Ignition
+            - Ignition
             1:
-              - Charm
+            - Charm
           focus_spell:
             bloodline:
-              - Diabolic Edict
+            - Diabolic Edict
         skills:
-          - Deception
-          - Religion
+        - Deception
+        - Religion
         action: []
         reaction: []
         feat: []
@@ -1042,46 +1033,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Floating Flame
+              - Floating Flame
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Enthrall
+              - Enthrall
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Suggestion
+              - Suggestion
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Wave of Despair
+              - Wave of Despair
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Truesight
+              - Truesight
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Divine Decree
+              - Divine Decree
         15:
           magic_stats:
             addrepertoire:
-              8: 
-                - Divine Inspiration
+              8:
+              - Divine Inspiration
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Falling Stars
+              - Falling Stars
         19:
           magic_stats:
             tradition:
@@ -1111,12 +1102,12 @@ pf2e_specialty:
           tradition: {}
           addrepertoire:
             cantrip:
-              - Shield
+            - Shield
             1:
-              - Fear
+            - Fear
           focus_spell:
             bloodline:
-              - Flurry of Claws
+            - Flurry of Claws
         skills: []
         action: []
         reaction: []
@@ -1126,27 +1117,27 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               3:
-                - Haste
+              - Haste
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Fly
+              - Fly
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Dragon Form
+              - Dragon Form
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Mask of Terror
+              - Mask of Terror
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Overwhelming Presence
+              - Overwhelming Presence
     Elemental:
       choose:
         choice_name: Elemental Influence
@@ -1164,15 +1155,15 @@ pf2e_specialty:
             primal: trained
           addrepertoire:
             cantrip:
-              - Produce Flame
+            - Produce Flame
             1:
-              - Burning Hands
+            - Burning Hands
           focus_spell:
             bloodline:
-              - Elemental Toss
+            - Elemental Toss
         skills:
-          - Nature
-          - Intimidation
+        - Nature
+        - Intimidation
         action: []
         reaction: []
         feat: []
@@ -1181,36 +1172,36 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Resist Energy
+              - Resist Energy
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Unfettered Movement
+              - Unfettered Movement
             tradition:
               primal: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Elemental Form
+              - Elemental Form
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Energy Aegis
+              - Energy Aegis
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Earthquake
+              - Earthquake
             tradition:
               primal: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Wrathful Storm
+              - Wrathful Storm
         19:
           magic_stats:
             tradition:
@@ -1222,15 +1213,15 @@ pf2e_specialty:
             primal: trained
           addrepertoire:
             cantrip:
-              - Figment
+            - Figment
             1:
-              - Charm
+            - Charm
           focus_spell:
             bloodline:
-              - Faerie Dust
+            - Faerie Dust
         skills:
-          - Nature
-          - Deception
+        - Nature
+        - Deception
         action: []
         reaction: []
         feat: []
@@ -1239,46 +1230,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Laughing Fit
+              - Laughing Fit
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Enthrall
+              - Enthrall
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Suggestion
+              - Suggestion
             tradition:
               primal: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Hallucination
+              - Hallucination
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Mislead
+              - Mislead
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Visions of Danger
+              - Visions of Danger
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Uncontrollable Dance
+              - Uncontrollable Dance
             tradition:
               primal: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Metamorphosis
+              - Metamorphosis
         19:
           magic_stats:
             tradition:
@@ -1290,15 +1281,15 @@ pf2e_specialty:
             occult: trained
           addrepertoire:
             cantrip:
-              - Daze
+            - Daze
             1:
-              - Illusory Disguise
+            - Illusory Disguise
           focus_spell:
             bloodline:
-              - Jealous Hex
+            - Jealous Hex
         skills:
-          - Occultism
-          - Deception
+        - Occultism
+        - Deception
         action: []
         reaction: []
         feat: []
@@ -1307,46 +1298,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Stupefy
+              - Stupefy
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Blindness
+              - Blindness
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Outcast's Curse
+              - Outcast's Curse
             tradition:
               occult: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Mariner's Curse
+              - Mariner's Curse
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Cursed Metamorphosis
+              - Cursed Metamorphosis
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Warp Mind
+              - Warp Mind
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Quandary
+              - Quandary
             tradition:
               occult: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Phantasmagoria
+              - Phantasmagoria
         19:
           magic_stats:
             tradition:
@@ -1358,15 +1349,15 @@ pf2e_specialty:
             arcane: trained
           addrepertoire:
             cantrip:
-              - Detect Magic
+            - Detect Magic
             1:
-              - Force Barrage
+            - Force Barrage
           focus_spell:
             bloodline:
-              - Ancestral Memories
+            - Ancestral Memories
         skills:
-          - Arcana
-          - Society
+        - Arcana
+        - Society
         action: []
         reaction: []
         feat: []
@@ -1375,46 +1366,46 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - Dispel Magic
+              - Dispel Magic
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Haste
+              - Haste
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Translocate
+              - Translocate
             tradition:
               arcane: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Scouting Eye
+              - Scouting Eye
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Disintegrate
+              - Disintegrate
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Retrocognition
+              - Retrocognition
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Quandary
+              - Quandary
             tradition:
               arcane: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Implosion
+              - Implosion
         19:
           magic_stats:
             tradition:
@@ -1426,15 +1417,15 @@ pf2e_specialty:
             divine: trained
           addrepertoire:
             cantrip:
-              - Void Warp
+            - Void Warp
             1:
-              - Harm
+            - Harm
           focus_spell:
             bloodline:
-              - Undeath's Blessing
+            - Undeath's Blessing
         skills:
-          - Intimidation
-          - Religion
+        - Intimidation
+        - Religion
         action: []
         reaction: []
         feat: []
@@ -1443,181 +1434,1028 @@ pf2e_specialty:
           magic_stats:
             addrepertoire:
               2:
-                - See the Unseen
+              - See the Unseen
         5:
           magic_stats:
             addrepertoire:
               3:
-                - Bind Undead
+              - Bind Undead
         7:
           magic_stats:
             addrepertoire:
               4:
-                - Talking Corpse
+              - Talking Corpse
             tradition:
               divine: expert
         9:
           magic_stats:
             addrepertoire:
               5:
-                - Invoke Spirits
+              - Invoke Spirits
         11:
           magic_stats:
             addrepertoire:
               6:
-                - Vampiric Exsanguination
+              - Vampiric Exsanguination
         13:
           magic_stats:
             addrepertoire:
               7:
-                - Execute
+              - Execute
         15:
           magic_stats:
             addrepertoire:
               8:
-                - Canticle of Everlasting Grief
+              - Canticle of Everlasting Grief
             tradition:
               divine: master
         17:
           magic_stats:
             addrepertoire:
               9:
-                - Wails of the Damned
+              - Wails of the Damned
         19:
           magic_stats:
             tradition:
               divine: legendary
   Wizard:
-    Improved Familiar Attunement:
-      choose:
-        choice_name: School
-        choice_description: Choose your school.
-        options:
-          Department of Mana Syntaxia:
-          Department of Accordant Conjury:
-          Department of Urban Thaumaturgy:
-          Department of Defensive Cerebralism:
-          Department of Mutable Modification:
-          Department of Null's Purview:
-          School of Unified Magical Theory:
-      chargen:
-        feat:
-          - Familiar
-        familiar: any
-        replace_action: 'Drain Bonded Item | Drain Familiar'
-        familiar_ability: true
-        action: []
-        reaction: []
-        skills: []
+    Department of Mana Syntaxia:
+      curriculum:
+        cantrip:
+        - Message
+        - Sigil
+        '1':
+        - Command
+        - Disguise Magic
+        - Runic Body
+        - Runic Weapon
+        '2':
+        - Dispel Magic
+        - Translate
+        '3':
+        - Enthrall
+        - Veil of Privacy
+        '4':
+        - Dispelling Globe
+        - Suggestion
+        '5':
+        - Sending
+        - Truespeech
+        '6':
+        - Repulsion
+        - Spellwrack
+        '7':
+        - Contingency
+        - Planar Seal
+        '8':
+        - Quandary
+        - Unrelenting Observation
+        '9':
+        - Detonate Magic
       advance:
-        6:
-          familiar_ability: true
-        12:
-          familiar_ability: true
-        18:
-          familiar_ability: true
-    Experimental Spellshaping:
-      choose:
-        choice_name: School
-        choice_description: Choose your school.
-        options:
-          Department of Mana Syntaxia:
-          Department of Accordant Conjury:
-          Department of Urban Thaumaturgy:
-          Department of Defensive Cerebralism:
-          Department of Mutable Modification:
-          Department of Null's Purview:
-          School of Unified Magical Theory:
+        3:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                2: 1
+            restricted_spellbook:
+              curriculum:
+                2: 1
+            spellbook:
+              2: 1
+        5:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                3: 1
+            restricted_spellbook:
+              curriculum:
+                3: 1
+            spellbook:
+              3: 1
+        7:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                4: 1
+            restricted_spellbook:
+              curriculum:
+                4: 1
+            spellbook:
+              4: 1
+        9:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                5: 1
+            restricted_spellbook:
+              curriculum:
+                5: 1
+            spellbook:
+              5: 1
+        11:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                6: 1
+            restricted_spellbook:
+              curriculum:
+                6: 1
+            spellbook:
+              6: 1
+        13:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                7: 1
+            restricted_spellbook:
+              curriculum:
+                7: 1
+            spellbook:
+              7: 1
+        15:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                8: 1
+            restricted_spellbook:
+              curriculum:
+                8: 1
+            spellbook:
+              8: 1
+        17:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                9: 1
+            restricted_spellbook:
+              curriculum:
+                9: 1
+            spellbook:
+              9: 1
       chargen:
-        gated_feat: spellshape
-    # The code for this option is under spell preparation.
-    Spell Blending: 
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Protective Wards
+          restricted_slots:
+            curriculum:
+              cantrip: 1
+              1: 1
+          restricted_spellbook:
+            curriculum:
+              cantrip: 1
+              1: 2
+          spellbook:
+            cantrip: 11
+            1: 7
+      advanced_focus_spell:
+        school:
+        - Rune of Observation
       choose:
-        choice_name: School
-        choice_description: Choose your school.
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
         options:
-          Department of Mana Syntaxia:
-          Department of Accordant Conjury:
-          Department of Urban Thaumaturgy:
-          Department of Defensive Cerebralism:
-          Department of Mutable Modification:
-          Department of Null's Purview:
-          School of Unified Magical Theory:
-    Spell Substitution: 
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
+    Department of Accordant Conjury:
+      curriculum:
+        cantrip:
+        - Shield
+        - Telekinetic Projectile
+        '1':
+        - Breathe Fire
+        - Force Barrage
+        - Mystic Armor
+        '2':
+        - Mist
+        - Resist Energy
+        '3':
+        - Earthbind
+        - Fireball
+        '4':
+        - Wall of Fire
+        - Weapon Storm
+        '5':
+        - Howling Blizzard
+        - Impaling Spike
+        '6':
+        - Chain Lightning
+        - Disintegrate
+        '7':
+        - Energy Aegis
+        - True Target
+        '8':
+        - Arctic Rift
+        - Desiccate
+        '9':
+        - Falling Stars
+      advance:
+        3:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                2: 1
+            restricted_spellbook:
+              curriculum:
+                2: 1
+            spellbook:
+              2: 1
+        5:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                3: 1
+            restricted_spellbook:
+              curriculum:
+                3: 1
+            spellbook:
+              3: 1
+        7:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                4: 1
+            restricted_spellbook:
+              curriculum:
+                4: 1
+            spellbook:
+              4: 1
+        9:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                5: 1
+            restricted_spellbook:
+              curriculum:
+                5: 1
+            spellbook:
+              5: 1
+        11:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                6: 1
+            restricted_spellbook:
+              curriculum:
+                6: 1
+            spellbook:
+              6: 1
+        13:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                7: 1
+            restricted_spellbook:
+              curriculum:
+                7: 1
+            spellbook:
+              7: 1
+        15:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                8: 1
+            restricted_spellbook:
+              curriculum:
+                8: 1
+            spellbook:
+              8: 1
+        17:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                9: 1
+            restricted_spellbook:
+              curriculum:
+                9: 1
+            spellbook:
+              9: 1
+      chargen:
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Force Bolt
+          restricted_slots:
+            curriculum:
+              cantrip: 1
+              1: 1
+          restricted_spellbook:
+            curriculum:
+              cantrip: 1
+              1: 2
+          spellbook:
+            cantrip: 11
+            1: 7
+      advanced_focus_spell:
+        school:
+        - Energy Absorption
       choose:
-        choice_name: School
-        choice_description: Choose your school.
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
         options:
-          Department of Mana Syntaxia:
-          Department of Accordant Conjury:
-          Department of Urban Thaumaturgy:
-          Department of Defensive Cerebralism:
-          Department of Mutable Modification:
-          Department of Null's Purview:
-          School of Unified Magical Theory:
-    Staff Nexus: 
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
+    Department of Urban Thaumaturgy:
+      curriculum:
+        cantrip:
+        - Prestidigitation
+        - Read Aura
+        '1':
+        - Hydraulic Push
+        - Pummeling Rubble
+        - Summon Construct
+        '2':
+        - Revealing Light
+        - Water Walk
+        '3':
+        - Cozy Cabin
+        - Safe Passage
+        '4':
+        - Creation
+        - Unfettered Movement
+        '5':
+        - Control Water
+        - Wall of Stone
+        '6':
+        - Disintegrate
+        - Wall of Force
+        '7':
+        - Planar Palace
+        - Retrocognition
+        '8':
+        - Earthquake
+        - Pinpoint
+        '9':
+        - Foresight
+      advance:
+        3:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                2: 1
+            restricted_spellbook:
+              curriculum:
+                2: 1
+            spellbook:
+              2: 1
+        5:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                3: 1
+            restricted_spellbook:
+              curriculum:
+                3: 1
+            spellbook:
+              3: 1
+        7:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                4: 1
+            restricted_spellbook:
+              curriculum:
+                4: 1
+            spellbook:
+              4: 1
+        9:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                5: 1
+            restricted_spellbook:
+              curriculum:
+                5: 1
+            spellbook:
+              5: 1
+        11:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                6: 1
+            restricted_spellbook:
+              curriculum:
+                6: 1
+            spellbook:
+              6: 1
+        13:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                7: 1
+            restricted_spellbook:
+              curriculum:
+                7: 1
+            spellbook:
+              7: 1
+        15:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                8: 1
+            restricted_spellbook:
+              curriculum:
+                8: 1
+            spellbook:
+              8: 1
+        17:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                9: 1
+            restricted_spellbook:
+              curriculum:
+                9: 1
+            spellbook:
+              9: 1
+      chargen:
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Earthworks
+          restricted_slots:
+            curriculum:
+              cantrip: 1
+              1: 1
+          restricted_spellbook:
+            curriculum:
+              cantrip: 1
+              1: 2
+          spellbook:
+            cantrip: 11
+            1: 7
+      advanced_focus_spell:
+        school:
+        - Community Restoration
       choose:
-        choice_name: School
-        choice_description: Choose your school.
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
         options:
-          Department of Mana Syntaxia:
-          Department of Accordant Conjury:
-          Department of Urban Thaumaturgy:
-          Department of Defensive Cerebralism:
-          Department of Mutable Modification:
-          Department of Null's Purview:
-          School of Unified Magical Theory:
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
+    Department of Defensive Cerebralism:
+      curriculum:
+        cantrip:
+        - Daze
+        - Figment
+        '1':
+        - Dizzying Colors
+        - Sleep
+        - Sure Strike
+        '2':
+        - Illusory Creature
+        - Stupefy
+        '3':
+        - Dream Message
+        - Mind Reading
+        '4':
+        - Nightmare
+        - Vision of Death
+        '5':
+        - Hallucination
+        - Illusory Scene
+        '6':
+        - Never Mind
+        - Phantasmal Calamity
+        '7':
+        - Project Image
+        - Warp Mind
+        '8':
+        - Disappearance
+        - Uncontrollable Dance
+        '9':
+        - Phantasmagoria
+      advance:
+        3:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                2: 1
+            restricted_spellbook:
+              curriculum:
+                2: 1
+            spellbook:
+              2: 1
+        5:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                3: 1
+            restricted_spellbook:
+              curriculum:
+                3: 1
+            spellbook:
+              3: 1
+        7:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                4: 1
+            restricted_spellbook:
+              curriculum:
+                4: 1
+            spellbook:
+              4: 1
+        9:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                5: 1
+            restricted_spellbook:
+              curriculum:
+                5: 1
+            spellbook:
+              5: 1
+        11:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                6: 1
+            restricted_spellbook:
+              curriculum:
+                6: 1
+            spellbook:
+              6: 1
+        13:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                7: 1
+            restricted_spellbook:
+              curriculum:
+                7: 1
+            spellbook:
+              7: 1
+        15:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                8: 1
+            restricted_spellbook:
+              curriculum:
+                8: 1
+            spellbook:
+              8: 1
+        17:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                9: 1
+            restricted_spellbook:
+              curriculum:
+                9: 1
+            spellbook:
+              9: 1
+      chargen:
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Charming Push
+          restricted_slots:
+            curriculum:
+              cantrip: 1
+              1: 1
+          restricted_spellbook:
+            curriculum:
+              cantrip: 1
+              1: 2
+          spellbook:
+            cantrip: 11
+            1: 7
+      advanced_focus_spell:
+        school:
+        - Invisibility Cloak
+      choose:
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
+        options:
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
+    Department of Mutable Modification:
+      curriculum:
+        cantrip:
+        - Gouging Claw
+        - Tangle Vine
+        '1':
+        - Jump
+        - Pest Form
+        - Spider Sting
+        '2':
+        - Enlarge
+        - Humanoid Form
+        '3':
+        - Feet to Fins
+        - Vampiric Feast
+        '4':
+        - Mountain Resilience
+        - Vapor Form
+        '5':
+        - Elemental Form
+        - Toxic Cloud
+        '6':
+        - Cursed Metamorphosis
+        - Petrify
+        '7':
+        - Duplicate Foe
+        - Fiery Body
+        '8':
+        - Desiccate
+        - Monstrosity Form
+        '9':
+        - Metamorphosis
+      advance:
+        3:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                2: 1
+            restricted_spellbook:
+              curriculum:
+                2: 1
+            spellbook:
+              2: 1
+        5:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                3: 1
+            restricted_spellbook:
+              curriculum:
+                3: 1
+            spellbook:
+              3: 1
+        7:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                4: 1
+            restricted_spellbook:
+              curriculum:
+                4: 1
+            spellbook:
+              4: 1
+        9:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                5: 1
+            restricted_spellbook:
+              curriculum:
+                5: 1
+            spellbook:
+              5: 1
+        11:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                6: 1
+            restricted_spellbook:
+              curriculum:
+                6: 1
+            spellbook:
+              6: 1
+        13:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                7: 1
+            restricted_spellbook:
+              curriculum:
+                7: 1
+            spellbook:
+              7: 1
+        15:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                8: 1
+            restricted_spellbook:
+              curriculum:
+                8: 1
+            spellbook:
+              8: 1
+        17:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                9: 1
+            restricted_spellbook:
+              curriculum:
+                9: 1
+            spellbook:
+              9: 1
+      chargen:
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Scramble Body
+          restricted_slots:
+            curriculum:
+              cantrip: 1
+              1: 1
+          restricted_spellbook:
+            curriculum:
+              cantrip: 1
+              1: 2
+          spellbook:
+            cantrip: 11
+            1: 7
+      advanced_focus_spell:
+        school:
+        - Shifting Form
+      choose:
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
+        options:
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
+    Department of Null's Purview:
+      curriculum:
+        cantrip:
+        - Telekinetic Hand
+        - Void Warp
+        '1':
+        - Grim Tendrils
+        - Phantasmal Minion
+        - Summon Undead
+        '2':
+        - Darkness
+        - See the Unseen
+        '3':
+        - Bind Undead
+        - Ghostly Weapon
+        '4':
+        - Flicker
+        - Translocate
+        '5':
+        - Banishment
+        - Invoke Spirits
+        '6':
+        - Teleport
+        - Vampiric Exsanguination
+        '7':
+        - Eclipse Burst
+        - Interplanar Teleport
+        '8':
+        - Quandary
+        - Unrelenting Observation
+        '9':
+        - Massacre
+      advance:
+        3:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                2: 1
+            restricted_spellbook:
+              curriculum:
+                2: 1
+            spellbook:
+              2: 1
+        5:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                3: 1
+            restricted_spellbook:
+              curriculum:
+                3: 1
+            spellbook:
+              3: 1
+        7:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                4: 1
+            restricted_spellbook:
+              curriculum:
+                4: 1
+            spellbook:
+              4: 1
+        9:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                5: 1
+            restricted_spellbook:
+              curriculum:
+                5: 1
+            spellbook:
+              5: 1
+        11:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                6: 1
+            restricted_spellbook:
+              curriculum:
+                6: 1
+            spellbook:
+              6: 1
+        13:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                7: 1
+            restricted_spellbook:
+              curriculum:
+                7: 1
+            spellbook:
+              7: 1
+        15:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                8: 1
+            restricted_spellbook:
+              curriculum:
+                8: 1
+            spellbook:
+              8: 1
+        17:
+          magic_stats:
+            restricted_slots:
+              curriculum:
+                9: 1
+            restricted_spellbook:
+              curriculum:
+                9: 1
+            spellbook:
+              9: 1
+      chargen:
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Fortify Summoning
+          restricted_slots:
+            curriculum:
+              cantrip: 1
+              1: 1
+          restricted_spellbook:
+            curriculum:
+              cantrip: 1
+              1: 2
+          spellbook:
+            cantrip: 11
+            1: 7
+      advanced_focus_spell:
+        school:
+        - Spiral of Horrors
+      choose:
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
+        options:
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
+    School of Unified Magical Theory:
+      feat_choice:
+        Unified Magical Theory:
+          summary: wizard class feat
+          from_feats:
+            feat_type: Charclass
+            assoc_charclass:
+            - Wizard
+      chargen:
+        grant_choice:
+        - Unified Magical Theory
+        magic_stats:
+          focus_pool: 1
+          focus_spell:
+            school:
+            - Hand of the Apprentice
+          spellbook:
+            cantrip: 10
+            1: 6
+      advanced_focus_spell:
+        school:
+        - Interdisciplinary Incantation
+      choose:
+        choice_name: Arcane Thesis
+        choice_description: Choose your arcane thesis.
+        options:
+          Improved Familiar Attunement:
+            chargen:
+              feat:
+              - Familiar
+          Experimental Spellshaping:
+            chargen:
+              grant_choice:
+              - Experimental Spellshaping
+          Spell Blending:
+          Spell Substitution:
+          Staff Nexus:
   Swashbuckler:
     Battledancer:
       chargen:
         skills:
-          - Performance
+        - Performance
         action: []
         reaction: []
         feat:
-          - Fascinating Performance
+        - Fascinating Performance
     Braggart:
       chargen:
         skills:
-          - Intimidation
+        - Intimidation
         action: []
         reaction: []
         feat: []
     Fencer:
       chargen:
         skills:
-          - Deception
+        - Deception
         action: []
         reaction: []
         feat: []
     Gymnast:
       chargen:
         skills:
-          - Athletics
+        - Athletics
         action: []
         reaction: []
         feat: []
     Rascal:
       chargen:
         skills:
-          - Thievery
+        - Thievery
         action: []
         reaction: []
         feat:
-          - Dirty Trick
+        - Dirty Trick
     Wit:
       chargen:
         skills:
-          - Diplomacy
+        - Diplomacy
         action: []
         reaction: []
         feat:
-          - Bon Mot
+        - Bon Mot
   Witch:
     Curse:
       chargen:
         skills:
-          - Occultism
+        - Occultism
         action: []
         reaction: []
         feat: []
@@ -1626,10 +2464,10 @@ pf2e_specialty:
             occult: trained
           focus_cantrip:
             hex:
-              - Evil Eye
+            - Evil Eye
           addspellbook:
-            1: 
-              - Enfeeble
+            1:
+            - Enfeeble
       advance:
         7:
           magic_stats:
@@ -1646,7 +2484,7 @@ pf2e_specialty:
     Fate:
       chargen:
         skills:
-          - Occultism
+        - Occultism
         action: []
         reaction: []
         feat: []
@@ -1655,10 +2493,10 @@ pf2e_specialty:
             occult: trained
           focus_cantrip:
             hex:
-              - Nudge Fate
+            - Nudge Fate
           addspellbook:
-            1: 
-              - Sure Strike
+            1:
+            - Sure Strike
       advance:
         7:
           magic_stats:
@@ -1675,7 +2513,7 @@ pf2e_specialty:
     Fervor:
       chargen:
         skills:
-          - Religion
+        - Religion
         action: []
         reaction: []
         feat: []
@@ -1684,10 +2522,10 @@ pf2e_specialty:
             divine: trained
           focus_cantrip:
             hex:
-              - Stoke the Heart
+            - Stoke the Heart
           addspellbook:
-            1: 
-              - Command
+            1:
+            - Command
       advance:
         7:
           magic_stats:
@@ -1704,7 +2542,7 @@ pf2e_specialty:
     Night:
       chargen:
         skills:
-          - Occultism
+        - Occultism
         action: []
         reaction: []
         feat: []
@@ -1713,10 +2551,10 @@ pf2e_specialty:
             occult: trained
           focus_cantrip:
             hex:
-              - Shroud of Night
+            - Shroud of Night
           addspellbook:
-            1: 
-              - Fear
+            1:
+            - Fear
       advance:
         7:
           magic_stats:
@@ -1733,7 +2571,7 @@ pf2e_specialty:
     Rune:
       chargen:
         skills:
-          - Arcana
+        - Arcana
         action: []
         reaction: []
         feat: []
@@ -1742,10 +2580,10 @@ pf2e_specialty:
             arcane: trained
           focus_cantrip:
             hex:
-              - Discern Secrets
+            - Discern Secrets
           addspellbook:
-            1: 
-              - Runic Weapon
+            1:
+            - Runic Weapon
       advance:
         7:
           magic_stats:
@@ -1762,7 +2600,7 @@ pf2e_specialty:
     Wild:
       chargen:
         skills:
-          - Nature
+        - Nature
         action: []
         reaction: []
         feat: []
@@ -1771,7 +2609,7 @@ pf2e_specialty:
             primal: trained
           focus_cantrip:
             hex:
-              - Wilding Word
+            - Wilding Word
       choose:
         choice_name: Granted Spell
         choice_description: Your patron grants you a choice of granted spells.
@@ -1795,7 +2633,7 @@ pf2e_specialty:
     Winter:
       chargen:
         skills:
-          - Nature
+        - Nature
         action: []
         reaction: []
         feat: []
@@ -1804,7 +2642,7 @@ pf2e_specialty:
             primal: trained
           focus_cantrip:
             hex:
-              - Clinging Ice
+            - Clinging Ice
           addspellbook:
             1: Gust of Wind
       advance:

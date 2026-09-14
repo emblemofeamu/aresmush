@@ -92,10 +92,17 @@ module AresMUSH
         return "#{item_color}Total Spell Slots:%xn None." if sorted_slots.empty?
 
         lines = sorted_slots.map do |level, amount|
-          "%b%b#{item_color}#{spellbook_level_label(level)}:%xn #{amount}"
+          restricted = Pf2emagic.restricted_slots_at(@char, charclass, level)
+          extra = restricted.map { |name, count| " + #{count} #{name} #{slot_word(count)}" }.join
+
+          "%b%b#{item_color}#{spellbook_level_label(level)}:%xn #{amount} #{slot_word(amount)}#{extra}"
         end
 
         "#{item_color}Total Spell Slots:%xn%r#{lines.join("%r")}"
+      end
+
+      def slot_word(count)
+        count.to_i == 1 ? 'slot' : 'slots'
       end
 
       def known_spells_block(key, value)

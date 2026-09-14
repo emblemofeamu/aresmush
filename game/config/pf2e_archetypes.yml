@@ -8,6 +8,8 @@ pf2e_archetype:
         - Infused Reagents
       combat_stats:
         archetype_class_dc: trained
+        weapon_prof:
+          bomb: trained
       skills:
         - Crafting
       feat:
@@ -102,7 +104,7 @@ pf2e_archetype:
       - Wisdom
     initial_dedication:
       languages:
-        - Druidic
+        - Wildsong
       skills:
         - Nature
       magic_stats:
@@ -224,7 +226,7 @@ pf2e_archetype:
     key_abil:
       - Dexterity
     HP: 10
-    chargen:
+    initial_dedication:
       archetype_feature:
         - Stylish Combatant
         - Panache

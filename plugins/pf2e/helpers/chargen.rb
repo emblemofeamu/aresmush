@@ -74,18 +74,26 @@ module AresMUSH
       Global.read_config('pf2e_class', charclass, 'use_deity') ? true : false
     end
 
+    # Some backgrounds read their grants off the character's deity, so they need one even when the class does not.
+    def self.background_needs_deity?(background)
+      return false if background.blank?
+      Global.read_config('pf2e_background', background, 'requires_deity') ? true : false
+    end
+
     def self.base_info_set?(base_info, faith_info)
       charclass = base_info['charclass']
       specialize = base_info['specialize']
+      background = base_info['background']
 
       return false if base_info['ancestry'].blank?
       return false if base_info['heritage'].blank?
-      return false if base_info['background'].blank?
+      return false if background.blank?
       return false if charclass.blank?
       return false if faith_info['alignment'].blank?
       return false if needs_specialty?(charclass) && specialize.blank?
       return false if needs_specialty_choice?(charclass, specialize) && base_info['specialize_info'].blank?
       return false if needs_deity?(charclass) && faith_info['deity'].blank?
+      return false if background_needs_deity?(background) && faith_info['deity'].blank?
       return false if uses_sanctification?(charclass) && faith_info['sanctification'].blank?
 
       true
@@ -124,6 +132,10 @@ module AresMUSH
 
       if Pf2e.needs_specialty_choice?(charclass, specialize) && subclass_info.blank?
         messages << t('pf2e.missing_subclass_info')
+      end
+
+      if Pf2e.background_needs_deity?(background) && faith['deity'].blank?
+        messages << t('pf2e.background_needs_deity', :background => background)
       end
 
       restricted = []
@@ -246,15 +258,21 @@ module AresMUSH
       # Background ability boosts
       # Number of these and their options vary.
 
-      bg_ability = background_info['abl_boosts']
+      bg_ability = Pf2e.config_abl_boosts(enactor, background_info)
 
-      if bg_ability.size > 1
-        client.emit_ooc t('pf2e.multiple_options', :element=>"background ability option")
-      elsif bg_ability.empty?
+      if bg_ability.empty?
         client.emit_ooc t('pf2e.bg_no_options', :element => "ability option")
+      elsif bg_ability.any? { |abil| abil.is_a?(Array) }
+        client.emit_ooc t('pf2e.multiple_options', :element=>"background ability option")
       end
 
       boosts['background'] = bg_ability
+
+      fixed_bgboosts = bg_ability.reject { |abil| abil.is_a?(Array) || abil == 'open' }
+
+      fixed_bgboosts.each do |abil|
+        Pf2eAbilities.update_base_score(enactor, abil)
+      end
 
       # Opening Skills
 
@@ -273,7 +291,7 @@ module AresMUSH
 
       ## Determine what skills come with the character's base info, and set those.
 
-      bg_skills = background_info["skills"] || []
+      bg_skills = Pf2e.config_skills(enactor, background_info)
 
       if bg_skills.size == 0
         client.emit_ooc t('pf2e.bg_no_options', :element => "skills")
@@ -327,6 +345,11 @@ module AresMUSH
       bg_skill_choice = background_info['skill choice'] || []
       class_skill_choice = class_features_info['skill choice'] || []
 
+      # A specialty and its option can each offer a choice; they share one bucket.
+      subclass_skill_choice = subclass_features_info.blank? ? [] : subclass_features_info['skill choice'] || []
+      subclassopt_skill_choice = subclassopt_features_info.blank? ? [] : subclassopt_features_info['skill choice'] || []
+      specialty_skill_choice = (subclass_skill_choice + subclassopt_skill_choice).uniq
+
       if bg_skill_choice.any?
         to_assign['bg skill choice'] = {
           'options' => bg_skill_choice,
@@ -337,6 +360,13 @@ module AresMUSH
       if class_skill_choice.any?
         to_assign['class skill choice'] = {
           'options' => class_skill_choice,
+          'selected' => 'open'
+        }
+      end
+
+      if specialty_skill_choice.any?
+        to_assign['specialty skill choice'] = {
+          'options' => specialty_skill_choice,
           'selected' => 'open'
         }
       end
@@ -368,7 +398,7 @@ module AresMUSH
       heritage_feats = heritage_info["feat"] ? heritage_info["feat"] : []
       subclass_info_feats = subclassopt_features_info.blank? ? [] : subclassopt_features_info["feat"] || []
 
-      feats['general'] = bg_feats
+      feats['general'] = []
       feats['ancestry'] = heritage_feats
       feats['charclass'] = class_feats + subclass_feats + subclass_info_feats
 
@@ -393,22 +423,19 @@ module AresMUSH
 
       enactor.pf2_feats = feats
 
-      # Check for gated feats.
-      # I use an array for this because there could be more than one in play at a time.
+      # Check for feat choices the class, subclass, or specialty option opens at chargen.
 
-      gated_feats = []
-      class_gated_feats = class_features_info["gated_feat"]
-      subclass_gated_feats = subclass_features_info.blank? ? nil : subclass_features_info["gated_feat"]
-      subclass_info_gated_feats = subclassopt_features_info.blank? ? nil : subclassopt_features_info["gated_feat"]
+      choice_names = []
+      choice_names.concat(Pf2e.granted_choice_names(class_features_info))
+      choice_names.concat(Pf2e.granted_choice_names(subclass_features_info)) unless subclass_features_info.blank?
+      choice_names.concat(Pf2e.granted_choice_names(subclassopt_features_info)) unless subclassopt_features_info.blank?
 
-      gated_feats << class_gated_feats if class_gated_feats
-      gated_feats << subclass_gated_feats if subclass_gated_feats
-      gated_feats << subclass_info_gated_feats if subclass_info_gated_feats
+      choice_names.uniq!
 
-      unless gated_feats.empty?
-        client.emit_ooc t('pf2e.has_gated_feats', :options => gated_feats.sort.join(", "))
+      unless choice_names.empty?
+        choice_names.each { |name| Pf2e.open_feat_choice(to_assign, name) }
 
-        to_assign['special feat'] = gated_feats
+        client.emit_ooc t('pf2e.has_feat_choices', :options => choice_names.sort.join(", "))
       end
 
       # Write to_assign back to the database, then handle feat grants and re-pull to_assign.
@@ -417,6 +444,12 @@ module AresMUSH
 
       feats.values.flatten.each do |feat|
         info = Pf2e.get_feat_details(feat)
+
+        if info.is_a?(String)
+          Global.logger.error "Chargen feat '#{feat}' did not resolve for #{enactor.name} (#{info})."
+          next
+        end
+
         details = info[1]
 
         if details['grants']
@@ -424,6 +457,31 @@ module AresMUSH
         end
 
         Pf2e.do_feat_magic_stats(enactor, details, charclass, client).each { |msg| client.emit_ooc msg }
+      end
+
+      # Background feats come last, so the loop above cannot grant them a second time.
+      bg_feats.each do |entry|
+        parsed = Pf2e.granted_feat_entry(entry)
+
+        unless parsed
+          Global.logger.error "Background '#{background}' has a feat entry naming no feat."
+          next
+        end
+
+        fname, label, source, filter = parsed
+        found = Pf2e.get_feat_details(fname)
+
+        if found.is_a?(String)
+          Global.logger.error "Background '#{background}' grants '#{fname}', which did not resolve (#{found})."
+          next
+        end
+
+        next if Pf2e.deferred_choice_source?(source)
+
+        label = Pf2e.granted_choice_label(enactor, source) if source.present?
+
+        Pf2e.add_granted_feat(enactor, found[0], found[1], charclass, client).each { |msg| client.emit_ooc msg }
+        Pf2e.resolve_granted_choice(enactor, found[0], found[1], label, client, filter).each { |msg| client.emit_ooc msg }
       end
 
       to_assign = enactor.pf2_to_assign
@@ -504,7 +562,16 @@ module AresMUSH
       # Combat information - attacks, defenses, perception, class DC, saves
 
       client.emit_ooc "Initiating combat stats..."
-      combat_stats = class_features_info['combat_stats']
+      combat_stats = class_features_info['combat_stats'] || {}
+
+      # A specialty and its option can raise or add proficiencies at chargen, the way the warpriest cleric picks up light and medium armor. merge_combat_stats keeps the higher rank if the class already granted one.
+      unless subclass_features_info.blank?
+        combat_stats = Pf2e.merge_combat_stats(combat_stats, subclass_features_info['combat_stats'])
+      end
+
+      unless subclassopt_features_info.blank?
+        combat_stats = Pf2e.merge_combat_stats(combat_stats, subclassopt_features_info['combat_stats'])
+      end
 
       combat = Pf2eCombat.init_combat_stats(enactor,combat_stats)
 
@@ -525,6 +592,7 @@ module AresMUSH
         'Fist' => {
             'damage' => fist_damage,
             'damage_type' => 'B',
+            'group' => 'Brawling',
             'traits' => %w(agile finesse nonlethal unarmed)
         }
       }

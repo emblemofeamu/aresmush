@@ -43,728 +43,1288 @@ pf2e_skills:
   Althean Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Angorite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Animusian Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Caracorothan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Ceinaran Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Daeusite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Danan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Deimosian Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Elunan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Gileadean Lore: 
     key_abil: Intelligence
     recall_knowledge: true
-  Gunakharan Lore: 
+    lore_groups:
+      - deity
+  Gunahkaran Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Illothan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Korite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Maugrimite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Navosian Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Radan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Reosian Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Serrielite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Taaran Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Tarienite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Thulite Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
   Vardaman Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - deity
 # City Lores
-## Am'shere Cities
   Nicantlaca Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - am'shere
   Coaedhanaya Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - am'shere
   Cahua Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Bludgun Cities
+    lore_groups:
+      - city
+      - am'shere
   Matewa Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - bludgun
   Promise Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - bludgun
   Uniki Io Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - bludgun
   Awaets Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - bludgun
   Raharuri Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Charn Cities
+    lore_groups:
+      - city
+      - bludgun
   New Hextus Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - charn
   Sepultura Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - charn
   Chiuin Chathair Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - charn
   Serenza Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Desolation Cities
+    lore_groups:
+      - city
+      - charn
   Vandalheim Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the desolation
   Khotea Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the desolation
   Skald Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the desolation
   Cloudhold Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Dran Cities
+    lore_groups:
+      - city
+      - the desolation
   Keykavous Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - dran
   Mohebi Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - dran
   Mosta'An Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - dran
   Nouzari Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## The Heartlands Cities
+    lore_groups:
+      - city
+      - dran
   Alexandria Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the heartlands
   Pyrna Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the heartlands
   Setidor Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the heartlands
   Oriaver Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the heartlands
   Marniar'nir Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - the heartlands
   Ylvaliel Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Jade Islands Cities
+    lore_groups:
+      - city
+      - the heartlands
   Tamatou Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - jade islands
   Ala'i Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - jade islands
   Taeao Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - jade islands
   Tava'esia Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Khazad Duin Cities
+    lore_groups:
+      - city
+      - jade islands
   Dun Mordren Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - khazad duin
   Dun Astiaf Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - khazad duin
   Enrai Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - khazad duin
   Palitzsch Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - khazad duin
   Phedar Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - khazad duin
   Sedhla Mil Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Kimitatu Cities
+    lore_groups:
+      - city
+      - khazad duin
   Cleydine Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - kimitatu
   Joilada Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - kimitatu
   Kaasall Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - kimitatu
   Pramont Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - kimitatu
   Oriaphen Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - kimitatu
   Rouhull Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Myrddion Cities
+    lore_groups:
+      - city
+      - kimitatu
   Amity Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - myrddion
   Bryn Myridorn Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - myrddion
   Fiore di Mar Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - myrddion
   Heavenward Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - myrddion
   Solm Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - myrddion
   Qutamo Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - myrddion
   Temirkan Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Periantha Cities
+    lore_groups:
+      - city
+      - myrddion
   O'rondessa Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - periantha
   Duama Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - periantha
   Flehzya Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - periantha
   Orist Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - periantha
   Sarzana Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Rune: Sir Not Appearing in this section of the YAML file :)
-## Skyhaldborg Cities
+    lore_groups:
+      - city
+      - periantha
   Volstengrad Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - skyhaldborg
   Fellantz Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - skyhaldborg
   Orimari Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Tysmycha Cities
+    lore_groups:
+      - city
+      - skyhaldborg
   Norreir Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - tysmycha
   Erecid Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - tysmycha
   Mulinn Lore:
     key_abil: Intelligence
     recall_knowledge: true
-## Veyshan Cities
+    lore_groups:
+      - city
+      - tysmycha
   Tashraan Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - veyshan
   Azraq Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - veyshan
   Shamshir Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - veyshan
 # Region Lores
   Am'shere Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Bludgun Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Charn Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Dran Lore: 
     key_abil: Intelligence
     recall_knowledge: true
-  Desolation Lore:
+    lore_groups:
+      - region
+  The Desolation Lore:
     key_abil: Intelligence
     recall_knowledge: true
-  Heartlands Lore:
+    lore_groups:
+      - region
+  The Heartlands Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Jade Islands Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Khazad Duin Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Kimitatu Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Myrddion Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Periantha Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Rune Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - city
+      - rune
+      - region
   Skyhaldborg Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Tysmycha Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
   Veyshan Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - region
 # Terrain Lores
   Aquatic Terrain Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Arctic Terrain Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Desert Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Forest Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Mountain Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Plains Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Sky Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Swamp Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
   Underground Terrain Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - terrain
 # Creature Lores
   Aeon Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Agathion Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Air Elemental Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Angel Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Animal Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Animated Object Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Arboreal Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Archon Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Asura Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Azata Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Cave Worm Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
+  Coatl Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+    lore_groups:
+      - creature
   Daemon Lore:
     key_abil: Intelligence
     recall_knowledge: true
-  Demon Lore: 
+    lore_groups:
+      - creature
+  Demon Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Devil Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Dinosaur Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Dragon Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Drake Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Earth Elemental Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Fey Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Fey Bullshit Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
+    hidden: true
   Fire Elemental Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Genie Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Giant Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Gnoll Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Golem Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Hag Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Insect Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Lich Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Mephit Elemental Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Ogre Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Ooze Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Qlippoth Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Rakshasa Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Serpentfolk Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Spirit Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Vampire Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Velstrac Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Water Elemental Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Werecreature Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
   Zombie Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - creature
 # PC Ancestry and Heritage Lores
   Aesa Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Arvek Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Ashen One Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Bassin Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Changeling Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Ciith Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Dar Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Egalrin Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Gnome Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Goblin Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Human Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Kailli Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Khazad Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Niasa Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Oruch Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
   Sildanyar Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - ancestry
 # Planar Lores
   City of Bells Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - light plane
   Cradle of Nature Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - light plane
   Elysian Fields Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - light plane
   Gray Halls Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   Heroes' Welcome Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - light plane
   Iron Hells Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - shadow plane
   Memoria Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
+  Muan Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   Petros Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   Pyria Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   Quelynos Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - light plane
   Reflection Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - shadow plane
   Shining Peak Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - light plane
   Sussurus Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   Symphony Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
+  Talican Lore:
+    key_abil: Intelligence
+    recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   Thalassa Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   The Abyss Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - shadow plane
   The Convergence Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
   The Null Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - shadow plane
   World of Wings Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - planar
+      - twilight plane
 # General/Profession Lores
   Academia Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Accounting Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Alcohol Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Architecture Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Art Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
+  Astrology Lore: 
+    key_abil: Intelligence
+    recall_knowledge: true
+    lore_groups:
+      - general
   Cartography Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Circus Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Cooking Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Curse Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Driving Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Engineering Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Farming Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Fishing Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Fortune-Telling Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Games Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Genealogy Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Gladiatorial Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Guild Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Heraldry Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Herbalism Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Hunting Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Labor Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Legal Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Library Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Mercantile Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Midwifery Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Milling Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Mining Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Piloting Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Sailing Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Scouting Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Slayer Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Surgery Lore:
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Theater Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Underworld Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
   Warfare Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - general
 # Crafting Lores
   Alchemy Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Artistry Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Blacksmithing Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Bookmaking Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Glassmaking Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Leatherworking Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Pottery Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Scribing Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Shipbuilding Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Stonemasonry Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Tailoring Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Tanning Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Weaving Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
   Woodworking Lore: 
     key_abil: Intelligence
     recall_knowledge: true
+    lore_groups:
+      - craft
 # Special/Class Specific Lores
   Bardic Lore:
     key_abil: Intelligence

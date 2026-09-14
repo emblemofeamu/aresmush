@@ -28,9 +28,21 @@ pf2e_feats:
       - Human
     traits:
       - human
+    feat_choice:
+      summary: a magical tradition other than your own
+      from: other_traditions
+      then_choose:
+        summary: a cantrip from the chosen tradition
+        from_spells:
+          traits:
+            - cantrip
+          base_level: 0
+          tradition: from_prior_choice
+        adapted: true
     shortdesc: "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you prepare spells, you can choose this spell when you prepare your cantrips, in addition to your other options. If you have a spell repertoire, replace one of your cantrips known with the chosen spell. You can cast this cantrip as a spell of your class's tradition.%r%rIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one."
     prereq:
       level: 1
+      caster: cantrips
   Adaptive Adept:
     feat_type:
       - Ancestry
@@ -38,18 +50,35 @@ pf2e_feats:
       - Human
     traits:
       - human
+    feat_choice:
+      summary: a cantrip or 1st-rank spell from your adapted tradition
+      from_spells:
+        base_level:
+          - 0
+          - 1
+        tradition:
+          from_feat_choice: Adapted Cantrip
+      adapted: true
+      no_heighten: true
     shortdesc: You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip or 1st-rank spell from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell options just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition. If you choose a 1st-rank spell, you don't gain access to the heightened versions of that spell, meaning you can't prepare them if you prepare spells and you can't learn them or select the spell as a signature spell if you have a spell repertoire.
     prereq:
       level: 5
+      caster: cantrips
       feat:
         - Adapted Cantrip
   Advanced General Training:
+    repeatable: true
     feat_type:
       - Ancestry
     assoc_ancestry:
       - Human
     traits:
       - human
+    feat_choice:
+      summary: general feat of 7th level or lower
+      from_feats:
+        feat_type: General
+        max_level: 7
     shortdesc: "Over the long course of your adventuring life, your adaptability has let you pick up numerous useful abilities. You gain a general feat of 7th level or lower. You must meet the feat's prerequisites.%r%r**Special** You can select this feat multiple times, choosing a different feat each time."
     prereq:
       level: 13
@@ -166,7 +195,8 @@ pf2e_feats:
       - arvek
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Arvek Lore
       skill:
         - Athletics
         - Crafting
@@ -202,7 +232,8 @@ pf2e_feats:
       - ashen one
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Gray Halls Lore
       skill:
         - Medicine
         - Religion
@@ -291,6 +322,9 @@ pf2e_feats:
     traits:
       - bassin
     grants:
+      feat:
+        - name: Additional Lore
+          choice: Bassin Lore
       skill:
         - Acrobatics
         - Stealth
@@ -330,9 +364,17 @@ pf2e_feats:
     grants:
       skill:
         - Nature
-      orfeat:
-        - Pet
-        - Train Animal
+    feat_choice:
+      summary: Pet or Train Animal
+      options:
+        Pet:
+          grants:
+            feat:
+              - Pet
+        Train Animal:
+          grants:
+            feat:
+              - Train Animal
     shortdesc: You have an impressive innate ability to tame and command ferocious beasts. You become trained in the Nature skill and gain your choice of the Pet general feat or the Train Animal skill feat.
     prereq:
       level: 1
@@ -725,7 +767,8 @@ pf2e_feats:
       - changeling
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Hag Lore
       skill:
         - Deception
         - Occultism
@@ -750,7 +793,42 @@ pf2e_feats:
       - Ciith
     traits:
       - ciith
-    shortdesc: "Your weapons are those you were born with. Choose one of the following options:%r%rAt 5th level, whenever you get a critical hit with one of the unarmed attacks you have gained or improved with this feat, you get its critical specialization effect.%r%r**Special** You can take this feat multiple times, choosing a different unarmed attack option each time."
+    repeatable: true
+    feat_choice:
+      summary: unarmed attack
+      options:
+        Claws:
+          grants:
+            attack:
+              Claw:
+                damage: 1d6
+                damage_type: S
+                group: Brawling
+                traits:
+                  - agile
+                  - finesse
+                  - unarmed
+                  - Versatile (P)
+        Fangs:
+          grants:
+            attack:
+              Fangs:
+                damage: 1d8
+                damage_type: P
+                group: Brawling
+                traits:
+                  - unarmed
+        Tail:
+          grants:
+            attack:
+              Tail:
+                damage: 1d6
+                damage_type: B
+                group: Brawling
+                traits:
+                  - sweep
+                  - unarmed
+    shortdesc: "Your weapons are those you were born with. Choose one of the following options:%r%r* **Claws** Your claw attack's damage die increases to 1d6 and it gains the versatile piercing trait.%r%r* **Fangs** 1d8 piercing (unarmed), in the brawling group.%r%r* **Tail** 1d6 bludgeoning (sweep, unarmed), in the brawling group.%r%rAt 5th level, whenever you get a critical hit with one of the unarmed attacks you have gained or improved with this feat, you get its critical specialization effect.%r%r**Special** You can take this feat multiple times, choosing a different unarmed attack option each time."
     prereq:
       level: 1
   Ciith Lore:
@@ -762,10 +840,24 @@ pf2e_feats:
       - ciith
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice_filter:
+            options:
+              - Astrology Lore
+              - Ciith Lore
       skill:
-        - Nature
         - Survival
+    feat_choice:
+      summary: Nature or Occultism
+      options:
+        Nature:
+          grants:
+            skill:
+              - Nature
+        Occultism:
+          grants:
+            skill:
+              - Occultism
     shortdesc: "You listened carefully to the tales passed down among your community. You gain the trained proficiency rank in Survival and either Nature or Occultism. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice.%r%rYou also gain the Additional Lore general feat for either Astrology Lore or Ciith Lore."
     prereq:
       level: 1
@@ -853,6 +945,12 @@ pf2e_feats:
     grants:
       feat:
         - Adopted Ancestry
+    feat_choice:
+      summary: 1st-level feat from the ancestry you adopt
+      from_feats:
+        feat_type: Ancestry
+        max_level: 1
+        adopted_only: true
     shortdesc: During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat, and you also gain one 1st-level ancestry feat from the ancestry you chose for the Adopted Ancestry feat.
     prereq:
       level: 5
@@ -900,7 +998,8 @@ pf2e_feats:
     shortdesc: Using ancient khazadi methods developed to fight enemies wielding magical darkness, you've honed your darkvision and sworn not to use such magic yourself. You gain greater darkvision, enabling you to see through magical darkness even if it normally hampers darkvision (such as the darkness created by a 4th-rank *darkness* spell). You can't cast spells with the darkness trait, use item activations with the darkness trait, or use any other ability with the darkness trait.
     prereq:
       level: 5
-      special: Darkvision
+      special:
+        - Darkvision
   Deliberate Death:
     feat_type:
       - Ancestry
@@ -1110,7 +1209,8 @@ pf2e_feats:
       - egalrin
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Egalrin Lore
       skill:
         - Society
         - Survival
@@ -1272,7 +1372,8 @@ pf2e_feats:
     shortdesc: "You can see in the darkness as easily as a true vampire. You gain darkvision.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat."
     prereq:
       level: 1
-      special: Low-light Vision
+      special:
+        - Low-light Vision
       heritage: Dar
   Fangs:
     feat_type:
@@ -1437,12 +1538,18 @@ pf2e_feats:
     prereq:
       level: 5
   General Training:
+    repeatable: true
     feat_type:
       - Ancestry
     assoc_ancestry:
       - Human
     traits:
       - human
+    feat_choice:
+      summary: 1st-level general feat
+      from_feats:
+        feat_type: General
+        max_level: 1
     shortdesc: "Your adaptability manifests in your mastery of a range of useful abilities. You gain a 1st-level general feat. You must meet the feat's prerequisites, but if you select this feat during character creation, you can select the feat later in the process in order to determine which prerequisites you meet.%r%r**Special** You can select this feat multiple times, choosing a different feat each time."
     prereq:
       level: 1
@@ -1477,7 +1584,9 @@ pf2e_feats:
     grants:
       feat:
         - Additional Lore
-        - Assurance
+        - name: Assurance
+          choice_filter:
+            same_as: Additional Lore
     shortdesc: You might have a flighty nature, but when a topic captures your attention, you dive into it headfirst. You gain the Additional Lore feat and the Assurance feat for the chosen Lore. As gnome obsessions can come and go quickly, you can retrain Gnome Obsession to a different Lore subcategory in 1 day of downtime.
     prereq:
       level: 1
@@ -1500,7 +1609,8 @@ pf2e_feats:
       - goblin
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Goblin Lore
       skill:
         - Nature
         - Stealth
@@ -1559,7 +1669,8 @@ pf2e_feats:
     shortdesc: "You can see in the darkness as easily as a psychopomp. You gain darkvision.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat."
     prereq:
       level: 1
-      special: Low-light Vision
+      special:
+        - Low-light Vision
       heritage: Ashen One
   Gray Halls's Call:
     feat_type:
@@ -1748,6 +1859,7 @@ pf2e_feats:
     shortdesc: You have a halo of light and goodness that sheds light with the effects of a divine *light* cantrip. A cantrip is heightened to a spell rank equal to half your level rounded up. You can Sustain to suppress or reestablish the halo.
     prereq:
       level: 1
+      heritage: Aesa
   Harbinger's Caw:
     feat_type:
       - Ancestry
@@ -1825,22 +1937,6 @@ pf2e_feats:
       level: 17
     actions: 1
     frequency: once per day
-  Hold Mark:
-    feat_type:
-      - Ancestry
-    assoc_ancestry:
-      - Oruch
-    traits:
-      - oruch
-    grants:
-      skill:
-        - Diplomacy
-        - Intimidation
-        - Religion
-        - Survival
-    shortdesc: "You bear scars or tattoos enhanced by the mark of your community's prowess. When you select this feat, choose one of the options from the below table. You are trained in the listed skill and gain a +1 status bonus to saves against spells from the listed tradition. You gain a large brand or tattoo in the shape of the chosen emblem or a similar concept (for example, the Burning Sun could be a torch, sun, volcano, or other fiery symbol, while the Empty Hand could be a fist or claw).%r%rFor more information, see the wiki."
-    prereq:
-      level: 1
   Homeward Bound:
     feat_type:
       - Ancestry
@@ -1984,7 +2080,8 @@ pf2e_feats:
       - kailli
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Kailli Lore
       skill:
         - Acrobatics
         - Stealth
@@ -2022,7 +2119,8 @@ pf2e_feats:
       - khazad
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Khazad Lore
       skill:
         - Crafting
         - Religion
@@ -2314,6 +2412,12 @@ pf2e_feats:
       - Human
     traits:
       - human
+    feat_choice:
+      summary: 1st-level class feat for your own class
+      from_feats:
+        feat_type: Charclass
+        max_level: 1
+        own_charclass: true
     shortdesc: You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field. You gain a 1st-level class feat for your class. You must meet the prerequisites, but you can select the feat later in the character creation process in order to determine which prerequisites you meet.
     prereq:
       level: 1
@@ -2325,9 +2429,9 @@ pf2e_feats:
     traits:
       - human
     grants:
-      assign:
-        - skill
-        - skill
+      skill:
+        - open
+        - open
     shortdesc: Your ingenuity allows you to learn a wide variety of skills. You gain the trained proficiency rank in two skills of your choice.
     prereq:
       level: 1
@@ -2373,7 +2477,8 @@ pf2e_feats:
     shortdesc: Your eyes can see through darkness with visual acuity akin to that possessed by most extraplanar beings. You gain darkvision.
     prereq:
       level: 1
-      special: Low-light Vision
+      special:
+        - Low-light Vision
       orheritage:
         - Aesa
         - Niasa
@@ -2397,12 +2502,22 @@ pf2e_feats:
       - niasa
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice_filter:
+            from: lineage planes
       skill:
         - Religion
-      orskill:
-        - Diplomacy
-        - Intimidation
+    feat_choice:
+      summary: Diplomacy or Intimidation
+      options:
+        Diplomacy:
+          grants:
+            skill:
+              - Diplomacy
+        Intimidation:
+          grants:
+            skill:
+              - Intimidation
     shortdesc: "You know the secrets of the light and shadow planes. You gain the trained proficiency rank in either Diplomacy or Intimidation, and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice.%r%rYou also gain the Additional Lore general feat for a Lore subcategory of a plane to which you trace your lineage."
     prereq:
       level: 1
@@ -2547,7 +2662,8 @@ pf2e_feats:
       - oruch
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Oruch Lore
       skill:
         - Athletics
         - Survival
@@ -2571,7 +2687,8 @@ pf2e_feats:
     shortdesc: "Your oruch blood grants you the keen vision of your forebears. You gain darkvision, allowing you to see in darkness and dim light just as well as you can in bright light. However, in darkness, you see in black and white only.%r%r**Special** You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat."
     prereq:
       level: 1
-      special: Low-light Vision
+      special:
+        - Low-light Vision
       heritage: Ghaluch
   Oruch Superstition:
     feat_type:
@@ -2690,9 +2807,12 @@ pf2e_feats:
     grants:
       skill:
         - Athletics
-      assign:
-        feat:
-          - skill feat
+    feat_choice:
+      summary: 1st-level Athletics skill feat
+      from_feats:
+        feat_type: Skill
+        max_level: 1
+        assoc_skill: Athletics
     shortdesc: "Your blood bears the mark of a demon, a living embodiment of sin from the fetid depths of the shadow planes. Demonic power pulses through your veins and manifests in a different way for each pitborn, whether you have webbed fingers and thrive in the water, large hands capable of wrestling larger foes, or some other manifestation. You are trained in Athletics. If you were already trained in Athletics (from your background or class, for example), you instead become trained in a skill of your choice.%r%rYou also gain any one common 1st-level skill feat with a prerequisite of trained in Athletics, as reflects the manifestation of your fiendish blood."
     prereq:
       level: 1
@@ -3016,7 +3136,14 @@ pf2e_feats:
       - arvek
     grants:
       feat:
-        - Adopted Ancestry
+        - name: Adopted Ancestry
+          choice: Goblin
+    feat_choice:
+      summary: 1st-level goblin feat
+      from_feats:
+        feat_type: Ancestry
+        max_level: 1
+        adopted_only: true
     shortdesc: Unlike most of your kind, who dismiss goblins as embarrassments or expendable annoyances, you have studied the methodology behind their irresponsible and incomprehensible actions. You gain the Adopted Ancestry general feat and must select goblin as the feat's chosen ancestry. You also gain one 1st-level goblin ancestry feat.
     prereq:
       level: 5
@@ -3048,19 +3175,16 @@ pf2e_feats:
     traits:
       - ciith
       - primal
-    grants:
-      feat:
-        - Clumsy
     shortdesc: You go into hibernation for twenty-four hours and perform a ritual dedicated to your ancestors, undergoing a one-time metamorphosis. You permanently gain the effects of *enlarge*, and your maximum Hit Points increase by your level. The ritual transforms most of your gear to the appropriate size for your new body (though powerful items like artifacts or items strongly tied to their original size may not transform, at the GM's discretion).
     prereq:
       level: 17
   Scion of Many Planes:
     feat_type:
       - Ancestry
-    assoc_ancestry: 
+    assoc_ancestry:
       - Arvek
       - Bassin
-      - Ciith 
+      - Ciith
       - Egalrin
       - Goblin
       - Gnome
@@ -3072,9 +3196,18 @@ pf2e_feats:
     traits:
       - aesa
       - niasa
-    shortdesc: The long and complicated history of your bloodline manifests in your ability to draw power from more planar sources than most other nephilim. Choose one aesa or niasa lineage feat that you do not already possess; you gain that feat and all of its benefits, even if you already took a lineage feat at 1st level.
+    feat_choice:
+      summary: lineage feat matching your heritage
+      from_feats:
+        feat_type: Lineage
+        trait_matches_heritage: true
+        qualify: false
+    shortdesc: The long and complicated history of your bloodline manifests in your ability to draw power from more of your heritage's planar sources than most other nephilim. Choose a lineage feat carrying your heritage's trait that you don't already possess; if you're an aesa, your choices are Angelkin, Lawbringer, or Musetouched, and if you're a niasa, your choices are Grimspawn, Hellspawn, or Pitborn. You gain that feat and all of its benefits, even if you already took a lineage feat at 1st level.
     prereq:
       level: 5
+      orheritage:
+        - Aesa
+        - Niasa
       orheritage:
         - Aesa
         - Niasa
@@ -3143,7 +3276,7 @@ pf2e_feats:
     prereq:
       level: 1
       heritage: Silyara
-  Sildanyar Lore:
+  Sildanyari Lore:
     feat_type:
       - Ancestry
     assoc_ancestry:
@@ -3152,7 +3285,8 @@ pf2e_feats:
       - sildanyar
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Sildanyar Lore
       skill:
         - Arcana
         - Nature
@@ -3879,7 +4013,8 @@ pf2e_feats:
       - dar
     grants:
       feat:
-        - Additional Lore
+        - name: Additional Lore
+          choice: Vampire Lore
       skill:
         - Religion
         - Society

@@ -209,6 +209,9 @@ pf2e_feats:
       - Champion
     feat_type:
       - Charclass
+    feat_choice:
+      summary: one of your deity's domains
+      from: deity_domains
     prereq:
       level: 1
     shortdesc: You embody an aspect of your deity. Choose one of your deity's domains. You gain the domain's initial domain spell as a devotion spell.
@@ -245,6 +248,7 @@ pf2e_feats:
     traits:
       - cleric
   Domain Initiate:
+    repeatable: true
     assoc_charclass:
       - Cleric
     feat_type:
@@ -725,6 +729,20 @@ pf2e_feats:
     traits:
       - cleric
   Qi Spells:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+    feat_choice:
+      summary: 1st-rank qi spell
+      from_spells:
+        traits:
+          - monk
+          - focus
+        base_level: 1
+        focus_type: qi
+    repeatable: true
     assoc_charclass:
       - Monk
     feat_type:
@@ -1235,16 +1253,6 @@ pf2e_feats:
     shortdesc: You draw and attack with the same motion. You Interact to draw a weapon, then either Strike or use a one-action finisher. You must still meet any other requirements to use a finisher, and any Strike you make must be made with the weapon you drew.
     traits:
       - swashbuckler
-  Brawling Focus:
-    assoc_charclass:
-      - Monk
-    feat_type:
-      - Charclass
-    prereq:
-      level: 2
-    shortdesc: You know how to make the most of your attacks when fighting hand-to-hand. You gain access to the critical specialization effects of unarmed strikes in the brawling group and weapons in the brawling group. If you have Monastic Weaponry, you also gain the critical specialization effects of all monk weapons in which you are trained.
-    traits:
-      - monk
   Brutal Beating:
     assoc_charclass:
       - Rogue
@@ -1292,6 +1300,13 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 2
+    magic_stats:
+      prepared:
+        spells_per_day:
+          cantrip: "+2"
+      spontaneous:
+        repertoire:
+          cantrip: 2
     shortdesc: "**Bard, Oracle, Sorcerer** Study broadens your range of simple spells.%r%r**Cleric** You study a wider range of simple spells.%r%r**Wizard** Dedicated study allows you to prepare a wider range of simple spells for every situation.%r%r**Witch** Your patron recognizes your need for flexibility and versatility, and grants you the power to prepare a wider range of simple spells.%r%r**Prepared** You can prepare two additional cantrips each day.%r%r**Spontaneous** Add two additional cantrips from your spell list to your repertoire."
     traits:
       - bard
@@ -1453,6 +1468,7 @@ pf2e_feats:
     traits:
       - champion
   Domain Acumen:
+    repeatable: true
     assoc_charclass:
       - Oracle
     feat_type:
@@ -2065,6 +2081,10 @@ pf2e_feats:
     traits:
       - cleric
   Warpriest's Armor:
+    grants:
+      combat_stats:
+        armor_prof:
+          heavy: trained
     assoc_charclass:
       - Cleric
     feat_type:
@@ -2118,7 +2138,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 4
-      orspecialize:
+      specialize:
         - draconic
         - imperial
     shortdesc: "Your arcane legacy allows you to perceive how magic affects everything. You become trained in one skill of your choice.%r%rAdditionally, you can use arcane arts to tinker with your selection of spells. During your daily preparations, you can choose one spell in your spell repertoire to be a signature spell that day.%r%rYou can use the Learn a Spell activity to add more arcane spells to the list you choose from, but if you prepare a spell that isn't in your repertoire, you temporarily add it to your repertoire at the spell rank of your choice instead of making it a signature spell."
@@ -2293,7 +2313,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 4
-      orspecialize:
+      specialize:
         - angelic
         - demonic
         - diabolic
@@ -2485,6 +2505,14 @@ pf2e_feats:
     traits:
       - swashbuckler
   Harmonize Self:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+      focus_spell:
+        qi:
+          - Harmonize Self
     assoc_charclass:
       - Monk
     feat_type:
@@ -2600,7 +2628,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 4
-      orspecialize:
+      specialize:
         - empiricism
         - interrogation
     shortdesc: "You're adept at noticing the tells of a liar—sweat, flushing, a quavering voice, a quickening pulse. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. When you determine someone is lying to you, you can use their deceit to your advantage to gain a +1 circumstance bonus to the next Deception, Diplomacy, Intimidation, or Performance check you attempt against that creature within the next minute.%r%rIf you would gain your Pursue a Lead investigation bonus to any of the above checks, that bonus increases by 1 instead of you gaining the +1 bonus listed."
@@ -2613,13 +2641,13 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 4
-      orspecialize:
-        - mana syntaxia
-        - accordant conjury
-        - urban thaumaturgy
-        - defensive cerebralism
-        - mutable modification
-        - null's purview
+      specialize:
+        - Department of Mana Syntaxia
+        - Department of Accordant Conjury
+        - Department of Urban Thaumaturgy
+        - Department of Defensive Cerebralism
+        - Department of Mutable Modification
+        - Department of Null's Purview
     shortdesc: You have linked your bonded item to the well of energy that powers your school spells. Once per day when you Drain your Bonded Item to cast one of your arcane school's curriculum spells, you also regain 1 Focus Point.
     traits:
       - wizard
@@ -2677,7 +2705,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 4
-      orspecialize:
+      specialize:
         - aberrant
         - draconic
         - hag
@@ -2772,7 +2800,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 4
-      orspecialize:
+      specialize:
         - draconic
         - elemental
         - fey
@@ -3236,6 +3264,20 @@ pf2e_feats:
     traits:
       - monk
   Advanced Qi Spells:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+    feat_choice:
+      summary: 3rd-rank qi spell
+      from_spells:
+        traits:
+          - monk
+          - focus
+        base_level: 3
+        focus_type: qi
+    repeatable: true
     assoc_charclass:
       - Monk
     feat_type:
@@ -3808,20 +3850,6 @@ pf2e_feats:
     shortdesc: You've studied ways of overcoming the innate defenses against magic that dragons, otherworldly beings, and certain other powerful creatures have. Any creature that has a status bonus to saving throws against magic reduces that bonus by 1 against your spells.
     traits:
       - wizard
-  Ki Cutting Sight:
-    assoc_charclass:
-      - Monk
-    feat_type:
-      - Charclass
-    prereq:
-      level: 6
-      feat:
-        - Inner Upheaval
-    shortdesc: Everything is connected—all is part of the whole, and the whole is distributed throughout the infinite parts. Find where to add your qi and you can break the whole. You gain the *ki cutting sight* qi spell. Increase the number of Focus Points in your focus pool by 1.
-    traits:
-      - monk
-      - rare
-    init_magic: true
   Light Step:
     assoc_charclass:
       - Rogue
@@ -3911,9 +3939,9 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 6
-      orfeat:
-        - low-light vision
-        - scent
+      special:
+        - Low-Light Vision
+        - Imprecise Scent
     shortdesc: Your senses gain even greater clarity. While raging, if you have low-light vision you gain darkvision, and if you have scent the range of your imprecise scent increases to 60 feet.
     traits:
       - barbarian
@@ -4029,7 +4057,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 6
-      orspecialize:
+      specialize:
         - dragon
         - spirit
     shortdesc: "**Trigger** You Rage.%r%rYou emit a powerful surge of instinctual energy when you unleash your anger. Each enemy within 20 feet takes damage equal to your level (basic Fortitude save against your class DC) of the same type as your additional damage during that Rage."
@@ -4390,6 +4418,7 @@ pf2e_feats:
       - champion
     init_magic: true
   Advanced Domain:
+    repeatable: true
     assoc_charclass:
       - Cleric
     feat_type:
@@ -4403,6 +4432,11 @@ pf2e_feats:
       - cleric
     init_magic: true
   Advanced School Spell:
+    feat_choice:
+      auto: subclass_spell
+      from: subclass_spell
+      tier: advanced
+      summary: your school's advanced spell
     assoc_charclass:
       - Wizard
     feat_type:
@@ -4513,6 +4547,14 @@ pf2e_feats:
       - concentrate
       - spellshape
   Clinging Shadows Initiate:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+      focus_spell:
+        qi:
+          - Clinging Shadows Stance
     assoc_charclass:
       - Monk
     feat_type:
@@ -4867,6 +4909,7 @@ pf2e_feats:
     traits:
       - champion
   Improved Invigorating Elixir:
+    repeatable: 2
     assoc_charclass:
       - Alchemist
     feat_type:
@@ -4948,6 +4991,10 @@ pf2e_feats:
     traits:
       - barbarian
   Invulnerable Rager:
+    grants:
+      combat_stats:
+        armor_prof:
+          heavy: trained
     assoc_charclass:
       - Barbarian
     feat_type:
@@ -5471,6 +5518,14 @@ pf2e_feats:
       - investigator
       - uncommon
   Wild Winds Initiate:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+      focus_spell:
+        qi:
+          - Wild Winds Stance
     assoc_charclass:
       - Monk
     feat_type:
@@ -5929,6 +5984,9 @@ pf2e_feats:
       - concentrate
       - monk
   Major Lesson:
+    repeatable:
+      max: 3
+      levels: [ 10, 14, 18 ]
     assoc_charclass:
       - Witch
     feat_type:
@@ -6188,7 +6246,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 10
-      orspecialize:
+      specialize:
         - bones
         - lore
     shortdesc: "**Frequency** once per 10 minutes%r%rYou roll a handful of bones to learn (or perhaps influence) the future course of events. Roll 1d4 and use the corresponding result below. Whenever you Roll the Bones of Fate, any effects from a previous usage immediately end.%r%r**1 Good** You or an ally within 30 feet can roll twice on your next attack roll or skill check, taking the higher result. This is a fortune effect.%r%r**2 Bad** One creature you are observing within 30 feet must succeed at a Will save against your spell DC; on a failure, the target must roll twice on their next attack roll or skill check that takes at least one action to perform, taking the lower result. This is a misfortune effect.%r%r**3 Mixed** You gain the benefits of rolling both a 1 and a 2.%r%r**4 Cursed Possibilities** Your attempts to meddle in the forces of prophecy bring dire consequences for all. Every creature within 30 feet of you when you perform the augury rolls twice on their next attack roll or skill check that takes at least one action to perform; if the highest number rolled is odd, they take the lower result, and if the highest number rolled is even, they take the higher result. If they took the lower result, this effect has the misfortune trait for them, and if they took the higher result, it has the fortune trait."
@@ -6422,7 +6480,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 10
-      orspecialize:
+      specialize:
         - ancestors
         - battle
     shortdesc: You beseech warrior spirits to come forth and aid you. Two ghostly warriors manifest within a 30-ft emanation of you and each attempt a Strike against an adjacent enemy, using your spell attack modifier. The warriors' Strikes each deal 4d6 spirit damage and the warriors can flank with one another and with you and your allies. If you are cursebound 2 when you use The Dead Walk, you instead summon three warriors, and if you are cursebound 3, you instead summon four warriors. The warriors disappear at the start of your next turn.
@@ -6450,7 +6508,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 10
-      orspecialize:
+      specialize:
         - cosmos
         - flames
     shortdesc: Your lips murmur as you portend a great disaster, one you hope you survive. A rain of blazing bolts begins to fall from the heavens in a 10-ft emanation, centered on you, that deals 2d6 fire damage to all creatures in the emanation at the end of each of your turns (basic Reflex save); you can't exclude yourself from the emanation. The skyfire persists for 1 minute; while you can't Dismiss it, you can suppress the effect for 1 round with a Sustain action. The rain of fire is suppressed if you fall unconscious. If you become cursebound 3 or 4 at any point during Trial by Skyfire's duration, the emanation increases to 15-ft emanation and the damage increases to 4d6.
@@ -6489,7 +6547,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 10
-      specailize: polymath
+      specialize: polymath
     shortdesc: You can translate the emotion and power of a composition to other mediums. If your next action is to cast a composition spell that is auditory or visual, you can have it affect creatures who can witness it with any sense, not just those the traits indicate, even including special senses like tremorsense. You can choose to exclude any senses you choose.
     traits:
       - bard
@@ -6525,7 +6583,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 10
-      orspecialize:
+      specialize:
         - life
         - tempest
     shortdesc: Water is the source of life, and you draw upon this primordial force to heal your allies' wounds. A gentle ring ripples out from you in a 15-ft emanation, restoring 5d6 Hit Points to creatures in the area. At 12th level and every two levels thereafter, the amount restored increases by 1d6. If you are cursebound 3 when you use Waters of Creation, the amount healed increases to d8s.
@@ -6537,6 +6595,14 @@ pf2e_feats:
       - vitality
       - water
   Wind Jump:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+      focus_spell:
+        qi:
+          - Wind Jump
     assoc_charclass:
       - Monk
     feat_type:
@@ -6603,7 +6669,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 12
-      orspecialize:
+      specialize:
         - beacon
         - justiciar
         - liberator
@@ -8129,6 +8195,14 @@ pf2e_feats:
       - ranger
       - rogue
   Shadow's Web:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+      focus_spell:
+        qi:
+          - Shadow's Web
     assoc_charclass:
       - Monk
     feat_type:
@@ -8177,6 +8251,7 @@ pf2e_feats:
       - druid
       - spellshape
   Specialized Companion (Druid):
+    repeatable: 3
     assoc_charclass:
       - Druid
     feat_type:
@@ -8558,17 +8633,10 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 16
-      feat:
-        - Advanced Revelation
     shortdesc: "You have broadened your understanding of the divine and can tap into the wonders of a different mystery. Select one revelation spell from a mystery other than your own. You can choose only an initial revelation spell or an advanced revelation spell.%r%rThis spell gains the cursebound trait for you, and when you cast it, you gain the cursebound 1 effects of its mystery in addition to your normal curse effects. Any ability that lets you use a cursebound ability without increasing the severity of your curse also prevents you from gaining this additional curse effect.%r%rYou can't cast your chosen revelation spell if any of the following conditions are true:%r%rits mystery's curse effects directly conflict with or negate the effects of your own mystery's curse,%r%rthe curse would have no effect on you (for example, removing an ability from your original mystery that you lack),%r%ror if either of these criteria would be met once you finish Casting the Spell"
     traits:
       - oracle
     init_magic: true
-    grants:
-      feat:
-        - Clumsy
-        - Enfeebled
-        - Persistent Damage
   Dragon Transformation:
     assoc_charclass:
       - Barbarian
@@ -8780,7 +8848,7 @@ pf2e_feats:
       level: 16
       feat:
         - Blessed Counterstrike
-      orspecialize:
+      specialize:
         - beacon 
         - justiciar
         - liberator
@@ -8795,9 +8863,9 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 16
-      skill:
-        - Nature/legendary
-        - Monster Hunter/master
+      skill: Nature/legendary
+      feat:
+        - Master Monster Hunter
     shortdesc: Your knowledge of monsters is so incredible that it reveals glaring flaws in your prey. Your bonus from Monster Hunter (and the bonus from Monster Warden if you have it) increases from +1 to +2 for you and any allies who benefit.
     traits:
       - ranger
@@ -8817,6 +8885,20 @@ pf2e_feats:
       - fighter
       - monk
   Master Qi Spells:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+    feat_choice:
+      summary: 8th-rank qi spell
+      from_spells:
+        traits:
+          - monk
+          - focus
+        base_level: 8
+        focus_type: qi
+    repeatable: true
     assoc_charclass:
       - Monk
     feat_type:
@@ -9053,6 +9135,7 @@ pf2e_feats:
     traits:
       - witch
   Specialized Companion (Ranger):
+    repeatable: 3
     assoc_charclass:
       - Ranger
     feat_type:
@@ -9244,10 +9327,21 @@ pf2e_feats:
     shortdesc: The world is a stage upon which you are always playing. You are permanently quickened; you can use your extra action only to cast a composition cantrip that requires 1 action to cast. While in exploration mode, you can declare that you are performing an eligible composition cantrip while using any exploration tactic. Even before your first turn in a combat encounter, that cantrip is active as if you had cast it on your previous turn.
     traits:
       - bard
-    grants:
-      feat:
-        - Quickened
   Grandmaster Qi Spells:
+    grants:
+      grant_choice_once:
+        - Qi Tradition
+    magic_stats:
+      focus_pool: 1
+    feat_choice:
+      summary: 9th-rank qi spell
+      from_spells:
+        traits:
+          - monk
+          - focus
+        base_level: 9
+        focus_type: qi
+    repeatable: true
     assoc_charclass:
       - Monk
     feat_type:
@@ -9673,7 +9767,7 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 18
-      orspecialize:
+      specialize:
         - beacon
         - justiciar
         - liberator
@@ -9987,7 +10081,8 @@ pf2e_feats:
       - Charclass
     prereq:
       level: 20
-      feat: Master of Many Styles
+      feat:
+        - Master of Many Styles
     shortdesc: You flow from technique to technique, renewing yourself as you embrace each style you have mastered. The first time each round that you use an action that has both the monk and stance traits, you gain 20 temporary Hit Points that last until the start of your next turn.
     traits:
       - monk
@@ -10036,9 +10131,6 @@ pf2e_feats:
     shortdesc: "You fundamentally understand everything to the point where your research can't possibly be wrong. You are permanently quickened and can use the extra action to Recall Knowledge. In addition, you gain the following benefits with Recall Knowledge.%r%rWhen one of your allies Recalls Knowledge and gains false information, you also know that information is inaccurate if they share it with you."
     traits:
       - investigator
-    grants:
-      feat:
-        - Quickened
   Legendary Shot:
     assoc_charclass:
       - Ranger
@@ -10326,9 +10418,6 @@ pf2e_feats:
     traits:
       - concentrate
       - druid
-    grants:
-      feat:
-        - True Shapeshift
   Ultimate Flexibility:
     assoc_charclass:
       - Fighter

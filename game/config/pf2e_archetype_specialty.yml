@@ -5,11 +5,11 @@ pf2e_archetype_specialty:
     Animal:
       initial_dedication: {}
       anathema:
-        - "Flagrantly disrespect your animal instinct type."
-        - "Use weapons while raging."
+      - Flagrantly disrespect your animal instinct type.
+      - Use weapons while raging.
       choose:
         choice_name: Animal Instinct
-        choice_description: "Choose the animal this character strives to emulate."
+        choice_description: Choose the animal this character strives to emulate.
         choice_type: archetype_subclass_info
         options:
           Ape:
@@ -33,12 +33,12 @@ pf2e_archetype_specialty:
     Dragon:
       initial_dedication: {}
       anathema:
-        - "Let a personal insult against you slide."
-        - "If you respect your dragon instinct's dragon type, defy its orders."
-        - "If you abhor your dragon instinct's dragon type, fail to defeat it."
+      - Let a personal insult against you slide.
+      - If you respect your dragon instinct's dragon type, defy its orders.
+      - If you abhor your dragon instinct's dragon type, fail to defeat it.
       choose:
-        choice_name: "Dragon Instinct"
-        choice_description: "The type of dragon this instinct is derived from."
+        choice_name: Dragon Instinct
+        choice_description: The type of dragon this instinct is derived from.
         choice_type: archetype_subclass_info
         options:
           Avarice:
@@ -76,66 +76,66 @@ pf2e_archetype_specialty:
       initial_dedication: {}
     Giant:
       anathema:
-        - "Fail to face a personal challenge of strength."
+      - Fail to face a personal challenge of strength.
       initial_dedication: {}
     Spirit:
       anathema:
-        - "Disrespect corpses or spirits."
+      - Disrespect corpses or spirits.
       initial_dedication: {}
   Bard Archetype:
     Enigma:
       initial_dedication: {}
     Maestro:
       initial_dedication: {}
-    Polymath: 
+    Polymath:
       initial_dedication: {}
-    Warrior: 
+    Warrior:
       initial_dedication: {}
   Champion Archetype:
     Beacon:
       allowed_alignments:
-        - WL
+      - WL
       allowed_sanctifications:
-        - Holy
+      - Holy
       edicts:
-        - "Provide a shining example for others."
-        - "Enjoy and share the beauty around you."
-        - "Keep yourself tidy and well groomed."
+      - Provide a shining example for others.
+      - Enjoy and share the beauty around you.
+      - Keep yourself tidy and well groomed.
       anathema:
-        - "Despoil yourself by associating with fiends and unholy force."
+      - Despoil yourself by associating with fiends and unholy force.
       initial_dedication: {}
     Justiciar:
       allowed_alignments:
-        - OL
-        - OT
+      - OL
+      - OT
       anathema:
-        - "Cheat or take advantage of others."
+      - Cheat or take advantage of others.
       edicts:
-        - "Follow the law."
-        - "Respect legitimate authorities or leadership."
+      - Follow the law.
+      - Respect legitimate authorities or leadership.
       initial_dedication: {}
     Redeemer:
       allowed_sanctifications:
-        - Holy
+      - Holy
       allowed_alignments:
-        - OL
+      - OL
       edicts:
-        - "Try to redeem those who commit wicked deeds."
-        - "Show compassion to others regardless of their authority or station."
+      - Try to redeem those who commit wicked deeds.
+      - Show compassion to others regardless of their authority or station.
       anathema:
-        - "Kill a sapient enemy without first offering a chance at redemption."
+      - Kill a sapient enemy without first offering a chance at redemption.
       initial_dedication: {}
     Liberator:
       allowed_alignments:
-        - WL
-        - WT
+      - WL
+      - WT
       edicts:
-        - "Oppose slavery and tyranny."
-        - "Fight for others' freedom to make their own decisions."
-        - "Respect choices others make for their own lives."
+      - Oppose slavery and tyranny.
+      - Fight for others' freedom to make their own decisions.
+      - Respect choices others make for their own lives.
       anathema:
-        - "Engage in slavery or tyranny."
-        - "Force or threaten someone to act a certain way."
+      - Engage in slavery or tyranny.
+      - Force or threaten someone to act a certain way.
       initial_dedication: {}
   Cleric Archetype: {}
   Druid Archetype:
@@ -144,11 +144,11 @@ pf2e_archetype_specialty:
         action: []
         reaction: []
         skills:
-          - Athletics
+        - Athletics
         feat:
-          - Animal Companion
+        - Animal Companion
         anathema:
-          - "Kill an animal needlessly or commit wanton cruelty to one."
+        - Kill an animal needlessly or commit wanton cruelty to one.
         magic_stats:
           focus_pool: 1
           focus_spell:
@@ -158,23 +158,23 @@ pf2e_archetype_specialty:
     Leaf:
       initial_dedication:
         skills:
-          - Diplomacy
+        - Diplomacy
         anathema:
-          - "Kill a plant needlessly or commit wanton cruelty to one."
+        - Kill a plant needlessly or commit wanton cruelty to one.
     Storm:
       initial_dedication:
         skills:
-          - Acrobatics
+        - Acrobatics
         edicts:
-          - "Punish those who cause major air pollution or climate shifts."
+        - Punish those who cause major air pollution or climate shifts.
         anathema:
-          - "Pollute the air."
-    Wild:
+        - Pollute the air.
+    Untamed:
       initial_dedication:
         skills:
-          - Intimidation
+        - Intimidation
         anathema:
-          - "Become reliant on the temptations of civilization."
+        - Become reliant on the temptations of civilization.
   Fighter Archetype: {}
   Investigator Archetype: {}
   Monk Archetype: {}
@@ -182,42 +182,42 @@ pf2e_archetype_specialty:
     Ancestors:
       initial_dedication:
         skills:
-          - Society
+        - Society
         curse: Ancestral Meddling
     Battle:
       initial_dedication:
         skills:
-          - Athletics
+        - Athletics
         curse: Hero's Burden
     Bones:
       initial_dedication:
         skills:
-          - Medicine
+        - Medicine
         curse: Living Death
     Cosmos:
       initial_dedication:
         skills:
-          - Nature
+        - Nature
         curse: Sky's Call
     Flames:
       initial_dedication:
         skills:
-          - Acrobatics
+        - Acrobatics
         curse: Engulfing Flames
     Life:
       initial_dedication:
         skills:
-          - Medicine
+        - Medicine
         curse: Outpouring Life
     Lore:
       initial_dedication:
         skills:
-          - Occultism
+        - Occultism
         curse: Torrential Knowledge
     Tempest:
       initial_dedication:
         skills:
-          - Nature
+        - Nature
         curse: Perpetual Storm
   Ranger Archetype: {}
   Rogue Archetype: {}
@@ -228,32 +228,32 @@ pf2e_archetype_specialty:
           tradition:
             occult: trained
         skills:
-          - Intimidation
-          - Occultism
+        - Intimidation
+        - Occultism
     Angelic:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
         skills:
-          - Diplomacy
-          - Religion
+        - Diplomacy
+        - Religion
     Demonic:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
         skills:
-          - Intimidation
-          - Religion
+        - Intimidation
+        - Religion
     Diabolic:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
         skills:
-          - Deception
-          - Religion
+        - Deception
+        - Religion
     Draconic:
       choose:
         choice_name: Dragon Exemplar
@@ -265,80 +265,80 @@ pf2e_archetype_specialty:
                 tradition:
                   occult: trained
               skills:
-                - Intimidation
-                - Occultism
+              - Intimidation
+              - Occultism
           Bestial:
             initial_dedication:
               magic_stats:
                 tradition:
                   primal: trained
               skills:
-                - Intimidation
-                - Nature
+              - Intimidation
+              - Nature
           Brine:
             initial_dedication:
               magic_stats:
                 tradition:
                   primal: trained
               skills:
-                - Intimidation
-                - Nature
+              - Intimidation
+              - Nature
           Cloud:
             initial_dedication:
               magic_stats:
                 tradition:
                   primal: trained
               skills:
-                - Intimidation
-                - Nature
+              - Intimidation
+              - Nature
           Crystal:
             initial_dedication:
               magic_stats:
                 tradition:
                   primal: trained
               skills:
-                - Intimidation
-                - Nature
+              - Intimidation
+              - Nature
           Diabolic:
             initial_dedication:
               magic_stats:
                 tradition:
                   divine: trained
               skills:
-                - Intimidation
-                - Religion
+              - Intimidation
+              - Religion
           Empyreal:
             initial_dedication:
               magic_stats:
                 tradition:
                   divine: trained
               skills:
-                - Intimidation
-                - Religion
+              - Intimidation
+              - Religion
           Forest:
             initial_dedication:
               magic_stats:
                 tradition:
                   primal: trained
               skills:
-                - Intimidation
-                - Nature
+              - Intimidation
+              - Nature
           Fortune:
             initial_dedication:
               magic_stats:
                 tradition:
                   arcane: trained
               skills:
-                - Intimidation
-                - Arcana
+              - Intimidation
+              - Arcana
           Madness:
             initial_dedication:
               magic_stats:
                 tradition:
                   occult: trained
               skills:
-                - Intimidation
-                - Occultism
+              - Intimidation
+              - Occultism
           Magma:
             initial_dedication:
               magic_stats:
@@ -353,32 +353,32 @@ pf2e_archetype_specialty:
                 tradition:
                   arcane: trained
               skills:
-                - Intimidation
-                - Arcana
+              - Intimidation
+              - Arcana
           Ossuary:
             initial_dedication:
               magic_stats:
                 tradition:
                   divine: trained
               skills:
-                - Intimidation
-                - Religion
+              - Intimidation
+              - Religion
           Terra:
             initial_dedication:
               magic_stats:
                 tradition:
                   primal: trained
               skills:
-                - Intimidation
-                - Nature
+              - Intimidation
+              - Nature
           Umbral:
             initial_dedication:
               magic_stats:
                 tradition:
                   occult: trained
               skills:
-                - Intimidation
-                - Occultism
+              - Intimidation
+              - Occultism
       initial_dedication:
         magic_stats:
           tradition: []
@@ -397,140 +397,166 @@ pf2e_archetype_specialty:
           tradition:
             primal: trained
         skills:
-          - Nature
-          - Intimidation
+        - Nature
+        - Intimidation
     Fey:
       initial_dedication:
         magic_stats:
           tradition:
             primal: trained
         skills:
-          - Nature
-          - Deception
+        - Nature
+        - Deception
     Hag:
       initial_dedication:
         magic_stats:
           tradition:
             occult: trained
         skills:
-          - Occultism
-          - Deception
+        - Occultism
+        - Deception
     Imperial:
       initial_dedication:
         magic_stats:
           tradition:
             arcane: trained
         skills:
-          - Arcana
-          - Society
+        - Arcana
+        - Society
     Undead:
       initial_dedication:
         magic_stats:
           tradition:
             divine: trained
         skills:
-          - Religion
-          - Intimidation
+        - Religion
+        - Intimidation
   Swashbuckler Archetype:
     Battledancer:
       initial_dedication:
         skill choice:
-          - Acrobatics
-          - Performance
+        - Acrobatics
+        - Performance
         action: []
         reaction: []
     Braggart:
       initial_dedication:
         skill choice:
-          - Acrobatics
-          - Intimidation
+        - Acrobatics
+        - Intimidation
         action: []
         reaction: []
     Fencer:
       initial_dedication:
         skill choice:
-          - Acrobatics
-          - Deception
+        - Acrobatics
+        - Deception
         action: []
         reaction: []
     Gymnast:
       initial_dedication:
         skill choice:
-          - Acrobatics
-          - Athletics
+        - Acrobatics
+        - Athletics
         action: []
         reaction: []
     Rascal:
       initial_dedication:
         skill choice:
-          - Acrobatics
-          - Thievery
+        - Acrobatics
+        - Thievery
         action: []
         reaction: []
     Wit:
       initial_dedication:
         skill choice:
-          - Acrobatics
-          - Diplomacy
+        - Acrobatics
+        - Diplomacy
         action: []
         reaction: []
   Witch Archetype:
     Curse:
       initial_dedication:
         skills:
-          - Occultism
+        - Occultism
         magic_stats:
           tradition:
             occult: trained
     Fate:
       initial_dedication:
         skills:
-          - Occultism
+        - Occultism
         magic_stats:
           tradition:
             occult: trained
     Fervor:
       initial_dedication:
         skills:
-          - Religion
+        - Religion
         magic_stats:
           tradition:
             divine: trained
     Night:
       initial_dedication:
         skills:
-          - Occultism
+        - Occultism
         magic_stats:
           tradition:
             occult: trained
     Rune:
       initial_dedication:
         skills:
-          - Arcana
+        - Arcana
         magic_stats:
           tradition:
             arcane: trained
     Wild:
       initial_dedication:
         skills:
-          - Nature
+        - Nature
         magic_stats:
           tradition:
             primal: trained
     Winter:
       initial_dedication:
         skills:
-          - Nature
+        - Nature
         magic_stats:
           tradition:
             primal: trained
   Wizard Archetype:
-    Abjuration: []
-    Conjuration: []
-    Divination: []
-    Enchantment: []
-    Evocation: []
-    Illusion: []
-    Necromancy: []
-    Transmutation: []
-    Universalist: []
+    Department of Mana Syntaxia:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+    Department of Accordant Conjury:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+    Department of Urban Thaumaturgy:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+    Department of Defensive Cerebralism:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+    Department of Mutable Modification:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+    Department of Null's Purview:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained
+    School of Unified Magical Theory:
+      initial_dedication:
+        magic_stats:
+          tradition:
+            arcane: trained

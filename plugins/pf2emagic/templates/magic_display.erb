@@ -27,6 +27,12 @@
 <% end -%>
 <%= innate_remaining_spells_today %>
 <% end %>
+<% if has_adapted_spells %>
+<%= textline("Adapted Spells") %>
+<% adapted_spells.each do |spell| -%>
+<%= spell %>
+<% end -%>
+<% end %>
 <%= divider %>
 <%= help_text %>
 <%= footer %>

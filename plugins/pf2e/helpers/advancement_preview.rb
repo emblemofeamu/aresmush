@@ -73,25 +73,66 @@ module AresMUSH
 
       if pending_book.is_a?(Hash)
         pending_book.each_pair do |level, spells|
-          existing = Array(class_book[level])
           additions = Array(spells).reject { |s| s.to_s.strip.empty? || s.to_s.downcase == 'open' }
+          next if additions.empty?
+
+          if Pf2emagic.any_rank?(level)
+            additions.each { |spell| file_spell_by_rank(class_book, spell) }
+            next
+          end
+
+          existing = Array(class_book[level])
           class_book[level] = (existing + additions).uniq
         end
       else
         Array(pending_book).each do |spell|
           next if spell.to_s.strip.empty? || spell.to_s.downcase == 'open'
-          sp = Pf2emagic.get_spell_details(spell)
-          spdeets = sp && sp[1]
-          next unless spdeets
 
-          level_key = spdeets['base_level'].to_s
-          existing = Array(class_book[level_key])
-          class_book[level_key] = (existing + [spell]).uniq
+          file_spell_by_rank(class_book, spell)
         end
       end
 
       spellbook[target_class] = class_book
       spellbook
+    end
+
+    def self.preview_max_spell_rank(char, charclass)
+      magic = char.magic
+      committed = magic && magic.spells_per_day[charclass]
+
+      ranks = Array(committed.is_a?(Hash) ? committed.keys : nil)
+
+      pending_magic_stats(char).each do |stats|
+        per_day = stats['spells_per_day']
+        next unless per_day.is_a?(Hash)
+
+        per_day = per_day[charclass] if per_day.keys.any? { |k| k.to_s.casecmp?(charclass.to_s) }
+        ranks += Array(per_day.is_a?(Hash) ? per_day.keys : nil)
+      end
+
+      ranks = ranks.reject { |rank| rank.to_s.casecmp?('cantrip') }.map(&:to_i)
+
+      ranks.empty? ? nil : ranks.max
+    end
+
+    def self.pending_magic_stats(char)
+      stats = (char.pf2_advancement || {})['magic_stats']
+
+      return [] unless stats.is_a?(Hash)
+      return [ stats ] if stats.key?('spells_per_day')
+
+      stats.values.select { |entry| entry.is_a?(Hash) }
+    end
+
+    def self.file_spell_by_rank(class_book, spell)
+      sp = Pf2emagic.get_spell_details(spell)
+      spdeets = sp && sp[1]
+      return unless spdeets
+
+      level_key = spdeets['base_level'].to_s
+      existing = Array(class_book[level_key])
+
+      class_book[level_key] = (existing + [spell]).uniq
     end
 
     def self.preview_feat_names(char)

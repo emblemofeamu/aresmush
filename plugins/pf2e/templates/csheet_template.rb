@@ -126,13 +126,12 @@ module AresMUSH
       end
 
       def unarmed_attacks
-        unarmed_prof = combat_stats.weapon_prof['unarmed']
         list = []
 
         attack_list = combat_stats.unarmed_attacks
 
         attack_list.each do |atk, info|
-          list << format_unarmed(@char, atk, info, unarmed_prof)
+          list << format_unarmed(@char, atk, info, Pf2eCombat.get_unarmed_prof(@char, atk, info))
         end
 
         list
@@ -150,6 +149,61 @@ module AresMUSH
         end
 
         list
+      end
+
+      def crit_spec
+        access = Pf2e.crit_spec_access(@char)
+
+        return [] if access.empty?
+
+        access.keys.sort.filter_map do |group|
+          effect = Pf2e.crit_spec_effect(group)
+          next if effect.blank?
+
+          names = access[group].join(", ")
+
+          wrap_hanging("#{item_color}#{group}%xn - #{names}: #{effect}", 78, 3)
+        end
+      end
+
+      def crit_spec_sources
+        sources = Pf2e.crit_spec_sources(@char)
+
+        return "" if sources.empty?
+
+        " Via #{sources.sort.join(', ')}."
+      end
+
+      def wrap_hanging(text, width, indent)
+        return "" if text.blank?
+
+        words = text.split(/\s+/)
+        lines = []
+        current = ""
+
+        words.each do |word|
+          candidate = current.empty? ? word : "#{current} #{word}"
+          limit = lines.empty? ? width : width - indent
+
+          if visible_length(candidate) <= limit
+            current = candidate
+          else
+            lines << current unless current.empty?
+            current = word
+          end
+        end
+
+        lines << current unless current.empty?
+
+        first = lines.shift
+        pad = "%b" * indent
+
+        ([ first ] + lines.map { |l| pad + l }).join("%r")
+      end
+
+      def visible_length(text)
+        formatted = MushFormatter.format(text)
+        AnsiFormatter.strip_ansi(formatted).length
       end
 
       def conditions
@@ -212,7 +266,7 @@ module AresMUSH
       end
 
       def titleize_trait(trait)
-        trait.to_s.split("_").map(&:capitalize).join(" ")
+        trait.to_s.split("_").map { |word| word.sub(/\A[a-z]/) { |c| c.upcase } }.join(" ")
       end
 
     end

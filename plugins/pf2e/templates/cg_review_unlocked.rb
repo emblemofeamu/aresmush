@@ -466,7 +466,7 @@ module AresMUSH
       end
 
       def bg_boosts
-        list = @background_info["abl_boosts"] ? @background_info["abl_boosts"] : []
+        list = Pf2e.config_abl_boosts(@char, @background_info)
 
         return "None." if list.empty?
 
@@ -576,9 +576,13 @@ module AresMUSH
         Array(source[key]).difference([ "open" ])
       end
 
+      def granted_skills(source)
+        Pf2e.config_skills(@char, source)
+      end
+
       def starting_skill_groups
         [
-          [ 'Background Skills', config_list(@background_info, 'skills') ],
+          [ 'Background Skills', granted_skills(@background_info).difference([ "open" ]) ],
           [ 'Heritage Skills',   config_list(@heritage_info, 'skills') ],
           [ 'Class Skills',      config_list(@class_features_info, 'skills') ],
           [ 'Specialty Skills',  config_list(@subclass_features_info, 'skills') +
@@ -603,25 +607,33 @@ module AresMUSH
         granted.uniq.size != granted.size
       end
 
-      # A background or class skill list longer than this is spammy, so it points at the wiki instead.
+      # A skill choice list longer than this is spammy, so it points at the wiki instead.
       MANY_SKILL_OPTIONS = 5
 
-      def skill_choice_display(options)
+      def skill_choice_display(options, source)
       # The options for a skill choice, which is made later, once base info is committed.
         options = Array(options).compact
 
         return nil if options.empty?
-        return t('pf2e.cg_skill_choice_many') if options.size > MANY_SKILL_OPTIONS
+        return t('pf2e.cg_skill_choice_many', :source => source) if options.size > MANY_SKILL_OPTIONS
 
         options.sort.join(" or ")
       end
 
       def bg_skill_choice
-        skill_choice_display(@background_info.is_a?(Hash) ? @background_info['skill choice'] : nil)
+        skill_choice_display(config_list(@background_info, 'skill choice'), "background's")
       end
 
       def class_skill_choice
-        skill_choice_display(@class_features_info.is_a?(Hash) ? @class_features_info['skill choice'] : nil)
+        skill_choice_display(config_list(@class_features_info, 'skill choice'), "class's")
+      end
+
+      def specialty_skill_choice
+      # A specialty and its option can each offer a choice; they share one line.
+        options = config_list(@subclass_features_info, 'skill choice') +
+                  config_list(@subclassopt_features_info, 'skill choice')
+
+        skill_choice_display(options.uniq, "specialty's")
       end
 
       def all_grants
@@ -629,7 +641,7 @@ module AresMUSH
                     @subclass_features_info, @subclassopt_features_info ]
 
         granted = sources.select { |source| source.is_a?(Hash) }
-                         .flat_map { |source| Array(source['skills']) }
+                         .flat_map { |source| granted_skills(source) }
 
         granted + draconic_skills + deity_skills
       end

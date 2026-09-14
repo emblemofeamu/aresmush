@@ -51,7 +51,10 @@ module AresMUSH
       # A spell that does not have a tradition key cannot be put in a spellbook.
       return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
 
-      charclass_can_cast = deets['tradition'].include? charclass_trad[0]
+      # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
+      # even though it sits off that class's tradition list.
+      charclass_can_cast = deets['tradition'].include?(charclass_trad[0]) ||
+                           adapted_spell?(char, charclass, spell)
 
       return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
 
@@ -65,7 +68,103 @@ module AresMUSH
       return t('pf2emagic.cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
       return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
 
+      unless spellbook_addition_fits?(char, charclass, level, spell, nil, :advancement)
+        return t('pf2emagic.no_unrestricted_spellbook')
+      end
+
       [ spell, deets ]
+    end
+
+    def self.spellbook_addition_fits?(char, charclass, level, spell, replacing=nil, scope=:all)
+      magic = char.magic
+      return true unless magic
+
+      for_class = if scope == :advancement
+        advancement_restricted_spellbook(char, charclass)
+      else
+        (magic.restricted_spellbook || {})[charclass]
+      end
+      return true unless for_class.is_a?(Hash)
+
+      restricted = for_class.each_with_object({}) do |(restriction, by_rank), hash|
+        count = restricted_count_at_rank(by_rank, level)
+        hash[restriction] = count if count.positive?
+      end
+
+      return true if restricted.empty?
+
+      if restricted.size > 1
+        Global.logger.error "More than one spellbook restriction at rank #{level} for #{char.name}; only the first is enforced."
+      end
+
+      restriction, count = restricted.first
+
+      held = if scope == :advancement
+        Array((Pf2e.preview_spellbook(char, charclass)[charclass] || {})[level])
+      else
+        Array((magic.spellbook[charclass] || {})[level])
+      end
+
+      capacity = held.size + pending_spellbook_picks(char, charclass, level)
+      open = capacity - count
+
+      return true if open >= capacity
+
+      proposed = held + [ spell ]
+
+      if replacing.present?
+        out = proposed.index { |s| s.to_s.casecmp?(replacing.to_s) }
+        proposed.delete_at(out) if out
+      end
+
+      eligible = Pf2emagic.restricted_spell_list(char, charclass, restriction, level).map { |s| s.to_s.downcase }
+      others = proposed.reject { |s| eligible.include?(s.to_s.downcase) }
+
+      others.size <= open
+    end
+
+    def self.restricted_count_at_rank(by_rank, level)
+      return 0 unless by_rank.is_a?(Hash)
+
+      key = by_rank.keys.find { |k| k.to_s.casecmp?(level.to_s) }
+
+      key ? by_rank[key].to_i : 0
+    end
+
+    def self.advancement_restricted_spellbook(char, charclass)
+      stats = (char.pf2_advancement || {})['magic_stats']
+      return {} unless stats.is_a?(Hash)
+
+      block = stats['restricted_spellbook']
+      unless block.is_a?(Hash)
+        holder = stats.values.find { |v| v.is_a?(Hash) && v['restricted_spellbook'].is_a?(Hash) }
+        block = holder && holder['restricted_spellbook']
+      end
+
+      block.is_a?(Hash) ? block : {}
+    end
+
+    def self.pending_spellbook_picks(char, charclass, level)
+      book = (char.pf2_to_assign || {})['spellbook']
+      return 0 unless book.is_a?(Hash)
+
+      book = book[charclass] if book.keys.any? { |k| k.to_s.casecmp?(charclass.to_s) }
+      return 0 unless book.is_a?(Hash)
+
+      key = book.keys.find { |k| k.to_s.casecmp?(level.to_s) }
+      count = Array(key && book[key]).count { |s| s.to_s.casecmp?('open') }
+
+      count += open_any_rank_picks(book) unless level.to_s.casecmp?('cantrip')
+
+      count
+    end
+
+    def self.open_any_rank_picks(book)
+      return 0 unless book.is_a?(Hash)
+
+      key = book.keys.find { |k| Pf2emagic.any_rank?(k) }
+
+      Array(key && book[key]).count { |s| s.to_s.casecmp?('open') }
     end
 
     def self.select_gated_spell(char, charclass, level, old_spell, new_spell, gate, is_dedication=false, common_only=false)
@@ -197,7 +296,10 @@ module AresMUSH
       # A spell that does not have a tradition key cannot be put in a spellbook.
       return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
 
-      charclass_can_cast = deets['tradition'].include? charclass_trad[0]
+      # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
+      # even though it sits off that class's tradition list.
+      charclass_can_cast = deets['tradition'].include?(charclass_trad[0]) ||
+                           adapted_spell?(char, charclass, to_add)
 
       return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
 
@@ -234,6 +336,10 @@ module AresMUSH
         old_spname = nil
         i = new_spells_for_level.index "open"
         return t('pf2emagic.no_available_slots') unless i
+      end
+
+      if sp_list_type == "spellbook" && !spellbook_addition_fits?(char, charclass, level, to_add, old_spname)
+        return t('pf2emagic.no_unrestricted_spellbook')
       end
 
       # If we have reached this point, it's time to add the spell.

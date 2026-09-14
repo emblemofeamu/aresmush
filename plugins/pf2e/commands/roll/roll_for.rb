@@ -59,23 +59,7 @@ module AresMUSH
                   :degree => degree
                 )
 
-        enactor_room.emit roll_msg
-
-        scene = enactor_room.scene
-        if scene
-          Scenes.add_to_scene(scene, roll_msg)
-
-        # Add to the encounter, if in an active encounter in the scene.
-          active_encounter = PF2Encounter.scene_active_encounter(scene)
-          if active_encounter
-            PF2Encounter.send_to_encounter(active_encounter, roll_msg)
-          end
-        end
-
-        channel = Global.read_config("pf2e", "roll_channel")
-        if (channel)
-          Channels.send_to_channel(channel, roll_msg)
-        end
+        Pf2e.broadcast_roll(enactor_room, roll_msg)
 
         Global.logger.info "PF2 ROLL: #{roll_msg}"
       end

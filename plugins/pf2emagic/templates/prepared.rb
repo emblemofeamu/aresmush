@@ -3,11 +3,12 @@ module AresMUSH
     class PF2DisplayPreparedSpellsTemplate < ErbTemplateRenderer
       include CommonTemplateFields
 
-      attr_accessor :char, :spell_list
+      attr_accessor :char, :spell_list, :client
 
-      def initialize(char, spell_list)
+      def initialize(char, spell_list, client = nil)
         @char = char
         @spell_list = spell_list
+        @client = client
 
         super File.dirname(__FILE__) + "/prepared.erb"
 
@@ -17,36 +18,57 @@ module AresMUSH
         t('pf2emagic.prepared_spells_title', :name => @char.name)
       end
 
+      def textline(title)
+        @client && @client.screen_reader ? title : line_with_text(title)
+      end
+
       def spells_per_day
         @char.magic.spells_per_day
       end
 
-      def spells
-
-        list = []
-
-        @spell_list.each_pair do |charclass, spells|
-          sorted_spells = Pf2emagic.sort_level_spell_list(spells)
-          daily_spells_for_charclass = spells_per_day[charclass]
-          sublist = []
-
-          sorted_spells.each_pair do |level, list|
-            max_for_level = daily_spells_for_charclass[level]
-
-            sublist << "%b%b#{item_color}#{level}%xn (max #{max_for_level}): #{list.sort.join(", ")}"
-          end
-
-          list << format_class_spell_list(charclass, sublist)
-        end
-
-        list
+      def help_text
+        t('pf2emagic.prepared_spells_help')
       end
 
-      def format_class_spell_list(charclass, spells)
-        # Spells come to this function as an array of formatted level lists, so all we need to do is
-        # arrange by class.
+      def spells
+        @spell_list.map do |charclass, by_level|
+          sorted = Pf2emagic.sort_level_spell_list(by_level)
 
-        "#{title_color}#{charclass} Spells%xn%r%r#{spells.join("%r")}%r"
+          lines = sorted.map do |level, spell_names|
+            heading = "%b%b#{item_color}#{Pf2emagic.rank_label(level)} (#{slot_summary(charclass, level)})%xn"
+            names = "%b%b%b%b#{Array(spell_names).sort.join(", ")}"
+
+            "#{heading}%r#{names}"
+          end
+
+          format_class_spell_list(charclass, lines)
+        end
+      end
+
+      def slot_summary(charclass, level)
+        parts = [ count_with_noun(base_slots(charclass, level), 'slot') ]
+
+        Pf2emagic.restricted_slots_at(@char, charclass, level).each_pair do |restriction, count|
+          parts << count_with_noun(count, "#{restriction} slot") if count.to_i.positive?
+        end
+
+        parts.join(" + ")
+      end
+
+      def base_slots(charclass, level)
+        for_class = spells_per_day[charclass]
+        return 0 unless for_class.is_a?(Hash)
+
+        key = for_class.keys.find { |k| k.to_s.casecmp?(level.to_s) }
+        key ? for_class[key].to_i : 0
+      end
+
+      def count_with_noun(count, noun)
+        "#{count.to_i} #{noun}#{'s' unless count.to_i == 1}"
+      end
+
+      def format_class_spell_list(charclass, lines)
+        "#{textline("#{charclass} Spells")}%r%r#{lines.join("%r%r")}%r"
       end
 
     end

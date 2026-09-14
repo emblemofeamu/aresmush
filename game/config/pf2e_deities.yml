@@ -16,6 +16,7 @@ pf2e_deities:
       - Intelligence
       - Charisma
     divine_skill: Medicine
+    related_lore: Althean Lore
     fav_weapon: halberd
     domains:
       - Family
@@ -50,6 +51,7 @@ pf2e_deities:
         - heal
     divine_ability: Strength
     divine_skill: Athletics
+    related_lore: Angorite Lore
     fav_weapon: maul
     domains:
       - Confidence
@@ -83,6 +85,7 @@ pf2e_deities:
         - harm
     divine_ability: Wisdom
     divine_skill: Arcana
+    related_lore: Animusian Lore
     fav_weapon: staff
     domains:
       - Magic
@@ -113,6 +116,7 @@ pf2e_deities:
       - Strength
       - Charisma
     divine_skill: Survival
+    related_lore: Caracorothan Lore
     fav_weapon: claw blade
     domains:
       - Ambition
@@ -146,6 +150,7 @@ pf2e_deities:
         - harm
     divine_ability: Charisma
     divine_skill: Performance
+    related_lore: Ceinaran Lore
     fav_weapon: rapier
     domains:
       - Fire
@@ -178,6 +183,7 @@ pf2e_deities:
       - Intelligence
       - Charisma
     divine_skill: Society
+    related_lore: Daeusite Lore
     fav_weapon: longsword
     domains:
       - Dragon
@@ -211,6 +217,7 @@ pf2e_deities:
         - harm
     divine_ability: Charisma
     divine_skill: Nature
+    related_lore: Danan Lore
     fav_weapon: scimitar
     domains:
       - Earth
@@ -241,6 +248,7 @@ pf2e_deities:
         - harm
     divine_ability: Charisma
     divine_skill: Deception
+    related_lore: Deimosian Lore
     fav_weapon: light hammer
     domains:
       - Delirium
@@ -275,6 +283,7 @@ pf2e_deities:
       - Intelligence
       - Wisdom
     divine_skill: Arcana
+    related_lore: Elunan Lore
     fav_weapon: starknife
     domains:
       - Moon
@@ -306,6 +315,7 @@ pf2e_deities:
         - harm
     divine_ability: Dexterity
     divine_skill: Survival
+    related_lore: Gileadean Lore
     fav_weapon: longbow
     domains:
       - Earth
@@ -335,6 +345,7 @@ pf2e_deities:
         - harm
     divine_ability: Constitution
     divine_skill: Survival
+    related_lore: Gunahkaran Lore
     fav_weapon: guisarme
     domains:
       - Destruction
@@ -364,6 +375,7 @@ pf2e_deities:
         - harm
     divine_ability: Constitution
     divine_skill: Society
+    related_lore: Illothan Lore
     fav_weapon: kukri
     domains:
       - Fate
@@ -395,6 +407,7 @@ pf2e_deities:
         - harm
     divine_ability: Strength
     divine_skill: Intimidation
+    related_lore: Korite Lore
     fav_weapon: greataxe
     domains:
       - Zeal
@@ -424,6 +437,7 @@ pf2e_deities:
         - harm
     divine_ability: Constitution
     divine_skill: Intimidation
+    related_lore: Maugrimite Lore
     fav_weapon: greatsword
     domains:
       - Ambition
@@ -455,7 +469,8 @@ pf2e_deities:
         - heal
     divine_ability: Wisdom
     divine_skill: Acrobatics
-    fav_weapon: unarmed
+    related_lore: Navosian Lore
+    fav_weapon: fist
     domains:
       - Time
       - Secrecy
@@ -487,6 +502,7 @@ pf2e_deities:
         - harm
     divine_ability: Wisdom
     divine_skill: Diplomacy
+    related_lore: Radan Lore
     fav_weapon: trident
     domains:
       - Air
@@ -520,6 +536,7 @@ pf2e_deities:
         - harm
     divine_ability: Wisdom
     divine_skill: Crafting
+    related_lore: Reosian Lore
     fav_weapon: warhammer
     domains:
       - Cities
@@ -553,6 +570,7 @@ pf2e_deities:
         - harm
     divine_ability: Intelligence
     divine_skill: Society
+    related_lore: Serrielite Lore
     fav_weapon: lance
     domains:
       - Cities
@@ -582,6 +600,7 @@ pf2e_deities:
         - harm
     divine_ability: Wisdom
     divine_skill: Deception
+    related_lore: Taaran Lore
     fav_weapon: spiked chain
     domains:
       - Void
@@ -613,6 +632,7 @@ pf2e_deities:
         - heal
     divine_ability: Charisma
     divine_skill: Stealth
+    related_lore: Tarienite Lore
     fav_weapon: shortsword
     domains:
       - Luck
@@ -643,6 +663,7 @@ pf2e_deities:
         - harm
     divine_ability: Wisdom
     divine_skill: Occultism
+    related_lore: Thulite Lore
     fav_weapon: scythe
     domains:
       - Cold
@@ -676,6 +697,7 @@ pf2e_deities:
         - harm
     divine_ability: Intelligence
     divine_skill: Medicine
+    related_lore: Vardaman Lore
     fav_weapon: khopesh
     domains:
       - Death

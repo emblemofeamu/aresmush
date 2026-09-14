@@ -19,9 +19,7 @@ module AresMUSH
         subclass = base_info['specialize']
         deity = faith_info['deity']
 
-        # This diversion to an optional paginator is defined because Emblem of Ea accepts approximately
-        # 3.84 metric fucktons of backgrounds. It's here in case anything else needs it later.
-        needs_paginate = false
+        title = self.element
 
         case self.element
         when 'ancestry'
@@ -35,7 +33,6 @@ module AresMUSH
           options = Global.read_config('pf2e_ancestry', ancestry, 'heritages')
         when 'background', 'backgrounds'
           options = Global.read_config('pf2e_background').keys
-          needs_paginate = true
         when 'class', 'charclass'
           options = Global.read_config('pf2e_class').keys
         when 'specialize'
@@ -79,27 +76,26 @@ module AresMUSH
 
           options = all_align & subclass_align & class_align & deity_align
         else
-          options = %w{ancestry heritage charclass background specialize specialize_info deity alignment}
+          # Not a base info element. It may still be a pending feat choice or a feat slot type, which cg/info and advance/info share.
+          shared = Pf2e.info_options(enactor, self.element)
 
-          client.emit_failure t('pf2e.bad_option', :element=>"cg/info", :options=>options.join(", "))
-          return
-        end
+          if shared
+            title = shared[0]
+            options = shared[1]
+          else
+            elements = %w{ancestry heritage charclass background specialize specialize_info deity alignment}
 
-        if needs_paginate
-          paginator = Paginator.paginate(options, cmd.page, 40)
-          if (paginator.out_of_bounds?)
-            client.emit_failure paginator.out_of_bounds_msg
+            client.emit_failure t('pf2e.bad_option', :element=>"cg/info", :options=>elements.join(", "))
             return
           end
+        end
 
-          template = PF2CGInfoTemplate.new(paginator)
+        display = Pf2e.info_option_display(title, options, cmd.page)
 
-          client.emit template.render
+        if display[:error]
+          client.emit_failure display[:error]
         else
-          client.emit t('pf2e.cg_info',
-            :element=> self.element,
-            :options=> options.join(", ")
-          )
+          client.emit display[:text]
         end
       end
 

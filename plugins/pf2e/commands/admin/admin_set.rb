@@ -34,63 +34,6 @@ module AresMUSH
       valid_instructions = %w{add delete}
 
         case self.item
-        when "feat"
-          # Expected structure of self.value: <feat type> add|delete <feat name>
-
-          feat_type = self.value[0].downcase
-          instruction = self.value[1].downcase
-          details = Pf2e.get_feat_details(self.value[2])
-
-          unless valid_instructions.include? instruction
-            client.emit_failure t('pf2e.bad_instruction')
-            return
-          end
-
-          if details.is_a? String
-            client.emit_failure t('pf2e.not_unique')
-            return
-          end
-
-          feat_name = details.first
-          fdeets = details[1]
-
-          valid_feat_types = Global.read_config('pf2e', 'valid_feat_types')
-
-          if !(valid_feat_types.include? feat_type)
-            client.emit_failure t('pf2e.bad_value', :item => 'feat type')
-            return
-          end
-
-          char_feat_list = char.pf2_feats
-          feat_sublist = char_feat_list[feat_type]
-
-          if instruction == 'add'
-            feat_sublist << feat_name
-          elsif instruction == 'delete'
-            # Feats can be duplicated, so it is necessary to delete only one at a time.
-            i = feat_sublist.index(feat_name)
-            feat_sublist.delete_at[i] if i
-          else
-            client.emit_failure t('pf2e.bad_value', :item => 'instruction')
-            return
-          end
-
-          char_feat_list[feat_type] = feat_sublist.sort
-          char.update(pf2_feats: char_feat_list)
-
-          client.emit_success t('pf2e.updated_ok', :element => "Feat #{feat_name}", :char => char.name)
-
-          feat_grants_stuff = fdeets['grants']
-
-          if feat_grants_stuff
-            if instruction == 'add'
-              charclass = fdeets['assoc_charclass'] ? fdeets['assoc_charclass'] : char.pf2_base_info['charclass']
-              Pf2e.do_feat_grants(enactor, feat_grants_stuff, charclass, client)
-              client.emit_ooc "The assigned feat grants extra stuff. Processing."
-            else
-              client.emit_ooc "The assigned feat grants other things. You may need to do manual cleanup on the sheet."
-            end
-          end
         when "skill"
           # Expected structure of self.value: `<skill name> <proficiency level>`
 
@@ -243,7 +186,7 @@ module AresMUSH
             return
           end
 
-          fspell_type = Global.read_config('pf2e_magic', 'focus_type_by_class', charclass)
+          fspell_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
 
           unless fspell_type
             client.emit_failure t('pf2e.bad_value', :item => 'character class')

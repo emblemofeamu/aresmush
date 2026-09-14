@@ -44,6 +44,9 @@
 <%= "#{item_color}Senses and Special Abilities%xn: #{specials}" %>
 <%= section_line("Proficiencies") %>
 <%= "#{item_color}Weapons%xn: #{weapon_prof}" %>
+<% unless individual_weapon_prof.blank? %>
+<%= "%b%b%b#{item_color}Individual Weapons%xn: #{individual_weapon_prof}" %>
+<% end %>
 <% if weapon_group_prof != "None" %>
 <%= "#{item_color}Weapon Groups%xn: #{weapon_group_prof}" %>
 <% end %>

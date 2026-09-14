@@ -517,6 +517,11 @@ pf2e_feats:
     traits:
       - archetype
   Arcane School Spell:
+    feat_choice:
+      auto: subclass_spell
+      from: subclass_spell
+      archetype: Wizard Archetype
+      summary: your school's initial spell
     assoc_archetype:
       - Wizard Archetype
     feat_type:
@@ -544,6 +549,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Arcana:
+    feat_choice:
+      summary: 1st- or 2nd-level wizard feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Wizard
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Wizard Archetype
     feat_type:
@@ -570,6 +583,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Blood Potency:
+    feat_choice:
+      summary: 1st- or 2nd-level sorcerer feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Sorcerer
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Sorcerer Archetype
     feat_type:
@@ -583,6 +604,11 @@ pf2e_feats:
     traits:
       - archetype
   Basic Bloodline Spell:
+    feat_choice:
+      auto: subclass_spell
+      from: subclass_spell
+      archetype: Sorcerer Archetype
+      summary: your bloodline's initial spell
     assoc_archetype:
       - Sorcerer Archetype
     feat_type:
@@ -609,6 +635,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Concoction:
+    feat_choice:
+      summary: 1st- or 2nd-level alchemist feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Alchemist
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Alchemist Archetype
     feat_type:
@@ -622,6 +656,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Deduction:
+    feat_choice:
+      summary: 1st- or 2nd-level investigator feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Investigator
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Investigator Archetype
     feat_type:
@@ -635,6 +677,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Devotion:
+    feat_choice:
+      summary: 1st- or 2nd-level champion feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Champion
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Champion Archetype
     feat_type:
@@ -648,6 +698,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Dogma:
+    feat_choice:
+      summary: 1st- or 2nd-level cleric feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Cleric
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Cleric Archetype
     feat_type:
@@ -674,6 +732,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Flair:
+    feat_choice:
+      summary: 1st- or 2nd-level swashbuckler feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Swashbuckler
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Swashbuckler Archetype
     feat_type:
@@ -687,6 +753,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Fury:
+    feat_choice:
+      summary: 1st- or 2nd-level barbarian feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Barbarian
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Barbarian Archetype
     feat_type:
@@ -700,6 +774,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Hunter's Trick:
+    feat_choice:
+      summary: 1st- or 2nd-level ranger feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Ranger
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Ranger Archetype
     feat_type:
@@ -713,6 +795,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Kata:
+    feat_choice:
+      summary: 1st- or 2nd-level monk feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Monk
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Monk Archetype
     feat_type:
@@ -726,6 +816,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Maneuver:
+    feat_choice:
+      summary: 1st- or 2nd-level fighter feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Fighter
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Fighter Archetype
     feat_type:
@@ -739,6 +837,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Muse's Whispers:
+    feat_choice:
+      summary: 1st- or 2nd-level bard feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Bard
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Bard Archetype
     feat_type:
@@ -752,6 +858,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Mysteries:
+    feat_choice:
+      summary: 1st- or 2nd-level oracle feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Oracle
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Oracle Archetype
     feat_type:
@@ -791,6 +905,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Trickery:
+    feat_choice:
+      summary: 1st- or 2nd-level rogue feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Rogue
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Rogue Archetype
     feat_type:
@@ -804,6 +926,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Wilding:
+    feat_choice:
+      summary: 1st- or 2nd-level druid feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Druid
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Druid Archetype
     feat_type:
@@ -830,6 +960,14 @@ pf2e_feats:
     traits:
       - archetype
   Basic Witchcraft:
+    feat_choice:
+      summary: 1st- or 2nd-level witch feat
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Witch
+        max_level: 2
+        ignore_charclass: true
     assoc_archetype:
       - Witch Archetype
     feat_type:
@@ -870,6 +1008,9 @@ pf2e_feats:
     traits:
       - archetype
   Devout Magic:
+    feat_choice:
+      summary: devotion spell
+      from: devotion_spells
     assoc_archetype:
       - Champion Archetype
     feat_type:
@@ -910,6 +1051,11 @@ pf2e_feats:
     traits:
       - archetype
   First Revelation:
+    feat_choice:
+      auto: subclass_spell
+      from: subclass_spell
+      archetype: Oracle Archetype
+      summary: your mystery's initial revelation spell
     assoc_archetype:
       - Oracle Archetype
     feat_type:
@@ -950,6 +1096,11 @@ pf2e_feats:
     traits:
       - archetype
   Order Spell:
+    feat_choice:
+      auto: subclass_spell
+      from: subclass_spell
+      archetype: Druid Archetype
+      summary: your order's initial spell
     assoc_archetype:
       - Druid Archetype
     feat_type:
@@ -1004,6 +1155,15 @@ pf2e_feats:
       - archetype
   # Level 6 Archetype Feats
   Advanced Arcana:
+    feat_choice:
+      summary: wizard feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Wizard
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Wizard Archetype
     feat_type:
@@ -1017,6 +1177,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Blood Potency:
+    feat_choice:
+      summary: sorcerer feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Sorcerer
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Sorcerer Archetype
     feat_type:
@@ -1030,6 +1199,14 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Concoction:
+    feat_choice:
+      summary: alchemist feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Alchemist
+        max_level: half_level
+        ignore_charclass: true
     assoc_archetype:
       - Alchemist Archetype
     feat_type:
@@ -1043,6 +1220,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Deduction:
+    feat_choice:
+      summary: investigator feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Investigator
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Investigator Archetype
     feat_type:
@@ -1056,6 +1242,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Devotion:
+    feat_choice:
+      summary: champion feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Champion
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Champion Archetype
     feat_type:
@@ -1069,6 +1264,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Dogma:
+    feat_choice:
+      summary: cleric feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Cleric
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Cleric Archetype
     feat_type:
@@ -1082,6 +1286,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Flair:
+    feat_choice:
+      summary: swashbuckler feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Swashbuckler
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Swashbuckler Archetype
     feat_type:
@@ -1095,6 +1308,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Fury:
+    feat_choice:
+      summary: barbarian feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Barbarian
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Barbarian Archetype
     feat_type:
@@ -1108,6 +1330,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Hunter's Trick:
+    feat_choice:
+      summary: ranger feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Ranger
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Ranger Archetype
     feat_type:
@@ -1121,6 +1352,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Kata:
+    feat_choice:
+      summary: monk feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Monk
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Monk Archetype
     feat_type:
@@ -1134,6 +1374,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Maneuver:
+    feat_choice:
+      summary: fighter feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Fighter
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Fighter Archetype
     feat_type:
@@ -1147,6 +1396,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Muse's Whispers:
+    feat_choice:
+      summary: bard feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Bard
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Bard Archetype
     feat_type:
@@ -1160,6 +1418,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Mysteries:
+    feat_choice:
+      summary: oracle feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Oracle
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Oracle Archetype
     feat_type:
@@ -1173,6 +1440,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Trickery:
+    feat_choice:
+      summary: rogue feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Rogue
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Rogue Archetype
     feat_type:
@@ -1186,6 +1462,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Wilding:
+    feat_choice:
+      summary: druid feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Druid
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Druid Archetype
     feat_type:
@@ -1199,6 +1484,15 @@ pf2e_feats:
     traits:
       - archetype
   Advanced Witchcraft:
+    feat_choice:
+      summary: witch feat of up to half your level
+      from_feats:
+        feat_type: Charclass
+        assoc_charclass:
+          - Witch
+        max_level: half_level
+        ignore_charclass: true
+    repeatable: true
     assoc_archetype:
       - Witch Archetype
     feat_type:
@@ -1225,6 +1519,11 @@ pf2e_feats:
     traits:
       - archetype
   Counter Perform:
+    magic_stats:
+      focus_pool: 1
+      focus_spell:
+        composition:
+          - Counter Performance
     assoc_archetype:
       - Bard Archetype
     feat_type:
@@ -1290,6 +1589,9 @@ pf2e_feats:
     traits:
       - archetype
   Voluminous Vials:
+    repeatable:
+      max: 3
+      levels: [ 6, 12, 18 ]
     assoc_archetype:
       - Alchemist Archetype
     feat_type:
@@ -1421,7 +1723,25 @@ pf2e_feats:
     shortdesc: Increase the spell slots you gain from druid archetype feats by 1 for each spell rank other than your two highest druid spell slots.
     traits:
       - archetype
+  Skill Mastery (Investigator):
+    repeatable: 5
+    assoc_archetype:
+      - Investigator Archetype
+    feat_type:
+      - Archetype
+      - Charclass
+    prereq:
+      level: 8
+      feat:
+        - Investigator Dedication
+      anyskills:
+        - trained/1
+        - expert/1
+    shortdesc: "Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose; you must meet all its prerequisites.%r%r**Special** You can select this feat up to five times."
+    traits:
+      - archetype
   Skill Mastery (Rogue):
+    repeatable: 5
     assoc_archetype:
       - Rogue Archetype
     feat_type:
@@ -1431,8 +1751,9 @@ pf2e_feats:
       level: 8
       feat:
         - Rogue Dedication
-      misc:
-        - trained in at least one skill and expert in at least one skill
+      anyskills:
+        - trained/1
+        - expert/1
     shortdesc: "Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose; you must meet all its prerequisites.%r%r**Special** You can select this feat up to five times."
     traits:
       - archetype
