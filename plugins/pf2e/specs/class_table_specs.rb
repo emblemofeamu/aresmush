@@ -25,21 +25,6 @@ module AresMUSH
       SKILL_FEAT_EVERY_LEVEL = [ 'Rogue' ].freeze
       SKILL_INCREASE_EVERY_LEVEL = [ 'Rogue', 'Investigator' ].freeze
 
-      # Known deviations in this fork's config, recorded as pending so that fixing one turns
-      # the example green and RSpec reports it. See finding 17 in
-      # docs/pathfinder-2e-in-emblem-of-ea.md.
-      KNOWN_DEVIATIONS = {
-        'Investigator' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Monk' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Oracle' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Ranger' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Rogue' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Sorcerer' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Witch' => 'level 19 grants an ancestry feat where PF2e grants a general feat',
-        'Druid' => 'level 13 grants a general feat where PF2e grants an ancestry feat',
-        'Cleric' => 'level 17 swaps ancestry for general, and level 20 grants a general feat where a class feat belongs'
-      }.freeze
-
       def self.class_names
         (Global.read_config('pf2e_class') || {}).keys.sort
       end
@@ -73,8 +58,6 @@ module AresMUSH
       class_names.each do |charclass|
         context charclass do
           it "should grant class feats at even levels" do
-            pending KNOWN_DEVIATIONS[charclass] if charclass == 'Cleric'
-
             expect(feats_by_type(charclass)['charclass']).to eq EXPECTED_FEATS['charclass']
           end
 
@@ -85,14 +68,10 @@ module AresMUSH
           end
 
           it "should grant general feats at 3, 7, 11, 15 and 19" do
-            pending KNOWN_DEVIATIONS[charclass] if KNOWN_DEVIATIONS.key?(charclass)
-
             expect(feats_by_type(charclass)['general']).to eq EXPECTED_FEATS['general']
           end
 
           it "should grant ancestry feats at 5, 9, 13 and 17" do
-            pending KNOWN_DEVIATIONS[charclass] if KNOWN_DEVIATIONS.key?(charclass)
-
             expect(feats_by_type(charclass)['ancestry']).to eq EXPECTED_FEATS['ancestry']
           end
 
