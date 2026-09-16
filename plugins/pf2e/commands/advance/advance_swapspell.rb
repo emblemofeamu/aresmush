@@ -1,6 +1,10 @@
 module AresMUSH
   module Pf2e
 
+    # Trades one spell in a spontaneous caster's repertoire for another, once per level-up.
+    #
+    # The decisions are Advancement::Repertoire. What is left here is resolving the two spell
+    # names and reading the magic object, both of which need the live character.
     class PF2AdvanceSwapSpellCmd
       include CommandHandler
 
@@ -13,6 +17,7 @@ module AresMUSH
         self.level = trim_arg(args.arg2)
 
         spells = trimmed_list_arg(args.arg3, "/")
+
         if spells
           self.old_value = spells[0]
           self.new_value = spells[1]
@@ -33,83 +38,93 @@ module AresMUSH
         return t('pf2e.swapspell_repertoire_only')
       end
 
+      # Also a guard inside Repertoire.swap, which is the authority - this is here so that a
+      # player who has already swapped is told that, rather than being told their spell name is
+      # wrong on the way to the same answer.
       def check_swap_limit
-        advancement = enactor.pf2_advancement || {}
-        return t('pf2e.swapspell_limit') if advancement['repertoire_swap']
-        return nil
+        return nil unless (enactor.pf2_advancement || {})['repertoire_swap']
+        return t('pf2e.swapspell_limit')
       end
 
       def handle
         magic = enactor.magic
-        unless magic
+
+        if !magic
           client.emit_failure t('pf2emagic.not_caster')
           return
         end
 
         charclass = enactor.pf2_base_info['charclass']
-        caster_type = Pf2emagic.get_caster_type(charclass)
-        unless caster_type == "spontaneous"
+
+        if Pf2emagic.get_caster_type(charclass) != 'spontaneous'
           client.emit_failure t('pf2e.swapspell_repertoire_only')
           return
         end
 
-        level = self.level.to_i.zero? ? 'cantrip' : self.level
-        repertoire = magic.repertoire || {}
-        class_rep = repertoire[charclass] || {}
-        level_list = Array(class_rep[level])
-
         old_spell = resolve_spell_name(self.old_value)
         return unless old_spell
 
-        unless level_list.any? { |s| s.to_s.casecmp?(old_spell) }
-          client.emit_failure t('pf2emagic.not_in_list')
-          return
-        end
+        # The new spell goes through the caster's own check, which knows their tradition and
+        # what ranks they can reach.
+        choice = Pf2emagic.check_spell(enactor, charclass, rank, self.new_value, true)
 
-        locked_spells = granted_repertoire_spells(enactor).map { |s| s.downcase }
-        if locked_spells.include?(old_spell.downcase)
-          client.emit_failure t('pf2e.swapspell_locked')
-          return
-        end
-
-        choice = Pf2emagic.check_spell(enactor, charclass, level, self.new_value, true)
         if choice.is_a?(String)
           client.emit_failure choice
           return
         end
 
-        new_spell = choice[0]
+        swapped = Pf2e::Advancement::Repertoire.swap(held_at_rank, old_spell, choice[0],
+          :locked => locked_spells,
+          :already_swapped => !!(enactor.pf2_advancement || {})['repertoire_swap'])
 
-        if old_spell.casecmp?(new_spell)
-          client.emit_failure t('pf2e.swapspell_same')
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, swapped)
 
-        if level_list.any? { |s| s.to_s.casecmp?(new_spell) }
-          client.emit_failure t('pf2e.already_has', :item => 'spell')
-          return
-        end
+        record!(old_spell, choice[0], swapped)
 
-        index = level_list.index { |s| s.to_s.casecmp?(old_spell) }
-        level_list[index] = new_spell
+        client.emit_success t('pf2e.swapspell_ok', :old => old_spell, :new => choice[0], :level => rank)
+      end
 
-        class_rep[level] = level_list
-        repertoire[charclass] = class_rep
-        magic.update(repertoire: repertoire)
+      private
+
+      # 'cantrip' or the rank as written.
+      def rank
+        @rank ||= self.level.to_i.zero? ? 'cantrip' : self.level
+      end
+
+      def repertoire
+        @repertoire ||= enactor.magic.repertoire || {}
+      end
+
+      def held_at_rank
+        Array((repertoire[enactor.pf2_base_info['charclass']] || {})[rank])
+      end
+
+      # Spells the character's specialty put there, which are not theirs to trade away.
+      def locked_spells
+        info = Global.read_config('pf2e_specialty',
+          enactor.pf2_base_info['charclass'], enactor.pf2_base_info['specialize'])
+
+        Pf2e::Advancement::Repertoire.granted(info, enactor.pf2_level)
+      end
+
+      # The swap on the magic object, and the note in the draft that advance/reset reads to put
+      # it back.
+      def record!(old_spell, new_spell, spells)
+        charclass = enactor.pf2_base_info['charclass']
+        updated = repertoire
+        updated[charclass] = (updated[charclass] || {}).merge(rank => spells)
+
+        enactor.magic.update(:repertoire => updated)
 
         advancement = enactor.pf2_advancement || {}
-        advancement['repertoire_swap'] = {
-          'level' => level,
-          'old' => old_spell,
-          'new' => new_spell
-        }
-        enactor.update(pf2_advancement: advancement)
+        advancement['repertoire_swap'] = { 'level' => rank, 'old' => old_spell, 'new' => new_spell }
 
-        client.emit_success t('pf2e.swapspell_ok', :old => old_spell, :new => new_spell, :level => level)
+        enactor.update(:pf2_advancement => advancement)
       end
 
       def resolve_spell_name(term)
         matches = Pf2emagic.get_spells_by_name(term)
+
         if matches.empty?
           client.emit_failure t('pf2emagic.no_such_spell')
           return nil
@@ -121,37 +136,6 @@ module AresMUSH
         end
 
         matches.first
-      end
-
-      def granted_repertoire_spells(char)
-        charclass = char.pf2_base_info['charclass']
-        specialty = char.pf2_base_info['specialize']
-
-        return [] if charclass.to_s.strip.empty? || specialty.to_s.strip.empty?
-
-        specialty_info = Global.read_config('pf2e_specialty', charclass, specialty) || {}
-        spells = []
-
-        addrepertoire_from = lambda do |magic_stats|
-          return unless magic_stats
-          addrep = magic_stats['addrepertoire']
-          return unless addrep
-
-          addrep.each_pair do |level, entries|
-            Array(entries).each { |spell| spells << spell }
-          end
-        end
-
-        addrepertoire_from.call(specialty_info.dig('chargen', 'magic_stats'))
-
-        advance = specialty_info['advance'] || {}
-        current_level = char.pf2_level.to_i
-        advance.each_pair do |lvl, info|
-          next unless lvl.to_i <= current_level
-          addrepertoire_from.call(info['magic_stats'])
-        end
-
-        spells.compact.map(&:to_s)
       end
 
     end
