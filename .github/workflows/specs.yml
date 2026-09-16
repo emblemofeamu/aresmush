@@ -1,31 +1,97 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
-# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+# Runs the spec suites on every pull request and on every push to master.
+#
+# Two jobs, because the suites have different needs:
+#
+#   Unit specs - `rake spec:unit` (rspec --tag ~dbtest).  Pure Ruby, no database,
+#     about two seconds.  This is the one meant to be a required status check.
+#   Database specs - `rake spec:db` (rspec --tag dbtest).  Drives real characters
+#     through chargen and twenty levels against a live Valkey, and takes minutes.
+#     Informational: useful signal, too slow and too stateful to gate a merge on.
+#
+# ruby/setup-ruby reads .ruby-version, so the CI Ruby follows the game's.
 
-name: Ruby
+name: Specs
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "main" ]
 
 permissions:
   contents: read
 
+# A new push to a PR makes the in-flight run pointless; master runs are kept.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  test:
+  unit:
+    name: Unit specs
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.3.6' # Not needed with a .ruby-version, .tool-versions or mise.toml
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Copy config
-      run: cp -R install/game.distr game
-    - name: Run tests
-      run: bin/test
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '.ruby-version'
+          bundler-cache: true
+
+      - name: Run unit specs
+        run: bundle exec rake spec:unit
+
+  db:
+    name: Database specs
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      # Throwaway credential for a container that lives ten minutes.
+      ARES_CI_DB_PASSWORD: ares-ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '.ruby-version'
+          bundler-cache: true
+
+      # Not a `services:` container: AresMUSH always sends AUTH (Redic treats the
+      # empty password in redis://:@host as a password), so the server has to have
+      # one set, and a service container gives no way to pass --requirepass.
+      - name: Start Valkey
+        run: |
+          docker run -d --name ares-ci-valkey -p 6379:6379 \
+            valkey/valkey:8-alpine valkey-server --requirepass "$ARES_CI_DB_PASSWORD"
+          for _ in $(seq 1 30); do
+            if docker exec ares-ci-valkey \
+                 valkey-cli -a "$ARES_CI_DB_PASSWORD" --no-auth-warning ping 2>/dev/null \
+                 | grep -q PONG; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Valkey did not come up:"
+          docker logs ares-ci-valkey
+          exit 1
+
+      # game/config/secrets.yml is gitignored, so CI writes the one value the
+      # specs need.
+      - name: Write database credentials
+        run: |
+          cat > game/config/secrets.yml <<YAML
+          secrets:
+              database:
+                  password: "$ARES_CI_DB_PASSWORD"
+          YAML
+
+      # The specs create characters, and a character with no room asks
+      # Game.master for the IC start room - so they need a built world, not just
+      # a reachable Valkey.  `rake init` flushes the database and builds one; it
+      # only ever touches the container started above.
+      - name: Build a fresh game database
+        run: bundle exec rake init
+
+      - name: Run database specs
+        run: bundle exec rake spec:db
