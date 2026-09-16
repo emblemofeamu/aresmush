@@ -263,7 +263,7 @@ module AresMUSH
       magic = char.magic
       return [] unless magic
 
-      lists = Array(magic.focus_spells&.values) + Array(magic.focus_cantrips&.values)
+      lists = [ Pf2emagic::Entries.all_focus(magic) ]
 
       lists.flatten.compact.map { |s| s.to_s.strip }.reject(&:empty?)
     end

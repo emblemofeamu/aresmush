@@ -2,8 +2,9 @@ module AresMUSH
   class PF2Magic < Ohm::Model
     include ObjectModel
 
-    attribute :focus_cantrips, :type => DataType::Hash, :default => {}
-    attribute :focus_spells, :type => DataType::Hash, :default => {}
+    # The focus pool stays here and stays shared: PF2e gives a character one pool however many
+    # sources feed it. The spells themselves moved to Pf2eSpellcastingEntry rows, one per focus
+    # type per granting source, because a single bucket per type could not say whose they were.
     attribute :focus_pool, :type => DataType::Hash, :default => { "max"=>0, "current"=>0 }
     attribute :last_refocus, :type => DataType::Time
     # A list of grants rather than a map keyed by spell name, because two sources can grant
@@ -294,30 +295,17 @@ module AresMUSH
           repertoire[charclass] = rep_for_class
 
           magic.repertoire = repertoire
-        when "focus_spell", "domain_focus_spell"
-          # focus spell structure: { "devotion" => [spell, spell, spell], "revelation" => [spell] }
-
-          focus_spells = magic.focus_spells
-
-          value.each_pair do |fstype, spell_list|
-            fs_by_type = focus_spells[fstype] ? focus_spells[fstype] : []
-            fs_by_type = (fs_by_type + spell_list).uniq
-            focus_spells[fstype] = fs_by_type
-          end
-
-          magic.focus_spells = focus_spells
-        when "focus_cantrip"
-          # Structure identical to focus_spells, kept separate because they are cast differently.
-
-          focus_cantrips = magic.focus_cantrips
+        when "focus_spell", "domain_focus_spell", "focus_cantrip"
+          # One spellcasting entry per focus type per granting source, so two sources of the same
+          # type stay apart - they share PF2e's single focus pool but cast at their own DCs.
+          # Cantrips and spells are the same entry under different keys, because they differ only
+          # in how they are cast.
+          kind = key.to_s == 'focus_cantrip' ? 'cantrip' : 'spell'
 
           value.each_pair do |fstype, spell_list|
-            fs_by_type = focus_cantrips[fstype] ? focus_cantrips[fstype] : []
-            fs_by_type = (fs_by_type + spell_list).uniq
-            focus_cantrips[fstype] = fs_by_type
+            Pf2emagic::Entries.grant_focus!(char, fstype, spell_list,
+              :kind => kind, :granted_by => charclass)
           end
-
-          magic.focus_cantrips = focus_cantrips
         when "spellbook"
           # Spells need to be chosen, redirect to to_assign.
 

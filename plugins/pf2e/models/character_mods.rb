@@ -72,6 +72,7 @@ module AresMUSH
       self.magic.delete if self.magic
       self.grants.each { |g| g.delete }
       Pf2e::Audit.delete_all!(self)
+      self.spellcasting_entries.each { |e| e.delete } if self.respond_to?(:spellcasting_entries)
       self.sheet_caches.each { |c| c.delete }
       self.encounters.each {|e| e.delete self}
     end

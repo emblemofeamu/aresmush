@@ -79,9 +79,7 @@ module AresMUSH
       current = focus_pool["current"].to_i
       max = focus_pool["max"].to_i
 
-      focus_spells = magic.focus_spells || {}
-      focus_cantrips = magic.focus_cantrips || {}
-      has_focus_magic = !((focus_spells.keys + focus_cantrips.keys).empty?)
+      has_focus_magic = Entries.focus?(magic)
 
       if max.zero?
         recalculated_max = get_max_focus_pool(target, 0)

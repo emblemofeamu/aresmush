@@ -105,7 +105,7 @@ module AresMUSH
 
         return true if @to_assign['repertoire'] || @to_assign['spellbook'] || @to_assign['divine font']
         return true if Pf2emagic::Entries.innate?(@magic)
-        return true if !@magic.focus_spells.empty? || !@magic.focus_cantrips.empty?
+        return true if Pf2emagic::Entries.focus?(@magic)
         return true if !@magic.spells_per_day.empty?
         return true if !Pf2emagic::Entries.casting(@magic).empty?
 

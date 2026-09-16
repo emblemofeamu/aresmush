@@ -55,37 +55,28 @@ module AresMUSH
       end
 
       def has_focus_spells
-        focus_spells = @magic.focus_spells
-        focus_cantrips = @magic.focus_cantrips
-
-        (focus_spells.values + focus_cantrips.values).any? { |list| !Array(list).empty? }
+        !Pf2emagic::Entries.all_focus(@magic).empty?
       end
 
+      # One block per focus entry rather than per focus type, so two sources of one type are
+      # shown separately - each has its own DC, which is why they are separate entries.
       def focus_spells
         tradition = @magic.tradition
-
         focus_sources = Global.read_config('pf2e_magic', 'focus_type_by_source') || {}
 
-        focus_spells = @magic.focus_spells
-        focus_cantrips = @magic.focus_cantrips
+        Pf2emagic::Entries.focus_entries(@magic).sort_by { |entry| entry['name'].to_s }.filter_map do |entry|
+          spell_list = Array((entry['known'] || {})['spell'])
+          cantrip_list = Array((entry['known'] || {})['cantrip'])
 
-        fs = (focus_spells.keys + focus_cantrips.keys).uniq.sort
-        fs = fs.select do |focus_type|
-          !Array(focus_spells[focus_type]).empty? || !Array(focus_cantrips[focus_type]).empty?
-        end
+          next if spell_list.empty? && cantrip_list.empty?
 
-        list = []
-        fs.each do |fs|
-          charclass = focus_source_for(focus_sources, fs, tradition)
+          # An entry knows which source granted it; a projected one has to be looked up the old
+          # way, from which class the focus type belongs to.
+          charclass = entry['granted_by'].presence || focus_source_for(focus_sources, entry['name'], tradition)
           next unless charclass
 
-          trad_info = tradition[charclass]
-          spell_list = focus_spells[fs]
-          cantrip_list = focus_cantrips[fs]
-          list << format_focus_spells(@char, charclass, fs, trad_info, spell_list, cantrip_list)
+          format_focus_spells(@char, charclass, entry['name'], tradition[charclass], spell_list, cantrip_list)
         end
-
-        list
       end
 
       # The casting source a focus type belongs to for this character.
@@ -282,9 +273,8 @@ module AresMUSH
         focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
         return '' unless focus_type
 
-        focus_spells = @magic.focus_spells || {}
-        focus_cantrips = @magic.focus_cantrips || {}
-        has_focus_magic = !Array(focus_spells[focus_type]).empty? || !Array(focus_cantrips[focus_type]).empty?
+        has_focus_magic = !Pf2emagic::Entries.focus_spells(@magic, focus_type).empty? ||
+                          !Pf2emagic::Entries.focus_cantrips(@magic, focus_type).empty?
 
         return '' unless has_focus_magic
 

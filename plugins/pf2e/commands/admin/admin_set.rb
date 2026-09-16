@@ -200,20 +200,12 @@ module AresMUSH
             spell_info = { key => value }
             PF2Magic.update_magic(char, charclass, spell_info, client)
           elsif instruction == 'delete'
-            magic = char.magic
-            if key == 'focus_cantrip'
-              focus_list = magic.focus_cantrips
-              fspell_list = focus_list[fspell_type]
-              fspell_list.delete spell_name
-              focus_list[fspell_type] = fspell_list
-              magic.update(focus_cantrips: focus_list)
-            else
-              focus_list = magic.focus_spells
-              fspell_list = focus_list[fspell_type]
-              fspell_list.delete spell_name
-              focus_list[fspell_type] = fspell_list
-              magic.update(focus_cantrips: focus_list)
-            end
+            # Both branches used to end with `update(focus_cantrips: ...)`, so deleting a focus
+            # *spell* wrote the spell list into the cantrip list - clobbering the cantrips and
+            # leaving the spell in place.
+            kind = key == 'focus_cantrip' ? 'cantrip' : 'spell'
+
+            Pf2emagic::Entries.revoke_focus!(char, fspell_type, spell_name, :kind => kind)
           end
 
           client.emit_success t('pf2e.updated_ok', :char => char.name, :element => key.capitalize.gsub("_", " "))

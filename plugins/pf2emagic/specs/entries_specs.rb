@@ -95,36 +95,6 @@ module AresMUSH
         end
       end
 
-      describe "focus spells" do
-        def magic
-          {
-            'focus_spells' => { 'devotion' => [ 'Lay on Hands' ], 'revelation' => [ 'Whispers of Weakness' ] },
-            'focus_cantrips' => { 'devotion' => [ 'Shields of the Spirit' ] }
-          }
-        end
-
-        it "should make one entry per focus type" do
-          focus = derive(magic).select { |e| e['category'] == 'focus' }
-
-          expect(focus.map { |e| e['name'] }.sort).to eq [ 'devotion', 'revelation' ]
-        end
-
-        it "should keep a focus type's cantrips and spells apart" do
-          devotion = derive(magic).find { |e| e['name'] == 'devotion' }
-
-          expect(devotion['known']['cantrip']).to eq [ 'Shields of the Spirit' ]
-          expect(devotion['known']['spell']).to eq [ 'Lay on Hands' ]
-          expect(devotion['source_type']).to eq 'focus'
-        end
-
-        # This is the collision the entry shape exists to make impossible: two sources of the
-        # same focus type are one bucket today, so deriving cannot separate what was never
-        # separately recorded. The derivation is honest about that rather than guessing.
-        it "should produce one entry for a focus type however many sources fed it" do
-          expect(derive(magic).count { |e| e['name'] == 'devotion' }).to eq 1
-        end
-      end
-
       describe "innate spells" do
         def magic
           {
@@ -209,7 +179,9 @@ module AresMUSH
             :repertoire => { 'Sorcerer' => { '3' => [ 'Fireball' ] } },
             :spellbook => {},
             :signature_spells => { 'Sorcerer' => { '3' => [ 'Fireball' ], '5' => [ 'Cone of Cold' ] } },
-            :restricted_spellbook => {}, :focus_spells => {}, :focus_cantrips => {}, :innate_spells => {}
+            :restricted_spellbook => {}, :focus_spells => {}, :focus_cantrips => {}, :innate_spells => [],
+            # No character behind it, so nothing is stored and the projection is what answers.
+            :character => nil
           )
         end
 
@@ -250,7 +222,7 @@ module AresMUSH
             :spell_abil => { 'Sorcerer' => 'Charisma' },
             :spells_per_day => {}, :repertoire => { 'Sorcerer' => { '1' => [ 'Bless' ] } },
             :spellbook => {}, :signature_spells => {}, :restricted_spellbook => {},
-            :focus_spells => {}, :focus_cantrips => {}, :innate_spells => {}
+            :focus_spells => {}, :focus_cantrips => {}, :innate_spells => [], :character => nil
           )
 
           allow(Pf2emagic).to receive(:get_caster_type).with('Sorcerer').and_return('spontaneous')

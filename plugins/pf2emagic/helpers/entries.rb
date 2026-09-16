@@ -36,7 +36,10 @@ module AresMUSH
         'slots' => {},
         'known' => {},
         'signature' => {},
-        'restrictions' => {}
+        'restrictions' => {},
+        'prepared' => {},
+        'uses' => {},
+        'granted_by' => nil
       }.freeze
 
       # One row per kind of source, each turning the hashes that describe it into entries.
@@ -62,27 +65,6 @@ module AresMUSH
                 'known' => ((spontaneous ? magic['repertoire'] : magic['spellbook']) || {})[source] || {},
                 'signature' => (magic['signature_spells'] || {})[source] || {},
                 'restrictions' => (magic['restricted_spellbook'] || {})[source] || {}
-              )
-            end
-          }
-        },
-        # Focus spells, keyed by focus type rather than by the source that granted them -
-        # 'devotion' for a Champion, 'revelation' for an Oracle, 'qi' for a Monk.
-        {
-          'kind' => 'focus',
-          'entries' => lambda { |magic, _caster_types|
-            spells = magic['focus_spells'] || {}
-            cantrips = magic['focus_cantrips'] || {}
-
-            (spells.keys + cantrips.keys).uniq.map do |type|
-              Entries.entry(
-                'name' => type,
-                'source_type' => FOCUS,
-                'category' => FOCUS,
-                'known' => {
-                  'cantrip' => Array(cantrips[type]),
-                  'spell' => Array(spells[type])
-                }.reject { |_k, v| v.empty? }
               )
             end
           }
@@ -127,8 +109,18 @@ module AresMUSH
         SOURCES.flat_map { |source| Array(source['entries'].call(attributes, caster_types)) }
       end
 
-      # The same, for a live magic object.
+      # Everything a live character casts from.
+      #
+      # Stored rows win where there are any, and the projection from the legacy hashes fills in
+      # otherwise. That is the seam: a category of source can be moved to rows without any
+      # reader changing, and the readers cannot tell which side of the move they are on.
       def self.for_magic(magic)
+        return [] unless magic
+
+        stored(magic.character) + derived(magic, :except => stored_categories(magic.character))
+      end
+
+      def self.derived(magic, except: [])
         return [] unless magic
 
         attributes = ATTRIBUTES.each_with_object({}) { |attr, h| h[attr] = magic.send(attr) }
@@ -136,14 +128,60 @@ module AresMUSH
           h[source] = Pf2emagic.get_caster_type(source)
         end
 
-        derive(attributes, :caster_types => types)
+        derive(attributes, :caster_types => types).reject { |e| except.include?(e['category']) }
+      end
+
+      # ------------------------------------------------------------------------------
+      # Stored rows
+      # ------------------------------------------------------------------------------
+
+      def self.stored(char)
+        return [] unless char && char.respond_to?(:spellcasting_entries)
+
+        char.spellcasting_entries.to_a.map { |row| row.to_h }
+      end
+
+      # Which categories have been migrated to rows for this character, so the projection does
+      # not also produce them and double them up.
+      def self.stored_categories(char)
+        stored(char).map { |e| e['category'] }.uniq
+      end
+
+      def self.rows(char, category)
+        return [] unless char && char.respond_to?(:spellcasting_entries)
+
+        char.spellcasting_entries.to_a.select { |row| row.category.to_s == category.to_s }
+      end
+
+      # Creates or updates one entry. Identified by name and category together, because a name
+      # alone is not unique - two sources may share one.
+      def self.store!(char, values)
+        attrs = FIELDS.merge(stringify(values))
+        existing = char.spellcasting_entries.to_a.find do |row|
+          row.name.to_s.casecmp?(attrs['name'].to_s) &&
+            row.category.to_s == attrs['category'].to_s &&
+            row.granted_by.to_s == attrs['granted_by'].to_s
+        end
+
+        writable = attrs.reject { |key, _v| key == 'name' && existing }
+        row = existing || Pf2eSpellcastingEntry.create(:character => char, :name => attrs['name'])
+
+        row.update(writable.each_with_object({}) { |(key, value), h| h[key.to_sym] = value })
+
+        row
+      end
+
+      def self.forget!(char, category)
+        rows(char, category).each { |row| row.delete }
       end
 
       # What derive reads. Listed so for_magic does not depend on the model having exactly
       # these and nothing else.
+      # What the projection still reads. Focus spells are absent because they are stored as rows
+      # now, not projected - which is what a finished migration looks like for a category.
       ATTRIBUTES = %w(
         tradition spell_abil spells_per_day spellbook repertoire signature_spells
-        restricted_spellbook focus_spells focus_cantrips innate_spells
+        restricted_spellbook innate_spells
       ).freeze
 
       # ------------------------------------------------------------------------------
@@ -197,6 +235,85 @@ module AresMUSH
 
       def self.proficiency_of(magic, source)
         (find(magic, source) || {})['proficiency']
+      end
+
+      # ------------------------------------------------------------------------------
+      # Focus spells
+      # ------------------------------------------------------------------------------
+      #
+      # One entry per focus type *per granting source*, which is the difference that matters:
+      # PF2e shares one focus pool across every source but casts each source's spells at that
+      # source's own DC. A single bucket keyed by focus type could hold the spells but not say
+      # whose they were, so two sources of one type - a feat granting devotion spells to a
+      # non-Champion, say - had nowhere to go.
+      #
+      # Casting still wants the merged list for a type, so that is what `focus_spells` and
+      # `focus_cantrips` give; `focus_entries` is there for when the source matters.
+
+      def self.focus_entries(magic, type = nil)
+        found = for_magic(magic).select { |e| e['category'] == FOCUS }
+
+        type.nil? ? found : found.select { |e| e['name'].to_s.casecmp?(type.to_s) }
+      end
+
+      def self.focus_types(magic)
+        focus_entries(magic).map { |e| e['name'] }.compact.uniq
+      end
+
+      def self.focus?(magic)
+        !focus_entries(magic).empty?
+      end
+
+      # Every focus spell of a type, across the sources that granted them.
+      def self.focus_spells(magic, type)
+        focus_entries(magic, type).flat_map { |e| Array((e['known'] || {})['spell']) }.uniq
+      end
+
+      def self.focus_cantrips(magic, type)
+        focus_entries(magic, type).flat_map { |e| Array((e['known'] || {})['cantrip']) }.uniq
+      end
+
+      # Everything focus, of either kind, for a prerequisite that only asks whether they hold one.
+      def self.all_focus(magic)
+        focus_entries(magic).flat_map { |e| Array((e['known'] || {}).values).flatten }.compact.uniq
+      end
+
+      # Records focus spells or cantrips for a type, attributed to the source that granted them.
+      def self.grant_focus!(char, type, spells, kind:, granted_by: nil, tradition: nil, ability: nil)
+        wanted = Array(spells).compact.map(&:to_s).reject(&:empty?)
+
+        return nil if wanted.empty?
+
+        existing = stored(char).find do |e|
+          e['category'] == FOCUS && e['name'].to_s.casecmp?(type.to_s) && e['granted_by'].to_s == granted_by.to_s
+        end
+
+        known = (existing || {})['known'] || {}
+        known = known.merge(kind.to_s => (Array(known[kind.to_s]) + wanted).uniq)
+
+        store!(char,
+          'name' => type,
+          'source_type' => FOCUS,
+          'category' => FOCUS,
+          'granted_by' => granted_by,
+          'tradition' => tradition || (existing || {})['tradition'],
+          'ability' => ability || (existing || {})['ability'],
+          'known' => known)
+      end
+
+      # Takes a focus spell or cantrip away, wherever it was granted from.
+      def self.revoke_focus!(char, type, spell, kind:)
+        rows(char, FOCUS).each do |row|
+          next unless row.name.to_s.casecmp?(type.to_s)
+
+          known = row.known || {}
+          held = Array(known[kind.to_s])
+          kept = held.reject { |s| s.to_s.casecmp?(spell.to_s) }
+
+          next if kept.size == held.size
+
+          row.update(:known => known.merge(kind.to_s => kept))
+        end
       end
 
       # ------------------------------------------------------------------------------

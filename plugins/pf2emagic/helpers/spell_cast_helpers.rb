@@ -12,8 +12,8 @@ module AresMUSH
       return caster_stats if caster_stats.is_a? String
 
       # Do they have this spell in their list for that type?
-      splist = magic.focus_spells[focus_type] || []
-      cantrip_list = magic.focus_cantrips[focus_type] || []
+      splist = Entries.focus_spells(magic, focus_type)
+      cantrip_list = Entries.focus_cantrips(magic, focus_type)
 
       spname = splist.select { |sp| sp.downcase.match? spell.downcase }
       cantrip_match = cantrip_list.select { |sp| sp.downcase.match? spell.downcase }
@@ -61,7 +61,7 @@ module AresMUSH
       caster_stats = get_caster_stats(char, charclass, focus_type)
       return caster_stats if caster_stats.is_a? String
 
-      splist = magic.focus_cantrips[focus_type]
+      splist = Entries.focus_cantrips(magic, focus_type)
 
       spname = splist.select { |sp| sp.downcase.match? spell.downcase }
 
@@ -441,8 +441,8 @@ module AresMUSH
       focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
       return nil unless focus_type
 
-      focus_spells = magic.focus_spells[focus_type] || []
-      focus_cantrips = magic.focus_cantrips[focus_type] || []
+      focus_spells = Entries.focus_spells(magic, focus_type)
+      focus_cantrips = Entries.focus_cantrips(magic, focus_type)
 
       spell_match = focus_spells.select { |sp| sp.downcase.match? spell.downcase }
       cantrip_match = focus_cantrips.select { |sp| sp.downcase.match? spell.downcase }
