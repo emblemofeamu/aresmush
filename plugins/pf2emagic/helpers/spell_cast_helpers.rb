@@ -149,12 +149,7 @@ module AresMUSH
                                  .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
       max_castable_level = castable_levels.max || 0
 
-      signature_spells = magic.signature_spells[charclass] || {}
-
-      known_signature_levels = signature_spells.select do |_sig_level, sig_spells|
-        Array(sig_spells).include?(spname)
-      end.keys
-
+      known_signature_levels = Pf2emagic::Entries.signature_ranks(magic, charclass, spname)
       is_signature_spell = !known_signature_levels.empty?
 
       available = if splevel == 'cantrip'
@@ -297,11 +292,7 @@ module AresMUSH
       known_at_level = Array(repertoire[splevel]).include?(spname) ||
                        Array(repertoire[splevel.to_i]).include?(spname)
 
-      signature_spells = magic.signature_spells[charclass] || {}
-      known_signature_levels = signature_spells.select do |_sig_level, sig_spells|
-        Array(sig_spells).include?(spname)
-      end.keys
-
+      known_signature_levels = Pf2emagic::Entries.signature_ranks(magic, charclass, spname)
       is_signature_spell = !known_signature_levels.empty?
 
       valid_signature_level = if splevel == 'cantrip'

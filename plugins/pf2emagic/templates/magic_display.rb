@@ -96,35 +96,32 @@ module AresMUSH
           sources.first
       end
 
-      def has_signature_spells
-        signatures = @magic.signature_spells || {}
+      # Asked of the spellcasting entries rather than of the signature_spells hash, so the
+      # display and the cast path agree about what a signature spell is. They did not: the hash
+      # could hold a flat list under a feat's name, which this guarded against with
+      # `levels.is_a?(Hash)` and therefore silently did not show.
+      def signature_entries
+        @signature_entries ||= Pf2emagic::Entries.with_signatures(@magic)
+          .select { |entry| entry['category'] == 'spontaneous' }
+          .sort_by { |entry| entry['name'].to_s }
+      end
 
-        signatures.any? do |charclass, levels|
-          Pf2emagic.get_caster_type(charclass) == 'spontaneous' &&
-            levels.is_a?(Hash) &&
-            levels.values.any? { |spells| !Array(spells).empty? }
-        end
+      def has_signature_spells
+        !signature_entries.empty?
       end
 
       def signature_spells
-        signatures = @magic.signature_spells || {}
-        tradition = @magic.tradition || {}
         list = []
 
-        signatures.keys.sort.each do |charclass|
-          next unless Pf2emagic.get_caster_type(charclass) == 'spontaneous'
+        signature_entries.each do |entry|
+          charclass = entry['name']
 
-          sig_levels = signatures[charclass]
-          next unless sig_levels.is_a?(Hash)
-
-          sorted = Pf2emagic.sort_level_spell_list(sig_levels)
+          sorted = Pf2emagic.sort_level_spell_list(entry['signature'])
           next if sorted.empty?
+          next unless entry['tradition'] && entry['proficiency']
 
-          trad_info = tradition[charclass]
-          next unless trad_info
-
-          trad = Pf2e.pretty_string(trad_info[0])
-          prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
+          trad = Pf2e.pretty_string(entry['tradition'])
+          prof = Pf2e.pretty_string(entry['proficiency'].slice(0).upcase)
           atk = PF2Magic.get_spell_attack_bonus(@char, charclass)
 
           sublist = []
