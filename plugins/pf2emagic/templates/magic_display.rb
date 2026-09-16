@@ -170,20 +170,14 @@ module AresMUSH
       end
 
       def has_innate_spells
-        !(@magic.innate_spells.empty?)
+        Pf2emagic::Entries.innate?(@magic)
       end
 
       def innate_spells
-        spell_list = @magic.innate_spells
+        spell_list = Pf2emagic::Entries.innate_grants(@magic)
         prof = @magic.tradition['innate'][1]
 
-        list = []
-
-        spell_list.each_pair do |name, values|
-          list << format_innate_spells(@char, name, values, prof)
-        end
-
-        list
+        spell_list.map { |grant| format_innate_spells(@char, grant['name'], grant, prof) }
       end
 
       def innate_remaining_spells_today

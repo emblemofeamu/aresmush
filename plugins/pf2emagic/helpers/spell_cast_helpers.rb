@@ -358,10 +358,7 @@ module AresMUSH
 
       # Is that spell name in their list of innate spells?
 
-      innate_spells = magic.innate_spells
-      splist = innate_spells.keys
-
-      return t('pf2emagic.not_in_innate_list', :name => spname) unless splist.include? spname
+      return t('pf2emagic.not_in_innate_list', :name => spname) unless Entries.knows_innate?(magic, spname)
 
       # Innate spells are structured a little differently and may overwrite base caster stats.
       spinfo = innate_spells[spname]

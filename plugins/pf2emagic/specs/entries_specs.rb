@@ -128,11 +128,11 @@ module AresMUSH
       describe "innate spells" do
         def magic
           {
-            'innate_spells' => {
-              'Detect Magic' => { 'level' => 'cantrip', 'tradition' => 'arcane', 'cast_stat' => 'Charisma' },
-              'Dancing Lights' => { 'level' => 'cantrip', 'tradition' => 'arcane', 'cast_stat' => 'Charisma' },
-              'Bless' => { 'level' => '1', 'tradition' => 'divine', 'cast_stat' => 'Wisdom' }
-            }
+            'innate_spells' => [
+              { 'name' => 'Detect Magic', 'level' => 'cantrip', 'tradition' => 'arcane', 'cast_stat' => 'Charisma' },
+              { 'name' => 'Dancing Lights', 'level' => 'cantrip', 'tradition' => 'arcane', 'cast_stat' => 'Charisma' },
+              { 'name' => 'Bless', 'level' => '1', 'tradition' => 'divine', 'cast_stat' => 'Wisdom' }
+            ]
           }
         end
 
@@ -153,6 +153,41 @@ module AresMUSH
           arcane = derive(magic).find { |e| e['category'] == 'innate' && e['tradition'] == 'arcane' }
 
           expect(arcane['known']['cantrip'].sort).to eq [ 'Dancing Lights', 'Detect Magic' ]
+        end
+
+        # The collision the list shape exists to prevent. Charm really is granted twice in this
+        # game - by Enthralling Allure at rank 4 divine, and by Supernatural Charm at rank 1
+        # arcane - and keyed by spell name one of them was simply lost.
+        it "should keep two grants of the same spell apart" do
+          both = {
+            'innate_spells' => [
+              { 'name' => 'Charm', 'level' => 4, 'tradition' => 'divine', 'cast_stat' => 'Charisma' },
+              { 'name' => 'Charm', 'level' => 1, 'tradition' => 'arcane', 'cast_stat' => 'Charisma' }
+            ]
+          }
+
+          entries = derive(both).select { |e| e['category'] == 'innate' }
+
+          expect(entries.size).to eq 2
+          expect(entries.map { |e| e['tradition'] }.sort).to eq [ 'arcane', 'divine' ]
+          expect(entries.find { |e| e['tradition'] == 'divine' }['known']).to eq('4' => [ 'Charm' ])
+          expect(entries.find { |e| e['tradition'] == 'arcane' }['known']).to eq('1' => [ 'Charm' ])
+        end
+
+        # Six sources grant an unchosen spell. As a single 'open' key, taking two of them lost a
+        # pick - and they do not agree on the ability it is cast off.
+        it "should keep two unchosen grants apart" do
+          pending_two = {
+            'innate_spells' => [
+              { 'name' => 'open', 'level' => 'cantrip', 'tradition' => 'arcane', 'cast_stat' => 'Intelligence' },
+              { 'name' => 'open', 'level' => 'cantrip', 'tradition' => 'arcane', 'cast_stat' => 'Charisma' }
+            ]
+          }
+
+          entries = derive(pending_two).select { |e| e['category'] == 'innate' }
+
+          expect(entries.size).to eq 2
+          expect(entries.map { |e| e['ability'] }.sort).to eq [ 'Charisma', 'Intelligence' ]
         end
       end
 

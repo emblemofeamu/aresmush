@@ -27,9 +27,7 @@ module AresMUSH
       trad = trad.delete('innate')
       innate_only = trad.empty?
 
-      innate_spells = magic.innate_spells
-
-      return false if innate_only && innate_spells.empty?
+      return false if innate_only && !Entries.innate?(magic)
       return true
     end
 
@@ -57,16 +55,11 @@ module AresMUSH
         end
       end
 
-      innate_spells = magic.innate_spells || {}
-      innate_spells_today = {}
+      # Only the ranked ones take a daily use; cantrips are cast at will.
+      innate_spells_today = Entries.innate_ranked(magic).each_with_object({}) do |grant, today|
+        rank = grant['level'].to_s
 
-      innate_spells.each_pair do |spell_name, info|
-        level = info['level'].to_s
-        next if level.downcase == 'cantrip' || level.to_i.zero?
-
-        uses = innate_spells_today[level] || []
-        uses << spell_name
-        innate_spells_today[level] = uses
+        today[rank] = Array(today[rank]) + [ grant['name'] ]
       end
 
       spells_today['innate'] = innate_spells_today unless innate_spells_today.empty?

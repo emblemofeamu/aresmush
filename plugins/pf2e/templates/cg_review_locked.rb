@@ -104,7 +104,7 @@ module AresMUSH
         return false if !@magic
 
         return true if @to_assign['repertoire'] || @to_assign['spellbook'] || @to_assign['divine font']
-        return true if !@magic.innate_spells.empty?
+        return true if Pf2emagic::Entries.innate?(@magic)
         return true if !@magic.focus_spells.empty? || !@magic.focus_cantrips.empty?
         return true if !@magic.spells_per_day.empty?
         return true if !Pf2emagic::Entries.casting(@magic).empty?
@@ -706,11 +706,11 @@ module AresMUSH
       end
 
       def innate_spells
-        spells = (@magic && @magic.innate_spells) || {}
+        grants = Pf2emagic::Entries.innate_grants(@magic)
 
-        return nil if spells.empty?
+        return nil if grants.empty?
 
-        innate_blocks(spells.map { |name, info| [ name, info['tradition'], info['level'] ] })
+        innate_blocks(grants.map { |grant| [ grant['name'], grant['tradition'], grant['level'] ] })
       end
 
       def innate_blocks(entries)
@@ -881,7 +881,7 @@ module AresMUSH
       # An unnamed innate spell is still waiting to be picked.
         return false if !@magic
 
-        @magic.innate_spells.keys.any? { |name| name.to_s.casecmp?('open') }
+        !Pf2emagic::Entries.pending_innate(@magic).empty?
       end
 
       def no_spells_to_select?

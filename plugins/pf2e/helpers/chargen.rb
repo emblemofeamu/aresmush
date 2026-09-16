@@ -814,7 +814,7 @@ module AresMUSH
       end
 
       magic = char.magic
-      return true if magic && magic.innate_spells.any? { |k,_| k.to_s.casecmp?('open') }
+      return true if magic && !Pf2emagic::Entries.pending_innate(magic).empty?
 
       return false
     end

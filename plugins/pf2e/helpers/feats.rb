@@ -379,13 +379,10 @@ module AresMUSH
 
           msg << "innate_tradition" && next unless magic
 
-          innate_spells = magic.innate_spells || {}
           required_traditions = Array(required).map { |t| t.to_s.downcase.strip }.reject(&:empty?)
+          held = Pf2emagic::Entries.innate_traditions(magic)
 
-          has_required_innate_tradition = innate_spells.values.any? do |spell_info|
-            tradition = spell_info && spell_info['tradition']
-            required_traditions.include?(tradition.to_s.downcase)
-          end
+          has_required_innate_tradition = held.any? { |tradition| required_traditions.include?(tradition) }
 
           msg << "innate_tradition" unless has_required_innate_tradition
         when "combat_stats"

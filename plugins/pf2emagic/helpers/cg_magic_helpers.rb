@@ -396,20 +396,22 @@ module AresMUSH
 
     def self.select_innate_spell(char, level, old_spell, new_spell, common_only=false)
       magic = char.magic
-      innate_spells = magic.innate_spells || {}
 
-      return t('pf2emagic.innate_no_new_spells') if innate_spells.empty?
+      return t('pf2emagic.innate_no_new_spells') unless Entries.innate?(magic)
 
       old_spname = nil
 
+      # Either they are replacing a spell they already have, or filling a grant that is still
+      # waiting to be chosen. Either way it is one grant in the list, and the grant - not the
+      # spell name - is what carries the rank, tradition and ability it is cast at.
       if !(old_spell.blank?)
         old_spname = get_spells_by_name(old_spell).first
         return t('pf2emagic.innate_spell_to_delete_not_found') unless old_spname
 
-        source_info = innate_spells[old_spname]
+        source_info = Entries.innate_for(magic, old_spname).first
         return t('pf2emagic.innate_spell_to_delete_not_found') unless source_info
       else
-        source_info = innate_spells['open']
+        source_info = Entries.pending_innate(magic).first
         return t('pf2emagic.innate_no_new_spells') unless source_info
       end
 
@@ -420,7 +422,7 @@ module AresMUSH
       return t('pf2emagic.innate_multiple_matches', :item => 'spell') if (match.size > 1)
 
       to_add = match.first
-      return t('pf2emagic.innate_spell_already_on_list_to_assign') if innate_spells.key?(to_add)
+      return t('pf2emagic.innate_spell_already_on_list_to_assign') if Entries.knows_innate?(magic, to_add)
 
       deets = hash[to_add]
 
@@ -442,14 +444,17 @@ module AresMUSH
       return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
       return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
 
-      if old_spname
-        innate_spells.delete(old_spname)
-      else
-        innate_spells.delete('open')
-      end
+      # Naming the grant, rather than deleting a key and adding another. The grant keeps its
+      # rank, tradition and ability - which is the whole reason it is a grant and not an entry
+      # in a map keyed by spell name.
+      grants = Entries.innate_grants(magic)
+      index = grants.index(source_info)
 
-      innate_spells[to_add] = source_info
-      magic.update(innate_spells: innate_spells)
+      return t('pf2emagic.innate_no_new_spells') unless index
+
+      grants[index] = source_info.merge('name' => to_add)
+
+      magic.update(:innate_spells => grants)
 
       nil
     end

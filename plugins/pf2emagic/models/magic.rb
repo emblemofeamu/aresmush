@@ -6,7 +6,14 @@ module AresMUSH
     attribute :focus_spells, :type => DataType::Hash, :default => {}
     attribute :focus_pool, :type => DataType::Hash, :default => { "max"=>0, "current"=>0 }
     attribute :last_refocus, :type => DataType::Time
-    attribute :innate_spells, :type => DataType::Hash, :default => {}
+    # A list of grants rather than a map keyed by spell name, because two sources can grant
+    # the same innate spell and a map silently loses one of them. Charm is granted by
+    # Enthralling Allure at rank 4 divine and by Supernatural Charm at rank 1 arcane;
+    # Interplanar Teleport by one source as divine and another as primal; and six sources grant
+    # an unchosen 'open' spell, which as a single key meant taking two of them lost a pick.
+    # Each grant is { 'name', 'level', 'tradition', 'cast_stat' }. Read it through
+    # Pf2emagic::Entries, not directly.
+    attribute :innate_spells, :type => DataType::Array, :default => []
     attribute :revelation_locked, :type => DataType::Boolean
     attribute :signature_spells, :type => DataType::Hash, :default => {}
     attribute :repertoire, :type => DataType::Hash, :default => {}
@@ -380,19 +387,18 @@ module AresMUSH
           to_assign["signature"] = assignment_list
 
         when "innate_spell"
-          # Structure of innate spells: {spell name => { 'level' => <level>, 'tradition' => tradition, 'cast_stat' => cast_stat}}
-
-          ilist = magic.innate_spells
-          names = Array(value['name'])
+          # One grant appended per spell, so two sources granting the same spell are two grants
+          # rather than one overwriting the other. See the note on the attribute.
+          grants = Array(magic.innate_spells)
           spell_data = value.reject { |k, _| k == 'name' }
 
-          names.each do |spell_name|
-            next if spell_name.nil? || spell_name.empty?
+          Array(value['name']).each do |spell_name|
+            next if spell_name.nil? || spell_name.to_s.empty?
 
-            ilist[spell_name] = spell_data
+            grants = grants + [ spell_data.merge('name' => spell_name) ]
           end
 
-          magic.innate_spells = ilist
+          magic.innate_spells = grants
         when "divine_font"
           if value.size > 1
 

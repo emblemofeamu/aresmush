@@ -87,20 +87,20 @@ module AresMUSH
             end
           }
         },
-        # Innate spells, keyed by spell name, each carrying the tradition and ability it is cast
-        # with. Grouped by those, because they are the closest thing the old shape records to a
-        # source - two grants that agree on both are indistinguishable.
+        # Innate spells: a list of grants, each carrying its own rank, tradition and the ability
+        # it is cast off. Grouped by tradition and ability, which is what distinguishes one
+        # innate source from another as far as casting is concerned.
         {
           'kind' => 'innate',
           'entries' => lambda { |magic, _caster_types|
-            by_source = (magic['innate_spells'] || {}).each_with_object({}) do |(spell, info), grouped|
-              next unless info.is_a?(Hash)
+            by_source = Array(magic['innate_spells']).each_with_object({}) do |grant, grouped|
+              next unless grant.is_a?(Hash)
 
-              key = [ info['tradition'], info['cast_stat'] ]
-              rank = info['level'].to_s
+              key = [ grant['tradition'], grant['cast_stat'] ]
+              rank = grant['level'].to_s
               known = (grouped[key] ||= {})
 
-              known[rank] = Array(known[rank]) + [ spell ]
+              known[rank] = Array(known[rank]) + [ grant['name'] ]
             end
 
             by_source.map do |(tradition, ability), known|
@@ -197,6 +197,52 @@ module AresMUSH
 
       def self.proficiency_of(magic, source)
         (find(magic, source) || {})['proficiency']
+      end
+
+      # ------------------------------------------------------------------------------
+      # Innate spells
+      # ------------------------------------------------------------------------------
+      #
+      # Stored as a list of grants, each { 'name', 'level', 'tradition', 'cast_stat' }, because
+      # two sources can grant the same spell with different ranks or traditions and a map keyed
+      # by name loses one of them.
+
+      def self.innate_grants(magic)
+        return [] unless magic
+
+        Array(magic.innate_spells).select { |grant| grant.is_a?(Hash) }
+      end
+
+      def self.innate?(magic)
+        !innate_grants(magic).empty?
+      end
+
+      # Every grant of a spell by that name. More than one is legitimate - the same spell from
+      # two sources, at each source's own rank and tradition.
+      def self.innate_for(magic, spell)
+        innate_grants(magic).select { |grant| grant['name'].to_s.casecmp?(spell.to_s) }
+      end
+
+      def self.knows_innate?(magic, spell)
+        !innate_for(magic, spell).empty?
+      end
+
+      # Grants still waiting for the player to choose the spell.
+      def self.pending_innate(magic)
+        innate_for(magic, 'open')
+      end
+
+      def self.innate_traditions(magic)
+        innate_grants(magic).map { |grant| grant['tradition'].to_s.downcase }.uniq.reject(&:empty?)
+      end
+
+      # Innate spells that take a slot - cantrips are cast at will.
+      def self.innate_ranked(magic)
+        innate_grants(magic).reject do |grant|
+          rank = grant['level'].to_s
+
+          rank.casecmp?('cantrip') || rank.to_i.zero?
+        end
       end
 
       # Every source that has a signature spell recorded, for the display.
