@@ -147,9 +147,104 @@ module AresMUSH
         expect(char.pf2_rollback_marker).to be_blank
       end
 
+      # A redo is only coherent while the history it would restore is still the newest
+      # history for those levels. Take the level again differently and it is not.
+      it "should refuse a redo once the rolled-back level has been taken again" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 6)
+
+        class_feats = Array(char.pf2_feats['charclass']).size
+
+        expect(Pf2e.rollback_to_level(char, 6)).to be_nil
+        char = Character[char.id]
+
+        expect(char.pf2_rollback_marker).to_not be_blank
+
+        # Level 6 again. Whatever is chosen this time is the level's history now.
+        builder.instance_variable_set(:@char, char)
+        builder.advance_to(6)
+        char = Character[builder.char.id]
+
+        expect(char.pf2_level).to eq 6
+        expect(char.pf2_rollback_marker).to be_blank
+
+        # Without this the redo puts the old level 6 back on top of the new one and the
+        # character ends up holding both.
+        expect(Pf2e.redo_rollback(char)).to eq I18n.t('pf2e.rollback_nothing_to_redo')
+
+        char = Character[char.id]
+
+        expect(Array(char.pf2_feats['charclass']).size).to eq class_feats
+      end
+
+      # The abandoned branch goes, so changing your mind repeatedly cannot pile up dead
+      # history - but only the ladder is abandoned, never a boon.
+      it "should drop the abandoned levels and leave everything else standing" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 6)
+
+        Pf2e::Ledger.write(char, :source_type => 'boon', :source_ref => 'job-9', :effective_level => 6, :granted_by => 'Vardama') do |txn|
+          txn.grant('add_language', 'language' => 'Sylhart')
+        end
+        char = Character[char.id]
+
+        Pf2e.rollback_to_level(char, 6)
+        char = Character[char.id]
+
+        builder.instance_variable_set(:@char, char)
+        builder.advance_to(6)
+        char = Character[builder.char.id]
+
+        rows = Pf2e::Ledger.rows(char)
+
+        # The old level 6 is gone rather than sitting around reverted, so the ledger holds one
+        # level 6 and not two.
+        # Not a row count: the point is that exactly one level 6 survives, the one they
+        # actually have, with no abandoned copy sitting reverted behind it.
+        expect(rows.count { |r| r['reverted_by'].to_s.start_with?('rollback-') }).to eq 0
+
+        sixes = rows.select { |r| r['source_type'] == 'level_up' && r['effective_level'].to_i == 6 }
+
+        expect(sixes).to_not be_empty
+        expect(sixes.map { |r| r['txn'] }.uniq.size).to eq 1
+
+        # The boon never carried the rollback marker, so it is untouched and still applies.
+        expect(rows.count { |r| r['source_type'] == 'boon' }).to eq 1
+        expect(char.pf2_lang).to include 'Sylhart'
+      end
+
       # --------------------------------------------------------------------------------
       # Boons: dormant on the way down, back by themselves on the way up
       # --------------------------------------------------------------------------------
+
+      # The level-up commit works out what the advancement changed by diffing the fold
+      # against the sheet. A boon that falls due at the level being gained is in the fold and
+      # not yet on the sheet, so a diff taken at the new level reads it as something the
+      # advancement removed - and revokes the boon at the exact moment it should arrive.
+      it "should activate a boon that falls due at the level being gained" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 5)
+
+        Pf2e::Ledger.write(char, :source_type => 'boon', :source_ref => 'job-7', :effective_level => 6, :granted_by => 'Vardama') do |txn|
+          txn.grant('add_language', 'language' => 'Sylhart')
+        end
+        char = Character[char.id]
+
+        # Dormant: they are level 5 and it is a level 6 boon.
+        expect(char.pf2_lang).to_not include 'Sylhart'
+
+        builder.instance_variable_set(:@char, char)
+        builder.advance_to(6)
+        char = Character[builder.char.id]
+
+        expect(char.pf2_level).to eq 6
+        expect(char.pf2_lang).to include 'Sylhart'
+
+        boon = Pf2e::Ledger.rows(char).find { |r| r['source_type'] == 'boon' }
+
+        expect(boon['reverted_by']).to be_blank
+      end
+
 
       it "should leave a levelled boon dormant rather than reverted when it is rolled back past" do
         builder = AutoBuilder.new(@char)

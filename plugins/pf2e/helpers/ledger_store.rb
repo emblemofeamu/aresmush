@@ -329,7 +329,7 @@ module AresMUSH
       # Puts the character back to just before `level`: every non-global txn at or above it
       # is marked reverted, and a boon with no effective level is untouched.
       def self.rollback_to_level!(char, level, enactor = nil)
-        marker = "rollback-#{Time.now.to_i}-to-#{level.to_i}"
+        marker = "rollback-#{Time.now.to_i}-#{rand(1000)}-to-#{level.to_i}"
 
         Ledger.rollback_targets(rows(char), level).each { |id| revert_txn!(char, id, :by => marker, :materialize => false) }
 
@@ -338,6 +338,32 @@ module AresMUSH
         materialize!(char)
 
         marker
+      end
+
+      # A redo only makes sense while the history it would restore is still the newest
+      # history for those levels. Once the character takes one of them again, the whole
+      # rolled-back branch is abandoned: those levels are deleted outright rather than kept
+      # as a redo nobody can safely take, which is also what stops a character who changes
+      # their mind repeatedly from accumulating dead history forever.
+      #
+      # Only the ladder is deleted. A rollback marks nothing but `level_up` transactions
+      # (Ledger::LADDER_SOURCES), so a boon, a staff grant or chargen never carries the
+      # marker and is never touched here.
+      def self.supersede_rollback!(char, level)
+        marker = char.pf2_rollback_marker
+
+        return 0 if marker.blank?
+
+        abandoned = char.grants.find(:reverted_by => marker).to_a
+
+        return 0 if abandoned.none? { |g| g.effective_level.to_i >= level.to_i }
+
+        abandoned.each { |grant| grant.delete }
+
+        char.update(:pf2_rollback_marker => nil)
+        invalidate!(char)
+
+        abandoned.size
       end
 
       # Undoes an undo: every grant reverted by that marker comes back.
@@ -426,6 +452,9 @@ module AresMUSH
       def self.commit_level_up!(char, level, cost: nil)
         seed_from_sheet!(char, :source_type => 'chargen', :source_ref => 'chargen')
 
+        # Taking this level again is what makes a pending redo of it stale.
+        supersede_rollback!(char, level)
+
         cost = Pf2e::ADVANCEMENT_XP_COST if cost.nil?
 
         skills = {}
@@ -434,7 +463,11 @@ module AresMUSH
           skills[skill.name] = skill.prof_level
         end
 
-        plan = Ledger.sync_plan(derived(char, :at_level => level), {
+        # Diffed against the fold at the level they are *leaving*, because that is what the
+        # character's materialised sheet currently reflects. Diffing against the new level
+        # would read anything that falls due there - a boon written for this level, dormant
+        # until now - as something the advancement removed, and revoke it on arrival.
+        plan = Ledger.sync_plan(derived(char, :at_level => level.to_i - 1), {
           'skills' => skills,
           'feats' => char.pf2_feats,
           'features' => char.pf2_features,

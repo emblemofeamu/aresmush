@@ -105,6 +105,7 @@ module AresMUSH
         'checkpoint' => 'pf2_checkpoint',
         'to_assign' => 'pf2_to_assign',
         'advancement' => 'pf2_advancement',
+        'archetypes' => 'pf2_archetypeinfo',
         'cg_assigned' => 'pf2_cg_assigned',
         'boosts_working' => 'pf2_boosts_working',
         'chargen_stage' => 'chargen_stage'

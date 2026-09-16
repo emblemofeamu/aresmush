@@ -28,7 +28,8 @@ module AresMUSH
         # level_up transaction at advance/done, through Ledger.commit_level_up!.
         :advance_language => lambda { |state, args| Advancement::Languages.pick(state, args) },
         :advance_raise => lambda { |state, args| Advancement::Raises.set(state, args) },
-        :advance_option => lambda { |state, args| Advancement::Options.choose(state, args) }
+        :advance_option => lambda { |state, args| Advancement::Options.choose(state, args) },
+        :reset_advancement => lambda { |state, args| Advancement::Lifecycle.reset(state, args) }
       }.freeze
 
       def self.actions
