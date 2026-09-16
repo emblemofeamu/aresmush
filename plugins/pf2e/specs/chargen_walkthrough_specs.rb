@@ -1,4 +1,5 @@
 require "plugin_test_loader"
+require_relative "support/auto_builder"
 
 module AresMUSH
   module Pf2e
@@ -190,6 +191,94 @@ module AresMUSH
         run PF2BoostSetCmd, "boost/set free=Constitution"
 
         expect(@client.failures).to_not be_empty
+      end
+    end
+  end
+end
+
+module AresMUSH
+  module Pf2e
+
+    # A full climb, driven by the same commands a player would type. Slow (a couple of minutes
+    # per class), so it lives behind the :dbtest tag with the rest.
+    describe "level 20 builds", :dbtest => true do
+
+      before(:each) do
+        bootstrapper = AresMUSH::Bootstrapper.new
+        bootstrapper.config_reader.load_game_config
+        bootstrapper.db.load_config
+
+        @char = Character.create(:name => "Climb#{rand(100000)}")
+      end
+
+      after(:each) do
+        @char.delete if @char
+      end
+
+      # Fighter and Wizard are the two whose class tables match PF2e exactly, so their totals
+      # can be asserted without allowing for a config deviation. Expected at level 20, per
+      # docs/pf2e-progression-reference.md: 5 general feats, 5 ancestry feats (one from
+      # chargen), 9 skill increases.
+      [ 'Fighter', 'Wizard' ].each do |charclass|
+        it "should carry a #{charclass} from nothing to level 20" do
+          builder = AutoBuilder.new(@char)
+          builder.build(charclass, 20)
+          summary = builder.summary
+
+          # Print why it stalled before asserting, so a failure names the level and reason.
+          puts "  #{charclass} stalled: #{builder.notes.last(2).join(' | ')}" if summary['level'] != 20
+
+          expect(summary['level']).to eq 20
+
+          expect(summary['feats']['general']).to eq 5
+          expect(summary['feats']['ancestry']).to eq 5
+
+          raised = summary['skills'].reject { |rank, _count| rank == 'trained' }.values.sum
+          expect(raised).to eq 9
+
+          # Every one of those choices is in the ledger, and the sheet is a fold of it.
+          expect(summary['grants']).to be > 50
+        end
+      end
+
+      it "should leave a level 20 character's sheet reproducible from the ledger alone" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 20)
+
+        expect(builder.summary['level']).to eq 20
+
+        # Refolding and re-materialising must not move anything: the sheet is already exactly
+        # what the ledger says it is.
+        Pf2e::Ledger.invalidate!(char)
+        ops = Pf2e::Ledger.materialize!(char)
+
+        expect(ops).to eq 0
+      end
+
+      it "should roll a level 20 character back to 19 and forward again without losing history" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 20)
+
+        expect(builder.summary['level']).to eq 20
+
+        rows_at_20 = Pf2e::Ledger.rows(char).size
+        skills_at_20 = char.skills.to_a.count { |s| s.prof_level != 'untrained' }
+
+        marker = Pf2e::Ledger.rollback_to_level!(char, 20)
+        char = Character[char.id]
+
+        expect(char.pf2_level).to eq 19
+
+        # Nothing is deleted by an undo - that is what makes the redo below possible.
+        expect(Pf2e::Ledger.rows(char).size).to eq rows_at_20
+        expect(Pf2e::Ledger.rows(char).count { |r| !r['reverted_by'].blank? }).to be > 0
+
+        Pf2e::Ledger.redo_rollback!(char, marker)
+        char = Character[char.id]
+
+        expect(char.pf2_level).to eq 20
+        expect(Pf2e::Ledger.rows(char).count { |r| !r['reverted_by'].blank? }).to eq 0
+        expect(char.skills.to_a.count { |s| s.prof_level != 'untrained' }).to eq skills_at_20
       end
     end
   end
