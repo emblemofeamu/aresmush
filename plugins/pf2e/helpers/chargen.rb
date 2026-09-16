@@ -399,9 +399,16 @@ module AresMUSH
       heritage_feats = heritage_info["feat"] ? heritage_info["feat"] : []
       subclass_info_feats = subclassopt_features_info.blank? ? [] : subclassopt_features_info["feat"] || []
 
-      feats['general'] = []
-      feats['ancestry'] = heritage_feats
-      feats['charclass'] = class_feats + subclass_feats + subclass_info_feats
+      # A granted feat goes under the heading its own data names, not under the heading of
+      # whatever granted it: Shield Block is a general feat however the class hands it over.
+      # Advancement has always done this through `add_granted_feat`; chargen filed everything as
+      # a class feat.
+      granted = Pf2e.bucket_feats(class_feats + subclass_feats + subclass_info_feats)
+
+      feats['general'] = Array(granted['general'])
+      feats['ancestry'] = heritage_feats + Array(granted['ancestry'])
+      feats['charclass'] = Array(granted['charclass'])
+      feats['skill'] = Array(feats['skill']) + Array(granted['skill'])
 
       to_assign['ancestry feat'] = 'open'
 
@@ -762,6 +769,23 @@ module AresMUSH
       char_actions['reactions'] = reactions
 
       enactor.pf2_actions = char_actions
+
+      # Class features granted at level 1.
+      #
+      # Gathered from every source that names one, the same way actions are just above. Nothing
+      # gathered them before - only advancement wrote `charclass_features` - so a character began
+      # play without their class's defining features: a Barbarian with no Rage, a Fighter with no
+      # Reactive Strike, and a specialty's own features (a Cleric's First Doctrine) lost too.
+
+      feature_sources = [ class_features_info, subclass_features_info, subclassopt_features_info ]
+
+      chargen_features = feature_sources.flat_map do |source|
+        source.blank? ? [] : Array(source['charclass_feature'])
+      end.map(&:to_s).uniq
+
+      features = enactor.pf2_features
+      features['charclass_features'] = (Array(features['charclass_features']) + chargen_features).uniq
+      enactor.pf2_features = features
 
       # Put everything together, lock it, record the checkpoint, and save to database
       enactor.pf2_to_assign = to_assign

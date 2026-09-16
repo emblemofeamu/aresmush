@@ -2180,8 +2180,42 @@ module AresMUSH
       Global.read_config('pf2e_deities', deity)
     end
 
+    # The headings a sheet groups feats under. `pf2_feats` is keyed by these.
+    FEAT_BUCKETS = %w(charclass skill general ancestry archetype dedication).freeze
+
+    # Where a feat belongs, from what the game says the feat *is*. A feat that is both Skill and
+    # General belongs under the more specific one, which is the one the data lists first.
+    #
+    # Falls back to `charclass` rather than to the empty string: a feat whose data names no type
+    # used to land in a bucket called `''`, which no heading on the sheet reads.
     def self.feat_bucket(details)
-      Array(details['feat_type']).first.to_s.downcase
+      types = Array((details || {})['feat_type']).map { |t| t.to_s.downcase }
+
+      types.find { |t| FEAT_BUCKETS.include?(t) } || 'charclass'
+    end
+
+    # The same question asked by name, for callers holding a granted feat's name and not its data.
+    def self.feat_bucket_for(name)
+      feats = Global.read_config('pf2e_feats') || {}
+      key = feats.keys.find { |k| k.to_s.casecmp?(name.to_s) }
+
+      feat_bucket(key && feats[key])
+    end
+
+    # A list of granted feats, grouped by the heading each belongs under.
+    #
+    # Chargen filed every feat a class, specialty or specialty option granted under `charclass`,
+    # whatever the feat actually was, so a Fighter's Shield Block - a general feat - sat among
+    # their class feats, as did the Alchemist's Alchemical Crafting and the Swashbuckler's
+    # Fascinating Performance, both skill feats. Advancement already got this right through
+    # `add_granted_feat`; chargen did not.
+    def self.bucket_feats(names)
+      Array(names).each_with_object({}) do |name, grouped|
+        next if name.blank?
+
+        bucket = feat_bucket_for(name)
+        grouped[bucket] = Array(grouped[bucket]) + [ name ]
+      end
     end
 
     def self.add_granted_feat(char, fname, details, charclass, client)
