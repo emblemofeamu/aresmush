@@ -22,6 +22,9 @@ module AresMUSH
             'abilities_locked' => char.pf2_abilities_locked,
             'skills_locked' => char.pf2_skills_locked,
             'to_assign' => char.pf2_to_assign,
+            'advancement' => char.pf2_advancement,
+            'advancing' => char.advancing,
+            'archetypes' => char.pf2_archetypeinfo,
             'cg_assigned' => char.pf2_cg_assigned,
             'boosts_working' => char.pf2_boosts_working,
             'boosts' => char.pf2_boosts,
@@ -32,6 +35,7 @@ module AresMUSH
             'admin' => char.is_admin?,
             'name' => char.name,
             'abilities' => char.abilities.to_a.map { |a| a.name },
+            'ability_scores' => char.abilities.to_a.each_with_object({}) { |a, h| h[a.name] = a.base_val },
             'cg_skills' => char.skills.to_a.select { |s| s.cg_skill }.map { |s| s.name }
           },
           :sheet => Ledger.derived(char, :at_level => at_level),
@@ -58,12 +62,18 @@ module AresMUSH
             'skills' => !!data['skills_locked']
           },
           'to_assign' => data['to_assign'] || {},
+          # The advancement draft: what has been picked since `advance` and not yet
+          # committed. `advancing` is readable but not writable - see STORED_ATTRS.
+          'advancement' => data['advancement'] || {},
+          'advancing' => !!data['advancing'],
+          'archetypes' => data['archetypes'] || {},
           'cg_assigned' => data['cg_assigned'] || {},
           'boosts_working' => data['boosts_working'] || {},
           'boosts' => data['boosts'] || {},
           'lang' => data['lang'] || [],
           'traits' => data['traits'] || [],
           'abilities' => data['abilities'] || [],
+          'ability_scores' => data['ability_scores'] || {},
           'cg_skills' => data['cg_skills'] || [],
           'sheet' => {
             'level' => sheet['level'] || (data['level'] || 1).to_i,
@@ -84,11 +94,15 @@ module AresMUSH
       # - feats, features, languages, traits, specials, boosts, xp - is owned by the ledger
       # and written by the materialiser, so a transformation must express those as grants. A
       # core that tried to set them directly would be overwritten by the next fold.
+      # `advancing` is deliberately absent: starting and finishing an advancement are commit
+      # boundaries, and a core that could flip the flag mid-transformation would change where
+      # its own grants land. The shell sets it, either side of the core.
       STORED_ATTRS = {
         'base_info' => 'pf2_base_info',
         'faith' => 'pf2_faith',
         'checkpoint' => 'pf2_checkpoint',
         'to_assign' => 'pf2_to_assign',
+        'advancement' => 'pf2_advancement',
         'cg_assigned' => 'pf2_cg_assigned',
         'boosts_working' => 'pf2_boosts_working',
         'chargen_stage' => 'chargen_stage'

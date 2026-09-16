@@ -22,7 +22,12 @@ module AresMUSH
         :untrain_skill => lambda { |state, args| Chargen::Skills.untrain(state, args) },
         :commit_stage  => lambda { |state, args| Chargen::Lifecycle.commit(state, args) },
         :restore_stage => lambda { |state, args| Chargen::Lifecycle.restore(state, args) },
-        :reset_chargen => lambda { |state, args| Chargen::Lifecycle.reset(state, args) }
+        :reset_chargen => lambda { |state, args| Chargen::Lifecycle.reset(state, args) },
+
+        # Advancement. These write the draft in state['advancement']; it becomes one
+        # level_up transaction at advance/done, through Ledger.commit_level_up!.
+        :advance_language => lambda { |state, args| Advancement::Languages.pick(state, args) },
+        :advance_raise => lambda { |state, args| Advancement::Raises.set(state, args) }
       }.freeze
 
       def self.actions
