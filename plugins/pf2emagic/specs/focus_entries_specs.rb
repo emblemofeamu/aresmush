@@ -118,6 +118,43 @@ module AresMUSH
         end
       end
 
+      # Recorded rather than derived, which is the point: the sheet can say where a focus spell
+      # came from without working back from the deity's domain list and the level table.
+      describe :focus_label do
+        it "should name the domain and the level a cleric's domain spell came from" do
+          Entries.grant_focus!(@char, 'domain', [ 'Healing Well' ], :kind => 'spell',
+            :granted_by => 'Domain Healing', :granted_at => 3)
+          reload
+
+          entry = Entries.focus_entries(@magic, 'domain').first
+
+          expect(Entries.focus_label(entry)).to eq 'Domain Healing, lvl 3'
+        end
+
+        it "should fall back to the class when that is all that granted it" do
+          Entries.grant_focus!(@char, 'devotion', [ 'Lay on Hands' ], :kind => 'spell', :granted_by => 'Champion')
+          reload
+
+          expect(Entries.focus_label(Entries.focus_entries(@magic, 'devotion').first)).to eq 'Champion'
+        end
+
+        it "should fall back to the focus type when nothing was recorded" do
+          expect(Entries.focus_label('name' => 'qi')).to eq 'qi'
+        end
+
+        # Two domains, two entries, each saying which it is and when it arrived.
+        it "should tell two domains apart" do
+          Entries.grant_focus!(@char, 'domain', [ 'Healing Well' ], :kind => 'spell', :granted_by => 'Domain Healing', :granted_at => 3)
+          Entries.grant_focus!(@char, 'domain', [ 'Soothing Words' ], :kind => 'spell', :granted_by => 'Domain Family', :granted_at => 7)
+          reload
+
+          labels = Entries.focus_entries(@magic, 'domain').map { |e| Entries.focus_label(e) }.sort
+
+          expect(labels).to eq [ 'Domain Family, lvl 7', 'Domain Healing, lvl 3' ]
+          expect(Entries.focus_spells(@magic, 'domain').sort).to eq [ 'Healing Well', 'Soothing Words' ]
+        end
+      end
+
       it "should report no focus magic for a character with none" do
         expect(Entries.focus?(@magic)).to be false
         expect(Entries.all_focus(@magic)).to eq []

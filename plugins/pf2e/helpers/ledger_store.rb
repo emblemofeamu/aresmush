@@ -139,7 +139,8 @@ module AresMUSH
           'traits' => char.pf2_traits,
           'specials' => char.pf2_special,
           'languages' => char.pf2_lang,
-          'boosts' => char.pf2_boosts
+          'boosts' => char.pf2_boosts,
+          'spells' => Pf2emagic::Entries.known_lists(char)
         }
       end
 
@@ -178,6 +179,8 @@ module AresMUSH
             apply_skill(char, op['skill'], op['to'])
           when 'set_attr'
             char.update(op['attr'].to_sym => op['value'])
+          when 'set_known'
+            Pf2emagic::Entries.set_known!(char, op['source'], op['lists'])
           end
         end
 
@@ -473,7 +476,10 @@ module AresMUSH
           'features' => char.pf2_features,
           'traits' => char.pf2_traits,
           'specials' => char.pf2_special,
-          'languages' => char.pf2_lang
+          'languages' => char.pf2_lang,
+          # Only enumerated casters contribute: a Cleric prepares from the whole divine list, so
+          # there is nothing to record and nothing a rollback could take away.
+          'spells' => Pf2emagic::Entries.known_lists(char)
         })
 
         marker = "level-#{level}-#{Time.now.to_i}"
@@ -504,8 +510,17 @@ module AresMUSH
       def self.seed_from_sheet!(char, granted_by: 'System', source_type: 'imported', source_ref: 'pre-ledger sheet')
         return nil if char.grants.count > 0
 
+        # Spells an enumerated caster already knows, so the fold is a complete account of what
+        # they have. Without this the materialiser - which writes the known lists from the fold -
+        # would erase every spell chosen before the ledger knew about them.
+        known = Pf2emagic::Entries.known_lists(char)
+
         write(char, :source_type => source_type, :source_ref => source_ref, :granted_by => granted_by, :effective_level => 1, :materialize => false) do |txn|
-          txn.grant('xp_award', 'amount' => char.pf2_xp.to_i) if char.pf2_xp.to_i > 0
+          known.each_pair do |source, by_rank|
+            by_rank.each_pair do |rank, spells|
+              Array(spells).each { |spell| txn.grant('spell_access', 'source' => source, 'rank' => rank, 'spell' => spell) }
+            end
+          end
 
           char.skills.each do |skill|
             next if skill.prof_level.to_s == 'untrained'

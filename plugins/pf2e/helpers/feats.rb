@@ -1268,7 +1268,10 @@ module AresMUSH
         focus_type_by_source = Global.read_config('pf2e_magic', 'focus_type_by_source') || {}
         focus_type = focus_type_by_source[char.pf2_base_info['charclass']] || 'devotion'
 
-        { 'magic_stats' => { 'focus_spell' => { focus_type => [ domain_info['initial'] ] } } }
+        # The domain is what granted the spell, so it travels with it - otherwise the sheet has
+        # to work back from the deity's domain list to say where the spell came from.
+        { 'magic_stats' => { 'focus_spell' => { focus_type => [ domain_info['initial'] ] },
+                             'focus_source' => "Domain #{value}" } }
       when 'devotion_spells'
         { 'magic_stats' => { 'focus_spell' => { 'devotion' => [ value ] } } }
       when 'traditions', 'other_traditions'

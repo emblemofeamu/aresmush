@@ -142,14 +142,41 @@ module AresMUSH
           expect(Ledger.fold(grants, at_level: 4)['languages']).to eq [ 'Kamin' ]
         end
 
-        it "should record spell access" do
-          grants = [ grant(1, 'spell_access', { 'spell' => 'Fireball', 'tradition' => 'arcane', 'rank' => 3 }, level: 5, source: 'boon') ]
+        # Known spells fold to source => rank => [ spells ], because which source knows a spell
+        # decides what it is cast at - and because that is the shape the level-up diff and the
+        # materialiser both need in order to put learning on the ladder.
+        it "should record a spell under the source that knows it" do
+          grants = [ grant(1, 'spell_access', { 'source' => 'Sorcerer', 'rank' => '3', 'spell' => 'Fireball' }, level: 5) ]
 
-          access = Ledger.fold(grants, at_level: 5)['spell_access']
+          expect(Ledger.fold(grants, at_level: 5)['spells']).to eq('Sorcerer' => { '3' => [ 'Fireball' ] })
+        end
 
-          expect(access.size).to eq 1
-          expect(access.first['spell']).to eq 'Fireball'
-          expect(access.first['tradition']).to eq 'arcane'
+        it "should keep two sources' lists apart" do
+          grants = [
+            grant(1, 'spell_access', { 'source' => 'Sorcerer', 'rank' => '3', 'spell' => 'Fireball' }, level: 5),
+            grant(2, 'spell_access', { 'source' => 'Bard Archetype', 'rank' => '1', 'spell' => 'Bless' }, level: 6)
+          ]
+
+          sheet = Ledger.fold(grants, at_level: 6)
+
+          expect(sheet['spells']['Sorcerer']).to eq('3' => [ 'Fireball' ])
+          expect(sheet['spells']['Bard Archetype']).to eq('1' => [ 'Bless' ])
+        end
+
+        # The point of putting them on the ladder: below the level it was learned at, it is gone.
+        it "should not know a spell learned above the level being read" do
+          grants = [ grant(1, 'spell_access', { 'source' => 'Sorcerer', 'rank' => '3', 'spell' => 'Fireball' }, level: 5) ]
+
+          expect(Ledger.fold(grants, at_level: 4)['spells']).to eq({})
+        end
+
+        it "should not list the same spell twice" do
+          grants = [
+            grant(1, 'spell_access', { 'source' => 'Sorcerer', 'rank' => '3', 'spell' => 'Fireball' }, level: 5),
+            grant(2, 'spell_access', { 'source' => 'Sorcerer', 'rank' => '3', 'spell' => 'Fireball' }, level: 6)
+          ]
+
+          expect(Ledger.fold(grants, at_level: 6)['spells']['Sorcerer']['3']).to eq [ 'Fireball' ]
         end
 
         it "should set a nested proficiency" do

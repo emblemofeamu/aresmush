@@ -68,8 +68,12 @@ module AresMUSH
           'apply' => lambda { |sheet, p| Ledger.add_to_list(sheet['specials'], p['special']) }
         },
         'spell_access' => {
-          'key' => 'spell', 'sheet' => 'spell_access',
-          'apply' => lambda { |sheet, p| sheet['spell_access'] << p }
+          'key' => 'spell', 'sheet' => 'spells', 'sync' => 'sourced',
+          'apply' => lambda { |sheet, p|
+            by_rank = (sheet['spells'][p['source']] ||= {})
+
+            Ledger.add_to_list(by_rank[p['rank'].to_s] ||= [], p['spell'])
+          }
         },
         'set_prof' => {
           'key' => 'key', 'sheet' => 'profs',
@@ -120,7 +124,7 @@ module AresMUSH
           'languages' => [],
           'traits' => [],
           'specials' => [],
-          'spell_access' => [],
+          'spells' => {},
           'profs' => {},
           'unsupported' => []
         }
@@ -209,6 +213,16 @@ module AresMUSH
           end
         end
 
+        # Known spells are not one attribute - they live per source, in whichever list that
+        # source's casting mode uses - so they get their own op rather than a SHEET_ATTRS row.
+        if !draft
+          (sheet['spells'] || {}).each_pair do |source, by_rank|
+            next if changed?((current['spells'] || {})[source], by_rank) == false
+
+            ops << { 'op' => 'set_known', 'source' => source, 'lists' => by_rank }
+          end
+        end
+
         SHEET_ATTRS.each_pair do |attr, key|
           next if key.nil?
           next if draft && !DRAFT_SAFE_ATTRS.include?(attr)
@@ -286,6 +300,36 @@ module AresMUSH
             wanted = Array(items)
             grants.concat((wanted - held).map { |i| { 'bucket' => bucket, spec['item'] => i } })
             gone.concat((held - wanted).map { |i| { spec['item'] => i } })
+          end
+
+          [ grants, gone ]
+        },
+        # Two levels of key: a source, then a rank. Spells known are the only thing shaped this
+        # way, because which source knows a spell decides what it is cast at.
+        'sourced' => lambda { |sheet, section, value, spec|
+          grants = []
+          gone = []
+
+          held_all = sheet[section] || {}
+
+          (value || {}).each_pair do |source, by_rank|
+            (by_rank || {}).each_pair do |rank, items|
+              held = Array((held_all[source] || {})[rank.to_s])
+
+              grants.concat((Array(items) - held).map { |i| { 'source' => source, 'rank' => rank.to_s, spec['item'] => i } })
+            end
+          end
+
+          # Anything the fold has that the character no longer does. Scoped to the sources the
+          # fragment mentions, so a source it says nothing about is left alone.
+          held_all.each_pair do |source, by_rank|
+            next unless (value || {}).key?(source)
+
+            (by_rank || {}).each_pair do |rank, items|
+              wanted = Array(((value[source]) || {})[rank] || ((value[source]) || {})[rank.to_s])
+
+              gone.concat((Array(items) - wanted).map { |i| { spec['item'] => i } })
+            end
           end
 
           [ grants, gone ]

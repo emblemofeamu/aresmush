@@ -25,6 +25,10 @@ module AresMUSH
       FOCUS = 'focus'.freeze
       INNATE = 'innate'.freeze
 
+      # A slot the player has not filled yet. The same marker Pf2e::Slots uses, named here so the
+      # magic plugin does not reach into the other one for a string.
+      OPEN = 'open'.freeze
+
       # The blank entry, so every row has every field whether or not its source fills it.
       FIELDS = {
         'name' => nil,
@@ -39,7 +43,8 @@ module AresMUSH
         'restrictions' => {},
         'prepared' => {},
         'uses' => {},
-        'granted_by' => nil
+        'granted_by' => nil,
+        'granted_at' => nil
       }.freeze
 
       # One row per kind of source, each turning the hashes that describe it into entries.
@@ -341,6 +346,60 @@ module AresMUSH
       end
 
       # ------------------------------------------------------------------------------
+      # Known spells, for the level ladder
+      # ------------------------------------------------------------------------------
+      #
+      # Only enumerated sources have anything here. A Cleric prepares from the whole divine list,
+      # so there is nothing to record and nothing a rollback could take away - which is the
+      # second axis paying for itself.
+
+      # Every enumerated source's known spells, as source => rank => [ spells ]. What
+      # Ledger.commit_level_up! diffs to work out which spells were learned at a level.
+      def self.known_lists(char)
+        magic = char.magic
+
+        return {} unless magic
+
+        for_magic(magic).each_with_object({}) do |entry, lists|
+          next unless [ 'class', 'archetype' ].include?(entry['source_type'])
+          next unless enumerated?(entry['name'])
+
+          known = (entry['known'] || {}).each_with_object({}) do |(rank, spells), by_rank|
+            kept = Array(spells).reject { |spell| spell.to_s.casecmp?(OPEN) }
+
+            by_rank[rank.to_s] = kept unless kept.empty?
+          end
+
+          lists[entry['name']] = known unless known.empty?
+        end
+      end
+
+      # Writes a source's known spells back, into whichever list its casting mode keeps them in.
+      # Called by the materialiser, so the ledger is what decides what a character knows.
+      def self.set_known!(char, source, lists)
+        magic = char.magic
+
+        return unless magic
+
+        attr = Pf2emagic.get_caster_type(source) == 'spontaneous' ? :repertoire : :spellbook
+        held = magic.send(attr) || {}
+
+        # An 'open' marker is a pick the player has not made yet and is not something the ledger
+        # knows about, so it is carried over rather than folded away.
+        pending = (held[source] || {}).each_with_object({}) do |(rank, spells), open|
+          markers = Array(spells).select { |spell| spell.to_s.casecmp?(OPEN) }
+
+          open[rank.to_s] = markers unless markers.empty?
+        end
+
+        rebuilt = (lists.keys + pending.keys).uniq.each_with_object({}) do |rank, by_rank|
+          by_rank[rank] = Array(lists[rank]) + Array(pending[rank])
+        end
+
+        magic.update(attr => held.merge(source => rebuilt))
+      end
+
+      # ------------------------------------------------------------------------------
       # Focus spells
       # ------------------------------------------------------------------------------
       #
@@ -382,7 +441,7 @@ module AresMUSH
       end
 
       # Records focus spells or cantrips for a type, attributed to the source that granted them.
-      def self.grant_focus!(char, type, spells, kind:, granted_by: nil, tradition: nil, ability: nil)
+      def self.grant_focus!(char, type, spells, kind:, granted_by: nil, granted_at: nil, tradition: nil, ability: nil)
         wanted = Array(spells).compact.map(&:to_s).reject(&:empty?)
 
         return nil if wanted.empty?
@@ -399,9 +458,22 @@ module AresMUSH
           'source_type' => FOCUS,
           'category' => FOCUS,
           'granted_by' => granted_by,
+          'granted_at' => granted_at || (existing || {})['granted_at'],
           'tradition' => tradition || (existing || {})['tradition'],
           'ability' => ability || (existing || {})['ability'],
           'known' => known)
+      end
+
+      # How a focus entry names itself: "Domain Healing, lvl 3" for a cleric's domain spell,
+      # "devotion" for a champion whose class simply grants them. Built from what was recorded
+      # when the spell was granted rather than worked back out of the deity's domain list and the
+      # level table.
+      def self.focus_label(entry)
+        source = entry['granted_by'].to_s
+        level = entry['granted_at']
+        name = source.empty? ? entry['name'].to_s : source
+
+        level.to_i > 0 ? "#{name}, lvl #{level.to_i}" : name
       end
 
       # Takes a focus spell or cantrip away, wherever it was granted from.

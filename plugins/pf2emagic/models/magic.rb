@@ -307,9 +307,14 @@ module AresMUSH
           # in how they are cast.
           kind = key.to_s == 'focus_cantrip' ? 'cantrip' : 'spell'
 
+          # A block may name what granted it - "Domain Healing" for a cleric's domain spell -
+          # and otherwise it is the class itself. Recorded with the level, so the sheet can say
+          # where a focus spell came from without deriving it.
+          source = info['focus_source'].presence || charclass
+
           value.each_pair do |fstype, spell_list|
             Pf2emagic::Entries.grant_focus!(char, fstype, spell_list,
-              :kind => kind, :granted_by => charclass)
+              :kind => kind, :granted_by => source, :granted_at => char.pf2_level)
           end
         when "spellbook"
           # Spells need to be chosen, redirect to to_assign.

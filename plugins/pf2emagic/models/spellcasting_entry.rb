@@ -65,6 +65,11 @@ module AresMUSH
     # one focus type be told apart.
     attribute :granted_by
 
+    # The level it was granted at. Recorded rather than derived, so a Cleric's domain spell can
+    # say "Domain Healing, lvl 3" without anyone having to work out which domain and when from
+    # the deity's list and the level table.
+    attribute :granted_at, :type => DataType::Integer
+
     index :source_type
     index :category
 
@@ -82,7 +87,8 @@ module AresMUSH
         'signature' => signature || {},
         'restrictions' => restrictions || {},
         'uses' => uses || {},
-        'granted_by' => granted_by
+        'granted_by' => granted_by,
+        'granted_at' => granted_at
       }
     end
   end

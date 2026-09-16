@@ -75,7 +75,8 @@ module AresMUSH
           charclass = entry['granted_by'].presence || focus_source_for(focus_sources, entry['name'], tradition)
           next unless charclass
 
-          format_focus_spells(@char, charclass, entry['name'], tradition[charclass], spell_list, cantrip_list)
+          format_focus_spells(@char, charclass, Pf2emagic::Entries.focus_label(entry),
+            tradition[charclass], spell_list, cantrip_list)
         end
       end
 
@@ -301,9 +302,11 @@ module AresMUSH
 
         # Spell List Block
 
-        cantrips = !Array(cantrip_list).empty? ? "%b%b#{item_color}Cantrips (#{fstype.capitalize}):%xn #{cantrip_list.sort.join(", ")}%r" : ""
+        # fstype arrives as a label rather than a bare type - "Domain Healing, lvl 3" for a
+        # cleric's domain spell - so it is shown as given rather than capitalised over.
+        cantrips = !Array(cantrip_list).empty? ? "%b%b#{item_color}Cantrips (#{fstype}):%xn #{cantrip_list.sort.join(", ")}%r" : ""
 
-        spells = !Array(spell_list).empty? ? "%b%b#{item_color}Focus Spells (#{fstype.capitalize}):%xn #{spell_list.sort.join(", ")}" : ""
+        spells = !Array(spell_list).empty? ? "%b%b#{item_color}Focus Spells (#{fstype}):%xn #{spell_list.sort.join(", ")}" : ""
 
         "#{trad_string}#{cantrips}#{spells}"
       end
