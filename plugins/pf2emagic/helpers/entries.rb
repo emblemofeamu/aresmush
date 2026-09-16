@@ -265,6 +265,63 @@ module AresMUSH
         (find(magic, source) || {})['proficiency']
       end
 
+      # ------------------------------------------------------------------------------
+      # How a source decides which spells it may cast
+      # ------------------------------------------------------------------------------
+      #
+      # PF2e has two answers and they are not variations of each other:
+      #
+      #   **enumerated** - the source knows particular spells and nothing else. A Wizard's
+      #     spellbook, a Sorcerer's or Bard's repertoire. Learning one is an event that happens
+      #     at a level, so it belongs on the level ladder.
+      #   **by rule** - the source may cast anything on its tradition's list at a rank it has a
+      #     slot for. A Cleric or Druid has no spellbook; they prepare from the whole divine or
+      #     primal list. There is nothing to enumerate, and enumerating it would mean that adding
+      #     a spell to the game required touching every such character.
+      #
+      # Which one a source uses is in config already - a class whose magic_stats grant a
+      # `spellbook` or a `repertoire` enumerates, and one that grants only `spells_per_day` casts
+      # by rule. Reading it from there rather than naming classes in code is what keeps a new
+      # class, or a new spell, from needing anything special.
+
+      ENUMERATING_KEYS = %w(spellbook repertoire).freeze
+
+      def self.access(source)
+        enumerated?(source) ? 'enumerated' : 'tradition'
+      end
+
+      # Does this class or archetype have to acquire its spells one at a time?
+      def self.enumerated?(source)
+        return false if source.blank?
+
+        blocks = magic_stat_blocks(source)
+
+        blocks.any? { |block| ENUMERATING_KEYS.any? { |key| block.key?(key) } }
+      end
+
+      # Every magic_stats block a source's config carries: at chargen, at each level, and - for
+      # a class - in each of its specialties. A Witch's tradition comes from their patron rather
+      # than from the class, so a source's magic is not all in one place, and a class whose
+      # enumerated list arrived only through a specialty would otherwise be misread as casting
+      # by rule. None currently does; it is one line to be right about anyway.
+      def self.magic_stat_blocks(source)
+        sections = [
+          Global.read_config('pf2e_class', source),
+          Global.read_config('pf2e_archetype', source)
+        ].compact.select { |info| info.is_a?(Hash) }
+
+        specialties = Array((Global.read_config('pf2e_specialty', source) || {}).values)
+          .select { |info| info.is_a?(Hash) }
+
+        (sections + specialties).flat_map { |info| blocks_in(info) }
+          .compact.select { |block| block.is_a?(Hash) }
+      end
+
+      def self.blocks_in(info)
+        [ (info['chargen'] || {})['magic_stats'], (info['initial_dedication'] || {})['magic_stats'] ] +
+          (info['advance'] || {}).values.map { |entry| (entry || {})['magic_stats'] }
+      end
+
       # Records what a class or archetype casts at. Its category - prepared or spontaneous -
       # comes from config rather than being passed in, so a caller cannot get it wrong.
       def self.grant_casting!(char, source, tradition: nil, proficiency: nil, ability: nil)

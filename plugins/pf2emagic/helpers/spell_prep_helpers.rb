@@ -71,7 +71,11 @@ module AresMUSH
 
       needs_spellbook = spell_details['traits'].intersect?(['rare', 'uncommon', 'unique'])
 
-      if !is_adapted && (use_arcane_evo || needs_spellbook || cc == 'Wizard')
+      # Whether this class has to have the spell written down comes from its config - does it
+      # get a spellbook at all - rather than from its name. Naming the Wizard here meant any
+      # other class that acquires spells one at a time would silently have been given access to
+      # its whole tradition list instead.
+      if !is_adapted && (use_arcane_evo || needs_spellbook || Entries.enumerated?(cc))
         is_in_spellbook = spellbook_check(magic, cc, level, spell_name)
         return t('pf2emagic.not_in_spellbook') unless is_in_spellbook[0]
         make_signature = is_in_spellbook[1]
