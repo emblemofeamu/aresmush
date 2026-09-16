@@ -510,8 +510,10 @@ module AresMUSH
               Pf2e.apply_init_magic_feat(char, feat_info[0], feat_info[1], client)
             end
           end
+          # Draft only. The ledger is written once, at the end of do_advancement, against the
+          # level actually being gained - syncing here would attribute it to the level the
+          # character is still on.
           char.pf2_feats = char_feats
-          Pf2e::Ledger.sync!(char, { 'feats' => char_feats }, :source_type => 'level_up', :source_ref => "advance to level #{char.pf2_level}", :effective_level => char.pf2_level)
         when "charclass_feature option"
           value.each_pair do |feature, option|
             features = char.pf2_features
@@ -715,13 +717,6 @@ module AresMUSH
       tracker[new_level.to_s] = (tracker[new_level.to_s] || {}).merge(entry)
       char.pf2_level_tracker = tracker
 
-      # The XP spend is a ledger grant at the new level, so undoing that level undoes the
-      # spend with it - no separate refund arithmetic.
-      Pf2e::Ledger.seed_from_sheet!(char)
-      Pf2e::Ledger.write(char, :source_type => 'level_up', :source_ref => "advance to level #{new_level}", :effective_level => new_level, :materialize => false) do |txn|
-        txn.grant('xp_spend', 'amount' => ADVANCEMENT_XP_COST)
-      end
-
       # Update level.
       char.pf2_level = new_level
 
@@ -732,11 +727,9 @@ module AresMUSH
 
       char.save
 
-      # Everything the advancement wrote onto the sheet becomes ledger grants at this level.
-      Pf2e::Ledger.sync_sheet!(char, :source_type => 'level_up', :source_ref => "advance to level #{new_level}", :effective_level => new_level)
-
-      # Snapshot the finished sheet so admin rollback can put them back here later.
-      Pf2e.capture_level_snapshot(char, new_level)
+      # The single commit point for a level-up: everything this advancement produced becomes
+      # one level_up transaction attributed to the level just gained, XP spend included.
+      Pf2e::Ledger.commit_level_up!(char, new_level)
 
       return nil
     end

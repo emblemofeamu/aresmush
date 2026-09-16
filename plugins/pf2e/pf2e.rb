@@ -153,6 +153,8 @@ module AresMUSH
           return PF2AdminRespecCmd
         when "rollback"
           return PF2AdminRollbackCmd
+        when "unrollback"
+          return PF2AdminRollbackRedoCmd
         end
       when "advance"
         if cmd.switch&.start_with?("language=")

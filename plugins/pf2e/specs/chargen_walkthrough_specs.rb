@@ -144,9 +144,9 @@ module AresMUSH
         expect(@char.pf2_boosts_working['free']).to include 'Constitution'
       end
 
-      it "should record a language pick in the ledger and materialise it onto the sheet" do
+      it "should keep a chargen language pick in the draft, out of the ledger" do
         # The skills stage hands out these slots; set them directly so this example stays
-        # about the language command and the ledger rather than replaying all of chargen.
+        # about the language command rather than replaying all of chargen.
         @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
 
         run PF2LanguageSetCmd, "lang/set Silya"
@@ -155,12 +155,11 @@ module AresMUSH
         expect(@char.pf2_to_assign['open languages']).to include 'Silya'
         expect(@char.pf2_lang).to include 'Silya'
 
-        grants = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' }
-        expect(grants.map { |g| g['payload']['language'] }).to include 'Silya'
-        expect(grants.first['source_type']).to eq 'chargen'
+        # Nothing is history yet: a character in chargen is a draft.
+        expect(@char.grants.count).to eq 0
       end
 
-      it "should revoke the grant when a language pick is taken back" do
+      it "should take a chargen language pick back out of the draft" do
         @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
 
         run PF2LanguageSetCmd, "lang/set Silya"
@@ -169,12 +168,25 @@ module AresMUSH
         expect_no_failures
         expect(@char.pf2_lang).to_not include 'Silya'
         expect(@char.pf2_to_assign['open languages']).to eq [ 'open', 'open' ]
+        expect(@char.grants.count).to eq 0
+      end
 
-        live = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' && g['reverted_by'].blank? }
-        reverted = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' && !g['reverted_by'].blank? }
+      it "should write the whole chargen draft to the ledger when the character is approved" do
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
 
-        expect(live).to be_empty
-        expect(reverted.size).to eq 1
+        run PF2LanguageSetCmd, "lang/set Silya"
+
+        Pf2e::Ledger.commit_chargen!(@char)
+        @char = Character[@char.id]
+
+        languages = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' }
+
+        expect(languages.map { |g| g['payload']['language'] }).to include 'Silya'
+        expect(languages.first['source_type']).to eq 'chargen'
+        expect(languages.first['effective_level']).to eq 1
+
+        # And committing twice does not double the history.
+        expect { Pf2e::Ledger.commit_chargen!(@char) }.to_not change { Character[@char.id].grants.count }
       end
 
       it "should refuse a rare language through the command" do

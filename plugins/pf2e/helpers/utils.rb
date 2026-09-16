@@ -221,7 +221,12 @@ module AresMUSH
     # materialiser writes the total. A character created before the ledger is seeded on
     # first touch, so their existing total is not folded away.
     def self.award_xp(target, amount, awarded_by = 'System', reason = nil, source_type = 'staff')
-      Pf2e::Ledger.seed_from_sheet!(target)
+      # A draft character has no ledger yet, so XP is simply a field on the draft. Once the
+      # character is finalized, XP is a fold of the ledger and an award is a grant.
+      unless Pf2e::Ledger.finalized?(target)
+        target.update(:pf2_xp => target.pf2_xp.to_i + amount.to_i)
+        return nil
+      end
 
       kind = amount.to_i.negative? ? 'xp_spend' : 'xp_award'
 
@@ -333,7 +338,6 @@ module AresMUSH
       char.pf2_last_refresh = nil
       char.pf2_cg_assigned = {}
       char.pf2_level_tracker = {}
-      Pf2e.delete_level_snapshots(char)
       char.pf2_size = ""
       char.pf2_roll_aliases = {}
       char.pf2_actions = {}
@@ -395,7 +399,6 @@ module AresMUSH
       char.pf2_viewsheet = {}
       char.pf2_cg_assigned = {}
       char.pf2_level_tracker = {}
-      Pf2e.delete_level_snapshots(char)
       char.pf2_size = ""
       char.pf2_roll_aliases = {}
       char.pf2_actions = {}

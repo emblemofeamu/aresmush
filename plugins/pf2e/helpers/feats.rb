@@ -2201,10 +2201,6 @@ module AresMUSH
 
       char.update(pf2_feats: feats)
 
-      # While advancing, the end-of-advancement sync records this at the new level with
-      # source_type level_up, which is what makes it roll back with that level. Syncing here
-      # as well would file it under class_feature, which a rollback deliberately leaves alone.
-      Pf2e::Ledger.sync!(char, { 'feats' => feats }, :source_type => 'chargen', :source_ref => fname, :effective_level => 1) unless char.advancing
 
       msgs = []
       msgs.concat(do_feat_grants(char, details['grants'], charclass, client)) if details['grants']
@@ -2261,7 +2257,6 @@ module AresMUSH
         list << fname
         feats[ftype] = list
         char.update(pf2_feats: feats)
-        Pf2e::Ledger.sync!(char, { 'feats' => feats }, :source_type => 'chargen', :source_ref => fname, :effective_level => 1) unless char.advancing
 
         msgs.concat(do_feat_grants(char, fdetails['grants'], charclass, client)) if fdetails['grants']
         msgs.concat(do_feat_magic_stats(char, fdetails, charclass, client))

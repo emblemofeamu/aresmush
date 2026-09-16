@@ -26,8 +26,9 @@ module AresMUSH
 
         Pf2e.record_level(char, level, entry)
 
-        # Baseline snapshot, so a later rollback has something to restore back to.
-        Pf2e.capture_level_snapshot(char, level)
+        # The draft becomes history: everything chargen produced is written as one chargen
+        # transaction, and from here the ledger is the source of truth for this sheet.
+        Pf2e::Ledger.commit_chargen!(char)
       end
     end
   end

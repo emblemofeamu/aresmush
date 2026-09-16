@@ -186,8 +186,6 @@ module AresMUSH
       # This must happen after validation so failed commit attempts don't advance checkpoints.
       Pf2e.record_checkpoint(enactor, 'info')
 
-      # Everything this lock just wrote onto the sheet becomes ledger grants.
-      Pf2e::Ledger.sync_sheet!(enactor, :source_type => 'chargen', :source_ref => 'base options', :effective_level => 1)
 
       # Create abilities. Might already exist if the character reset, so check for that.
 
@@ -425,7 +423,6 @@ module AresMUSH
       end
 
       enactor.pf2_feats = feats
-      Pf2e::Ledger.sync!(enactor, { 'feats' => feats }, :source_type => 'chargen', :source_ref => 'base options', :effective_level => 1)
 
       # Check for feat choices the class, subclass, or specialty option opens at chargen.
 

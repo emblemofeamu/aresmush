@@ -520,7 +520,15 @@ module AresMUSH
 
       # Grants the XP and approval a climb needs, then advances one level at a time.
       def advance_to(target)
-        Roles.add_role(@char, 'approved') unless @char.is_approved?
+        # Approving a character normally fires CharApprovedEvent, whose handler commits the
+        # chargen draft to the ledger. Adding the role directly skips the event, so the
+        # commit is done here to match what a real approval does.
+        unless @char.is_approved?
+          Roles.add_role(@char, 'approved')
+          @char = Character[@char.id]
+          Pf2e::Ledger.commit_chargen!(@char)
+        end
+
         Pf2e.award_xp(@char, (target + 2) * 1000, 'AutoBuilder', 'level build')
         @char = Character[@char.id]
 

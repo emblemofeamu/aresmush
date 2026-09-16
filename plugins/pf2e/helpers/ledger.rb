@@ -175,27 +175,37 @@ module AresMUSH
         'pf2_level_tracker' => nil # kept for the old readers; filled by the store
       }.freeze
 
+      # While a draft is open - an advancement between `advance` and `advance/done` - the
+      # character's own lists ARE the draft, holding picks the fold has never seen. Writing
+      # the fold over them mid-flight silently destroys the player's work, so a draft plan
+      # touches only what no draft step writes. XP is the whole of that: it moves by grant
+      # and by grant alone.
+      DRAFT_SAFE_ATTRS = [ 'pf2_xp' ].freeze
+
       # Diffs the derived sheet against what the live objects hold. Pure, so the hard part
       # of materialising is testable; the applier that runs these ops is dumb on purpose.
-      def self.plan(sheet, current)
+      def self.plan(sheet, current, draft: false)
         ops = []
 
-        skills = effective_skills(sheet)
-        held = current['skills'] || {}
+        if !draft
+          skills = effective_skills(sheet)
+          held = current['skills'] || {}
 
-        skills.each_pair do |skill, rank|
-          ops << { 'op' => 'set_skill', 'skill' => skill, 'to' => rank } if held[skill] != rank
-        end
+          skills.each_pair do |skill, rank|
+            ops << { 'op' => 'set_skill', 'skill' => skill, 'to' => rank } if held[skill] != rank
+          end
 
-        # A skill the character holds but the sheet does not grant is untrained rather than
-        # deleted - and because the ledger keeps every grant, a boon's skill survives a
-        # rollback instead of vanishing the way the snapshot restore destroyed it.
-        held.each_pair do |skill, _rank|
-          ops << { 'op' => 'set_skill', 'skill' => skill, 'to' => 'untrained' } unless skills.key?(skill)
+          # A skill the character holds but the sheet does not grant is untrained rather than
+          # deleted - and because the ledger keeps every grant, a boon's skill survives a
+          # rollback instead of vanishing the way the snapshot restore destroyed it.
+          held.each_pair do |skill, _rank|
+            ops << { 'op' => 'set_skill', 'skill' => skill, 'to' => 'untrained' } unless skills.key?(skill)
+          end
         end
 
         SHEET_ATTRS.each_pair do |attr, key|
           next if key.nil?
+          next if draft && !DRAFT_SAFE_ATTRS.include?(attr)
           next unless sheet.key?(key)
           ops << { 'op' => 'set_attr', 'attr' => attr, 'value' => sheet[key] } if changed?(current[key], sheet[key])
         end

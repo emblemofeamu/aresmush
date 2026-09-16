@@ -143,11 +143,34 @@ module AresMUSH
         }
       end
 
+      # True once the ledger is this character's source of truth. Before approval a character
+      # is a *draft*: the pf2_* fields and skill rows are the working copy the player is still
+      # editing, the ledger is empty, and folding would wipe the draft rather than describe it.
+      def self.finalized?(char)
+        char.is_approved? || char.grants.count > 0
+      end
+
+      # Is there an open draft? Chargen before approval, and an advancement between
+      # `advance` and `advance/done`, are both stretches where the character's own fields
+      # hold picks the ledger has not been told about yet. Nothing may write the fold over
+      # them until the matching commit boundary turns them into history.
+      def self.drafting?(char)
+        !finalized?(char) || !!char.advancing
+      end
+
       # Applies the derived sheet to the character's Ohm objects. Idempotent: running it
-      # twice plans nothing the second time.
+      # twice plans nothing the second time. A no-op for a draft character, whose fields are
+      # the draft rather than a projection of anything.
       def self.materialize!(char, at_level: nil)
+        return 0 unless finalized?(char)
+
+        # Mid-advancement only the attributes no draft step writes may be refreshed, so that
+        # an xp award or a boon landing while a player is choosing does not wipe the choices
+        # they have already made.
+        draft = !!char.advancing
+
         sheet = derived(char, :at_level => at_level)
-        ops = Ledger.plan(sheet, current_state(char))
+        ops = Ledger.plan(sheet, current_state(char), :draft => draft)
 
         ops.each do |op|
           case op['op']
@@ -157,6 +180,8 @@ module AresMUSH
             char.update(op['attr'].to_sym => op['value'])
           end
         end
+
+        return ops.size if draft
 
         # The level itself is not a grant - it is the ledger's read position.
         char.update(:pf2_level => sheet['level']) if char.pf2_level.to_i != sheet['level'].to_i
@@ -210,7 +235,7 @@ module AresMUSH
 
         marker = "sync-#{Time.now.to_i}-#{rand(1000)}"
 
-        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker) }
+        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false) }
 
         if !plan['grants'].empty?
           write(char, :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level, :granted_by => granted_by, :materialize => false) do |txn|
@@ -253,14 +278,30 @@ module AresMUSH
 
 
       # Marks a transaction undone. Nothing is deleted, which is what makes redo possible.
-      def self.revert_txn!(char, txn_id, by:)
+      # Reverting refreshes the sheet by default, for the same reason `write` does: a caller
+      # that has taken something away should not have to remember to refold, and a stale
+      # sheet after a revoke is indistinguishable from the revoke not having worked. A batch
+      # caller passes materialize: false and refolds once at the end.
+      def self.revert_txn!(char, txn_id, by:, materialize: true)
+        reverted = 0
+
         char.grants.find(:txn => txn_id).each do |grant|
-          grant.update(:reverted_by => by) if grant.live?
+          next unless grant.live?
+
+          grant.update(:reverted_by => by)
+          reverted += 1
         end
+
+        if reverted > 0
+          invalidate!(char)
+          materialize!(char) if materialize
+        end
+
+        reverted
       end
 
       # Marks the live grants matching a kind and payload as reverted. Returns how many.
-      def self.revert_matching!(char, kind, match, by:)
+      def self.revert_matching!(char, kind, match, by:, materialize: true)
         targets = Ledger.matching_grants(rows(char), kind, match)
 
         targets.each do |row|
@@ -268,7 +309,10 @@ module AresMUSH
           grant.update(:reverted_by => by) if grant && grant.live?
         end
 
-        invalidate!(char) if !targets.empty?
+        if !targets.empty?
+          invalidate!(char)
+          materialize!(char) if materialize
+        end
 
         targets.size
       end
@@ -284,7 +328,7 @@ module AresMUSH
       def self.rollback_to_level!(char, level, enactor = nil)
         marker = "rollback-#{Time.now.to_i}-to-#{level.to_i}"
 
-        Ledger.rollback_targets(rows(char), level).each { |id| revert_txn!(char, id, :by => marker) }
+        Ledger.rollback_targets(rows(char), level).each { |id| revert_txn!(char, id, :by => marker, :materialize => false) }
 
         invalidate!(char)
         char.update(:pf2_level => (level.to_i - 1))
@@ -310,18 +354,118 @@ module AresMUSH
       end
 
       # ------------------------------------------------------------------------------
+      # Draft edits
+      # ------------------------------------------------------------------------------
+
+      # How a grant reads while the character is still a draft. Only the kinds a chargen pick
+      # can produce need an entry; anything else is a level-up concern and cannot happen before
+      # the character is finalized.
+      DRAFT_EFFECTS = {
+        'raise_skill' => lambda { |char, p| Ledger.apply_skill(char, p['skill'], p['to']) },
+        'add_lore' => lambda { |char, p| Ledger.apply_skill(char, p['lore'], p['to']) },
+        'add_language' => lambda { |char, p| char.update(:pf2_lang => (Array(char.pf2_lang) + [ p['language'] ]).uniq) },
+        'grant_feat' => lambda { |char, p|
+          feats = char.pf2_feats || {}
+          bucket = p['bucket'] || 'charclass'
+          list = Array(feats[bucket])
+          feats[bucket] = list + [ p['feat'] ] unless list.include?(p['feat'])
+          char.update(:pf2_feats => feats)
+        }
+      }.freeze
+
+      DRAFT_UNDO = {
+        'raise_skill' => lambda { |char, match| Ledger.apply_skill(char, match['skill'], 'untrained') },
+        'add_lore' => lambda { |char, match| Ledger.apply_skill(char, match['lore'], 'untrained') },
+        'add_language' => lambda { |char, match| char.update(:pf2_lang => Array(char.pf2_lang).reject { |l| l.to_s.casecmp?(match['language'].to_s) }) },
+        'grant_feat' => lambda { |char, match|
+          feats = char.pf2_feats || {}
+          feats.each_key { |bucket| feats[bucket] = Array(feats[bucket]).reject { |f| f.to_s.casecmp?(match['feat'].to_s) } }
+          char.update(:pf2_feats => feats)
+        }
+      }.freeze
+
+      def self.apply_draft!(char, grants)
+        Array(grants).each do |grant|
+          effect = DRAFT_EFFECTS[grant['kind']]
+
+          next Global.logger.warn("PF2e draft has no effect for grant kind #{grant['kind']}") unless effect
+
+          effect.call(char, grant['payload'] || {})
+        end
+      end
+
+      def self.undo_draft!(char, revocations)
+        Array(revocations).each do |revocation|
+          undo = DRAFT_UNDO[revocation['kind']]
+
+          next Global.logger.warn("PF2e draft cannot undo grant kind #{revocation['kind']}") unless undo
+
+          undo.call(char, revocation['match'] || {})
+        end
+      end
+
+      # ------------------------------------------------------------------------------
+      # Commit boundaries
+      # ------------------------------------------------------------------------------
+
+      # The draft becomes history. Called once, when a character is approved: everything
+      # chargen produced is written as a single `chargen` transaction at level 1, and from
+      # then on the ledger is the source of truth and the sheet fields are its projection.
+      def self.commit_chargen!(char, granted_by: 'System')
+        return nil if char.grants.count > 0
+
+        seed_from_sheet!(char, :granted_by => granted_by, :source_type => 'chargen', :source_ref => 'chargen')
+      end
+
+      # A level-up becomes history: one transaction, attributed to the level just gained, for
+      # everything the advancement produced plus the XP it cost. Called from do_advancement
+      # after the new level is saved, which is what makes the attribution right.
+      def self.commit_level_up!(char, level, cost: nil)
+        seed_from_sheet!(char, :source_type => 'chargen', :source_ref => 'chargen')
+
+        cost = Pf2e::ADVANCEMENT_XP_COST if cost.nil?
+
+        skills = {}
+        char.skills.each do |skill|
+          next if skill.prof_level.to_s == 'untrained'
+          skills[skill.name] = skill.prof_level
+        end
+
+        plan = Ledger.sync_plan(derived(char, :at_level => level), {
+          'skills' => skills,
+          'feats' => char.pf2_feats,
+          'features' => char.pf2_features,
+          'traits' => char.pf2_traits,
+          'specials' => char.pf2_special,
+          'languages' => char.pf2_lang
+        })
+
+        marker = "level-#{level}-#{Time.now.to_i}"
+
+        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false) }
+
+        write(char, :source_type => 'level_up', :source_ref => "advance to level #{level}", :effective_level => level, :materialize => false) do |txn|
+          plan['grants'].each { |g| txn.grant(g['kind'], g['payload']) }
+          txn.grant('xp_spend', 'amount' => cost) if cost.to_i > 0
+        end
+
+        invalidate!(char)
+        materialize!(char)
+
+        plan['grants'].size
+      end
+
+      # ------------------------------------------------------------------------------
       # Bootstrapping
       # ------------------------------------------------------------------------------
 
       # Turns a character who predates the ledger into one honest `imported` transaction.
       # Coarse on purpose: the old stores cannot say which level trained which skill, so
       # inventing per-level history here would be a lie.
-      def self.seed_from_sheet!(char, granted_by: 'System')
+      def self.seed_from_sheet!(char, granted_by: 'System', source_type: 'imported', source_ref: 'pre-ledger sheet')
         return nil if char.grants.count > 0
 
-        level = (char.pf2_level || 1).to_i
-
-        write(char, :source_type => 'imported', :source_ref => 'pre-ledger sheet', :granted_by => granted_by, :effective_level => 1, :materialize => false) do |txn|
+        write(char, :source_type => source_type, :source_ref => source_ref, :granted_by => granted_by, :effective_level => 1, :materialize => false) do |txn|
           txn.grant('xp_award', 'amount' => char.pf2_xp.to_i) if char.pf2_xp.to_i > 0
 
           char.skills.each do |skill|

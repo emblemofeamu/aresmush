@@ -127,6 +127,19 @@ module AresMUSH
 
         attrs.each_pair { |attr, value| char.update(attr.to_sym => value) }
 
+        # While a draft is open - chargen before approval, or an advancement before
+        # advance/done - what a transformation grants is applied straight to the working copy,
+        # and taking it back edits the working copy too. Grants become history only at the
+        # matching commit boundary, which is what gives them the right level and source: a
+        # language picked during a level-up belongs to that level_up transaction, not to a
+        # transaction of its own written the moment the player typed it.
+        if Ledger.drafting?(char)
+          Ledger.apply_draft!(char, outcome.grants)
+          Ledger.undo_draft!(char, outcome.revocations)
+
+          return attrs
+        end
+
         # Revocations first: taking a pick back before re-granting keeps the two from
         # cancelling each other out when a transformation does both.
         outcome.revocations.each do |revocation|
@@ -134,7 +147,6 @@ module AresMUSH
         end
 
         if !outcome.grants.empty?
-          Ledger.seed_from_sheet!(char)
           Ledger.write(char, :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level, :granted_by => granted_by) do |txn|
             outcome.grants.each do |g|
               overrides = {}
