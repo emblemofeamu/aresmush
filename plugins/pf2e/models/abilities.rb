@@ -34,6 +34,18 @@ module AresMUSH
       object.mod_val ? object.mod_val : object.base_val
     end
 
+    # A score after some number of boosts, per PF2e: a boost is worth 2, or 1 once the score has
+    # reached 18.
+    #
+    # The rule depends only on the score being boosted, so a *count* of boosts per ability is
+    # enough to derive the result - there is no ordering to preserve between abilities. That is
+    # what lets the grant ledger hold boosts as counts and still reproduce the sheet.
+    def self.boosted_score(base, count)
+      count.to_i.clamp(0, 100).times.reduce(base.to_i) do |score, _|
+        score < 18 ? score + 2 : score + 1
+      end
+    end
+
     def self.update_base_score(char,ability,mod=2)
       object = char.abilities.select { |a| a.name_upcase == ability.upcase }.first
 

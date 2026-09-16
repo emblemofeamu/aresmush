@@ -140,8 +140,26 @@ module AresMUSH
           'specials' => char.pf2_special,
           'languages' => char.pf2_lang,
           'boosts' => char.pf2_boosts,
-          'spells' => Pf2emagic::Entries.known_lists(char)
+          'spells' => Pf2emagic::Entries.known_lists(char),
+          # The scores as approved, and the scores now. The boosts the fold holds are counts, so
+          # the baseline is what turns them back into scores.
+          'ability_baseline' => char.pf2_ability_baseline,
+          'ability_scores' => char.abilities.each_with_object({}) { |a, h| h[a.name] = a.base_val }
         }
+      end
+
+      # The scores to derive later boosts from: where chargen left them.
+      #
+      # Recorded once, at the boundary where chargen becomes history. Chargen's own boosts are
+      # not in the ledger (see finding 27), so without this there is nothing to add the fold's
+      # counts to and a rollback could not take a level-up boost back.
+      def self.record_ability_baseline!(char)
+        return if char.pf2_ability_baseline.present?
+
+        baseline = char.abilities.each_with_object({}) { |a, h| h[a.name] = a.base_val }
+        return if baseline.empty?
+
+        char.update(:pf2_ability_baseline => baseline)
       end
 
       # True once the ledger is this character's source of truth. Before approval a character
@@ -181,6 +199,8 @@ module AresMUSH
             char.update(op['attr'].to_sym => op['value'])
           when 'set_known'
             Pf2emagic::Entries.set_known!(char, op['source'], op['lists'])
+          when 'set_ability'
+            apply_ability_score(char, op['ability'], op['to'])
           end
         end
 
@@ -194,6 +214,12 @@ module AresMUSH
         char.update(:pf2_level_tracker => tracker_view(char, sheet))
 
         ops.size
+      end
+
+      def self.apply_ability_score(char, name, score)
+        ability = char.abilities.to_a.find { |a| a.name.to_s.casecmp?(name.to_s) }
+
+        ability&.update(:base_val => score)
       end
 
       def self.apply_skill(char, name, rank)
@@ -446,6 +472,8 @@ module AresMUSH
       def self.commit_chargen!(char, granted_by: 'System')
         return nil if char.grants.count > 0
 
+        record_ability_baseline!(char)
+
         seed_from_sheet!(char, :granted_by => granted_by, :source_type => 'chargen', :source_ref => 'chargen')
       end
 
@@ -454,6 +482,7 @@ module AresMUSH
       # after the new level is saved, which is what makes the attribution right.
       def self.commit_level_up!(char, level, cost: nil)
         seed_from_sheet!(char, :source_type => 'chargen', :source_ref => 'chargen')
+        record_ability_baseline!(char)
 
         # Taking this level again is what makes a pending redo of it stale.
         supersede_rollback!(char, level)
@@ -477,6 +506,10 @@ module AresMUSH
           'traits' => char.pf2_traits,
           'specials' => char.pf2_special,
           'languages' => char.pf2_lang,
+          # A count per ability. The boost rule depends only on the score being boosted, so a
+          # count is enough to reproduce the score from the baseline - which is what puts boosts
+          # in the ledger and lets a rollback take them back.
+          'boosts' => char.pf2_boosts,
           # Only enumerated casters contribute: a Cleric prepares from the whole divine list, so
           # there is nothing to record and nothing a rollback could take away.
           'spells' => Pf2emagic::Entries.known_lists(char)

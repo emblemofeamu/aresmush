@@ -78,7 +78,7 @@ module AresMUSH
           return outcome unless names.any? { |n| n.to_s.casecmp?('Intelligence') }
 
           score = (state['ability_scores'] || {})['Intelligence'].to_i
-          raised = score + (score < 18 ? 2 : 1)
+          raised = Pf2eAbilities.boosted_score(score, 1)
 
           return outcome unless Pf2eAbilities.abilmod(raised) > Pf2eAbilities.abilmod(score)
 

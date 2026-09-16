@@ -216,24 +216,57 @@ module AresMUSH
         },
         {
           'name' => 'attribute boosts',
-          # Ability scores are not ledger-backed - `raise ability` writes `base_val` directly and
-          # chargen's boosts live in `pf2_boosts_working`, which nothing seeds from - so there is
-          # no grant to count. What is checkable is that the scores moved: every boost is worth at
-          # least +1 (at 18 or above) and at most +2, so the total across the six abilities has to
-          # rise within that band. See finding 27.
+          # Four at each of 5th, 10th, 15th and 20th, each to a different attribute, and each one
+          # a `boost_ability` grant attributed to its level. Chargen's own boosts are not in the
+          # ledger, so only levels above 1 are counted - see finding 27.
           'check' => lambda { |ctx|
             char, want, baseline = ctx.values_at('char', 'want', 'baseline')
 
-            before = baseline['ability_total']
-            next [] if before.nil?
+            wanted = want['boosts'] * 4
+            recorded = SheetAudit.grants_of(char, 'boost_ability').select { |g| g.effective_level.to_i > 1 }
 
-            boosts = want['boosts'] * 4
-            next [] if boosts.zero?
+            problems = []
 
-            gained = SheetAudit.ability_total(char) - before
-            next [] if gained.between?(boosts, boosts * 2)
+            unless recorded.size == wanted
+              problems << "#{wanted} boosts should be in the ledger above level 1; #{recorded.size} are"
+            end
 
-            [ "#{boosts} boosts should have raised the ability totals by #{boosts}-#{boosts * 2} points; they rose by #{gained}" ]
+            # PF2e: "When you gain multiple ability boosts at the same time, you must apply each
+            # one to a different score."
+            recorded.group_by { |g| g.effective_level.to_i }.each_pair do |level, at_level|
+              abilities = at_level.map { |g| g.payload['ability'] }
+              next if abilities.uniq.size == abilities.size
+
+              problems << "level #{level} boosted #{abilities.tally.select { |_a, n| n > 1 }.keys.join(', ')} more than once"
+            end
+
+            # And the scores have to be what those boosts make of the baseline.
+            base = char.pf2_ability_baseline || {}
+
+            unless base.empty?
+              counts = recorded.group_by { |g| g.payload['ability'] }.transform_values(&:size)
+
+              base.each_pair do |ability, from|
+                held = SheetAudit.score_of(char, ability)
+                expected = Pf2eAbilities.boosted_score(from, counts[ability].to_i)
+
+                next if held == expected
+
+                problems << "#{ability} is #{held}, not the #{expected} that #{counts[ability].to_i} boosts make of #{from}"
+              end
+            end
+
+            # Nothing to compare against on a character with no baseline, which is the pre-ledger
+            # case; fall back to the band the boosts allow.
+            if base.empty? && baseline['ability_total']
+              gained = SheetAudit.ability_total(char) - baseline['ability_total']
+
+              unless wanted.zero? || gained.between?(wanted, wanted * 2)
+                problems << "#{wanted} boosts should have raised the totals by #{wanted}-#{wanted * 2} points; they rose by #{gained}"
+              end
+            end
+
+            problems
           }
         },
         {
@@ -270,6 +303,24 @@ module AresMUSH
               next if resolved
 
               "'#{choice['name']}' at level #{choice['level']} was never resolved (options: #{choice['options'].first(4).join(', ')})"
+            end
+          }
+        },
+        {
+          'name' => 'feat choices resolved',
+          # A feature whose choice is a named set of feats has to have left one of them on the
+          # sheet. The Druid's Voice of Nature is the case this exists for: its two feats sat in
+          # `choose_feat` where nothing read them, so no Druid ever received either.
+          'check' => lambda { |ctx|
+            char, want = ctx.values_at('char', 'want')
+
+            held = SheetAudit.all_feats(char)
+
+            want['feat_choices'].filter_map do |choice|
+              next if choice['feats'].empty?
+              next if choice['feats'].any? { |f| held.any? { |h| h.to_s.casecmp?(f) } }
+
+              "'#{choice['name']}' at level #{choice['level']} left none of #{choice['feats'].join(' or ')} on the sheet"
             end
           }
         },
@@ -328,6 +379,12 @@ module AresMUSH
 
           "#{label} #{name} is #{held.inspect}, not #{rank.inspect}"
         end
+      end
+
+      def self.score_of(char, name)
+        ability = char.abilities.to_a.find { |a| a.name.to_s.casecmp?(name.to_s) }
+
+        ability && ability.base_val.to_i
       end
 
       def self.ability_total(char)

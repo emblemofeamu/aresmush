@@ -360,8 +360,10 @@ module AresMUSH
 
       return t('pf2emagic.not_in_innate_list', :name => spname) unless Entries.knows_innate?(magic, spname)
 
-      # Innate spells are structured a little differently and may overwrite base caster stats.
-      spinfo = innate_spells[spname]
+      # Innate spells are structured a little differently and may overwrite base caster stats. One
+      # spell can be granted more than once at different ranks, so which grant to cast from is a
+      # decision, and it is Entries' to make.
+      spinfo = Entries.innate_to_cast(magic, spname, (magic.spells_today || {})['innate'])
 
       level = spinfo['level'].to_s
       if level.downcase != 'cantrip' && level.to_i > 0

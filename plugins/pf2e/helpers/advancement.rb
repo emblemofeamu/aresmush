@@ -463,9 +463,18 @@ module AresMUSH
           all_actions['reactions'] = reactions.uniq.sort
           char.pf2_actions = all_actions
         when "raise ability"
+          # The score moves now, so the draft sheet shows it, and the count is recorded so
+          # `commit_level_up!` can diff it into `boost_ability` grants. Before this the score was
+          # written in place and nothing else knew, so a rollback left the boost behind and the
+          # redo added another - see finding 27.
+          boosts = char.pf2_boosts
+
           value.each do |ability|
             Pf2eAbilities.update_base_score(char, ability)
+            boosts[ability] = boosts[ability].to_i + 1
           end
+
+          char.pf2_boosts = boosts
         when "languages"
           char_languages = Array(char.pf2_lang)
           char_languages.concat(Array(value))

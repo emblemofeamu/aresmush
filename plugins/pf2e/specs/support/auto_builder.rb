@@ -236,6 +236,13 @@ module AresMUSH
         'ancestry feat','charclass feat','skill feat','general feat','feat choice'
       ]
 
+      # Resolving a choice is `cg/option` during chargen and `advance/option` afterwards. Using
+      # the wrong one fails the `check_advancing` guard, and the climb specs only ever asserted
+      # feat counts, so a choice left unresolved at chargen went unnoticed.
+      def option_cmd(context)
+        context == :chargen ? 'cg/option' : 'advance/option'
+      end
+
       def resolve_outstanding(context)
         runs = 0
         ta = @char.pf2_to_assign || {}
@@ -348,7 +355,7 @@ module AresMUSH
             # to be a save they did not already take - so try them until one is accepted.
             accepted = options.find do |option|
               before = @client.fails.size
-              run("advance/option #{feature}=#{option}")
+              run("#{option_cmd(context)} #{feature}=#{option}")
               @client.fails.size == before
             end
 
@@ -384,7 +391,7 @@ module AresMUSH
               next
             end
 
-            run("advance/option #{name}=#{pick}"); runs += 1
+            run("#{option_cmd(context)} #{name}=#{pick}"); runs += 1
           end
         end
 

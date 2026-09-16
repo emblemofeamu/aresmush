@@ -1124,9 +1124,17 @@ pf2e_class:
         - Voice of Nature
       feat:
         - Shield Block
-      choose_feat:
-        - Animal Empathy
-        - Plant Empathy
+      # Voice of Nature: "You gain your choice of the Animal Empathy or Plant Empathy druid
+      # feat." A choice between two named feats, not a class feat slot - the druid's first class
+      # feat is at 2nd level. These two names used to sit in choose_feat, which holds slot types,
+      # where nothing read them.
+      feat_choice:
+        Voice of Nature:
+          summary: Animal Empathy or Plant Empathy
+          from_feats:
+            names:
+              - Animal Empathy
+              - Plant Empathy
       reaction:
         - Shield Block
       magic_stats:

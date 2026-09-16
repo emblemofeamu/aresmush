@@ -210,8 +210,8 @@ module AresMUSH
       list[level].to_i
     end
 
-    # { restriction => count } for one rank. The restrictions themselves - which slots each
-    # kind grants and what may go in them - are Pf2emagic::Restrictions' business.
+    # { restriction => count } for one rank. Which slots each kind grants and what may go in them
+    # is Pf2emagic::Restrictions' business.
     def self.restricted_slots_at(char, charclass, level)
       Pf2emagic::Restrictions.counts_at(char, charclass, level)
     end
@@ -223,10 +223,8 @@ module AresMUSH
 
     # Whether a set of prepared spells fits the slots available at a rank.
     #
-    # An assignment, not a subtraction: the pools are the open slots plus one per restriction,
-    # and Pf2emagic::SlotFit works out whether every spell has somewhere to go. The old version
-    # compared counts, enforced the first restriction only and logged that it was ignoring the
-    # rest, so a caster with two restricted pools at one rank had the second accept anything.
+    # An assignment, not a subtraction: the pools are the open slots plus one per restriction, and
+    # Pf2emagic::SlotFit works out whether every spell has somewhere to go.
     def self.prepared_set_fits?(char, charclass, level, spells)
       pools = Pf2emagic::SlotFit.from_slots(
         open_spells_per_day(char, charclass, level),

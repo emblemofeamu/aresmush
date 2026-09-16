@@ -783,6 +783,31 @@ module AresMUSH
 
     OPEN_SKILL_VALUES = %w(open choice)
 
+    # What is still unchosen among a character's innate spell grants, one label each.
+    #
+    # Reads through Pf2emagic::Entries because `innate_spells` is a list of grants, not a map keyed
+    # by spell name: two sources can grant the same spell at different ranks and traditions, and
+    # keyed by name one of them was lost. This read had not been moved over, so it called `.values`
+    # on an Array and raised - reachable the moment a feat choice that grants magic was resolved,
+    # which a Champion's Devotion Spell does at chargen.
+    def self.open_innate_labels(magic)
+      return [] unless magic
+
+      Pf2emagic::Entries.pending_innate(magic).map do |grant|
+        rank = grant['level'].to_s.downcase
+        cantrip = rank == 'cantrip' || rank.to_i.zero?
+
+        tradition = Array(grant['tradition']).first.to_s
+        tradition_label = tradition.empty? ? 'unknown tradition' : tradition
+
+        if cantrip
+          "innate cantrip (#{tradition_label})"
+        else
+          "innate #{Pf2emagic.ordinal_level(rank)}-rank spell (#{tradition_label})"
+        end
+      end
+    end
+
     def self.do_feat_grants(char, info, charclass, client)
       # Processes cases where taking a feat grants something else.
 
@@ -822,20 +847,7 @@ module AresMUSH
             end
           end
 
-          innate_spells = char.magic&.innate_spells || {}
-          open_innate = innate_spells.select { |k, _| k.to_s.casecmp?('open') }
-          open_innate_labels = open_innate.values.map do |info|
-            level_label = info['level'].to_s.downcase
-            is_cantrip = (level_label == 'cantrip' || level_label == '0')
-            tradition = Array(info['tradition']).first
-            tradition_label = tradition.to_s.empty? ? 'unknown tradition' : tradition.to_s
-
-            if is_cantrip
-              "innate cantrip (#{tradition_label})"
-            else
-              "innate #{Pf2emagic.ordinal_level(level_label)}-rank spell (#{tradition_label})"
-            end
-          end
+          open_innate_labels = open_innate_labels(char.magic)
 
           details_parts = []
 
@@ -1745,6 +1757,14 @@ module AresMUSH
 
       # No double-dipping on base class / dedication, per Paizo RAW.
       return false unless dedication_allowed?(char, details)
+
+      # A named pair rather than a category: PF2e has features that hand over one of two specific
+      # feats, the Druid's Voice of Nature being "your choice of the Animal Empathy or Plant
+      # Empathy druid feat". A whitelist, so the rest of the filter still applies.
+      if filter['names']
+        wanted = Array(filter['names']).compact.map { |n| n.to_s.downcase }
+        return false unless wanted.include?(feat_name.to_s.downcase)
+      end
 
       if filter['feat_type']
         wanted = Array(filter['feat_type']).compact.map { |f| f.to_s.downcase }

@@ -35,6 +35,7 @@ module AresMUSH
         'boosts' => 0,
         'skill_increases' => 0,
         'choices' => [],
+        'feat_choices' => [],
         'unknown_feat_slots' => []
       }.freeze
 
@@ -106,7 +107,20 @@ module AresMUSH
         # can pass - `unabsorbed` is asserted empty.
         'skills' => lambda { |_acc, _value, _lv| nil },
         'skill choice' => lambda { |_acc, _value, _lv| nil },
-        'feat_choice' => lambda { |_acc, _value, _lv| nil },
+        # A feature that hands over one of a named set of feats - the Druid's Voice of Nature is
+        # "your choice of the Animal Empathy or Plant Empathy druid feat". Where the pool is a
+        # named list the expectation can say which feats would satisfy it.
+        'feat_choice' => lambda { |acc, value, lv|
+          next unless value.is_a?(Hash)
+
+          value.each_pair do |name, definition|
+            next unless definition.is_a?(Hash)
+
+            names = Array((definition['from_feats'] || {})['names']).map(&:to_s)
+
+            acc['feat_choices'] << { 'name' => name.to_s, 'level' => lv, 'feats' => names }
+          end
+        },
         'reagents' => lambda { |_acc, _value, _lv| nil },
         'familiar' => lambda { |_acc, _value, _lv| nil },
         'companion' => lambda { |_acc, _value, _lv| nil },

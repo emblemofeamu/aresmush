@@ -38,7 +38,7 @@ module AresMUSH
           'apply' => lambda { |sheet, p| sheet['lores'][p['lore']] = p['to'] }
         },
         'boost_ability' => {
-          'key' => 'ability', 'sheet' => 'boosts',
+          'key' => 'ability', 'sheet' => 'boosts', 'sync' => 'counted',
           'apply' => lambda { |sheet, p| sheet['boosts'][p['ability']] = sheet['boosts'].fetch(p['ability'], 0) + 1 }
         },
         'grant_feat' => {
@@ -223,6 +223,20 @@ module AresMUSH
           end
         end
 
+        # Attribute boosts taken after chargen. The fold holds a count per ability and the
+        # baseline holds the scores as approved, and PF2e's boost rule depends only on the score
+        # being boosted - so the score is derivable, which is what lets a rollback take a boost
+        # back. Chargen's own boosts are not in the fold, hence the baseline.
+        if !draft && !current['ability_baseline'].blank?
+          current['ability_baseline'].each_pair do |ability, base|
+            wanted = Pf2eAbilities.boosted_score(base, (sheet['boosts'] || {})[ability].to_i)
+
+            next if (current['ability_scores'] || {})[ability].to_i == wanted
+
+            ops << { 'op' => 'set_ability', 'ability' => ability, 'to' => wanted }
+          end
+        end
+
         SHEET_ATTRS.each_pair do |attr, key|
           next if key.nil?
           next if draft && !DRAFT_SAFE_ATTRS.include?(attr)
@@ -349,6 +363,30 @@ module AresMUSH
             # One copy per revocation: reverting every grant with this name would take the
             # other takings of a repeatable feat with it.
             gone.concat(removed.map { |i| { 'match' => { spec['item'] => i }, 'limit' => 1 } })
+          end
+
+          [ grants, gone ]
+        },
+        # A map of name to how many: attribute boosts. A second boost of the same ability is
+        # another grant, not a changed value, so the diff is a difference of counts - `list` and
+        # `bucketed` would collapse the duplicates and `ranked` would read four boosts of
+        # Strength as one.
+        'counted' => lambda { |sheet, section, value, spec|
+          held = sheet[section] || {}
+          wanted = value || {}
+
+          grants = []
+          gone = []
+
+          (held.keys | wanted.keys).each do |name|
+            delta = wanted[name].to_i - held[name].to_i
+
+            if delta.positive?
+              delta.times { grants << { spec['item'] => name } }
+            elsif delta.negative?
+              # One at a time, so taking one boost back does not revert the others.
+              (-delta).times { gone << { 'match' => { spec['item'] => name }, 'limit' => 1 } }
+            end
           end
 
           [ grants, gone ]

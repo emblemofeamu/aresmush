@@ -7,19 +7,17 @@ module AresMUSH
     # N spellcasting entries, each carrying its own tradition, category, ability, proficiency
     # and spell lists. Nothing has to work out "which source" from a key.
     #
-    # `PF2Magic` instead holds eighteen parallel hashes with no source concept, so each
-    # attribute invented its own key for which-source and they disagree - class for most, focus
-    # *type* for focus spells, spell *name* for innate, and in one place a feat's name, which is
-    # how Arcane Evolution's signature spell came to be silently ignored. See
+    # `PF2Magic` holds eighteen parallel hashes with no source concept: each attribute keys
+    # which-source differently - class for most, focus *type* for focus spells, spell *name* for
+    # innate - so two sources agreeing on that key collide. See
     # docs/plans/2026-09-16-spellcasting-entries.md.
     #
     # `derive` is the projection from those hashes onto entries. It is pure - a plain hash of
     # attributes in, entry hashes out, no character and no config - so the mapping can be proven
-    # before any reader is moved onto it, which is what makes the migration safe to do in steps.
+    # before a reader moves onto it, which lets the migration proceed in steps.
     #
-    # It is deliberately lossy in one place, and honest about it: two sources feeding the same
-    # focus type are a single bucket today, so deriving cannot separate what was never
-    # separately recorded. That loss *is* the finding.
+    # It is lossy in one place: two sources feeding the same focus type share a bucket, so deriving
+    # cannot separate what is not separately recorded.
     module Entries
 
       FOCUS = 'focus'.freeze
@@ -208,10 +206,8 @@ module AresMUSH
         rows(char, category).each { |row| row.delete }
       end
 
-      # What derive reads. Listed so for_magic does not depend on the model having exactly
-      # these and nothing else.
-      # What the projection still reads. Focus spells are absent because they are stored as rows
-      # now, not projected - which is what a finished migration looks like for a category.
+      # What the projection reads. Listed so for_magic does not depend on the model having exactly
+      # these and nothing else. Focus spells are absent: they are stored as rows, not projected.
       ATTRIBUTES = %w(
         tradition spell_abil spells_per_day spellbook repertoire signature_spells
         restricted_spellbook innate_spells
@@ -221,9 +217,8 @@ module AresMUSH
       # Asking questions of the entries
       # ------------------------------------------------------------------------------
       #
-      # These are the seam. Readers that used to reach into the parallel hashes ask here
-      # instead, so when the entries become the storage rather than a projection of it, the
-      # readers do not change.
+      # The seam. Readers ask here rather than reaching into the parallel hashes, so when entries
+      # become the storage rather than a projection of it, the readers do not change.
 
       def self.find(magic, source)
         for_magic(magic).find { |e| e['name'].to_s.casecmp?(source.to_s) }
@@ -232,10 +227,9 @@ module AresMUSH
       # The ranks at which a spell is one of this source's signature spells.
       #
       # Ranks rather than a yes/no, because a signature spell may be heightened to any rank the
-      # caster has a slot for, and the caller needs to know which. Matched case-insensitively,
-      # like every other name comparison in the game - the old inline version was exact, so a
-      # difference in capitalisation between how a spell was recorded and how it was cast would
-      # have quietly lost the heightening.
+      # caster has a slot for, and the caller needs to know which. Matched case-insensitively, like
+      # every other name comparison in the game: an exact match loses the heightening when a spell
+      # is recorded and cast with different capitalisation.
       def self.signature_ranks(magic, source, spell)
         entry = find(magic, source)
 
@@ -246,10 +240,9 @@ module AresMUSH
         end.keys
       end
 
-      # The class and archetype entries - what a character casts spells *from*, as opposed to
-      # their focus and innate spells. Replaces `tradition.keys - ['innate']`, which was spelled
-      # out in three places, each having to remember that 'innate' is in there and is not a
-      # class.
+      # The class and archetype entries - what a character casts spells *from*, as opposed to their
+      # focus and innate spells. The `tradition` hash carries an 'innate' key that is not a class,
+      # and this is the one place that has to know it.
       def self.casting(magic)
         for_magic(magic).select { |e| [ 'class', 'archetype' ].include?(e['source_type']) }
       end
@@ -260,8 +253,8 @@ module AresMUSH
 
       # The tradition and proficiency a source casts at.
       #
-      # Named, because the underlying store is a two-element array and every reader had to know
-      # that [0] is the tradition and [1] the proficiency.
+      # Named, because the underlying store is a two-element array and [0] is the tradition while
+      # [1] is the proficiency.
       def self.tradition_of(magic, source)
         (find(magic, source) || {})['tradition']
       end
@@ -306,9 +299,8 @@ module AresMUSH
 
       # Every magic_stats block a source's config carries: at chargen, at each level, and - for
       # a class - in each of its specialties. A Witch's tradition comes from their patron rather
-      # than from the class, so a source's magic is not all in one place, and a class whose
-      # enumerated list arrived only through a specialty would otherwise be misread as casting
-      # by rule. None currently does; it is one line to be right about anyway.
+      # than from the class, so a source's magic is not all in one place: a class whose enumerated
+      # list comes only through a specialty would otherwise read as casting by rule.
       def self.magic_stat_blocks(source)
         sections = [
           Global.read_config('pf2e_class', source),
@@ -349,9 +341,8 @@ module AresMUSH
       # Known spells, for the level ladder
       # ------------------------------------------------------------------------------
       #
-      # Only enumerated sources have anything here. A Cleric prepares from the whole divine list,
-      # so there is nothing to record and nothing a rollback could take away - which is the
-      # second axis paying for itself.
+      # Only enumerated sources have anything here. A Cleric prepares from the whole divine list, so
+      # there is nothing to record and nothing a rollback can take away.
 
       # Every enumerated source's known spells, as source => rank => [ spells ]. What
       # Ledger.commit_level_up! diffs to work out which spells were learned at a level.
@@ -403,11 +394,10 @@ module AresMUSH
       # Focus spells
       # ------------------------------------------------------------------------------
       #
-      # One entry per focus type *per granting source*, which is the difference that matters:
-      # PF2e shares one focus pool across every source but casts each source's spells at that
-      # source's own DC. A single bucket keyed by focus type could hold the spells but not say
-      # whose they were, so two sources of one type - a feat granting devotion spells to a
-      # non-Champion, say - had nowhere to go.
+      # One entry per focus type *per granting source*: PF2e shares one focus pool across every
+      # source but casts each source's spells at that source's own DC. Keying by focus type alone
+      # holds the spells without saying whose they are, which leaves two sources of one type - a
+      # feat granting devotion spells to a non-Champion, say - nowhere to go.
       #
       # Casting still wants the merged list for a type, so that is what `focus_spells` and
       # `focus_cantrips` give; `focus_entries` is there for when the source matters.
@@ -513,6 +503,28 @@ module AresMUSH
       # two sources, at each source's own rank and tradition.
       def self.innate_for(magic, spell)
         innate_grants(magic).select { |grant| grant['name'].to_s.casecmp?(spell.to_s) }
+      end
+
+      # Which grant of a spell a cast should draw on.
+      #
+      # One spell can be granted twice - Charm arrives at rank 4 divine from Enthralling Allure and
+      # at rank 1 arcane from Supernatural Charm - so the cast has to choose. A cantrip costs
+      # nothing, so it wins; otherwise the grant whose rank still has a use left. Falls back to the
+      # first grant so the caller reaches its own "no slots" message rather than a nil.
+      #
+      # `used` is the remaining uses today, as { rank => [ spell names ] }.
+      def self.innate_to_cast(magic, spell, used)
+        grants = innate_for(magic, spell)
+        return nil if grants.empty?
+
+        at_will = grants.find { |g| g['level'].to_s.casecmp?('cantrip') || g['level'].to_s.to_i.zero? }
+        return at_will if at_will
+
+        available = grants.find do |grant|
+          Array((used || {})[grant['level'].to_s]).any? { |name| name.to_s.casecmp?(spell.to_s) }
+        end
+
+        available || grants.first
       end
 
       def self.knows_innate?(magic, spell)

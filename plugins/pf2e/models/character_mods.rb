@@ -29,6 +29,11 @@ module AresMUSH
     attribute :pf2_special, :type => DataType::Array, :default => []
     attribute :pf2_boosts_working, :type => DataType::Hash, :default => { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=> [] }
     attribute :pf2_boosts, :type => DataType::Hash, :default => {}
+
+    # Ability scores as they stood when chargen was approved, so the boosts taken from level 2
+    # onwards can be derived from the ledger's count rather than written into `base_val` and
+    # forgotten. Without it a rollback could not take a boost back. See finding 27.
+    attribute :pf2_ability_baseline, :type => DataType::Hash, :default => {}
     attribute :pf2_lang, :type => DataType::Array, :default => []
     attribute :pf2_viewsheet, :type => DataType::Hash, :default => {}
     attribute :pf2_to_assign, :type => DataType::Hash, :default => {}

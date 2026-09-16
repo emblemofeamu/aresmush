@@ -77,12 +77,9 @@ module AresMUSH
     # Whether one more spell fits in a prepared caster's spellbook at a rank.
     #
     # The same assignment problem as preparing spells into slots, one lifetime earlier: some
-    # entries at a rank are reserved - a Wizard's curriculum entry takes a school spell and
-    # nothing else - so it matters which of the proposed spells can sit in the reserved place,
-    # not just how many there are. Pf2emagic::SlotFit answers that.
-    #
-    # The old version enforced one restriction and logged that it was ignoring any others, so a
-    # second reserved entry at the same rank accepted anything at all.
+    # entries at a rank are reserved - a Wizard's curriculum entry takes a school spell and nothing
+    # else - so which of the proposed spells can sit in the reserved place decides it, not how many
+    # there are. Pf2emagic::SlotFit answers that.
     def self.spellbook_addition_fits?(char, charclass, level, spell, replacing=nil, scope=:all)
       magic = char.magic
       return true unless magic
@@ -486,11 +483,8 @@ module AresMUSH
 
       msg << t('pf2emagic.choose_divine_font') if to_assign['divine font'].is_a? Array
 
-      innate_spells = magic&.innate_spells || {}
-      open_innate = innate_spells.select { |k, _| k.to_s.casecmp?('open') }
-
       # The rank and tradition of each open slot are listed in the Magic section of cg/review.
-      msg << t('pf2emagic.cg_innate_spells') if !open_innate.empty?
+      msg << t('pf2emagic.cg_innate_spells') if magic && !Entries.pending_innate(magic).empty?
 
       return msg
     end

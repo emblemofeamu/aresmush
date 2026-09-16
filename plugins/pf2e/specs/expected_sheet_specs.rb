@@ -138,17 +138,32 @@ module AresMUSH
         end
       end
 
-      # Finding 29: the Druid's chargen block writes two feat *names* into `choose_feat`, which
-      # everywhere else holds slot *types*. Chargen only acts on 'charclass' and 'skill' entries,
-      # so both are inert - they open no slot and grant nothing, and a Druid receives neither
-      # feat. Whether the fix is a granted feat per order or a class feat slot is a rules question
-      # for Raven, so this pins the defect rather than guessing: it fails if anything else drifts
-      # into the same shape.
+      # `choose_feat` holds slot types. An entry that is not one opens no slot and grants nothing,
+      # which is how the Druid's Animal Empathy and Plant Empathy came to be inert - see finding
+      # 29. Now that the Druid expresses them as a feat choice, no class should have any.
       describe "inert feat slots" do
-        it "should be only the Druid's two, until finding 29 is settled" do
-          expect(ExpectedSheet.inert_feat_slots).to eq(
-            'Druid' => [ 'Animal Empathy', 'Plant Empathy' ]
-          )
+        it "should be none at all" do
+          expect(ExpectedSheet.inert_feat_slots).to eq({})
+        end
+      end
+
+      # The Druid's Voice of Nature: "You gain your choice of the Animal Empathy or Plant Empathy
+      # druid feat."
+      describe "a choice between named feats" do
+        it "should say which feats would satisfy it" do
+          druid = ExpectedSheet.for('Druid', 1)
+          choice = druid['feat_choices'].find { |c| c['name'] == 'Voice of Nature' }
+
+          expect(choice['feats']).to eq [ 'Animal Empathy', 'Plant Empathy' ]
+          expect(choice['level']).to eq 1
+        end
+
+        it "should not expect a class feat slot at level 1, which the druid does not get" do
+          expect(ExpectedSheet.for('Druid', 1)['feat_slots']['charclass']).to be_nil
+        end
+
+        it "should expect one from level 2, which the druid does get" do
+          expect(ExpectedSheet.for('Druid', 2)['feat_slots']['charclass']).to eq [ 2 ]
         end
       end
 
