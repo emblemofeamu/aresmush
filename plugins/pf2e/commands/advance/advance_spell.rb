@@ -94,7 +94,9 @@ module AresMUSH
           type_option[level]
         end
 
-        list_key = level
+        # A spellbook may be one flat list rather than one per rank, in which case the rank is
+        # not part of where it lives.
+        list_key = type_option.is_a?(Hash) ? level : nil
         spent_from_pool = false
 
         if self.type == "spellbook" && type_option.is_a?(Hash) &&
@@ -226,51 +228,42 @@ module AresMUSH
 
         advancement = enactor.pf2_advancement
 
-        # because Ruby is stupid and doesn't let you replace at an index directly.
-        list.delete_at open_slot
-
-        if spent_from_pool && type_option.is_a?(Hash)
-          (type_option[level] ||= []) << spell
+        # Spending the slot and recording the spell, as slot deltas. This was four branches:
+        # one per list shape, each doubled for whether the lists are keyed by class. The shape
+        # differences are now in the path, and the path is worked out once.
+        deltas = if spent_from_pool
+          # An any-rank slot pays, and the spell lands under the rank it actually is.
+          [ Slots.consume(spell_path(class_key, list_key)), Slots.add(spell_path(class_key, level), [ spell ]) ]
         else
-          list << spell
+          # `old` is 'open' for a new pick, or the spell being replaced - the same fill either
+          # way, told which entry it is allowed to spend.
+          [ Slots.fill(spell_path(class_key, list_key), spell, :tokens => [ old ]) ]
         end
 
-        # Because I was stupid and repertoire is a Hash and spellbook is an array.
+        updated = Slots.apply(to_assign, deltas)
 
-        if self.type == "spellbook"
-          type_option[list_key] = list if type_option.is_a?(Hash)
+        return if Pf2e::CharState.emit_error!(client, updated)
 
-          resolved = type_option.is_a?(Hash) ? type_option : list
-
-          if class_key
-            to_assign[self.type] ||= {}
-            to_assign[self.type][class_key] = resolved
-            advancement[self.type] ||= {}
-            advancement[self.type][class_key] = resolved
-          else
-            to_assign[self.type] = resolved
-            advancement[self.type] = resolved
-          end
-        elsif self.type == "repertoire" || self.type == "signature"
-          type_option[level] = list
-
-          if class_key
-            to_assign[self.type] ||= {}
-            to_assign[self.type][class_key] = type_option
-            advancement[self.type] ||= {}
-            advancement[self.type][class_key] = type_option
-          else
-            to_assign[self.type] = type_option
-            advancement[self.type] = type_option
-          end
-        end
+        # The draft mirrors the pool for this list, which is what advance/done reads.
+        mirror = [ self.type, class_key ].compact
+        Slots.write(advancement, mirror, Slots.read(updated, mirror))
 
         enactor.pf2_advancement = advancement
-        enactor.pf2_to_assign = to_assign
+        enactor.pf2_to_assign = updated
 
         enactor.save
 
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
+      end
+
+      # Where a spell list lives in the pool.
+      #
+      # Three shapes, and they used to be three code paths. A spellbook may be a flat list or
+      # one list per rank; repertoire and signature are always per rank; and a character casting
+      # from more than one class has all of them keyed by class first. Which of those applies is
+      # the path, not the logic.
+      def spell_path(class_key, rank)
+        [ self.type, class_key, rank ].compact
       end
 
       # Keep prepared casters from adding spells to spellbooks higher than what they can actually cast.

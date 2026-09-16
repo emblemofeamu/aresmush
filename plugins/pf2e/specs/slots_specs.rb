@@ -108,6 +108,30 @@ module AresMUSH
         end
       end
 
+      describe 'consume' do
+        it "should remove a marker without putting anything in its place" do
+          result = Slots.apply({ 'any' => [ 'open', 'open' ] }, [ Slots.consume('any') ])
+
+          expect(result['any']).to eq [ 'open' ]
+        end
+
+        it "should refuse when there is no marker to spend" do
+          expect(Slots.apply({ 'any' => [] }, [ Slots.consume('any') ]).code).to eq :no_free
+        end
+
+        # What it is for: a spellbook's any-rank pool pays, and the spell lands under its rank.
+        it "should let a pool pay for something recorded elsewhere" do
+          pool = { 'spellbook' => { 'any' => [ 'open' ], '3' => [] } }
+          result = Slots.apply(pool, [
+            Slots.consume([ 'spellbook', 'any' ]),
+            Slots.add([ 'spellbook', '3' ], [ 'Fireball' ])
+          ])
+
+          expect(result['spellbook']['any']).to eq []
+          expect(result['spellbook']['3']).to eq [ 'Fireball' ]
+        end
+      end
+
       describe 'set and add' do
         it "should set a scalar slot" do
           expect(Slots.apply({}, [ Slots.set('archetype', 'Bard Archetype') ])['archetype']).to eq 'Bard Archetype'

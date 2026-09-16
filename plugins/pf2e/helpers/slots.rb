@@ -61,6 +61,22 @@ module AresMUSH
           slots
         },
 
+        # A marker spent on something recorded elsewhere - a spellbook's any-rank pool pays for
+        # a spell that lands under its actual rank, so the pool loses a marker and gains nothing.
+        'consume' => lambda { |held, delta|
+          slots = Array(held).dup
+          wanted = Array(delta[:tokens] || [ OPEN ])
+
+          index = wanted.lazy
+            .map { |token| slots.index { |s| s.to_s.casecmp?(token.to_s) } }
+            .find { |i| !i.nil? }
+
+          next Err.new(:no_free, 'pf2e.no_free', 'element' => Slots.label(delta[:path])) if index.nil?
+
+          slots.delete_at(index)
+          slots
+        },
+
         'set' => lambda { |_held, delta| delta[:value] },
 
         'add' => lambda { |held, delta| (Array(held) + Array(delta[:value])).uniq }
@@ -80,6 +96,10 @@ module AresMUSH
 
       def self.release(path, value, token: nil)
         { :op => 'release', :path => path, :value => value, :token => token }
+      end
+
+      def self.consume(path, tokens: nil)
+        { :op => 'consume', :path => path, :tokens => tokens }
       end
 
       def self.set(path, value)
