@@ -951,28 +951,33 @@ module AresMUSH
       left_rank >= right_rank ? left.to_s.downcase : right.to_s.downcase
     end
 
+    # Class feature choices whose legality depends on earlier picks in the same family.
+    # Each row names the record the family keeps on the combat object and whether this pick
+    # has to be one the character does not hold yet, or one they already do. The apply side
+    # in do_advancement enforces the same rule; this is the gate that lets a player reach it.
+    #
+    # Monk, PF2e Player Core: Path to Perfection raises a save to master, Second Path to
+    # Perfection raises "a different saving throw", and Third Path to Perfection raises "one
+    # of the saving throws you selected" for the earlier two to legendary.
+    CHOICE_FAMILIES = {
+      'Path to Perfection' => { 'record' => 'Path to Perfection', 'requires' => 'unheld' },
+      'Second Path to Perfection' => { 'record' => 'Path to Perfection', 'requires' => 'unheld' },
+      'Third Path to Perfection' => { 'record' => 'Path to Perfection', 'requires' => 'held' }
+    }.freeze
+
     def self.valid_class_option?(char, feature, option)
-      passes_check = true
+      family = CHOICE_FAMILIES[feature.to_s]
 
-      case feature
-      when "Path to Perfection"
-        valid_values = %w(fortitude reflex will)
+      return true unless family
 
-        return false unless valid_values.include? option
+      combat = char.combat
+      held = Array(combat && (combat.saves || {})[family['record']])
 
-        saves = char.combat.saves
-        path = saves['Path to Perfection'] || []
+      # Case-insensitive on purpose: the option arrives as the config spells it ("Fortitude")
+      # while the record may hold whatever an earlier pick stored.
+      already = held.any? { |s| s.to_s.casecmp?(option.to_s) }
 
-        return true if path.empty?
-
-        if path.size == 1
-          passes_check = true unless path.include? option
-        else
-          passes_check = true if path.include? option
-        end
-      end
-
-      passes_check
+      family['requires'] == 'held' ? already : !already
     end
 
   end

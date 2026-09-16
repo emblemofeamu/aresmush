@@ -872,7 +872,7 @@ pf2e_class:
         magic_stats:
           focus_spell:
             devotion:
-              spell: Hero's Defiance
+              - Hero's Defiance
         choose_feat:
           - general
         raise:

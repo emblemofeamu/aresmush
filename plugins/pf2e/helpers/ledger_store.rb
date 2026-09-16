@@ -235,7 +235,7 @@ module AresMUSH
 
         marker = "sync-#{Time.now.to_i}-#{rand(1000)}"
 
-        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false) }
+        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false, :limit => r['limit']) }
 
         if !plan['grants'].empty?
           write(char, :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level, :granted_by => granted_by, :materialize => false) do |txn|
@@ -301,8 +301,11 @@ module AresMUSH
       end
 
       # Marks the live grants matching a kind and payload as reverted. Returns how many.
-      def self.revert_matching!(char, kind, match, by:, materialize: true)
+      # `limit` reverts only that many of the matching grants, newest first - which is what
+      # taking back one taking of a repeatable feat means.
+      def self.revert_matching!(char, kind, match, by:, materialize: true, limit: nil)
         targets = Ledger.matching_grants(rows(char), kind, match)
+        targets = targets.last(limit.to_i) if limit
 
         targets.each do |row|
           grant = Pf2eGrant[row['id']]
@@ -442,7 +445,7 @@ module AresMUSH
 
         marker = "level-#{level}-#{Time.now.to_i}"
 
-        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false) }
+        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false, :limit => r['limit']) }
 
         write(char, :source_type => 'level_up', :source_ref => "advance to level #{level}", :effective_level => level, :materialize => false) do |txn|
           plan['grants'].each { |g| txn.grant(g['kind'], g['payload']) }

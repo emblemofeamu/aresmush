@@ -97,13 +97,29 @@ module AresMUSH
           expect(Ledger.fold(grants, at_level: 2)['feat_choices']['Assurance']).to eq [ 'Crafting' ]
         end
 
-        it "should not list the same feat twice" do
+        # The rules let some feats be taken more than once - Domain Acumen for a second
+        # domain, Assurance for a second skill - and each taking is its own grant. Folding
+        # those to one entry undercounts the sheet and, because the repeat check reads that
+        # list, would let the feat be taken past its maximum.
+        it "should list a feat once per taking" do
           grants = [
-            grant(1, 'grant_feat', { 'bucket' => 'general', 'feat' => 'Toughness' }, level: 3),
-            grant(2, 'grant_feat', { 'bucket' => 'general', 'feat' => 'Toughness' }, level: 7)
+            grant(1, 'grant_feat', { 'bucket' => 'charclass', 'feat' => 'Domain Acumen', 'choice' => 'Sun' }, level: 4),
+            grant(2, 'grant_feat', { 'bucket' => 'charclass', 'feat' => 'Domain Acumen', 'choice' => 'Moon' }, level: 12)
           ]
 
-          expect(Ledger.fold(grants, at_level: 7)['feats']['general']).to eq [ 'Toughness' ]
+          sheet = Ledger.fold(grants, at_level: 12)
+
+          expect(sheet['feats']['charclass']).to eq [ 'Domain Acumen', 'Domain Acumen' ]
+          expect(sheet['feat_choices']['Domain Acumen']).to eq [ 'Sun', 'Moon' ]
+        end
+
+        it "should drop a taking that has been reverted" do
+          grants = [
+            grant(1, 'grant_feat', { 'bucket' => 'charclass', 'feat' => 'Domain Acumen' }, level: 4),
+            grant(2, 'grant_feat', { 'bucket' => 'charclass', 'feat' => 'Domain Acumen' }, level: 12, reverted: "rollback-1")
+          ]
+
+          expect(Ledger.fold(grants, at_level: 12)['feats']['charclass']).to eq [ 'Domain Acumen' ]
         end
 
         it "should collect class features" do

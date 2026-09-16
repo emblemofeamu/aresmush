@@ -310,7 +310,7 @@ module AresMUSH
               advancement['combat_stats']['archetype_class_dcs'][archetype]['key_abil'] = chosen_ability
 
               if !advancement['combat_stats']['archetype_class_dcs'][archetype]['prof']
-                prof = Global.read_config('pf2e_archetype', archetype, 'initial_dedication', 'combat_stats', 'class_dc')
+                prof = ((Global.read_config('pf2e_archetype', archetype, 'initial_dedication') || {})['combat_stats'] || {})['class_dc']
                 advancement['combat_stats']['archetype_class_dcs'][archetype]['prof'] = prof if prof
               end
 

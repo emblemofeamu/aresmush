@@ -227,14 +227,50 @@ module AresMUSH
         @char.delete if @char
       end
 
-      # Fighter and Wizard are the two whose class tables match PF2e exactly, so their totals
-      # can be asserted without allowing for a config deviation. Expected at level 20, per
-      # docs/pf2e-progression-reference.md: 5 general feats, 5 ancestry feats (one from
-      # chargen), 9 skill increases.
-      [ 'Fighter', 'Wizard' ].each do |charclass|
+      # Every class, from a blank character to level 20, through the commands a player types.
+      #
+      # What each climb is measured against is the class's *own* advance table: across levels
+      # 2-20 the table promises so many feats of each type, and the finished character must
+      # hold exactly that many more than they finished chargen with. Whether the table itself
+      # matches PF2e is a separate question, asserted against the Player Core schedule in
+      # class_table_specs.rb - so a config that drifts from the rules fails there, and an
+      # engine that drifts from the config fails here.
+      def self.class_names
+        (Global.read_config('pf2e_class') || {}).keys.sort
+      end
+
+      # Feats the advance table hands out between level 2 and level 20, by type.
+      #
+      # Two sources, both in config. `choose_feat` is the ordinary slot the player fills.
+      # `grant_choice` names a class feature that hands over a feat of its own from a pool -
+      # the Investigator's Skillful Lessons at every odd level, the Swashbuckler's Stylish
+      # Tricks at 3, 7 and 15 - and those are feats the character ends up holding too.
+      def table_feats(charclass)
+        table = Global.read_config('pf2e_class', charclass, 'advance') || {}
+        blocks = Global.read_config('pf2e_class', charclass, 'feat_choice') || {}
+
+        table.each_with_object(Hash.new(0)) do |(_level, data), counts|
+          next unless data.is_a?(Hash)
+
+          Array(data['choose_feat']).each { |type| counts[type.to_s.downcase] += 1 }
+
+          Array(data['grant_choice']).each do |name|
+            pool = (blocks[name] || {})['from_feats']
+            next unless pool
+
+            counts[pool['feat_type'].to_s.downcase] += 1
+          end
+        end
+      end
+
+      class_names.each do |charclass|
         it "should carry a #{charclass} from nothing to level 20" do
           builder = AutoBuilder.new(@char)
-          builder.build(charclass, 20)
+
+          builder.build_level_one(charclass)
+          at_one = builder.summary['feats']
+
+          builder.advance_to(20)
           summary = builder.summary
 
           # Print why it stalled before asserting, so a failure names the level and reason.
@@ -242,11 +278,11 @@ module AresMUSH
 
           expect(summary['level']).to eq 20
 
-          expect(summary['feats']['general']).to eq 5
-          expect(summary['feats']['ancestry']).to eq 5
+          table_feats(charclass).each_pair do |type, expected|
+            gained = summary['feats'][type].to_i - at_one[type].to_i
 
-          raised = summary['skills'].reject { |rank, _count| rank == 'trained' }.values.sum
-          expect(raised).to eq 9
+            expect(gained).to eq(expected), "#{charclass} gained #{gained} #{type} feats between 2 and 20; its table promises #{expected}"
+          end
 
           # Every one of those choices is in the ledger, and the sheet is a fold of it.
           expect(summary['grants']).to be > 50

@@ -81,7 +81,25 @@ module AresMUSH
           plan = Ledger.sync_plan(current, 'feats' => { 'charclass' => [] })
 
           expect(plan['grants']).to eq []
-          expect(plan['revocations']).to eq [ { 'kind' => 'grant_feat', 'match' => { 'feat' => 'Sudden Charge' } } ]
+          expect(plan['revocations']).to eq [ { 'kind' => 'grant_feat', 'match' => { 'feat' => 'Sudden Charge' }, 'limit' => 1 } ]
+        end
+
+        # Feats are diffed by count, not by name, so a second taking of a repeatable feat is
+        # a new grant and giving one of two back revokes exactly one.
+        it "should grant a second taking of a feat already held once" do
+          current = sheet('feats' => { 'charclass' => [ 'Domain Acumen' ] })
+          plan = Ledger.sync_plan(current, 'feats' => { 'charclass' => [ 'Domain Acumen', 'Domain Acumen' ] })
+
+          expect(plan['grants']).to eq [ { 'kind' => 'grant_feat', 'payload' => { 'bucket' => 'charclass', 'feat' => 'Domain Acumen' } } ]
+          expect(plan['revocations']).to eq []
+        end
+
+        it "should revoke only one taking when two are held and one is wanted" do
+          current = sheet('feats' => { 'charclass' => [ 'Domain Acumen', 'Domain Acumen' ] })
+          plan = Ledger.sync_plan(current, 'feats' => { 'charclass' => [ 'Domain Acumen' ] })
+
+          expect(plan['grants']).to eq []
+          expect(plan['revocations']).to eq [ { 'kind' => 'grant_feat', 'match' => { 'feat' => 'Domain Acumen' }, 'limit' => 1 } ]
         end
 
         it "should plan nothing when the list already matches" do

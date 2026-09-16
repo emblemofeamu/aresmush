@@ -2069,7 +2069,8 @@ module AresMUSH
           deity = pending unless pending.blank? || pending.to_s.casecmp?('open')
         end
 
-        fonts = deity.blank? ? [] : Array(Global.read_config('pf2e_deities', deity, 'magic_stats', 'divine_font'))
+        # read_config takes at most three keys, so the fourth is a plain hash read.
+        fonts = deity.blank? ? [] : Array((Global.read_config('pf2e_deities', deity, 'magic_stats') || {})['divine_font'])
 
         options << 'Lay on Hands' if fonts.any? { |f| f.to_s.casecmp?('heal') }
         options << 'Touch of the Void' if fonts.any? { |f| f.to_s.casecmp?('harm') }

@@ -42,9 +42,12 @@ module AresMUSH
           'apply' => lambda { |sheet, p| sheet['boosts'][p['ability']] = sheet['boosts'].fetch(p['ability'], 0) + 1 }
         },
         'grant_feat' => {
-          'key' => 'feat', 'sheet' => 'feats', 'sync' => 'bucketed', 'default_bucket' => 'charclass',
+          'key' => 'feat', 'sheet' => 'feats', 'sync' => 'bucketed_multi', 'default_bucket' => 'charclass',
           'apply' => lambda { |sheet, p|
-            Ledger.add_to_bucket(sheet['feats'], p['bucket'] || 'charclass', p['feat'])
+            # One entry per grant row, not per name: a feat the rules let you take more than
+            # once (Domain Acumen, Assurance) is held once per taking, and collapsing those
+            # would both undercount the sheet and let it be taken past its maximum.
+            Ledger.add_occurrence(sheet['feats'], p['bucket'] || 'charclass', p['feat'])
             Ledger.add_to_bucket(sheet['feat_choices'], p['feat'], p['choice']) unless p['choice'].blank?
           }
         },
@@ -95,6 +98,12 @@ module AresMUSH
       def self.add_to_bucket(hash, bucket, item)
         list = (hash[bucket] ||= [])
         list << item unless list.include?(item)
+      end
+
+      # Appends unconditionally: for a section where holding the same thing twice is
+      # meaningful, the grant rows are the count.
+      def self.add_occurrence(hash, bucket, item)
+        (hash[bucket] ||= []) << item
       end
 
       def self.add_to_list(list, item)
@@ -284,6 +293,25 @@ module AresMUSH
 
           [ grants, gone ]
         },
+        # Like 'bucketed', but counting: two copies of a repeatable feat are two grants, and
+        # a sheet holding one where the fold holds two revokes exactly one.
+        'bucketed_multi' => lambda { |sheet, section, value, spec|
+          grants = []
+          gone = []
+
+          (value || {}).each_pair do |bucket, items|
+            held = Array((sheet[section] || {})[bucket])
+            added, removed = Ledger.multiset_diff(Array(items), held)
+
+            grants.concat(added.map { |i| { 'bucket' => bucket, spec['item'] => i } })
+
+            # One copy per revocation: reverting every grant with this name would take the
+            # other takings of a repeatable feat with it.
+            gone.concat(removed.map { |i| { 'match' => { spec['item'] => i }, 'limit' => 1 } })
+          end
+
+          [ grants, gone ]
+        },
         # A map of name to rank: skills, lores. A changed rank is a new grant, not a duplicate.
         'ranked' => lambda { |sheet, section, value, spec|
           held = sheet[section] || {}
@@ -298,6 +326,21 @@ module AresMUSH
         }
       }.freeze
 
+      # Which items `wanted` has that `held` does not, and vice versa, counting duplicates.
+      # Returns [ to_add, to_remove ].
+      def self.multiset_diff(wanted, held)
+        surplus = wanted.dup
+        missing = []
+
+        held.each do |item|
+          index = surplus.index(item)
+
+          index ? surplus.delete_at(index) : missing << item
+        end
+
+        [ surplus, missing ]
+      end
+
       def self.sync_plan(sheet, fragment)
         grants = []
         revocations = []
@@ -309,7 +352,18 @@ module AresMUSH
           added, removed = SYNC_SHAPES[spec['shape']].call(sheet, section, value, spec)
 
           added.each { |payload| grants << { 'kind' => spec['kind'], 'payload' => payload } }
-          removed.each { |match| revocations << { 'kind' => spec['kind'], 'match' => match } }
+
+          removed.each do |entry|
+            # A shape may hand back a bare match, or a match with a limit on how many of the
+            # grants behind it to revert.
+            match = entry.is_a?(Hash) && entry.key?('match') ? entry['match'] : entry
+            limit = entry.is_a?(Hash) ? entry['limit'] : nil
+
+            revocation = { 'kind' => spec['kind'], 'match' => match }
+            revocation['limit'] = limit if limit
+
+            revocations << revocation
+          end
         end
 
         { 'grants' => grants, 'revocations' => revocations }

@@ -98,6 +98,19 @@ module AresMUSH
         simple || ranked.first || options.first
       end
 
+      # The three shapes a class feature choice arrives in, read the way advance/option
+      # itself reads them: a hash of named options, a hash carrying an options list, or a
+      # plain list (whose entries may themselves be [label, info] pairs).
+      def class_option_list(data)
+        if data.is_a?(Hash) && data.key?('options')
+          Array(data['options'])
+        elsif data.is_a?(Hash)
+          data.keys
+        else
+          Array(data).map { |opt| opt.is_a?(Array) ? opt.first : opt }
+        end
+      end
+
       def lore_pick
         lores = Global.read_config('pf2e_skills').keys.select { |s| s.include?('Lore') }
         trained = @char.skills.to_a.reject { |sk| sk.prof_level == 'untrained' }.map(&:name)
@@ -333,22 +346,30 @@ module AresMUSH
         # Class feature choices ('class option' during advancement).
         [ 'class option', 'charclass_feature option' ].each do |key|
           next unless ta[key].is_a?(Hash)
-          ta[key].each_pair do |feature, data|
-            options = data.is_a?(Hash) ? Array(data['options']) : Array(data)
-            next if options.empty?
-            selected = data.is_a?(Hash) ? data['selected'] : nil
-            next if selected && selected != 'open'
-            run("advance/option #{feature}=#{options.first}"); runs += 1
-          end
-        end
 
-        if false && ta['charclass_feature option'].is_a?(Hash)
-          ta['charclass_feature option'].each_pair do |feature, data|
-            options = data.is_a?(Hash) ? Array(data['options']) : Array(data)
+          ta[key].each_pair do |feature, data|
+            # A resolved choice is stored as the chosen string, so there is nothing to do.
+            next if data.is_a?(String)
+
+            options = class_option_list(data)
             next if options.empty?
+
             selected = data.is_a?(Hash) ? data['selected'] : nil
             next if selected && selected != 'open'
-            run("advance/option #{feature}=#{options.first}"); runs += 1
+
+            # The first option is not always legal - a Monk's Second Path to Perfection has
+            # to be a save they did not already take - so try them until one is accepted.
+            accepted = options.find do |option|
+              before = @client.fails.size
+              run("advance/option #{feature}=#{option}")
+              @client.fails.size == before
+            end
+
+            if accepted
+              runs += 1
+            else
+              note "!! no option accepted for #{feature.inspect} (tried #{options.inspect}): #{@client.fails.last}"
+            end
           end
         end
 
@@ -362,7 +383,9 @@ module AresMUSH
             # 'from_feats' blocks whose options are computed rather than listed.
             options = begin
               block ? Array(Pf2e.choice_options(@char, name, block)) : []
-            rescue StandardError
+            rescue StandardError => e
+              # Swallowing this silently once hid a live ArgumentError in the game itself.
+              note "!! choice_options raised for #{name.inspect}: #{e.class}: #{e.message}"
               []
             end
             pick = options.first
@@ -384,6 +407,11 @@ module AresMUSH
           slots = ta[key]
           next unless slots.is_a?(Hash)
           note "SHAPE #{key}: #{slots.inspect[0,200]}" if @trace
+
+          # Both lists may arrive keyed by class first ({'Bard' => {'cantrip' => [...]}}),
+          # which is how a character with more than one casting class is kept apart.
+          slots = slots[klass] if slots[klass].is_a?(Hash)
+          next unless slots.is_a?(Hash)
 
           slots.each_pair do |rank_key, list|
             Array(list).count('open').times do
@@ -421,14 +449,36 @@ module AresMUSH
           end
         end
 
-        # Signature spells: pick from what is known at that rank.
+        # Signature spells are chosen from the repertoire, including the spells picked
+        # earlier in this same advancement - which is why this runs after the loop above and
+        # reads the preview rather than the saved repertoire.
         if ta['signature'].is_a?(Hash)
-          ta['signature'].each_pair do |rank_key, list|
+          signature = ta['signature']
+          signature = signature[klass] if signature[klass].is_a?(Hash)
+
+          signature.each_pair do |rank_key, list|
             Array(list).count('open').times do
-              known = ((@char.magic && @char.magic.repertoire[rank_key.to_s]) || []).compact
-              pick = known.first
-              break unless pick
-              run("advance/spell signature/#{rank_key}=#{pick}"); runs += 1
+              repertoire = (Pf2e.preview_repertoire(@char, klass) rescue {})[klass] || {}
+              known = Array(repertoire[rank_key.to_s]).compact.reject { |sp| sp.to_s.casecmp?('open') }
+
+              # A spell already taken as a signature at this rank cannot be taken again.
+              taken = Array(((@char.pf2_to_assign || {})['signature'] || {})[rank_key])
+              taken = Array((((@char.pf2_to_assign || {})['signature'] || {})[klass] || {})[rank_key]) if taken.empty?
+
+              candidates = known.reject { |sp| taken.any? { |t| t.to_s.casecmp?(sp.to_s) } }
+
+              accepted = candidates.find do |pick|
+                before = @client.fails.size
+                run("advance/spell signature/#{klass}/#{rank_key}=#{pick}")
+                @client.fails.size == before
+              end
+
+              if accepted
+                runs += 1
+              else
+                note "!! no signature spell accepted at rank #{rank_key} (repertoire=#{known.inspect[0, 120]}): #{@client.fails.last}"
+                break
+              end
             end
           end
         end
