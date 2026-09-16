@@ -107,7 +107,7 @@ module AresMUSH
         return true if !@magic.innate_spells.empty?
         return true if !@magic.focus_spells.empty? || !@magic.focus_cantrips.empty?
         return true if !@magic.spells_per_day.empty?
-        return true if !(@magic.tradition.keys - [ 'innate' ]).empty?
+        return true if !Pf2emagic::Entries.casting(@magic).empty?
 
         false
       end

@@ -27,9 +27,7 @@ module AresMUSH
       magic = char.magic
 
       cc = castclass.capitalize
-      tradition = magic.tradition[cc]
-
-      return t('pf2emagic.not_casting_class', :cc => cc) if !tradition
+      return t('pf2emagic.not_casting_class', :cc => cc) unless Entries.casts_from?(magic, cc)
 
       prepared_cc_list = Global.read_config('pf2e_magic', 'prepared_casters')
 

@@ -43,17 +43,16 @@ module AresMUSH
 
       # Can the class they specified cast the spell they want?
       magic = char.magic
-      charclass_trad = magic.tradition[charclass]
       caster_type = get_caster_type(charclass)
 
-      return t('pf2emagic.cant_cast_as_class') unless (charclass_trad && caster_type)
+      return t('pf2emagic.cant_cast_as_class') unless Entries.casts_from?(magic, charclass) && caster_type
 
       # A spell that does not have a tradition key cannot be put in a spellbook.
       return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
 
       # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
       # even though it sits off that class's tradition list.
-      charclass_can_cast = deets['tradition'].include?(charclass_trad[0]) ||
+      charclass_can_cast = deets['tradition'].include?(Entries.tradition_of(magic, charclass)) ||
                            adapted_spell?(char, charclass, spell)
 
       return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
@@ -515,10 +514,8 @@ module AresMUSH
       # Tradition check
       magic = char.magic
 
-      trad_info = magic.tradition[charclass]
-      return false unless trad_info
-
-      tradition = trad_info[0]
+      tradition = Entries.tradition_of(magic, charclass)
+      return false unless tradition
       return false unless spdeets['tradition'].include? tradition
       # Gate check
 

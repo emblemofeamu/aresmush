@@ -1287,7 +1287,7 @@ module AresMUSH
       magic = char.magic
       return [] unless magic
 
-      (magic.tradition || {}).reject { |k, _| k.to_s.strip.casecmp?('innate') }
+      Pf2emagic::Entries.casting(magic).each_with_object({}) { |e, h| h[e['name']] = [ e['tradition'], e['proficiency'] ] }
         .values
         .map { |entry| Array(entry).first.to_s.downcase }
         .reject(&:empty?)

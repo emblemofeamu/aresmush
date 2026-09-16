@@ -175,6 +175,30 @@ module AresMUSH
         end.keys
       end
 
+      # The class and archetype entries - what a character casts spells *from*, as opposed to
+      # their focus and innate spells. Replaces `tradition.keys - ['innate']`, which was spelled
+      # out in three places, each having to remember that 'innate' is in there and is not a
+      # class.
+      def self.casting(magic)
+        for_magic(magic).select { |e| [ 'class', 'archetype' ].include?(e['source_type']) }
+      end
+
+      def self.casts_from?(magic, source)
+        !find(magic, source).nil?
+      end
+
+      # The tradition and proficiency a source casts at.
+      #
+      # Named, because the underlying store is a two-element array and every reader had to know
+      # that [0] is the tradition and [1] the proficiency.
+      def self.tradition_of(magic, source)
+        (find(magic, source) || {})['tradition']
+      end
+
+      def self.proficiency_of(magic, source)
+        (find(magic, source) || {})['proficiency']
+      end
+
       # Every source that has a signature spell recorded, for the display.
       def self.with_signatures(magic)
         for_magic(magic).select { |e| (e['signature'] || {}).any? { |_rank, spells| !Array(spells).empty? } }

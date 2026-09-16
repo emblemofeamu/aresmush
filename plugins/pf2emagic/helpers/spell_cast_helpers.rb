@@ -466,12 +466,11 @@ module AresMUSH
 
       # Can this character cast as this class?
 
-      cast_stats = magic.tradition[charclass]
-      return t('pf2emagic.not_casting_class', :cc => charclass) unless cast_stats
+      return t('pf2emagic.not_casting_class', :cc => charclass) unless Entries.casts_from?(magic, charclass)
 
       spell_abil = PF2Magic.get_spell_abil(char, charclass, is_focus)
-      tradition = cast_stats[0]
-      prof_level = cast_stats[1]
+      tradition = Entries.tradition_of(magic, charclass)
+      prof_level = Entries.proficiency_of(magic, charclass)
       modifier = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, spell_abil))
 
       # Return a hash of all the pieces of their casting stats for that class.
