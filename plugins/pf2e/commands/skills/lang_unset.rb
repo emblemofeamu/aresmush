@@ -28,44 +28,15 @@ module AresMUSH
         return nil
       end
 
+      # Shell only: the rules live in Pf2e::Chargen::Languages and are unit tested there.
       def handle
-        ##### VALIDATION SECTION #####
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :forget_language, 'language' => self.language)
 
-        # Verify that this character's options left to assign include the listed type.
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        to_assign = enactor.pf2_to_assign
-
-        open_languages = to_assign['open languages']
-
-        if !open_languages
-          client.emit_failure t('pf2e.cannot_assign_type', :element=>"language")
-          return
-        end
-
-        # Can the character change that language?
-
-          loc = open_languages.index(self.language)
-
-          if !(loc)
-            client.emit_failure t('pf2e.not_in_list', :option=>self.language)
-            return
-          end
-
-        ##### VALIDATION SECTION END #####
-
-        char_languages = enactor.pf2_lang
-
-        char_languages.delete(self.language)
-        open_languages[loc] = 'open'
-
-        to_assign['open languages'] = open_languages
-
-        enactor.pf2_lang = char_languages
-        enactor.pf2_to_assign = to_assign
-
-        enactor.save
-
-        client.emit_success t('pf2e.reset_ok', :option=>self.language, :element=>'language')
+        Pf2e::CharState.commit!(enactor, before, outcome, :source_type => 'chargen', :source_ref => 'language pick', :effective_level => 1)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

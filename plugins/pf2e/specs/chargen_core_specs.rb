@@ -43,6 +43,22 @@ module AresMUSH
         end
       end
 
+      describe "revocations" do
+        it "should let a transformation ask for an earlier grant to be undone" do
+          result = Ok.new(:state => {}).with_revocation('add_language', 'language' => 'Kamin')
+
+          expect(result.revocations.first['kind']).to eq 'add_language'
+          expect(result.revocations.first['match']['language']).to eq 'Kamin'
+        end
+
+        it "should accumulate revocations across a chain" do
+          result = Ok.new(:state => {}).with_revocation('add_language', 'language' => 'Kamin')
+            .and_then { |state| Ok.new(:state => state).with_revocation('raise_skill', 'skill' => 'Arcana') }
+
+          expect(result.revocations.map { |r| r['kind'] }).to eq [ 'add_language', 'raise_skill' ]
+        end
+      end
+
       describe :and_then do
         it "should pass the new state to the next step" do
           result = Ok.new(:state => { 'level' => 1 }).and_then { |state| Ok.new(:state => state.merge('level' => 2)) }
@@ -66,6 +82,40 @@ module AresMUSH
 
           expect(result.err?).to be true
           expect(ran).to be false
+        end
+      end
+    end
+
+    describe Ledger do
+      describe :matching_grants do
+        def row(seq, kind, payload, reverted = nil)
+          { 'seq' => seq, 'txn' => "t#{seq}", 'kind' => kind, 'payload' => payload, 'source_type' => 'chargen', 'effective_level' => 1, 'reverted_by' => reverted }
+        end
+
+        it "should find a live grant whose payload matches every pair" do
+          rows = [ row(1, 'add_language', { 'language' => 'Kamin' }), row(2, 'add_language', { 'language' => 'Silya' }) ]
+
+          found = Ledger.matching_grants(rows, 'add_language', 'language' => 'Silya')
+
+          expect(found.map { |g| g['seq'] }).to eq [ 2 ]
+        end
+
+        it "should ignore grants of another kind" do
+          rows = [ row(1, 'raise_skill', { 'skill' => 'Arcana' }) ]
+
+          expect(Ledger.matching_grants(rows, 'add_language', 'language' => 'Arcana')).to eq []
+        end
+
+        it "should ignore grants that are already reverted" do
+          rows = [ row(1, 'add_language', { 'language' => 'Kamin' }, 'earlier-rollback') ]
+
+          expect(Ledger.matching_grants(rows, 'add_language', 'language' => 'Kamin')).to eq []
+        end
+
+        it "should match case-insensitively, the way players type" do
+          rows = [ row(1, 'add_language', { 'language' => 'Kamin' }) ]
+
+          expect(Ledger.matching_grants(rows, 'add_language', 'language' => 'kamin').size).to eq 1
         end
       end
     end

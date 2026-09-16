@@ -210,6 +210,20 @@ module AresMUSH
         end
       end
 
+      # Marks the live grants matching a kind and payload as reverted. Returns how many.
+      def self.revert_matching!(char, kind, match, by:)
+        targets = Ledger.matching_grants(rows(char), kind, match)
+
+        targets.each do |row|
+          grant = Pf2eGrant[row['id']]
+          grant.update(:reverted_by => by) if grant && grant.live?
+        end
+
+        invalidate!(char) if !targets.empty?
+
+        targets.size
+      end
+
       def self.unrevert_txn!(char, txn_id)
         char.grants.find(:txn => txn_id).each do |grant|
           grant.update(:reverted_by => nil)

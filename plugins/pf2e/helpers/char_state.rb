@@ -125,6 +125,12 @@ module AresMUSH
 
         attrs.each_pair { |attr, value| char.update(attr.to_sym => value) }
 
+        # Revocations first: taking a pick back before re-granting keeps the two from
+        # cancelling each other out when a transformation does both.
+        outcome.revocations.each do |revocation|
+          Ledger.revert_matching!(char, revocation['kind'], revocation['match'] || {}, :by => "#{source_type}-undo-#{Time.now.to_i}")
+        end
+
         if !outcome.grants.empty?
           Ledger.seed_from_sheet!(char)
           Ledger.write(char, :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level, :granted_by => granted_by) do |txn|
@@ -136,6 +142,8 @@ module AresMUSH
             end
           end
         end
+
+        Ledger.materialize!(char) if !outcome.revocations.empty? && outcome.grants.empty?
 
         attrs
       end

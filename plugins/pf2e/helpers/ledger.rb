@@ -208,6 +208,22 @@ module AresMUSH
           .uniq
       end
 
+      # Live grants of one kind whose payload matches every given pair, case-insensitively
+      # on strings. Used to undo a single earlier grant - taking back a chargen pick - without
+      # deleting anything.
+      def self.matching_grants(grants, kind, match = {})
+        grants
+          .select { |g| g['reverted_by'].blank? }
+          .select { |g| g['kind'] == kind }
+          .select do |g|
+            payload = g['payload'] || {}
+            match.all? do |key, value|
+              held = payload[key]
+              held.is_a?(String) && value.is_a?(String) ? held.casecmp?(value) : held == value
+            end
+          end
+      end
+
       # Which grants put a thing on the sheet, newest first. This is the question the old
       # model could not answer at all.
       def self.explain(grants, at_level:, kind:, key:)

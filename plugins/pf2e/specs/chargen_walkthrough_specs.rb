@@ -143,6 +143,48 @@ module AresMUSH
         expect(@char.pf2_boosts_working['free']).to include 'Constitution'
       end
 
+      it "should record a language pick in the ledger and materialise it onto the sheet" do
+        # The skills stage hands out these slots; set them directly so this example stays
+        # about the language command and the ledger rather than replaying all of chargen.
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Silya"
+
+        expect_no_failures
+        expect(@char.pf2_to_assign['open languages']).to include 'Silya'
+        expect(@char.pf2_lang).to include 'Silya'
+
+        grants = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' }
+        expect(grants.map { |g| g['payload']['language'] }).to include 'Silya'
+        expect(grants.first['source_type']).to eq 'chargen'
+      end
+
+      it "should revoke the grant when a language pick is taken back" do
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Silya"
+        run PF2LanguageUnSetCmd, "lang/unset Silya"
+
+        expect_no_failures
+        expect(@char.pf2_lang).to_not include 'Silya'
+        expect(@char.pf2_to_assign['open languages']).to eq [ 'open', 'open' ]
+
+        live = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' && g['reverted_by'].blank? }
+        reverted = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' && !g['reverted_by'].blank? }
+
+        expect(live).to be_empty
+        expect(reverted.size).to eq 1
+      end
+
+      it "should refuse a rare language through the command" do
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Mynsandraal"
+
+        expect(@client.failures).to_not be_empty
+        expect(@char.pf2_lang).to_not include 'Mynsandraal'
+      end
+
       it "should refuse a boost before base info is locked" do
         run PF2SetChargenCmd, "cg/set ancestry=Khazad"
         run PF2BoostSetCmd, "boost/set free=Constitution"

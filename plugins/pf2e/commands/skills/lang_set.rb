@@ -24,73 +24,15 @@ module AresMUSH
         return nil
       end
 
+      # Shell only: the rules live in Pf2e::Chargen::Languages and are unit tested there.
       def handle
-        ##### VALIDATION SECTION #####
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :learn_language, 'language' => self.language)
 
-        # Is the argument a language that this character can choose?
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        all_lang = Global.read_config('pf2e_languages')
-        avail_lang_keys = Global.read_config('pf2e', 'can_select_language')
-
-        avail_lang = []
-
-        avail_lang_keys.each do |key|
-          langs = all_lang[key]
-          langs.keys.each do |l|
-            avail_lang << l
-          end
-        end
-
-        if !avail_lang.include?(self.language)
-          client.emit_failure t('pf2e.bad_option',
-            :element=>'language',
-            :options=>avail_lang.sort.join(", ")
-          )
-          return
-        end
-
-        # Verify that this character's options left to assign include the listed type.
-
-        to_assign = enactor.pf2_to_assign
-
-        open_languages = to_assign['open languages']
-
-        if !open_languages
-          client.emit_failure t('pf2e.cannot_assign_type', :element=>"language")
-          return
-        end
-
-        # Does that character already have that language?
-
-        char_languages = enactor.pf2_lang
-
-        if char_languages.include?(self.language)
-          client.emit_failure t('pf2e.already_has', :item => 'language')
-          return
-        end
-
-        # Does this character have an available open language to assign?
-
-          loc = open_languages.index("open")
-
-          if !(loc)
-            client.emit_failure t('pf2e.no_free', :element=>'open languages')
-            return
-          end
-
-        ##### VALIDATION SECTION END #####
-
-        char_languages << self.language
-        open_languages[loc] = self.language
-
-        to_assign['open languages'] = open_languages
-
-        enactor.pf2_lang = char_languages
-        enactor.pf2_to_assign = to_assign
-
-        enactor.save
-
-        client.emit_success t('pf2e.add_ok', :item=>self.language, :list=>'languages')
+        Pf2e::CharState.commit!(enactor, before, outcome, :source_type => 'chargen', :source_ref => 'language pick', :effective_level => 1)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

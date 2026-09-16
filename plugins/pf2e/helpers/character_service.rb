@@ -15,7 +15,9 @@ module AresMUSH
       ACTIONS = {
         :set_base_info => lambda { |state, args| Chargen::BaseInfo.set(state, args) },
         :set_boost     => lambda { |state, args| Chargen::Boosts.set(state, args) },
-        :unset_boost   => lambda { |state, args| Chargen::Boosts.unset(state, args) }
+        :unset_boost   => lambda { |state, args| Chargen::Boosts.unset(state, args) },
+        :learn_language => lambda { |state, args| Chargen::Languages.learn(state, args) },
+        :forget_language => lambda { |state, args| Chargen::Languages.forget(state, args) }
       }.freeze
 
       def self.actions

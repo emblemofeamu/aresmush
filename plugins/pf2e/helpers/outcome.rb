@@ -23,12 +23,13 @@ module AresMUSH
     class Ok
       include Outcome
 
-      attr_reader :state, :grants, :messages
+      attr_reader :state, :grants, :messages, :revocations
 
-      def initialize(state:, grants: [], messages: [])
+      def initialize(state:, grants: [], messages: [], revocations: [])
         @state = state
         @grants = grants
         @messages = messages
+        @revocations = revocations
       end
 
       def ok?
@@ -40,7 +41,7 @@ module AresMUSH
       end
 
       def to_h
-        { :state => @state, :grants => @grants, :messages => @messages }
+        { :state => @state, :grants => @grants, :messages => @messages, :revocations => @revocations }
       end
 
       # Chains the next transformation onto this one, handing it the new state and
@@ -54,17 +55,25 @@ module AresMUSH
         Ok.new(
           :state => nxt.state,
           :grants => @grants + nxt.grants,
-          :messages => @messages + nxt.messages
+          :messages => @messages + nxt.messages,
+          :revocations => @revocations + nxt.revocations
         )
       end
 
       def with_message(key, args = {})
-        Ok.new(:state => @state, :grants => @grants, :messages => @messages + [ { 'key' => key, 'args' => args } ])
+        Ok.new(:state => @state, :grants => @grants, :messages => @messages + [ { 'key' => key, 'args' => args } ], :revocations => @revocations)
       end
 
       def with_grant(kind, payload = {}, overrides = {})
         grant = { 'kind' => kind, 'payload' => payload }.merge(overrides)
-        Ok.new(:state => @state, :grants => @grants + [ grant ], :messages => @messages)
+        Ok.new(:state => @state, :grants => @grants + [ grant ], :messages => @messages, :revocations => @revocations)
+      end
+
+      # Asks for an earlier grant to be undone - how a chargen pick is taken back without
+      # deleting anything. The shell resolves it against the ledger.
+      def with_revocation(kind, match = {})
+        revocation = { 'kind' => kind, 'match' => match }
+        Ok.new(:state => @state, :grants => @grants, :messages => @messages, :revocations => @revocations + [ revocation ])
       end
     end
 
@@ -99,6 +108,10 @@ module AresMUSH
       end
 
       def messages
+        []
+      end
+
+      def revocations
         []
       end
 
