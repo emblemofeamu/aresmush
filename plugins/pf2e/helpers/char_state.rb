@@ -180,8 +180,10 @@ module AresMUSH
 
       # Reports an Err to the player. Returns true when there was an error, so a command
       # reads `return if CharState.emit_error!(client, outcome)`.
+      # nil means "no objection", so a guard-style core can return nil or an Err and the
+      # shell reads it the same way as a full outcome.
       def self.emit_error!(client, outcome)
-        return false if outcome.ok?
+        return false if outcome.nil? || outcome.ok?
 
         client.emit_failure t(outcome.key, **symbolize(outcome.args))
         true
