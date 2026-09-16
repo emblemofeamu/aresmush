@@ -2306,6 +2306,8 @@ module AresMUSH
       advancement = char.pf2_advancement
       to_assign = char.pf2_to_assign
 
+      deferred = []
+
       if choice_grants_feat?(block)
         feat = get_feat_details(value)
         return [ t('pf2e.bad_feat_name', :name => value) ] if feat.is_a?(String)
@@ -2313,32 +2315,18 @@ module AresMUSH
         fname = feat[0]
         fdetails = feat[1]
 
-        feats_to_do = advancement['feats'] || {}
-        ftype = Array(fdetails['feat_type']).first.to_s.downcase
-        list = feats_to_do[ftype] || []
-        list << fname
-        feats_to_do[ftype] = list
-        advancement['feats'] = feats_to_do
+        # The same path a feat typed at advance/feat takes. This branch used to apply a
+        # reduced version of it - raw grants instead of assessed ones, and no archetype behind
+        # a Dedication - so a feat handed over by a choice was worth less than the same feat
+        # chosen directly.
+        gained = Advancement::FeatGain.apply(char, fname, fdetails,
+          :bucket => Array(fdetails['feat_type']).first.to_s.downcase,
+          :to_assign => to_assign,
+          :advancement => advancement,
+          :client => client)
 
-        if fdetails['grants']
-          adv_grants = advancement['grants'] || {}
-          adv_grants[fname] = fdetails['grants']
-          advancement['grants'] = adv_grants
-        end
-
-        if fdetails['magic_stats']
-          magic_options = stage_feat_magic_stats(char, fname, fdetails, to_assign, advancement)
-          msgs.concat(magic_option_messages(magic_options))
-        end
-
-        # Staged rather than stored until advance/done, so the instance is one past the count.
-        nested = feat_choice_def(fdetails)
-        nested = nil unless feat_choice_opens_at?(nested, feat_taken_count(char, fname) + 1)
-
-        if nested
-          open_feat_choice(to_assign, fname)
-          msgs << t('pf2e.choice_opened', :choice => fname, :summary => choice_summary(nested), :cmd => choice_info_cmd(char))
-        end
+        msgs.concat(Advancement::FeatGain.render(gained[:messages]))
+        deferred.concat(gained[:after_save])
 
         value = fname
       else
@@ -2374,6 +2362,10 @@ module AresMUSH
       char.pf2_advancement = advancement
       char.pf2_to_assign = to_assign
       char.save
+
+      # Work that had to wait for the draft to be written, such as staging a choice the gained
+      # feat resolved by itself - that re-reads and saves the character.
+      deferred.each { |run| msgs.concat(Advancement::FeatGain.render(run.call)) }
 
       msgs
     end
