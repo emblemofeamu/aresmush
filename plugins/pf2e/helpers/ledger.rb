@@ -208,6 +208,75 @@ module AresMUSH
           .uniq
       end
 
+      # ------------------------------------------------------------------------------
+      # Syncing whole lists (the migration bridge)
+      # ------------------------------------------------------------------------------
+
+      # Sections a caller may sync, with the grant kind and payload shape each uses.
+      SYNC_SECTIONS = {
+        'feats' => { 'kind' => 'grant_feat', 'item' => 'feat', 'bucket' => 'bucket' },
+        'features' => { 'kind' => 'grant_feature', 'item' => 'feature', 'bucket' => 'bucket' },
+        'traits' => { 'kind' => 'add_trait', 'item' => 'trait' },
+        'specials' => { 'kind' => 'add_special', 'item' => 'special' },
+        'languages' => { 'kind' => 'add_language', 'item' => 'language' }
+      }.freeze
+
+      # Turns "here is the whole list now" into ledger entries. Legacy code that assigns a
+      # complete list onto the character calls this instead, so its work survives the next
+      # fold rather than being erased by it.
+      def self.sync_plan(sheet, fragment)
+        grants = []
+        revocations = []
+
+        fragment.each_pair do |section, value|
+          # Skills are a map of name to rank rather than a list, so a changed rank is a new
+          # grant and a dropped skill is a revocation.
+          if section == 'skills' || section == 'lores'
+            kind = section == 'lores' ? 'add_lore' : 'raise_skill'
+            item = section == 'lores' ? 'lore' : 'skill'
+            held = sheet[section] || {}
+            wanted = value || {}
+
+            wanted.each_pair do |name, rank|
+              next if held[name] == rank
+              grants << { 'kind' => kind, 'payload' => { item => name, 'to' => rank } }
+            end
+
+            held.each_pair do |name, _rank|
+              next if wanted.key?(name)
+              revocations << { 'kind' => kind, 'match' => { item => name } }
+            end
+
+            next
+          end
+
+          spec = SYNC_SECTIONS[section]
+          next unless spec
+
+          if spec['bucket']
+            (value || {}).each_pair do |bucket, items|
+              held = ((sheet[section] || {})[bucket]) || []
+              added, removed = delta(held, Array(items))
+
+              added.each { |item| grants << { 'kind' => spec['kind'], 'payload' => { 'bucket' => bucket, spec['item'] => item } } }
+              removed.each { |item| revocations << { 'kind' => spec['kind'], 'match' => { spec['item'] => item } } }
+            end
+          else
+            held = Array(sheet[section])
+            added, removed = delta(held, Array(value))
+
+            added.each { |item| grants << { 'kind' => spec['kind'], 'payload' => { spec['item'] => item } } }
+            removed.each { |item| revocations << { 'kind' => spec['kind'], 'match' => { spec['item'] => item } } }
+          end
+        end
+
+        { 'grants' => grants, 'revocations' => revocations }
+      end
+
+      def self.delta(held, wanted)
+        [ wanted - held, held - wanted ]
+      end
+
       # Live grants of one kind whose payload matches every given pair, case-insensitively
       # on strings. Used to undo a single earlier grant - taking back a chargen pick - without
       # deleting anything.

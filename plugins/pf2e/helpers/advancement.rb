@@ -511,6 +511,7 @@ module AresMUSH
             end
           end
           char.pf2_feats = char_feats
+          Pf2e::Ledger.sync!(char, { 'feats' => char_feats }, :source_type => 'level_up', :source_ref => "advance to level #{char.pf2_level}", :effective_level => char.pf2_level)
         when "charclass_feature option"
           value.each_pair do |feature, option|
             features = char.pf2_features
@@ -730,6 +731,9 @@ module AresMUSH
       char.advancing = false
 
       char.save
+
+      # Everything the advancement wrote onto the sheet becomes ledger grants at this level.
+      Pf2e::Ledger.sync_sheet!(char, :source_type => 'level_up', :source_ref => "advance to level #{new_level}", :effective_level => new_level)
 
       # Snapshot the finished sheet so admin rollback can put them back here later.
       Pf2e.capture_level_snapshot(char, new_level)

@@ -60,6 +60,87 @@ module AresMUSH
         end
       end
 
+      # Legacy code computes whole lists (all of a character's feats, say) and used to assign
+      # them straight onto the character - which the next fold then erased. sync_plan turns
+      # such an assignment into ledger entries: grants for what appeared, revocations for what
+      # went away.
+      describe :sync_plan do
+        def sheet(overrides = {})
+          Ledger.empty_sheet(3).merge(overrides)
+        end
+
+        it "should grant a feat that the new list has and the sheet does not" do
+          plan = Ledger.sync_plan(sheet, 'feats' => { 'charclass' => [ 'Sudden Charge' ] })
+
+          expect(plan['grants']).to eq [ { 'kind' => 'grant_feat', 'payload' => { 'bucket' => 'charclass', 'feat' => 'Sudden Charge' } } ]
+          expect(plan['revocations']).to eq []
+        end
+
+        it "should revoke a feat the new list dropped" do
+          current = sheet('feats' => { 'charclass' => [ 'Sudden Charge' ] })
+          plan = Ledger.sync_plan(current, 'feats' => { 'charclass' => [] })
+
+          expect(plan['grants']).to eq []
+          expect(plan['revocations']).to eq [ { 'kind' => 'grant_feat', 'match' => { 'feat' => 'Sudden Charge' } } ]
+        end
+
+        it "should plan nothing when the list already matches" do
+          current = sheet('feats' => { 'charclass' => [ 'Sudden Charge' ] })
+          plan = Ledger.sync_plan(current, 'feats' => { 'charclass' => [ 'Sudden Charge' ] })
+
+          expect(plan['grants']).to eq []
+          expect(plan['revocations']).to eq []
+        end
+
+        it "should handle features, traits, specials and languages the same way" do
+          plan = Ledger.sync_plan(sheet,
+            'features' => { 'charclass_features' => [ 'Bravery' ] },
+            'traits' => [ 'khazad' ],
+            'specials' => [ 'Darkvision' ],
+            'languages' => [ 'Kamin' ]
+          )
+
+          kinds = plan['grants'].map { |g| g['kind'] }
+          expect(kinds).to eq [ 'grant_feature', 'add_trait', 'add_special', 'add_language' ]
+        end
+
+        it "should grant a skill rank that the new map has and the sheet does not" do
+          plan = Ledger.sync_plan(sheet, 'skills' => { 'Arcana' => 'expert' })
+
+          expect(plan['grants']).to eq [ { 'kind' => 'raise_skill', 'payload' => { 'skill' => 'Arcana', 'to' => 'expert' } } ]
+        end
+
+        it "should grant the new rank when a skill was raised" do
+          current = sheet('skills' => { 'Arcana' => 'trained' })
+          plan = Ledger.sync_plan(current, 'skills' => { 'Arcana' => 'master' })
+
+          expect(plan['grants']).to eq [ { 'kind' => 'raise_skill', 'payload' => { 'skill' => 'Arcana', 'to' => 'master' } } ]
+          expect(plan['revocations']).to eq []
+        end
+
+        it "should revoke training for a skill dropped from the map" do
+          current = sheet('skills' => { 'Arcana' => 'trained' })
+          plan = Ledger.sync_plan(current, 'skills' => {})
+
+          expect(plan['revocations']).to eq [ { 'kind' => 'raise_skill', 'match' => { 'skill' => 'Arcana' } } ]
+        end
+
+        it "should plan nothing for a skill whose rank did not move" do
+          current = sheet('skills' => { 'Arcana' => 'expert' })
+          plan = Ledger.sync_plan(current, 'skills' => { 'Arcana' => 'expert' })
+
+          expect(plan['grants']).to eq []
+          expect(plan['revocations']).to eq []
+        end
+
+        it "should ignore a section the caller did not mention" do
+          current = sheet('traits' => [ 'khazad' ])
+          plan = Ledger.sync_plan(current, 'feats' => { 'charclass' => [] })
+
+          expect(plan['revocations']).to eq []
+        end
+      end
+
       describe :cache_stale? do
         it "should be stale when the ledger has moved on" do
           expect(Ledger.cache_stale?({ 'head_seq' => 4, 'level' => 5 }, head_seq: 5, level: 5)).to be true

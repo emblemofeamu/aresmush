@@ -198,6 +198,55 @@ module AresMUSH
         tracker
       end
 
+      # Records a whole-list assignment as ledger entries. The bridge that lets legacy
+      # chargen and advancement code keep computing complete lists while the ledger stays the
+      # record of truth.
+      def self.sync!(char, fragment, source_type:, source_ref: nil, effective_level: nil, granted_by: nil)
+        seed_from_sheet!(char)
+
+        plan = Ledger.sync_plan(derived(char), fragment)
+
+        return 0 if plan['grants'].empty? && plan['revocations'].empty?
+
+        marker = "sync-#{Time.now.to_i}-#{rand(1000)}"
+
+        plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker) }
+
+        if !plan['grants'].empty?
+          write(char, :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level, :granted_by => granted_by, :materialize => false) do |txn|
+            plan['grants'].each { |g| txn.grant(g['kind'], g['payload']) }
+          end
+        end
+
+        invalidate!(char)
+        materialize!(char)
+
+        plan['grants'].size + plan['revocations'].size
+      end
+
+      # Syncs every ledger-owned list from whatever the character's attributes currently say.
+      # Called at the end of a chargen stage or an advancement commit, so the many small direct
+      # writes inside those paths land in the ledger as one transaction instead of being erased
+      # by the next fold.
+      def self.sync_sheet!(char, source_type:, source_ref: nil, effective_level: nil)
+        skills = {}
+        char.skills.each do |skill|
+          next if skill.prof_level.to_s == 'untrained'
+          skills[skill.name] = skill.prof_level
+        end
+
+        sync!(char, {
+            'skills' => skills,
+            'feats' => char.pf2_feats,
+            'features' => char.pf2_features,
+            'traits' => char.pf2_traits,
+            'specials' => char.pf2_special,
+            'languages' => char.pf2_lang
+          },
+          :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level
+        )
+      end
+
       # ------------------------------------------------------------------------------
       # Undo and redo
       # ------------------------------------------------------------------------------

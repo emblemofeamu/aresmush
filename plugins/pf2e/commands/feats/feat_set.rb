@@ -120,6 +120,9 @@ module AresMUSH
 
         enactor.update(pf2_feats: feat_list)
 
+        # The ledger owns the sheet: record the feat there too, or the next fold erases it.
+        Pf2e::Ledger.sync!(enactor, { 'feats' => feat_list }, :source_type => 'chargen', :source_ref => "cg feat: #{fname}", :effective_level => 1)
+
 
 
         client.emit_success t('pf2e.feat_set_ok', :name => fname, :type => self.feat_type)

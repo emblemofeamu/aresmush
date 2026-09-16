@@ -2200,6 +2200,7 @@ module AresMUSH
       feats[bucket] = list
 
       char.update(pf2_feats: feats)
+      Pf2e::Ledger.sync!(char, { 'feats' => feats }, :source_type => 'class_feature', :source_ref => fname, :effective_level => char.pf2_level)
 
       msgs = []
       msgs.concat(do_feat_grants(char, details['grants'], charclass, client)) if details['grants']
@@ -2256,6 +2257,7 @@ module AresMUSH
         list << fname
         feats[ftype] = list
         char.update(pf2_feats: feats)
+        Pf2e::Ledger.sync!(char, { 'feats' => feats }, :source_type => 'class_feature', :source_ref => fname, :effective_level => char.pf2_level)
 
         msgs.concat(do_feat_grants(char, fdetails['grants'], charclass, client)) if fdetails['grants']
         msgs.concat(do_feat_magic_stats(char, fdetails, charclass, client))
