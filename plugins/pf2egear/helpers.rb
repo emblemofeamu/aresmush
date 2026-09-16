@@ -36,9 +36,13 @@ module AresMUSH
       msg.squeeze(" ").strip
     end
 
-    def self.pay_player(char, amount)
-      purse = char.pf2_money
-      char.update(pf2_money: purse + amount)
+    # The one door for moving a character's purse, in either direction. Negative takes.
+    #
+    # Records the transaction and moves the total together, so a purse cannot move without a
+    # line saying why - which is what buy, sell and pay each had to remember separately, and
+    # what pay_player never did at all.
+    def self.pay_player(char, amount, paid_by = 'System', reason = nil, ref = nil)
+      Pf2e::Audit.post(char, 'money', amount, :by => paid_by, :reason => reason, :ref => ref)
     end
 
     def self.reset_gear(char, preserve_money=false)
@@ -173,16 +177,6 @@ module AresMUSH
       client.emit_ooc dest_msg
     end
 
-    def self.record_money_history(char, awarded_by, amount, reason)
-      timestamp = Time.now.to_i
-
-      money_history = char.pf2_money_history
-
-      # History is displayed in reverse chrono, so prepending makes more sense
-      money_history.unshift [ timestamp, awarded_by, amount, reason ]
-
-      char.update(pf2_money_history: money_history)
-    end
 
 
   end

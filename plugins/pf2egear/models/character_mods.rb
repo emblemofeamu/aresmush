@@ -4,7 +4,6 @@ module AresMUSH
     attribute :pf2_money, :type => DataType::Integer, :default => 1500
     attribute :pf2_gear, :type => DataType::Hash, :default => {'consumables' => {}, 'gear' => {}}
     attribute :pf2_invested_list, :type => DataType::Array, :default => []
-    attribute :pf2_money_history, :type => DataType::Array, :default => []
 
     collection :weapons, "AresMUSH::PF2Weapon"
     collection :armor, "AresMUSH::PF2Armor"

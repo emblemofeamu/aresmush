@@ -152,15 +152,18 @@ module AresMUSH
       return failure if failure
 
       # Every level from the target upwards is coming back, so the refund is all of their
-      # costs, not one level's worth. The ledger has already returned the xp itself by
-      # reverting the xp_spend grants; this is the line the player reads in xp/history.
+      # costs, not one level's worth. The ledger no longer holds the xp, so this posts the
+      # refund rather than merely describing one the fold had already made.
       refunded = (char.pf2_level - (level.to_i - 1)) * Pf2e::ADVANCEMENT_XP_COST
 
       marker = Ledger.rollback_to_level!(char, level, enactor)
 
       char.update(:pf2_rollback_marker => marker)
 
-      Pf2e.record_xp_history(char, enactor ? enactor.name : 'System', refunded, t('pf2e.rollback_xp_reason', :level => level.to_i))
+      Pf2e::Audit.post(char, 'xp', refunded,
+        :by => enactor ? enactor.name : 'System',
+        :reason => t('pf2e.rollback_xp_reason', :level => level.to_i),
+        :ref => marker)
 
       Global.logger.info "PF2e ledger rollback: char=#{char.name} to_level=#{level} marker=#{marker} by=#{enactor&.name}"
 
@@ -180,11 +183,14 @@ module AresMUSH
 
       char.update(:pf2_rollback_marker => nil)
 
-      # The fold has taken the xp back out again; record the other half of the refund line
-      # so xp/history reads as a pair rather than an unexplained gain.
+      # Charge the levels again, so the refund and its reversal read as a pair in the history
+      # rather than as an unexplained gain.
       spent = (char.pf2_level - was) * Pf2e::ADVANCEMENT_XP_COST
 
-      Pf2e.record_xp_history(char, enactor ? enactor.name : 'System', -spent, t('pf2e.rollback_redo_xp_reason', :level => char.pf2_level))
+      Pf2e::Audit.post(char, 'xp', -spent,
+        :by => enactor ? enactor.name : 'System',
+        :reason => t('pf2e.rollback_redo_xp_reason', :level => char.pf2_level),
+        :ref => marker)
 
       Global.logger.info "PF2e ledger rollback redone: char=#{char.name} marker=#{marker} by=#{enactor&.name}"
 

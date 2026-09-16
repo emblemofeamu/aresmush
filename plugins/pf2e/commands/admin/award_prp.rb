@@ -57,11 +57,10 @@ module AresMUSH
           xp = rewards["xp"]
           money = rewards['money']
 
-          Pf2e.award_xp(t, xp)
-          Pf2egear.pay_player(t, money)
-
-          Pf2e.record_xp_history(t, enactor.name, xp, "PRP Award")
-          Pf2egear.record_money_history(t, enactor.name, money, "PRP Award")
+          # Both of these record the transaction and move the total together, so the award is
+          # attributed to whoever ran the PRP rather than to System.
+          Pf2e.award_xp(t, xp, enactor.name, "PRP Award")
+          Pf2egear.pay_player(t, money, enactor.name, "PRP Award")
         end
 
         ttype = self.target_type == "player" ? self.target_type + "s" : self.target_type

@@ -217,22 +217,13 @@ module AresMUSH
       text =~ /\A[aeiou8]/i ? "an #{text}" : "a #{text}"
     end
 
-    # XP is a fold of the ledger, not a mutable counter: an award appends a grant and the
-    # materialiser writes the total. A character created before the ledger is seeded on
-    # first touch, so their existing total is not folded away.
-    def self.award_xp(target, amount, awarded_by = 'System', reason = nil, source_type = 'staff')
-      # A draft character has no ledger yet, so XP is simply a field on the draft. Once the
-      # character is finalized, XP is a fold of the ledger and an award is a grant.
-      unless Pf2e::Ledger.finalized?(target)
-        target.update(:pf2_xp => target.pf2_xp.to_i + amount.to_i)
-        return nil
-      end
-
-      kind = amount.to_i.negative? ? 'xp_spend' : 'xp_award'
-
-      Pf2e::Ledger.write(target, :source_type => source_type, :source_ref => reason, :granted_by => awarded_by) do |txn|
-        txn.grant(kind, 'amount' => amount.to_i.abs)
-      end
+    # The one door for moving a character's XP, in either direction. Negative spends.
+    #
+    # It records the transaction and moves the running total together, which is why there is
+    # no longer a separate record_xp_history to forget - and it was forgotten: every nomination
+    # award went through award_xp without ever appearing in a player's history.
+    def self.award_xp(target, amount, awarded_by = 'System', reason = nil, ref = nil)
+      Pf2e::Audit.post(target, 'xp', amount, :by => awarded_by, :reason => reason, :ref => ref)
     end
 
     def self.record_history(char, record_type, awarded_by, amount, reason)
@@ -250,16 +241,6 @@ module AresMUSH
       char.update(pf2_award_history: full_list)
     end
 
-    def self.record_xp_history(char, awarded_by, amount, reason)
-      timestamp = Time.now.to_i
-
-      xp_history = char.pf2_xp_history
-
-      # History is displayed in reverse chrono, so prepending makes more sense
-      xp_history.unshift [ timestamp, awarded_by, amount, reason ]
-
-      char.update(pf2_xp_history: xp_history)
-    end
 
     def self.is_proficient?(char, category, name)
 
@@ -380,6 +361,7 @@ module AresMUSH
       char.pf2_base_info = { 'ancestry'=>"", 'heritage'=>"", 'background'=>"", 'charclass'=>"", "specialize"=>"" }
       char.pf2_archetypeinfo = { 'archetype1'=>"", 'archetype2'=>"", 'archetype3'=>"", 'archetype4'=>"", 'archetype_specialty1'=>"", 'archetype_specialty2'=>"", 'archetype_specialty3'=>"", 'archetype_specialty4'=>"", 'archetype_specialty_choice1'=>"", 'archetype_specialty_choice2'=>"", 'archetype_specialty_choice3'=>"", 'archetype_specialty_choice4'=>"" }
       char.pf2_xp = 0
+      Pf2e::Audit.delete_all!(char, 'xp')
       char.pf2_conditions = {}
       char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
       char.pf2_traits = []
@@ -402,7 +384,6 @@ module AresMUSH
       char.pf2_size = ""
       char.pf2_roll_aliases = {}
       char.pf2_actions = {}
-      char.pf2_xp_history = []
       char.pf2_is_dead = nil
       char.pf2_known_for = []
       char.pf2_alloc_reagents = 0

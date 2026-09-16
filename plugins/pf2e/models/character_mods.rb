@@ -38,13 +38,12 @@ module AresMUSH
     attribute :pf2_movement, :type => DataType::Hash, :default => {}
     attribute :pf2_roll_aliases, :type => DataType::Hash, :default => {}
     attribute :pf2_actions, :type => DataType::Hash, :default => {}
-    attribute :pf2_xp_history, :type => DataType::Array, :default => []
     attribute :pf2_is_dead, :type => DataType::Boolean
     attribute :pf2_known_for, :type => DataType::Array, :default => []
     attribute :pf2_formula_book, :type => DataType::Hash, :default => {}
     attribute :pf2_reagents, :type => DataType::Hash, :default => {}
     attribute :pf2_alloc_reagents, :type => DataType::Integer, :default => 0
-    # DEPRECATED please use pf2_xp_history for XP, money is handled in the gear plugin
+    # DEPRECATED. XP and money transactions belong in Pf2e::Audit.
     attribute :pf2_award_history, :type => DataType::Hash, :default => {}
     attribute :pf2_cnotes, :type => DataType::Hash, :default => {}
 
@@ -57,6 +56,10 @@ module AresMUSH
     # The grant ledger is the record of truth for everything on the sheet that does not
     # change minute to minute; sheet_caches are disposable materialised folds of it.
     collection :grants, "AresMUSH::Pf2eGrant"
+
+    # XP and money transactions. Never read through this collection - see Pf2e::Audit and the
+    # note on the model. It is declared so deleting a character deletes them.
+    collection :pf2_ledger_entries, "AresMUSH::Pf2eLedgerEntry"
     collection :sheet_caches, "AresMUSH::Pf2eSheetCache"
 
     before_delete :delete_pf2
@@ -68,6 +71,7 @@ module AresMUSH
       self.combat.delete if self.combat
       self.magic.delete if self.magic
       self.grants.each { |g| g.delete }
+      Pf2e::Audit.delete_all!(self)
       self.sheet_caches.each { |c| c.delete }
       self.encounters.each {|e| e.delete self}
     end

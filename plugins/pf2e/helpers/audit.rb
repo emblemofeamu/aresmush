@@ -102,6 +102,15 @@ module AresMUSH
         [ pages, 1 ].max
       end
 
+      # A page in the shape the engine's templates expect. Built from a count and one page of
+      # rows rather than from the whole list, which is the only difference that matters.
+      def self.paginate(char, currency, page = 1, per_page = 10)
+        page = [ page.to_i, 1 ].max
+        per_page = [ per_page.to_i, 1 ].max
+
+        PaginateResults.new(page, total_pages(char, currency, per_page), page(char, currency, page, per_page), (page - 1) * per_page)
+      end
+
       # ------------------------------------------------------------------------------
       # Checking and repairing
       # ------------------------------------------------------------------------------

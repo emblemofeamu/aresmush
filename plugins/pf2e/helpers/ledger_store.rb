@@ -480,13 +480,16 @@ module AresMUSH
 
         plan['revocations'].each { |r| revert_matching!(char, r['kind'], r['match'], :by => marker, :materialize => false, :limit => r['limit']) }
 
-        write(char, :source_type => 'level_up', :source_ref => "advance to level #{level}", :effective_level => level, :materialize => false) do |txn|
+        txn_id = write(char, :source_type => 'level_up', :source_ref => "advance to level #{level}", :effective_level => level, :materialize => false) do |txn|
           plan['grants'].each { |g| txn.grant(g['kind'], g['payload']) }
-          txn.grant('xp_spend', 'amount' => cost) if cost.to_i > 0
         end
 
         invalidate!(char)
         materialize!(char)
+
+        # The cost is an audit entry rather than a folded grant, tagged with the transaction
+        # that incurred it so a rollback can find and reverse exactly this level's spend.
+        Audit.post(char, 'xp', -cost.to_i, :by => 'System', :reason => "advance to level #{level}", :ref => txn_id) if cost.to_i > 0
 
         plan['grants'].size
       end

@@ -25,7 +25,6 @@ module AresMUSH
           sheet = Ledger.fold([], at_level: 1)
 
           expect(sheet['level']).to eq 1
-          expect(sheet['xp']).to eq 0
           expect(sheet['skills']).to eq({})
           expect(sheet['feats']).to eq({})
         end
@@ -159,13 +158,21 @@ module AresMUSH
           expect(Ledger.fold(grants, at_level: 5)['profs']['weapon_prof']['simple']).to eq 'expert'
         end
 
-        it "should total XP awards and spends" do
+        # XP used to be folded here. It is a counter rather than build history, and folding
+        # thousands of transactions to answer "which feats does this character have" was the
+        # cost that moved it to Pf2e::Audit. An old row is not an error, but it no longer
+        # means anything to the fold.
+        it "should leave a legacy xp row alone rather than folding it" do
           grants = [
             grant(1, 'xp_award', { 'amount' => 3000 }, level: nil, source: 'staff'),
-            grant(2, 'xp_spend', { 'amount' => 1000 }, level: 2)
+            grant(2, 'grant_feat', { 'bucket' => 'general', 'feat' => 'Toughness' }, level: 2)
           ]
 
-          expect(Ledger.fold(grants, at_level: 2)['xp']).to eq 2000
+          sheet = Ledger.fold(grants, at_level: 2)
+
+          expect(sheet).to_not have_key 'xp'
+          expect(sheet['feats']['general']).to eq [ 'Toughness' ]
+          expect(sheet['unsupported'].map { |g| g['kind'] }).to eq [ 'xp_award' ]
         end
 
         it "should park an unknown kind in unsupported instead of dropping or raising it" do

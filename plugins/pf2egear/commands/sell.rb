@@ -77,7 +77,6 @@ module AresMUSH
           return
         end
 
-        purse = enactor.pf2_money
 
         itemname = item_id.name
         price = (item_id.price) / 2
@@ -100,9 +99,7 @@ module AresMUSH
           item_id.update(quantity: item_qty - q)
         end
 
-        enactor.update(pf2_money: purse + to_be_paid)
-
-        Pf2egear.record_money_history(enactor, 'Item Vendor', to_be_paid, "Item Sale: #{itemname}")
+        Pf2egear.pay_player(enactor, to_be_paid, 'Item Vendor', "Item Sale: #{itemname}")
 
         client.emit_success t('pf2egear.item_sold_ok', :item => itemname, :cost => Pf2egear.display_money(to_be_paid), :quantity => q)
 

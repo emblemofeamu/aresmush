@@ -86,15 +86,14 @@ module AresMUSH
 
         # Let's do it.
 
-        to_purse = payee.pf2_money
-
-        from_purse = from_purse - actual_value
-
-        to_purse = to_purse + actual_value
+        # One transfer, two entries. They share a reference so the two halves can be matched
+        # up later - before, they were related only by having opposite signs and, with luck,
+        # the same timestamp.
+        transfer = "transfer-#{Time.now.to_i}-#{rand(100000)}"
 
         # Don't bother tracking money totals for a staffer.
-        payer.update(pf2_money: from_purse) unless staff_payer
-        payee.update(pf2_money: to_purse) unless staff_payee
+        Pf2egear.pay_player(payer, -actual_value, payee.name, "Payment to #{payee.name}", transfer) unless staff_payer
+        Pf2egear.pay_player(payee, actual_value, payer.name, "Payment from #{payer.name}", transfer) unless staff_payee
 
         success_msg = taking_money ?
                 t('pf2egear.money_taken_ok',
@@ -121,9 +120,6 @@ module AresMUSH
             :value => self.value,
             :cointype => self.cointype
           )
-
-        Pf2egear.record_money_history(payee, payer.name, actual_value, "Payment from #{payer.name}")
-        Pf2egear.record_money_history(payer, payee.name, -actual_value, "Payment to #{payee.name}")
 
         Login.notify(target_char, :pf2_money, recipient_msg, actual_value)
 

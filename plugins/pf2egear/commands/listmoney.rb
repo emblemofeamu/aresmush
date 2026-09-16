@@ -21,17 +21,10 @@ module AresMUSH
 
         char = Pf2e.get_character(self.character, enactor)
 
-        history = char.pf2_money_history.reverse
-        items_per_page = 10
-        total_pages = (history.count / items_per_page)
-        total_pages = total_pages + 1 if (history.count % items_per_page != 0)
-
-        page = cmd.page
-        page_index_from_end = [ total_pages - page, 0 ].max
-        offset = page_index_from_end * items_per_page
-        page_batch = history[offset, items_per_page]
-
-        paginator = PaginateResults.new(page, total_pages, page_batch, offset)
+        # Paged against the audit index, so this costs the same at ten entries or a hundred
+        # thousand. Page 1 is now the *newest* page, matching xp/history - this command used
+        # to count backwards from the end, so page 1 was the oldest.
+        paginator = Pf2e::Audit.paginate(char, 'money', cmd.page, 10)
         if (paginator.out_of_bounds?)
           client.emit_failure paginator.out_of_bounds_msg
           return

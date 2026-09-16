@@ -91,9 +91,7 @@ module AresMUSH
 
         Pf2egear.create_item(enactor, self.category, item_name, q, item_info)
 
-        enactor.update(pf2_money: (purse - cost))
-
-        Pf2egear.record_money_history(enactor, 'Item Vendor', -cost, "Purchase #{item_name}")
+        Pf2egear.pay_player(enactor, -cost, 'Item Vendor', "Purchase #{item_name}")
 
         client.emit_success t('pf2egear.item_bought_ok', :item => item_name, :cost => Pf2egear.display_money(cost), :quantity => q)
 

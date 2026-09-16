@@ -79,7 +79,6 @@ module AresMUSH
           'cg_skills' => data['cg_skills'] || [],
           'sheet' => {
             'level' => sheet['level'] || (data['level'] || 1).to_i,
-            'xp' => sheet['xp'] || 0,
             'skills' => sheet['skills'] || {},
             'lores' => sheet['lores'] || {},
             'feats' => sheet['feats'] || {},

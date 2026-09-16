@@ -74,16 +74,14 @@ module AresMUSH
         'set_prof' => {
           'key' => 'key', 'sheet' => 'profs',
           'apply' => lambda { |sheet, p| (sheet['profs'][p['group']] ||= {})[p['key']] = p['to'] }
-        },
-        'xp_award' => {
-          'key' => 'amount',
-          'apply' => lambda { |sheet, p| sheet['xp'] = sheet['xp'] + p['amount'].to_i }
-        },
-        'xp_spend' => {
-          'key' => 'amount',
-          'apply' => lambda { |sheet, p| sheet['xp'] = sheet['xp'] - p['amount'].to_i }
         }
       }.freeze
+
+      # XP and money are deliberately absent. They are counters, not build history: a character
+      # accumulates thousands of transactions where they accumulate a hundred grants, and
+      # folding them meant every sheet read - one that only wanted to know which feats a
+      # character has - walked the lot. They live in Pf2e::Audit now, with the running total on
+      # the character. See docs/plans/2026-09-16-xp-and-money-balances.md.
 
       # Kept as the old name so callers and specs that ask "what is this kind's payload key"
       # keep working.
@@ -113,7 +111,6 @@ module AresMUSH
       def self.empty_sheet(level)
         {
           'level' => level.to_i,
-          'xp' => 0,
           'skills' => {},
           'lores' => {},
           'boosts' => {},
@@ -174,7 +171,6 @@ module AresMUSH
 
       # Attributes on Character that are written straight from the derived sheet.
       SHEET_ATTRS = {
-        'pf2_xp' => 'xp',
         'pf2_feats' => 'feats',
         'pf2_features' => 'features',
         'pf2_traits' => 'traits',
@@ -187,9 +183,10 @@ module AresMUSH
       # While a draft is open - an advancement between `advance` and `advance/done` - the
       # character's own lists ARE the draft, holding picks the fold has never seen. Writing
       # the fold over them mid-flight silently destroys the player's work, so a draft plan
-      # touches only what no draft step writes. XP is the whole of that: it moves by grant
-      # and by grant alone.
-      DRAFT_SAFE_ATTRS = [ 'pf2_xp' ].freeze
+      # touches nothing here. It stays as an empty list rather than going away because the
+      # distinction is the point: if some future sheet attribute is genuinely never written by
+      # a draft step, this is where it says so.
+      DRAFT_SAFE_ATTRS = [].freeze
 
       # Diffs the derived sheet against what the live objects hold. Pure, so the hard part
       # of materialising is testable; the applier that runs these ops is dumb on purpose.

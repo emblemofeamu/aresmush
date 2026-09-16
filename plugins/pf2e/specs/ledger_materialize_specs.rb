@@ -47,10 +47,12 @@ module AresMUSH
           expect(ops).to include({ 'op' => 'set_skill', 'skill' => 'Khazadi Lore', 'to' => 'trained' })
         end
 
-        it "should set XP when the total has moved" do
+        # The materialiser must not touch the XP total any more: Pf2e::Audit owns it, and a
+        # fold writing over it would undo awards the ledger never knew about.
+        it "should leave the XP total alone" do
           ops = Ledger.plan(sheet('xp' => 2000), current('xp' => 0))
 
-          expect(ops).to include({ 'op' => 'set_attr', 'attr' => 'pf2_xp', 'value' => 2000 })
+          expect(ops.map { |op| op['attr'] }).to_not include 'pf2_xp'
         end
 
         it "should write the feat buckets when they differ" do
