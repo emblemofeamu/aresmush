@@ -223,28 +223,23 @@ module AresMUSH
       result
     end
 
+    # Which of the four skill markers a restriction asks for. A slot can be limited to a Lore,
+    # to something the character is untrained in, or both - and Advancement::Raises reads the
+    # same vocabulary to decide what may spend it.
+    SKILL_SLOT_TOKENS = {
+      [ false, false ] => 'open',
+      [ false, true ] => 'open untrained',
+      [ true, false ] => 'open lore',
+      [ true, true ] => 'open lore untrained'
+    }.freeze
+
     def self.add_open_skill_slot(to_assign, advancement, lore=false, untrained_only=false)
-      token = if lore
-        untrained_only ? 'open lore untrained' : 'open lore'
-      else
-        untrained_only ? 'open untrained' : 'open'
-      end
+      token = SKILL_SLOT_TOKENS[[ !!lore, !!untrained_only ]]
+      delta = [ Slots.open('raise skill', :token => token) ]
 
-      to_assign['raise skill'] = if to_assign['raise skill'].is_a?(Array)
-        to_assign['raise skill'] + [token]
-      elsif to_assign['raise skill'].nil?
-        [token]
-      else
-        [to_assign['raise skill'], token]
-      end
-
-      advancement['raise skill'] = if advancement['raise skill'].is_a?(Array)
-        advancement['raise skill'] + [token]
-      elsif advancement['raise skill'].nil?
-        [token]
-      else
-        [advancement['raise skill'], token]
-      end
+      # A scalar left over from an older shape is folded into the list by Slots.open.
+      to_assign.replace(Slots.apply(to_assign, delta))
+      advancement.replace(Slots.apply(advancement, delta))
     end
 
     def self.add_training_skills(char, skills, to_assign, advancement)

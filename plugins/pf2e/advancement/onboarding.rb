@@ -35,12 +35,12 @@ module AresMUSH
               held = ctx[:char].pf2_faith['deity']
 
               if held.blank?
-                ctx[:to_assign]['archetype deity'] = 'open'
+                ctx[:slot].call(Slots.set('archetype deity', 'open'))
 
                 next [ [ 'pf2e.adv_archetype_deity_select', { :archetype => ctx[:archetype] } ] ]
               end
 
-              ctx[:to_assign]['archetype deity'] = held
+              ctx[:slot].call(Slots.set('archetype deity', held))
               ctx[:advancement]['archetype_deity'] = held
 
               msgs = [ [ 'pf2e.adv_archetype_deity_assigned', { :deity => held, :archetype => ctx[:archetype] } ] ]
@@ -74,7 +74,7 @@ module AresMUSH
 
               next [] if choices.empty?
 
-              ctx[:to_assign]['raise skill choice'] = (Array(ctx[:to_assign]['raise skill choice']) + choices).uniq
+              ctx[:slot].call(Slots.add('raise skill choice', choices))
 
               [ [ 'pf2e.adv_archetype_open_skill_assigned', { :skills => choices.join(", ") } ] ]
             }
@@ -87,8 +87,7 @@ module AresMUSH
 
               next [] if feats.empty?
 
-              ctx[:to_assign]['feats'] ||= {}
-              ctx[:to_assign]['feats']['general'] = (Array(ctx[:to_assign]['feats']['general']) + feats).uniq
+              ctx[:slot].call(Slots.add([ 'feats', 'general' ], feats))
 
               ctx[:advancement]['feats'] ||= {}
               ctx[:advancement]['feats']['general'] = (Array(ctx[:advancement]['feats']['general']) + feats).uniq
@@ -104,8 +103,7 @@ module AresMUSH
 
               next [] if types.empty?
 
-              ctx[:to_assign]['feats'] ||= {}
-              types.each { |type| ctx[:to_assign]['feats'][type] = Array(ctx[:to_assign]['feats'][type]) + [ 'open' ] }
+              ctx[:slot].call(types.map { |type| Slots.open([ 'feats', type ]) })
 
               types.include?('skill') ? [ [ 'pf2e.adv_archetype_open_skill_feat_assigned', {} ] ] : []
             }
@@ -130,7 +128,7 @@ module AresMUSH
                 abilities = Onboarding.names(ctx[:info]['key_abil'])
 
                 if abilities.size > 1
-                  ctx[:to_assign]['archetype key ability'] = abilities
+                  ctx[:slot].call(Slots.set('archetype key ability', abilities))
                   msgs << [ 'pf2e.adv_archetype_key_ability_select', { :archetype => ctx[:archetype], :options => abilities.join(", ") } ]
                 else
                   chosen = abilities.first || ctx[:char].combat&.key_abil
@@ -209,7 +207,7 @@ module AresMUSH
 
               next [] if specialties.blank?
 
-              ctx[:to_assign]['archetype_specialty'] = 'open'
+              ctx[:slot].call(Slots.set('archetype_specialty', 'open'))
 
               [ [ 'pf2e.adv_archetype_specialty_select',
                   { :archetype => ctx[:archetype], :options => specialties.keys.sort.join(", ") } ] ]
@@ -241,6 +239,11 @@ module AresMUSH
             :to_assign => to_assign,
             :advancement => advancement
           }
+
+          # Every change a row makes to the pool of things still to pick goes through the slot
+          # vocabulary, so what an archetype opens up is expressed the same way as what a
+          # level opens up. See Pf2e::Slots.
+          ctx[:slot] = lambda { |*deltas| to_assign.replace(Slots.apply(to_assign, deltas.flatten)) }
 
           PAYLOAD.flat_map do |row|
             # A row reading the archetype rather than its dedication payload says so; the rest
@@ -313,7 +316,7 @@ module AresMUSH
 
           # nil means the answer depends on something not chosen yet.
           if allowed.nil?
-            ctx[:to_assign]['archetype_sanctification'] = 'open'
+            ctx[:slot].call(Slots.set('archetype_sanctification', 'open'))
 
             return [ [ rule['needs'], { :archetype => ctx[:archetype] } ] ]
           end
@@ -321,13 +324,13 @@ module AresMUSH
           held = ctx[:char].pf2_faith['sanctification']
 
           if !held.blank? && allowed.any? { |s| s.to_s.casecmp?(held.to_s) }
-            ctx[:to_assign]['archetype_sanctification'] = held
+            ctx[:slot].call(Slots.set('archetype_sanctification', held))
             ctx[:advancement]['archetype_sanctification'] = held
 
             return [ [ 'pf2e.adv_archetype_sanctification_auto', { :sanctification => held, :archetype => ctx[:archetype] } ] ]
           end
 
-          ctx[:to_assign]['archetype_sanctification'] = 'open'
+          ctx[:slot].call(Slots.set('archetype_sanctification', 'open'))
 
           # A Champion forced to Holy gets its own line, since "pick one of: Holy" reads oddly.
           if ctx[:archetype] == 'Cleric Archetype' && ctx[:base_class].to_s.casecmp?('Champion')

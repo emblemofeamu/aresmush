@@ -1581,16 +1581,10 @@ module AresMUSH
       stored.each_with_object({}) { |(name, slots), pending| pending[name] = Array(slots) }
     end
 
+    # A choice a feat carries is a slot like any other, so opening one is the slot vocabulary
+    # rather than an inline array append - see Pf2e::Slots.
     def self.open_feat_choice(to_assign, choice_name, count = 1)
-      choices = to_assign['feat choice'] || {}
-      slots = Array(choices[choice_name])
-
-      count.times { slots << 'open' }
-
-      choices[choice_name] = slots
-      to_assign['feat choice'] = choices
-
-      to_assign
+      to_assign.replace(Slots.apply(to_assign, [ Slots.open([ 'feat choice', choice_name ], :count => count) ]))
     end
 
     def self.fill_feat_choice(to_assign, choice_name, value)
@@ -1598,13 +1592,11 @@ module AresMUSH
       key = choices.keys.find { |k| k.to_s.casecmp?(choice_name.to_s) }
       return false unless key
 
-      slots = Array(choices[key])
-      index = slots.index('open')
-      return false unless index
+      filled = Slots.apply(to_assign, [ Slots.fill([ 'feat choice', key ], value) ])
+      return false if filled.is_a?(Err)
 
-      slots[index] = value
-      choices[key] = slots
-      to_assign['feat choice'] = choices
+      to_assign.replace(filled)
+      slots = Array(to_assign['feat choice'][key])
 
       # A narrowing only applies while the slot it was opened for is still open.
       clear_choice_filter(to_assign, key) unless slots.include?('open')

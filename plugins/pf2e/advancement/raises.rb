@@ -120,11 +120,7 @@ module AresMUSH
           level_failure = too_low?(state, skill)
           return level_failure if level_failure
 
-          Ok.new(:state => state.merge(
-              'to_assign' => state['to_assign'].merge(key => skill),
-              'advancement' => state['advancement'].merge(key => skill)
-            ))
-            .with_message('pf2e.adv_raise_selected', 'name' => skill)
+          staged(state, key, skill)
         end
 
         def self.spend_skill_slot(state, key, skill)
@@ -132,40 +128,45 @@ module AresMUSH
           return level_failure if level_failure
 
           slots = Array(state['to_assign'][key])
-          open = slots.each_index.select { |i| Pf2e.open_skill_token?(slots[i]) }
+          open = slots.select { |s| Pf2e.open_skill_token?(s) }
 
-          # Nothing open means the slot is a bare value rather than a list of markers.
+          # Nothing open means the slot holds an earlier pick rather than markers, and picking
+          # again replaces it - which is how the command has always behaved.
           if open.empty?
-            return Ok.new(:state => state.merge(
-                'to_assign' => state['to_assign'].merge(key => skill),
-                'advancement' => state['advancement'].merge(key => skill)
-              ))
-              .with_message('pf2e.adv_raise_selected', 'name' => skill)
+            return staged(state, key, skill)
           end
 
           untrained = current_prof(state, skill).to_s.casecmp?('untrained')
-          wanted = SLOT_PREFERENCE[[ Pf2e.lore_skill?(skill), untrained ]]
 
-          index = wanted.lazy
-            .map { |token| open.find { |i| slots[i].to_s.casecmp?(token) } }
-            .find { |i| !i.nil? }
+          # Which markers this skill is allowed to spend, most specific first. Slots.fill takes
+          # the first of them that is actually open.
+          allowed = SLOT_PREFERENCE[[ Pf2e.lore_skill?(skill), untrained ]]
+          filled = Slots.apply(state['to_assign'], [ Slots.fill(key, skill, :tokens => allowed) ])
 
-          if index.nil?
-            blocked = open.any? { |i| Pf2e.untrained_only_token?(slots[i]) } && !untrained
+          if filled.is_a?(Err)
+            # Say *why* it could not be spent: a slot reserved for untrained skills reads
+            # differently from one reserved for lores.
+            blocked = open.any? { |s| Pf2e.untrained_only_token?(s) } && !untrained
 
             return Err.new(:untrained_only, 'pf2e.adv_untrained_only') if blocked
 
             return Err.new(:lore_required, 'pf2e.adv_lore_required')
           end
 
-          filled = slots.dup
-          filled[index] = skill
-
           Ok.new(:state => state.merge(
-              'to_assign' => state['to_assign'].merge(key => filled),
-              'advancement' => state['advancement'].merge(key => filled)
+              'to_assign' => filled,
+              'advancement' => state['advancement'].merge(key => filled[key])
             ))
             .with_message('pf2e.adv_raise_selected', 'name' => skill)
+        end
+
+        # A re-pick, replacing what was chosen before.
+        def self.staged(state, key, value)
+          Ok.new(:state => state.merge(
+              'to_assign' => state['to_assign'].merge(key => value),
+              'advancement' => state['advancement'].merge(key => value)
+            ))
+            .with_message('pf2e.adv_raise_selected', 'name' => value)
         end
 
         # ------------------------------------------------------------------------------
