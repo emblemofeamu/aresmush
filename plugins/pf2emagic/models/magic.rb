@@ -136,11 +136,16 @@ module AresMUSH
           spell_abil[charclass] = value
           magic.spell_abil = spell_abil
 
+          Pf2emagic::Entries.grant_casting!(char, charclass, :ability => value)
+
         when "tradition"
-          # magic.tradition structure: { charclass => [ trad, prof ] }
+          # The hash is still the register of which classes cast at all - Entries.derived reads
+          # it to find them - so it is written as well as the row, until the spell lists move too.
           tradition = magic.tradition
           value.each_pair do |trad, prof|
             tradition[charclass] = [ trad, prof ]
+
+            Pf2emagic::Entries.grant_casting!(char, charclass, :tradition => trad, :proficiency => prof)
           end
 
           magic.tradition = tradition

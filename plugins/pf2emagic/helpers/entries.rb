@@ -111,16 +111,50 @@ module AresMUSH
 
       # Everything a live character casts from.
       #
-      # Stored rows win where there are any, and the projection from the legacy hashes fills in
-      # otherwise. That is the seam: a category of source can be moved to rows without any
-      # reader changing, and the readers cannot tell which side of the move they are on.
+      # This is the seam, and it merges rather than choosing. For each source, whatever has been
+      # stored as a row wins, and the projection from the legacy hashes fills in the fields that
+      # have not moved yet. So one field of one category can be migrated at a time - a class's
+      # tradition before its repertoire - and a reader sees a complete entry throughout, unable
+      # to tell which side of the move each field came from.
+      #
+      # A category migrated in full simply has nothing left to fill in.
       def self.for_magic(magic)
         return [] unless magic
 
-        stored(magic.character) + derived(magic, :except => stored_categories(magic.character))
+        rows = stored(magic.character)
+        projected = derived(magic)
+
+        merged = projected.map do |entry|
+          row = rows.find { |r| same_source?(r, entry) }
+
+          row ? fill_gaps(row, entry) : entry
+        end
+
+        # Sources that exist only as rows - a focus type, an item, a ritual - have nothing to
+        # project from.
+        merged + rows.reject { |row| projected.any? { |entry| same_source?(row, entry) } }
       end
 
-      def self.derived(magic, except: [])
+      # Two descriptions of the same source. Name and category together, because a name alone is
+      # not unique: a Bard's repertoire and their composition focus spells share one.
+      def self.same_source?(row, entry)
+        row['name'].to_s.casecmp?(entry['name'].to_s) && row['category'].to_s == entry['category'].to_s
+      end
+
+      # The row, with anything it has not got taken from the projection. A row's blank is treated
+      # as "not migrated yet" rather than as "empty", which is the price of migrating field by
+      # field - and the reason a category should not be left half-moved for long.
+      def self.fill_gaps(row, projected)
+        row.each_with_object({}) do |(field, value), merged|
+          merged[field] = blank_field?(value) ? projected[field] : value
+        end
+      end
+
+      def self.blank_field?(value)
+        value.nil? || value == {} || value == [] || value == ""
+      end
+
+      def self.derived(magic)
         return [] unless magic
 
         attributes = ATTRIBUTES.each_with_object({}) { |attr, h| h[attr] = magic.send(attr) }
@@ -128,7 +162,7 @@ module AresMUSH
           h[source] = Pf2emagic.get_caster_type(source)
         end
 
-        derive(attributes, :caster_types => types).reject { |e| except.include?(e['category']) }
+        derive(attributes, :caster_types => types)
       end
 
       # ------------------------------------------------------------------------------
@@ -139,12 +173,6 @@ module AresMUSH
         return [] unless char && char.respond_to?(:spellcasting_entries)
 
         char.spellcasting_entries.to_a.map { |row| row.to_h }
-      end
-
-      # Which categories have been migrated to rows for this character, so the projection does
-      # not also produce them and double them up.
-      def self.stored_categories(char)
-        stored(char).map { |e| e['category'] }.uniq
       end
 
       def self.rows(char, category)
@@ -235,6 +263,24 @@ module AresMUSH
 
       def self.proficiency_of(magic, source)
         (find(magic, source) || {})['proficiency']
+      end
+
+      # Records what a class or archetype casts at. Its category - prepared or spontaneous -
+      # comes from config rather than being passed in, so a caller cannot get it wrong.
+      def self.grant_casting!(char, source, tradition: nil, proficiency: nil, ability: nil)
+        category = Pf2emagic.get_caster_type(source)
+
+        return nil unless category
+
+        existing = stored(char).find { |e| e['name'].to_s.casecmp?(source.to_s) && e['category'] == category } || {}
+
+        store!(char,
+          'name' => source,
+          'source_type' => source.to_s.downcase.include?('archetype') ? 'archetype' : 'class',
+          'category' => category,
+          'tradition' => tradition || existing['tradition'],
+          'proficiency' => proficiency || existing['proficiency'],
+          'ability' => ability || existing['ability'])
       end
 
       # ------------------------------------------------------------------------------
