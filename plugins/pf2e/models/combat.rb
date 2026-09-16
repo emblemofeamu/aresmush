@@ -17,6 +17,11 @@ module AresMUSH
     attribute :unarmed_attacks, :type => DataType::Hash, :default => {}
     attribute :defense, :type => DataType::Hash, :default => {}
 
+    # The Rogue's sneak attack, as a dice expression ('1d6' … '4d6'). The class table has set
+    # this at chargen, 5, 11 and 17 all along; there was no attribute to hold it, so the value
+    # was dropped and `roll sneak attack` raised NoMethodError.
+    attribute :sneak_attack
+
     reference :character, "AresMUSH::Character"
 
 
@@ -53,61 +58,67 @@ module AresMUSH
       return combat
     end
 
+    # How each key in a `combat_stats` block is written.
+    #
+    # `merge` keys hold a hash of name => proficiency and take the block's entries one at a
+    # time; `set` keys hold a single value. A table rather than a `case` because the failure mode
+    # of the `case` was silence: it had no `else`, so a key nobody handled was dropped without a
+    # word, and five keys in the shipped class tables are exactly that - `armor_light` and
+    # `armor_unarmored` in the Alchemist's table, `unarmed`, `simple` and `martial` in the
+    # Rogue's, each a proficiency the class never received.
+    STAT_WRITERS = {
+      'saves' => 'merge',
+      'armor_prof' => 'merge',
+      'weapon_prof' => 'merge',
+      'weapon_group_prof' => 'merge',
+      'unarmed_attacks' => 'merge',
+      'defense' => 'merge',
+      'perception' => 'set',
+      'class_dc' => 'set',
+      'key_abil' => 'set',
+      'sneak_attack' => 'set'
+    }.freeze
+
     def self.update_combat_stats(char, info)
       # Used when something taken later modifies initial combat stats.
       combat = get_create_combat_obj(char)
 
       info.each_pair do |key, value|
-        case key
-        when 'saves'
-          saves = combat.saves
-          value.each_pair do |save, new_value|
-            saves[save] = new_value
-          end
-          combat.update(saves: saves)
-        when 'armor_prof'
-          profs = combat.armor_prof
-          value.each_pair do |type, new_prof|
-            profs[type] = new_prof
-          end
-          combat.update(armor_prof: profs)
-        when 'perception'
-          combat.update("#{key}": value)
-        when 'class_dc'
-          combat.update("#{key}": value)
-        when 'archetype_class_dcs'
-          existing = combat.archetype_class_dcs || {}
+        name = key.to_s
 
-          value.each_pair do |name, info|
-            existing[name] ||= {}
-            normalized_info = {}
+        # Archetypes nest a whole block per archetype, so it keeps its own arm.
+        if name == 'archetype_class_dcs'
+          write_archetype_dcs(combat, value)
+          next
+        end
 
-            (info || {}).each_pair do |info_key, info_value|
-              normalized_info[info_key.to_s] = info_value
-            end
-
-            existing[name].merge!(normalized_info)
-          end
-
-          combat.update(archetype_class_dcs: existing)
-        when 'weapon_prof'
-          profs = combat.weapon_prof
-          value.each_pair do |type, new_prof|
-            profs[type] = new_prof
-          end
-          combat.update(weapon_prof: profs)
-        when 'unarmed_attacks'
-          unarmed = combat.unarmed_attacks
-
-          value.each_pair do |attack, info|
-            unarmed[attack] = info
-          end
-
-          combat.update(unarmed_attacks: unarmed)
+        case STAT_WRITERS[name]
+        when 'merge'
+          existing = combat.send(name) || {}
+          (value || {}).each_pair { |item, new_value| existing[item] = new_value }
+          combat.update(name.to_sym => existing)
+        when 'set'
+          combat.update(name.to_sym => value)
+        else
+          Global.logger.error "Unknown combat stat '#{name}' for #{char.name}; it was not applied."
         end
       end
 
       return combat
+    end
+
+    def self.write_archetype_dcs(combat, value)
+      existing = combat.archetype_class_dcs || {}
+
+      (value || {}).each_pair do |name, info|
+        existing[name] ||= {}
+
+        normalized = (info || {}).each_with_object({}) { |(k, v), out| out[k.to_s] = v }
+
+        existing[name].merge!(normalized)
+      end
+
+      combat.update(archetype_class_dcs: existing)
     end
 
     def self.get_save_bonus(char, save)

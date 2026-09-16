@@ -210,48 +210,30 @@ module AresMUSH
       list[level].to_i
     end
 
-    # { restriction => count } for one rank.
+    # { restriction => count } for one rank. The restrictions themselves - which slots each
+    # kind grants and what may go in them - are Pf2emagic::Restrictions' business.
     def self.restricted_slots_at(char, charclass, level)
-      magic = char.magic
-      return {} unless magic
-
-      for_class = (magic.restricted_slots || {})[charclass]
-      return {} unless for_class.is_a?(Hash)
-
-      for_class.each_with_object({}) do |(restriction, by_rank), hash|
-        count = Pf2emagic.restricted_count_at_rank(by_rank, level)
-        hash[restriction] = count if count.positive?
-      end
+      Pf2emagic::Restrictions.counts_at(char, charclass, level)
     end
 
+    # Which spells may go in one restriction's slots.
     def self.restricted_spell_list(char, charclass, restriction, level)
-      case restriction.to_s.downcase
-      when 'curriculum'
-        Pf2emagic.curriculum_spells(char, charclass, level)
-      else
-        Global.logger.error "Unknown restricted slot '#{restriction}' for #{char.name}."
-        []
-      end
+      Pf2emagic::Restrictions.eligible(char, charclass, restriction, level)
     end
 
     # Whether a set of prepared spells fits the slots available at a rank.
+    #
+    # An assignment, not a subtraction: the pools are the open slots plus one per restriction,
+    # and Pf2emagic::SlotFit works out whether every spell has somewhere to go. The old version
+    # compared counts, enforced the first restriction only and logged that it was ignoring the
+    # rest, so a caster with two restricted pools at one rank had the second accept anything.
     def self.prepared_set_fits?(char, charclass, level, spells)
-      open = open_spells_per_day(char, charclass, level)
-      restricted = restricted_slots_at(char, charclass, level)
+      pools = Pf2emagic::SlotFit.from_slots(
+        open_spells_per_day(char, charclass, level),
+        Pf2emagic::Restrictions.at(char, charclass, level)
+      )
 
-      return spells.size <= open if restricted.empty?
-      return false if spells.size > open + restricted.values.sum
-
-      if restricted.size > 1
-        Global.logger.error "More than one restricted slot type at rank #{level} for #{char.name}; only the first is enforced."
-      end
-
-      restriction, count = restricted.first
-      eligible = restricted_spell_list(char, charclass, restriction, level).map { |s| s.to_s.downcase }
-
-      others = spells.reject { |s| eligible.include?(s.to_s.downcase) }
-
-      others.size <= open && spells.size <= open + count
+      Pf2emagic::SlotFit.fits?(pools, spells)
     end
 
     def self.max_spells_per_day(char, charclass, level)

@@ -24,80 +24,126 @@ module AresMUSH
       [ level - step, 0 ].max
     end
 
-    def self.get_linked_attr_mod(char, value, type=nil)
-      attr_type = type.is_a?(String) ? type.downcase : type
+    # The six abilities, and every word that names one: the full name and the three-letter
+    # shorthand players actually type.
+    ABILITIES = %w(Strength Dexterity Constitution Intelligence Wisdom Charisma).freeze
 
-      case attr_type
-      when 'skill'
-        skill_mod = Pf2eSkills.get_linked_attr(value)
-        return Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, skill_mod))
-      when 'lore'
-        return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Intelligence')
-      when nil
-        case value.downcase
-        when 'fort', 'fortitude'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Constitution')
-        when 'ref', 'reflex', 'ranged', 'finesse'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Dexterity')
-        when 'will', 'perception'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Wisdom')
-        when 'melee'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Strength')
-        end
-      end
+    ABILITY_BY_WORD = ABILITIES.each_with_object({}) { |ability, words|
+      words[ability.downcase] = ability
+      words[ability[0, 3].downcase] = ability
+    }.freeze
+
+    # The ability a save, an attack kind or perception is rolled off. PF2e fixes these, so they
+    # are a register rather than a decision.
+    LINKED_ABILITY = {
+      'fort' => 'Constitution', 'fortitude' => 'Constitution',
+      'ref' => 'Dexterity', 'reflex' => 'Dexterity', 'ranged' => 'Dexterity', 'finesse' => 'Dexterity',
+      'will' => 'Wisdom', 'perception' => 'Wisdom',
+      'melee' => 'Strength'
+    }.freeze
+
+    SAVES = %w(will fort fortitude ref reflex).freeze
+
+    # An attack keyword names which ability the attack uses; the bonus itself comes from the
+    # weapon, so the keyword contributes nothing of its own to a roll.
+    ATTACK_KINDS = %w(melee ranged unarmed finesse).freeze
+
+    # The ability modifier behind a value, for a roll that is looking one up rather than adding
+    # it. `type` says how to read `value`: a skill's linked ability, a lore's Intelligence, or -
+    # with no type - a save or attack keyword.
+    def self.get_linked_attr_mod(char, value, type=nil)
+      ability = case type.to_s.downcase
+                when 'skill' then Pf2eSkills.get_linked_attr(value)
+                when 'lore'  then 'Intelligence'
+                when ''      then LINKED_ABILITY[value.to_s.downcase]
+                end
+
+      return nil unless ability
+
+      ability_mod(char, ability)
     end
 
+    def self.ability_mod(char, ability)
+      Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, ability))
+    end
+
+    # A word in a roll string, and how to turn it into a number.
+    #
+    # Rows are tried in order and the last one matches anything, so a word this does not
+    # recognise is looked up as a skill and otherwise contributes nothing. Adding a keyword is
+    # adding a row - it used to be a `case` where each arm reached for a different helper, and
+    # one arm resolved an ability by object and forgot `.first`, so every abbreviated ability in
+    # a roll string raised NoMethodError.
+    #
+    # A row may return an array of individual dice, which `parse_roll_string` shows in brackets
+    # and flattens into the total. Sneak attack does; that is deliberate.
+    KEYWORDS = [
+      {
+        'name' => 'shenanigans',
+        'match' => lambda { |word| word == 'shenanigans' },
+        'value' => lambda { |_char, _word| Pf2e.shenanigans }
+      },
+      {
+        'name' => 'save',
+        'match' => lambda { |word| SAVES.include?(word) },
+        'value' => lambda { |char, word| Pf2eCombat.get_save_bonus(char, word) }
+      },
+      {
+        'name' => 'perception',
+        'match' => lambda { |word| word == 'perception' },
+        'value' => lambda { |char, _word| Pf2eCombat.get_perception(char) }
+      },
+      {
+        'name' => 'attack',
+        'match' => lambda { |word| ATTACK_KINDS.include?(word) },
+        'value' => lambda { |_char, _word| 0 }
+      },
+      {
+        'name' => 'ability',
+        'match' => lambda { |word| ABILITY_BY_WORD.key?(word) },
+        'value' => lambda { |char, word| Pf2e.ability_mod(char, ABILITY_BY_WORD[word]) }
+      },
+      {
+        'name' => 'sneak attack',
+        'match' => lambda { |word| word == 'sneak attack' },
+        'value' => lambda { |char, _word| Pf2e.sneak_attack_dice(char) }
+      },
+      {
+        'name' => 'skill',
+        'match' => lambda { |_word| true },
+        'value' => lambda { |char, word| Pf2e.skill_keyword_bonus(char, word) }
+      }
+    ].freeze
+
     def self.get_keyword_value(char, word)
-      downcase_word = word.downcase
+      downcased = word.to_s.downcase
+      keyword = KEYWORDS.find { |k| k['match'].call(downcased) }
 
-      # Word could be many things - figure out which
-      case downcase_word
-      when 'shenanigans'
-        t = Time.now
-        sides = [ 2, 3, 4, 6, 8, 10, 12, 20, 30, 100, 1000 ].sample
-        amount = rand(1..50)
+      keyword['value'].call(char, downcased)
+    end
 
-        die_roll = Pf2e.roll_dice(amount, sides).sum
-        value = t.to_i.odd? ? die_roll : -die_roll
-      when 'will', 'fort', 'fortitude', 'ref', 'reflex'
-        value = Pf2eCombat.get_save_bonus(char, downcase_word)
+    # A joke roll: some number of some die, as often negative as not.
+    def self.shenanigans
+      sides = [ 2, 3, 4, 6, 8, 10, 12, 20, 30, 100, 1000 ].sample
+      roll = Pf2e.roll_dice(rand(1..50), sides).sum
 
-      when 'melee', 'ranged', 'unarmed', 'finesse' then 0
+      Time.now.to_i.odd? ? roll : -roll
+    end
 
-      when 'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'
-        value = Pf2eAbilities.abilmod Pf2eAbilities.get_score(char, word)
+    def self.sneak_attack_dice(char)
+      dice = char.combat&.sneak_attack
+      return 0 if !dice
 
-      when 'str', 'dex', 'con', 'int', 'wis', 'cha'
-        shortname = word.upcase
-        obj = char.abilities.select { |a| a.shortname == shortname }
-        return 0 if !obj
-        value = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, obj.name))
+      amount, sides = dice.gsub("d", " ").split
 
-      when 'sneak attack'
-        sa_dice = char.combat&.sneak_attack
+      Pf2e.roll_dice(amount.to_i, sides.to_i)
+    end
 
-        return 0 if !sa_dice
+    def self.skill_keyword_bonus(char, word)
+      name = word.capitalize
+      return 0 unless Global.read_config('pf2e_skills').keys.include?(name)
 
-        dice = sa_dice.gsub("d"," ").split
-        amount = dice[0].to_i
-        sides = dice[1].to_i
-
-        value = Pf2e.roll_dice(amount, sides)
-
-      when 'perception'
-        value = Pf2eCombat.get_perception(char)
-      else
-
-        title_word = downcase_word.capitalize
-        skills = Global.read_config('pf2e_skills').keys
-        if skills.include?(title_word)
-          value = Pf2eSkills.get_skill_bonus(char, title_word) + Pf2egear.bonus_from_item(char, title_word)
-        else
-          value = 0
-        end
-
-        value
-      end
+      Pf2eSkills.get_skill_bonus(char, name) + Pf2egear.bonus_from_item(char, name)
     end
 
     def self.roll_dice(amount=1, sides=20)
@@ -225,22 +271,6 @@ module AresMUSH
     def self.award_xp(target, amount, awarded_by = 'System', reason = nil, ref = nil)
       Pf2e::Audit.post(target, 'xp', amount, :by => awarded_by, :reason => reason, :ref => ref)
     end
-
-    def self.record_history(char, record_type, awarded_by, amount, reason)
-      new_record = {
-        'from' => awarded_by,
-        'amount' => amount,
-        'reason' => reason.slice(0,60)
-      }
-      timestamp = Time.now
-
-      full_list = char.pf2_award_history
-      type_list = full_list[record_type]
-      type_list[timestamp] = new_record
-      full_list[record_type] = type_list
-      char.update(pf2_award_history: full_list)
-    end
-
 
     def self.is_proficient?(char, category, name)
 

@@ -41,7 +41,7 @@ module AresMUSH
 
       def handle
 
-        # Which way is the money going?
+        # Which way is the money going? A negative value takes rather than gives.
 
         taking_money = self.value.negative?
 
@@ -52,48 +52,23 @@ module AresMUSH
           return
         end
 
-        if taking_money
-          payer = target_char
-          payee = enactor
-        else
-          payer = enactor
-          payee = target_char
-        end
-
-        staff_payer = payer.is_admin?
-        staff_payee = payee.is_admin?
-
-        # Does the person paying have enough money?
-        from_purse = payer.pf2_money
+        payer, payee = taking_money ? [ target_char, enactor ] : [ enactor, target_char ]
 
         actual_value = Pf2egear.convert_money(self.value.abs, self.cointype)
 
-        has_enough = true if staff_payer || (from_purse - actual_value) >= 0
+        outcome = Pf2egear::Payment.plan(payer, payee, actual_value)
 
-        if !has_enough
-          fail_msg = taking_money ?
-            t('pf2egear.not_enough_target',
-            :target => payer.name,
-            :item=>'money'
-            ) :
-            t('pf2egear.not_enough_you',
-            :item => 'money'
-          )
-
-          client.emit_failure fail_msg
+        if outcome.err?
+          # The same refusal reads differently depending on who is short of money.
+          if outcome.code == :insufficient && taking_money
+            client.emit_failure t('pf2egear.not_enough_target', :target => payer.name, :item => 'money')
+          else
+            client.emit_failure t(outcome.key, outcome.args.transform_keys(&:to_sym))
+          end
           return
         end
 
-        # Let's do it.
-
-        # One transfer, two entries. They share a reference so the two halves can be matched
-        # up later - before, they were related only by having opposite signs and, with luck,
-        # the same timestamp.
-        transfer = "transfer-#{Time.now.to_i}-#{rand(100000)}"
-
-        # Don't bother tracking money totals for a staffer.
-        Pf2egear.pay_player(payer, -actual_value, payee.name, "Payment to #{payee.name}", transfer) unless staff_payer
-        Pf2egear.pay_player(payee, actual_value, payer.name, "Payment from #{payer.name}", transfer) unless staff_payee
+        Pf2egear::Payment.post!(outcome.state)
 
         success_msg = taking_money ?
                 t('pf2egear.money_taken_ok',

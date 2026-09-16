@@ -74,6 +74,15 @@ module AresMUSH
       [ spell, deets ]
     end
 
+    # Whether one more spell fits in a prepared caster's spellbook at a rank.
+    #
+    # The same assignment problem as preparing spells into slots, one lifetime earlier: some
+    # entries at a rank are reserved - a Wizard's curriculum entry takes a school spell and
+    # nothing else - so it matters which of the proposed spells can sit in the reserved place,
+    # not just how many there are. Pf2emagic::SlotFit answers that.
+    #
+    # The old version enforced one restriction and logged that it was ignoring any others, so a
+    # second reserved entry at the same rank accepted anything at all.
     def self.spellbook_addition_fits?(char, charclass, level, spell, replacing=nil, scope=:all)
       magic = char.magic
       return true unless magic
@@ -85,18 +94,17 @@ module AresMUSH
       end
       return true unless for_class.is_a?(Hash)
 
-      restricted = for_class.each_with_object({}) do |(restriction, by_rank), hash|
+      restrictions = for_class.each_with_object({}) do |(restriction, by_rank), found|
         count = restricted_count_at_rank(by_rank, level)
-        hash[restriction] = count if count.positive?
+        next unless count.positive?
+
+        found[restriction] = {
+          'count' => count,
+          'eligible' => Pf2emagic::Restrictions.eligible(char, charclass, restriction, level)
+        }
       end
 
-      return true if restricted.empty?
-
-      if restricted.size > 1
-        Global.logger.error "More than one spellbook restriction at rank #{level} for #{char.name}; only the first is enforced."
-      end
-
-      restriction, count = restricted.first
+      return true if restrictions.empty?
 
       held = if scope == :advancement
         Array((Pf2e.preview_spellbook(char, charclass)[charclass] || {})[level])
@@ -104,10 +112,8 @@ module AresMUSH
         Array((magic.spellbook[charclass] || {})[level])
       end
 
-      capacity = held.size + pending_spellbook_picks(char, charclass, level)
-      open = capacity - count
-
-      return true if open >= capacity
+      total = held.size + pending_spellbook_picks(char, charclass, level)
+      open = total - restrictions.each_value.sum { |r| r['count'] }
 
       proposed = held + [ spell ]
 
@@ -116,10 +122,7 @@ module AresMUSH
         proposed.delete_at(out) if out
       end
 
-      eligible = Pf2emagic.restricted_spell_list(char, charclass, restriction, level).map { |s| s.to_s.downcase }
-      others = proposed.reject { |s| eligible.include?(s.to_s.downcase) }
-
-      others.size <= open
+      Pf2emagic::SlotFit.fits?(Pf2emagic::SlotFit.from_slots(open, restrictions), proposed)
     end
 
     def self.restricted_count_at_rank(by_rank, level)

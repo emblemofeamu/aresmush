@@ -163,31 +163,15 @@ module AresMUSH
           spells_per_day[charclass] = spd_for_class
 
           magic.spells_per_day = spells_per_day
-        when "restricted_slots"
-          # Structure: { charclass => { restriction => { "cantrip" => 1, 1 => 1 } } }
+        when "restricted_slots", "restricted_spellbook"
+          # Structure: { charclass => { restriction => { "cantrip" => 1, 1 => 1 } } }, for the
+          # slots a restriction reserves per day and the spellbook entries it reserves. The two
+          # differ only in which attribute they land in, so they share one branch.
+          restricted = magic.send(key)
+          for_class = restricted[charclass] || {}
 
-          restricted = magic.restricted_slots
-          for_class = restricted[charclass] ? restricted[charclass] : {}
-
-          value.each_pair do |restriction, by_rank|
-            existing = for_class[restriction] ? for_class[restriction] : {}
-
-            (by_rank || {}).each_pair do |rank, num|
-              existing[rank] = Pf2emagic.apply_stat_delta(existing[rank], num)
-            end
-
-            for_class[restriction] = existing
-          end
-
-          restricted[charclass] = for_class
-
-          magic.restricted_slots = restricted
-        when "restricted_spellbook"
-          restricted = magic.restricted_spellbook
-          for_class = restricted[charclass] ? restricted[charclass] : {}
-
-          value.each_pair do |restriction, by_rank|
-            existing = for_class[restriction] ? for_class[restriction] : {}
+          (value || {}).each_pair do |restriction, by_rank|
+            existing = for_class[restriction] || {}
 
             (by_rank || {}).each_pair do |rank, num|
               existing[rank] = Pf2emagic.apply_stat_delta(existing[rank], num)
@@ -197,7 +181,8 @@ module AresMUSH
           end
 
           restricted[charclass] = for_class
-          magic.restricted_spellbook = restricted
+
+          magic.send("#{key}=", restricted)
         when "repertoire"
           # Structure: { "cantrip" => 5, 1 => 3, 2 => 1 }
           # This key gets dumped into to_assign as repertoire and represents spells that need to be chosen

@@ -127,8 +127,9 @@ pf2e_class:
           - Medium Armor Expertise
           - Weapon Specialization
         combat_stats:
-          armor_light: expert
-          armor_unarmored: expert
+          armor_prof:
+            light: expert
+            unarmored: expert
       14:
         choose_feat:
           - charclass
@@ -2540,9 +2541,10 @@ pf2e_class:
           - Sneak Attack 2d6
           - Weapon Tricks
         combat_stats:
-          unarmed: expert
-          simple: expert
-          martial: expert
+          weapon_prof:
+            unarmed: expert
+            simple: expert
+            martial: expert
           sneak_attack: 2d6
       6:
         choose_feat:
