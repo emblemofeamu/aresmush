@@ -1,0 +1,45 @@
+module AresMUSH
+  module Pf2e
+
+    # The single door every character change goes through.
+    #
+    #   CharacterService.call(state, :set_base_info, 'element' => 'ancestry', 'value' => 'Khazad')
+    #   # => Ok(state:, grants:, messages:) | Err(code:, key:, args:)
+    #
+    # Handlers are pure: state and args in, an Outcome out. Nothing here reads a character,
+    # a client or Global - which is why a whole chargen can be run as data in a spec with no
+    # Redis anywhere near it.
+    module CharacterService
+
+      # Resolved lazily so the registry can name a core before it exists.
+      ACTIONS = {
+        :set_base_info => lambda { |state, args| Chargen::BaseInfo.set(state, args) },
+        :set_boost     => lambda { |state, args| Chargen::Boosts.set(state, args) },
+        :unset_boost   => lambda { |state, args| Chargen::Boosts.unset(state, args) }
+      }.freeze
+
+      def self.actions
+        ACTIONS.keys
+      end
+
+      def self.call(state, action, args = {})
+        handler = ACTIONS[action]
+
+        return Err.new(:unknown_action, 'pf2e.unknown_action', 'action' => action.to_s) unless handler
+
+        outcome = handler.call(state, args || {})
+        outcome.failed_action = action if outcome.err? && outcome.failed_action.nil?
+        outcome
+      end
+
+      # Runs a list of [action, args] pairs, handing each the state the last one produced.
+      # This is how a whole chargen is expressed as data - and how the walkthrough specs
+      # assert on a finished sheet without touching a command or a database.
+      def self.chain(state, steps)
+        steps.reduce(Ok.new(:state => state)) do |outcome, (action, args)|
+          outcome.and_then { |current| call(current, action, args) }
+        end
+      end
+    end
+  end
+end

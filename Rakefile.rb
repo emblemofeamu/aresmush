@@ -104,6 +104,18 @@ rescue LoadError
   # no rspec available
 end
 
+desc "Run only the specs that need a live database."
+begin
+  require 'rspec/core/rake_task'
+
+  RSpec::Core::RakeTask.new('spec:db') do |t|
+    t.pattern = "spec/**/*_specs.rb,spec/**/*_spec.rb,plugins/**/*_specs.rb,plugins/**/*_spec.rb"
+    t.rspec_opts = "--tag dbtest"
+  end
+rescue LoadError
+  # no rspec available
+end
+
 desc "Run all specs except the db ones."
 begin
   require 'rspec/core/rake_task'
