@@ -5,10 +5,9 @@ module AresMUSH
       # Taking an archetype's Dedication feat: claim a slot for the archetype, then apply
       # everything its `initial_dedication` block hands over.
       #
-      # This was two hundred and thirty lines inside advance/feat's single method, and the
-      # only path that ran it was typing `advance/feat` - so a Dedication gained any other way
-      # (a class feature choice whose pool includes one, and sixteen of them do) left the
-      # character holding a Dedication feat with no archetype behind it.
+      # Reached from every path that can hand over a Dedication, not only `advance/feat`: sixteen
+      # class feature choices draw from pools containing one, and a Dedication without an archetype
+      # behind it is a feat that does nothing.
       #
       # PAYLOAD is that block's vocabulary, one row per key it may carry. Each row says how to
       # apply it and what to tell the player. Adding a key is adding a row; the order is the
@@ -30,10 +29,9 @@ module AresMUSH
 
         # Who is handing the payload over. An archetype's own `initial_dedication`, one on a
         # specialty of it, or one on the option chosen for that specialty - and a specialty's
-        # is the same block with the same keys, which is the point: advance/archetype used to
-        # read only `skills` and `magic_stats` out of a specialty's block, so the Druid
-        # Archetype's Animal specialty never handed over the Animal Companion feat its `feat`
-        # key asks for.
+        # is the same block with the same keys, so all of them are read the same way - the Druid
+        # Archetype's Animal specialty hands over a feat through the same `feat` key an
+        # archetype's own block uses.
         #
         # All that differs is how each names itself in the two messages the rows speak.
         SOURCES = {

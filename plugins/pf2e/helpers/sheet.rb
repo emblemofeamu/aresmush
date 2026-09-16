@@ -1,17 +1,14 @@
 module AresMUSH
   module Pf2e
 
-    # The sections of a character sheet, and whether a given character has one.
+    # The sections of a character sheet, who has one, and who may see it.
     #
-    # Three commands read sheets - `sheet`, `sheet/show` and `sheet/combat` - and each carried its
-    # own copy of the section list and its own gating. They disagreed: `sheet` left `combat` out of
-    # its list while `sheet/show` accepted it, so a player could grant someone a section `sheet`
-    # would then refuse to render; and only `sheet` checked that a character casts before offering
-    # them a magic section.
+    # `sheet`, `sheet/show` and `sheet/combat` all read from here, so they cannot disagree about
+    # which sections exist or what a character needs to have one - a section `sheet/show` can share
+    # is a section `sheet` will render.
     #
-    # One row per section, each saying what the character must have for it to exist. Whether the
-    # *viewer* may see it is a separate question and stays with the commands, because it depends on
-    # the enactor's permissions rather than on the sheet.
+    # One row per section, each saying what the character must have for it to exist. Whether a
+    # *viewer* may see it is the separate question ALLOWED answers.
     module Sheet
 
       # A section every character has needs no requirement. `requires` is a predicate on the
@@ -41,12 +38,8 @@ module AresMUSH
       ].freeze
 
       # Whether a viewer may see a section of someone's sheet. Rows are reasons to allow it, in
-      # order; nothing allowing it is a refusal.
-      #
-      # This is where `sheet/show`'s grants finally do something. They were written to
-      # `pf2_viewsheet` and never read: both display commands asked only whether the game had
-      # sheets open and whether the viewer held the staff `view_sheets` permission, so a grant a
-      # player made had no effect at all.
+      # order; nothing allowing it is a refusal. The last row is what makes `sheet/show`'s grants
+      # mean something.
       ALLOWED = [
         # The game can be configured so that every sheet is public.
         lambda { |_viewer, _char, _section| !!Global.read_config('pf2e', 'open_sheets') },

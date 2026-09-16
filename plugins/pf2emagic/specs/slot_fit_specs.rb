@@ -6,13 +6,9 @@ module AresMUSH
     # Whether a set of prepared spells can be placed in the slots a caster has at one rank.
     #
     # PF2e slots are pools, and some pools only accept certain spells: a Wizard's curriculum slot
-    # takes a spell from the school's list and nothing else, a Cleric's divine font slot takes
-    # heal or harm. The old check compared counts and then gave up, logging "only the first is
-    # enforced" whenever a character had two restricted pools at one rank - so the second pool
-    # silently accepted anything.
-    #
-    # Placing spells in pools is an assignment problem, not a counting one, which is why this is
-    # a matching rather than a subtraction.
+    # takes a spell from the school's list and nothing else, a Cleric's divine font slot takes heal
+    # or harm. Placing spells in pools is an assignment, so this is a matching and not a
+    # subtraction of counts.
     describe SlotFit do
 
       def open(capacity)
@@ -55,7 +51,7 @@ module AresMUSH
         end
 
         # The count fits either way; what makes this false is that the only slot the ineligible
-        # spell could use is already needed by the eligible one.
+        # spell can use is needed by the eligible one.
         it "should not let an ineligible spell borrow a restricted slot" do
           pools = [ open(1), restricted(1, [ 'Fireball' ]) ]
 
@@ -64,9 +60,8 @@ module AresMUSH
         end
       end
 
-      # The case the old check got wrong. Two restricted pools at one rank, and the assignment
-      # only works if each spell goes to the right one - a greedy pass that fills the first pool
-      # it can gets this wrong, which is why it is a matching.
+      # Two restricted pools at one rank: the assignment only works if each spell goes to the right
+      # one, which a greedy pass that fills the first pool it can does not guarantee.
       describe "two restricted pools" do
         it "should place each spell in the pool that accepts it" do
           pools = [ restricted(1, %w(Fireball Lightning Bolt)), restricted(1, %w(Heal Harm)) ]
@@ -81,8 +76,8 @@ module AresMUSH
         end
 
         it "should back out of a placement that blocks a later spell" do
-          # Greedy order matters: 'Heal' fits both pools, 'Harm' only the second. Assigning
-          # 'Heal' to the second pool first and stopping there reports a false negative.
+          # 'Heal' fits both pools and 'Harm' only the second, so assigning 'Heal' to the second and
+          # stopping there is a false negative.
           pools = [ restricted(1, %w(Heal)), restricted(1, %w(Heal Harm)) ]
 
           expect(SlotFit.fits?(pools, %w(Heal Harm))).to be true

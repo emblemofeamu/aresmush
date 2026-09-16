@@ -10,9 +10,8 @@ module AresMUSH
     # a boost is worth 2 unless the score has reached 18, where it is worth 1 - the Remaster says
     # the same thing as a "partial boost" on a +4 modifier.
     #
-    # The scores used to be written straight into `base_val` with nothing else told, so rolling
-    # back the level left its four boosts in place and the redo handed out four more: permanent
-    # inflation on every rollback. See finding 27.
+    # The score is derived from the ledger's count and the scores chargen left, so rolling the level
+    # back takes its four boosts with it.
     describe "attribute boosts in the ledger", :dbtest => true do
 
       before(:each) do
@@ -72,7 +71,6 @@ module AresMUSH
         end
       end
 
-      # The bug this exists for.
       it "should take the boosts back when the level is rolled back" do
         char = climbed
         before_rollback = scores(char)
@@ -103,8 +101,8 @@ module AresMUSH
         expect(boost_grants(char).count { |g| g.effective_level.to_i == 5 }).to eq 4
       end
 
-      # A partial boost in Remaster terms: a score at 18 goes to 19, which is still a +4
-      # modifier, and only the next boost moves the modifier to +5.
+      # A partial boost in Remaster terms: a score at 18 goes to 19, which is still a +4 modifier,
+      # and only the next boost moves it to +5.
       it "should give only one point to a score that has reached 18" do
         expect(Pf2eAbilities.boosted_score(18, 1)).to eq 19
         expect(Pf2eAbilities.abilmod(18)).to eq 4

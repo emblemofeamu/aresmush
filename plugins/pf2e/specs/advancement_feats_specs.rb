@@ -19,8 +19,8 @@ module AresMUSH
             expect(Feats.check_slot(state('skill' => [ 'open' ]), 'skill', 'assurance', skill_feat)).to be_nil
           end
 
-          # "class" is what a player types; the slot is called "charclass". Saying so beats
-          # "not an option", which is what the generic path would have said.
+          # "class" is what a player types; the slot is called "charclass". Saying so is more use
+          # than "not an option".
           it "should tell a player who typed class to use charclass" do
             result = Feats.check_slot(state('charclass' => [ 'open' ]), 'class', 'power attack', { 'feat_type' => [ 'Charclass' ] })
 

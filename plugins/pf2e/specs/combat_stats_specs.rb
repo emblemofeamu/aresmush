@@ -3,12 +3,10 @@ require "plugin_test_loader"
 module AresMUSH
   module Pf2e
 
-    # What a class table's `combat_stats` block is allowed to say, and what happens to a key
-    # nobody handles.
+    # What a class table's `combat_stats` block may say, and what happens to a key nobody handles.
     #
-    # `update_combat_stats` had no `else`, so an unrecognised key was dropped without a word.
-    # Five keys in the shipped class tables are unrecognised, and each is a proficiency a class
-    # never received.
+    # An unrecognised key is logged rather than dropped: a proficiency a class does not receive
+    # leaves no trace on the sheet to notice.
     describe :update_combat_stats do
 
       def combat_for(char)
@@ -39,9 +37,8 @@ module AresMUSH
           Pf2eCombat.update_combat_stats(@char, 'armor_light' => 'expert')
         end
 
-        # The Rogue's table sets sneak_attack at chargen, 5, 11 and 17. There was no attribute to
-        # hold it and no arm to write it, so a Rogue's sneak attack dice did not exist - and
-        # `roll sneak attack` raised NoMethodError on any character who had a combat object.
+        # The Rogue's table sets sneak_attack at chargen, 5, 11 and 17, and `roll sneak attack`
+        # reads it off the combat object.
         it "should record sneak attack dice" do
           Pf2eCombat.update_combat_stats(@char, 'sneak_attack' => '2d6')
 
@@ -63,11 +60,9 @@ module AresMUSH
         end
       end
 
-      # The five keys that prompted the table. Every `combat_stats` key in every class's chargen
-      # and advance blocks has to be one the writer actually writes, or the class silently never
-      # receives it. Before this: the Alchemist's expert light and unarmored armor at 13, and the
-      # Rogue's expert unarmed, simple and martial weapons at 5, were all written as direct
-      # children of `combat_stats` rather than under `armor_prof` / `weapon_prof`.
+      # Every `combat_stats` key in every class's chargen and advance blocks has to be one the
+      # writer writes, or the class never receives it. Proficiencies nest under `armor_prof` and
+      # `weapon_prof`; a bare `light` or `martial` is not a key.
       describe "the shipped class tables" do
         def blocks_for(charclass)
           config = Global.read_config('pf2e_class', charclass) || {}

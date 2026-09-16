@@ -463,10 +463,9 @@ module AresMUSH
           all_actions['reactions'] = reactions.uniq.sort
           char.pf2_actions = all_actions
         when "raise ability"
-          # The score moves now, so the draft sheet shows it, and the count is recorded so
-          # `commit_level_up!` can diff it into `boost_ability` grants. Before this the score was
-          # written in place and nothing else knew, so a rollback left the boost behind and the
-          # redo added another - see finding 27.
+          # The score moves so the draft sheet shows it, and the count is recorded so
+          # `commit_level_up!` can diff it into `boost_ability` grants - which is what lets a
+          # rollback take the boost back.
           boosts = char.pf2_boosts
 
           value.each do |ability|

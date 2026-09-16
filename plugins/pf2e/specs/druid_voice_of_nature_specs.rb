@@ -7,9 +7,8 @@ module AresMUSH
     # The Druid's Voice of Nature, which PF2e states as "You gain your choice of the Animal
     # Empathy or Plant Empathy druid feat" (Player Core, via Archives of Nethys).
     #
-    # The table used to put those two names in `choose_feat`, which holds slot *types*. Chargen
-    # acts only on 'charclass' and 'skill' entries there, so both were inert: no Druid received
-    # either feat, and none was offered a choice. See finding 29.
+    # A choice between two named feats, not a class feat slot: the druid's first class feat is at
+    # 2nd level, as it is for every other spellcasting class.
     describe "the Druid's Voice of Nature", :dbtest => true do
 
       before(:each) do
@@ -61,8 +60,8 @@ module AresMUSH
           .to eq [ 'Animal Empathy', 'Plant Empathy' ]
       end
 
-      # The druid's first *class feat* is at 2nd level, so chargen must not hand out a class feat
-      # slot as well as the Voice of Nature choice.
+      # The druid's first class feat is at 2nd level, so chargen must not hand out a class feat slot
+      # as well as the Voice of Nature choice.
       it "should not also open a level 1 class feat slot" do
         expect(Global.read_config('pf2e_class', 'Druid', 'chargen')['choose_feat']).to be_nil
       end

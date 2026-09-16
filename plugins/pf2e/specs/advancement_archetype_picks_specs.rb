@@ -396,11 +396,10 @@ module AresMUSH
         end
       end
 
-      # The other half: what a settled pick hands over. Skills, spellcasting and features are
-      # held on live objects rather than in the draft, so this needs a character - and it goes
-      # through the same Onboarding rows that apply an archetype's own dedication block, which is
-      # the point. advance/archetype used to read only `skills` and `magic_stats` out of a
-      # specialty, so a specialty granting a feat granted nothing.
+      # The other half: what a settled pick hands over. Skills, spellcasting and features are held
+      # on live objects rather than in the draft, so this needs a character. It goes through the same
+      # Onboarding rows that apply an archetype's own dedication block, so a specialty's block is
+      # read with the same vocabulary.
       describe ArchetypePicks, :dbtest => true do
 
         before(:each) do
@@ -438,7 +437,7 @@ module AresMUSH
         end
 
         # The Druid Archetype's Animal order grants the Animal Companion feat through its `feat`
-        # key. Nothing read that key for a specialty before, so the feat was silently dropped.
+        # key, the same key an archetype's own block uses.
         it "should grant the feats a specialty hands over" do
           out = pick('Druid Archetype', 'specialty', 'Animal', :to_assign => { 'archetype_specialty' => 'open' })
 

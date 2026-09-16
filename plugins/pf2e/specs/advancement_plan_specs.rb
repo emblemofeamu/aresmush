@@ -77,8 +77,8 @@ module AresMUSH
           end
         end
 
-        # A specialty adds to what the class gives rather than replacing it, or a subclass
-        # would silently take away feats the class table promised.
+        # A specialty adds to what the class gives rather than replacing it: replacing would take
+        # away feats the class table promises.
         describe :merge do
           it "should combine lists instead of replacing them" do
             expect(Plan.merge({ 'raise' => [ 'skill' ] }, { 'raise' => [ 'ability' ] })).to eq('raise' => [ 'skill', 'ability' ])

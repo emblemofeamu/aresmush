@@ -3,14 +3,12 @@ module AresMUSH
 
     # Every element of a finished character, checked against what the class's tables promised.
     #
-    # The existing climb spec asserted three things: that level 20 was reached, that feat *counts*
-    # by type matched the table, and that there were more than fifty grants. None of those would
-    # notice a feature that never arrived, a proficiency the engine dropped, a spell slot short, or
-    # a class choice never resolved - all of which have happened.
+    # One row per dimension, each returning the mismatches it found, so the audit reports all of
+    # them at once - a climb wrong in six ways says so once rather than six runs later. Adding a
+    # dimension is adding a row.
     #
-    # One row per dimension. A row returns the mismatches it found, so the audit reports *all* of
-    # them at once: a climb that is wrong in six ways should say so once, not six runs later.
-    # Adding a dimension is adding a row.
+    # Counting feats alone does not notice a feature that never arrived, a proficiency the engine
+    # dropped, a spell slot short, or a class choice never resolved.
     module SheetAudit
 
       DIMENSIONS = [
@@ -67,8 +65,8 @@ module AresMUSH
         },
         {
           'name' => 'feats match their slot',
-          # A feat filed under 'general' had better be a general feat. Mis-filing is invisible on
-          # the sheet and changes what the next slot will accept.
+          # A feat filed under 'general' had better be a general feat: mis-filing shows under the
+          # wrong heading and changes what the next slot accepts.
           'check' => lambda { |ctx|
             char = ctx['char']
             types = SheetAudit.feat_types
@@ -216,9 +214,9 @@ module AresMUSH
         },
         {
           'name' => 'attribute boosts',
-          # Four at each of 5th, 10th, 15th and 20th, each to a different attribute, and each one
-          # a `boost_ability` grant attributed to its level. Chargen's own boosts are not in the
-          # ledger, so only levels above 1 are counted - see finding 27.
+          # Four at each of 5th, 10th, 15th and 20th, each to a different attribute, and each a
+          # `boost_ability` grant attributed to its level. Chargen's boosts are not in the ledger,
+          # so only levels above 1 are counted.
           'check' => lambda { |ctx|
             char, want, baseline = ctx.values_at('char', 'want', 'baseline')
 
@@ -256,8 +254,8 @@ module AresMUSH
               end
             end
 
-            # Nothing to compare against on a character with no baseline, which is the pre-ledger
-            # case; fall back to the band the boosts allow.
+            # With no baseline recorded there is nothing to derive from, so the band is all that is
+            # checkable: a boost is worth at least +1 and at most +2.
             if base.empty? && baseline['ability_total']
               gained = SheetAudit.ability_total(char) - baseline['ability_total']
 
@@ -309,8 +307,7 @@ module AresMUSH
         {
           'name' => 'feat choices resolved',
           # A feature whose choice is a named set of feats has to have left one of them on the
-          # sheet. The Druid's Voice of Nature is the case this exists for: its two feats sat in
-          # `choose_feat` where nothing read them, so no Druid ever received either.
+          # sheet - the Druid's Voice of Nature grants Animal Empathy or Plant Empathy.
           'check' => lambda { |ctx|
             char, want = ctx.values_at('char', 'want')
 
@@ -328,8 +325,8 @@ module AresMUSH
           'name' => 'the ledger explains the sheet',
           'check' => lambda { |ctx|
             char, cc, want, level = ctx.values_at('char', 'charclass', 'want', 'level')
-            # Refolding must not move anything: the sheet is a projection of the ledger, so a
-            # second materialise is a fixed point or something was written outside it.
+            # The sheet is a projection of the ledger, so a second materialise is a fixed point.
+            # Anything that moves was written outside the ledger.
             before = Pf2e::Ledger.current_state(char)
             Pf2e::Ledger.invalidate!(char)
             Pf2e::Ledger.materialize!(char)

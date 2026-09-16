@@ -2,16 +2,16 @@ module AresMUSH
   class PF2Magic < Ohm::Model
     include ObjectModel
 
-    # The focus pool stays here and stays shared: PF2e gives a character one pool however many
-    # sources feed it. The spells themselves moved to Pf2eSpellcastingEntry rows, one per focus
-    # type per granting source, because a single bucket per type could not say whose they were.
+    # The focus pool is shared: PF2e gives a character one pool however many sources feed it. The
+    # spells live on Pf2eSpellcastingEntry rows, one per focus type per granting source, because a
+    # bucket per type cannot say whose the spells are.
     attribute :focus_pool, :type => DataType::Hash, :default => { "max"=>0, "current"=>0 }
     attribute :last_refocus, :type => DataType::Time
-    # A list of grants rather than a map keyed by spell name, because two sources can grant
-    # the same innate spell and a map silently loses one of them. Charm is granted by
-    # Enthralling Allure at rank 4 divine and by Supernatural Charm at rank 1 arcane;
-    # Interplanar Teleport by one source as divine and another as primal; and six sources grant
-    # an unchosen 'open' spell, which as a single key meant taking two of them lost a pick.
+    # A list of grants rather than a map keyed by spell name, because two sources can grant the same
+    # innate spell and a map holds only one of them. Charm comes from Enthralling Allure at rank 4
+    # divine and Supernatural Charm at rank 1 arcane; Interplanar Teleport is divine from one source
+    # and primal from another; and six sources grant an unchosen 'open' spell, so a single 'open' key
+    # would hold one pick where the character has several.
     # Each grant is { 'name', 'level', 'tradition', 'cast_stat' }. Read it through
     # Pf2emagic::Entries, not directly.
     attribute :innate_spells, :type => DataType::Array, :default => []

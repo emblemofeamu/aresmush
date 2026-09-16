@@ -16,8 +16,7 @@ module AresMUSH
           )
         end
 
-        # The three shapes a pending feature arrives in, all of which the command has always
-        # accepted and only two of which it used to read correctly.
+        # The three shapes a pending feature arrives in, all of which the command accepts.
         describe :option_list do
           it "should read a hash carrying an options list" do
             expect(Options.option_list('options' => [ 'Fortitude', 'Reflex' ])).to eq [ 'Fortitude', 'Reflex' ]

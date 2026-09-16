@@ -147,8 +147,8 @@ module AresMUSH
       end
 
       describe "a sequence" do
-        # The thing this exists for: what a feat does to the pool is a list, and taking the
-        # feat and what it opens up are the same kind of step.
+        # What a feat does to the pool is a list, and taking the feat and what it opens up are the
+        # same kind of step.
         it "should apply deltas in order, so a slot opened can be filled by a later one" do
           deltas = [
             Slots.open([ 'feats', 'skill' ], :count => 2),
@@ -172,8 +172,7 @@ module AresMUSH
       end
 
       describe :openings do
-        # "What did that open up?" - the question the old code could not answer, because
-        # opening a slot was an inline array append at each call site.
+        # "What did that open up?", answered from the deltas alone.
         it "should describe what a list of deltas opens" do
           deltas = [
             Slots.open([ 'feats', 'skill' ], :count => 2),

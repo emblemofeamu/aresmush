@@ -71,10 +71,9 @@ module AresMUSH
 
           return state['archetypes'] || {} if taken.empty?
 
-          # Choices first. The choice slot is keyed by which archetype sits at that index, so
-          # it has to be found while that archetype is still in its slot - the old code
-          # cleared the archetype first and then looked it up, which could never match for an
-          # archetype taken this level.
+          # Choices first. The choice slot is keyed by which archetype sits at that index, so it has
+          # to be read while that archetype is still in its slot - clearing the archetype first
+          # leaves nothing to look the choice up by.
           archetypes = Array((state['to_assign']['archetype specialty choice'] || {}).keys)
             .reduce(state['archetypes'] || {}) { |acc, archetype| clear_choice_for(acc, archetype) }
 

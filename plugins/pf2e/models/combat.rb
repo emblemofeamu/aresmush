@@ -17,9 +17,8 @@ module AresMUSH
     attribute :unarmed_attacks, :type => DataType::Hash, :default => {}
     attribute :defense, :type => DataType::Hash, :default => {}
 
-    # The Rogue's sneak attack, as a dice expression ('1d6' … '4d6'). The class table has set
-    # this at chargen, 5, 11 and 17 all along; there was no attribute to hold it, so the value
-    # was dropped and `roll sneak attack` raised NoMethodError.
+    # The Rogue's sneak attack, as a dice expression ('1d6' … '4d6'). Set by the class table at
+    # chargen, 5, 11 and 17, and read by `roll sneak attack`.
     attribute :sneak_attack
 
     reference :character, "AresMUSH::Character"
@@ -60,12 +59,9 @@ module AresMUSH
 
     # How each key in a `combat_stats` block is written.
     #
-    # `merge` keys hold a hash of name => proficiency and take the block's entries one at a
-    # time; `set` keys hold a single value. A table rather than a `case` because the failure mode
-    # of the `case` was silence: it had no `else`, so a key nobody handled was dropped without a
-    # word, and five keys in the shipped class tables are exactly that - `armor_light` and
-    # `armor_unarmored` in the Alchemist's table, `unarmed`, `simple` and `martial` in the
-    # Rogue's, each a proficiency the class never received.
+    # `merge` keys hold a hash of name => proficiency and take the block's entries one at a time;
+    # `set` keys hold a single value. A key absent from the table is logged rather than dropped: a
+    # proficiency a class does not receive leaves no trace on the sheet to notice.
     STAT_WRITERS = {
       'saves' => 'merge',
       'armor_prof' => 'merge',

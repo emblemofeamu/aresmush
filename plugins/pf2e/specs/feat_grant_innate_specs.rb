@@ -5,13 +5,9 @@ module AresMUSH
 
     # Describing what a feat's magic grants left for the player to choose.
     #
-    # `do_feat_grants` read `magic.innate_spells` as a map keyed by spell name and called `.values`
-    # on the result. That attribute is a *list* of grants now - reshaped because two sources of one
-    # spell collided when it was keyed by name - so the read raised NoMethodError on Array.
-    #
-    # Nothing caught it because the only path that reaches it is resolving a feat choice that
-    # grants magic, and the spec harness resolved chargen choices with `advance/option`, which the
-    # `check_advancing` guard refuses. A Champion picking their Devotion Spell at chargen hits it.
+    # `innate_spells` is a list of grants, not a map keyed by spell name, because two sources can
+    # grant one spell at different ranks and traditions. Reached by resolving a feat choice that
+    # grants magic - a Champion picking their Devotion Spell at chargen.
     describe :open_innate_labels do
 
       def magic_with(grants)
@@ -39,8 +35,7 @@ module AresMUSH
         expect(Pf2e.open_innate_labels(magic).size).to eq 1
       end
 
-      # The collision the list shape exists to prevent: two unchosen grants are two picks, and
-      # keyed by name they were one.
+      # Two unchosen grants are two picks; keyed by name they would be one.
       it "should keep two unchosen grants apart" do
         magic = magic_with([
           { 'name' => 'open', 'level' => 'cantrip', 'tradition' => 'arcane' },

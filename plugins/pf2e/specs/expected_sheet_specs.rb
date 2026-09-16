@@ -11,8 +11,7 @@ module AresMUSH
     describe ExpectedSheet do
 
       describe "the shipped tables" do
-        # If a class table grows a key this does not absorb, the audit would pass while checking
-        # less than it claims to. That is the one failure mode worth failing the build for.
+        # A key this does not absorb is a key the audit is not checking, so it fails the build.
         it "should account for every key the class tables use" do
           expect(ExpectedSheet.unabsorbed).to eq []
         end
@@ -101,9 +100,8 @@ module AresMUSH
         end
       end
 
-      # The two keys the engine was dropping. They step trained -> expert at 13 -> master at 19,
-      # so which rank is expected depends on the level, and a fold that took the first value
-      # rather than the last would stop at expert.
+      # Armour steps trained -> expert at 13 -> master at 19, so which rank is expected depends on
+      # the level: a fold that kept the first value rather than the last would stop at expert.
       describe "an Alchemist's armour" do
         it "should be expert once level 13 is reached" do
           expected = ExpectedSheet.for('Alchemist', 13)
@@ -138,9 +136,8 @@ module AresMUSH
         end
       end
 
-      # `choose_feat` holds slot types. An entry that is not one opens no slot and grants nothing,
-      # which is how the Druid's Animal Empathy and Plant Empathy came to be inert - see finding
-      # 29. Now that the Druid expresses them as a feat choice, no class should have any.
+      # `choose_feat` holds slot types. An entry that is not one opens no slot and grants nothing, so
+      # no class should have one.
       describe "inert feat slots" do
         it "should be none at all" do
           expect(ExpectedSheet.inert_feat_slots).to eq({})
@@ -167,9 +164,8 @@ module AresMUSH
         end
       end
 
-      # The specialty's own blocks shape the sheet too, so an expectation built from the class
-      # alone reads a correct character as wrong - a Warpriest Cleric has expert fortitude and
-      # martial weapons from the specialty, not from the class.
+      # A specialty's blocks shape the sheet too: a Warpriest Cleric has expert fortitude and martial
+      # weapons from the specialty rather than from the class.
       describe "a specialty's own table" do
         it "should be folded in when one was chosen" do
           # A Warpriest has expert fortitude from level 1, where the class alone gives trained.
@@ -180,9 +176,9 @@ module AresMUSH
           expect(warpriest['saves']['fortitude']).to eq 'expert'
         end
 
-        # The Wizard's school states the whole spellbook total - 11 cantrips and 7 first-rank,
-        # which is the class's 10 and 5 with the curriculum's 1 and 2 counted in - so summing the
-        # two blocks would expect 21 and 12 and read a correct Wizard as fifteen spells short.
+        # The Wizard's school states the whole spellbook total - 11 cantrips and 7 first-rank, the
+        # class's 10 and 5 with the curriculum's 1 and 2 counted in - so a chargen figure supersedes
+        # rather than adding to the class's.
         it "should let a specialty's chargen spell total supersede the class's" do
           plain = ExpectedSheet.for('Wizard', 1)
           school = ExpectedSheet.for('Wizard', 1, :specialize => 'Department of Mana Syntaxia')

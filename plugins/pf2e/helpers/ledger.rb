@@ -185,11 +185,9 @@ module AresMUSH
       }.freeze
 
       # While a draft is open - an advancement between `advance` and `advance/done` - the
-      # character's own lists ARE the draft, holding picks the fold has never seen. Writing
-      # the fold over them mid-flight silently destroys the player's work, so a draft plan
-      # touches nothing here. It stays as an empty list rather than going away because the
-      # distinction is the point: if some future sheet attribute is genuinely never written by
-      # a draft step, this is where it says so.
+      # character's own lists ARE the draft, holding picks the fold has not seen. Writing the fold
+      # over them mid-flight destroys the player's work, so a draft plan touches nothing here. It
+      # stays as an empty list because it is where a sheet attribute no draft step writes belongs.
       DRAFT_SAFE_ATTRS = [].freeze
 
       # Diffs the derived sheet against what the live objects hold. Pure, so the hard part
@@ -223,10 +221,10 @@ module AresMUSH
           end
         end
 
-        # Attribute boosts taken after chargen. The fold holds a count per ability and the
-        # baseline holds the scores as approved, and PF2e's boost rule depends only on the score
-        # being boosted - so the score is derivable, which is what lets a rollback take a boost
-        # back. Chargen's own boosts are not in the fold, hence the baseline.
+        # Attribute boosts taken after chargen. The fold holds a count per ability, the baseline
+        # holds the scores as approved, and PF2e's boost rule depends only on the score being
+        # boosted - so the score is derivable, which is what lets a rollback take a boost back.
+        # Chargen's own boosts are not in the fold, hence the baseline.
         if !draft && !current['ability_baseline'].blank?
           current['ability_baseline'].each_pair do |ability, base|
             wanted = Pf2eAbilities.boosted_score(base, (sheet['boosts'] || {})[ability].to_i)
@@ -334,8 +332,8 @@ module AresMUSH
             end
           end
 
-          # Anything the fold has that the character no longer does. Scoped to the sources the
-          # fragment mentions, so a source it says nothing about is left alone.
+          # Anything the fold has that the character does not. Scoped to the sources the fragment
+          # mentions, so a source it says nothing about is left alone.
           held_all.each_pair do |source, by_rank|
             next unless (value || {}).key?(source)
 
@@ -448,9 +446,9 @@ module AresMUSH
         { 'grants' => grants, 'revocations' => revocations }
       end
 
-      # Live grants of one kind whose payload matches every given pair, case-insensitively
-      # on strings. Used to undo a single earlier grant - taking back a chargen pick - without
-      # deleting anything.
+      # Live grants of one kind whose payload matches every given pair, case-insensitively on
+      # strings. The way a single earlier grant - a chargen pick being taken back - is undone
+      # without deleting anything.
       def self.matching_grants(grants, kind, match = {})
         grants
           .select { |g| g['reverted_by'].blank? }
@@ -464,8 +462,7 @@ module AresMUSH
           end
       end
 
-      # Which grants put a thing on the sheet, newest first. This is the question the old
-      # model could not answer at all.
+      # Which grants put a thing on the sheet, newest first.
       def self.explain(grants, at_level:, kind:, key:)
         payload_key = KINDS[kind]
 

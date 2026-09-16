@@ -4,10 +4,8 @@ module AresMUSH
     # What `cg/info <element>` can answer, as one row per element.
     #
     # Each row says what the element is called (with its aliases), what must already be chosen
-    # before it can be answered, and where its options come from. `cg/info` held this as a `case`
-    # whose arms each wrote their own prerequisite check and early return, with the list of valid
-    # elements repeated as a literal in the error message - so the vocabulary lived in two places
-    # and could drift apart silently.
+    # before it can be answered, and where its options come from. The error message's list of valid
+    # elements is derived from the table, so the vocabulary lives in one place.
     #
     # Three outcomes, and the difference between the last two matters to a player:
     #
@@ -47,8 +45,8 @@ module AresMUSH
         {
           'name' => 'specialize',
           'requires' => { 'field' => 'charclass', 'label' => 'character class' },
-          # Not every class has specialties. That is "nothing to choose", not "choose something
-          # else first", which is why it is a separate outcome.
+          # Not every class has specialties. That is "nothing to choose" rather than "choose
+          # something else first", so it is a separate outcome.
           'optional' => lambda { |char| Global.read_config('pf2e_specialty', ChargenInfo.field(char, 'base', 'charclass')) },
           'options' => lambda { |char| Global.read_config('pf2e_specialty', ChargenInfo.field(char, 'base', 'charclass')).keys }
         },

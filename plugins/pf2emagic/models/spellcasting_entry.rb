@@ -8,10 +8,10 @@ module AresMUSH
   # `SpellcastingEntry` item and Pathbuilder exports `spellCasters` as a list of the same thing.
   # This is that row.
   #
-  # `PF2Magic`'s eighteen parallel hashes cannot express it, because they have no concept of a
-  # source: each attribute invented its own key for which-source - class for most, focus *type*
-  # for focus spells, spell *name* for innate - so two sources that agree on that key collide.
-  # See docs/plans/2026-09-16-spellcasting-entries.md.
+  # `PF2Magic`'s eighteen parallel hashes cannot express it: they have no concept of a source, and
+  # each keys which-source differently - class for most, focus *type* for focus spells, spell *name*
+  # for innate - so two sources agreeing on that key collide. See
+  # docs/plans/2026-09-16-spellcasting-entries.md.
   #
   # Read these through `Pf2emagic::Entries`, never directly, so that the remaining hashes can
   # keep being migrated behind it.
@@ -20,9 +20,8 @@ module AresMUSH
 
     reference :character, "AresMUSH::Character"
 
-    # What the player calls it: 'Sorcerer', 'Bard Archetype', 'devotion', 'Staff of Fire'.
-    # Not unique on its own - two sources can share a name and still be separate entries, which
-    # is the whole point.
+    # What the player calls it: 'Sorcerer', 'Bard Archetype', 'devotion', 'Staff of Fire'. Not unique
+    # on its own: two sources can share a name and still be separate entries.
     attribute :name
 
     # Where it came from: class | archetype | focus | innate | item | ritual.
@@ -33,9 +32,8 @@ module AresMUSH
     # hold spells cast either way.
     attribute :category
 
-    # This entry's own statistics. PF2e casts an innate spell from an ancestry feat at that
-    # feat's tradition and ability, not the character's class's - which is why these live on the
-    # entry rather than being looked up from the class.
+    # This entry's own statistics, rather than a lookup from the class: PF2e casts an innate spell
+    # from an ancestry feat at that feat's tradition and ability, not the character's class's.
     attribute :tradition
     attribute :ability
     attribute :proficiency
@@ -61,13 +59,12 @@ module AresMUSH
     attribute :uses, :type => DataType::Hash, :default => {}
 
     # The source that granted it, where that is known and is not the name - the feat behind an
-    # innate spell, the archetype behind a focus type. Recording it is what lets two sources of
-    # one focus type be told apart.
+    # innate spell, the archetype behind a focus type. What tells two sources of one focus type
+    # apart.
     attribute :granted_by
 
-    # The level it was granted at. Recorded rather than derived, so a Cleric's domain spell can
-    # say "Domain Healing, lvl 3" without anyone having to work out which domain and when from
-    # the deity's list and the level table.
+    # The level it was granted at. Recorded rather than derived, so a Cleric's domain spell can say
+    # "Domain Healing, lvl 3" without working the domain and level back out of the deity's list.
     attribute :granted_at, :type => DataType::Integer
 
     index :source_type

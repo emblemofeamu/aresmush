@@ -42,9 +42,8 @@ module AresMUSH
         expect(out[:advancement]['feats']['skill']).to eq [ 'Assurance' ]
       end
 
-      # Multilingual's grants are an `assign` block - two open language picks, which apply
-      # straight away. The choice path used to dump the whole block into the advancement
-      # instead, so the player never got the languages.
+      # Multilingual's grants are an `assign` block - two open language picks, which apply straight
+      # away rather than waiting for advance/done.
       it "should put a feat's immediate grants where they are read from" do
         out = gain('Multilingual', :bucket => 'skill')
 
@@ -60,9 +59,8 @@ module AresMUSH
         expect(Array(out[:to_assign]['raise skill'])).to_not be_empty
       end
 
-      # The one that mattered most: a Dedication carries an archetype, and sixteen of them are
-      # reachable through a choice pool. Gained that way, the character used to end up holding
-      # the feat with no archetype behind it.
+      # A Dedication carries an archetype, and sixteen of them are reachable through a choice pool -
+      # so every path has to assign it, or the feat does nothing.
       it "should assign the archetype behind a dedication" do
         out = gain('Barbarian Dedication', :bucket => 'charclass')
 

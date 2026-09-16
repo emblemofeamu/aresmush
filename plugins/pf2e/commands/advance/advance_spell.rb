@@ -258,10 +258,9 @@ module AresMUSH
 
       # Where a spell list lives in the pool.
       #
-      # Three shapes, and they used to be three code paths. A spellbook may be a flat list or
-      # one list per rank; repertoire and signature are always per rank; and a character casting
-      # from more than one class has all of them keyed by class first. Which of those applies is
-      # the path, not the logic.
+      # Three shapes, one path. A spellbook may be a flat list or one list per rank; repertoire and
+      # signature are always per rank; and a character casting from more than one class has all of
+      # them keyed by class first. Which applies is the path, not the logic.
       def spell_path(class_key, rank)
         [ self.type, class_key, rank ].compact
       end

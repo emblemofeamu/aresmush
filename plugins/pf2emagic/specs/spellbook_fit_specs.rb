@@ -56,8 +56,8 @@ module AresMUSH
         expect(Pf2emagic.spellbook_addition_fits?(subject, 'Wizard', '2', 'Fireball', 'Haste')).to be true
       end
 
-      # The case the old check could not express: it enforced the first restriction and logged
-      # that it was ignoring the second, so the second entry accepted anything at all.
+      # Two reserved entries at one rank: both are enforced, and a spell neither accepts does not
+      # fit.
       it "should enforce every restriction, not only the first" do
         allow(Pf2emagic).to receive(:pending_spellbook_picks).and_return(2)
         subject = char({ 'curriculum' => { '2' => 1 }, 'moon phase' => { '2' => 1 } }, [])

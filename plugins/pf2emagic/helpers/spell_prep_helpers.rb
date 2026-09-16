@@ -71,10 +71,9 @@ module AresMUSH
 
       needs_spellbook = spell_details['traits'].intersect?(['rare', 'uncommon', 'unique'])
 
-      # Whether this class has to have the spell written down comes from its config - does it
-      # get a spellbook at all - rather than from its name. Naming the Wizard here meant any
-      # other class that acquires spells one at a time would silently have been given access to
-      # its whole tradition list instead.
+      # Whether this class has to have the spell written down comes from its config - does it get a
+      # spellbook at all - rather than from its name, so a class that enumerates its spells is not
+      # handed its whole tradition list.
       if !is_adapted && (use_arcane_evo || needs_spellbook || Entries.enumerated?(cc))
         is_in_spellbook = spellbook_check(magic, cc, level, spell_name)
         return t('pf2emagic.not_in_spellbook') unless is_in_spellbook[0]
@@ -89,10 +88,8 @@ module AresMUSH
       }
 
       if make_signature
-        # Recorded under the caster class at the spell's rank, which is the shape every reader
-        # expects. This used to write a flat list keyed by the feat's own name, so the cast
-        # path - which looks under the charclass - never found it and Arcane Evolution's
-        # signature spell was silently not one.
+        # Recorded under the caster class at the spell's rank, which is where the cast path looks.
+        # A list keyed by the granting feat's own name is one it does not read.
         Pf2emagic.record_signature_spell(magic, cc, level, spell_name)
 
         return return_msg

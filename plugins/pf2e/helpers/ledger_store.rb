@@ -150,9 +150,8 @@ module AresMUSH
 
       # The scores to derive later boosts from: where chargen left them.
       #
-      # Recorded once, at the boundary where chargen becomes history. Chargen's own boosts are
-      # not in the ledger (see finding 27), so without this there is nothing to add the fold's
-      # counts to and a rollback could not take a level-up boost back.
+      # Recorded once, at the boundary where chargen becomes history. Chargen's own boosts are not
+      # in the ledger, so this is what the fold's counts are added to.
       def self.record_ability_baseline!(char)
         return if char.pf2_ability_baseline.present?
 
@@ -233,7 +232,7 @@ module AresMUSH
         Pf2eSkills.update_skill_for_char(name, char, rank, false)
       end
 
-      # Rebuilds the level -> feat_choices view the old code reads, from the ledger.
+      # Rebuilds the level -> feat_choices view the legacy readers want, from the ledger.
       def self.tracker_view(char, sheet)
         tracker = {}
 

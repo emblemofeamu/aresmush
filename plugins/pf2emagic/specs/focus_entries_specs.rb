@@ -60,7 +60,8 @@ module AresMUSH
         expect(Entries.focus_spells(@magic, 'devotion')).to eq [ 'Lay on Hands' ]
       end
 
-      # The case the old shape could not hold at all.
+      # PF2e shares one focus pool but casts each source's spells at that source's own DC, so two
+      # sources of one type stay separate entries.
       describe "two sources of one focus type" do
         before(:each) do
           Entries.grant_focus!(@char, 'devotion', [ 'Lay on Hands' ], :kind => 'spell', :granted_by => 'Champion')
@@ -104,7 +105,7 @@ module AresMUSH
           expect(Entries.focus_spells(@magic, 'devotion')).to eq [ 'Touch of the Void' ]
         end
 
-        # Taking a spell away used to write the spell list into the cantrip list, clobbering the
+        # Cantrips and spells are separate lists, so taking a spell away must not touch the
         # cantrips and leaving the spell in place.
         it "should leave the cantrips alone" do
           Entries.grant_focus!(@char, 'devotion', [ 'Lay on Hands' ], :kind => 'spell', :granted_by => 'Champion')

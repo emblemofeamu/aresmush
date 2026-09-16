@@ -53,8 +53,7 @@ module AresMUSH
         expect(Entries.enumerated?('Cleric Archetype')).to be false
       end
 
-      # The whole point of deriving it. Nothing in the code names a class, so a new one is
-      # classified by what its config grants.
+      # Nothing in the code names a class, so a new one is classified by what its config grants.
       it "should classify a class it has never seen from its config alone" do
         allow(Global).to receive(:read_config).and_call_original
         allow(Global).to receive(:read_config).with('pf2e_class', 'Magus').and_return(
@@ -82,8 +81,8 @@ module AresMUSH
         expect(Pf2emagic.get_caster_type('Witch')).to eq 'prepared'
       end
 
-      # A class whose list arrives only through a specialty. None does today; being wrong about
-      # it would mean silently granting whole-tradition access.
+      # A class whose list arrives only through a specialty. Reading it as casting by rule would
+      # grant whole-tradition access.
       it "should look in a class's specialties as well" do
         allow(Global).to receive(:read_config).and_call_original
         allow(Global).to receive(:read_config).with('pf2e_class', 'Patronised').and_return(

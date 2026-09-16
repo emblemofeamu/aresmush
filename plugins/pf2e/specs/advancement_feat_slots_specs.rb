@@ -4,8 +4,8 @@ module AresMUSH
   module Pf2e
     module Advancement
 
-      # What a feat does to the pool of things still to pick, asked directly. Before this was
-      # data, the only way to find out was to run the command and inspect the character.
+      # What a feat does to the pool of things still to pick, asked directly of the data rather than
+      # by running the command and inspecting the character.
       describe FeatSlots do
 
         def skill_feat(extra = {})

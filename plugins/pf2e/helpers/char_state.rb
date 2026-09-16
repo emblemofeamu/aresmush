@@ -178,8 +178,8 @@ module AresMUSH
         attrs
       end
 
-      # Reports an Err to the player. Returns true when there was an error, so a command
-      # reads `return if CharState.emit_error!(client, outcome)`.
+      # Reports an Err to the player. Returns true for an error, so a command reads
+      # `return if CharState.emit_error!(client, outcome)`.
       # Anything that is not an Err means "no objection" - an Ok, a nil from a guard-style core,
       # or the plain value a helper like Slots.apply returns on success. So a shell can hand
       # this whatever it got back and only the failures are spoken.

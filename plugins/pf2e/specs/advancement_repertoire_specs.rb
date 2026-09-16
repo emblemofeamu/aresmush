@@ -26,8 +26,8 @@ module AresMUSH
             expect(Repertoire.swap(held, 'Fireball', 'Bane').code).to eq :not_in_list
           end
 
-          # A spell a specialty put in the repertoire was never theirs to choose, so it is not
-          # theirs to give up either.
+          # A spell a specialty put in the repertoire is not the player's to choose, so it is not
+          # theirs to give up.
           it "should refuse to trade away a granted spell" do
             expect(Repertoire.swap(held, 'Heal', 'Bane', :locked => [ 'Heal' ]).code).to eq :locked
           end

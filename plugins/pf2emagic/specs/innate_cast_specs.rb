@@ -5,10 +5,8 @@ module AresMUSH
 
     # Which innate grant a cast draws on.
     #
-    # `cast_innate_spell` did `innate_spells[spname]` against a bare `innate_spells`, which is not
-    # a method in that scope at all - so every innate cast raised NameError. The attribute it meant
-    # is a *list* of grants rather than a map keyed by spell name, which is also why one spell can
-    # be granted twice at different ranks and traditions, and a cast has to choose between them.
+    # `innate_spells` is a list of grants rather than a map keyed by spell name, so one spell can be
+    # granted twice at different ranks and traditions and a cast has to choose between them.
     describe :innate_to_cast do
 
       def magic_with(grants)
@@ -43,8 +41,8 @@ module AresMUSH
         expect(Entries.innate_to_cast(magic, 'Charm', {})['level']).to eq 'cantrip'
       end
 
-      # Charm really is granted twice in this game - rank 4 divine by Enthralling Allure and rank 1
-      # arcane by Supernatural Charm - so a cast has to pick the one with a use left.
+      # Charm is granted twice in this game - rank 4 divine by Enthralling Allure and rank 1 arcane
+      # by Supernatural Charm - so a cast picks the one with a use left.
       it "should pick the grant whose rank still has a use" do
         magic = magic_with([
           { 'name' => 'Charm', 'level' => 4, 'tradition' => 'divine' },

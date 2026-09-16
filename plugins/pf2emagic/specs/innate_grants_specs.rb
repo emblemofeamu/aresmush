@@ -5,7 +5,7 @@ module AresMUSH
 
     # Innate spells against a real magic object.
     #
-    # They used to be a map keyed by spell name, which silently lost a grant whenever two
+    # They are a list rather than a map keyed by spell name, because a map holds one grant where two
     # sources granted the same spell - and this game has three such pairs.
     describe "innate spell grants", :dbtest => true do
 

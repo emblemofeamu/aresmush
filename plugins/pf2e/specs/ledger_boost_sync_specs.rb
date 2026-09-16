@@ -10,9 +10,8 @@ module AresMUSH
     # character has is a *number* of grants, which is a shape of its own - `list` and `bucketed`
     # both collapse duplicates, and `ranked` would read a second boost as a changed value.
     #
-    # Level-up boosts used to bypass the ledger entirely: `raise ability` wrote `base_val` in
-    # place, so rolling back a level left its boosts behind and the redo added four more. See
-    # finding 27.
+    # Which is what lets a rollback take a boost back: the score is derived from the count rather
+    # than written into `base_val` and left there.
     describe "syncing attribute boosts" do
 
       def plan(held, wanted)
@@ -53,8 +52,8 @@ module AresMUSH
           .to eq('Strength' => 1, 'Dexterity' => 2)
       end
 
-      # Revoking one boost of four must not take the other three with it, which is why the
-      # revocation carries a limit - the same reason a repeatable feat's does.
+      # Revoking one boost of four must not take the other three with it, so the revocation carries
+      # a limit - as a repeatable feat's does.
       it "should revoke one boost at a time when a count falls" do
         outcome = plan({ 'Strength' => 3 }, 'Strength' => 1)
 

@@ -5,12 +5,10 @@ module AresMUSH
 
     # Which heading a feat belongs under.
     #
-    # Chargen filed every feat a class, specialty or specialty option granted under `charclass`,
-    # whatever the feat actually was, so a Fighter's Shield Block - a *general* feat - showed up
-    # among their class feats, as did the Alchemist's Alchemical Crafting and the Swashbuckler's
-    # Fascinating Performance, both skill feats. Nothing mechanical depended on it, because every
-    # prerequisite and duplicate check reads `pf2_feats.values.flatten`, but the sheet reads the
-    # buckets.
+    # What granted a feat says nothing about which heading it takes: Shield Block is a *general*
+    # feat however a class hands it over, and Alchemical Crafting a *skill* feat. Nothing mechanical
+    # reads the bucket - every prerequisite and duplicate check flattens `pf2_feats` - but the sheet
+    # groups by it.
     describe :feat_bucket_for do
 
       it "should put a general feat under general" do

@@ -236,9 +236,8 @@ module AresMUSH
         'ancestry feat','charclass feat','skill feat','general feat','feat choice'
       ]
 
-      # Resolving a choice is `cg/option` during chargen and `advance/option` afterwards. Using
-      # the wrong one fails the `check_advancing` guard, and the climb specs only ever asserted
-      # feat counts, so a choice left unresolved at chargen went unnoticed.
+      # Resolving a choice is `cg/option` during chargen and `advance/option` afterwards; the wrong
+      # one fails the `check_advancing` guard and the choice stays open.
       def option_cmd(context)
         context == :chargen ? 'cg/option' : 'advance/option'
       end
@@ -378,7 +377,7 @@ module AresMUSH
             options = begin
               block ? Array(Pf2e.choice_options(@char, name, block)) : []
             rescue StandardError => e
-              # Swallowing this silently once hid a live ArgumentError in the game itself.
+              # Noted rather than swallowed: a raise here is usually a bug in the game, not here.
               note "!! choice_options raised for #{name.inspect}: #{e.class}: #{e.message}"
               []
             end

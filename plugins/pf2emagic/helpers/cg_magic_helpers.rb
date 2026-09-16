@@ -523,7 +523,7 @@ module AresMUSH
 
       case gate
       when 'school'
-        # Legacy gate, no longer enforced after school traits were removed.
+        # Not enforced: the game's spell data carries no school traits to gate on.
         passes_gate = true
       else
         # Fail any gate not recognized.

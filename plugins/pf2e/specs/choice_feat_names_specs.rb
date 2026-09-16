@@ -5,12 +5,10 @@ module AresMUSH
 
     # A feat choice whose pool is a named pair rather than a whole category.
     #
-    # PF2e has several features that hand over one of two specific feats. The Druid's is
-    # Voice of Nature: "You gain your choice of the Animal Empathy or Plant Empathy druid feat"
-    # (Player Core, via Archives of Nethys). `from_feats` could filter a pool by type, traits or
-    # level, but not down to a named list, so there was no way to express it - which is why the
-    # Druid's table put the two feat names in `choose_feat`, a field that holds slot *types*,
-    # where they did nothing at all. See finding 29.
+    # PF2e has several features that hand over one of two specific feats. The Druid's is Voice of
+    # Nature: "You gain your choice of the Animal Empathy or Plant Empathy druid feat" (Player Core,
+    # via Archives of Nethys). A `names` filter is how a pool is narrowed to a named pair, as
+    # opposed to `from_feats`' other filters, which narrow by type, traits or level.
     describe :choice_feat_pool do
 
       def feats
@@ -56,8 +54,8 @@ module AresMUSH
         expect(pool).to eq [ 'Animal Empathy', 'Plant Empathy', 'Wild Shape' ]
       end
 
-      # A names filter is a whitelist, so a feat on the list that fails another clause of the
-      # same filter is still out.
+      # A names filter is a whitelist: a feat on the list that fails another clause of the same
+      # filter is still out.
       it "should combine a names filter with the rest of the filter" do
         pool = Pf2e.choice_feat_pool(char, 'names' => [ 'Animal Empathy' ], 'feat_type' => [ 'skill' ])
 

@@ -15,9 +15,8 @@ module AresMUSH
         double(:abilities => [ strength ], :pf2_level => 5, :is_admin? => false, :name => 'Someone')
       end
 
-      # `char.abilities.select { }` returns an array, and an array is truthy, so the guard below
-      # it never fired and `obj.name` was called on the array itself. Every abbreviated ability
-      # in a roll string raised NoMethodError. Every other site in the codebase writes `.first`.
+      # `char.abilities.select { }` returns an array, so a lookup needs `.first` - an array is
+      # truthy, so a `return 0 if !obj` guard does not catch the miss and `obj.name` raises.
       it "should resolve an abbreviated ability" do
         allow(Pf2eAbilities).to receive(:get_score).with(anything, 'Strength').and_return(18)
         allow(Pf2eAbilities).to receive(:abilmod).with(18).and_return(4)

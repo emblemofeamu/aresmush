@@ -74,8 +74,8 @@ module AresMUSH
       found && found[1]
     end
 
-    # Every label ever picked for a choice, across all levels. Used to stop a repeatable feat
-    # from choosing the same thing twice.
+    # Every label ever picked for a choice, across all levels, so a repeatable feat cannot choose
+    # the same thing twice.
     #
     # Chargen writes to the tracker immediately, but advancement stages into to_assign until
     # advance/done, so both have to be consulted or a choice made earlier in the same
@@ -151,9 +151,9 @@ module AresMUSH
       failure = can_rollback_to?(char, level)
       return failure if failure
 
-      # Every level from the target upwards is coming back, so the refund is all of their
-      # costs, not one level's worth. The ledger no longer holds the xp, so this posts the
-      # refund rather than merely describing one the fold had already made.
+      # Every level from the target upwards is coming back, so the refund is all of their costs,
+      # not one level's worth. The xp lives in Pf2e::Audit rather than the fold, so the refund is
+      # posted here rather than falling out of a re-fold.
       refunded = (char.pf2_level - (level.to_i - 1)) * Pf2e::ADVANCEMENT_XP_COST
 
       marker = Ledger.rollback_to_level!(char, level, enactor)

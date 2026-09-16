@@ -60,7 +60,7 @@ module AresMUSH
         end
 
         # The languages a player may choose: every language in the rarity buckets listed by
-        # pf2e.can_select_language, which is why rare and secret ones never appear.
+        # pf2e.can_select_language, so rare and secret ones are not offered.
         def self.selectable(state)
           config = state['config']
           buckets = Array(config.read('pf2e', 'can_select_language'))

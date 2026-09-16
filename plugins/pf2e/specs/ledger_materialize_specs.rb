@@ -62,10 +62,9 @@ module AresMUSH
         end
       end
 
-      # Legacy code computes whole lists (all of a character's feats, say) and used to assign
-      # them straight onto the character - which the next fold then erased. sync_plan turns
-      # such an assignment into ledger entries: grants for what appeared, revocations for what
-      # went away.
+      # Legacy code computes whole lists - all of a character's feats, say. sync_plan turns such an
+      # assignment into ledger entries, grants for what appeared and revocations for what went away,
+      # so the next fold reproduces it instead of erasing it.
       describe :sync_plan do
         def sheet(overrides = {})
           Ledger.empty_sheet(3).merge(overrides)

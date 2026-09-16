@@ -27,8 +27,8 @@ module AresMUSH
         @fixture.nil?
       end
 
-      # Returns nil for any missing or non-hash path, matching Global.read_config's habit of
-      # answering nil rather than raising - which is why callers everywhere write `|| []`.
+      # Returns nil for any missing or non-hash path, matching Global.read_config, which answers nil
+      # rather than raising - hence the `|| []` callers write.
       def read(*path)
         return Global.read_config(*path) if live?
 

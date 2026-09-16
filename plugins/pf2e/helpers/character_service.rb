@@ -6,9 +6,8 @@ module AresMUSH
     #   CharacterService.call(state, :set_base_info, 'element' => 'ancestry', 'value' => 'Khazad')
     #   # => Ok(state:, grants:, messages:) | Err(code:, key:, args:)
     #
-    # Handlers are pure: state and args in, an Outcome out. Nothing here reads a character,
-    # a client or Global - which is why a whole chargen can be run as data in a spec with no
-    # Redis anywhere near it.
+    # Handlers are pure: state and args in, an Outcome out. Nothing here reads a character, a client
+    # or Global, so a whole chargen runs as data in a spec with no Redis near it.
     module CharacterService
 
       # Resolved lazily so the registry can name a core before it exists.

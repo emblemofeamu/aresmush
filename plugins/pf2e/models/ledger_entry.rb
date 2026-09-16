@@ -6,10 +6,10 @@ module AresMUSH
   # a character with fifty thousand awards is fifty thousand of these, not a fifty-thousand
   # element array that is read and rewritten in full every time one more arrives.
   #
-  # **Never read these as a collection.** `char.pf2_ledger_entries.to_a` loads every row and
-  # sorts in Ruby, which is how every other collection in AresMUSH is read and which costs
-  # about 19 microseconds a row - two seconds at a hundred thousand of them, on the one
-  # reactor thread the whole game shares. Go through Pf2e::Audit, which pages against a sorted
+  # **Never read these as a collection.** `char.pf2_ledger_entries.to_a` loads every row and sorts
+  # in Ruby, the way every other collection in AresMUSH is read, at about 19 microseconds a row -
+  # two seconds at a hundred thousand, on the one reactor thread the whole game shares. Go through
+  # Pf2e::Audit, which pages against a sorted
   # set index and loads only the rows it returns.
   class Pf2eLedgerEntry < Ohm::Model
     include ObjectModel

@@ -4,9 +4,9 @@ module AresMUSH
 
   # Applying attribute boosts to a score.
   #
-  # PF2e: a boost raises a score by 2, or by 1 once it is 18 or higher. That rule depends only on
-  # the score being boosted, so a count of boosts per ability is enough to derive the result -
-  # there is no ordering to preserve between abilities, which is what makes the boosts foldable.
+  # PF2e: a boost raises a score by 2, or by 1 once it is 18 or higher. The rule depends only on the
+  # score being boosted, so a count per ability derives the result and no ordering between abilities
+  # has to be preserved - which is what makes boosts foldable.
   describe Pf2eAbilities do
 
     describe :boosted_score do
@@ -33,7 +33,7 @@ module AresMUSH
       end
 
       it "should be the same as applying them one at a time" do
-        # The whole argument for folding a count: it has to agree with the incremental writer.
+        # Folding a count is only sound if it agrees with the incremental writer.
         (10..20).each do |base|
           (0..6).each do |count|
             one_at_a_time = count.times.reduce(base) { |score, _| score < 18 ? score + 2 : score + 1 }

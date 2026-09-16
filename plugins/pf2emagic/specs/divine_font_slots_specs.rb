@@ -5,10 +5,9 @@ module AresMUSH
 
     # A Cleric's divine font, all the way through to the slot count the game enforces.
     #
-    # The unit specs prove Pf2emagic::Restrictions produces the row. This proves the row reaches
-    # `max_spells_per_day` and `prepared_set_fits?`, which is where it was missing: the font was
-    # asked for, stored, printed on the sheet and used as a feat prerequisite, and appeared in no
-    # slot count anywhere, so every Cleric was one slot short at every rank they could cast.
+    # The unit specs prove Pf2emagic::Restrictions produces the row; this proves the row reaches
+    # `max_spells_per_day` and `prepared_set_fits?`, the two places that decide how many slots a
+    # Cleric has.
     describe "the divine font's slots", :dbtest => true do
 
       before(:each) do

@@ -69,11 +69,8 @@ module AresMUSH
 
     # A word in a roll string, and how to turn it into a number.
     #
-    # Rows are tried in order and the last one matches anything, so a word this does not
-    # recognise is looked up as a skill and otherwise contributes nothing. Adding a keyword is
-    # adding a row - it used to be a `case` where each arm reached for a different helper, and
-    # one arm resolved an ability by object and forgot `.first`, so every abbreviated ability in
-    # a roll string raised NoMethodError.
+    # Rows are tried in order and the last one matches anything, so a word this does not recognise
+    # is looked up as a skill and otherwise contributes nothing. Adding a keyword is adding a row.
     #
     # A row may return an array of individual dice, which `parse_roll_string` shows in brackets
     # and flattens into the total. Sneak attack does; that is deliberate.
@@ -265,9 +262,8 @@ module AresMUSH
 
     # The one door for moving a character's XP, in either direction. Negative spends.
     #
-    # It records the transaction and moves the running total together, which is why there is
-    # no longer a separate record_xp_history to forget - and it was forgotten: every nomination
-    # award went through award_xp without ever appearing in a player's history.
+    # It records the transaction and moves the running total together, so there is no separate
+    # history call for a caller to forget.
     def self.award_xp(target, amount, awarded_by = 'System', reason = nil, ref = nil)
       Pf2e::Audit.post(target, 'xp', amount, :by => awarded_by, :reason => reason, :ref => ref)
     end
@@ -474,7 +470,7 @@ module AresMUSH
     end
 
     def self.easter_scrub(ary)
-      # This is used to scrub Easter egg options out of any array.
+      # Scrubs Easter egg options out of any array.
       # Use for option output to players.
 
       return ary unless ary.is_a? Array

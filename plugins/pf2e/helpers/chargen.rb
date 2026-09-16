@@ -973,9 +973,9 @@ module AresMUSH
           Pf2eAbilities.cg_lock_abilities(char)
           char.pf2_to_assign = checkpoint_info_backup["skills"]["pf2_to_assign"]
 
-          # cg_lock_base_options rebuilt pf2_lang from the base grants alone, which drops anything the
-          # player picked with lang/set. Checkpoints taken before this key existed have nothing to
-          # restore, so those fall back to the rebuilt list.
+          # cg_lock_base_options rebuilds pf2_lang from the base grants alone, which drops anything
+          # the player picked with lang/set. A checkpoint that carries no saved list falls back to
+          # the rebuilt one.
           saved_lang = checkpoint_info_backup["skills"]["pf2_lang"]
           char.pf2_lang = saved_lang if saved_lang
 

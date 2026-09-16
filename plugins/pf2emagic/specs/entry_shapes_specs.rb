@@ -33,8 +33,8 @@ module AresMUSH
         entries.find { |e| e['name'] == name }
       end
 
-      # A staff holds spells and spends charges rather than slots, and casts at the wielder's
-      # own statistics. `tradition[charclass]` had no key for it.
+      # A staff holds spells and spends charges rather than slots, and casts at the wielder's own
+      # statistics - none of which a class-keyed hash has a place for.
       it "should hold an item caster with charges" do
         Entries.store!(@char,
           'name' => 'Staff of Fire', 'source_type' => 'item', 'category' => 'item',
@@ -59,8 +59,8 @@ module AresMUSH
         expect(find('Wand of Heal')['uses']).to eq('per_day' => 1)
       end
 
-      # Two staves at once - two entries with the same category and different traditions, which
-      # a hash keyed by class could not express at all.
+      # Two staves at once: two entries sharing a category with different traditions, which a hash
+      # keyed by class has no room for.
       it "should hold two item casters at once" do
         Entries.store!(@char, 'name' => 'Staff of Fire', 'category' => 'item', 'source_type' => 'item', 'tradition' => 'arcane')
         Entries.store!(@char, 'name' => 'Staff of Healing', 'category' => 'item', 'source_type' => 'item', 'tradition' => 'divine')
@@ -102,8 +102,8 @@ module AresMUSH
         expect(find('Cleric Archetype')['tradition']).to eq 'divine'
       end
 
-      # A prepared caster's slots and what is prepared into them are different things, which the
-      # old shape kept in two unrelated hashes.
+      # A prepared caster's slots and what is prepared into them are different things, and belong on
+      # one entry.
       it "should keep slots and what is prepared into them on one entry" do
         Entries.store!(@char,
           'name' => 'Wizard', 'source_type' => 'class', 'category' => 'prepared',

@@ -6,23 +6,16 @@ module AresMUSH
       #
       # A feat reaches a character three ways: typed at `advance/feat`, handed over by a choice
       # that draws from a feat pool (a Swashbuckler's Stylish Tricks, an Investigator's Skillful
-      # Lessons), or granted outright by an archetype. Each of those used to apply its own
-      # subset of the consequences, and the subsets had drifted:
-      #
-      #   * `advance/feat` assessed a feat's `grants` properly - splitting what applies now from
-      #     what waits for advance/done, and training the skills among them. A feat gained
-      #     through a choice had its grants dumped into the draft raw. **56 feats with grants
-      #     are reachable through a choice pool.**
-      #   * `advance/feat` assigned the archetype behind a Dedication. A Dedication gained
-      #     through a choice did not, leaving the character holding the feat with no archetype
-      #     behind it. **16 Dedications are reachable through a choice pool.**
-      #   * Only `advance/feat` applied a feat's `at_level` clauses.
+      # Lessons), or granted outright by an archetype. All three run the same consequences, which
+      # is what this module is for - 56 feats with `grants` and 16 Dedications are reachable
+      # through a choice pool, so a path that applies only a subset is a path that hands out an
+      # incomplete feat.
       #
       # EFFECTS is the whole list, in order. Every path runs all of it.
       #
-      # Not pure, and honest about why: skills, magic and features live on Ohm objects rather
-      # than in CharState, so applying them means touching the character. What this makes
-      # legible and testable is the sequence and the decisions.
+      # Not pure: skills, magic and features live on Ohm objects rather than in CharState, so
+      # applying them means touching the character. What this makes legible and testable is the
+      # sequence and the decisions.
       module FeatGain
 
         # A feat's consequences, applied in this order. `when` decides whether a row runs;
@@ -112,8 +105,8 @@ module AresMUSH
           ctx[:to_assign]['archetype'] = archetype
 
           # Written here rather than left for the caller's save: the archetype slots are a
-          # character attribute, not part of the draft the caller promised to write, and a
-          # future caller that forgot would silently lose the archetype.
+          # character attribute, not part of the draft the caller promised to write, so a caller
+          # that does not save loses the archetype.
           ctx[:char].update(:pf2_archetypeinfo => Onboarding.claim_slot(ctx[:char].pf2_archetypeinfo || {}, archetype))
 
           messages = Onboarding.apply(ctx[:char], archetype, ctx[:to_assign], ctx[:advancement])

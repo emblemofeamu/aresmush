@@ -23,13 +23,12 @@ module AresMUSH
           return
         end
 
-        # `find` hands back a FindResult, not a character. Reading `is_admin?` off the result
-        # raised NoMethodError, so this command failed for every name it was given.
+        # `find` hands back a FindResult, not a character: `target`, `error` and `found?` are its
+        # whole interface.
         found = ClassTargetFinder.find(self.target, Character, enactor)
 
         if !found.found?
-          # The finder says whether the name was unknown or ambiguous; this used to report
-          # everything as ambiguous.
+          # The finder's own message distinguishes an unknown name from an ambiguous one.
           client.emit_failure found.error
           return
         end
@@ -41,8 +40,8 @@ module AresMUSH
           return
         end
 
-        # You can only share a section you have: the same table both display commands read, so
-        # `sheet/show` can no longer grant a section `sheet` would refuse to render.
+        # You can only share a section you have, read from the same table both display commands
+        # use.
         outcome = Pf2e::Sheet.available(enactor, self.section)
 
         if outcome.err?
@@ -52,8 +51,8 @@ module AresMUSH
 
         section = outcome.state
 
-        # Names, not character objects: this is a hash attribute, and what reads it wants
-        # something it can print and compare.
+        # Names, not character objects: this is a hash attribute, and what reads it needs something
+        # it can print and compare.
         permissions = enactor.pf2_viewsheet
         granted = Array(permissions[section])
 

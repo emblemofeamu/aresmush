@@ -82,11 +82,9 @@ module AresMUSH
         end
       end
 
-      # Whether a *viewer* may see a section, which is a different question from whether the
-      # section exists. `sheet/show` let a player grant someone access to a section of their
-      # sheet - and nothing ever read the grant: `sheet` and `sheet/combat` consulted only the
-      # `open_sheets` config and the staff `view_sheets` permission, so every grant a player made
-      # was inert.
+      # Whether a *viewer* may see a section, which is a different question from whether the section
+      # exists. A grant a player makes with `sheet/show` is one of the reasons to allow it, alongside
+      # the `open_sheets` config and the staff `view_sheets` permission.
       describe :viewable? do
         def viewer(permission: false)
           double(:name => 'Viewer', :has_permission? => permission, :is_admin? => false)

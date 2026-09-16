@@ -6,9 +6,8 @@ module AresMUSH
 
     # Spells learned ride the level ladder, like every other thing a level grants.
     #
-    # They used to not. A Sorcerer rolled back from 5 to 4 kept every spell learned at 5, and the
-    # ledger had no record they were learned - so admin/rollback, whose purpose is letting a player
-    # redo a level, handed them that level's spells for free and let them pick again.
+    # Which is what makes `admin/rollback` safe for a caster: a Sorcerer rolled back from 5 to 4
+    # gives up the spells learned at 5, rather than keeping them and picking again.
     describe "learned spells on the level ladder", :dbtest => true do
 
       before(:each) do

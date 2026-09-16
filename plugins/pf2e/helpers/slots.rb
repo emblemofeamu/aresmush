@@ -115,7 +115,7 @@ module AresMUSH
       # ------------------------------------------------------------------------------
 
       # Folds the deltas into the pool, in order. Returns the new pool, or the Err of the first
-      # delta that could not be applied - the pool is left alone in that case, so a half-applied
+      # delta that cannot be applied - the pool is left alone in that case, so a half-applied
       # sequence never reaches a character.
       def self.apply(pool, deltas)
         Array(deltas).reduce(deep_copy(pool || {})) do |acc, delta|
@@ -132,8 +132,7 @@ module AresMUSH
         end
       end
 
-      # What a list of deltas opens up, as slot label => how many. The question the scattered
-      # version could not answer.
+      # What a list of deltas opens up, as slot label => how many.
       def self.openings(deltas)
         Array(deltas).each_with_object({}) do |delta, counts|
           next unless delta[:op].to_s == 'open'

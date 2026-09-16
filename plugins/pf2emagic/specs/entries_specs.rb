@@ -199,8 +199,8 @@ module AresMUSH
           expect(Entries.signature_ranks(magic, 'Bard', 'Fireball')).to eq []
         end
 
-        # The old inline version matched exactly, so a difference in capitalisation between how
-        # a spell was recorded and how it was cast would have lost the heightening silently.
+        # An exact match loses the heightening when a spell is recorded and cast with different
+        # capitalisation.
         it "should match the spell however it was capitalised" do
           expect(Entries.signature_ranks(magic, 'Sorcerer', 'fireball')).to eq [ '3' ]
         end

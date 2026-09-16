@@ -5,10 +5,8 @@ module AresMUSH
 
     # Which of a caster's slots at one rank are restricted, and to what.
     #
-    # Each kind of restriction is a row: how many slots it grants at a rank, and which spells may
-    # go in them. Adding a kind is adding a row, which is the point - the old shape had one
-    # hardcoded `case` for 'curriculum' that logged an error for anything else, and the divine
-    # font was not a restriction at all, so a Cleric's font slot did not exist.
+    # Each kind of restriction is a row: how many slots it grants at a rank, and which spells may go
+    # in them. Adding a kind is adding a row.
     describe Restrictions do
 
       def stats(restricted = {})
@@ -49,8 +47,7 @@ module AresMUSH
       end
 
       # PF2e: "you can cast one additional spell each day at each spell rank you can cast", and it
-      # must be your font spell. Tenebrae recorded the choice and printed it on the sheet, but
-      # never granted the slot, so every Cleric was short one slot at every rank.
+      # must be the font's own spell.
       describe "a divine font" do
         def cleric(font = 'heal')
           magic = double(:restricted_slots => { 'Cleric' => {} },

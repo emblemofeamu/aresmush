@@ -185,10 +185,9 @@ module AresMUSH
           expect(Ledger.fold(grants, at_level: 5)['profs']['weapon_prof']['simple']).to eq 'expert'
         end
 
-        # XP used to be folded here. It is a counter rather than build history, and folding
-        # thousands of transactions to answer "which feats does this character have" was the
-        # cost that moved it to Pf2e::Audit. An old row is not an error, but it no longer
-        # means anything to the fold.
+        # XP is a counter rather than build history and lives in Pf2e::Audit, so that folding
+        # thousands of transactions is not the price of asking which feats a character has. A row
+        # carrying xp is not an error; it means nothing to the fold.
         it "should leave a legacy xp row alone rather than folding it" do
           grants = [
             grant(1, 'xp_award', { 'amount' => 3000 }, level: nil, source: 'staff'),

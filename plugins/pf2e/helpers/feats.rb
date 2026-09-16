@@ -785,11 +785,8 @@ module AresMUSH
 
     # What is still unchosen among a character's innate spell grants, one label each.
     #
-    # Reads through Pf2emagic::Entries because `innate_spells` is a list of grants, not a map keyed
-    # by spell name: two sources can grant the same spell at different ranks and traditions, and
-    # keyed by name one of them was lost. This read had not been moved over, so it called `.values`
-    # on an Array and raised - reachable the moment a feat choice that grants magic was resolved,
-    # which a Champion's Devotion Spell does at chargen.
+    # Reads through Pf2emagic::Entries: `innate_spells` is a list of grants, not a map keyed by
+    # spell name, because two sources can grant the same spell at different ranks and traditions.
     def self.open_innate_labels(magic)
       return [] unless magic
 
@@ -2206,8 +2203,8 @@ module AresMUSH
     # Where a feat belongs, from what the game says the feat *is*. A feat that is both Skill and
     # General belongs under the more specific one, which is the one the data lists first.
     #
-    # Falls back to `charclass` rather than to the empty string: a feat whose data names no type
-    # used to land in a bucket called `''`, which no heading on the sheet reads.
+    # Falls back to `charclass` for a feat whose data names no type, because a bucket named `''`
+    # is one no heading on the sheet reads.
     def self.feat_bucket(details)
       types = Array((details || {})['feat_type']).map { |t| t.to_s.downcase }
 
@@ -2222,13 +2219,9 @@ module AresMUSH
       feat_bucket(key && feats[key])
     end
 
-    # A list of granted feats, grouped by the heading each belongs under.
-    #
-    # Chargen filed every feat a class, specialty or specialty option granted under `charclass`,
-    # whatever the feat actually was, so a Fighter's Shield Block - a general feat - sat among
-    # their class feats, as did the Alchemist's Alchemical Crafting and the Swashbuckler's
-    # Fascinating Performance, both skill feats. Advancement already got this right through
-    # `add_granted_feat`; chargen did not.
+    # A list of granted feats, grouped by the heading each belongs under. What granted a feat says
+    # nothing about which heading it takes: Shield Block is a general feat however a class hands it
+    # over.
     def self.bucket_feats(names)
       Array(names).each_with_object({}) do |name, grouped|
         next if name.blank?
@@ -2361,10 +2354,8 @@ module AresMUSH
         fname = feat[0]
         fdetails = feat[1]
 
-        # The same path a feat typed at advance/feat takes. This branch used to apply a
-        # reduced version of it - raw grants instead of assessed ones, and no archetype behind
-        # a Dedication - so a feat handed over by a choice was worth less than the same feat
-        # chosen directly.
+        # The same path a feat typed at advance/feat takes, so a feat handed over by a choice is
+        # worth exactly what the same feat chosen directly is.
         gained = Advancement::FeatGain.apply(char, fname, fdetails,
           :bucket => Array(fdetails['feat_type']).first.to_s.downcase,
           :to_assign => to_assign,

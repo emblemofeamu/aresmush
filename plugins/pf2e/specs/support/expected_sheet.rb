@@ -44,8 +44,8 @@ module AresMUSH
       FEAT_SLOT_TYPES = %w(charclass skill general ancestry archetype dedication).freeze
 
       # How each key in a chargen or advance block contributes. One row per key; a key with no row
-      # contributes nothing to the expectation and is listed by `unabsorbed` so this cannot fall
-      # quietly behind the config.
+      # is listed by `unabsorbed`, which is asserted empty, so the expectation cannot fall behind
+      # the config.
       ABSORBERS = {
         'charclass_feature' => lambda { |acc, value, _lv| acc['features'] |= Array(value).map(&:to_s) },
         'archetype_feature' => lambda { |acc, value, _lv| acc['features'] |= Array(value).map(&:to_s) },

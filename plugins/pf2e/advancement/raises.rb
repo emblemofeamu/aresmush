@@ -144,8 +144,8 @@ module AresMUSH
           filled = Slots.apply(state['to_assign'], [ Slots.fill(key, skill, :tokens => allowed) ])
 
           if filled.is_a?(Err)
-            # Say *why* it could not be spent: a slot reserved for untrained skills reads
-            # differently from one reserved for lores.
+            # Say *why* it cannot be spent: a slot reserved for untrained skills reads differently
+            # from one reserved for lores.
             blocked = open.any? { |s| Pf2e.untrained_only_token?(s) } && !untrained
 
             return Err.new(:untrained_only, 'pf2e.adv_untrained_only') if blocked

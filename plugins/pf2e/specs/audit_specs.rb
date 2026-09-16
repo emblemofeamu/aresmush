@@ -3,9 +3,9 @@ require "plugin_test_loader"
 module AresMUSH
   module Pf2e
 
-    # The XP and money audit. Tagged :dbtest because the whole point of it is where the data
-    # lives: one row per transaction in its own model, indexed by a sorted set, with the
-    # running total staying on the character.
+    # The XP and money audit. Tagged :dbtest because what it asserts is where the data lives: one
+    # row per transaction in its own model, indexed by a sorted set, with the running total on the
+    # character.
     describe Audit, :dbtest => true do
 
       before(:each) do

@@ -58,8 +58,8 @@ module AresMUSH
         !Pf2emagic::Entries.all_focus(@magic).empty?
       end
 
-      # One block per focus entry rather than per focus type, so two sources of one type are
-      # shown separately - each has its own DC, which is why they are separate entries.
+      # One block per focus entry rather than per focus type, so two sources of one type are shown
+      # separately: each casts at its own DC.
       def focus_spells
         tradition = @magic.tradition
         focus_sources = Global.read_config('pf2e_magic', 'focus_type_by_source') || {}
@@ -88,10 +88,9 @@ module AresMUSH
           sources.first
       end
 
-      # Asked of the spellcasting entries rather than of the signature_spells hash, so the
-      # display and the cast path agree about what a signature spell is. They did not: the hash
-      # could hold a flat list under a feat's name, which this guarded against with
-      # `levels.is_a?(Hash)` and therefore silently did not show.
+      # Asked of the spellcasting entries rather than of the signature_spells hash, so the display
+      # and the cast path agree about what a signature spell is - the hash can hold a flat list under
+      # a feat's name, which a per-rank read skips.
       def signature_entries
         @signature_entries ||= Pf2emagic::Entries.with_signatures(@magic)
           .select { |entry| entry['category'] == 'spontaneous' }

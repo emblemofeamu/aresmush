@@ -5,9 +5,8 @@ module AresMUSH
       # What gaining a feat does to the pool of things still to pick, as data.
       #
       # Pure: a feat's config plus a little context in, slot deltas out. It reads no character,
-      # writes nothing, and calls nothing that does - so "what does taking this feat open up?"
-      # is a question a spec can ask directly, which it could not be when the answer was an
-      # array append buried three conditionals deep in a four-hundred-line method.
+      # writes nothing, and calls nothing that does - so "what does taking this feat open up?" is a
+      # question a spec can ask directly.
       #
       # `Advancement::FeatGain` is the imperative half that applies these alongside the effects
       # that genuinely need the live sheet - training a skill depends on what the character is
