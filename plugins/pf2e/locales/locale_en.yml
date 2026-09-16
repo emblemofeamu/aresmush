@@ -19,6 +19,8 @@ en:
     feat_level_clause_applied: "%{feat} has a benefit that applies from level %{level}, which you already qualify for. It has been applied."
     choice_level_clause_applied: "Your %{choice} choice of %{value} has a benefit that applies from level %{level}, which you already qualify for. It has been applied."
     adv_archetype_assigned: "You have added %{archetype} to your archetypes list."
+    adv_no_archetype_assigned: "No archetype has been assigned."
+    adv_no_archetype_specialty_needed: "You do not need to assign an archetype specialty."
     adv_archetype_specialty_assigned: "You have selected %{specialty} as your archetype specialty."
     adv_archetype_specialty_choice_assigned: "You have selected %{choice} for your %{specialty} specialty."
     adv_invalid_archetype_specialty: "That is not a valid specialty for %{archetype}. Valid options are: %{options}"

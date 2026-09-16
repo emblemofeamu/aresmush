@@ -64,6 +64,11 @@ module AresMUSH
         Ok.new(:state => @state, :grants => @grants, :messages => @messages + [ { 'key' => key, 'args' => args } ], :revocations => @revocations)
       end
 
+      # An aside rather than the headline - the shell speaks it OOC.
+      def with_ooc(key, args = {})
+        Ok.new(:state => @state, :grants => @grants, :messages => @messages + [ { 'key' => key, 'args' => args, 'type' => 'ooc' } ], :revocations => @revocations)
+      end
+
       def with_grant(kind, payload = {}, overrides = {})
         grant = { 'kind' => kind, 'payload' => payload }.merge(overrides)
         Ok.new(:state => @state, :grants => @grants + [ grant ], :messages => @messages, :revocations => @revocations)
@@ -120,6 +125,16 @@ module AresMUSH
       end
 
       def and_then
+        self
+      end
+
+      # An Err absorbs the rest of the chain, the same way and_then does, so a core can write
+      # `transform(...).with_message(...)` without checking first.
+      def with_message(_key, _args = {})
+        self
+      end
+
+      def with_ooc(_key, _args = {})
         self
       end
     end

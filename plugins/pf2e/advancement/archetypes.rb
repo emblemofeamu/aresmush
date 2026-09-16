@@ -12,15 +12,25 @@ module AresMUSH
 
         SLOTS = 4
 
-        # Family name to the key it is stored under, per index. The specialty choice is keyed
-        # by *archetype* rather than by its own value, which is why it needs its own lookup.
-        FAMILIES = {
-          'archetype' => 'archetype',
-          'archetype_specialty' => 'archetype_specialty'
-        }.freeze
-
         def self.keys_for(family)
           (1..SLOTS).map { |i| "#{family}#{i}" }
+        end
+
+        # Which numbered slot an archetype sits in, 1-based, or nil when it holds none.
+        def self.index_of(archetypes, archetype)
+          found = keys_for('archetype').index { |key| archetypes[key].to_s == archetype.to_s }
+
+          found && found + 1
+        end
+
+        # Records a value in the slot of another family that sits beside a given archetype -
+        # its specialty, or its specialty choice. Returns a new hash; an archetype holding no
+        # slot at all leaves it unchanged, which is how a specialty picked for an archetype the
+        # sheet has not recorded is quietly skipped rather than written to slot 1.
+        def self.set_alongside(archetypes, family, archetype, value)
+          index = index_of(archetypes, archetype)
+
+          index ? archetypes.merge("#{family}#{index}" => value) : archetypes
         end
 
         # Clears the highest-numbered slot in this family holding `value`. Returns a new hash;
@@ -35,9 +45,7 @@ module AresMUSH
 
         # Clears the specialty choice that sits alongside a given archetype.
         def self.clear_choice_for(archetypes, archetype)
-          index = keys_for('archetype').index { |k| archetypes[k].to_s == archetype.to_s }
-
-          index ? archetypes.merge("archetype_specialty_choice#{index + 1}" => "") : archetypes
+          set_alongside(archetypes, 'archetype_specialty_choice', archetype, "")
         end
 
         # The archetype each Dedication feat in the draft belongs to.

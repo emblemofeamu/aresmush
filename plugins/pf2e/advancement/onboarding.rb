@@ -14,6 +14,9 @@ module AresMUSH
       # apply it and what to tell the player. Adding a key is adding a row; the order is the
       # order they are applied in, and deity comes first because sanctification reads it.
       #
+      # An archetype's specialty and that specialty's own choice carry the same block, so they
+      # come through the same rows - see SOURCES and `apply_payload`.
+      #
       # Not pure, and honest about why: skills, magic and features are held on live Ohm
       # objects rather than in CharState, so applying them means touching the character. The
       # sequencing and the decisions are what this makes legible and testable; making it pure
@@ -24,6 +27,29 @@ module AresMUSH
         def self.names(value)
           Array(value).compact.map { |v| v.to_s.strip }.reject(&:empty?).uniq
         end
+
+        # Who is handing the payload over. An archetype's own `initial_dedication`, one on a
+        # specialty of it, or one on the option chosen for that specialty - and a specialty's
+        # is the same block with the same keys, which is the point: advance/archetype used to
+        # read only `skills` and `magic_stats` out of a specialty's block, so the Druid
+        # Archetype's Animal specialty never handed over the Animal Companion feat its `feat`
+        # key asks for.
+        #
+        # All that differs is how each names itself in the two messages the rows speak.
+        SOURCES = {
+          'archetype' => {
+            'item' => 'archetype',
+            'skills' => lambda { |_name| [ 'pf2e.adv_archetype_skills_assigned', {} ] }
+          },
+          'specialty' => {
+            'item' => 'archetype specialty',
+            'skills' => lambda { |name| [ 'pf2e.adv_archetype_specialty_skill_training', { :archetypespecialty => name } ] }
+          },
+          'specialty choice' => {
+            'item' => 'archetype specialty choice',
+            'skills' => lambda { |name| [ 'pf2e.adv_archetype_specialty_choice_skill_training', { :archetypespecialtychoice => name } ] }
+          }
+        }.freeze
 
         PAYLOAD = [
           # A deity the archetype needs. Taken from the character when they already have one,
@@ -43,15 +69,8 @@ module AresMUSH
               ctx[:slot].call(Slots.set('archetype deity', held))
               ctx[:advancement]['archetype_deity'] = held
 
-              msgs = [ [ 'pf2e.adv_archetype_deity_assigned', { :deity => held, :archetype => ctx[:archetype] } ] ]
-              skill = Global.read_config('pf2e_deities', held, 'divine_skill')
-
-              next msgs if skill.blank?
-
-              msgs.concat(Onboarding.train(ctx, [ skill ], 'deity', 'pf2e.adv_archetype_deity_skill_assigned',
-                :deity => held, :skill => skill))
-
-              msgs
+              [ [ 'pf2e.adv_archetype_deity_assigned', { :deity => held, :archetype => ctx[:archetype] } ] ] +
+                Onboarding.deity_skill(ctx[:char], held, ctx[:to_assign], ctx[:advancement])
             }
           },
           # Skills the archetype trains outright.
@@ -62,8 +81,9 @@ module AresMUSH
 
               next [] if skills.empty?
 
-              Onboarding.train(ctx, skills, 'archetype', 'pf2e.adv_archetype_skills_assigned',
-                :skills => skills.join(", "))
+              key, args = ctx[:source]['skills'].call(ctx[:name])
+
+              Onboarding.train(ctx, skills, ctx[:source]['item'], key, args.merge(:skills => skills.join(", ")))
             }
           },
           # A skill increase restricted to a named list.
@@ -121,9 +141,8 @@ module AresMUSH
               class_dc = stats.delete('archetype_class_dc')
 
               if class_dc
-                dcs = ((ctx[:advancement]['combat_stats'] ||= {})['archetype_class_dcs'] ||= {})
-                entry = (dcs[ctx[:archetype]] ||= {})
-                entry['prof'] = class_dc
+                path = Onboarding.class_dc_path(ctx[:archetype])
+                Slots.write(ctx[:advancement], path + [ 'prof' ], class_dc)
 
                 abilities = Onboarding.names(ctx[:info]['key_abil'])
 
@@ -131,8 +150,10 @@ module AresMUSH
                   ctx[:slot].call(Slots.set('archetype key ability', abilities))
                   msgs << [ 'pf2e.adv_archetype_key_ability_select', { :archetype => ctx[:archetype], :options => abilities.join(", ") } ]
                 else
+                  # The archetype offers one key ability or none, so there is nothing to ask:
+                  # its class DC keys off the character's own.
                   chosen = abilities.first || ctx[:char].combat&.key_abil
-                  entry['key_abil'] = chosen if chosen
+                  Slots.write(ctx[:advancement], path + [ 'key_abil' ], chosen) if chosen
                 end
               end
 
@@ -158,7 +179,12 @@ module AresMUSH
 
               ctx[:advancement]['magic_stats'] ||= {}
               Pf2e.wrap_adv_magic_stats(ctx[:advancement], ctx[:base_class])
-              ctx[:advancement]['magic_stats'][ctx[:archetype]] = assessed['magic_stats']
+
+              # Merged rather than replaced: an archetype's specialty may bring spellcasting of
+              # its own on top of the dedication's, and it arrives as a second call with the
+              # same archetype key.
+              held = ctx[:advancement]['magic_stats'][ctx[:archetype]] || {}
+              ctx[:advancement]['magic_stats'][ctx[:archetype]] = held.merge(assessed['magic_stats'])
 
               options = assessed['magic_options'] || {}
 
@@ -167,7 +193,7 @@ module AresMUSH
               options.each_pair do |key, value|
                 Pf2e.wrap_magic_assign(ctx[:to_assign], key, ctx[:base_class])
                 ctx[:to_assign][key] ||= {}
-                ctx[:to_assign][key][ctx[:archetype]] = value
+                ctx[:to_assign][key][ctx[:archetype]] = Onboarding.merge_options(ctx[:to_assign][key][ctx[:archetype]], value)
               end
 
               # Already rendered, so passed through as literal text rather than a locale key.
@@ -230,12 +256,23 @@ module AresMUSH
         def self.apply(char, archetype, to_assign, advancement)
           info = Global.read_config('pf2e_archetype', archetype) || {}
 
+          apply_payload(char, archetype, info['initial_dedication'], to_assign, advancement,
+            :info => info, :source => 'archetype', :name => archetype)
+        end
+
+        # One `initial_dedication` block, applied. The archetype's own arrives through `apply`;
+        # a specialty's and a specialty choice's arrive from Advancement::ArchetypePicks, which
+        # is what keeps the three from drifting.
+        def self.apply_payload(char, archetype, payload, to_assign, advancement, info: {}, source: 'archetype', name: nil)
           ctx = {
             :char => char,
             :archetype => archetype,
-            :info => info,
-            :payload => info['initial_dedication'] || {},
+            :info => info || {},
+            :payload => payload || {},
+            :source => SOURCES[source] || SOURCES['archetype'],
+            :name => name || archetype,
             :base_class => char.pf2_base_info['charclass'],
+            :config => ConfigView.live,
             :to_assign => to_assign,
             :advancement => advancement
           }
@@ -246,10 +283,12 @@ module AresMUSH
           ctx[:slot] = lambda { |*deltas| to_assign.replace(Slots.apply(to_assign, deltas.flatten)) }
 
           PAYLOAD.flat_map do |row|
-            # A row reading the archetype rather than its dedication payload says so; the rest
-            # are skipped when the payload has nothing under their key.
+            # A row reading the archetype rather than a payload says so, and only the archetype
+            # itself can answer it - a specialty hands out no specialty to choose. The rest are
+            # skipped when the payload has nothing under their key.
+            next [] if row['from'] == 'archetype' && source != 'archetype'
             next [] if row['from'] != 'archetype' && !ctx[:payload].key?(row['key'])
-            next [] if row['key'] == 'use_deity' && !info['use_deity']
+            next [] if row['key'] == 'use_deity' && !ctx[:info]['use_deity']
 
             Array(row['apply'].call(ctx))
           end
@@ -263,6 +302,23 @@ module AresMUSH
           free ? archetypes.merge(free => archetype) : archetypes
         end
 
+        # Where an archetype's own class DC lives in the draft. ArchetypePicks writes the key
+        # ability the player chose to the same place.
+        def self.class_dc_path(archetype)
+          [ 'combat_stats', 'archetype_class_dcs', archetype ]
+        end
+
+        # Training a deity's skill, which the deity an archetype takes from the character and the
+        # one a player picks at `advance/archetype deity=` both hand out.
+        def self.deity_skill(char, deity, to_assign, advancement)
+          skill = Global.read_config('pf2e_deities', deity, 'divine_skill')
+
+          return [] if skill.blank?
+
+          train({ :char => char, :to_assign => to_assign, :advancement => advancement },
+            [ skill ], 'deity', 'pf2e.adv_archetype_deity_skill_assigned', :deity => deity, :skill => skill)
+        end
+
         def self.train(ctx, skills, item, key, args = {})
           result = Pf2e.add_training_skills(ctx[:char], skills, ctx[:to_assign], ctx[:advancement])
           msgs = []
@@ -271,6 +327,18 @@ module AresMUSH
           msgs << [ 'pf2e.adv_duplicate_skill_open', { :item => item } ] if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
 
           msgs
+        end
+
+        # A slot's pending spell picks, when two payloads open some for the same archetype: a
+        # hash keyed by rank merges rank by rank, two lists concatenate, anything else replaces.
+        def self.merge_options(held, added)
+          if held.is_a?(Hash) && added.is_a?(Hash)
+            held.merge(added) { |_key, old, new| old.is_a?(Array) && new.is_a?(Array) ? old + new : new }
+          elsif held.is_a?(Array) && added.is_a?(Array)
+            held + added
+          else
+            added
+          end
         end
 
         # ------------------------------------------------------------------------------
@@ -284,7 +352,7 @@ module AresMUSH
           'Champion Archetype' => {
             # A Cleric's sanctification comes from their deity and an archetype cannot move it.
             'locked_for' => 'Cleric',
-            'allowed' => lambda { |ctx| Array(Global.read_config('pf2e_archetype', ctx[:archetype], 'allowed_sanctifications')) },
+            'allowed' => lambda { |ctx| Array(ctx[:config].read('pf2e_archetype', ctx[:archetype], 'allowed_sanctifications')) },
             'needs' => nil
           },
           'Cleric Archetype' => {
@@ -296,12 +364,28 @@ module AresMUSH
               deity = ctx[:to_assign]['archetype deity']
               deity = nil if deity.blank? || deity.to_s.casecmp?('open')
 
-              deity.blank? ? nil : Array(Global.read_config('pf2e_deities', deity, 'allowed_sanctifications'))
+              deity.blank? ? nil : Array(ctx[:config].read('pf2e_deities', deity, 'allowed_sanctifications'))
             },
             # What to say when the deity it depends on is not settled yet.
             'needs' => 'pf2e.adv_archetype_sanctification_needs_select'
           }
         }.freeze
+
+        # The base class whose sanctification this archetype may not move, or nil.
+        def self.sanctification_locked_for(archetype)
+          (SANCTIFICATION[archetype] || {})['locked_for']
+        end
+
+        # The sanctifications this archetype may offer this character, or nil when the answer
+        # depends on something they have not chosen yet. Shared with ArchetypePicks, so a pick is
+        # validated against the very list that prompted for it.
+        def self.allowed_sanctifications(config, archetype, base_class, to_assign)
+          rule = SANCTIFICATION[archetype]
+
+          return nil unless rule
+
+          rule['allowed'].call(:config => config, :archetype => archetype, :base_class => base_class, :to_assign => to_assign || {})
+        end
 
         def self.sanctification(ctx)
           rule = SANCTIFICATION[ctx[:archetype]]
@@ -312,7 +396,7 @@ module AresMUSH
             return [ [ 'pf2e.adv_archetype_sanctification_locked', { :charclass => ctx[:base_class] } ] ]
           end
 
-          allowed = rule['allowed'].call(ctx)
+          allowed = allowed_sanctifications(ctx[:config], ctx[:archetype], ctx[:base_class], ctx[:to_assign])
 
           # nil means the answer depends on something not chosen yet.
           if allowed.nil?
