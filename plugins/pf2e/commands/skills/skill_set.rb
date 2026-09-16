@@ -37,144 +37,15 @@ module AresMUSH
         return nil
       end
 
+      # Shell only: the rules live in Pf2e::Chargen::Skills and are unit tested there.
       def handle
-        ##### VALIDATION SECTION #####
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :train_skill, 'type' => self.type, 'skill' => self.value)
 
-        # Verify that there are things to be assigned that this command handles.
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        skill_types = {
-          'background' => 'bgskill',
-          'free' => 'open skills',
-          'bgchoice' => 'bg skill choice',
-          'classchoice' => 'class skill choice',
-          'specialtychoice' => 'specialty skill choice'
-        }
-        options = skill_types.keys
-        to_assign = enactor.pf2_to_assign
-
-        if !(options.include?(self.type))
-          client.emit_failure t('pf2e.bad_option', :element=> "skill type", :options=> options.sort.join(", "))
-          return
-        end
-
-        # Is self.value a valid skill?
-
-        all_skills = Global.read_config('pf2e_skills').keys
-
-        if !all_skills.include?(self.value)
-          # The list is long and spammy. Divert lores into their own list.
-          option_msg = Pf2e.easter_scrub(all_skills).join(", ")
-          client.emit_failure t('pf2e.bad_option_condensedskill')
-          return
-        end
-
-        # Verify that this character's options left to assign include the listed type.
-
-        assignment_type = skill_types[self.type]
-
-        skill_options = to_assign[assignment_type]
-
-        if !skill_options
-          client.emit_failure t('pf2e.cannot_assign_type', :element=>"skill")
-          return
-        end
-
-        # Does that character already have that skill trained?
-
-        skill_for_char = Pf2eSkills.find_skill(self.value, enactor)
-
-        if !skill_for_char
-          skill_for_char = Pf2eSkills.create_skill_for_char(self.value, enactor)
-        end
-
-        already_trained = !(skill_for_char.prof_level == 'untrained')
-
-        # skill/set bgchoice allows a player to select a skill they already have from other sources, because PF2e turns that duplicate into a free skill of their choice. Let the skill selection still count for any automatic feat assignments, like Scholar's Assurance following the skill selected with skill/set bgchoice.
-        duplicate_choice = already_trained && CHOICE_TYPES.include?(assignment_type)
-
-        if already_trained && !duplicate_choice
-          client.emit_failure t('pf2e.already_has_skill')
-          return
-        end
-
-        ##### VALIDATION SECTION END #####
-
-        # Type-specific handling
-
-        # Background skills, if present, are an array of choices.
-        # Match self.value to a choice in the array and assign it.
-
-        case assignment_type
-        when "bgskill"
-          skill_choice = skill_options.select { |skill| skill == self.value }
-
-          if skill_choice.size.zero?
-            client.emit_failure t('pf2e.bad_option', :element=>"skill option", :options=>skill_options.sort.join(", "))
-            return
-          elsif skill_choice.size > 1
-            client.emit_failure t('pf2e.ambiguous_target')
-            return
-          else
-            skill_choice = skill_choice.first
-          end
-
-          skill_options = skill_choice
-
-        # Open skills are a matter of finding an open skill left to assign.
-
-        when "open skills"
-          loc = skill_options.index("open")
-
-          if !(loc)
-            client.emit_failure t('pf2e.no_free', :element=>self.type)
-            return
-          end
-
-          skill_options[loc] = self.value
-        when "bg skill choice", "class skill choice", "specialty skill choice"
-          if !skill_options.is_a?(Hash)
-            client.emit_failure t('pf2e.cannot_assign_type', :element=>"skill")
-            return
-          end
-
-          if skill_options['selected'] && skill_options['selected'] != 'open'
-            client.emit_failure t('pf2e.no_free', :element=>self.type)
-            return
-          end
-
-          options = Array(skill_options['options'])
-          unless options.include?(self.value)
-            client.emit_failure t('pf2e.bad_option', :element=>"skill option", :options=>options.sort.join(", "))
-            return
-          end
-
-          skill_options['selected'] = self.value
-
-          # Flagged so skill/unset knows to hand the free skill back rather than untrain a skill the character holds from somewhere else. Cleared when the pick isn't a duplicate.
-          if duplicate_choice
-            skill_options['duplicate'] = true
-          else
-            skill_options.delete('duplicate')
-          end
-        end
-
-        to_assign[assignment_type] = skill_options
-
-        if duplicate_choice
-          open_skills = Array(to_assign['open skills'])
-          open_skills << 'open'
-          to_assign['open skills'] = open_skills
-        end
-
-        enactor.update(pf2_to_assign: to_assign)
-
-        skill_for_char.update(prof_level: 'trained') unless already_trained
-
-        if duplicate_choice
-          client.emit_success t('pf2e.skill_choice_duplicate', :item=>self.value)
-        else
-          client.emit_success t('pf2e.add_ok', :item=>self.value, :list=>'skills')
-        end
+        Pf2e::CharState.commit!(enactor, before, outcome, :source_type => 'chargen', :source_ref => 'skill pick', :effective_level => 1)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

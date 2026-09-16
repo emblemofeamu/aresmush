@@ -17,7 +17,12 @@ module AresMUSH
         :set_boost     => lambda { |state, args| Chargen::Boosts.set(state, args) },
         :unset_boost   => lambda { |state, args| Chargen::Boosts.unset(state, args) },
         :learn_language => lambda { |state, args| Chargen::Languages.learn(state, args) },
-        :forget_language => lambda { |state, args| Chargen::Languages.forget(state, args) }
+        :forget_language => lambda { |state, args| Chargen::Languages.forget(state, args) },
+        :train_skill   => lambda { |state, args| Chargen::Skills.train(state, args) },
+        :untrain_skill => lambda { |state, args| Chargen::Skills.untrain(state, args) },
+        :commit_stage  => lambda { |state, args| Chargen::Lifecycle.commit(state, args) },
+        :restore_stage => lambda { |state, args| Chargen::Lifecycle.restore(state, args) },
+        :reset_chargen => lambda { |state, args| Chargen::Lifecycle.reset(state, args) }
       }.freeze
 
       def self.actions

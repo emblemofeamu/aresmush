@@ -31,7 +31,8 @@ module AresMUSH
             'approved' => char.is_approved?,
             'admin' => char.is_admin?,
             'name' => char.name,
-            'abilities' => char.abilities.to_a.map { |a| a.name }
+            'abilities' => char.abilities.to_a.map { |a| a.name },
+            'cg_skills' => char.skills.to_a.select { |s| s.cg_skill }.map { |s| s.name }
           },
           :sheet => Ledger.derived(char, :at_level => at_level),
           :config => config
@@ -63,6 +64,7 @@ module AresMUSH
           'lang' => data['lang'] || [],
           'traits' => data['traits'] || [],
           'abilities' => data['abilities'] || [],
+          'cg_skills' => data['cg_skills'] || [],
           'sheet' => {
             'level' => sheet['level'] || (data['level'] || 1).to_i,
             'xp' => sheet['xp'] || 0,

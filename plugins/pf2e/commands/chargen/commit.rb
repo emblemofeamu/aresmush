@@ -14,46 +14,37 @@ module AresMUSH
         [ self.commit ]
       end
 
-      def check_in_chargen
-        return nil if enactor.chargen_stage > 0 && !(enactor.is_approved?)
-        return t('pf2e.only_in_chargen')
-      end
-
-      def check_can_commit
-        # Is the argument valid?
-        checkpoints = %w(start info abilities skills featskills)
-
-        index = checkpoints.index(self.commit)
-        options = (checkpoints - ['start']).join(", ")
-        syntax_msg = t('pf2e.bad_option', :element => 'commit', :options => options)
-        return syntax_msg unless index
-
-        # Enforce checkpoint order.
-        last_checkpoint = checkpoints[index - 1]
-
-        return t('pf2e.wrong_stage') unless (last_checkpoint == enactor.pf2_checkpoint)
-        return nil
-      end
-
+      # The stage machine and every completeness check live in Pf2e::Chargen::Lifecycle and
+      # are unit tested there. The heavy part of a commit - building skill rows, HP, magic and
+      # boost templates from config - is still the legacy lock helpers, called once the core
+      # has agreed the stage may be committed.
       def handle
-        case self.commit
-        when 'info'
-          commit = Pf2e.cg_lock_base_options(enactor, client)
-        when 'abilities'
-          commit = Pf2eAbilities.cg_lock_abilities(enactor)
-        when 'skills'
-            commit = Pf2eSkills.cg_lock_skills(enactor, client)
-        when 'featskills'
-          commit = Pf2eSkills.cg_lock_featskills(enactor)
-        else
-          client.emit_failure "To go back to the beginning, type %x172cg/reset%xn."
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :commit_stage, 'stage' => self.commit)
+
+        return if Pf2e::CharState.emit_error!(client, outcome)
+
+        failure = apply_stage_effects
+
+        if failure
+          client.emit_failure t('pf2e.cg_commit_failed', :msg => failure, :option => self.commit)
+          return
         end
 
-        # Commit will return a string if it went sideways and nil if it's okay.
-        if commit
-          client.emit_failure t('pf2e.cg_commit_failed', :msg => commit, :option => self.commit)
-        else
-          client.emit_success t('pf2e.chargen_committed')
+        Pf2e::CharState.commit!(enactor, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
+      end
+
+      def apply_stage_effects
+        case self.commit
+        when 'info'
+          Pf2e.cg_lock_base_options(enactor, client)
+        when 'abilities'
+          Pf2eAbilities.cg_lock_abilities(enactor)
+        when 'skills'
+          Pf2eSkills.cg_lock_skills(enactor, client)
+        when 'featskills'
+          Pf2eSkills.cg_lock_featskills(enactor)
         end
       end
 
