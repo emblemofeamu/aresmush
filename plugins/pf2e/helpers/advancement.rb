@@ -714,8 +714,12 @@ module AresMUSH
       tracker[new_level.to_s] = (tracker[new_level.to_s] || {}).merge(entry)
       char.pf2_level_tracker = tracker
 
-      # Deduct the XP.
-      char.pf2_xp = char.pf2_xp - ADVANCEMENT_XP_COST
+      # The XP spend is a ledger grant at the new level, so undoing that level undoes the
+      # spend with it - no separate refund arithmetic.
+      Pf2e::Ledger.seed_from_sheet!(char)
+      Pf2e::Ledger.write(char, :source_type => 'level_up', :source_ref => "advance to level #{new_level}", :effective_level => new_level, :materialize => false) do |txn|
+        txn.grant('xp_spend', 'amount' => ADVANCEMENT_XP_COST)
+      end
 
       # Update level.
       char.pf2_level = new_level

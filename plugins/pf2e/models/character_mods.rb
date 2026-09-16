@@ -51,6 +51,11 @@ module AresMUSH
     set :encounters, "AresMUSH::PF2Encounter"
     collection :level_snapshots, "AresMUSH::Pf2eLevelSnapshot"
 
+    # The grant ledger is the record of truth for everything on the sheet that does not
+    # change minute to minute; sheet_caches are disposable materialised folds of it.
+    collection :grants, "AresMUSH::Pf2eGrant"
+    collection :sheet_caches, "AresMUSH::Pf2eSheetCache"
+
     before_delete :delete_pf2
 
     def delete_pf2
@@ -60,6 +65,8 @@ module AresMUSH
       self.combat.delete if self.combat
       self.magic.delete if self.magic
       self.level_snapshots.each { |s| s.delete }
+      self.grants.each { |g| g.delete }
+      self.sheet_caches.each { |c| c.delete }
       self.encounters.each {|e| e.delete self}
     end
 

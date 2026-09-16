@@ -217,9 +217,17 @@ module AresMUSH
       text =~ /\A[aeiou8]/i ? "an #{text}" : "a #{text}"
     end
 
-    def self.award_xp(target, amount)
-      xp = target.pf2_xp + amount
-      target.update(pf2_xp: xp)
+    # XP is a fold of the ledger, not a mutable counter: an award appends a grant and the
+    # materialiser writes the total. A character created before the ledger is seeded on
+    # first touch, so their existing total is not folded away.
+    def self.award_xp(target, amount, awarded_by = 'System', reason = nil, source_type = 'staff')
+      Pf2e::Ledger.seed_from_sheet!(target)
+
+      kind = amount.to_i.negative? ? 'xp_spend' : 'xp_award'
+
+      Pf2e::Ledger.write(target, :source_type => source_type, :source_ref => reason, :granted_by => awarded_by) do |txn|
+        txn.grant(kind, 'amount' => amount.to_i.abs)
+      end
     end
 
     def self.record_history(char, record_type, awarded_by, amount, reason)

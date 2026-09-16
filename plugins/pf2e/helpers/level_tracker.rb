@@ -316,9 +316,9 @@ module AresMUSH
     def self.can_rollback_to?(char, level)
       target = level.to_i
 
-      return t('pf2e.rollback_below_floor', :floor => earliest_tracked_level(char)) if target <= earliest_tracked_level(char)
+      return t('pf2e.rollback_below_floor', :floor => 2) if target < 2
       return t('pf2e.rollback_not_that_high', :level => char.pf2_level) if target > char.pf2_level
-      return t('pf2e.rollback_no_snapshot', :level => target - 1) unless has_level_snapshot?(char, target - 1)
+      return t('pf2e.rollback_nothing', :level => target) if Ledger.rollback_targets(Ledger.rows(char), target).empty?
 
       nil
     end
@@ -332,7 +332,27 @@ module AresMUSH
     end
 
     # Puts the character back to just before the given level so they can redo it.
+    #
+    # The ledger does the work: the level-up transactions at or above the target are marked
+    # reverted and the sheet is refolded. Nothing is deleted, so the rollback is itself
+    # undoable, and a boon that merely takes effect at that level is left standing - it
+    # goes dormant while the character is below it and returns when they level again.
     def self.rollback_to_level(char, level, enactor = nil)
+      failure = can_rollback_to?(char, level)
+      return failure if failure
+
+      Ledger.seed_from_sheet!(char)
+      marker = Ledger.rollback_to_level!(char, level, enactor)
+
+      Pf2e.record_xp_history(char, enactor ? enactor.name : 'System', Pf2e::ADVANCEMENT_XP_COST, t('pf2e.rollback_xp_reason', :level => level.to_i))
+
+      Global.logger.info "PF2e ledger rollback: char=#{char.name} to_level=#{level} marker=#{marker} by=#{enactor&.name}"
+
+      nil
+    end
+
+    # The pre-ledger implementation, kept until the snapshot models are retired.
+    def self.legacy_rollback_to_level(char, level, enactor = nil)
       target = level.to_i
       previous = target - 1
 

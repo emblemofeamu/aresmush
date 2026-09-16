@@ -335,6 +335,7 @@ en:
     rollback_bad_level: "The level to roll back to must be a number."
     rollback_below_floor: "There is no recorded history below level %{floor} for this character, so they cannot be rolled back that far. Use '%xwadmin/respec%xn' instead."
     rollback_not_that_high: "This character is only level %{level}."
+    rollback_nothing: "There are no level-up records at or above level %{level} for this character, so there is nothing to roll back."
     rollback_no_snapshot: "No sheet snapshot is stored for level %{level}, so there is nothing to restore."
     rollback_ok: "%{name} has been rolled back to level %{level} and refunded %{xp} XP. They can now redo their level %{target} choices with 'advance'."
     rollback_notice: "A member of staff has rolled your sheet back so you can redo your level %{level} choices. Enter '%xwadvance%xn%xc' when you are ready."
