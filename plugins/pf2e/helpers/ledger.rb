@@ -18,22 +18,88 @@ module AresMUSH
     # helpers/ledger_store.rb.
     module Ledger
 
-      # Every grant kind the fold understands. A payload key named here is what `explain`
-      # matches on when you ask who granted a given thing.
-      KINDS = {
-        'raise_skill'   => 'skill',
-        'add_lore'      => 'lore',
-        'boost_ability' => 'ability',
-        'grant_feat'    => 'feat',
-        'grant_feature' => 'feature',
-        'add_language'  => 'language',
-        'add_trait'     => 'trait',
-        'add_special'   => 'special',
-        'spell_access'  => 'spell',
-        'set_prof'      => 'key',
-        'xp_award'      => 'amount',
-        'xp_spend'      => 'amount'
+      # One row per grant kind, and the only place a kind is defined.
+      #
+      #   key    - the payload field `explain` matches on when you ask who granted a thing
+      #   sheet  - the section of the derived sheet it writes (nil for XP, which is a scalar)
+      #   apply  - how the fold folds it in
+      #   sync   - how a whole-list assignment of that section is diffed back into grants
+      #            ('list' for a flat array, 'bucketed' for a hash of arrays, 'ranked' for a
+      #            map of name => rank). Absent means the section cannot be synced.
+      #
+      # Adding a kind is adding a row. There is no case statement to keep in step.
+      KIND_SPECS = {
+        'raise_skill' => {
+          'key' => 'skill', 'sheet' => 'skills', 'sync' => 'ranked',
+          'apply' => lambda { |sheet, p| sheet['skills'][p['skill']] = p['to'] }
+        },
+        'add_lore' => {
+          'key' => 'lore', 'sheet' => 'lores', 'sync' => 'ranked',
+          'apply' => lambda { |sheet, p| sheet['lores'][p['lore']] = p['to'] }
+        },
+        'boost_ability' => {
+          'key' => 'ability', 'sheet' => 'boosts',
+          'apply' => lambda { |sheet, p| sheet['boosts'][p['ability']] = sheet['boosts'].fetch(p['ability'], 0) + 1 }
+        },
+        'grant_feat' => {
+          'key' => 'feat', 'sheet' => 'feats', 'sync' => 'bucketed', 'default_bucket' => 'charclass',
+          'apply' => lambda { |sheet, p|
+            Ledger.add_to_bucket(sheet['feats'], p['bucket'] || 'charclass', p['feat'])
+            Ledger.add_to_bucket(sheet['feat_choices'], p['feat'], p['choice']) unless p['choice'].blank?
+          }
+        },
+        'grant_feature' => {
+          'key' => 'feature', 'sheet' => 'features', 'sync' => 'bucketed', 'default_bucket' => 'charclass_features',
+          'apply' => lambda { |sheet, p| Ledger.add_to_bucket(sheet['features'], p['bucket'] || 'charclass_features', p['feature']) }
+        },
+        'add_language' => {
+          'key' => 'language', 'sheet' => 'languages', 'sync' => 'list',
+          'apply' => lambda { |sheet, p| Ledger.add_to_list(sheet['languages'], p['language']) }
+        },
+        'add_trait' => {
+          'key' => 'trait', 'sheet' => 'traits', 'sync' => 'list',
+          'apply' => lambda { |sheet, p| Ledger.add_to_list(sheet['traits'], p['trait']) }
+        },
+        'add_special' => {
+          'key' => 'special', 'sheet' => 'specials', 'sync' => 'list',
+          'apply' => lambda { |sheet, p| Ledger.add_to_list(sheet['specials'], p['special']) }
+        },
+        'spell_access' => {
+          'key' => 'spell', 'sheet' => 'spell_access',
+          'apply' => lambda { |sheet, p| sheet['spell_access'] << p }
+        },
+        'set_prof' => {
+          'key' => 'key', 'sheet' => 'profs',
+          'apply' => lambda { |sheet, p| (sheet['profs'][p['group']] ||= {})[p['key']] = p['to'] }
+        },
+        'xp_award' => {
+          'key' => 'amount',
+          'apply' => lambda { |sheet, p| sheet['xp'] = sheet['xp'] + p['amount'].to_i }
+        },
+        'xp_spend' => {
+          'key' => 'amount',
+          'apply' => lambda { |sheet, p| sheet['xp'] = sheet['xp'] - p['amount'].to_i }
+        }
       }.freeze
+
+      # Kept as the old name so callers and specs that ask "what is this kind's payload key"
+      # keep working.
+      KINDS = KIND_SPECS.each_with_object({}) { |(kind, spec), h| h[kind] = spec['key'] }.freeze
+
+      # Sections that can be synced from a whole-list assignment, with the shape each uses.
+      SYNC_SECTIONS = KIND_SPECS.each_with_object({}) do |(kind, spec), h|
+        next unless spec['sync']
+        h[spec['sheet']] = { 'kind' => kind, 'item' => spec['key'], 'shape' => spec['sync'] }
+      end.freeze
+
+      def self.add_to_bucket(hash, bucket, item)
+        list = (hash[bucket] ||= [])
+        list << item unless list.include?(item)
+      end
+
+      def self.add_to_list(list, item)
+        list << item unless list.include?(item)
+      end
 
       def self.empty_sheet(level)
         {
@@ -79,48 +145,16 @@ module AresMUSH
       end
 
       def self.apply(sheet, grant)
-        payload = grant['payload'] || {}
+        spec = KIND_SPECS[grant['kind']]
 
-        case grant['kind']
-        when 'raise_skill'
-          sheet['skills'][payload['skill']] = payload['to']
-        when 'add_lore'
-          sheet['lores'][payload['lore']] = payload['to']
-        when 'boost_ability'
-          ability = payload['ability']
-          sheet['boosts'][ability] = sheet['boosts'].fetch(ability, 0) + 1
-        when 'grant_feat'
-          bucket = payload['bucket'] || 'charclass'
-          list = (sheet['feats'][bucket] ||= [])
-          list << payload['feat'] unless list.include?(payload['feat'])
-          if !payload['choice'].blank?
-            choices = (sheet['feat_choices'][payload['feat']] ||= [])
-            choices << payload['choice'] unless choices.include?(payload['choice'])
-          end
-        when 'grant_feature'
-          bucket = payload['bucket'] || 'charclass_features'
-          list = (sheet['features'][bucket] ||= [])
-          list << payload['feature'] unless list.include?(payload['feature'])
-        when 'add_language'
-          sheet['languages'] << payload['language'] unless sheet['languages'].include?(payload['language'])
-        when 'add_trait'
-          sheet['traits'] << payload['trait'] unless sheet['traits'].include?(payload['trait'])
-        when 'add_special'
-          sheet['specials'] << payload['special'] unless sheet['specials'].include?(payload['special'])
-        when 'spell_access'
-          sheet['spell_access'] << payload
-        when 'set_prof'
-          group = (sheet['profs'][payload['group']] ||= {})
-          group[payload['key']] = payload['to']
-        when 'xp_award'
-          sheet['xp'] = sheet['xp'] + payload['amount'].to_i
-        when 'xp_spend'
-          sheet['xp'] = sheet['xp'] - payload['amount'].to_i
-        else
+        if spec.nil?
           # An unknown kind is neither dropped nor fatal: a sheet with a gap the staff can
           # see beats a sheet that is quietly wrong, and beats a command that explodes.
-          sheet['unsupported'] << { 'kind' => grant['kind'], 'payload' => payload, 'seq' => grant['seq'] }
+          sheet['unsupported'] << { 'kind' => grant['kind'], 'payload' => grant['payload'] || {}, 'seq' => grant['seq'] }
+          return sheet
         end
+
+        spec['apply'].call(sheet, grant['payload'] || {})
 
         sheet
       end
@@ -212,69 +246,63 @@ module AresMUSH
       # Syncing whole lists (the migration bridge)
       # ------------------------------------------------------------------------------
 
-      # Sections a caller may sync, with the grant kind and payload shape each uses.
-      SYNC_SECTIONS = {
-        'feats' => { 'kind' => 'grant_feat', 'item' => 'feat', 'bucket' => 'bucket' },
-        'features' => { 'kind' => 'grant_feature', 'item' => 'feature', 'bucket' => 'bucket' },
-        'traits' => { 'kind' => 'add_trait', 'item' => 'trait' },
-        'specials' => { 'kind' => 'add_special', 'item' => 'special' },
-        'languages' => { 'kind' => 'add_language', 'item' => 'language' }
-      }.freeze
-
       # Turns "here is the whole list now" into ledger entries. Legacy code that assigns a
       # complete list onto the character calls this instead, so its work survives the next
       # fold rather than being erased by it.
+      #
+      # The three shapes a section can have are declared in KIND_SPECS, so this reads the
+      # shape rather than branching per section.
+      SYNC_SHAPES = {
+        # A flat array: languages, traits, specials.
+        'list' => lambda { |sheet, section, value, spec|
+          held = Array(sheet[section])
+          wanted = Array(value)
+          [ (wanted - held).map { |i| { spec['item'] => i } },
+            (held - wanted).map { |i| { spec['item'] => i } } ]
+        },
+        # A hash of arrays keyed by bucket: feats, features.
+        'bucketed' => lambda { |sheet, section, value, spec|
+          grants = []
+          gone = []
+
+          (value || {}).each_pair do |bucket, items|
+            held = ((sheet[section] || {})[bucket]) || []
+            wanted = Array(items)
+            grants.concat((wanted - held).map { |i| { 'bucket' => bucket, spec['item'] => i } })
+            gone.concat((held - wanted).map { |i| { spec['item'] => i } })
+          end
+
+          [ grants, gone ]
+        },
+        # A map of name to rank: skills, lores. A changed rank is a new grant, not a duplicate.
+        'ranked' => lambda { |sheet, section, value, spec|
+          held = sheet[section] || {}
+          wanted = value || {}
+
+          grants = wanted.reject { |name, rank| held[name] == rank }
+            .map { |name, rank| { spec['item'] => name, 'to' => rank } }
+          gone = held.keys.reject { |name| wanted.key?(name) }
+            .map { |name| { spec['item'] => name } }
+
+          [ grants, gone ]
+        }
+      }.freeze
+
       def self.sync_plan(sheet, fragment)
         grants = []
         revocations = []
 
         fragment.each_pair do |section, value|
-          # Skills are a map of name to rank rather than a list, so a changed rank is a new
-          # grant and a dropped skill is a revocation.
-          if section == 'skills' || section == 'lores'
-            kind = section == 'lores' ? 'add_lore' : 'raise_skill'
-            item = section == 'lores' ? 'lore' : 'skill'
-            held = sheet[section] || {}
-            wanted = value || {}
-
-            wanted.each_pair do |name, rank|
-              next if held[name] == rank
-              grants << { 'kind' => kind, 'payload' => { item => name, 'to' => rank } }
-            end
-
-            held.each_pair do |name, _rank|
-              next if wanted.key?(name)
-              revocations << { 'kind' => kind, 'match' => { item => name } }
-            end
-
-            next
-          end
-
           spec = SYNC_SECTIONS[section]
           next unless spec
 
-          if spec['bucket']
-            (value || {}).each_pair do |bucket, items|
-              held = ((sheet[section] || {})[bucket]) || []
-              added, removed = delta(held, Array(items))
+          added, removed = SYNC_SHAPES[spec['shape']].call(sheet, section, value, spec)
 
-              added.each { |item| grants << { 'kind' => spec['kind'], 'payload' => { 'bucket' => bucket, spec['item'] => item } } }
-              removed.each { |item| revocations << { 'kind' => spec['kind'], 'match' => { spec['item'] => item } } }
-            end
-          else
-            held = Array(sheet[section])
-            added, removed = delta(held, Array(value))
-
-            added.each { |item| grants << { 'kind' => spec['kind'], 'payload' => { spec['item'] => item } } }
-            removed.each { |item| revocations << { 'kind' => spec['kind'], 'match' => { spec['item'] => item } } }
-          end
+          added.each { |payload| grants << { 'kind' => spec['kind'], 'payload' => payload } }
+          removed.each { |match| revocations << { 'kind' => spec['kind'], 'match' => match } }
         end
 
         { 'grants' => grants, 'revocations' => revocations }
-      end
-
-      def self.delta(held, wanted)
-        [ wanted - held, held - wanted ]
       end
 
       # Live grants of one kind whose payload matches every given pair, case-insensitively

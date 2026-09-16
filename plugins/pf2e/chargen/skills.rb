@@ -21,6 +21,75 @@ module AresMUSH
 
         CHOICE_TYPES = [ 'bg skill choice', 'class skill choice', 'specialty skill choice' ].freeze
 
+        # The three shapes a skill slot can have, each with how to spend it and how to give it
+        # back. train and untrain both read this table rather than branching.
+        SLOT_SHAPES = {
+          # A list of named choices from a background; picking one collapses the slot to it.
+          'choices' => {
+            'spend' => lambda { |slots, skill, _duplicate|
+              matches = Array(slots).select { |s| s == skill }
+
+              next Err.new(:bad_option, 'pf2e.bad_option', 'element' => 'skill option', 'options' => Array(slots).sort.join(", ")) if matches.empty?
+              next Err.new(:ambiguous, 'pf2e.ambiguous_target') if matches.size > 1
+
+              matches.first
+            },
+            'release' => lambda { |slots, _skill| slots }
+          },
+          # An array of 'open' markers.
+          'open_list' => {
+            'spend' => lambda { |slots, skill, _duplicate|
+              index = Array(slots).index('open')
+
+              next Err.new(:no_free, 'pf2e.no_free', 'element' => 'free') if index.nil?
+
+              filled = slots.dup
+              filled[index] = skill
+              filled
+            },
+            'release' => lambda { |slots, skill|
+              index = Array(slots).index(skill)
+
+              next Err.new(:not_in_list, 'pf2e.not_in_list', 'option' => skill) if index.nil?
+
+              freed = slots.dup
+              freed[index] = 'open'
+              freed
+            }
+          },
+          # A single choice with its own option list, which may also be flagged a duplicate.
+          'single_choice' => {
+            'spend' => lambda { |slots, skill, duplicate|
+              next Err.new(:cannot_assign, 'pf2e.cannot_assign_type', 'element' => 'skill') unless slots.is_a?(Hash)
+
+              selected = slots['selected']
+
+              next Err.new(:no_free, 'pf2e.no_free', 'element' => 'choice') if selected && selected != 'open'
+
+              options = Array(slots['options'])
+
+              next Err.new(:bad_option, 'pf2e.bad_option', 'element' => 'skill option', 'options' => options.sort.join(", ")) unless options.include?(skill)
+
+              updated = slots.merge('selected' => skill)
+              duplicate ? updated.merge('duplicate' => true) : updated.reject { |k, _v| k == 'duplicate' }
+            },
+            'release' => lambda { |slots, skill|
+              next Err.new(:cannot_assign, 'pf2e.cannot_assign_type', 'element' => 'skill') unless slots.is_a?(Hash)
+              next Err.new(:not_in_list, 'pf2e.not_in_list', 'option' => skill) unless slots['selected'] == skill
+
+              slots.merge('selected' => 'open')
+            }
+          }
+        }.freeze
+
+        SHAPE_FOR_KEY = {
+          'bgskill' => 'choices',
+          'open skills' => 'open_list',
+          'bg skill choice' => 'single_choice',
+          'class skill choice' => 'single_choice',
+          'specialty skill choice' => 'single_choice'
+        }.freeze
+
         def self.train(state, args)
           type = args['type']
           skill = args['skill']
@@ -40,13 +109,13 @@ module AresMUSH
 
           return Err.new(:already_has_skill, 'pf2e.already_has_skill') if trained && !duplicate
 
-          updated = spend_slot(slots, key, skill, duplicate)
+          updated = SLOT_SHAPES[SHAPE_FOR_KEY[key]]['spend'].call(slots, skill, duplicate)
 
           return updated if updated.is_a?(Err)
 
           to_assign[key] = updated
 
-          # The duplicate converts into a free skill the player picks later.
+          # A duplicate pick converts into a free skill the player chooses later.
           if duplicate
             open_skills = Array(to_assign['open skills']).dup
             open_skills << 'open'
@@ -82,77 +151,29 @@ module AresMUSH
           return Err.new(:does_not_have, 'pf2e.does_not_have', 'item' => 'skill') if !duplicate && !trained?(state, skill)
           return Err.new(:element_locked, 'pf2e.element_cglocked', 'element' => 'skill') if !duplicate && locked?(state, skill)
 
-          case key
-          when 'bgskill'
-            to_assign[key] = slots
-          when 'open skills'
-            index = Array(slots).index(skill)
+          released = SLOT_SHAPES[SHAPE_FOR_KEY[key]]['release'].call(slots, skill)
 
-            return Err.new(:not_in_list, 'pf2e.not_in_list', 'option' => skill) if index.nil?
+          return released if released.is_a?(Err)
 
-            slots = slots.dup
-            slots[index] = 'open'
-            to_assign[key] = slots
-          else
-            return Err.new(:cannot_assign, 'pf2e.cannot_assign_type', 'element' => 'skill') unless slots.is_a?(Hash)
-            return Err.new(:not_in_list, 'pf2e.not_in_list', 'option' => skill) unless slots['selected'] == skill
+          # Undoing a duplicate hands the free skill back, which is only possible if it has not
+          # already been spent on something else.
+          if duplicate
+            open_skills = Array(to_assign['open skills']).dup
+            index = open_skills.index('open')
 
-            if duplicate
-              open_skills = Array(to_assign['open skills']).dup
-              index = open_skills.index('open')
+            return Err.new(:free_skill_spent, 'pf2e.free_skill_spent', 'item' => skill) if index.nil?
 
-              # The free skill the duplicate bought has already been used on something else,
-              # so there is nothing to hand back.
-              return Err.new(:free_skill_spent, 'pf2e.free_skill_spent', 'item' => skill) if index.nil?
-
-              open_skills.delete_at(index)
-              to_assign['open skills'] = open_skills
-              slots = slots.reject { |k, _v| k == 'duplicate' }
-            end
-
-            slots = slots.merge('selected' => 'open')
-            to_assign[key] = slots
+            open_skills.delete_at(index)
+            to_assign['open skills'] = open_skills
+            released = released.reject { |k, _v| k == 'duplicate' } if released.is_a?(Hash)
           end
+
+          to_assign[key] = released
 
           outcome = Ok.new(:state => state.merge('to_assign' => to_assign))
           outcome = outcome.with_revocation('raise_skill', 'skill' => skill) unless duplicate
 
           outcome.with_message('pf2e.reset_ok', 'option' => skill, 'element' => 'skill')
-        end
-
-        # ------------------------------------------------------------------------------
-
-        def self.spend_slot(slots, key, skill, duplicate)
-          case key
-          when 'bgskill'
-            matches = Array(slots).select { |s| s == skill }
-
-            return Err.new(:bad_option, 'pf2e.bad_option', 'element' => 'skill option', 'options' => Array(slots).sort.join(", ")) if matches.empty?
-            return Err.new(:ambiguous, 'pf2e.ambiguous_target') if matches.size > 1
-
-            matches.first
-          when 'open skills'
-            index = Array(slots).index('open')
-
-            return Err.new(:no_free, 'pf2e.no_free', 'element' => 'free') if index.nil?
-
-            filled = slots.dup
-            filled[index] = skill
-            filled
-          else
-            return Err.new(:cannot_assign, 'pf2e.cannot_assign_type', 'element' => 'skill') unless slots.is_a?(Hash)
-
-            selected = slots['selected']
-
-            return Err.new(:no_free, 'pf2e.no_free', 'element' => 'choice') if selected && selected != 'open'
-
-            options = Array(slots['options'])
-
-            return Err.new(:bad_option, 'pf2e.bad_option', 'element' => 'skill option', 'options' => options.sort.join(", ")) unless options.include?(skill)
-
-            updated = slots.merge('selected' => skill)
-            duplicate ? updated.merge('duplicate' => true) : updated.reject { |k, _v| k == 'duplicate' }
-          end
         end
 
         def self.known_skill?(state, skill)
