@@ -98,19 +98,6 @@ module AresMUSH
         simple || ranked.first || options.first
       end
 
-      # The three shapes a class feature choice arrives in, read the way advance/option
-      # itself reads them: a hash of named options, a hash carrying an options list, or a
-      # plain list (whose entries may themselves be [label, info] pairs).
-      def class_option_list(data)
-        if data.is_a?(Hash) && data.key?('options')
-          Array(data['options'])
-        elsif data.is_a?(Hash)
-          data.keys
-        else
-          Array(data).map { |opt| opt.is_a?(Array) ? opt.first : opt }
-        end
-      end
-
       def lore_pick
         lores = Global.read_config('pf2e_skills').keys.select { |s| s.include?('Lore') }
         trained = @char.skills.to_a.reject { |sk| sk.prof_level == 'untrained' }.map(&:name)
@@ -351,7 +338,7 @@ module AresMUSH
             # A resolved choice is stored as the chosen string, so there is nothing to do.
             next if data.is_a?(String)
 
-            options = class_option_list(data)
+            options = Pf2e::Advancement::Options.option_list(data)
             next if options.empty?
 
             selected = data.is_a?(Hash) ? data['selected'] : nil

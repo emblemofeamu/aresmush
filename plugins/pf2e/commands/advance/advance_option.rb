@@ -78,67 +78,35 @@ module AresMUSH
       def class_option_feature
         return @class_option_feature if defined?(@class_option_feature)
 
-        to_assign = enactor.pf2_to_assign || {}
-        feature_list = to_assign['class option'] || to_assign['charclass'] || to_assign['charclass option']
+        @class_option_feature = pending_features.keys.find { |f| f.to_s.casecmp?(self.option.to_s) }
+      end
 
-        @class_option_feature = if feature_list.is_a?(Hash)
-          feature_list.keys.find { |f| f.to_s.casecmp?(self.option.to_s) }
-        else
-          nil
-        end
+      # The feature list this level left open, wherever it was put.
+      def pending_features
+        to_assign = enactor.pf2_to_assign || {}
+        slot = Pf2e::Advancement::Options::SLOTS.find { |key| to_assign[key].is_a?(Hash) }
+
+        slot ? to_assign[slot] : {}
       end
 
       def handle_class_option
-        to_assign = enactor.pf2_to_assign || {}
-        advancement = enactor.pf2_advancement || {}
-
-        feature_list = to_assign['class option'] || to_assign['charclass'] || to_assign['charclass option']
-
-        unless feature_list
-          client.emit_failure t('pf2e.adv_not_an_option')
-          return
-        end
-
         feature = class_option_feature
-
-        unless feature
-          client.emit_failure t('pf2e.adv_not_an_option')
-          return
-        end
-
-        options = feature_list[feature]
-        option_list = if options.is_a?(Hash)
-          options.keys
-        else
-          Array(options).map { |opt| opt.is_a?(Array) ? opt.first : opt }
-        end
 
         # No value given, so tell them what they can pick.
         if self.value.blank?
-          client.emit t('pf2e.choice_options', :choice => feature, :options => option_list.sort.join(", "))
+          options = Pf2e::Advancement::Options.option_list(pending_features[feature])
+
+          client.emit t('pf2e.choice_options', :choice => feature, :options => options.sort.join(", "))
           return
         end
 
-        matched_option = option_list.find { |opt| opt.to_s.casecmp?(self.value) }
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :advance_option, 'feature' => feature, 'value' => self.value)
 
-        unless matched_option
-          client.emit_failure t('pf2e.bad_option', :element => feature, :options => option_list.join(", "))
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        unless Pf2e.valid_class_option?(enactor, feature, matched_option)
-          client.emit_failure t('pf2e.bad_option', :element => feature, :options => option_list.join(", "))
-          return
-        end
-
-        feature_list[feature] = matched_option
-        to_assign['class option'] = feature_list
-        advancement['charclass_feature option'] = feature_list
-
-        enactor.update(pf2_to_assign: to_assign)
-        enactor.update(pf2_advancement: advancement)
-
-        client.emit_success t('pf2e.adv_option_selected', :option => matched_option, :feature => feature)
+        Pf2e::CharState.commit!(enactor, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

@@ -36,6 +36,7 @@ module AresMUSH
             'name' => char.name,
             'abilities' => char.abilities.to_a.map { |a| a.name },
             'ability_scores' => char.abilities.to_a.each_with_object({}) { |a, h| h[a.name] = a.base_val },
+            'saves' => (char.combat && char.combat.saves) || {},
             'cg_skills' => char.skills.to_a.select { |s| s.cg_skill }.map { |s| s.name }
           },
           :sheet => Ledger.derived(char, :at_level => at_level),
@@ -74,6 +75,7 @@ module AresMUSH
           'traits' => data['traits'] || [],
           'abilities' => data['abilities'] || [],
           'ability_scores' => data['ability_scores'] || {},
+          'saves' => data['saves'] || {},
           'cg_skills' => data['cg_skills'] || [],
           'sheet' => {
             'level' => sheet['level'] || (data['level'] || 1).to_i,

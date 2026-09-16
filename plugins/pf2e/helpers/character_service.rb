@@ -27,7 +27,8 @@ module AresMUSH
         # Advancement. These write the draft in state['advancement']; it becomes one
         # level_up transaction at advance/done, through Ledger.commit_level_up!.
         :advance_language => lambda { |state, args| Advancement::Languages.pick(state, args) },
-        :advance_raise => lambda { |state, args| Advancement::Raises.set(state, args) }
+        :advance_raise => lambda { |state, args| Advancement::Raises.set(state, args) },
+        :advance_option => lambda { |state, args| Advancement::Options.choose(state, args) }
       }.freeze
 
       def self.actions
