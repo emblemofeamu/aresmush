@@ -1,6 +1,24 @@
 module AresMUSH
   module Pf2emagic
 
+    # Records a spell as a signature spell.
+    #
+    # The one writer, because there were two and they disagreed: the level-up path stored
+    # charclass => rank => [ spells ], which is what the cast path and the magic display both
+    # read, and the prepared-caster path stored a flat list under the granting feat's name -
+    # so a signature spell designated that way was never treated as one.
+    def self.record_signature_spell(magic, charclass, rank, spell_name)
+      signatures = magic.signature_spells || {}
+      for_class = signatures[charclass] || {}
+
+      for_class[rank.to_s] = (Array(for_class[rank.to_s]) + [ spell_name ]).uniq
+      signatures[charclass] = for_class
+
+      magic.update(:signature_spells => signatures)
+
+      signatures
+    end
+
     def self.prepare_spell(spell, char, castclass, level, use_arcane_evo=false)
       # All validations are done in the helper.
 
@@ -69,9 +87,11 @@ module AresMUSH
       }
 
       if make_signature
-        signature_spells = magic.signature_spells
-        signature_spells["Arcane Evolution"] = [ spell_name ]
-        magic.update(signature_spells: signature_spells)
+        # Recorded under the caster class at the spell's rank, which is the shape every reader
+        # expects. This used to write a flat list keyed by the feat's own name, so the cast
+        # path - which looks under the charclass - never found it and Arcane Evolution's
+        # signature spell was silently not one.
+        Pf2emagic.record_signature_spell(magic, cc, level, spell_name)
 
         return return_msg
       end
