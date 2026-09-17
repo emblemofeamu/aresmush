@@ -101,7 +101,7 @@ module AresMUSH
 
           spell = result[0]
 
-          update_innate_advancement(spell, list, type_option, level, class_key)
+          update_innate_advancement(spell, list, entries, level, class_key)
 
           client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
           return
@@ -338,7 +338,9 @@ module AresMUSH
         "#{abs_level}#{suffix}-rank"
       end
 
-      def update_innate_advancement(spell, list, type_option, level, class_key=nil)
+      # `entries` is the rank-keyed hash this list lives in, so the rank's slots go back into the
+      # pool under the same key the resolution found them under.
+      def update_innate_advancement(spell, list, entries, level, class_key=nil)
         advancement = enactor.pf2_advancement || {}
         pending = innate_stats(advancement, class_key)
 
@@ -365,15 +367,15 @@ module AresMUSH
           list << spell
         end
 
-        type_option[level] = list
+        entries[level] = list
 
         to_assign = enactor.pf2_to_assign
 
         if class_key
           to_assign[self.type] ||= {}
-          to_assign[self.type][class_key] = type_option
+          to_assign[self.type][class_key] = entries
         else
-          to_assign[self.type] = type_option
+          to_assign[self.type] = entries
         end
 
         enactor.pf2_advancement = advancement

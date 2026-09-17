@@ -183,12 +183,15 @@ module AresMUSH
       end
 
       describe :restore do
-          it "should move the checkpoint back to an earlier stage" do
+          # Rewound to the info stage, the character is standing before it with it still to
+          # commit - which is the position the stage's own checkpoint was taken from.
+          it "should leave the character standing at the stage before the one rewound to" do
             at_skills = complete_wizard.merge('checkpoint' => 'skills')
             result = Lifecycle.restore(at_skills, 'checkpoint' => 'info')
 
             expect(result.ok?).to be true
-            expect(result.state['checkpoint']).to eq 'info'
+            expect(result.state['checkpoint']).to eq 'start'
+            expect(result.state['locks']['baseinfo']).to be false
           end
 
           it "should refuse a stage the character has not reached" do

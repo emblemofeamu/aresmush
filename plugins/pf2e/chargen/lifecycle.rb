@@ -82,11 +82,11 @@ module AresMUSH
           return Err.new(:bad_option, 'pf2e.cg_restore_help') if current.nil?
           return Err.new(:stage_not_reached, 'pf2e.cg_cant_restore_to_stage_you_dont_have', 'checkpoint' => checkpoint) if current < target
 
-          # Rewinding to a stage reopens it and everything after it, which is what standing at the
-          # stage before it means.
-          locks = locks_at(CHECKPOINTS[target - 1])
+          # Rewinding to a stage reopens it and everything after it, so the character stands at the
+          # stage before it - with that stage's locks, and with it as the next thing to commit.
+          standing = CHECKPOINTS[target - 1]
 
-          Ok.new(:state => state.merge('checkpoint' => checkpoint, 'locks' => state['locks'].merge(locks)))
+          Ok.new(:state => state.merge('checkpoint' => standing, 'locks' => state['locks'].merge(locks_at(standing))))
             .with_message('pf2e.cg_restore_ok', 'checkpoint' => checkpoint)
         end
 
