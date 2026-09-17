@@ -288,7 +288,9 @@ module AresMUSH
                  .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
       max_castable_level = castable_levels.max || 0
 
-      repertoire = magic.repertoire[charclass] || {}
+      # Through Entries, so a source recorded as an entry rather than in the class-keyed hash -
+      # a spontaneous archetype, an item - can be cast from.
+      repertoire = Pf2emagic::Entries.known(magic, charclass)
       known_at_level = Array(repertoire[splevel]).include?(spname) ||
                        Array(repertoire[splevel.to_i]).include?(spname)
 

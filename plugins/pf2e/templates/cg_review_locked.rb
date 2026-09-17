@@ -106,7 +106,7 @@ module AresMUSH
         return true if @to_assign['repertoire'] || @to_assign['spellbook'] || @to_assign['divine font']
         return true if Pf2emagic::Entries.innate?(@magic)
         return true if Pf2emagic::Entries.focus?(@magic)
-        return true if !@magic.spells_per_day.empty?
+        return true if !Pf2emagic::Entries.slots_by_source(@magic).empty?
         return true if !Pf2emagic::Entries.casting(@magic).empty?
 
         false
@@ -831,13 +831,13 @@ module AresMUSH
       def has_repertoire
         return true if @to_assign['repertoire']
 
-        @magic && !@magic.repertoire.empty?
+        @magic && !Pf2emagic::Entries.known_by_source(@magic, 'spontaneous').empty?
       end
 
       def has_spellbook
         return true if @to_assign['spellbook']
 
-        @magic && !@magic.spellbook.empty?
+        @magic && !Pf2emagic::Entries.known_by_source(@magic, 'prepared').empty?
       end
 
       def casting_tradition
@@ -866,7 +866,7 @@ module AresMUSH
       def prepares_from_tradition?
       # Clerics and druids prepare from their tradition's whole spell list. Unlike a witch or a
       # wizard, they have no list to fill.
-        return false if !@magic || @magic.spells_per_day.empty?
+        return false if !@magic || Pf2emagic::Entries.slots_by_source(@magic).empty?
 
         !has_repertoire && !has_spellbook
       end

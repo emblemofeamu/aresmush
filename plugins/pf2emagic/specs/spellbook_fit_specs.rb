@@ -1,4 +1,5 @@
 require "plugin_test_loader"
+require_relative "support/magic_stub"
 
 module AresMUSH
   module Pf2emagic
@@ -9,10 +10,12 @@ module AresMUSH
     # Wizard's spellbook has a curriculum entry that only a school spell may occupy, so counting
     # the spells is not enough - it matters which of them can sit in the restricted place.
     describe :spellbook_addition_fits? do
+      include MagicStub
 
       def char(restricted, held)
-        magic = double(:restricted_spellbook => { 'Wizard' => restricted },
-                       :spellbook => { 'Wizard' => { '2' => held } })
+        magic = magic_stub(:restricted_spellbook => { 'Wizard' => restricted },
+                           :tradition => { 'Wizard' => [ 'arcane', 'trained' ] },
+                           :spellbook => { 'Wizard' => { '2' => held } })
 
         double(:magic => magic, :name => 'Someone', :pf2_base_info => { 'specialize' => 'Battle Magic' })
       end
@@ -20,6 +23,7 @@ module AresMUSH
       before(:each) do
         allow(Pf2emagic).to receive(:pending_spellbook_picks).and_return(0)
         allow(Pf2emagic).to receive(:curriculum_spells).and_return([ 'Fireball' ])
+        allow(Pf2emagic).to receive(:get_caster_type).and_return('prepared')
       end
 
       it "should let anything in when nothing is restricted" do

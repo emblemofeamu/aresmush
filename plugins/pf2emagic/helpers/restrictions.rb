@@ -90,7 +90,7 @@ module AresMUSH
       end
 
       def self.open_slots(char, charclass, level)
-        ((char.magic&.spells_per_day || {})[charclass] || {})[level].to_i
+        Entries.slots(char.magic, charclass)[level].to_i
       end
 
       def self.unknown(char, charclass, level)

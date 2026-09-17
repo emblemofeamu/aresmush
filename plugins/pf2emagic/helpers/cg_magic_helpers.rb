@@ -1,19 +1,6 @@
 module AresMUSH
   module Pf2emagic
 
-    def self.generate_blank_spell_list(obj, charclass)
-
-      spells_per_day = obj.spells_per_day
-      class_spells_per_day = spells_per_day[charclass]
-
-      class_spells_per_day.each_pair do |level, count|
-        list = Array.new(count, "open")
-
-        prepared_list[level] = list
-      end
-
-    end
-
     def self.get_caster_type(charclass)
       prepared = Array(Global.read_config('pf2e_magic', 'prepared_casters'))
       spont = Array(Global.read_config('pf2e_magic', 'spontaneous_casters'))
@@ -28,6 +15,33 @@ module AresMUSH
       return 'spontaneous' if spont_keys.include?(key)
       return nil
 
+    end
+
+    # Writes a spell into the list its class keeps - a spellbook for a prepared caster, a
+    # repertoire for a spontaneous one - replacing `old_spname` when this is a swap rather than an
+    # addition. Returns nil on success and a player-facing string when the spell being replaced is
+    # not there, which is the shape every caller of it already expects.
+    def self.record_known_spell(magic, caster_type, charclass, level, to_add, old_spname = nil)
+      attr = caster_type == 'prepared' ? :spellbook : :repertoire
+      held = magic.send(attr) || {}
+      for_class = held[charclass] || {}
+      at_level = for_class[level] || []
+
+      if old_spname
+        index = at_level.index old_spname
+
+        return t('pf2emagic.spell_to_delete_not_found') unless index
+
+        at_level[index] = to_add
+      else
+        at_level << to_add
+      end
+
+      for_class[level] = at_level
+      held[charclass] = for_class
+      magic.update(attr => held)
+
+      nil
     end
 
     def self.check_spell(char, charclass, level, term, common_only=false)
@@ -106,7 +120,7 @@ module AresMUSH
       held = if scope == :advancement
         Array((Pf2e.preview_spellbook(char, charclass)[charclass] || {})[level])
       else
-        Array((magic.spellbook[charclass] || {})[level])
+        Array(Entries.known(magic, charclass)[level])
       end
 
       total = held.size + pending_spellbook_picks(char, charclass, level)
@@ -213,42 +227,9 @@ module AresMUSH
         return t('pf2emagic.spell_to_delete_not_found') unless old_spname
       end
 
-      if caster_type == "prepared"
-        csb = magic.spellbook
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        # There might be a spell swap.
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
+      error = record_known_spell(magic, caster_type, charclass, level, to_add, old_spname)
 
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(spellbook: csb)
-      else
-        csb = magic.repertoire
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
-
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(repertoire: csb)
-      end
+      return error if error
 
       # The calling handler should interpret a nil response as a successful add and a String as a failure.
       return nil
@@ -353,42 +334,9 @@ module AresMUSH
       # Note that this function should not be used for uncommon or rare spells going in a spellbook.
       # That is expected to be handled by admin/set.
 
-      if caster_type == "prepared"
-        csb = magic.spellbook
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        # There might be a spell swap.
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
+      error = record_known_spell(magic, caster_type, charclass, level, to_add, old_spname)
 
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(spellbook: csb)
-      else
-        csb = magic.repertoire
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
-
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(repertoire: csb)
-      end
+      return error if error
 
       # The calling handler should interpret a nil response as a successful add and a String as a failure.
       return nil

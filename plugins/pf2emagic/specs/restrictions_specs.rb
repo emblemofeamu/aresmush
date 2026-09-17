@@ -1,4 +1,5 @@
 require "plugin_test_loader"
+require_relative "support/magic_stub"
 
 module AresMUSH
   module Pf2emagic
@@ -8,12 +9,13 @@ module AresMUSH
     # Each kind of restriction is a row: how many slots it grants at a rank, and which spells may go
     # in them. Adding a kind is adding a row.
     describe Restrictions do
+      include MagicStub
 
       def stats(restricted = {})
-        double(:restricted_slots => { 'Wizard' => restricted, 'Cleric' => {} },
-               :spells_per_day => { 'Wizard' => { 'cantrip' => 5, '1' => 3, '2' => 2 },
-                                    'Cleric' => { 'cantrip' => 5, '1' => 2 } },
-               :divine_font => nil)
+        magic_stub(:restricted_slots => { 'Wizard' => restricted, 'Cleric' => {} },
+                   :tradition => { 'Wizard' => [ 'arcane', 'trained' ], 'Cleric' => [ 'divine', 'trained' ] },
+                   :spells_per_day => { 'Wizard' => { 'cantrip' => 5, '1' => 3, '2' => 2 },
+                                        'Cleric' => { 'cantrip' => 5, '1' => 2 } })
       end
 
       def char_for(magic, specialize = 'Battle Magic')
@@ -50,9 +52,10 @@ module AresMUSH
       # must be the font's own spell.
       describe "a divine font" do
         def cleric(font = 'heal')
-          magic = double(:restricted_slots => { 'Cleric' => {} },
-                         :spells_per_day => { 'Cleric' => { 'cantrip' => 5, '1' => 2 } },
-                         :divine_font => font)
+          magic = magic_stub(:restricted_slots => { 'Cleric' => {} },
+                             :tradition => { 'Cleric' => [ 'divine', 'trained' ] },
+                             :spells_per_day => { 'Cleric' => { 'cantrip' => 5, '1' => 2 } },
+                             :divine_font => font)
 
           char_for(magic, nil)
         end

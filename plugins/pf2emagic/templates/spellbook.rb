@@ -86,7 +86,7 @@ module AresMUSH
       end
 
       def total_slots_block(charclass)
-        slots = @char.magic.spells_per_day[charclass] || {}
+        slots = Pf2emagic::Entries.slots(@char.magic, charclass)
         sorted_slots = Pf2emagic.sort_level_spell_list(slots)
 
         return "#{item_color}Total Spell Slots:%xn None." if sorted_slots.empty?

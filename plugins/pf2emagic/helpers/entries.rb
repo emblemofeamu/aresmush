@@ -263,6 +263,48 @@ module AresMUSH
         (find(magic, source) || {})['proficiency']
       end
 
+      # What a source knows, by rank. The same answer for a class keeping a repertoire, a class
+      # keeping a spellbook, and a source that has no hash to be keyed in at all.
+      def self.known(magic, source)
+        (find(magic, source) || {})['known'] || {}
+      end
+
+      # How many slots a source casts from, by rank.
+      def self.slots(magic, source)
+        (find(magic, source) || {})['slots'] || {}
+      end
+
+      # The spells a source knows at one rank, without the markers for picks not yet made.
+      def self.known_at(magic, source, rank)
+        Array(known(magic, source)[rank.to_s]).reject { |spell| spell.to_s.casecmp?(OPEN) }
+      end
+
+      # How many picks at that rank are still open.
+      def self.open_at(magic, source, rank)
+        Array(known(magic, source)[rank.to_s]).count { |spell| spell.to_s.casecmp?(OPEN) }
+      end
+
+      # Every source's known spells, keyed by source name, for a display that lists them all. A
+      # category narrows it to the spontaneous or prepared ones; the legacy hashes did that by
+      # being two separate attributes.
+      def self.known_by_source(magic, category = nil)
+        for_magic(magic).each_with_object({}) do |entry, lists|
+          next if category && entry['category'].to_s != category.to_s
+          next if (entry['known'] || {}).empty?
+
+          lists[entry['name']] = entry['known']
+        end
+      end
+
+      # Every source's slots, keyed by source name.
+      def self.slots_by_source(magic)
+        for_magic(magic).each_with_object({}) do |entry, all|
+          next if (entry['slots'] || {}).empty?
+
+          all[entry['name']] = entry['slots']
+        end
+      end
+
       # ------------------------------------------------------------------------------
       # How a source decides which spells it may cast
       # ------------------------------------------------------------------------------

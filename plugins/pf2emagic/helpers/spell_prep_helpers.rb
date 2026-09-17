@@ -177,11 +177,13 @@ module AresMUSH
       prepare_ok = false
       make_signature = false
 
-      spellbook = obj.spellbook[castclass]
+      # A prepared caster's book and, for the classes that keep both, their repertoire. Read
+      # through Entries so a source held as an entry rather than in the class-keyed hash counts.
+      spellbook = Entries.known_by_source(obj, 'prepared')[castclass]
 
       return [false, false] unless spellbook
 
-      repertoire = obj.repertoire[castclass]
+      repertoire = Entries.known_by_source(obj, 'spontaneous')[castclass]
 
       book_spells_list = spellbook.values&.flatten
 
@@ -201,8 +203,7 @@ module AresMUSH
       magic = char.magic
       return 0 unless magic
 
-      list = magic.spells_per_day[charclass]
-      return 0 unless list
+      list = Entries.slots(magic, charclass)
 
       list[level].to_i
     end
@@ -242,8 +243,7 @@ module AresMUSH
       return 0 unless type
 
       # This is the same whether you're a prepared or spontcaster.
-      list = magic.spells_per_day[charclass]
-      return 0 unless list
+      list = Entries.slots(magic, charclass)
 
       sublist = list[level]
 
@@ -261,8 +261,8 @@ module AresMUSH
       return nil unless type
 
       # This is the same whether you're a prepared or spontcaster.
-      list = magic.spells_per_day[charclass]
-      return nil unless list
+      list = Entries.slots(magic, charclass)
+      return nil if list.empty?
 
       levels_available = list.keys.sort { |a,b| a.to_i <=> b.to_i }
 

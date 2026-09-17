@@ -50,8 +50,7 @@ module AresMUSH
           prepared_list = magic.spells_prepared
           spells_today[cc] = prepared_list[cc] || {}
         else
-          spontlist = magic.spells_per_day[cc]
-          spells_today[cc] = spontlist || {}
+          spells_today[cc] = Entries.slots(magic, cc)
         end
       end
 
