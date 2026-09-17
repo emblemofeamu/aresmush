@@ -70,7 +70,7 @@ pf2e_spells:
     area: 15-foot burst
     range: "60 feet"
     duration: "1 minute"
-    effect: "Entropy settles over the area and healing falters. When a creature in the area would regain Hit Points from any source, including fast healing or regeneration, it must attempt a Will save.%r%r**Critical Success** It regains the full amount and is temporarily immune for 1 minute.%r**Success** It regains the full amount.%r**Failure** It regains half the amount.%r**Critical Failure** It regains nothing."
+    effect: "A sickly yellow light fills the area as entropic forces prevent healing. When a creature within the area would regain Hit Points, such as from a healing effect or an ability like fast healing or regeneration, it must attempt a Will save.%r%r**Critical Success** The creature regains the full number of Hit Points that would be restored by the healing effect and is temporarily immune for 1 minute.%r**Success** The creature regains the full number of Hit Points that would be restored.%r**Failure** The creature regains only half the number of Hit Points that would be restored.%r**Critical Failure** The creature doesn't regain Hit Points from the healing effect."
   False Vision:
     base_level: 5
     traits:
@@ -422,7 +422,7 @@ pf2e_spells:
     area: 15-foot burst
     range: "30 feet"
     duration: "1 minute"
-    effect: "A beacon of calm settles over your allies. Allies in the area gain a +1 status bonus to saves against emotion effects. An ally may touch the font at the centre as an Interact action, and the spell attempts to counteract one emotion effect of that ally's choice; that effect is then temporarily immune for 1 day. A successful counteract removes the effect from that ally only."
+    effect: "A divine beacon radiates serenity, soothing nearby allies.%r%rAllies within the area gain a +1 status bonus to saving throws against emotion effects.%r%rAn ally can touch the font at the center of the burst as an Interact action; if they do so, the spell attempts to counteract one emotion effect affecting the ally of the ally's choice, after which that emotion effect is temporarily immune for 1 day. If the spell succeeds at the counteract check, it removes the emotion effect from your ally, though not from any other creatures the effect might be affecting."
     heighten: "**+4:** The bonus increases by 1."
   Forbidding Ward:
     base_level: cantrip
@@ -644,7 +644,7 @@ pf2e_spells:
     range: "30 feet"
     target: "1 creature"
     duration: "1 minute"
-    effect: "Glowing letters write out the target's speech in front of them, in every language you speak. You choose as you cast whether everyone can see them or only creatures you name. Words the target merely mouths are written too, so they can speak silently or where sound does not carry - including spell incantations, but only if the letters are visible to all. The target's auditory abilities also reach creatures who can see the letters, gaining the visual trait. You can Dismiss the spell."
+    effect: "Glowing letters assemble in the air, providing a transcription of the target's speech in all languages you speak. For the spell's duration, any words spoken aloud by the target are spelled out in letters in front of them.%r%rWhen you Cast the Spell, you can choose whether these letters are visible to all creatures or only certain creatures you specify. Any words the target mouths silently are similarly spelled out, allowing the target to communicate silently or in areas where sound doesn't carry. This even allows the target to utter the incantations necessary for spells in such areas, but only if you choose to make the letters visible to all creatures.%r%rFurthermore, any of the target's auditory abilities can affect creatures even in areas where sound doesn't carry as long as you have made the glyphs visible to them and they have line of sight to the target; in this case, they gain the visual trait. You can Dismiss the spell."
   Ghostly Weapon:
     base_level: 3
     mystery:

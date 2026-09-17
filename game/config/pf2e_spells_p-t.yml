@@ -349,10 +349,10 @@ pf2e_spells:
       - manipulate
       - uncommon
     actions: reaction
-    trigger: "You or an ally within range fails a skill check for a skill they are trained in."
+    trigger: "You or an ally within range fails a skill check for a skill in which you or they are trained."
     range: "30 feet"
     target: "the triggering creature"
-    effect: "You steady a hand that has just slipped. The target gains a +2 status bonus to the triggering check, or +3 if they have master or better proficiency in that skill. This can change the check's outcome."
+    effect: "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill. This bonus can change the outcome of the target's skill check."
   Precious Metals:
     base_level: 4
     traits:
@@ -732,8 +732,8 @@ pf2e_spells:
     range: "30 feet"
     target: "unattended written materials of up to 1 Bulk or less"
     duration: "1 day"
-    effect: "You strike a name out of the written word. Name one creature, place or object as you cast; every mention of it in the target document becomes blurred, smudged or otherwise unreadable, including epithets and unambiguous references to it. Attempts to Recall Knowledge about that name from the document automatically fail."
-    heighten: "**3rd:** You may replace the name with another of your choosing rather than strike it out; epithets and references are substituted to match. A reader may attempt a Perception or Society check against your spell DC to spot the alteration, though not to learn what it said.%r**4th:** You may make the duration unlimited."
+    effect: "You strike mention of a specific name from one or more documents. When you Cast the Spell, give one proper name, be it a creature, location, or object. Any mention of that name within the document becomes blurred, smudged, or otherwise completely illegible. Epithets and unambiguous references to the name are redacted as well; for instance, redacting the name of the goddess Sarenrae from a book would also remove references to her title \"the Dawnflower.\" Attempts to use this reference material to Recall Knowledge about the given proper name automatically fail."
+    heighten: "**3rd:** Instead of striking out a given name, you can replace it with a different name you choose. Epithets and references are substituted with similar ones relating to the replacement name. Anyone reading the text can attempt a Perception or Society check against your spell DC to notice the altered text, though that doesn't tell them what the original said.%r**4th:** At your choice, the duration is unlimited."
   Regenerate:
     base_level: 7
     traits:
@@ -940,7 +940,7 @@ pf2e_spells:
     actions: 2
     area: 30-foot emanation
     duration: "varies"
-    effect: "You loose a dragon's roar. It grants you a +2 circumstance bonus to Diplomacy checks for 10 minutes against dragons that were in the area, and terrifies almost everything else. Creatures with deep ties to dragonkind count as dragons for this spell, at the GM's discretion. Every other enemy in the area attempts a Will save; for them this is a fear effect.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature is Frightened 1.%r**Failure** The creature is Frightened 2.%r**Critical Failure** The creature is Frightened 3 and Fleeing for 1 round."
+    effect: "You channel the might of dragons into your voice, letting out a roar that engenders respect in dragonkind but that instills fear in most other creatures. The impressive roar grants you a +2 circumstance bonus to Diplomacy checks for 10 minutes against dragons that were in the area at the time of casting.%r%rRoar of the dragon affects non-dragon creatures with deep ties to dragonkind (such as a barbarian with the draconic instinct, a sorcerer with the draconic bloodline, or a member of a culture that reveres dragons) as if they had the dragon trait. The GM decides if a creature is aligned enough with dragonkind to be affected in this way. All enemies within the area other than dragons must attempt a Will save; to these enemies, roar of the dragon is a fear effect.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature is frightened 1.%r**Failure** The creature is frightened 2.%r**Critical Failure** The creature is frightened 3 and fleeing for 1 round."
   Rouse Skeletons:
     base_level: 3
     traits:
@@ -1287,10 +1287,10 @@ pf2e_spells:
       - mental
       - uncommon
     actions: reaction
-    trigger: "An ally within range is about to attempt a saving throw against a harmful emotion effect that you would not otherwise have to save against."
+    trigger: "An ally within range is about to attempt a saving throw against a harmful emotion effect, and you would not otherwise have to save against the effect."
     range: "30 feet"
     target: "you and the triggering ally"
-    effect: "You take part of your ally's pain onto yourself. Both of you use the result one degree of success better than your ally's saving throw, even if the effect would normally reach only one of you."
+    effect: "You shoulder some of your ally's pain. Both you and your ally use the outcome one degree of success better than the result of your ally's saving throw, even if the triggering effect usually affects only one target."
   Share Life:
     base_level: 2
     traits:
@@ -1919,7 +1919,7 @@ pf2e_spells:
     range: "30 feet"
     target: "1 creature or up to 1 Bulk of objects"
     duration: "varies"
-    effect: "Time thickens around the target, which must attempt a Will save. An unattended object automatically critically fails.%r%r**Critical Success** The target is unaffected.%r**Success** The target is Stunned 1.%r**Failure** Time stops for the target for 1 round. It cannot be damaged, targeted or affected by anything, no timed durations or conditions advance for it, and it cannot be moved, holding its place against gravity if need be.%r**Critical Failure** As failure, but for 3 rounds. At the end of each of its turns it may attempt a Will save to cut the remaining duration by 1 round, or end it outright on a critical success."
+    effect: "The flow of time congeals around an object or creature, holding it in place. The target must attempt a Will save (an unattended object automatically critically fails its save).%r%r**Critical Success** The target is unaffected.%r**Success** The target is stunned 1 as time thickens around it.%r**Failure** Time ceases to pass for the target for 1 round. It is invulnerable to all damage, it can't be targeted or affected by anything, and no rounds elapse for any timed durations, conditions, afflictions, and other effects it has. While in stasis, the target can't be moved, and it remains fixed in place, defying gravity if need be.%r**Critical Failure** As failure, but the target is held in stasis for 3 rounds. At the end of each of its turns, it can attempt a Will save to reduce the remaining duration by 1 round or end it entirely on a critical success."
   Status:
     base_level: 2
     traits:
@@ -2323,8 +2323,8 @@ pf2e_spells:
       - uncommon
     actions: 2
     duration: "5 minutes"
-    effect: "You come apart into a swarm of tiny creatures. You keep your size but gain the swarm trait, resistance 5 to slashing and piercing, and weakness 5 to area and splash damage. You can squeeze through gaps a few inches wide and share a space with another creature. You do not gain swarm mind, so mental effects reach you as usual. You cannot speak, cast spells, use manipulate actions needing hands, activate magic items, or Strike with your own body. As a single action you can swarm over a creature sharing your space; it must succeed at a Fortitude save against your spell DC or be Sickened 1, or Sickened 2 on a critical failure. You can Dismiss the spell."
-    heighten: "**+2:** The resistance and the weakness each increase by 5."
+    effect: "You discorporate into a swarm of Tiny creatures. While in swarm form, you are the same size, you have the swarm trait and you gain resistance 5 to slashing and piercing damage and weakness 5 to area and splash damage. You can fit into spaces only a few inches wide, moving your constituent creatures through the gap, and you can share a space with another creature. You don't gain the swarm mind ability, so you are still affected normally by mental effects. As a swarm, you can't speak, cast spells, use manipulate actions requiring your hands, activate your magic items, or make any of your Strikes with your normal body. While in swarm form, you can crawl all over any creature that shares your space as a single action. That creature must attempt a Fortitude save against your spell DC or become sickened 1 (sickened 2 on a critical failure). You can Dismiss the Spell."
+    heighten: "**+2:** Your resistances and weaknesses each increase by 5."
   Swarmsense:
     base_level: 1
     traits:
@@ -2334,8 +2334,8 @@ pf2e_spells:
       - manipulate
       - uncommon
     actions: 3
-    effect: "You spread your senses through a crawling swarm, which appears in your square. You hear through it as if with your own ears. When you cast the spell, and the first time you Sustain it each round, you may move the swarm 10 feet along the ground. It has AC 15 and a +0 bonus to saves; any damage destroys it and ends the spell."
-    heighten: "**3rd:** The swarm gains a climb Speed of 10 feet.%r**5th:** The swarm gains a fly Speed of 10 feet, and you can see through it.%r**7th:** The swarm gains a 10-foot status bonus to its Speeds."
+    effect: "You extend your senses through a multitude of crawling and flying creatures. You create a crawling swarm in your square. You can hear through the swarm as if using your normal auditory senses. When you Cast this Spell and the first time you Sustain it each round, you can move the swarm 10 feet along the ground in any direction. The swarm has AC 15 and a +0 bonus to its saves. Any damage dealt to the swarm destroys it and ends the spell."
+    heighten: "**3rd:** The swarm has a climb Speed of 10 feet.%r**5th:** The swarm has a fly Speed of 10 feet. You can see through the swarm using your visual senses.%r**7th:** The swarm gains a 10-foot status bonus to its Speeds."
   Swear Oath:
     base_level: 1
     traits:
@@ -2345,7 +2345,7 @@ pf2e_spells:
       - uncommon
     actions: 1 or 2
     duration: "until the end of your next turn"
-    effect: "You declare aloud what you will do, and Ready a single action or free action. If that action follows your own edicts or your religion's, casting takes only one action. If your trigger occurs and the action can be taken as a reaction, you gain a +1 status bonus to any attack roll or skill check it requires. If the trigger never comes, you may Sustain the spell on your next turn to recover the Focus Point."
+    effect: "You loudly and firmly state a course of action that you swear to fulfill. When you Cast this Spell, Ready a single action or free action you can use. If the action is in line with your personal edicts or the edicts presented by your religion, you can Cast this Spell as a single action.%r%rIf the trigger you designate occurs and you can use the chosen action as a reaction, you gain a +1 status bonus to any attack roll or skill check required. If the trigger you designate doesn't occur, you can Sustain the spell on your next turn to regain the Focus Point spent for this spell."
     heighten: "**5th:** The status bonus is +2.%r**9th:** The status bonus is +3."
   Sweet Dream:
     base_level: 1
@@ -2755,7 +2755,7 @@ pf2e_spells:
     range: "30 feet"
     target: "1 creature"
     duration: "1 minute"
-    effect: "You hold one affliction of the body at bay. Choose Clumsy, Encumbered, Enfeebled or Fatigued affecting the target and suppress it. Its duration does not run down while suppressed, so unless the cause is dealt with the condition returns when the spell ends."
+    effect: "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued. The duration of the condition doesn't elapse while it is suppressed, so if you don't remove the effect that caused the condition, the condition returns after the spell's duration expires."
   Touch of Death:
     base_level: 8
     traits:

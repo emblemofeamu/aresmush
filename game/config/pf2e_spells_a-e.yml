@@ -54,7 +54,7 @@ pf2e_spells:
       - morph
     actions: 2
     duration: "1 minute"
-    effect: "You reshape your body to suit your surroundings. Choose one option that applies to you: in water you gain a swim Speed equal to half your Speed; in water you can breathe water; where it is too dark to see you gain darkvision; or in severe heat or cold you are protected from it, and the spell lasts 10 minutes instead."
+    effect: "You make subtle changes to your body to adapt to the situation. Choose one of the following options that applies to you.%r%r%t- If you are in water, you gain a swim Speed equal to half your Speed.%r%t- If you are in water, you become able to breathe water.%r%t- If it's too dark for you to see, you gain darkvision.%r%t- If you are in an environment of severe heat or severe cold, you are protected from the effects of severe heat or severe cold, and the spell lasts 10 minutes."
   Adaptive Ablation:
     base_level: 1
     traits:
@@ -62,9 +62,9 @@ pf2e_spells:
       - focus
       - manipulate
     actions: reaction
-    trigger: "You take acid, cold, electricity, fire or sonic damage."
+    trigger: "You take acid, cold, electricity, fire, or sonic damage."
     duration: "1 minute"
-    effect: "You retune yourself to the energy that just struck you. You gain resistance 5 to the triggering damage type. The resistance arrives after the triggering damage, so it applies only to further damage of that type during the duration."
+    effect: "You shift yourself to adapt to the mystical wavelengths of the energy damage, protecting yourself from further harm. You gain resistance 5 to the triggering energy type; you gain this resistance after you take the triggering damage, so it applies only to future damage you take during the duration."
     heighten: "**+2:** The resistance increases by 5."
   Aerial Form:
     base_level: 4
@@ -1719,7 +1719,7 @@ pf2e_spells:
     range: "30 feet"
     target: "the triggering creature or object"
     duration: "1 round"
-    effect: "You push the moment of injury further down the target's timestream. Roll the attack's damage as normal, but apply none of it - no Hit Point loss and no other effects - until the spell ends, at which point the target takes all of it at once. You can Dismiss this spell."
+    effect: "You transpose the moment that the target would be injured to a point later in its timestream. Roll damage normally, but do not reduce Hit Points or apply any other effects of the attack until the spell's duration has elapsed. When the spell ends, the target is immediately affected by the attack, taking damage and being affected by any additional effects. You can Dismiss this spell."
   Delusional Pride:
     base_level: 4
     traits:
@@ -2110,7 +2110,7 @@ pf2e_spells:
     area: 20-foot emanation
     range: "5 feet"
     duration: "1 minute"
-    effect: "You crack open an adjacent empty space onto somewhere outside reality, and the air rushes in. A Large or smaller creature must attempt a Fortitude save at the start of its turn in the area, or on entering it. Anything ending its turn next to the door takes 4d6 slashing damage from the decompression. You are immune to your own door and can Dismiss the spell.%r%r**Success** The creature is unaffected.%r**Failure** The creature is pulled 10 feet toward the door.%r**Critical Failure** The creature is pulled 20 feet toward the door."
+    effect: "Striking at thin air, you create hairline cracks in an unoccupied adjacent space that lead somewhere outside reality. Air rushes through the cracks, drawing Large or smaller creatures and objects of light Bulk or less toward the center. Large or smaller creatures in the area must attempt a Fortitude save at the start of their turn; creatures that move into the area must attempt the save upon entering.%r%rThe cracks of the door to beyond are too thin for anything to fully slip through, but decompressive effects deal 4d6 slashing damage to any creature or object that ends its turn adjacent to the door. You are unaffected by your own door to beyond. You can Dismiss the spell.%r%r**Success** The creature is unaffected.%r**Failure** The creature is pulled 10 feet toward the door.%r**Critical Failure** The creature is pulled 20 feet toward the door."
     heighten: "**+1:** The damage increases by 1d6."
   Downpour:
     base_level: 4
@@ -2137,8 +2137,8 @@ pf2e_spells:
       - uncommon
     actions: 2
     duration: "1 minute"
-    effect: "Tiny dragons of raw energy circle you. Choose fire, force, mental or spirit damage as you cast. Your Strikes deal 1 extra damage of that type for the duration, and you can Sustain the spell to change the type. You can instead Sustain it to send the dragons at a creature within 60 feet for 2d4 damage of the chosen type (basic Reflex save), after which they vanish and the spell ends."
-    heighten: "**+1:** The extra Strike damage increases by 1 and the bombardment by 2d4."
+    effect: "You shape energy into a small group of tiny dragons (or other serpentine creatures) that flit around you. Choose fire, force, mental, or spirit damage when you Cast the Spell. For the duration of the spell, your Strikes with weapons or unarmed attacks deal 1 additional damage of the chosen type, as the dragons add their energy to your attacks. You can Sustain the spell to change the damage type.%r%rIn addition, you can Sustain the spell to have the dragons fly off to bombard a creature within 60 feet. That creature takes 2d4 damage of the chosen type (basic Reflex save). Once the dragons have been used in this way, they wink out of existence and the spell ends."
+    heighten: "**+1:** The additional amount of damage from the dragons increases by 1 and the damage dealt by the dragons' bombardment increases by 2d4."
   Dragon Breath:
     base_level: 3
     bloodline:
@@ -2343,7 +2343,7 @@ pf2e_spells:
     range: "30 feet"
     target: "1 creature"
     duration: "1 minute"
-    effect: "You call an enemy to answer you rather than your allies. The target takes a -1 status penalty to attack rolls, damage rolls and skill checks against anyone but you, and you take the same penalty against anyone but the target. Each time someone else acts against the challenged enemy it can attempt a Will save, ending the penalty against that creature on a success. You can Dismiss the spell, and it ends if either of you is defeated."
+    effect: "As you challenge an enemy, you take some of its attention away from your allies. The target takes a -1 status penalty to attack rolls, damage rolls, and skill checks against creatures other than you, and you take a -1 status penalty to attack rolls, damage rolls, and skill checks against creatures other than the target.%r%rEach time a creature other than you uses a hostile action that affects the challenged enemy, the enemy can attempt a Will save. On a success, the enemy no longer takes the penalty against that creature. You can Dismiss the spell, and it ends automatically if you or the target is defeated."
     heighten: "**+3:** The status penalties increase by 1."
   Déjà Vu:
     base_level: 1
@@ -2434,7 +2434,7 @@ pf2e_spells:
     area: 15-foot burst
     range: "30 feet"
     duration: "1 minute"
-    effect: "You press the mortal world and the Ethereal Plane together. Inside the area, incorporeal creatures cannot pass through solid objects or corporeal creatures, and can handle physical things and attempt Strength-based checks. An incorporeal creature with a normal Strength modifier uses it; one with the usual -5 uses +4 instead, raising its Athletics by 9. Attacks against creatures in the area overcome resistances as though made with a ghost touch weapon."
+    effect: "You force the mortal Universe and Ethereal Planes to partially merge, creating a zone that causes incorporeal and spiritual entities to take on many of the aspects of corporeal creatures. Within the area of effect, incorporeal creatures can't pass through solid objects or corporeal creatures, and they can manipulate and attempt Strength-based checks against physical creatures and objects. An incorporeal PC or other creature with a normal Strength modifier simply uses that modifier, but if the creature had a Strength modifier of –5, like most incorporeal monsters, it uses a +4 modifier instead, increasing its Athletics modifier by 9 accordingly. Attacks against creatures that are within the area overcome resistances as if they were by ghost touch weapons."
   Eject Soul:
     base_level: 1
     traits:
@@ -2447,8 +2447,8 @@ pf2e_spells:
     actions: 2
     range: "touch"
     target: "1 living creature that has a soul"
-    effect: "Your touch loosens the target's soul from its body. It attempts a Fortitude save, and a willing ally may choose its degree of success rather than roll.%r%r**Success** The target is unaffected.%r**Failure** The target is Stunned 1.%r**Critical Failure** The soul leaves the body, which is stunned for 1 round. The target stays aware in soul form: incorporeal, Invisible, fly Speed 60 feet, unable to attack, cast spells or attempt checks needing a body, and never out of line of effect to it. The soul returns when the body stops being stunned."
-    heighten: "**+3:** A willing ally who chooses to critically fail may remain in soul form 1 extra round."
+    effect: "Your touch disrupts the connection between body and soul, possibly forcing the soul out of the body altogether. The target must attempt a Fortitude save. You can allow allies to choose the degree of success instead of rolling a saving throw.%r%r**Success** The target is unaffected.%r**Failure** The target is stunned 1 as its soul briefly loses its connection to their body.%r**Critical Failure** The target's soul exits its body and the target's body becomes stunned for 1 round. While their body is stunned in this way, the target remains fully aware in soul form; they simply can't consciously move their body (though the body makes basic instinctual defensive movements). The target's soul has the incorporeal trait, is invisible, and has a fly Speed of 60 feet. It can't attack, cast spells, or attempt any skill checks that require a physical body, and it must always maintain line of effect to the target's body. When the target's body ceases being stunned, the target's soul instantly returns to their body as the target wakes."
+    heighten: "**+3:** If a willing ally chooses to critically fail, they can stay in soul form for 1 additional round."
   Electric Arc:
     base_level: cantrip
     mystery:
@@ -2587,8 +2587,8 @@ pf2e_spells:
       - mental
       - uncommon
     actions: 1
-    effect: "You hollow out your own mind for a moment. Attempt a counteract check against one emotion effect affecting you."
-    heighten: "**5th:** You may attempt counteract checks against any number of emotion effects affecting you."
+    effect: "You inject a sliver of the void into your mind, momentarily remaking it into a bleak and empty place. Attempt a counteract check against one emotion effect affecting you."
+    heighten: "**5th:** You can attempt counteract checks against any number of emotion effects affecting you."
   Enduring Might:
     base_level: 4
     traits:

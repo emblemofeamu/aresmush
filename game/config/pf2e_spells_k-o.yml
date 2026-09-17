@@ -52,7 +52,7 @@ pf2e_spells:
     actions: 2
     range: "30-foot cone"
     target: "1 or more creatures"
-    effect: "You wail out your grief, dealing 1d8 mental damage to each creature in the area with a basic Will save. If you are suffering any harmful conditions from emotion effects, the spell deals extra mental damage equal to the counteract rank of the highest-level one."
+    effect: "You let out your negative emotions in a guttural wail that shakes your enemies' hearts and deals 1d8 mental damage (basic Will save) to each creature in the area. If you have any harmful conditions imposed by emotion effects, lament deals additional mental damage equal to the counteract rank of the highest-level effect."
     heighten: "**+1:** The damage increases by 1d8."
   Laughing Fit:
     base_level: 2
@@ -1037,8 +1037,8 @@ pf2e_spells:
     actions: 2
     area: 15-foot emanation
     duration: "1 minute"
-    effect: "Your sadness spills into everyone near you. The first time a creature starts its turn in the area or enters it, it attempts a Will save; on returning later it keeps the same result.%r%r**Critical Success** The creature is unaffected.%r**Success** It takes a -1 status penalty to skill checks and Perception while it stays in the area.%r**Failure** While in the area, emotion effects of lower counteract rank are suppressed, and it must succeed at a flat check to use an emotion action or cast an emotion spell or the attempt is disrupted.%r**Critical Failure** As failure, but it cannot use emotion actions or spells at all."
-    heighten: "**+2:** You may choose to increase the area by 5 feet."
+    effect: "Sadness flows out of you into nearby creatures, blotting out any other thoughts they had. The first time a creature begins its turn in the area or enters the area, it must attempt a Will save. If it later leaves and reenters the area, it uses the same effect as before.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes a –1 status penalty to skill checks and Perception checks as long as it remains in the area.%r**Failure** While the creature is in the area, any emotion effects of lower counteract rank than overflowing sorrow are suppressed, and whenever the creature attempts to use an emotion action or cast an emotion spell, it must succeed at a flat check (DC 11) or the action or spell is disrupted.%r**Critical Failure** As failure, but the creature can't use emotion actions or spells."
+    heighten: "**+2:** When you Cast the Spell, you can choose to increase the area by 5 feet."
   Overstuff:
     base_level: 1
     traits:

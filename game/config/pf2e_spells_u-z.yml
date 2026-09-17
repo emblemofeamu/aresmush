@@ -414,8 +414,8 @@ pf2e_spells:
       - uncommon
     actions: 1
     duration: "1 minute"
-    effect: "You draw life force into yourself and shine with it. You give off bright light in a 30-foot emanation and dim light for 30 feet beyond, and you gain a luminance reservoir starting at 4, rising by 4 at the start of each of your turns. An undead creature that damages you while inside your bright light takes vitality damage equal to half your reservoir, once per round. You can Dismiss the spell to pour the reservoir into one willing living creature or one undead creature in your light, healing the living or dealing that much vitality damage to the undead. Casting it again ends any previous casting."
-    heighten: "**+1:** The reservoir's starting value and its increase each turn both go up by 1."
+    effect: "Drawing life force into yourself, you become a beacon of vitality. You glow with bright light in a 30-foot emanation (and dim light to the next 30 feet), and you gain an internal pool of light called a luminance reservoir, which begins with a value of 4. At the start of each of your turns, increase your reservoir by 4.%r%rIf an undead creature damages you with an attack or spell while it's within the bright light of your aura, that creature takes vitality damage equal to half your luminance reservoir value. It takes this damage only the first time it damages you in a round.%r%rYou can Dismiss this Spell. When you do, you can target a creature within your light and direct the vital energy into it. The target must be a willing living creature or an undead creature. This heals a living target or deals vitality damage to an undead target equal to your luminance reservoir's value.%r%rIf you Cast this Spell again, any previous casting ends."
+    heighten: "**+1:** Both the initial value of your luminance reservoir and the amount you gain each turn increase by 1."
   Vitality Lash:
     base_level: cantrip
     mystery:
@@ -848,8 +848,8 @@ pf2e_spells:
     actions: 2
     range: "touch"
     target: "1 creature or object"
-    effect: "Your touch rots what it finds. Make a spell attack against the target's AC for 1d12 void damage plus 1d4 persistent void damage. An item used to block the spell, as with Shield Block, is affected automatically and the creature takes no damage even if some would be left over. Unlike other void damage, this erodes objects and constructs as well.%r%r**Critical Success** Double damage, initial and persistent. Against an object, lower its Hardness by 4 for 1 minute.%r**Success** Full damage. Against an object, lower its Hardness by 2 for 1 minute."
-    heighten: "**+1:** The damage increases by 1d12 and the persistent damage by 1. Against an object, lower its Hardness by a further 1 on a success or a critical success."
+    effect: "Your touch rots organic material and decays objects. Make a spell attack against the target's AC. Your touch deals 1d12 void damage plus 1d4 persistent void damage. If a creature uses an item to block withering grasp, such as with the Shield Block reaction, the item is automatically affected, but the creature doesn't take damage (even if there is damage left over after the shield's Hardness). Unlike normal void damage, the void damage from withering grasp damages objects, constructs, and the like by eroding away their substance.%r%r**Critical Success** Your touch deals double damage (both initial and persistent). If you target an object, lower its Hardness by 4 for 1 minute.%r**Success** Your touch deals full damage. If you target an object, lower its Hardness by 2 for 1 minute."
+    heighten: "**+1:** The damage increases by 1d12 and the persistent damage increases by 1. If you target an object, lower its Hardness by an additional 1 point on both a success and a critical success."
   Word of Freedom:
     base_level: 4
     traits:
