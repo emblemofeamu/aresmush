@@ -28,7 +28,11 @@ module AresMUSH
         :advance_language => lambda { |state, args| Advancement::Languages.pick(state, args) },
         :advance_raise => lambda { |state, args| Advancement::Raises.set(state, args) },
         :advance_option => lambda { |state, args| Advancement::Options.choose(state, args) },
-        :reset_advancement => lambda { |state, args| Advancement::Lifecycle.reset(state, args) }
+        :reset_advancement => lambda { |state, args| Advancement::Lifecycle.reset(state, args) },
+
+        # A staff correction. One action for all of admin/set's keywords, because which state a
+        # keyword touches is the table's business and not the caller's.
+        :admin_set => lambda { |state, args| AdminSet.plan(state, args['item'], args['value']) }
       }.freeze
 
       def self.actions

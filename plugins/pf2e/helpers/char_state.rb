@@ -30,6 +30,7 @@ module AresMUSH
             'boosts' => char.pf2_boosts,
             'lang' => char.pf2_lang,
             'traits' => char.pf2_traits,
+            'features' => char.pf2_features,
             'chargen_stage' => char.chargen_stage,
             'approved' => char.is_approved?,
             'admin' => char.is_admin?,
@@ -73,6 +74,9 @@ module AresMUSH
           'boosts' => data['boosts'] || {},
           'lang' => data['lang'] || [],
           'traits' => data['traits'] || [],
+          # The character's own features, which for a draft are the only place they are: the fold
+          # is empty until the draft commits.
+          'features' => data['features'] || {},
           'abilities' => data['abilities'] || [],
           'ability_scores' => data['ability_scores'] || {},
           'saves' => data['saves'] || {},

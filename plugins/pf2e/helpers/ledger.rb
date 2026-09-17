@@ -46,6 +46,20 @@ module AresMUSH
           'key' => 'ability', 'sheet' => 'flaws', 'sync' => 'counted',
           'apply' => lambda { |sheet, p| sheet['flaws'][p['ability']] = sheet['flaws'].fetch(p['ability'], 0) + 1 }
         },
+        # A score stated outright, which is what staff correcting a sheet need: most scores derive
+        # from counts of boosts and flaws, and 15 is not a number any sequence of boosts reaches.
+        #
+        # It replaces the derivation *to that point* rather than fixing the score forever: the
+        # counts so far are what it supersedes, so they are cleared, and a boost taken at a later
+        # level still applies on top of it. The latest one wins.
+        'set_ability_score' => {
+          'key' => 'ability', 'sheet' => 'ability_overrides',
+          'apply' => lambda { |sheet, p|
+            sheet['ability_overrides'][p['ability']] = p['to'].to_i
+            sheet['boosts'].delete(p['ability'])
+            sheet['flaws'].delete(p['ability'])
+          }
+        },
         'grant_feat' => {
           'key' => 'feat', 'sheet' => 'feats', 'sync' => 'bucketed_multi', 'default_bucket' => 'charclass',
           'apply' => lambda { |sheet, p|
@@ -124,6 +138,7 @@ module AresMUSH
           'lores' => {},
           'boosts' => {},
           'flaws' => {},
+          'ability_overrides' => {},
           'feats' => {},
           'feat_choices' => {},
           'features' => {},
@@ -232,10 +247,18 @@ module AresMUSH
         # counts per ability are enough and a rollback that drops a boost puts the score back.
         if !draft
           (current['ability_scores'] || {}).each_key do |ability|
-            wanted = Pf2eAbilities.derived_score((sheet['flaws'] || {})[ability].to_i,
-                                                 (sheet['boosts'] || {})[ability].to_i)
+            override = (sheet['ability_overrides'] || {})[ability]
 
-            next if current['ability_scores'][ability].to_i == wanted
+            # An override is the starting point for whatever came after it; without one a score is
+            # 10 plus its boosts, less its flaws.
+            wanted = if override
+              Pf2eAbilities.boosted_score(override.to_i, (sheet['boosts'] || {})[ability].to_i)
+            else
+              Pf2eAbilities.derived_score((sheet['flaws'] || {})[ability].to_i,
+                                          (sheet['boosts'] || {})[ability].to_i)
+            end
+
+            next if current['ability_scores'][ability].to_i == wanted.to_i
 
             ops << { 'op' => 'set_ability', 'ability' => ability, 'to' => wanted }
           end

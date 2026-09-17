@@ -17,7 +17,8 @@ Game admins and those they designate can make some modifications to characters' 
 **Key**:
 `<character>`: The character's name.
 `<ability name>`: The name of the ability. For example, Charisma.
-`<ability score>`: The number to set the score to.
+`<ability score>`: The number to set the score to. Attribute boosts the character earns at later
+levels still apply on top of it, so setting a score at 1st level does not freeze it.
 
 ### Setting character features
 **Command**:
@@ -34,7 +35,7 @@ Game admins and those they designate can make some modifications to characters' 
 
 **Key**:
 `<character>`: The character's name.
-`<skill name>`: The name of the skill to train.
+`<skill name>`: The name of the skill to train, or a lore ending in `Lore`.
 `<proficiency level>`: `untrained`, `trained`, `expert`, `master`, `legendary`
 
 ### Changing feats

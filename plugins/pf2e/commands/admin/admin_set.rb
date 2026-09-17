@@ -6,6 +6,15 @@ module AresMUSH
 
       attr_accessor :character, :item, :value
 
+      # The two corrections that do not go through the grant ledger, because focus spells and a
+      # divine font are not part of the fold. `AdminSet` asks for them by name.
+      MAGIC_OPS = {
+        'update' => lambda { |char, client, op| PF2Magic.update_magic(char, op['charclass'], op['info'], client) },
+        'revoke_focus' => lambda { |char, _client, op|
+          Pf2emagic::Entries.revoke_focus!(char, op['focus_type'], op['spell'], :kind => op['kind'])
+        }
+      }.freeze
+
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_slash_arg2_equals_arg3)
 
@@ -31,294 +40,27 @@ module AresMUSH
           return
         end
 
-      valid_instructions = %w{add delete}
-
-        case self.item
-        when "skill"
-          # Expected structure of self.value: `<skill name> <proficiency level>`
-
-          # Skills can be multi-word names, but prof is always the last word, so pop it off the end and the rest
-          # is the skill name.
-
-          new_prof = self.value.pop.downcase
-          skname = self.value.join(" ")
-
-          skill = Pf2eSkills.find_skill(skname, char)
-
-          levels = %w(untrained trained expert master legendary)
-
-          if !(levels.include? new_prof)
-            client.emit_failure t('pf2e.bad_value', :item => 'proficiency level')
-            return
-          end
-
-          # Skill object can be nil! Attempt to create if not found.
-
-          if !skill
-            skill_list = Global.read_config('pf2e_skills').keys
-
-            if !(skill_list.include? skname)
-              client.emit_failure t('pf2e.bad_skill', :name => skname)
-              return
-            end
-
-            skill = Pf2eSkills.create_skill_for_char(skname, char)
-          end
-
-          skill.update(prof_level: new_prof)
-          client.emit_success t('pf2e.updated_ok', :element => skill.name, :char => char.name)
-
-        when "feature"
-          # Expected structure of self.value: `[add|delete] <feature name>`
-          # No validation of the feature in question is done.
-
-          features = char.pf2_features
-          instruction = value[0].downcase
-          ftoadd = titlecase_arg(value[1])
-
-          unless valid_instructions.include? instruction
-            client.emit_failure t('pf2e.bad_instruction')
-            return
-          end
-
-          if instruction == "add"
-            features << ftoadd
-          elsif instruction == "delete"
-            i = features.each {|f| f.upcase}.index(ftoadd.upcase)
-
-            if !i
-              client.emit_failure t('pf2e.not_in_list', :option => ftoadd)
-              return
-            end
-
-            features.delete_at(i)
-          end
-
-          char.update(pf2_features: features.sort)
-
-          client.emit_success t('pf2e.updated_ok', :element => "Feature", :char => char.name)
-        when "spellbook"
-          # Expected structure of self.value: <charclass> [add|delete] <spell name> <spell level>
-
-          castclass = self.value[0].downcase
-          caster_type = Pf2emagic.get_caster_type(castclass)
-
-          if !caster_type
-            client.emit_failure t('pf2e.use_focus_keyword')
-            return
-          end
-
-          instruction = self.value[1].downcase
-
-          unless valid_instructions.include? instruction
-            client.emit_failure t('pf2e.bad_instruction')
-            return
-          end
-
-          spell_level = self.value[3].downcase
-          spell = Pf2emagic.get_spells_by_name(self.value[2])
-
-          unless spell.size == 1
-            client.emit_failure t('pf2e.not_unique')
-            return
-          end
-
-          spell = spell.first
-
-          # Now it's time to do the adding.
-
-          info = { 'addspellbook' => { spell_level => [ spell ]} }
-
-          PF2Magic.update_magic(char, charclass, info, client)
-
-        when 'repertoire'
-          # Expected structure of self.value: <charclass> [add|delete] <spell name> <spell level>
-          charclass = self.value[0].capitalize
-          caster_type = Pf2emagic.get_caster_type(charclass.downcase)
-
-          if !caster_type
-            client.emit_failure t('pf2e.use_focus_keyword')
-            return
-          end
-
-          instruction = self.value[1].downcase
-
-          unless valid_instructions.include? instruction
-            client.emit_failure t('pf2e.bad_instruction')
-            return
-          end
-
-          spell_level = self.value[3].to_i.zero? ? 'cantrip' : self.value[3].to_i
-          spell = Pf2emagic.get_spells_by_name(self.value[2])
-
-          unless spell.size == 1
-            client.emit_failure t('pf2e.not_unique')
-            return
-          end
-
-          spell = spell.first
-
-          if instruction == 'add'
-            info = { 'addrepertoire' => { spell_level => spell }}
-            PF2Magic.update_magic(char, charclass, info, client)
-          elsif instruction == 'delete'
-            magic = char.magic
-            repertoire = magic.repertoire
-            charclass_rep = repertoire[charclass]
-            rep_level = charclass_rep[spell_level]
-            rep_level.delete spell
-            charclass_rep[spell_level] = rep_level
-            repertoire[charclass] = charclass_rep
-            magic.update(repertoire: repertoire)
-          end
-
-          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Repertoire')
-        when "focus"
-          # Expected structure of value: add|delete <charclass> cantrip|spell <spell name>
-
-          charclass = self.value[1].capitalize
-          instruction = self.value[0].downcase
-          spell_type = self.value[2].downcase
-          spell_name = titlecase_arg(self.value[3])
-
-          unless valid_instructions.include? instruction
-            client.emit_failure t('pf2e.bad_instruction')
-            return
-          end
-
-          fspell_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
-
-          unless fspell_type
-            client.emit_failure t('pf2e.bad_value', :item => 'character class')
-            return
-          end
-
-          key = "focus_" + spell_type
-
-          if instruction == 'add'
-            value = { fspell_type => [ spell_name ]}
-            spell_info = { key => value }
-            PF2Magic.update_magic(char, charclass, spell_info, client)
-          elsif instruction == 'delete'
-            # Cantrips and spells are separate lists, so which one to take the name out of has to
-            # come from the key.
-            kind = key == 'focus_cantrip' ? 'cantrip' : 'spell'
-
-            Pf2emagic::Entries.revoke_focus!(char, fspell_type, spell_name, :kind => kind)
-          end
-
-          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => key.capitalize.gsub("_", " "))
-        when "ability"
-          # Expected structure of self.value: <ability name> <new score>
-
-          abilname = self.value[0].upcase
-          score = self.value[1].to_i
-
-          abil_obj = char.abilities.select { |a| a.name_upcase == abilname }.first
-
-          if !abil_obj
-            client.emit_failure t('pf2e.bad_ability', :char => char.name)
-            return
-          end
-
-          # Score validation for the admin command only makes sure it's a positive integer.
-          # Game admins are responsible for ensuring that the new value is reasonable. :)
-          if !(score > 0)
-            client.emit_failure t('pf2e.bad_value', :item => 'ability score')
-            return
-          end
-
-          abil_obj.update(base_val: score)
-
-          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => abil_obj.name)
-        when 'divine font'
-          # Expected structure of self.value = 'heal' or 'harm'
-
-          font_info = { 'divine_font' => [ self.value ]}
-
-          PF2Magic.update_magic(char, 'charclass', font_info, client)
-
-          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Divine font')
-        when 'alignment'
-          # Expected structure of self.value = alignment code (e.g., N, CN)
-
-          allowed_alignments = Global.read_config('pf2e', 'allowed_alignments')
-          alignment = parse_alignment_value(self.value)
-
-          if alignment.blank? || !allowed_alignments.include?(alignment)
-            client.emit_failure t('pf2e.bad_value', :item => 'alignment')
-            return
-          end
-
-          faith = char.pf2_faith
-          faith['alignment'] = alignment
-          char.update(pf2_faith: faith)
-
-          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Alignment')
-
-          deity = faith['deity']
-          if deity && !deity.blank?
-            allowed = Global.read_config('pf2e_deities', deity, 'allowed_alignments') || []
-            unless allowed.include?(alignment)
-              client.emit_ooc t('pf2e.admin_alignment_deity_warning', :deity => deity)
-            end
-          end
-        when 'deity'
-          # Expected structure of self.value = deity name
-
-          options = Global.read_config('pf2e_deities').keys
-          raw_value = self.value.join(" ").strip
-
-          if raw_value.blank?
-            client.emit_failure t('pf2e.bad_value', :item => 'deity')
-            return
-          end
-
-          exact_match = options.find { |o| o.downcase == raw_value.downcase }
-          if !exact_match
-            client.emit_failure t('pf2e.bad_value', :item => 'deity')
-            return
-          end
-
-          selected_option = exact_match
-
-          faith = char.pf2_faith
-          faith['deity'] = selected_option
-          char.update(pf2_faith: faith)
-
-          client.emit_success t('pf2e.updated_ok', :char => char.name, :element => 'Deity')
-
-          alignment = faith['alignment']
-          if alignment && !alignment.blank?
-            allowed = Global.read_config('pf2e_deities', selected_option, 'allowed_alignments') || []
-            unless allowed.include?(alignment)
-              client.emit_ooc t('pf2e.admin_alignment_deity_warning', :deity => selected_option)
-            end
-          end
-        else
-          client.emit_failure t('pf2e.bad_value', :item => 'keyword')
+        # An approved character who predates the ledger has no grants to correct, so their
+        # current sheet becomes the imported transaction this correction lands on top of.
+        Ledger.seed_from_sheet!(char) if char.is_approved?
+
+        before = CharState.of(char)
+        outcome = CharacterService.call(before, :admin_set, 'item' => self.item, 'value' => self.value)
+
+        return if CharState.emit_error!(client, outcome)
+
+        # A staff correction applies at every level and no rollback reaches it: it is a decision
+        # about the character rather than something they earned at a level.
+        CharState.commit!(char, before, outcome, :source_type => 'staff',
+                          :source_ref => "admin/set #{self.item}", :effective_level => nil,
+                          :granted_by => enactor.name)
+
+        Array(outcome.state['magic_ops']).each do |op|
+          MAGIC_OPS[op['op']].call(char, client, op)
         end
 
+        CharState.emit_messages!(client, outcome)
       end
-
-      def parse_alignment_value(value_list)
-        return nil if !value_list || value_list.empty?
-
-        raw_value = value_list.join(" ").strip
-        return nil if raw_value.blank?
-
-        normalized = raw_value.upcase.gsub(/\s+/, " ")
-        return "N" if normalized == "NEUTRAL" || normalized == "TRUE NEUTRAL"
-
-        if normalized.length <= 2 && normalized !~ /\s/
-          return normalized
-        end
-
-        value_list.map { |word| word[0] }.join.upcase
-      end
-
-
     end
-
   end
 end

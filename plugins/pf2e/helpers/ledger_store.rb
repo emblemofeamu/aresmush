@@ -114,6 +114,14 @@ module AresMUSH
         char.sheet_caches.to_a.each { |c| c.delete }
       end
 
+      # Throws a character's recorded build away. For starting over - a respec or a reset - where
+      # the character stops having made those choices at all, which a revocation cannot say: a
+      # revocation is a record that they made the choice and it was taken back.
+      def self.delete_all!(char)
+        char.grants.to_a.each { |g| g.delete }
+        invalidate!(char)
+      end
+
       # Who granted a thing, newest first.
       def self.explain_for(char, kind:, key:, at_level: nil)
         Ledger.explain(rows(char), :at_level => (at_level || char.pf2_level).to_i, :kind => kind, :key => key)
@@ -399,9 +407,9 @@ module AresMUSH
       # Draft edits
       # ------------------------------------------------------------------------------
 
-      # How a grant reads while the character is still a draft. Only the kinds a chargen pick
-      # can produce need an entry; anything else is a level-up concern and cannot happen before
-      # the character is finalized.
+      # How a grant reads while the character is still a draft. Every kind a pick or a staff
+      # correction can produce before the character is finalized needs an entry: a draft is not
+      # folded from the ledger, so a grant with no row here would be written nowhere.
       DRAFT_EFFECTS = {
         'raise_skill' => lambda { |char, p| Ledger.apply_skill(char, p['skill'], p['to']) },
         'add_lore' => lambda { |char, p| Ledger.apply_skill(char, p['lore'], p['to']) },
@@ -412,6 +420,25 @@ module AresMUSH
           list = Array(feats[bucket])
           feats[bucket] = list + [ p['feat'] ] unless list.include?(p['feat'])
           char.update(:pf2_feats => feats)
+        },
+        'grant_feature' => lambda { |char, p|
+          features = char.pf2_features || {}
+          bucket = p['bucket'] || 'charclass_features'
+          list = Array(features[bucket])
+          features[bucket] = list + [ p['feature'] ] unless list.include?(p['feature'])
+          char.update(:pf2_features => features)
+        },
+        'add_trait' => lambda { |char, p| char.update(:pf2_traits => (Array(char.pf2_traits) + [ p['trait'] ]).uniq) },
+        'add_special' => lambda { |char, p| char.update(:pf2_special => (Array(char.pf2_special) + [ p['special'] ]).uniq) },
+        'set_ability_score' => lambda { |char, p| Ledger.apply_ability_score(char, p['ability'], p['to'].to_i) },
+        'spell_access' => lambda { |char, p|
+          known = Pf2emagic::Entries.known(char.magic, p['source'])
+          at_rank = Array(known[p['rank'].to_s])
+
+          next if at_rank.any? { |spell| spell.to_s.casecmp?(p['spell'].to_s) }
+
+          Pf2emagic::Entries.set_known!(char, p['source'],
+            known.merge(p['rank'].to_s => at_rank + [ p['spell'] ]))
         }
       }.freeze
 
@@ -423,6 +450,21 @@ module AresMUSH
           feats = char.pf2_feats || {}
           feats.each_key { |bucket| feats[bucket] = Array(feats[bucket]).reject { |f| f.to_s.casecmp?(match['feat'].to_s) } }
           char.update(:pf2_feats => feats)
+        },
+        'grant_feature' => lambda { |char, match|
+          features = char.pf2_features || {}
+          features.each_key { |bucket| features[bucket] = Array(features[bucket]).reject { |f| f.to_s.casecmp?(match['feature'].to_s) } }
+          char.update(:pf2_features => features)
+        },
+        'add_trait' => lambda { |char, match| char.update(:pf2_traits => Array(char.pf2_traits).reject { |t| t.to_s.casecmp?(match['trait'].to_s) }) },
+        'add_special' => lambda { |char, match| char.update(:pf2_special => Array(char.pf2_special).reject { |s| s.to_s.casecmp?(match['special'].to_s) }) },
+        'spell_access' => lambda { |char, match|
+          known = Pf2emagic::Entries.known(char.magic, match['source'])
+          without = known.each_with_object({}) do |(rank, spells), kept|
+            kept[rank] = Array(spells).reject { |spell| spell.to_s.casecmp?(match['spell'].to_s) }
+          end
+
+          Pf2emagic::Entries.set_known!(char, match['source'], without)
         }
       }.freeze
 
@@ -560,6 +602,19 @@ module AresMUSH
 
           flaw_tally(char).each_pair do |ability, count|
             count.times { txn.grant('flaw_ability', 'ability' => ability) }
+          end
+
+          # A score the boosts and flaws do not account for is recorded as itself. Staff
+          # corrections and characters imported from before the ledger both produce scores no
+          # count of boosts from 10 can reach, and deriving would quietly move them.
+          flaws = flaw_tally(char)
+
+          char.abilities.each do |ability|
+            derived = Pf2eAbilities.derived_score(flaws[ability.name].to_i, boosts[ability.name].to_i)
+
+            next if ability.base_val.to_i == derived
+
+            txn.grant('set_ability_score', 'ability' => ability.name, 'to' => ability.base_val.to_i)
           end
         end
 

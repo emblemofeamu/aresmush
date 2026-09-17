@@ -5,6 +5,7 @@ en:
     ability_too_high: "At least one of your attribute scores is too high. Too high: %{score}"
     add_ok: "You add %{item} to your %{list}."
     admin_reset_ok: "You reset %{name}'s character sheet."
+    admin_set_syntax: "Not enough to go on for %{element}. Syntax: %{syntax}."
     admin_respec_ok: "You have allowed %{name} to respec their character."
     admin_use_inv_look: "Administrators should use '%xwinv/look%xn%xr' to view a player's inventory."
     advance_init: "%{round} Current initiative: %xh%xc%{init}%xn %rCurrent turn: %x172%{current}%xn Next turn: %xc%{next}%xn"
