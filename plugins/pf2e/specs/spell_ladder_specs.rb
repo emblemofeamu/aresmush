@@ -27,8 +27,14 @@ module AresMUSH
         Pf2emagic::Entries.known_lists(Character[char.id])[source] || {}
       end
 
-      def counts(char, source = 'Sorcerer')
-        known(char, source).transform_values { |spells| Array(spells).size }
+      # By name and rank. A count would pass for a rollback that took back the wrong spells, or a
+      # redo that handed back a different set of the same size.
+      def spells(char, source = 'Sorcerer')
+        known(char, source).transform_values { |list| Array(list).sort }
+      end
+
+      def all_spells(char, source = 'Sorcerer')
+        spells(char, source).values.flatten
       end
 
       it "should record what was learned, at the level it was learned" do
@@ -53,23 +59,27 @@ module AresMUSH
 
         expect(builder.summary['level']).to eq 5
 
-        at_five = counts(char)
+        at_five = spells(char)
 
         expect(Pf2e.rollback_to_level(char, 5)).to be_nil
         char = Character[char.id]
 
-        at_four = counts(char)
+        at_four = spells(char)
+        taken_back = all_spells(char) - (all_spells(char) & at_five.values.flatten)
 
         expect(char.pf2_level).to eq 4
+
+        # Every spell still held was held at 5, and the ones that went are level 5's own.
+        expect(taken_back).to eq []
+        expect(at_five.values.flatten - all_spells(char)).to_not be_empty
         expect(at_four).to_not eq at_five
-        expect(at_four.values.sum).to be < at_five.values.sum
       end
 
       it "should give them back on a redo" do
         builder = AutoBuilder.new(@char)
         char = builder.build('Sorcerer', 5)
 
-        at_five = counts(char)
+        at_five = spells(char)
 
         Pf2e.rollback_to_level(char, 5)
         char = Character[char.id]
@@ -78,7 +88,7 @@ module AresMUSH
         char = Character[char.id]
 
         expect(char.pf2_level).to eq 5
-        expect(counts(char)).to eq at_five
+        expect(spells(char)).to eq at_five
       end
 
       # A prepared enumerated caster keeps a spellbook rather than a repertoire, and the
@@ -89,14 +99,17 @@ module AresMUSH
 
         expect(builder.summary['level']).to eq 5
 
-        at_five = counts(char, 'Wizard')
+        at_five = spells(char, 'Wizard')
 
-        expect(at_five.values.sum).to be > 0
+        expect(at_five.values.flatten).to_not be_empty
 
         Pf2e.rollback_to_level(char, 5)
         char = Character[char.id]
 
-        expect(counts(char, 'Wizard').values.sum).to be < at_five.values.sum
+        left = all_spells(char, 'Wizard')
+
+        expect(left - at_five.values.flatten).to eq []
+        expect(at_five.values.flatten - left).to_not be_empty
       end
 
       # The second axis earning its keep: a Cleric prepares from the whole divine list, so there

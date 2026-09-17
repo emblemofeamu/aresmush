@@ -83,6 +83,17 @@ module AresMUSH
           expect(Character[@char.id].pf2_money).to eq 75
         end
 
+        # The point of an entry is that it says why the total moved. A caller that hands over
+        # nothing used to leave a blank line in the player's own history, which is what the four
+        # nomination commands did on every award.
+        it "should say something when the caller gave no reason" do
+          expect(Global.logger).to receive(:warn).with(/no reason/)
+
+          Audit.post(@char, 'xp', 25, :by => 'Staff')
+
+          expect(Audit.page(@char, 'xp', 1, 10).first.reason).to_not be_blank
+        end
+
         it "should refuse a currency it does not know" do
           expect { Audit.post(@char, 'favours', 5, :by => 'Staff', :reason => 'x') }.to raise_error(ArgumentError)
         end

@@ -78,13 +78,20 @@ module AresMUSH
         expect(taken.map { |g| g.payload['ability'] }.uniq.size).to eq 4
       end
 
+      # The score at 5 is the score at 1 with the levels between applied, by PF2e's own rule: +2,
+      # or +1 once the score is 18. "went up" would pass for any increase at all.
       it "should raise the scores as PF2e says" do
         char = climbed
 
-        boosted = char.pf2_boosts
+        since_one = boost_grants(char).select { |g| g.effective_level.to_i > 1 }
+                                      .group_by { |g| g.payload['ability'] }.transform_values(&:size)
 
-        boosted.each_pair do |ability, count|
-          expect(scores(char)[ability]).to be >= @at_one[ability]
+        expect(since_one).to_not be_empty
+
+        @at_one.each_pair do |ability, was|
+          expect(scores(char)[ability]).to eq(
+            Pf2eAbilities.boosted_score(was, since_one[ability].to_i)
+          ), ability
         end
       end
 

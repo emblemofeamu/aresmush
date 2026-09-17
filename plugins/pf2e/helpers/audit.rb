@@ -61,6 +61,14 @@ module AresMUSH
 
         balance = char.send(attr).to_i + amount
 
+        # An entry exists to say why the total moved, so a blank one is a gap in the record rather
+        # than a tidy default. The line still gets written - refusing would lose the movement as
+        # well as the reason - and the log names the caller to fix.
+        if reason.to_s.strip.empty?
+          Global.logger.warn("PF2e #{currency} posted with no reason: #{amount} for #{char.name} by #{by}")
+          reason = 'Unspecified'
+        end
+
         entry = Pf2eLedgerEntry.create(
           :character => char,
           :currency => currency.to_s,

@@ -35,7 +35,10 @@ module AresMUSH
         Pf2e.award_xp(@char, 250)
         Pf2e.award_xp(@char, 500, 'Vardama', 'Weekly award')
 
-        expect(Audit.count(@char, 'xp')).to eq 2
+        # Newest first. The bare award is the one that used to leave no line at all, so it has to
+        # be there with its amount, and with something in the reason a player can read.
+        expect(xp_entries.map { |e| [ e.amount.to_i, e.reason ] })
+          .to eq [ [ 500, 'Weekly award' ], [ 250, 'Unspecified' ] ]
         expect(Character[@char.id].pf2_xp).to eq 750
       end
 
