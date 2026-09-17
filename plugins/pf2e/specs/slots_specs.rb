@@ -110,13 +110,13 @@ module AresMUSH
 
       describe 'consume' do
         it "should remove a marker without putting anything in its place" do
-          result = Slots.apply({ 'any' => [ 'open', 'open' ] }, [ Slots.consume('any') ])
+          result = Slots.apply({ 'open skills' => [ 'open', 'open' ] }, [ Slots.consume('open skills') ])
 
-          expect(result['any']).to eq [ 'open' ]
+          expect(result['open skills']).to eq [ 'open' ]
         end
 
         it "should refuse when there is no marker to spend" do
-          expect(Slots.apply({ 'any' => [] }, [ Slots.consume('any') ]).code).to eq :no_free
+          expect(Slots.apply({ 'open skills' => [] }, [ Slots.consume('open skills') ]).code).to eq :no_free
         end
 
         # What it is for: a spellbook's any-rank pool pays, and the spell lands under its rank.

@@ -122,6 +122,16 @@ module AresMUSH
           return Err.new(:unknown_slot_op, 'pf2e.unknown_slot_op', 'op' => delta[:op].to_s) unless op
 
           path = Array(delta[:path])
+
+          # Every write to a draft hash comes through here, so this is where a key invented at a call
+          # site is caught. Pf2e::DraftKeys is the vocabulary; only the root of a nested path is a
+          # key, the rest addresses within it.
+          root = path.first.to_s
+
+          unless DraftKeys.registered?(root)
+            return Err.new(:unknown_slot_key, 'pf2e.unknown_slot_key', 'key' => root)
+          end
+
           updated = op.call(read(acc, path), delta)
 
           updated.is_a?(Err) ? updated : write(acc, path, updated)
