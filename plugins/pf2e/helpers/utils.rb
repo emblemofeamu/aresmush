@@ -351,7 +351,6 @@ module AresMUSH
       :pf2_formula_book => {},
       :advancing => nil,
       :pf2_last_refresh => nil,
-      :pf2_cg_assigned => {},
       :pf2_level_tracker => {},
       :pf2_size => '',
       :pf2_roll_aliases => {},
@@ -402,6 +401,7 @@ module AresMUSH
       # working copy, and the next materialise would restore the sheet being cleared here.
       Ledger.delete_all!(char)
       DraftJournal.clear!(char)
+      Checkpoints.clear!(char)
 
       BLANK_SHEET.each_pair { |attr, value| char.send("#{attr}=", value) }
 

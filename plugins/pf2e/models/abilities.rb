@@ -8,7 +8,6 @@ module AresMUSH
     attribute :shortname
     attribute :base_val, :type => DataType::Integer, :default => 10
     attribute :mod_val, :default => false
-    attribute :checkpoint, :type=> DataType::Hash, :default => {}
 
     index :name_upcase
 
@@ -132,6 +131,9 @@ module AresMUSH
 
       return t('pf2e.abil_issues') if errors
 
+      # The stage starts here, after validation, so a refused commit does not move the checkpoint.
+      Pf2e::Checkpoints.record!(enactor, 'abilities')
+
       # Identify anything else they need to set.
       to_assign = enactor.pf2_to_assign
 
@@ -157,7 +159,6 @@ module AresMUSH
       enactor.pf2_abilities_locked = true
       enactor.save
 
-      Pf2e.record_checkpoint(enactor, "abilities")
       return nil
     end
 

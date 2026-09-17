@@ -33,7 +33,6 @@ module AresMUSH
     attribute :pf2_lang, :type => DataType::Array, :default => []
     attribute :pf2_viewsheet, :type => DataType::Hash, :default => {}
     attribute :pf2_to_assign, :type => DataType::Hash, :default => {}
-    attribute :pf2_cg_assigned, :type => DataType::Hash, :default => {}
     attribute :pf2_level_tracker, :type => DataType::Hash, :default => {}
     attribute :pf2_size, :default => ""
     attribute :pf2_movement, :type => DataType::Hash, :default => {}
@@ -63,6 +62,7 @@ module AresMUSH
 
     # The steps of an open draft, which exist only until it commits.
     collection :draft_steps, "AresMUSH::Pf2eDraftStep"
+    collection :chargen_checkpoints, "AresMUSH::Pf2eChargenCheckpoint"
 
     before_delete :delete_pf2
 

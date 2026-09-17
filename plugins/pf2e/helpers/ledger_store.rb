@@ -500,6 +500,7 @@ module AresMUSH
         # The draft's own history ends here too: past this point the grants are the record and
         # admin/rollback is the undo.
         DraftJournal.clear!(char)
+        Checkpoints.clear!(char)
 
         txn
       end
@@ -527,8 +528,9 @@ module AresMUSH
         # until now - as something the advancement removed, and revoke it on arrival.
         plan = Ledger.sync_plan(derived(char, :at_level => level.to_i - 1), {
           'skills' => skills,
-          # Both stores, because a feat handed over at the boundary may land in either: the level's
-          # picks are in the draft, and a granted feat is written as the grant is applied.
+          # The level's picks are in the draft and the levels before it are on the sheet, so the
+          # diff needs both: a fragment holding only the draft would read every earlier feat as
+          # one this level took away.
           'feats' => DraftSheet.of(char).feats_by_bucket,
           'features' => char.pf2_features,
           'traits' => char.pf2_traits,

@@ -42,7 +42,7 @@ module AresMUSH
         # skill being contained in the skill checkpoint.
 
         if enactor.pf2_checkpoint == 'skills' # Enactor is selecting feats now.
-          assigned = enactor.pf2_cg_assigned.dig("skills", "pf2_to_assign") || {}
+          assigned = Pf2e::Checkpoints.attrs_at(enactor, 'skills')['pf2_to_assign'] || {}
           open_skills = Array(assigned["open skills"])
 
           bg_choice = assigned["bg skill choice"]

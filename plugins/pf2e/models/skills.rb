@@ -7,7 +7,6 @@ module AresMUSH
     attribute :name_upcase
     attribute :prof_level
     attribute :cg_skill, :type => DataType::Boolean
-    attribute :checkpoint, :type=> DataType::Hash, :default => {}
 
     index :name_upcase
 
@@ -111,11 +110,14 @@ module AresMUSH
       open_lang = Pf2eSkills.open_language_count(enactor)
       return t('pf2e.lang_issues', :count => open_lang) if open_lang.positive?
 
+      # Before the background's feats, so the checkpoint holds the skills assigned during the
+      # stage and `skill/unset` can tell them from the ones a feat hands over next.
+      Pf2e::Checkpoints.record!(enactor, 'skills')
+
       Pf2eSkills.apply_bg_granted_feats(enactor, client)
 
       enactor.update(pf2_skills_locked: true)
 
-      Pf2e.record_checkpoint(enactor, "skills")
       return nil
     end
 
