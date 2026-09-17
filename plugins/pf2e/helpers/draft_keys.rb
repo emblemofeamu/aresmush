@@ -17,6 +17,8 @@ module AresMUSH
       ADVANCEMENT = 'advancement'.freeze
       # One key appears in both hashes, so the holder column has to be able to say so.
       BOTH = 'both'.freeze
+      # And one is neither hash's: a name given to a pool built for one fold and thrown away.
+      SCRATCH = 'scratch'.freeze
 
       # key => [ holder, what it holds ]
       KEYS = {
@@ -52,7 +54,9 @@ module AresMUSH
         'repertoire_swap' => [ ADVANCEMENT, 'a repertoire spell traded for another' ],
         'spellbook' => [ ADVANCEMENT, 'spells added to a spellbook this level' ],
         'signature' => [ ADVANCEMENT, 'signature spells designated this level' ],
-        'spells' => [ ADVANCEMENT, 'spells learned this level, by source and rank' ],
+        # Not a draft hash key: the name a repertoire swap gives the pool it folds a release and a
+        # fill over. Registered because Slots.apply checks the root of every path it is handed.
+        'spells' => [ SCRATCH, 'the pool a repertoire swap folds over' ],
         'innate' => [ ADVANCEMENT, 'innate spells granted this level' ],
         'archetype_features' => [ ADVANCEMENT, 'features an archetype granted this level' ],
         'archetype_deity' => [ ADVANCEMENT, 'the deity chosen for an archetype' ],

@@ -83,7 +83,7 @@ module AresMUSH
 
       describe "the registry itself" do
         it "should give every key a holder" do
-          missing = DraftKeys.all.reject { |key| %w(to_assign advancement both).include?(DraftKeys.holder(key)) }
+          missing = DraftKeys.all.reject { |key| %w(to_assign advancement both scratch).include?(DraftKeys.holder(key)) }
 
           expect(missing).to eq []
         end

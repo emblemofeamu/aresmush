@@ -123,6 +123,21 @@ module AresMUSH
       hash
     end
 
+    # Every key update_magic understands. Named because a caller holding a magic_stats block has to
+    # tell "a block of stats" from "a block keyed by class", and the only difference is whether its
+    # keys are these. A key missing from this list makes a block of stats look class-keyed, and each
+    # stat is then dispatched as if it were a class name.
+    STAT_KEYS = %w{
+      spell_abil tradition spells_per_day restricted_slots restricted_spellbook repertoire
+      focus_pool addrepertoire get_genie_repertoire get_dragon_repertoire focus_spell
+      domain_focus_spell focus_cantrip spellbook addspellbook adapted_spell signature_spell
+      signature_spells innate_spell divine_font grant_choice gated_spell
+    }.freeze
+
+    def self.stats_block?(info)
+      info.is_a?(Hash) && info.keys.all? { |key| STAT_KEYS.include?(key.to_s) }
+    end
+
     def self.update_magic(char, charclass, info, client)
       magic = get_create_magic_obj(char)
 

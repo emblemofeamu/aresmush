@@ -500,7 +500,13 @@ module AresMUSH
 
         txn = seed_from_sheet!(char, :granted_by => granted_by, :source_type => 'chargen', :source_ref => 'chargen')
 
-        # The draft's own history ends here: past this point the grants are the record and
+        # The character stops being a draft here, so the sheet becomes the fold's projection: what
+        # chargen staged has just been recorded as grants, and the draft hash is history.
+        char.update(:pf2_advancement => {})
+        invalidate!(char)
+        materialize!(char)
+
+        # The draft's own history ends here too: past this point the grants are the record and
         # admin/rollback is the undo.
         DraftJournal.clear!(char)
 
