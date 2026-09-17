@@ -97,14 +97,7 @@ module AresMUSH
 
         # The rules a spell pick has to satisfy, from the one place chargen asks them too.
         failure = Pf2emagic::SpellPick.check(
-          'list' => self.type,
-          'rank' => level,
-          'spell' => spell,
-          'tradition' => Pf2emagic::Entries.tradition_of(enactor.magic, class_for_spell),
-          'details' => choice[1] || {},
-          'adapted' => Pf2emagic.adapted_spell?(enactor, class_for_spell, spell),
-          'picks' => list,
-          'known' => known_for(class_for_spell))
+          spell_check_context(class_for_spell, level, spell, choice[1] || {}).merge('picks' => list))
 
         return if Pf2e::CharState.emit_error!(client, failure)
 
@@ -164,6 +157,26 @@ module AresMUSH
           yield
         ensure
           magic.tradition = magic.tradition.reject { |key, _| key.to_s.casecmp?(source.to_s) }
+        end
+      end
+
+      # Everything SpellPick needs about the character, read inside the preview.
+      #
+      # The tradition used to be read on the line after the preview block, by which time the ensure
+      # had taken the preview back off - so a source this level granted had no tradition to be
+      # measured against and refused every spell as one the class cannot cast. Gathering it here
+      # means the preview cannot be out of force for one of these reads and in force for another.
+      def spell_check_context(class_for_spell, rank, spell, details)
+        with_previewed_tradition(class_for_spell) do
+          {
+            'list' => self.type,
+            'rank' => rank,
+            'spell' => spell,
+            'tradition' => Pf2emagic::Entries.tradition_of(enactor.magic, class_for_spell),
+            'details' => details,
+            'adapted' => Pf2emagic.adapted_spell?(enactor, class_for_spell, spell),
+            'known' => known_for(class_for_spell)
+          }
         end
       end
 

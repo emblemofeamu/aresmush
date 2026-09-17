@@ -11,7 +11,10 @@ module AresMUSH
     describe PF2AdvanceSpellCmd do
 
       def command(previews, held = {})
-        magic = double(:tradition => held)
+        # Entries reads the character off the magic object to merge its stored rows in.
+        magic = double(:tradition => held, :character => nil, :innate_spells => [], :spell_abil => {},
+                       :spells_per_day => {}, :repertoire => {}, :spellbook => {},
+                       :signature_spells => {}, :restricted_spellbook => {})
         allow(magic).to receive(:tradition=) { |value| allow(magic).to receive(:tradition).and_return(value) }
 
         enactor = double(:magic => magic, :name => 'Someone')
@@ -65,6 +68,30 @@ module AresMUSH
         handler.with_previewed_tradition('oracle archetype') { seen = magic.tradition.dup }
 
         expect(seen['Oracle Archetype']).to eq [ 'divine', 'trained' ]
+      end
+
+      # The tradition has to be read while the preview is in force. It was read on the line after
+      # the block, once the ensure had already taken the preview back off - so a brand-new
+      # spellcasting source measured every spell against no tradition at all, and refused all of
+      # them as spells the class cannot cast. Three players lost their multiclass casting to it.
+      it "should read the tradition while the preview is still in force" do
+        handler, _magic = command({ 'Wizard Archetype' => [ 'arcane', 'trained' ] })
+        allow(handler).to receive(:known_for).and_return({})
+        allow(Pf2emagic).to receive(:adapted_spell?).and_return(false)
+
+        context = handler.spell_check_context('wizard archetype', 'cantrip', 'Light', { 'traits' => [] })
+
+        expect(context['tradition']).to eq 'arcane'
+      end
+
+      it "should leave the preview off again afterwards" do
+        handler, magic = command({ 'Wizard Archetype' => [ 'arcane', 'trained' ] })
+        allow(handler).to receive(:known_for).and_return({})
+        allow(Pf2emagic).to receive(:adapted_spell?).and_return(false)
+
+        handler.spell_check_context('wizard archetype', 'cantrip', 'Light', { 'traits' => [] })
+
+        expect(magic.tradition).to eq({})
       end
 
       it "should do nothing for a source no preview knows about" do
