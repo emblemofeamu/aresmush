@@ -33,23 +33,11 @@ module AresMUSH
       def handle
         # Start by finding the item to be used.
 
-        case self.category
-        when "weapon", "weapons"
-          item_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-        when "consumable", "consumables"
-          item_list = Pf2egear.items_in_inventory(enactor.consumables.to_a)
-        when "armor"
-          item_list = Pf2egear.items_in_inventory(enactor.armor.to_a)
-        when "magicitem"
-          item_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-        else
-          client.emit_failure t('pf2egear.bad_category')
-          return
-        end
+        found = Pf2egear::Inventory.item(enactor, self.category, self.item_num)
 
-        # Does item_num exist in category?
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        item = item_list[self.item_num]
+        item = found.state
 
         if !item
           client.emit_failure t('pf2egear.not_found')
@@ -87,18 +75,13 @@ module AresMUSH
           return
         end
 
-        # For armor and weapons, you can only use it if it's equipped.
-        # Magic items can only be used if they are invested first.
+        # Armour and a weapon have to be worn; a magic item has to be invested. Inventory says
+        # which, and a consumable needs neither.
+        needs = Pf2egear::Inventory.use_needs(self.category)
 
-        case self.category
-        when "weapon", "weapons", "armor"
-          if !item.equipped
-            client.emit_failure t('pf2egear.cannot_use_now', :action => 'equipped')
-            return
-          end
-        when "magicitem"
-          if !item.invested
-            client.emit_failure t('pf2egear.cannot_use_now', :action => 'invested')
+        if needs
+          unless item.send(needs)
+            client.emit_failure t('pf2egear.cannot_use_now', :action => needs.to_s)
             return
           end
         end

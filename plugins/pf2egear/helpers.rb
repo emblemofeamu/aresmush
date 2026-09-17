@@ -55,13 +55,10 @@ module AresMUSH
         Pf2e::Audit.delete_all!(char, 'money')
       end
 
-      char.weapons&.each { |i| i.delete }
-      char.armor&.each { |i| i.delete }
-      char.bags&.each { |i| i.delete }
-      char.shields&.each { |i| i.delete }
-      char.magic_items&.each { |i| i.delete }
-      char.gear&.each { |i| i.delete }
-      char.consumables&.each { |i| i.delete }
+      # Every category, from the table, so a new kind of item is cleared without this being edited.
+      Inventory::CATEGORIES.each do |row|
+        Array(char.send(row['collection'])&.to_a).each { |item| item.delete }
+      end
 
       char.save
     end
@@ -99,45 +96,35 @@ module AresMUSH
 
     def self.invested_items(char)
       magic_items = char.magic_items.select { |item| item.invested }.to_a
-      weapons = char.weapons.select { |item| item.invested }.to_a
+      weapons = Inventory.held(char, 'weapons').select { |item| item.invested }
       armor = char.magic_items.select { |item| item.invested }.to_a
 
       magic_items + weapons + armor
     end
 
+    # Gives a character an item the shop sells.
+    #
+    # Gear and consumables stack: many of the same thing is one row with a quantity. Everything else
+    # is one row per item, because a weapon carries its own runes and a bag its own contents.
+    # Inventory says which is which.
     def self.create_item(char, category, name, quantity, item_info)
+      if Inventory.stackable?(category)
+        held = Inventory.all(char, category).find { |item| item.name == name }
 
-      source_type = AresMUSH.const_get(Global.read_config('pf2e_gear_options', 'item_classes', category))
+        return held.update(:quantity => held.quantity.to_i + quantity.to_i) if held
 
-      case category
-      when "weapons", "weapon", "armor", "shields", "shield", "bags", "magicitem"
-
-        new_item = source_type.create(character: char, name: name)
-
-        item_info.each_pair do |k,v|
-          new_item.update("#{k}": v)
-        end
-
-      when "consumables", "gear"
-
-        ilist = category == "gear" ? char.gear : char.consumables
-
-        has_item = ilist.select { |item| item.name == name }.first
-
-        if has_item
-          old_qty = has_item.quantity
-          has_item.update(quantity: quantity + old_qty)
-        else
-          new_item = source_type.create(character: char, name: name)
-            item_info.each_pair do |k,v|
-              new_item.update("#{k}": v)
-            end
-
-          new_item.update(quantity: quantity)
-        end
-
+        return build_item(char, category, name, item_info).update(:quantity => quantity)
       end
 
+      build_item(char, category, name, item_info)
+    end
+
+    def self.build_item(char, category, name, item_info)
+      item = Inventory.model(category).create(:character => char, :name => name)
+
+      (item_info || {}).each_pair { |key, value| item.update("#{key}": value) }
+
+      item
     end
 
     def self.get_item_name(item)

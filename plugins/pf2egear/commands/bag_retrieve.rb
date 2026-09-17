@@ -18,11 +18,11 @@ module AresMUSH
         [ self.bag_id, self.category, self.item_id ]
       end
 
+      # What a bag can hold, which Inventory says.
       def check_valid_category
-        cats = %w(weapons weapon armor shields shield magicitem magicitems gear consumables)
+        return nil if Pf2egear::Inventory.bag_categories.include?(self.category)
 
-        return nil if cats.include?(self.category)
-        return t('pf2egear.bad_category')
+        t('pf2egear.bad_category')
       end
 
       def check_is_number
@@ -39,27 +39,11 @@ module AresMUSH
           return
         end
 
-        # Get the correct list of items based on category.
+        found = Pf2egear::Inventory.in_bag(bag, self.category, self.item_id)
 
-        case self.category
-        when "weapon", "weapons"
-          item = bag.weapons.to_a[self.item_id]
-        when "armor"
-          item = bag.armor.to_a[self.item_id]
-        when "shield", "shields"
-          item = bag.shields.to_a[self.item_id]
-        when "magicitem", "magicitems"
-          item = bag.magicitem.to_a[self.item_id]
-        when "consumables"
-          item = bag.consumables.to_a[self.item_id]
-        when "gear"
-          item = bag.gear.to_a[self.item_id]
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        if !item
-          client.emit_failure t('pf2egear.not_found')
-          return
-        end
+        item = found.state
 
         # Move the item.
 

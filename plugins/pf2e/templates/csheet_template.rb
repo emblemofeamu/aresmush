@@ -138,7 +138,7 @@ module AresMUSH
       end
 
       def weapons
-        weapon_list = Pf2egear.items_in_inventory(@char.weapons)
+        weapon_list = Pf2egear::Inventory.held(@char, 'weapons')
 
         list = []
 

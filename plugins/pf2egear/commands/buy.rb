@@ -70,12 +70,10 @@ module AresMUSH
 
         #  If it's gear or a consumable, multiples are allowed, otherwise only one.
 
-        case self.category
-        when "weapons", "weapon", "armor", "shields", "shield", "bags", "magicitem"
-          if q > 1
-            client.emit_ooc t('pf2egear.quantity_one_only')
-            q = 1
-          end
+        # Only gear and consumables stack; a weapon has its own runes, so each is its own item.
+        if q > 1 && !Pf2egear::Inventory.stackable?(self.category)
+          client.emit_ooc t('pf2egear.quantity_one_only')
+          q = 1
         end
 
         # Do they have enough money?

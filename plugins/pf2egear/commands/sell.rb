@@ -53,29 +53,14 @@ module AresMUSH
         # Find the item in the list. How to do that depends on the category.
         index = self.item_num
 
-        case category
-        when "weapons", "weapon"
-          item_id = Pf2egear.items_in_inventory(enactor.weapons).to_a[index]
-        when "armor"
-          item_id = Pf2egear.items_in_inventory(enactor.armor).to_a[index]
-        when "shields", "shield"
-          item_id = Pf2egear.items_in_inventory(enactor.shields).to_a[index]
-        when "bags"
-          item_id = enactor.bags.to_a[index]
-        when "magicitem", "magicitems"
-          item_id = Pf2egear.items_in_inventory(enactor.magic_items).to_a[index]
-        when "consumables"
-          item_id = Pf2egear.items_in_inventory(enactor.consumables).to_a[index]
-          item_qty = item_id.quantity
-        when "gear"
-          item_id = Pf2egear.items_in_inventory(enactor.gear).to_a[index]
-          item_qty = item_id.quantity
-        end
+        found = Pf2egear::Inventory.item(enactor, category, index)
 
-        if !item_id
-          client.emit_failure t('pf2egear.not_found')
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
+
+        item_id = found.state
+
+        # Gear and consumables are held as one row with a quantity, so selling one is a decrement.
+        item_qty = item_id.quantity if Pf2egear::Inventory.stackable?(category)
 
 
         itemname = item_id.name

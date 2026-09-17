@@ -226,7 +226,7 @@ module AresMUSH
     def self.equipped_weapon_names(char)
       return [] if !AresMUSH.const_defined?("Pf2egear")
 
-      weapons = Pf2egear.items_in_inventory(char.weapons) || []
+      weapons = Pf2egear::Inventory.held(char, 'weapons')
 
       weapons.select { |w| w.equipped }.map { |w| w.name }
     end
