@@ -126,10 +126,10 @@ module AresMUSH
         'archetype specialty choice' => 'advance/archetype specialty=<specialty>',
         'archetype deity' => 'advance/archetype deity=<deity>',
         'archetype key ability' => 'advance/archetype key ability=<attribute>',
-        'repertoire' => 'advance/spell repertoire/<rank>=<spell>, or repertoire/<source>/<rank> for an archetype',
-        'spellbook' => 'advance/spell spellbook/<rank>=<spell>, or spellbook/<source>/<rank> for an archetype',
-        'signature' => 'advance/spell signature/<rank>=<spell>',
-        'innate' => 'advance/spell innate/<rank>=<spell>',
+        'repertoire' => 'advance/spell repertoire/<rank>=<spell> (repertoire/<source>/<rank> for an archetype); spell/eligible <rank> lists what you may take',
+        'spellbook' => 'advance/spell spellbook/<rank>=<spell> (spellbook/<source>/<rank> for an archetype); spell/eligible <rank> lists what you may take',
+        'signature' => 'advance/spell signature/<rank>=<spell>, from the spells you already know at that rank',
+        'innate' => 'advance/spell innate/<rank>=<spell>; spell/eligible <rank> lists what you may take',
         'feats' => 'advance/feat <type>=<feat>'
       }.freeze
 
