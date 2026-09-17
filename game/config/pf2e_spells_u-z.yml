@@ -402,6 +402,20 @@ pf2e_spells:
     duration: until your next daily preparations
     effect: Vitality radiates outward from you, allowing others to supplicate and receive healing. Once per round, either you or an ally can use an Interact action to supplicate and lay hands upon you to regain Hit Points. Each time the beacon heals someone, it decreases in strength. It restores 4d10 Hit Points to the first creature, 4d8 Hit Points to the second, 4d6 Hit Points to the third, and 4d4 Hit Points to the fourth, after which the spell ends. You can have only one vital beacon active at a time.
     heighten: "**+1:** The beacon restores one additional die of Hit Points each time it heals, using the same die size as the others for that step."
+  Vital Luminance:
+    base_level: 1
+    traits:
+      - aura
+      - cleric
+      - focus
+      - light
+      - manipulate
+      - vitality
+      - uncommon
+    actions: 1
+    duration: "1 minute"
+    effect: "You draw life force into yourself and shine with it. You give off bright light in a 30-foot emanation and dim light for 30 feet beyond, and you gain a luminance reservoir starting at 4, rising by 4 at the start of each of your turns. An undead creature that damages you while inside your bright light takes vitality damage equal to half your reservoir, once per round. You can Dismiss the spell to pour the reservoir into one willing living creature or one undead creature in your light, healing the living or dealing that much vitality damage to the undead. Casting it again ends any previous casting."
+    heighten: "**+1:** The reservoir's starting value and its increase each turn both go up by 1."
   Vitality Lash:
     base_level: cantrip
     mystery:
@@ -822,6 +836,20 @@ pf2e_spells:
     duration: 1 minute
     effect: You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.
     heighten: "**6th:** At the end of your turn, you can attempt a DC 30 Acrobatics check to find purchase in midair. If you succeed, you don't fall."
+  Withering Grasp:
+    base_level: 1
+    traits:
+      - attack
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - void
+    actions: 2
+    range: "touch"
+    target: "1 creature or object"
+    effect: "Your touch rots what it finds. Make a spell attack against the target's AC for 1d12 void damage plus 1d4 persistent void damage. An item used to block the spell, as with Shield Block, is affected automatically and the creature takes no damage even if some would be left over. Unlike other void damage, this erodes objects and constructs as well.%r%r**Critical Success** Double damage, initial and persistent. Against an object, lower its Hardness by 4 for 1 minute.%r**Success** Full damage. Against an object, lower its Hardness by 2 for 1 minute."
+    heighten: "**+1:** The damage increases by 1d12 and the persistent damage by 1. Against an object, lower its Hardness by a further 1 on a success or a critical success."
   Word of Freedom:
     base_level: 4
     traits:
