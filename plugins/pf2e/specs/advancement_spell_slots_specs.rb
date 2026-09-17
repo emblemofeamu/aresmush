@@ -142,6 +142,130 @@ module AresMUSH
             expect(SpellSlots.any_rank_key([ 'open' ])).to be_nil
           end
         end
+
+        # An open entry at a rank is not open to every spell. A Wizard's curriculum reserves one
+        # entry per rank for a school spell, so a rank with one open entry left is full for a spell
+        # that cannot sit in it, and open for one that can.
+        describe "whether a rank's own entries can still take a spell" do
+          def full?(picks, spell, reserved: 1, eligible: [ 'Fireball', 'Burning Hands' ])
+            SpellSlots.rank_full?(picks, spell, reserved, eligible)
+          end
+
+          it "should be full when nothing is open" do
+            expect(full?([ 'Magic Missile', 'Fireball' ], 'Shield')).to be true
+          end
+
+          it "should be open when the rank reserves nothing" do
+            expect(full?([ 'open' ], 'Shield', :reserved => 0, :eligible => [])).to be false
+          end
+
+          it "should be full for a spell that cannot sit in the one reserved entry" do
+            expect(full?([ 'Magic Missile', 'open' ], 'Shield')).to be true
+          end
+
+          it "should be open for a spell that can sit in the reserved entry" do
+            expect(full?([ 'Magic Missile', 'open' ], 'Fireball')).to be false
+          end
+
+          # The reservation is already satisfied, so the open entry is nobody's in particular.
+          it "should be open when an eligible spell is already held" do
+            expect(full?([ 'Burning Hands', 'open' ], 'Shield')).to be false
+          end
+
+          it "should be full when two entries are reserved and only one is spoken for" do
+            expect(full?([ 'Burning Hands', 'open' ], 'Shield', :reserved => 2)).to be true
+          end
+        end
+
+        describe "falling back to an any-rank slot" do
+          def found(entries, from_pool: false)
+            { 'class_key' => nil, 'entries' => entries, 'list' => entries['1'],
+              'list_key' => '1', 'from_pool' => from_pool }
+          end
+
+          def pool
+            { '1' => [ 'Magic Missile' ], Pf2emagic::ANY_RANK => [ 'open' ] }
+          end
+
+          it "should leave a rank that is not full alone" do
+            result = SpellSlots.spend_from_pool(found(pool), :full => false, :rank => '1', :max_rank => 3)
+
+            expect(result.state['list_key']).to eq '1'
+            expect(result.state['from_pool']).to be false
+          end
+
+          it "should move the pick onto the any-rank slot when the rank is full" do
+            result = SpellSlots.spend_from_pool(found(pool), :full => true, :rank => '1', :max_rank => 3)
+
+            expect(result.state['list_key']).to eq Pf2emagic::ANY_RANK
+            expect(result.state['list']).to eq [ 'open' ]
+            expect(result.state['from_pool']).to be true
+          end
+
+          # Nothing left to fall back to, so the answer stays the rank's own list and the caller
+          # finds it has no open entry.
+          it "should leave the resolution alone when the any-rank slot is spent" do
+            entries = { '1' => [ 'Magic Missile' ], Pf2emagic::ANY_RANK => [ 'Shield' ] }
+            result = SpellSlots.spend_from_pool(found(entries), :full => true, :rank => '1', :max_rank => 3)
+
+            expect(result.state['list_key']).to eq '1'
+            expect(result.state['from_pool']).to be false
+          end
+
+          it "should not spend a slot on a cantrip, which no slot casts" do
+            expect(SpellSlots.spend_from_pool(found(pool), :full => true, :rank => 'cantrip', :max_rank => 3).code)
+              .to eq :any_rank_cantrip
+          end
+
+          it "should not reach past the rank the character can cast" do
+            result = SpellSlots.spend_from_pool(found(pool), :full => true, :rank => '5', :max_rank => 3)
+
+            expect(result.code).to eq :any_rank_no_slots
+            expect(result.args['level']).to eq '5th-rank'
+          end
+
+          it "should not spend a second slot for one pick" do
+            result = SpellSlots.spend_from_pool(found(pool, :from_pool => true), :full => true, :rank => '1', :max_rank => 3)
+
+            expect(result.state['list_key']).to eq '1'
+          end
+        end
+
+        describe "which entry a pick fills" do
+          it "should take the first open one" do
+            result = SpellSlots.entry_to_fill([ 'Magic Missile', 'open' ], nil, 'repertoire')
+
+            expect(result.state['token']).to eq 'open'
+          end
+
+          it "should take the spell being replaced when nothing is open" do
+            result = SpellSlots.entry_to_fill([ 'Magic Missile', 'Shield' ], 'magic missile', 'repertoire')
+
+            expect(result.state['token']).to eq 'Magic Missile'
+          end
+
+          it "should refuse when nothing is open and nothing was named to replace" do
+            result = SpellSlots.entry_to_fill([ 'Magic Missile' ], nil, 'repertoire')
+
+            expect(result.code).to eq :no_free
+            expect(result.args['element']).to eq 'repertoire slot'
+          end
+
+          it "should refuse to replace a spell the list does not hold" do
+            result = SpellSlots.entry_to_fill([ 'Magic Missile' ], 'Shield', 'repertoire')
+
+            expect(result.code).to eq :not_in_list
+            expect(result.args['option']).to eq 'Shield'
+          end
+
+          # A name the player typed is a name, not a pattern: a spell with a bracket in it used to
+          # reach Regexp and raise.
+          it "should match a name holding a regular expression character" do
+            result = SpellSlots.entry_to_fill([ 'Summon Elemental (Fire)' ], 'elemental (fire)', 'repertoire')
+
+            expect(result.state['token']).to eq 'Summon Elemental (Fire)'
+          end
+        end
       end
     end
   end

@@ -72,6 +72,69 @@ module AresMUSH
           Err.new(:not_an_option, 'pf2e.adv_not_an_option')
         end
 
+        # Whether a rank's own entries can still take this spell.
+        #
+        # An open entry is not open to every spell. A Wizard's curriculum reserves one entry per
+        # rank for a school spell, so a rank whose only remaining opens are reserved is full for a
+        # spell that cannot sit in one, and open for a spell that can. `reserved` is how many
+        # entries the restriction claims at this rank and `eligible` is what may sit in them; the
+        # shell reads both, because only the magic object knows them.
+        def self.rank_full?(picks, spell, reserved, eligible)
+          opens = Array(picks).count { |entry| entry.to_s.casecmp?('open') }
+
+          return true if opens.zero?
+          return false if reserved.to_i.zero?
+
+          names = Array(eligible).map { |name| name.to_s.downcase }
+
+          return false if names.include?(spell.to_s.downcase)
+
+          # A reservation an entry already satisfies is not claiming an open one.
+          claimed = [ reserved.to_i - Array(picks).count { |entry| names.include?(entry.to_s.downcase) }, 0 ].max
+
+          opens <= claimed
+        end
+
+        # A rank whose own entries are all spoken for can still be paid for out of an any-rank slot,
+        # and the spell lands under the rank it actually is.
+        #
+        # Returns the resolution unchanged when there is nothing to fall back to, so the caller
+        # finds the rank has no open entry and says so in the ordinary way.
+        def self.spend_from_pool(found, full:, rank:, max_rank:)
+          return Ok.new(:state => found) if !full || found['from_pool']
+
+          key = any_rank_key(found['entries'])
+
+          return Ok.new(:state => found) unless key
+
+          # A slot pays for a spell it could cast. No slot casts a cantrip, and none reaches past
+          # the highest rank the character has slots for.
+          return Err.new(:any_rank_cantrip, 'pf2e.adv_any_rank_cantrip') if rank.to_s.casecmp?('cantrip') || rank.to_i.zero?
+
+          unless max_rank && rank.to_i <= max_rank.to_i
+            return Err.new(:any_rank_no_slots, 'pf2e.adv_any_rank_no_slots', 'level' => Pf2emagic.rank_label(rank))
+          end
+
+          Ok.new(:state => found.merge('list' => found['entries'][key], 'list_key' => key, 'from_pool' => true))
+        end
+
+        # Which entry a pick fills: the first open one, or the spell it replaces.
+        #
+        # `replacing` is a name the player typed, matched as a name rather than as a pattern - a
+        # spell with a bracket in it reached Regexp and raised.
+        def self.entry_to_fill(picks, replacing, type)
+          open = Array(picks).find { |entry| entry.to_s.casecmp?('open') }
+
+          return Ok.new(:state => { 'token' => open }) if open
+          return Err.new(:no_free, 'pf2e.no_free', 'element' => "#{type} slot") if replacing.to_s.strip.empty?
+
+          held = Array(picks).find { |entry| entry.to_s.downcase.include?(replacing.to_s.downcase) }
+
+          return Err.new(:not_in_list, 'pf2e.not_in_list', 'option' => replacing) unless held
+
+          Ok.new(:state => { 'token' => held })
+        end
+
         # The any-rank slot some classes get: it pays for a pick at a specific rank, and the spell
         # lands under the rank it actually is. Nil when the pool has no such slot open.
         def self.any_rank_key(entries)

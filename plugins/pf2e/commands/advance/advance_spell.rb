@@ -60,54 +60,28 @@ module AresMUSH
 
         return if Pf2e::CharState.emit_error!(client, found)
 
+        # Only a spellbook has entries reserved at a rank, so only a spellbook can be full while
+        # something is still open, and the restriction lookup is worth doing only then.
+        found = Pf2e::Advancement::SpellSlots.spend_from_pool(found.state,
+          :full => self.type == 'spellbook' && rank_full?(found.state, level, charclass),
+          :rank => level,
+          :max_rank => Pf2e.preview_max_spell_rank(enactor, charclass))
+
+        return if Pf2e::CharState.emit_error!(client, found)
+
         class_key = found.state['class_key']
         entries = found.state['entries']
         list = found.state['list']
         list_key = found.state['list_key']
         spent_from_pool = found.state['from_pool']
 
-        # A rank whose own slots are full can still be paid for from an any-rank slot, and the spell
-        # lands under the rank it actually is. A rank with no slots of its own was already resolved
-        # to the pool.
-        if self.type == 'spellbook' && !spent_from_pool &&
-           spellbook_rank_full_for?(list, level, class_key || charclass)
-          pool_key = Pf2e::Advancement::SpellSlots.any_rank_key(entries)
-
-          if pool_key
-            msg = any_rank_spend_error(level)
-
-            if msg
-              client.emit_failure msg
-              return
-            end
-
-            list = entries[pool_key]
-            list_key = pool_key
-            spent_from_pool = true
-          end
-        end
-
         return take_innate(level, list, entries, class_key) if self.type == "innate"
 
-        # Now we have to figure out if we have an open slot.
-        open_slot = list.index "open"
+        entry = Pf2e::Advancement::SpellSlots.entry_to_fill(list, self.old_value, self.type)
 
-        if open_slot
-          old = "open"
-        elsif self.old_value
-          old = list.select {|s| s.downcase.match? self.old_value.downcase}.first
+        return if Pf2e::CharState.emit_error!(client, entry)
 
-          unless old
-            client.emit_failure t('pf2e.not_in_list', :option => self.old_value)
-            return
-          end
-
-          open_slot = list.index old
-        else
-          client.emit_failure t('pf2e.no_free', :element => "#{self.type} slot")
-          return
-        end
-
+        old = entry.state['token']
         class_for_spell = class_key || charclass
 
         choice = with_previewed_tradition(class_for_spell) do
@@ -220,42 +194,17 @@ module AresMUSH
         [ self.type, class_key, rank ].compact
       end
 
-      # Keep prepared casters from adding spells to spellbooks higher than what they can actually cast.
-      def any_rank_spend_error(level)
-        return t('pf2e.adv_any_rank_cantrip') if level.to_s.casecmp?('cantrip')
+      # What the rule needs that only the magic object knows: how many entries the rank reserves,
+      # and which spells may sit in them.
+      def rank_full?(found, level, charclass)
+        for_class = found['class_key'] || charclass
+        restriction = Pf2emagic.advancement_restriction_at(enactor, for_class, level)
 
-        charclass = enactor.pf2_base_info['charclass']
-        max = Pf2e.preview_max_spell_rank(enactor, charclass)
+        return Pf2e::Advancement::SpellSlots.rank_full?(found['list'], self.value, 0, []) unless restriction
 
-        return nil if max && level.to_i <= max.to_i
+        eligible = Pf2emagic.restricted_spell_list(enactor, for_class, restriction['name'], level)
 
-        t('pf2e.adv_any_rank_no_slots', :level => level_label(level))
-      end
-
-      def spellbook_rank_full_for?(rank_list, level, charclass)
-        opens = Array(rank_list).count { |s| s.to_s.casecmp?('open') }
-        return true if opens.zero?
-
-        for_class = Pf2emagic.advancement_restricted_spellbook(enactor, charclass)
-        return false unless for_class.is_a?(Hash)
-
-        restriction = nil
-        reserved = 0
-        for_class.each_pair do |name, by_rank|
-          count = Pf2emagic.restricted_count_at_rank(by_rank, level)
-          next unless count.positive?
-
-          restriction = name
-          reserved = count
-        end
-        return false if reserved.zero?
-
-        eligible = Pf2emagic.restricted_spell_list(enactor, charclass, restriction, level).map { |s| s.to_s.downcase }
-        return false if eligible.include?(self.value.to_s.downcase)
-
-        already_eligible = Array(rank_list).count { |s| eligible.include?(s.to_s.downcase) }
-
-        opens <= [ reserved - already_eligible, 0 ].max
+        Pf2e::Advancement::SpellSlots.rank_full?(found['list'], self.value, restriction['count'], eligible)
       end
 
       def innate_stats(advancement, class_key)
@@ -325,20 +274,6 @@ module AresMUSH
         return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
         [ to_add ]
-      end
-
-      def level_label(level)
-        return 'cantrip' if level.to_s.downcase == 'cantrip' || level.to_i.zero?
-
-        abs_level = level.to_i.abs
-        suffix = case abs_level % 10
-                 when 1 then 'st'
-                 when 2 then 'nd'
-                 when 3 then 'rd'
-                 else 'th'
-                 end
-
-        "#{abs_level}#{suffix}-rank"
       end
 
       # `entries` is the rank-keyed hash this list lives in, so the rank's slots go back into the

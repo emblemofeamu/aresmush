@@ -146,6 +146,21 @@ module AresMUSH
       block.is_a?(Hash) ? block : {}
     end
 
+    # Which restriction claims entries at a rank while a level is open, and how many.
+    #
+    # A restricted spellbook is `restriction => rank => count`, and the shipped data gives a class
+    # one restriction at a time. Nil when nothing is claimed at the rank, which is every caster
+    # without a curriculum.
+    def self.advancement_restriction_at(char, charclass, level)
+      advancement_restricted_spellbook(char, charclass).each_pair do |name, by_rank|
+        count = restricted_count_at_rank(by_rank, level)
+
+        return { 'name' => name, 'count' => count } if count.positive?
+      end
+
+      nil
+    end
+
     def self.pending_spellbook_picks(char, charclass, level)
       book = (char.pf2_to_assign || {})['spellbook']
       return 0 unless book.is_a?(Hash)
