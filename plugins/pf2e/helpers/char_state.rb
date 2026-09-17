@@ -43,7 +43,11 @@ module AresMUSH
             'saves' => (char.combat && char.combat.saves) || {},
             'cg_skills' => char.skills.to_a.select { |s| s.cg_skill }.map { |s| s.name }
           },
-          :sheet => Ledger.derived(char, :at_level => at_level),
+          # The fold, except for the languages: a draft's picks are not in the ledger yet, and a
+          # core asking whether the character already has a language has to see them. Chargen's
+          # own guard read the fold alone, which is empty before approval, so a player could take
+          # a language their ancestry had already given them.
+          :sheet => Ledger.derived(char, :at_level => at_level).merge('languages' => DraftSheet.of(char).languages),
           :config => config
         )
       end

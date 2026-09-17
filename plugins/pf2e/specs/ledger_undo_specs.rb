@@ -69,20 +69,29 @@ module AresMUSH
 
         expect(builder.summary['level']).to eq 4
 
-        rows_before = Pf2e::Ledger.rows(char).size
-        feats_before = Array(char.pf2_feats['charclass']).size
+        rows_before = Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort
+        sheet_before = builder.summary
 
         builder.clear
         builder.run "advance"
         6.times { break if builder.resolve_outstanding(:advance).zero? }
+
+        # The level's picks were made, and are the draft rather than history: still nothing in
+        # the ledger, and the reset below has something real to throw away.
+        staged = Pf2e::DraftSheet.of(Character[@char.id]).feats_by_bucket
+
+        expect(staged).to_not eq sheet_before['feats']
+        expect(Pf2e::Ledger.rows(Character[@char.id]).map { |r| r['id'] }.sort).to eq rows_before
+
         builder.run "advance/reset"
         char = Character[builder.char.id]
 
         expect(char.advancing).to be_falsey
         expect(char.pf2_advancement).to be_blank
-        expect(char.pf2_level).to eq 4
-        expect(Array(char.pf2_feats['charclass']).size).to eq feats_before
-        expect(Pf2e::Ledger.rows(char).size).to eq rows_before
+
+        # The sheet by name, so a reset that swapped one feat for another does not pass.
+        expect(builder.summary).to eq sheet_before
+        expect(Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort).to eq rows_before
       end
 
       # --------------------------------------------------------------------------------

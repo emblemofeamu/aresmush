@@ -52,6 +52,20 @@ module AresMUSH
         buckets
       end
 
+      # The languages the character has, counting the ones this draft picked. A pick goes to the
+      # draft, so a level abandoned before its commit takes its languages with it.
+      def languages
+        held = Array(@char.pf2_lang)
+
+        Array(draft['languages']).each do |language|
+          next if held.any? { |l| l.to_s.casecmp?(language.to_s) }
+
+          held += [ language ]
+        end
+
+        held
+      end
+
       def skill_prof(name)
         held = Pf2eSkills.get_skill_prof(@char, name)
         raises = staged_raises_for(name)

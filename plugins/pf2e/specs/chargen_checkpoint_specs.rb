@@ -39,6 +39,24 @@ module AresMUSH
         char
       end
 
+      # The rewind itself: the feats chosen after the stage began are gone, and the slots they
+      # spent are open again. Without this the rest of the file passes against a restore that
+      # does nothing, since everything else it checks is true either way.
+      it "should take back the picks made after the stage began" do
+        char = built
+        after_the_stage = DraftSheet.of(char).feats_by_bucket.values_at('ancestry', 'charclass').flatten.compact
+
+        expect(after_the_stage).to_not be_empty
+
+        char = restore('skills')
+        held = DraftSheet.of(char).feat_names
+
+        after_the_stage.each { |feat| expect(held).to_not include feat.upcase }
+
+        # And the slots they spent: the open-pick bag is the one the stage started with.
+        expect(char.pf2_to_assign).to eq Pf2e::Checkpoints.attrs_at(char, 'skills')['pf2_to_assign']
+      end
+
       it "should keep a feat the background granted when the skills stage is rewound" do
         char = built
 
@@ -53,7 +71,9 @@ module AresMUSH
 
         expect(picked).to_not be_empty
 
-        held = Array(restore('skills').pf2_lang)
+        # Through DraftSheet: a picked language is the draft's, and the sheet's own list is what
+        # the ancestry and background gave them.
+        held = DraftSheet.of(restore('skills')).languages
 
         picked.each { |language| expect(held).to include language }
       end

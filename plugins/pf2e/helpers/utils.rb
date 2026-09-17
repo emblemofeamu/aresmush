@@ -12,6 +12,33 @@ module AresMUSH
       Array(traits).any? { |trait| trait.to_s.strip.casecmp?(wanted.to_s.strip) }
     end
 
+    # Files a language in the draft, which is where a pick and a grant both go.
+    #
+    # `pf2_lang` is what the materialiser writes from the fold, and during a level-up it is the
+    # levels already committed. A language written straight there is not part of the draft, so
+    # `advance/reset` cannot take it back - which is how an abandoned advancement used to leave the
+    # character a free language.
+    def self.record_language(char, language)
+      draft = char.pf2_advancement || {}
+      held = Array(draft['languages'])
+
+      return if held.any? { |l| l.to_s.casecmp?(language.to_s) }
+
+      draft['languages'] = held + [ language ]
+
+      char.update(:pf2_advancement => draft)
+    end
+
+    # Takes a language out of wherever it is held. Both stores, because a draft holds what has been
+    # picked and the sheet holds what a fold has already written.
+    def self.forget_language(char, language)
+      draft = char.pf2_advancement || {}
+      draft['languages'] = Array(draft['languages']).reject { |l| l.to_s.casecmp?(language.to_s) }
+
+      char.update(:pf2_advancement => draft)
+      char.update(:pf2_lang => Array(char.pf2_lang).reject { |l| l.to_s.casecmp?(language.to_s) })
+    end
+
     def self.get_prof_bonus(char, p="untrained")
       p = "untrained" unless p
       level = (p == "untrained") ? 0 : char.pf2_level

@@ -153,7 +153,12 @@ module AresMUSH
 
         expect_no_failures
         expect(@char.pf2_to_assign['open languages']).to include 'Silya'
-        expect(@char.pf2_lang).to include 'Silya'
+
+        # In the draft, not on the sheet: pf2_lang is what the materialiser writes from the fold,
+        # and a pick written there is not something a reset could take back.
+        expect(@char.pf2_advancement['languages']).to eq [ 'Silya' ]
+        expect(Array(@char.pf2_lang)).to_not include 'Silya'
+        expect(Pf2e::DraftSheet.of(@char).languages).to include 'Silya'
 
         # Nothing is history yet: a character in chargen is a draft.
         expect(@char.grants.count).to eq 0
@@ -166,7 +171,8 @@ module AresMUSH
         run PF2LanguageUnSetCmd, "lang/unset Silya"
 
         expect_no_failures
-        expect(@char.pf2_lang).to_not include 'Silya'
+        expect(Pf2e::DraftSheet.of(@char).languages).to_not include 'Silya'
+        expect(Array(@char.pf2_advancement['languages'])).to eq []
         expect(@char.pf2_to_assign['open languages']).to eq [ 'open', 'open' ]
         expect(@char.grants.count).to eq 0
       end
@@ -196,6 +202,35 @@ module AresMUSH
 
         expect(@client.failures).to_not be_empty
         expect(@char.pf2_lang).to_not include 'Mynsandraal'
+      end
+
+      # The guard read the fold, which is empty until approval, so a player could spend an open
+      # slot on a language their ancestry had already given them.
+      it "should refuse a language the character already has" do
+        @char.update(:pf2_abilities_locked => true,
+                     :pf2_lang => [ 'Kamin' ],
+                     :pf2_to_assign => { 'open languages' => [ 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Kamin"
+
+        expect(@client.failures).to_not be_empty
+        expect(Character[@char.id].pf2_to_assign['open languages']).to eq [ 'open' ]
+      end
+
+      # A language picked during a level-up is part of that level's draft, so abandoning the
+      # level takes it back. It used to be written to the sheet as the player typed it.
+      it "should take back a language picked in an abandoned advancement" do
+        builder = AutoBuilder.new(@char)
+        builder.build('Fighter', 4)
+
+        before = Array(Character[@char.id].pf2_lang).sort
+
+        builder.clear
+        builder.run "advance"
+        builder.run "lang/set Kamin" unless before.include?('Kamin')
+        builder.run "advance/reset"
+
+        expect(Array(Character[@char.id].pf2_lang).sort).to eq before
       end
 
       it "should refuse a boost before base info is locked" do
@@ -279,13 +314,22 @@ module AresMUSH
           expect(summary['level']).to eq 20
 
           table_feats(charclass).each_pair do |type, expected|
-            gained = summary['feats'][type].to_i - at_one[type].to_i
+            # By name, so a class that gained the right number of the wrong things still fails.
+            gained = Array(summary['feats'][type]) - Array(at_one[type])
 
-            expect(gained).to eq(expected), "#{charclass} gained #{gained} #{type} feats between 2 and 20; its table promises #{expected}"
+            expect(gained.size).to eq(expected),
+              "#{charclass} gained #{gained.size} #{type} feats between 2 and 20 (#{gained.join(', ')}); its table promises #{expected}"
           end
 
-          # Every one of those choices is in the ledger, and the sheet is a fold of it.
-          expect(summary['grants']).to be > 50
+          # The sheet is a fold of the ledger, so every feat on it has a grant that explains it.
+          char = Character[@char.id]
+
+          summary['feats'].each_pair do |_type, held|
+            Array(held).uniq.each do |feat|
+              expect(Pf2e::Ledger.explain_for(char, :kind => 'grant_feat', :key => feat)).to_not be_empty,
+                "#{charclass} holds #{feat} with no grant explaining it"
+            end
+          end
         end
       end
 
@@ -309,24 +353,38 @@ module AresMUSH
 
         expect(builder.summary['level']).to eq 20
 
-        rows_at_20 = Pf2e::Ledger.rows(char).size
-        skills_at_20 = char.skills.to_a.count { |s| s.prof_level != 'untrained' }
+        at_20 = builder.summary
+        rows_at_20 = Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort
 
         marker = Pf2e::Ledger.rollback_to_level!(char, 20)
         char = Character[char.id]
 
         expect(char.pf2_level).to eq 19
 
-        # Nothing is deleted by an undo - that is what makes the redo below possible.
-        expect(Pf2e::Ledger.rows(char).size).to eq rows_at_20
-        expect(Pf2e::Ledger.rows(char).count { |r| !r['reverted_by'].blank? }).to be > 0
+        # Nothing is deleted by an undo, which is what makes the redo below possible: the same
+        # rows are there, and the ones the level wrote are marked instead.
+        expect(Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort).to eq rows_at_20
+
+        reverted = Pf2e::Ledger.rows(char).reject { |r| r['reverted_by'].blank? }
+
+        expect(reverted).to_not be_empty
+        expect(reverted.map { |r| r['effective_level'].to_i }.uniq).to eq [ 20 ]
+
+        # The sheet moved with it: level 20's feats are gone from it while the rollback stands.
+        rolled_back = builder.summary
+
+        expect(rolled_back['feats'].values.flatten).to_not eq at_20['feats'].values.flatten
 
         Pf2e::Ledger.redo_rollback!(char, marker)
         char = Character[char.id]
 
         expect(char.pf2_level).to eq 20
         expect(Pf2e::Ledger.rows(char).count { |r| !r['reverted_by'].blank? }).to eq 0
-        expect(char.skills.to_a.count { |s| s.prof_level != 'untrained' }).to eq skills_at_20
+
+        # The whole sheet, by name: the same feats in the same buckets, the same skills at the
+        # same ranks, the same languages and features. A count would pass for a redo that handed
+        # back a different set of the same size.
+        expect(builder.summary).to eq at_20
       end
     end
   end

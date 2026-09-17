@@ -75,12 +75,11 @@ module AresMUSH
               []
             }
           },
+          # Already in the draft, where the pick put it. The commit reads the draft and the
+          # materialiser writes the sheet from the fold afterwards, so copying it onto pf2_lang
+          # here would put it in both stores and the commit would record it twice.
           'languages' => {
-            'apply' => lambda { |ctx|
-              ctx[:char].pf2_lang = (Array(ctx[:char].pf2_lang) + Array(ctx[:value])).uniq
-
-              []
-            }
+            'apply' => lambda { |_ctx| [] }
           },
           'raise skill' => {
             'apply' => lambda { |ctx| Apply.raise_skills(ctx[:char], ctx[:value]) }

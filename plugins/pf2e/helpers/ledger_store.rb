@@ -287,7 +287,7 @@ module AresMUSH
             'features' => char.pf2_features,
             'traits' => char.pf2_traits,
             'specials' => char.pf2_special,
-            'languages' => char.pf2_lang
+            'languages' => DraftSheet.of(char).languages
           },
           :source_type => source_type, :source_ref => source_ref, :effective_level => effective_level
         )
@@ -413,7 +413,7 @@ module AresMUSH
       DRAFT_EFFECTS = {
         'raise_skill' => lambda { |char, p| Ledger.apply_skill(char, p['skill'], p['to']) },
         'add_lore' => lambda { |char, p| Ledger.apply_skill(char, p['lore'], p['to']) },
-        'add_language' => lambda { |char, p| char.update(:pf2_lang => (Array(char.pf2_lang) + [ p['language'] ]).uniq) },
+        'add_language' => lambda { |char, p| Pf2e.record_language(char, p['language']) },
         'grant_feat' => lambda { |char, p| Pf2e.record_feat(char, p['bucket'] || 'charclass', p['feat']) },
         'grant_feature' => lambda { |char, p|
           features = char.pf2_features || {}
@@ -439,7 +439,7 @@ module AresMUSH
       DRAFT_UNDO = {
         'raise_skill' => lambda { |char, match| Ledger.apply_skill(char, match['skill'], 'untrained') },
         'add_lore' => lambda { |char, match| Ledger.apply_skill(char, match['lore'], 'untrained') },
-        'add_language' => lambda { |char, match| char.update(:pf2_lang => Array(char.pf2_lang).reject { |l| l.to_s.casecmp?(match['language'].to_s) }) },
+        'add_language' => lambda { |char, match| Pf2e.forget_language(char, match['language']) },
         # Out of both stores, because a draft holds its picks and the sheet holds what a fold left.
         'grant_feat' => lambda { |char, match| Pf2e.forget_feat(char, match['feat']) },
         'grant_feature' => lambda { |char, match|
@@ -535,7 +535,9 @@ module AresMUSH
           'features' => char.pf2_features,
           'traits' => char.pf2_traits,
           'specials' => char.pf2_special,
-          'languages' => char.pf2_lang,
+          # Through DraftSheet for the same reason as the feats above: a language picked during
+          # this level is in the draft, and the levels before it are on the sheet.
+          'languages' => DraftSheet.of(char).languages,
           # Every boost the character holds, counted per ability. The materialiser writes this
           # attribute from the fold, so it already carries chargen's, and `raise ability` adds this
           # level's on top. A fragment holding only this level's would read chargen's as gone.
@@ -605,7 +607,7 @@ module AresMUSH
             Array(features).each { |f| txn.grant('grant_feature', 'bucket' => bucket, 'feature' => f) }
           end
 
-          Array(char.pf2_lang).each { |l| txn.grant('add_language', 'language' => l) }
+          DraftSheet.of(char).languages.each { |l| txn.grant('add_language', 'language' => l) }
           Array(char.pf2_traits).each { |t| txn.grant('add_trait', 'trait' => t) }
           Array(char.pf2_special).each { |s| txn.grant('add_special', 'special' => s) }
 

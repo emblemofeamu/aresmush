@@ -271,7 +271,10 @@ module AresMUSH
 
         langs = Global.read_config('pf2e_languages', 'common').keys
         Array(ta['open languages']).count('open').times do
-          pick = langs.find { |l| !@char.pf2_lang.include?(l) }
+          # Through DraftSheet, because a language picked a moment ago is in the draft rather than
+          # on the sheet, and asking for it again is refused.
+          held = Pf2e::DraftSheet.of(@char).languages.map { |l| l.to_s.downcase }
+          pick = langs.find { |l| !held.include?(l.to_s.downcase) }
           break unless pick
           run("lang/set #{pick}"); runs += 1
         end
@@ -605,15 +608,23 @@ module AresMUSH
       end
 
       # What the finished sheet holds, in the shape the specs assert on.
+      # What the character holds, by name rather than by count: a spec that asserts on a number
+      # passes for a character who gained the right quantity of the wrong things.
       def summary
+        # Re-read, because a spec that moved the character through the ledger rather than through
+        # a command holds an object from before the move.
+        @char = Character[@char.id]
+
         {
           'level' => @char.pf2_level,
           'xp' => @char.pf2_xp,
           # Through DraftSheet, because a pick made before the draft commits is in the draft rather
-          # than on the sheet, and a summary taken mid-chargen has to count it.
-          'feats' => Pf2e::DraftSheet.of(@char).feats_by_bucket.transform_values { |v| Array(v).size },
-          'skills' => @char.skills.to_a.reject { |s| s.prof_level == 'untrained' }.group_by(&:prof_level).transform_values(&:size),
-          'languages' => Array(@char.pf2_lang).size,
+          # than on the sheet, and a summary taken mid-chargen has to see it.
+          'feats' => Pf2e::DraftSheet.of(@char).feats_by_bucket.transform_values { |v| Array(v).dup },
+          'skills' => @char.skills.to_a.reject { |s| s.prof_level == 'untrained' }
+                           .each_with_object({}) { |s, h| h[s.name] = s.prof_level },
+          'languages' => Array(@char.pf2_lang).sort,
+          'features' => (@char.pf2_features || {}).transform_values { |v| Array(v).sort },
           'grants' => @char.grants.count
         }
       end
