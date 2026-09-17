@@ -151,7 +151,38 @@ module AresMUSH
           end
         end
 
-        describe :restore do
+        # A lock says the character has passed a stage, which the ordered list already says. Six
+      # hand-written assignments used to say it a second time.
+      describe :locks_at do
+        it "should hold nothing at the start" do
+          expect(Lifecycle.locks_at('start')).to eq('baseinfo' => false, 'abilities' => false, 'skills' => false)
+        end
+
+        it "should hold the stages up to where the character stands" do
+          expect(Lifecycle.locks_at('abilities')).to eq('baseinfo' => true, 'abilities' => true, 'skills' => false)
+        end
+
+        it "should hold them all once skills are committed" do
+          expect(Lifecycle.locks_at('skills')).to eq('baseinfo' => true, 'abilities' => true, 'skills' => true)
+        end
+
+        # Feats come after skills and lock nothing of their own.
+        it "should hold them all at featskills too" do
+          expect(Lifecycle.locks_at('featskills')).to eq('baseinfo' => true, 'abilities' => true, 'skills' => true)
+        end
+
+        it "should hold nothing for a stage it does not know" do
+          expect(Lifecycle.locks_at('nonsense').values.uniq).to eq [ false ]
+        end
+
+        it "should give every stage that locks something a lock name" do
+          locking = Lifecycle::STAGES.select { |stage| stage['lock'] }.map { |stage| stage['lock'] }
+
+          expect(locking.sort).to eq %w(abilities baseinfo skills)
+        end
+      end
+
+      describe :restore do
           it "should move the checkpoint back to an earlier stage" do
             at_skills = complete_wizard.merge('checkpoint' => 'skills')
             result = Lifecycle.restore(at_skills, 'checkpoint' => 'info')

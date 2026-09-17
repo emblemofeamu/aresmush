@@ -11,7 +11,44 @@ module AresMUSH
       # command calls after this core has said yes.
       module Lifecycle
 
-        CHECKPOINTS = %w(start info abilities skills featskills).freeze
+        # The stages, in order, and the lock each one closes behind it.
+        #
+        # A lock is not state of its own: it says the character has passed that stage, which the
+        # order already says. Committing and rewinding each used to set the three booleans by hand,
+        # three `if`s apiece, and a stage added to the list without its three lines would have left a
+        # lock stuck.
+        STAGES = [
+          { 'name' => 'start', 'lock' => nil },
+          { 'name' => 'info', 'lock' => 'baseinfo' },
+          { 'name' => 'abilities', 'lock' => 'abilities' },
+          { 'name' => 'skills', 'lock' => 'skills' },
+          # Feats come after skills and have no stage of their own to lock; `commit featskills` is
+          # how the skills lock goes back on after a feat handed over a skill the character had.
+          { 'name' => 'featskills', 'lock' => nil }
+        ].freeze
+
+        # One exception to the derivation, and it is real: a feat that grants a skill the character is
+        # already trained in gives them a free one instead, which reopens the skills lock in the
+        # middle of a stage. `commit featskills` closes it again. So the locks a *position* implies are
+        # what this answers; a lock toggled by that path is not a position at all.
+
+        CHECKPOINTS = STAGES.map { |stage| stage['name'] }.freeze
+
+        def self.stage_at(name)
+          CHECKPOINTS.index(name.to_s)
+        end
+
+        # The locks a character standing at this stage holds: every stage up to and including it is
+        # closed, and everything after it is open.
+        def self.locks_at(checkpoint)
+          reached = stage_at(checkpoint)
+
+          STAGES.each_with_object({}) do |stage, locks|
+            next unless stage['lock']
+
+            locks[stage['lock']] = !reached.nil? && stage_at(stage['name']) <= reached
+          end
+        end
 
         def self.commit(state, args)
           stage = args['stage'].to_s
@@ -29,12 +66,7 @@ module AresMUSH
             return Err.new(:incomplete, 'pf2e.cg_commit_failed', 'msg' => missing.join(", "), 'option' => stage) unless missing.empty?
           end
 
-          locks = state['locks'].dup
-          locks['baseinfo'] = true if stage == 'info'
-          locks['abilities'] = true if stage == 'abilities'
-          locks['skills'] = true if stage == 'skills'
-
-          Ok.new(:state => state.merge('checkpoint' => stage, 'locks' => locks))
+          Ok.new(:state => state.merge('checkpoint' => stage, 'locks' => state['locks'].merge(locks_at(stage))))
             .with_message('pf2e.chargen_committed')
         end
 
@@ -50,12 +82,11 @@ module AresMUSH
           return Err.new(:bad_option, 'pf2e.cg_restore_help') if current.nil?
           return Err.new(:stage_not_reached, 'pf2e.cg_cant_restore_to_stage_you_dont_have', 'checkpoint' => checkpoint) if current < target
 
-          locks = state['locks'].dup
-          locks['skills'] = false if target <= CHECKPOINTS.index('skills')
-          locks['abilities'] = false if target <= CHECKPOINTS.index('abilities')
-          locks['baseinfo'] = false if target <= CHECKPOINTS.index('info')
+          # Rewinding to a stage reopens it and everything after it, which is what standing at the
+          # stage before it means.
+          locks = locks_at(CHECKPOINTS[target - 1])
 
-          Ok.new(:state => state.merge('checkpoint' => checkpoint, 'locks' => locks))
+          Ok.new(:state => state.merge('checkpoint' => checkpoint, 'locks' => state['locks'].merge(locks)))
             .with_message('pf2e.cg_restore_ok', 'checkpoint' => checkpoint)
         end
 

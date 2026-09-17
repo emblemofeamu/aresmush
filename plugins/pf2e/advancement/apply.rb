@@ -182,25 +182,23 @@ module AresMUSH
           []
         end
 
+        # The feats this level took. They stay in the draft: the commit reads it, and the materialiser
+        # writes the sheet from the fold afterwards. Copying them onto the sheet here would put each
+        # one in both stores, and the commit would then record it twice - which a rollback then took
+        # back twice.
+        #
+        # What this arm does is the work each feat implies beyond being recorded.
         def self.add_feats(ctx)
-          char = ctx[:char]
-          feats = char.pf2_feats
-
-          Array(ctx[:value]).each do |type, taken|
-            feats[type] = Array(feats[type]) + Array(taken)
-
+          # A hash of bucket => feats, which Array() turns into pairs.
+          Array(ctx[:value]).each do |(_bucket, taken)|
             Array(taken).each do |name|
               found = Pf2e.get_feat_details(name)
 
               next if found.is_a?(String)
 
-              Pf2e.apply_init_magic_feat(char, found[0], found[1], ctx[:client])
+              Pf2e.apply_init_magic_feat(ctx[:char], found[0], found[1], ctx[:client])
             end
           end
-
-          # The draft's own copy. The ledger is written once, at the end of do_advancement, against
-          # the level actually being gained.
-          char.pf2_feats = feats
 
           []
         end

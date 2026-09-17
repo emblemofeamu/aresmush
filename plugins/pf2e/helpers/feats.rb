@@ -2279,16 +2279,39 @@ module AresMUSH
       end
     end
 
+    # Files a feat under a heading, in the draft, which is where a pick goes too.
+    #
+    # The sheet's own lists are the materialiser's output, so a feat written straight to pf2_feats
+    # would be erased by the next fold. Both commit boundaries read the draft as well as the sheet,
+    # so a feat recorded here is history at the same moment a chosen one is.
+    def self.record_feat(char, bucket, fname)
+      draft = char.pf2_advancement || {}
+      feats = draft['feats'] || {}
+
+      feats[bucket] = Array(feats[bucket]) + [ fname ]
+      draft['feats'] = feats
+
+      char.update(:pf2_advancement => draft)
+    end
+
+    # Takes a feat back out of wherever it is held. Both stores, because a draft holds what has been
+    # picked and the sheet holds what a fold has already written.
+    def self.forget_feat(char, fname)
+      draft = char.pf2_advancement || {}
+      feats = draft['feats'] || {}
+
+      feats.each_key { |bucket| feats[bucket] = Array(feats[bucket]).reject { |f| f.to_s.casecmp?(fname.to_s) } }
+      draft['feats'] = feats
+
+      held = char.pf2_feats || {}
+      held.each_key { |bucket| held[bucket] = Array(held[bucket]).reject { |f| f.to_s.casecmp?(fname.to_s) } }
+
+      char.update(:pf2_advancement => draft)
+      char.update(:pf2_feats => held)
+    end
+
     def self.add_granted_feat(char, fname, details, charclass, client)
-      feats = char.pf2_feats
-      bucket = feat_bucket(details)
-
-      list = feats[bucket] || []
-      list << fname
-      feats[bucket] = list
-
-      char.update(pf2_feats: feats)
-
+      record_feat(char, feat_bucket(details), fname)
 
       msgs = []
       msgs.concat(do_feat_grants(char, details['grants'], charclass, client)) if details['grants']
@@ -2339,12 +2362,7 @@ module AresMUSH
         fdetails = feat[1]
         charclass = fdetails['assoc_charclass'] || char.pf2_base_info['charclass']
 
-        feats = char.pf2_feats
-        ftype = Array(fdetails['feat_type']).first.to_s.downcase
-        list = feats[ftype] || []
-        list << fname
-        feats[ftype] = list
-        char.update(pf2_feats: feats)
+        record_feat(char, Array(fdetails['feat_type']).first.to_s.downcase, fname)
 
         msgs.concat(do_feat_grants(char, fdetails['grants'], charclass, client)) if fdetails['grants']
         msgs.concat(do_feat_magic_stats(char, fdetails, charclass, client))

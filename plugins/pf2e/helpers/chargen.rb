@@ -382,8 +382,6 @@ module AresMUSH
 
       client.emit_ooc "Looking for feats..."
 
-      feats = enactor.pf2_feats
-
       bg_feats = background_info["feat"] || []
 
       if bg_feats.size > 1
@@ -405,10 +403,8 @@ module AresMUSH
       # a class feat.
       granted = Pf2e.bucket_feats(class_feats + subclass_feats + subclass_info_feats)
 
-      feats['general'] = Array(granted['general'])
-      feats['ancestry'] = heritage_feats + Array(granted['ancestry'])
-      feats['charclass'] = Array(granted['charclass'])
-      feats['skill'] = Array(feats['skill']) + Array(granted['skill'])
+      feats = granted.dup
+      feats['ancestry'] = Array(heritage_feats) + Array(granted['ancestry'])
 
       # One slot pool, keyed by feat type, which is the shape a level-up uses: a slot is a slot
       # whichever side of approval it was handed out on.
@@ -419,7 +415,9 @@ module AresMUSH
 
       to_assign = Slots.apply(to_assign, slots.map { |type| Slots.open([ 'feats', type ]) })
 
-      enactor.pf2_feats = feats
+      # Into the draft, where a pick goes: the sheet's own list is what the materialiser writes at
+      # approval, from the fold. Recorded rather than assigned, so what is already there stays.
+      feats.each_pair { |bucket, held| Array(held).each { |feat| Pf2e.record_feat(enactor, bucket, feat) } }
 
       # Check for feat choices the class, subclass, or specialty option opens at chargen.
 

@@ -414,13 +414,7 @@ module AresMUSH
         'raise_skill' => lambda { |char, p| Ledger.apply_skill(char, p['skill'], p['to']) },
         'add_lore' => lambda { |char, p| Ledger.apply_skill(char, p['lore'], p['to']) },
         'add_language' => lambda { |char, p| char.update(:pf2_lang => (Array(char.pf2_lang) + [ p['language'] ]).uniq) },
-        'grant_feat' => lambda { |char, p|
-          feats = char.pf2_feats || {}
-          bucket = p['bucket'] || 'charclass'
-          list = Array(feats[bucket])
-          feats[bucket] = list + [ p['feat'] ] unless list.include?(p['feat'])
-          char.update(:pf2_feats => feats)
-        },
+        'grant_feat' => lambda { |char, p| Pf2e.record_feat(char, p['bucket'] || 'charclass', p['feat']) },
         'grant_feature' => lambda { |char, p|
           features = char.pf2_features || {}
           bucket = p['bucket'] || 'charclass_features'
@@ -446,11 +440,8 @@ module AresMUSH
         'raise_skill' => lambda { |char, match| Ledger.apply_skill(char, match['skill'], 'untrained') },
         'add_lore' => lambda { |char, match| Ledger.apply_skill(char, match['lore'], 'untrained') },
         'add_language' => lambda { |char, match| char.update(:pf2_lang => Array(char.pf2_lang).reject { |l| l.to_s.casecmp?(match['language'].to_s) }) },
-        'grant_feat' => lambda { |char, match|
-          feats = char.pf2_feats || {}
-          feats.each_key { |bucket| feats[bucket] = Array(feats[bucket]).reject { |f| f.to_s.casecmp?(match['feat'].to_s) } }
-          char.update(:pf2_feats => feats)
-        },
+        # Out of both stores, because a draft holds its picks and the sheet holds what a fold left.
+        'grant_feat' => lambda { |char, match| Pf2e.forget_feat(char, match['feat']) },
         'grant_feature' => lambda { |char, match|
           features = char.pf2_features || {}
           features.each_key { |bucket| features[bucket] = Array(features[bucket]).reject { |f| f.to_s.casecmp?(match['feature'].to_s) } }
@@ -536,7 +527,9 @@ module AresMUSH
         # until now - as something the advancement removed, and revoke it on arrival.
         plan = Ledger.sync_plan(derived(char, :at_level => level.to_i - 1), {
           'skills' => skills,
-          'feats' => char.pf2_feats,
+          # Both stores, because a feat handed over at the boundary may land in either: the level's
+          # picks are in the draft, and a granted feat is written as the grant is applied.
+          'feats' => DraftSheet.of(char).feats_by_bucket,
           'features' => char.pf2_features,
           'traits' => char.pf2_traits,
           'specials' => char.pf2_special,

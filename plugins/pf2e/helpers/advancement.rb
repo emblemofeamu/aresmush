@@ -375,9 +375,8 @@ module AresMUSH
       # Update level.
       char.pf2_level = new_level
 
-      # Record everything and kick out of advancement mode.
-      char.pf2_to_assign = {}
-      char.pf2_advancement = {}
+      # Out of advancement mode, but the draft stays for one more step: the commit below diffs
+      # against it, and a feat handed over while applying this level's grants lands there.
       char.advancing = false
 
       char.save
@@ -385,6 +384,10 @@ module AresMUSH
       # The single commit point for a level-up: everything this advancement produced becomes
       # one level_up transaction attributed to the level just gained, XP spend included.
       Pf2e::Ledger.commit_level_up!(char, new_level)
+
+      # History now, so the draft goes.
+      char.update(:pf2_to_assign => {})
+      char.update(:pf2_advancement => {})
 
       return nil
     end
