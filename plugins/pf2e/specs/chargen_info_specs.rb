@@ -124,3 +124,36 @@ module AresMUSH
     end
   end
 end
+
+module AresMUSH
+  module Pf2e
+
+    # Every row's options lambda, run against a character who has made every choice. A row that
+    # only ever ran with half the character filled in hid a four-argument Global.read_config -
+    # which takes three - so `cg/info alignment` raised at the one moment a player needed it:
+    # after picking a class and a specialty, deciding what alignment they were allowed.
+    describe "every element's options" do
+
+      def complete_char
+        double(:name => 'Someone',
+               :pf2_base_info => { 'ancestry' => 'Human', 'heritage' => 'Versatile Heritage',
+                                   'background' => 'Acolyte', 'charclass' => 'Cleric',
+                                   'specialize' => 'Cloistered Cleric', 'specialize_info' => 'Healing' },
+               :pf2_faith => { 'deity' => 'Sarenrae', 'alignment' => 'NG' })
+      end
+
+      it "should answer for a character who has chosen everything" do
+        raised = ChargenInfo::ELEMENTS.filter_map do |row|
+          begin
+            ChargenInfo.options(complete_char, row['name'])
+            nil
+          rescue StandardError => e
+            "#{row['name']}: #{e.class} #{e.message}"
+          end
+        end
+
+        expect(raised).to eq []
+      end
+    end
+  end
+end

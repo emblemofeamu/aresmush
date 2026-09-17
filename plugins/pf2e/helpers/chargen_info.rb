@@ -117,7 +117,7 @@ module AresMUSH
 
         narrowings = [
           charclass.blank? ? nil : Global.read_config('pf2e_class', charclass, 'allowed_alignments'),
-          (charclass.blank? || specialize.blank?) ? nil : Global.read_config('pf2e_specialty', charclass, specialize, 'allowed_alignments'),
+          (charclass.blank? || specialize.blank?) ? nil : (Global.read_config('pf2e_specialty', charclass, specialize) || {})['allowed_alignments'],
           deity.blank? ? nil : Global.read_config('pf2e_deities', deity, 'allowed_alignments')
         ]
 
