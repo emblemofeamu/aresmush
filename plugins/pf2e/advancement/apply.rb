@@ -250,7 +250,13 @@ module AresMUSH
             }
           },
           # Recorded among the class features, and nothing else to do yet.
-          'Divine Ally' => { 'apply' => lambda { |_ctx| [] } }
+          'Divine Ally' => { 'apply' => lambda { |_ctx| [] } },
+          # Its three options carry no payload in pf2e_class.yml, so there is nothing for the engine
+          # to apply and the choice on the sheet is the whole of it. A row saying so rather than no
+          # row at all: without one every Champion was told at level 3 to report a known state to
+          # code staff. If Blessed Armament, Blessed Shield and Blessed Swiftness should do
+          # something mechanical, that belongs in their config options first.
+          'Blessing of the Devoted' => { 'apply' => lambda { |_ctx| [] } }
         }.freeze
 
         def self.feature_options(ctx)
