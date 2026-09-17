@@ -50,6 +50,23 @@ module AresMUSH
       match.sort
     end
 
+    # What to say when a feat name matched nothing. A pre-Remaster name is the common case, and
+    # the rename table answers it outright; only a name it has never heard of gets the spelling
+    # advice, which is all this used to say.
+    def self.bad_feat_message(term)
+      names = (Global.read_config('pf2e_feats') || {}).keys
+
+      Pf2e::Renames.hint_for('feats', term, names) || t('pf2e.bad_feat_name', :name => term)
+    end
+
+    # The player-facing answer for each way get_feat_details can fail, so every command that
+    # resolves a feat name gives the same one.
+    def self.feat_lookup_failure(term, code)
+      return t('pf2e.multiple_feat_matches', :options => get_feat_match_options(term).join(", ")) if code == 'ambiguous'
+
+      bad_feat_message(term)
+    end
+
     def self.search_feats(search_type, term, operator='=')
       feat_info = Global.read_config('pf2e_feats')
 
@@ -2356,7 +2373,7 @@ module AresMUSH
 
       if choice_grants_feat?(block)
         feat = get_feat_details(value)
-        return [ t('pf2e.bad_feat_name', :name => value) ] if feat.is_a?(String)
+        return [ feat_lookup_failure(value, feat) ] if feat.is_a?(String)
 
         fname = feat[0]
         fdetails = feat[1]
@@ -2415,7 +2432,7 @@ module AresMUSH
 
       if choice_grants_feat?(block)
         feat = get_feat_details(value)
-        return [ t('pf2e.bad_feat_name', :name => value) ] if feat.is_a?(String)
+        return [ feat_lookup_failure(value, feat) ] if feat.is_a?(String)
 
         fname = feat[0]
         fdetails = feat[1]

@@ -39,3 +39,10 @@ The search function is a Boolean `AND`, meaning that a spell must meet all of yo
 `spell/search description=fey`: Returns all spells that have the word 'fey' in their spell descriptions.
 `spell/search effect=acid`: Returns all spells that have the word 'acid' in their spell effects.
 `spell/search cast=somatic`: Returns all spells that have a Somatic spell component.
+
+## Pre-Remaster names
+
+This game's spell list uses the Remaster names, and the Remaster renamed a great many spells. If
+you search for a name that no longer exists, the search tells you what it became:
+`spell/search name=Magic Missile` answers that Magic Missile is Force Barrage now. Looking a
+retired name up directly - in `spell/info` or when adding a spell - answers the same way.

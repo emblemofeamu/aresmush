@@ -127,6 +127,47 @@ module AresMUSH
       expect(wrong.sort).to eq []
     end
 
+    # The rename table is generated from Foundry's Remaster Changes journal, so a change in that
+    # journal's markup shows up here as a row of the wrong shape rather than as a hint nobody
+    # can read.
+    RENAME_STATUSES = %w{renamed merged removed}.freeze
+
+    # Generated rows and hand-added ones share a root key, and the game reads them merged.
+    def rename_table
+      @rename_table ||= Dir[File.join(ROOT, 'game', 'config', 'pf2e_renames*.yml')].sort
+                        .each_with_object({}) do |path, all|
+        (YAML.load_file(path)['pf2e_renames'] || {}).each { |kind, rows| (all[kind] ||= {}).merge!(rows || {}) }
+      end
+    end
+
+    it "should give every pre-Remaster name a status and, unless it was removed, a replacement" do
+      wrong = rename_table.flat_map do |kind, rows|
+        rows.filter_map do |old, row|
+          next "#{kind}: '#{old}' has status #{row['status'].inspect}" unless RENAME_STATUSES.include?(row['status'])
+          next "#{kind}: '#{old}' was #{row['status']} into nothing" if row['status'] != 'removed' && row['to'].to_s.strip.empty?
+          next "#{kind}: '#{old}' was removed but names a replacement" if row['status'] == 'removed' && row['to']
+        end
+      end
+
+      expect(wrong.sort).to eq []
+    end
+
+    # A replacement that is itself a pre-Remaster name leaves the player one hop short of the
+    # name they can actually look up.
+    it "should point every rename at a current name" do
+      chained = rename_table.flat_map do |kind, rows|
+        rows.filter_map do |old, row|
+          "#{kind}: '#{old}' points at '#{row['to']}', which is itself a pre-Remaster name" if row['to'] && rows.key?(row['to'])
+        end
+      end
+
+      expect(chained.sort).to eq []
+    end
+
+    it "should hold both kinds the game looks up" do
+      expect(rename_table.keys.sort).to eq [ 'feats', 'spells' ]
+    end
+
     # The five spell files are merged into one catalogue, so a name in two of them loses whichever
     # loads first, and nothing says which spell the character ended up with.
     it "should define each spell in only one file" do

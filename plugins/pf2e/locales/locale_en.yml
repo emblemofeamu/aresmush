@@ -358,6 +358,12 @@ en:
     player_added: "%{player} can now view the following section of your sheet: %{section}."
     prp_rewarded_ok: "You reward a %{ptype} PRP to %{ttype}: %{targets}."
 
+    remaster_renamed: "%xh%{old}%xn was renamed %xh%{new}%xn in the Remaster. Look that name up instead."
+    remaster_renamed_absent: "%xh%{old}%xn was renamed %xh%{new}%xn in the Remaster, and this game does not stock %{new}."
+    remaster_merged: "%xh%{old}%xn was folded into %xh%{new}%xn in the Remaster. Look that name up instead."
+    remaster_merged_absent: "%xh%{old}%xn was folded into %xh%{new}%xn in the Remaster, and this game does not stock %{new}."
+    remaster_removed: "%xh%{old}%xn was removed in the Remaster and has no replacement."
+    remaster_near: "Names that changed in the Remaster: %{options}"
     reset_first: "Enter '%xwcg/reset%xn%xr' before using this command."
     reset_ok: "Reset of %{element} '%{option}' complete."
     respec_refused_scenes: "This character is in at least one scene currently in progress."

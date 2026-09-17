@@ -1,0 +1,11 @@
+# Pre-Remaster names that Foundry's "Remaster Changes" journal does not list.
+#
+# pf2e_renames.yml is generated from that journal and is overwritten wholesale; this file is
+# hand-maintained and merges over it, so an addition here survives a regeneration. Same shape:
+# a status of renamed, merged or removed, and the name it became unless it was removed outright.
+pf2e_renames:
+  spells:
+    "Ray of Frost":
+      status: renamed
+      to: "Frostbite"
+  feats: {}

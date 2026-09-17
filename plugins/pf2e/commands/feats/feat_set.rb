@@ -94,12 +94,7 @@ module AresMUSH
 
         return found unless found.is_a?(String)
 
-        if found == 'ambiguous'
-          client.emit_failure t('pf2e.multiple_feat_matches',
-            :options => Pf2e.get_feat_match_options(self.feat_name).join(", "))
-        else
-          client.emit_failure t('pf2e.bad_feat_name', :name => self.feat_name)
-        end
+        client.emit_failure Pf2e.feat_lookup_failure(self.feat_name, found)
 
         nil
       end

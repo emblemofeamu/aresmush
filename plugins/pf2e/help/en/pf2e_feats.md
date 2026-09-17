@@ -28,4 +28,6 @@ When searching by `skill` or `archetype`, we recommend searching with the first 
 
 **NOTE**: If you search by `classlevel`, you may specify a class followed by a level. For example, `feat/search classlevel = Fighter 2`.
 
-If you search by `level`, you may specify an operator. The searcher understands `<`, `=`, and `>`, and defaults to `=`. For example: `feat/search level = > 5` The operator will be ignored for any search type other than `level`.
+If you search by `level`, you may specify an operator. The searcher understands `<`, `=`, and `>`, and defaults to `=`. For example: `feat/search level = > 5` The operator only applies to `level` and `classlevel`; every other search takes the whole term, so a name may be as many words as it needs.
+
+This game's feat list uses the Remaster names, and the Remaster renamed, merged and retired a great many feats. Look a retired name up and you are told what became of it: `feat Aasimar's Mercy` answers that it is Celestial Mercy now. `feat/search name=<old name>` answers the same way.

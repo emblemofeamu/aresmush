@@ -46,19 +46,29 @@ module AresMUSH
 
     # What to say when a name matched nothing.
     #
-    # The shipped data uses Remaster names and players arrive with the old ones - Magic Missile
-    # is Force Barrage, Ray of Frost is Frostbite, Burning Hands is Breathe Fire - so a bare "not
-    # in the spells database" leaves them guessing. Anything sharing a word is worth offering.
+    # The shipped data uses Remaster names and players arrive with the old ones, so a bare "not in
+    # the spells database" leaves them guessing. Two answers, in order of how much they help: the
+    # rename table knows Magic Missile is Force Barrage outright, and anything sharing a word with
+    # what they typed is worth offering after that.
     def self.no_such_spell_message(term, hash)
+      table = Pf2e::Renames.table('spells')
+      renamed = Pf2e::Renames.lookup(term, table)
+
+      # A name the table knows outright is the whole answer. Guessing at what else they might have
+      # meant on top of it only buries the one line that helps.
+      return Pf2e::Renames.describe_one(renamed.first, renamed.last, hash.keys) if renamed
+
+      [ Pf2e::Renames.hint(term, table, hash.keys), near_spell_message(term, hash) ].compact.join(" ")
+    end
+
+    def self.near_spell_message(term, hash)
       words = term.to_s.downcase.split.reject { |word| word.size < 3 }
       scored = hash.keys.map { |name| [ name, words.count { |word| name.downcase.include?(word) } ] }
                    .reject { |_name, hits| hits.zero? }
 
       return t('pf2emagic.no_such_spell') if scored.empty?
 
-      # Most words matched first, then alphabetically. A wholesale rename is beyond any string
-      # match - Magic Missile is Force Barrage - so this catches the partial ones and the message
-      # points at spell/search for the rest.
+      # Most words matched first, then alphabetically.
       near = scored.sort_by { |name, hits| [ -hits, name ] }.map(&:first)
 
       t('pf2emagic.no_such_spell_but', :options => near.first(8).join(", "))
