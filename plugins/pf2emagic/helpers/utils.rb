@@ -238,6 +238,30 @@ module AresMUSH
       [ spell_name, spell_details ]
     end
 
+    # Every spell a source casting `tradition` could put in a slot of `rank`.
+    #
+    # The same two rules SpellPick enforces when a pick is made - the tradition has to match, and a
+    # spell cannot be learned above its own rank or in the wrong kind of slot - asked in advance,
+    # so a player can read the list instead of guessing a name and being refused.
+    def self.eligible_spells(tradition, rank)
+      wanted = tradition.to_s.downcase
+      cantrip_slot = rank.to_s.casecmp?('cantrip') || rank.to_s.to_i.zero?
+
+      (Global.read_config('pf2e_spells') || {}).select do |_name, details|
+        traditions = Array(details['tradition']).compact.map { |trad| trad.to_s.downcase }
+
+        next false unless traditions.include?(wanted)
+
+        base = details['base_level']
+        spell_cantrip = base.to_s.casecmp?('cantrip') || base.to_s.to_i.zero?
+
+        next spell_cantrip if cantrip_slot
+        next false if spell_cantrip
+
+        base.to_i <= rank.to_i
+      end.keys.sort
+    end
+
     def self.search_spells(search_type, term, operator='=')
       spell_info = Global.read_config('pf2e_spells')
 

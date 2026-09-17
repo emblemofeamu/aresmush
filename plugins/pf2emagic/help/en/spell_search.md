@@ -46,3 +46,17 @@ This game's spell list uses the Remaster names, and the Remaster renamed a great
 you search for a name that no longer exists, the search tells you what it became:
 `spell/search name=Magic Missile` answers that Magic Missile is Force Barrage now. Looking a
 retired name up directly - in `spell/info` or when adding a spell - answers the same way.
+
+## What can I actually take?
+
+`spell/search` searches the whole catalogue, including spells your class cannot cast. To see only
+what you could put in a slot, use `spell/eligible`.
+
+`spell/eligible`: Lists your spellcasting sources and the tradition each one draws on.
+`spell/eligible <rank>`: Lists every spell you could take at that rank. `spell/eligible cantrip`
+works too.
+`spell/eligible <rank>=<text>`: The same list, narrowed to names containing that text.
+
+Examples:
+`spell/eligible 3`: Every 3rd-rank or lower spell your traditions can cast.
+`spell/eligible cantrip=fire`: Your eligible cantrips with 'fire' in the name.

@@ -4,10 +4,10 @@ module AresMUSH
     class PF2AdvanceInfoCmd
       include CommandHandler
 
-      attr_accessor :element
+      attr_accessor :element, :filter
 
       def parse_args
-        self.element = trim_arg(cmd.args)
+        self.element, self.filter = Pf2e.split_info_filter(cmd.args)
       end
 
       def check_advancing
@@ -30,7 +30,7 @@ module AresMUSH
           return
         end
 
-        display = Pf2e.info_option_display(found[0], found[1], cmd.page)
+        display = Pf2e.info_option_display(found[0], found[1], cmd.page, self.filter)
 
         if display[:error]
           client.emit_failure display[:error]

@@ -4,10 +4,11 @@ module AresMUSH
     class PF2ChargenInfoCmd
       include CommandHandler
 
-      attr_accessor :element
+      attr_accessor :element, :filter
 
       def parse_args
-        self.element = downcase_arg(cmd.args)
+        element, self.filter = Pf2e.split_info_filter(cmd.args)
+        self.element = element&.downcase
       end
 
       def handle
@@ -41,7 +42,7 @@ module AresMUSH
       end
 
       def show(title, options)
-        display = Pf2e.info_option_display(title, options, cmd.page)
+        display = Pf2e.info_option_display(title, options, cmd.page, self.filter)
 
         if display[:error]
           client.emit_failure display[:error]
