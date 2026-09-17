@@ -269,6 +269,9 @@ module AresMUSH
           run("skill/set free=#{pick}"); runs += 1
         end
 
+        # One slot key either side of approval - an Intelligence boost at a level-up opens the
+        # same `open languages` markers chargen does - and a different command spends it:
+        # lang/set is refused once chargen is locked, which every approved character is.
         langs = Global.read_config('pf2e_languages', 'common').keys
         Array(ta['open languages']).count('open').times do
           # Through DraftSheet, because a language picked a moment ago is in the draft rather than
@@ -276,13 +279,7 @@ module AresMUSH
           held = Pf2e::DraftSheet.of(@char).languages.map { |l| l.to_s.downcase }
           pick = langs.find { |l| !held.include?(l.to_s.downcase) }
           break unless pick
-          run("lang/set #{pick}"); runs += 1
-        end
-
-        Array(ta['languages']).count('open').times do
-          pick = langs.find { |l| !@char.pf2_lang.include?(l) }
-          break unless pick
-          run("advance/language=#{pick}"); runs += 1
+          run("#{context == :advance ? 'advance/language' : 'lang/set'} #{pick}"); runs += 1
         end
 
         # Feat slots, the same pool either side of approval. Which command spends one differs:
@@ -623,8 +620,14 @@ module AresMUSH
           'feats' => Pf2e::DraftSheet.of(@char).feats_by_bucket.transform_values { |v| Array(v).dup },
           'skills' => @char.skills.to_a.reject { |s| s.prof_level == 'untrained' }
                            .each_with_object({}) { |s, h| h[s.name] = s.prof_level },
-          'languages' => Array(@char.pf2_lang).sort,
+          'languages' => Pf2e::DraftSheet.of(@char).languages.sort,
           'features' => (@char.pf2_features || {}).transform_values { |v| Array(v).sort },
+          'traits' => Array(@char.pf2_traits).sort,
+          'specials' => Array(@char.pf2_special).sort,
+          'abilities' => @char.abilities.to_a.each_with_object({}) { |a, h| h[a.name] = a.base_val },
+          'spells' => Pf2emagic::Entries.known_lists(@char).transform_values { |by_rank|
+            (by_rank || {}).transform_values { |list| Array(list).sort }
+          },
           'grants' => @char.grants.count
         }
       end

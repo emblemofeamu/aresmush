@@ -94,6 +94,27 @@ module AresMUSH
         expect(Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort).to eq rows_before
       end
 
+      # The general statement, over a class whose level hands out more kinds of thing than a
+      # Fighter's does: spells, an ability boost, a skill increase and whatever the class table
+      # grants. Everything a draft writes has to be a draft, whichever store it lands in.
+      it "should leave nothing behind from an abandoned advancement, whatever kind it was" do
+        builder = AutoBuilder.new(@char)
+        builder.build('Sorcerer', 4)
+
+        before = builder.summary
+
+        builder.clear
+        builder.run "advance"
+        8.times { break if builder.resolve_outstanding(:advance).zero? }
+
+        # The picks are real, so the reset has something to throw away.
+        expect(builder.summary).to_not eq before
+
+        builder.run "advance/reset"
+
+        expect(builder.summary).to eq before
+      end
+
       # --------------------------------------------------------------------------------
       # Finalized: undo marks, redo unmarks
       # --------------------------------------------------------------------------------
