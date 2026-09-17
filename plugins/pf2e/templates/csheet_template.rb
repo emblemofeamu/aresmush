@@ -244,7 +244,7 @@ module AresMUSH
 
         traits = atk_info['traits']
 
-        abilmod = traits.include?('finesse') ?
+        abilmod = Pf2e.has_trait?(traits, 'finesse') ?
           Pf2eCombat.abilmod_with_finesse(char) :
           Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Strength"))
         prof = Pf2e.get_prof_bonus(char, unarmed_prof)

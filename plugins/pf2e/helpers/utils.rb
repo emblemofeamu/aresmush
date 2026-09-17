@@ -3,6 +3,15 @@ module AresMUSH
 
     # p can be passed to this method as nil
     #
+    # Whether a list of traits holds one, however it was written.
+    #
+    # The weapon catalogue writes them Title Case with parenthesised parameters (`Deadly (d8)`),
+    # chargen writes an unarmed attack's lowercase, and a few are slugs. A reader that compares with
+    # `include?` answers no for half the game's data.
+    def self.has_trait?(traits, wanted)
+      Array(traits).any? { |trait| trait.to_s.strip.casecmp?(wanted.to_s.strip) }
+    end
+
     def self.get_prof_bonus(char, p="untrained")
       p = "untrained" unless p
       level = (p == "untrained") ? 0 : char.pf2_level

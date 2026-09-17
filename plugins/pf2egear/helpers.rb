@@ -94,14 +94,6 @@ module AresMUSH
       wp_load + armor_load + shield_load + mi_load + c_load + gear_load
     end
 
-    def self.invested_items(char)
-      magic_items = char.magic_items.select { |item| item.invested }.to_a
-      weapons = Inventory.held(char, 'weapons').select { |item| item.invested }
-      armor = char.magic_items.select { |item| item.invested }.to_a
-
-      magic_items + weapons + armor
-    end
-
     # Gives a character an item the shop sells.
     #
     # Gear and consumables stack: many of the same thing is one row with a quantity. Everything else
@@ -138,15 +130,13 @@ module AresMUSH
       value ? value : 0
     end
 
+    # Every invested item, across the categories PF2e lets a character invest. Reading only the
+    # magic items meant an invested weapon's or armour's item bonus counted for nothing.
     def self.get_invested_items(char)
-      invested_items = []
-
-      char.magic_items.each do |i|
-
-        invested_items << i if i.invested
-      end
-
-      invested_items
+      Inventory.categories.select { |c| Inventory.investable?(c) }
+               .map { |c| Inventory.canonical(c) }.uniq
+               .flat_map { |c| Inventory.held(char, c) }
+               .select { |item| item.invested }
     end
 
     def self.bonus_from_item(char, roll)

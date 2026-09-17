@@ -379,7 +379,9 @@ module AresMUSH
         abil_bonus = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Dexterity"))
       else
         traits = weapon.traits
-        abil_bonus = traits.include?('finesse') ?
+        # Config writes `Finesse` and chargen writes `finesse`, so the comparison cannot be
+        # `include?`: every catalogue weapon used Strength before this.
+        abil_bonus = Pf2e.has_trait?(traits, 'finesse') ?
           Pf2eCombat.abilmod_with_finesse(char) :
           Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Strength"))
       end
