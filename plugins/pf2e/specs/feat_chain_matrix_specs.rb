@@ -60,8 +60,10 @@ module AresMUSH
         Character[@char.id]
       end
 
+      # An unapproved character is a draft, so a granted feat is held in the draft rather than on
+      # the sheet. DraftSheet is what the rules read, and what a commit boundary records from.
       def held_feats(char)
-        (char.pf2_feats || {}).values.flatten.compact
+        DraftSheet.of(char).feats_by_bucket.values.flatten.compact
       end
 
       describe "a feat that grants a feat" do
@@ -72,7 +74,7 @@ module AresMUSH
         it "should file it under the heading its own type names" do
           char = grant('Giver')
 
-          expect(Array(char.pf2_feats['skill'])).to include 'Gift'
+          expect(Array(DraftSheet.of(char).feats_by_bucket['skill'])).to include 'Gift'
         end
       end
 

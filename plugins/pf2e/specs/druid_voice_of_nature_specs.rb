@@ -32,13 +32,13 @@ module AresMUSH
       end
 
       it "should leave the druid holding one of the two feats" do
-        held = (built.pf2_feats || {}).values.flatten.compact.map(&:to_s)
+        held = DraftSheet.of(built).feats_by_bucket.values.flatten.compact.map(&:to_s)
 
         expect(held.count { |f| [ 'Animal Empathy', 'Plant Empathy' ].include?(f) }).to eq 1
       end
 
       it "should file it as a class feat, which is what the game calls it" do
-        feats = built.pf2_feats
+        feats = DraftSheet.of(built).feats_by_bucket
 
         expect(Array(feats['charclass']).any? { |f| f.to_s.end_with?('Empathy') }).to be true
       end
