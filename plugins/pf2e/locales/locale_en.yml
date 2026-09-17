@@ -153,7 +153,7 @@ en:
     choice_already_resolved: "You have already resolved %{choice}."
     choice_not_configured: "%{choice} is missing its options in the config. Please inform code staff."
     no_such_choice: "You have no pending choice called '%{choice}'. Check the review screen for what is outstanding."
-    bad_feat_type: "Invalid feat type '%xw%{type}%xn%xr'. Choose one of: %{keys}"
+    bad_feat_type: "That feat does not go in a %xw%{type}%xn%xr slot. It can fill: %{keys}."
     bad_id: "Invalid %{type} ID."
     bad_instruction: "Instruction must be one of 'add' or 'delete'."
     bad_option: "Not a valid option. Valid options for %{element}: %{options}."

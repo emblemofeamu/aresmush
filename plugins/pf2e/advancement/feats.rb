@@ -40,6 +40,9 @@ module AresMUSH
           {
             'name' => 'feat_type_matches_slot',
             'check' => lambda { |ctx|
+              # The feat's own types, not the game's: the message says which slots this feat fits,
+              # which read as "general is not a feat type" while it was worded as a list to
+              # choose from.
               types = Array(ctx[:details]['feat_type']).compact.map { |f| f.to_s.downcase }
 
               next nil if types.include?(ctx[:type])

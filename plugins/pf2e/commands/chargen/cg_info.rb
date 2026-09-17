@@ -31,10 +31,12 @@ module AresMUSH
 
         # A real element that is not answerable yet keeps its own message; anything else gets the
         # list of what can be asked about.
+        # Splatted: `t` takes keywords, so handing it the hash positionally is two arguments and
+        # every refusal `cg/info` had to make raised instead of printing.
         if outcome.code == :no_cginfo_available
-          client.emit_ooc t(outcome.key, outcome.args.transform_keys(&:to_sym))
+          client.emit_ooc t(outcome.key, **outcome.args.transform_keys(&:to_sym))
         else
-          client.emit_failure t(outcome.key, outcome.args.transform_keys(&:to_sym))
+          client.emit_failure t(outcome.key, **outcome.args.transform_keys(&:to_sym))
         end
       end
 
