@@ -3,9 +3,10 @@ module AresMUSH
 
     # What a character's draft looks like, and how to move it back to an earlier shape.
     #
-    # A draft lives in three places: attributes on the character, the skill rows, and the ability
-    # rows. A snapshot reads all three; a diff of two snapshots holds only what changed, with the
-    # value from the `before` side; restoring writes those values back.
+    # A draft lives in attributes on the character, the skill and ability rows, and the three rows
+    # the character references: their magic, their combat proficiencies and their hit points. A
+    # snapshot reads all of them; a diff of two snapshots holds only what changed, with the value
+    # from the `before` side; restoring writes those values back.
     #
     # Attributes are taken by rule rather than by list - everything the chargen and advancement
     # code can write, minus the few things a draft does not own. A list would have to be extended
@@ -28,6 +29,51 @@ module AresMUSH
           .reject { |a| NOT_DRAFT.include?(a) }
           .sort
           .freeze
+      end
+
+      # The rows a draft writes besides the character's own attributes: one each, reached by a
+      # reference. `transient` names what belongs to play rather than to the build - undoing a pick
+      # must not heal the damage a character took while they were making it.
+      #
+      # A caster's focus pool is not in that list. It holds the maximum, which a level raises, in
+      # the same hash as what is left of it, and putting the maximum back is the point. Undoing a
+      # pick therefore also puts back the focus points spent during the same draft, which a rest or
+      # a refocus restores anyway.
+      SIDE_MODELS = {
+        'magic' => { 'model' => 'PF2Magic', 'transient' => %w{last_refocus spells_prepared spells_today prepared_lists} },
+        'combat' => { 'model' => 'Pf2eCombat', 'transient' => [] },
+        'hp' => { 'model' => 'Pf2eHP', 'transient' => %w{damage temp_max temp_current temp_hp} }
+      }.freeze
+
+      def self.side_attrs(name)
+        row = SIDE_MODELS[name]
+
+        AresMUSH.const_get(row['model']).attributes.map(&:to_s) - row['transient']
+      end
+
+      def self.read_side(char, name)
+        row = char.send(name)
+
+        return {} unless row
+
+        side_attrs(name).each_with_object({}) { |a, h| h[a] = row.send(a) }
+      end
+
+      # Nil means the row did not exist when the step ran. Undoing a pick is not a reason to take a
+      # caster's whole spellcasting away, so the attribute is left as it is.
+      def self.write_side(char, name, values)
+        row = char.send(name)
+
+        return unless row
+
+        values.each_pair { |a, v| row.update(a.to_sym => v) unless v.nil? }
+      end
+
+      def self.side_slice(name)
+        {
+          'read' => lambda { |char| DraftSnapshot.read_side(char, name) },
+          'write' => lambda { |char, values| DraftSnapshot.write_side(char, name, values) }
+        }
       end
 
       # One row per place a draft is held: how to read it, and how to write one back.
@@ -59,24 +105,9 @@ module AresMUSH
             values.each_pair { |name, score| Ledger.apply_ability_score(char, name, score) unless score.nil? }
           }
         },
-        'magic' => {
-          'read' => lambda { |char|
-            magic = char.magic
-
-            next {} unless magic
-
-            PF2Magic.attributes.each_with_object({}) { |a, h| h[a.to_s] = magic.send(a) }
-          },
-          'write' => lambda { |char, values|
-            magic = char.magic
-
-            next unless magic
-
-            # Nil means there was no magic object when the step ran. Undoing a pick is not a reason
-            # to take a caster's whole spellcasting away, so the attribute is left as it is.
-            values.each_pair { |a, v| magic.update(a.to_sym => v) unless v.nil? }
-          }
-        }
+        'magic' => side_slice('magic'),
+        'combat' => side_slice('combat'),
+        'hp' => side_slice('hp')
       }.freeze
 
       # Every skill row's rank, in two round trips rather than one per row.
