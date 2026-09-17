@@ -1,7 +1,6 @@
 en:
     places:
         places_title: "Room Places"
-        place_already_exists: "That place already exists."
         place_created: "%{name} has create a place named %{place_name} and joined it."
         place_doesnt_exist: "That place doesn't exist."
         place_joined: "%{name} joins place %{place_name}."

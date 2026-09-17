@@ -3209,9 +3209,6 @@ pf2e_feats:
       orheritage:
         - Aesa
         - Niasa
-      orheritage:
-        - Aesa
-        - Niasa
   Sense Allies:
     feat_type:
       - Ancestry
