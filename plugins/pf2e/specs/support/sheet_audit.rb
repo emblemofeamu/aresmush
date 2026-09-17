@@ -4,10 +4,9 @@ module AresMUSH
     # Every element of a finished character, checked against what the class's tables promised.
     #
     # One row per dimension, each returning the mismatches it found, so the audit reports all of
-    # them at once - a climb wrong in six ways says so once rather than six runs later. Adding a
-    # dimension is adding a row.
+    # them in one run. A climb wrong in six ways says so once. Adding a dimension is adding a row.
     #
-    # Counting feats alone does not notice a feature that never arrived, a proficiency the engine
+    # Counting feats alone would miss a feature that never arrived, a proficiency the engine
     # dropped, a spell slot short, or a class choice never resolved.
     module SheetAudit
 
@@ -65,8 +64,8 @@ module AresMUSH
         },
         {
           'name' => 'feats match their slot',
-          # A feat filed under 'general' had better be a general feat: mis-filing shows under the
-          # wrong heading and changes what the next slot accepts.
+          # A feat filed under 'general' had better be a general feat. A mis-filed one shows under
+          # the wrong heading and changes what the next slot accepts.
           'check' => lambda { |ctx|
             char = ctx['char']
             types = SheetAudit.feat_types
@@ -145,9 +144,8 @@ module AresMUSH
 
             actual = ((char.magic&.spells_per_day || {})[cc] || {})
 
-            # A floor rather than an exact count: feats add slots - Cantrip Expansion gives a
-            # prepared caster two more cantrips - so more than the table promises is correct and
-            # fewer is not.
+            # A floor. Feats add slots: Cantrip Expansion gives a prepared caster two more cantrips,
+            # so a count above what the table promises is correct, and one below it is a fault.
             want['spells_per_day'].filter_map do |rank, count|
               held = SheetAudit.at_rank(actual, rank).to_i
               next if held >= count.to_i
@@ -159,8 +157,8 @@ module AresMUSH
         {
           'name' => 'spells known',
           # Two claims, because the tables make two kinds of promise. A rank key pins the pick to
-          # that rank - a Wizard's ten cantrips and five first-rank spells at chargen - and `any`
-          # lets the player place it, so for those only the total is predictable.
+          # that rank, as a Wizard's ten cantrips and five first-rank spells do at chargen. `any`
+          # lets the player place it, so for those only the total can be checked.
           'check' => lambda { |ctx|
             char, cc, want = ctx.values_at('char', 'charclass', 'want')
 
@@ -279,10 +277,10 @@ module AresMUSH
         },
         {
           'name' => 'class choices resolved',
-          # Resolving a `charclass_choice` writes a feature labelled "<choice> (<option>)" -
-          # "Path to Perfection (Fortitude)" - which is the trace to look for. The mechanical
-          # effect lands elsewhere and differs per choice: a save rank, a weapon group
-          # proficiency, or nothing but the label.
+          # Resolving a `charclass_choice` writes a feature labelled "<choice> (<option>)", such as
+          # "Path to Perfection (Fortitude)". That label is what to look for. Where the mechanical
+          # effect lands varies by choice: a save rank, a weapon group proficiency, or only the
+          # label.
           'check' => lambda { |ctx|
             char, want = ctx.values_at('char', 'want')
 
@@ -307,7 +305,7 @@ module AresMUSH
         {
           'name' => 'feat choices resolved',
           # A feature whose choice is a named set of feats has to have left one of them on the
-          # sheet - the Druid's Voice of Nature grants Animal Empathy or Plant Empathy.
+          # sheet. The Druid's Voice of Nature grants Animal Empathy or Plant Empathy.
           'check' => lambda { |ctx|
             char, want = ctx.values_at('char', 'want')
 
@@ -343,8 +341,8 @@ module AresMUSH
 
       # Every mismatch, across every dimension.
       #
-      # `baseline` carries what had to be measured before the climb - the ability totals at level
-      # 1, because nothing on the finished sheet records what they were.
+      # `baseline` carries what has to be measured before the climb. The ability totals at level 1
+      # are there because nothing on the finished sheet records what they were.
       def self.diff(char, charclass, level, baseline = {})
         ctx = {
           'char' => char,
@@ -363,8 +361,8 @@ module AresMUSH
       # Reading the sheet
       # ----------------------------------------------------------------------------
 
-      # A map of name => proficiency rank, compared entry by entry so the report names which
-      # save or which weapon category is wrong rather than printing two hashes.
+      # A map of name => proficiency rank, compared entry by entry so the report can name the save
+      # or weapon category that is wrong instead of printing two hashes.
       def self.compare_map(label, wanted, actual)
         actual = actual || {}
 
@@ -396,7 +394,8 @@ module AresMUSH
         (char.pf2_feats || {}).values.flatten.compact.map(&:to_s)
       end
 
-      # Grants still in force, of one kind. A reverted grant is history, not state.
+      # Grants still in force, of one kind. A reverted grant stays in the ledger as history and no
+      # longer describes the sheet.
       def self.grants_of(char, kind)
         char.grants.to_a.select { |g| g.kind == kind && g.reverted_by.blank? }
       end

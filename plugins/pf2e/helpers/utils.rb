@@ -33,8 +33,8 @@ module AresMUSH
       words[ability[0, 3].downcase] = ability
     }.freeze
 
-    # The ability a save, an attack kind or perception is rolled off. PF2e fixes these, so they
-    # are a register rather than a decision.
+    # The ability a save, an attack kind or perception is rolled off. PF2e fixes all of these, so
+    # this is a register to look things up in.
     LINKED_ABILITY = {
       'fort' => 'Constitution', 'fortitude' => 'Constitution',
       'ref' => 'Dexterity', 'reflex' => 'Dexterity', 'ranged' => 'Dexterity', 'finesse' => 'Dexterity',
@@ -44,13 +44,13 @@ module AresMUSH
 
     SAVES = %w(will fort fortitude ref reflex).freeze
 
-    # An attack keyword names which ability the attack uses; the bonus itself comes from the
-    # weapon, so the keyword contributes nothing of its own to a roll.
+    # An attack keyword names which ability the attack uses. The bonus comes from the weapon, so the
+    # keyword itself adds nothing to a roll.
     ATTACK_KINDS = %w(melee ranged unarmed finesse).freeze
 
-    # The ability modifier behind a value, for a roll that is looking one up rather than adding
-    # it. `type` says how to read `value`: a skill's linked ability, a lore's Intelligence, or -
-    # with no type - a save or attack keyword.
+    # The ability modifier behind a value, for a roll that looks one up instead of adding it. `type`
+    # says how to read `value`: a skill's linked ability, a lore's Intelligence, or, when no type is
+    # given, a save or attack keyword.
     def self.get_linked_attr_mod(char, value, type=nil)
       ability = case type.to_s.downcase
                 when 'skill' then Pf2eSkills.get_linked_attr(value)

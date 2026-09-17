@@ -3,16 +3,15 @@ module AresMUSH
 
     # A transfer of money between two purses, decided before anything is written.
     #
-    # One event, two halves: the payer's and the payee's. They share a reference so the two rows
-    # can be matched up afterwards, which is what makes a transfer readable in a history rather
-    # than two movements that happen to have opposite signs.
+    # One event, two halves: the payer's and the payee's. They share a reference, so a history can
+    # show the pair as one transfer instead of two movements with opposite signs.
     #
-    # Pure - two characters' purses and an amount in, the halves or a refusal out - so the rules
-    # can be proven without a database. `pay` decided all of this inline, and that is how two
-    # different staff exemptions came to share one `unless`: staff are not stopped by an empty
-    # purse (deliberate, and kept) and staff were also not *recorded* (not deliberate). A staff
-    # purse going negative is the honest record of money having been created, and the entry says
-    # who created it.
+    # Pure, taking two purses and an amount and returning the halves or a refusal, so the rules can
+    # be proven without a database.
+    #
+    # Staff are exempt from the sufficiency check and are not exempt from being recorded. Those are
+    # separate decisions. A staff purse going negative is an accurate record of money created, and
+    # the entry names who created it.
     module Payment
 
       def self.plan(payer, payee, amount, at: Time.now)

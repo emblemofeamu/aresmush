@@ -1,21 +1,16 @@
 module AresMUSH
   module Pf2e
 
-    # The XP and money audit: every transaction kept, and none of it in the way.
+    # The XP and money audit. Every transaction is kept, and reading a balance stays cheap.
     #
-    # Three pieces, each doing the one thing it is good at:
+    # The running total lives on the character (`pf2_xp`, `pf2_money`), so the sheet reads one
+    # field. Each transaction is its own Pf2eLedgerEntry row, so appending one rewrites nothing. A
+    # Redis sorted set per character per currency puts them in order, so a page of history is a
+    # ZREVRANGE and a count is a ZCARD at ten entries or at a hundred thousand.
     #
-    #   * the running total stays on the character (`pf2_xp`, `pf2_money`) - one field read,
-    #     which is all the sheet ever needs;
-    #   * every transaction is a Pf2eLedgerEntry row, so appending one does not rewrite
-    #     anything;
-    #   * a Redis sorted set per character per currency orders them, so a page of history is a
-    #     ZREVRANGE and a count is a ZCARD, whether there are ten entries or a hundred
-    #     thousand.
-    #
-    # The sorted set is the one place this reaches past Ohm, because Ohm has no range query
-    # and its collection read loads everything. Scores are entry ids, which Ohm hands out from
-    # an incrementing counter, so the index is in insertion order with no ties to break.
+    # The sorted set is the only place this reaches past Ohm. Ohm has no range query and its
+    # collection read loads every row. Scores are entry ids, which Ohm hands out from an
+    # incrementing counter, so the index is already in insertion order and has no ties to break.
     module Audit
 
       # Currency to the character attribute holding its running total. Adding a currency is

@@ -5,13 +5,12 @@ module AresMUSH
 
     # Attribute boosts, diffed into grants.
     #
-    # A boost is not a thing you hold once: a character can boost Strength at 5, 10, 15 and 20,
-    # and the sheet records that as a count. So the diff between what the fold knows and what the
-    # character has is a *number* of grants, which is a shape of its own - `list` and `bucketed`
-    # both collapse duplicates, and `ranked` would read a second boost as a changed value.
+    # A character can boost Strength at 5, 10, 15 and 20, and the sheet records that as a count. The
+    # diff between what the fold knows and what the character has is therefore a number of grants,
+    # which needs a shape of its own: `list` and `bucketed` collapse duplicates, and `ranked` reads a
+    # second boost as a changed value.
     #
-    # Which is what lets a rollback take a boost back: the score is derived from the count rather
-    # than written into `base_val` and left there.
+    # Deriving the score from the count is what lets a rollback take a boost back.
     describe "syncing attribute boosts" do
 
       def plan(held, wanted)

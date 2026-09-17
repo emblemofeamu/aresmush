@@ -5,8 +5,8 @@ module AresMUSH
   # Applying attribute boosts to a score.
   #
   # PF2e: a boost raises a score by 2, or by 1 once it is 18 or higher. The rule depends only on the
-  # score being boosted, so a count per ability derives the result and no ordering between abilities
-  # has to be preserved - which is what makes boosts foldable.
+  # score being boosted. A count per ability therefore derives the result, with no ordering between
+  # abilities to preserve, and that is what makes boosts foldable.
   describe Pf2eAbilities do
 
     describe :boosted_score do

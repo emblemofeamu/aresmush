@@ -7,7 +7,7 @@ module AresMUSH
     # before it can be answered, and where its options come from. The error message's list of valid
     # elements is derived from the table, so the vocabulary lives in one place.
     #
-    # Three outcomes, and the difference between the last two matters to a player:
+    # Three outcomes. The difference between the last two matters to a player:
     #
     #   Ok                  - here are the options
     #   Err :cannot_find_cginfo - you have to choose something else first
@@ -45,8 +45,8 @@ module AresMUSH
         {
           'name' => 'specialize',
           'requires' => { 'field' => 'charclass', 'label' => 'character class' },
-          # Not every class has specialties. That is "nothing to choose" rather than "choose
-          # something else first", so it is a separate outcome.
+          # Not every class has specialties. "There is nothing to choose here" and "choose something
+          # else first" are different answers, so they are different outcomes.
           'optional' => lambda { |char| Global.read_config('pf2e_specialty', ChargenInfo.field(char, 'base', 'charclass')) },
           'options' => lambda { |char| Global.read_config('pf2e_specialty', ChargenInfo.field(char, 'base', 'charclass')).keys }
         },
@@ -83,8 +83,8 @@ module AresMUSH
         ELEMENTS.find { |e| e['name'] == word || Array(e['aliases']).include?(word) }
       end
 
-      # Ok carries { 'title', 'options' } - the title is the word the player typed, so the answer
-      # names what they asked for rather than the row's canonical name.
+      # Ok carries { 'title', 'options' }. The title is the word the player typed, so the answer
+      # names what they asked for and not the row's canonical name.
       def self.options(char, element)
         row = find(element)
         return Err.new(:bad_element, 'pf2e.bad_option', 'element' => 'cg/info', 'options' => elements.join(", ")) unless row

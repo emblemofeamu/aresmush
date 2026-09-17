@@ -2200,11 +2200,11 @@ module AresMUSH
     # The headings a sheet groups feats under. `pf2_feats` is keyed by these.
     FEAT_BUCKETS = %w(charclass skill general ancestry archetype dedication).freeze
 
-    # Where a feat belongs, from what the game says the feat *is*. A feat that is both Skill and
-    # General belongs under the more specific one, which is the one the data lists first.
+    # Where a feat belongs, taken from the type its own data names. A feat that is both Skill and
+    # General belongs under the more specific one, which the data lists first.
     #
-    # Falls back to `charclass` for a feat whose data names no type, because a bucket named `''`
-    # is one no heading on the sheet reads.
+    # Falls back to `charclass` for a feat whose data names no type at all, since a bucket named
+    # `''` is one no heading on the sheet reads.
     def self.feat_bucket(details)
       types = Array((details || {})['feat_type']).map { |t| t.to_s.downcase }
 
@@ -2219,8 +2219,8 @@ module AresMUSH
       feat_bucket(key && feats[key])
     end
 
-    # A list of granted feats, grouped by the heading each belongs under. What granted a feat says
-    # nothing about which heading it takes: Shield Block is a general feat however a class hands it
+    # A list of granted feats, grouped by the heading each belongs under. What granted a feat has no
+    # bearing on which heading it takes. Shield Block is a general feat however a class hands it
     # over.
     def self.bucket_feats(names)
       Array(names).each_with_object({}) do |name, grouped|

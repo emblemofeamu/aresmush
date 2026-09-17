@@ -4,21 +4,17 @@ module AresMUSH
     # The pool of things a character still has to pick, and the handful of operations anything
     # ever does to it.
     #
-    # `pf2_to_assign` is that pool. Every path that touched it spelled its operation out inline:
-    # `Array(to_assign[key]) + ['open']` in one place to open a slot, an index-of-'open'
-    # replacement in another to fill one, a bespoke four-way search for which restricted marker
-    # a lore may spend in a third. That is why "what does taking this feat open up?" had no
-    # answer you could read, let alone test - the answer was scattered across the call sites.
+    # `pf2_to_assign` is that pool. A slot delta is one operation on it, expressed as data: open a
+    # slot, fill one, hand one back. A transformation returns the deltas it implies, and `apply`
+    # folds them into the pool in order, so a slot opened by one delta can be filled by a later one.
+    # Both halves are pure. The same pool and deltas produce the same result, and the pool handed in
+    # is never modified.
     #
-    # A **slot delta** is one of those operations as data. A transformation returns the deltas
-    # it implies and `apply` folds them into the pool, in order, so a slot opened by one delta
-    # can be filled by a later one. Both halves are pure: same pool and deltas in, same pool
-    # out, and the pool handed in is never modified.
+    # Filling and opening are the same kind of thing on purpose. A feat that grants two languages
+    # and a feat that is itself a language pick differ only in the deltas they carry, which lets a
+    # feat describe its own effect on the pool without the command knowing anything about it.
     #
-    # Filling and opening are deliberately the same kind of thing. A feat that grants two
-    # languages and a feat that is itself a language pick differ only in which deltas they
-    # carry, which is what lets a feat describe its own effect on the pool instead of the
-    # command knowing about it.
+    # "What does taking this feat open up?" is then a question with a readable answer.
     module Slots
 
       OPEN = 'open'.freeze

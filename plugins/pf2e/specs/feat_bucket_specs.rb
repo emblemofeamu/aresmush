@@ -5,10 +5,9 @@ module AresMUSH
 
     # Which heading a feat belongs under.
     #
-    # What granted a feat says nothing about which heading it takes: Shield Block is a *general*
-    # feat however a class hands it over, and Alchemical Crafting a *skill* feat. Nothing mechanical
-    # reads the bucket - every prerequisite and duplicate check flattens `pf2_feats` - but the sheet
-    # groups by it.
+    # What granted a feat has no bearing on which heading it takes. Shield Block is a general feat
+    # however a class hands it over, and Alchemical Crafting is a skill feat. The sheet groups by
+    # heading; every prerequisite and duplicate check flattens `pf2_feats` and ignores it.
     describe :feat_bucket_for do
 
       it "should put a general feat under general" do

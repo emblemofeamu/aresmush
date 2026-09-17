@@ -12,12 +12,12 @@ module AresMUSH
     # innate - so two sources agreeing on that key collide. See
     # docs/plans/2026-09-16-spellcasting-entries.md.
     #
-    # `derive` is the projection from those hashes onto entries. It is pure - a plain hash of
-    # attributes in, entry hashes out, no character and no config - so the mapping can be proven
-    # before a reader moves onto it, which lets the migration proceed in steps.
+    # `derive` is the projection from those hashes onto entries. It is pure, taking a plain hash of
+    # attributes and returning entry hashes, so the mapping can be proven before any reader moves
+    # onto it. That is what lets the migration proceed a field at a time.
     #
-    # It is lossy in one place: two sources feeding the same focus type share a bucket, so deriving
-    # cannot separate what is not separately recorded.
+    # It is lossy in one place. Two sources feeding the same focus type share a bucket, and deriving
+    # cannot separate what was never recorded separately.
     module Entries
 
       FOCUS = 'focus'.freeze
@@ -217,8 +217,8 @@ module AresMUSH
       # Asking questions of the entries
       # ------------------------------------------------------------------------------
       #
-      # The seam. Readers ask here rather than reaching into the parallel hashes, so when entries
-      # become the storage rather than a projection of it, the readers do not change.
+      # The seam. Readers ask here instead of reaching into the parallel hashes, so the day entries
+      # become the storage, the readers stay as they are.
 
       def self.find(magic, source)
         for_magic(magic).find { |e| e['name'].to_s.casecmp?(source.to_s) }
@@ -226,10 +226,10 @@ module AresMUSH
 
       # The ranks at which a spell is one of this source's signature spells.
       #
-      # Ranks rather than a yes/no, because a signature spell may be heightened to any rank the
-      # caster has a slot for, and the caller needs to know which. Matched case-insensitively, like
-      # every other name comparison in the game: an exact match loses the heightening when a spell
-      # is recorded and cast with different capitalisation.
+      # Ranks, because a signature spell may be heightened to any rank the caster has a slot for and
+      # the caller needs to know which. Matched case-insensitively, like every other name comparison
+      # in the game: an exact match loses the heightening when a spell is recorded and cast with
+      # different capitalisation.
       def self.signature_ranks(magic, source, spell)
         entry = find(magic, source)
 
@@ -253,8 +253,8 @@ module AresMUSH
 
       # The tradition and proficiency a source casts at.
       #
-      # Named, because the underlying store is a two-element array and [0] is the tradition while
-      # [1] is the proficiency.
+      # Named, because the underlying store is a two-element array whose [0] is the tradition and
+      # whose [1] is the proficiency.
       def self.tradition_of(magic, source)
         (find(magic, source) || {})['tradition']
       end
@@ -277,10 +277,9 @@ module AresMUSH
       #     primal list. There is nothing to enumerate, and enumerating it would mean that adding
       #     a spell to the game required touching every such character.
       #
-      # Which one a source uses is in config already - a class whose magic_stats grant a
-      # `spellbook` or a `repertoire` enumerates, and one that grants only `spells_per_day` casts
-      # by rule. Reading it from there rather than naming classes in code is what keeps a new
-      # class, or a new spell, from needing anything special.
+      # Config already says which one a source uses. A class whose magic_stats grant a `spellbook`
+      # or a `repertoire` enumerates; one that grants only `spells_per_day` casts by rule. Read it
+      # from there, and a class added later classifies itself.
 
       ENUMERATING_KEYS = %w(spellbook repertoire).freeze
 
@@ -342,7 +341,7 @@ module AresMUSH
       # ------------------------------------------------------------------------------
       #
       # Only enumerated sources have anything here. A Cleric prepares from the whole divine list, so
-      # there is nothing to record and nothing a rollback can take away.
+      # there is nothing to record and a rollback has nothing to take away.
 
       # Every enumerated source's known spells, as source => rank => [ spells ]. What
       # Ledger.commit_level_up! diffs to work out which spells were learned at a level.
@@ -394,10 +393,10 @@ module AresMUSH
       # Focus spells
       # ------------------------------------------------------------------------------
       #
-      # One entry per focus type *per granting source*: PF2e shares one focus pool across every
-      # source but casts each source's spells at that source's own DC. Keying by focus type alone
-      # holds the spells without saying whose they are, which leaves two sources of one type - a
-      # feat granting devotion spells to a non-Champion, say - nowhere to go.
+      # One entry per focus type per granting source. PF2e shares one focus pool across every
+      # source, and casts each source's spells at that source's own DC. Keying by focus type alone
+      # holds the spells without saying whose they are, so two sources of one type have nowhere to
+      # go. A feat granting devotion spells to a non-Champion would be such a case.
       #
       # Casting still wants the merged list for a type, so that is what `focus_spells` and
       # `focus_cantrips` give; `focus_entries` is there for when the source matters.

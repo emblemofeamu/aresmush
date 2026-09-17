@@ -59,9 +59,9 @@ module AresMUSH
 
     # How each key in a `combat_stats` block is written.
     #
-    # `merge` keys hold a hash of name => proficiency and take the block's entries one at a time;
-    # `set` keys hold a single value. A key absent from the table is logged rather than dropped: a
-    # proficiency a class does not receive leaves no trace on the sheet to notice.
+    # `merge` keys hold a hash of name => proficiency and take the block's entries one at a time.
+    # `set` keys hold a single value. A key absent from this table is logged, because a proficiency
+    # a class never receives leaves nothing on the sheet to notice.
     STAT_WRITERS = {
       'saves' => 'merge',
       'armor_prof' => 'merge',

@@ -3,12 +3,12 @@ require "plugin_test_loader"
 module AresMUSH
   module Pf2e
 
-    # A feat choice whose pool is a named pair rather than a whole category.
+    # A feat choice whose pool is a named pair.
     #
     # PF2e has several features that hand over one of two specific feats. The Druid's is Voice of
     # Nature: "You gain your choice of the Animal Empathy or Plant Empathy druid feat" (Player Core,
-    # via Archives of Nethys). A `names` filter is how a pool is narrowed to a named pair, as
-    # opposed to `from_feats`' other filters, which narrow by type, traits or level.
+    # via Archives of Nethys). `from_feats`' other filters narrow a pool by type, traits or level; a
+    # `names` filter narrows it to the feats listed.
     describe :choice_feat_pool do
 
       def feats

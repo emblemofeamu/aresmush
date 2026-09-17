@@ -37,9 +37,9 @@ module AresMUSH
         { 'when' => lambda { |char| !char.pf2_baseinfo_locked }, 'code' => :no_sheet_yet, 'key' => 'pf2e.no_sheet_yet' }
       ].freeze
 
-      # Whether a viewer may see a section of someone's sheet. Rows are reasons to allow it, in
-      # order; nothing allowing it is a refusal. The last row is what makes `sheet/show`'s grants
-      # mean something.
+      # Whether a viewer may see a section of someone's sheet. Rows are reasons to allow it, tried
+      # in order; if none applies, the viewer is refused. The last row reads the grants
+      # `sheet/show` writes.
       ALLOWED = [
         # The game can be configured so that every sheet is public.
         lambda { |_viewer, _char, _section| !!Global.read_config('pf2e', 'open_sheets') },

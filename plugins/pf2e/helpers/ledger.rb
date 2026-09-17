@@ -3,15 +3,14 @@ module AresMUSH
 
     # The grant ledger.
     #
-    # A character's sheet is not stored; it is *derived* by folding an ordered, append-only
-    # list of grants. Undo marks a transaction reverted rather than deleting it, which is
-    # what makes redo possible. A grant carries the level it takes effect from, so a boon
-    # awarded at level 5 goes dormant if the character is rolled back to 4 instead of being
-    # destroyed.
+    # A character's sheet is derived by folding an ordered, append-only list of grants. Undo marks
+    # a transaction reverted and leaves the rows in place, which is how redo works. A grant carries
+    # the level it takes effect from, so a boon awarded at level 5 goes dormant when the character
+    # is rolled back to 4 and comes back when they climb again.
     #
-    # Grants record *outcomes, not recipes* - "Arcana to expert", never "apply the class
-    # table at level 3" - so that editing game/config/pf2e_*.yml never rewrites the history
-    # of an existing character.
+    # A grant records an outcome: "Arcana to expert". It never records a recipe such as "apply the
+    # class table at level 3", so editing game/config/pf2e_*.yml leaves the history of an existing
+    # character alone.
     #
     # This file is pure: it takes and returns plain hashes. Ohm storage lives in
     # models/grant.rb and models/sheet_cache.rb; the character-facing API is in

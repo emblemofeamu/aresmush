@@ -5,8 +5,8 @@ module AresMUSH
 
     # Which innate grant a cast draws on.
     #
-    # `innate_spells` is a list of grants rather than a map keyed by spell name, so one spell can be
-    # granted twice at different ranks and traditions and a cast has to choose between them.
+    # `innate_spells` is a list of grants, so one spell can be granted twice at different ranks and
+    # traditions, and a cast has to choose between them.
     describe :innate_to_cast do
 
       def magic_with(grants)

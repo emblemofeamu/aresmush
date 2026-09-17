@@ -3,15 +3,15 @@ module AresMUSH
 
     # What a character of one class should hold at one level, folded out of the class's own tables.
     #
-    # A class table is fully declarative: `charclass_feature` names features, `combat_stats` names
-    # proficiency ranks, `magic_stats` names slot and spell counts, `choose_feat` names slots to
-    # fill, `raise` names boosts and skill increases, `feat` names feats granted outright. So the
-    # finished sheet is derivable, and a climb can be checked against the whole thing rather than
-    # against a feat count.
+    # A class table is declarative throughout. `charclass_feature` names features, `combat_stats`
+    # names proficiency ranks, `magic_stats` names slot and spell counts, `choose_feat` names slots
+    # to fill, `raise` names boosts and skill increases, and `feat` names feats granted outright.
+    # The finished sheet therefore follows from the tables, which is what lets a climb be checked
+    # against all of it.
     #
-    # Pure: config in, an expectation hash out. No character, no database. Whether the tables
-    # themselves match PF2e is a separate question, asserted in class_table_specs.rb - so a config
-    # that drifts from the rules fails there, and an engine that drifts from config fails here.
+    # Pure: config in, an expectation hash out. Whether the tables themselves match PF2e is a
+    # separate question, asserted in class_table_specs.rb. A config that has drifted from the rules
+    # fails there; an engine that has drifted from config fails here.
     module ExpectedSheet
 
       BLANK = {
@@ -39,8 +39,8 @@ module AresMUSH
         'unknown_feat_slots' => []
       }.freeze
 
-      # The feat slot types the engine understands. A `choose_feat` entry that is not one of these
-      # opens no slot and grants nothing - see finding 29.
+      # The feat slot types the engine understands. A `choose_feat` entry outside this list opens no
+      # slot and grants nothing.
       FEAT_SLOT_TYPES = %w(charclass skill general ancestry archetype dedication).freeze
 
       # How each key in a chargen or advance block contributes. One row per key; a key with no row
@@ -54,8 +54,8 @@ module AresMUSH
         'reaction' => lambda { |acc, value, _lv| acc['reactions'] |= Array(value).map(&:to_s) },
         'languages' => lambda { |acc, value, _lv| acc['languages'] |= Array(value).map(&:to_s) },
 
-        # A slot the player fills. Counted by type, per level, so the audit can say which level's
-        # slot is missing rather than only that one is.
+        # A slot the player fills, counted by type and level, so the audit can name the level whose
+        # slot went unfilled.
         'choose_feat' => lambda { |acc, value, lv|
           Array(value).each do |type|
             name = type.to_s.downcase
@@ -102,14 +102,14 @@ module AresMUSH
           Array(value).each { |name| (acc['granted_choices'] ||= []) << { 'name' => name.to_s, 'level' => lv } }
         },
 
-        # Keys that contribute nothing to the dimensions this expectation covers. Listed rather
-        # than ignored by default, so a key the tables grow has to be considered before the audit
-        # can pass - `unabsorbed` is asserted empty.
+        # Keys that contribute nothing to the dimensions this expectation covers. They are listed
+        # anyway, because `unabsorbed` is asserted empty: a key the tables grow has to be considered
+        # before the audit passes again.
         'skills' => lambda { |_acc, _value, _lv| nil },
         'skill choice' => lambda { |_acc, _value, _lv| nil },
-        # A feature that hands over one of a named set of feats - the Druid's Voice of Nature is
-        # "your choice of the Animal Empathy or Plant Empathy druid feat". Where the pool is a
-        # named list the expectation can say which feats would satisfy it.
+        # A feature that hands over one of a named set of feats. The Druid's Voice of Nature grants
+        # "your choice of the Animal Empathy or Plant Empathy druid feat". Where the pool is a named
+        # list, the expectation can say which feats satisfy it.
         'feat_choice' => lambda { |acc, value, lv|
           next unless value.is_a?(Hash)
 
@@ -146,10 +146,10 @@ module AresMUSH
         end
       end
 
-      # Slots and spells. `spells_per_day` is per rank and last-wins, the way the engine's
-      # apply_stat_delta treats it. `spellbook` and `repertoire` are *picks*: a rank key gives
-      # that many spells at that rank, and `any` gives that many at the player's choice of rank,
-      # so only the total is predictable.
+      # Slots and spells. `spells_per_day` is per rank and last-wins, matching the engine's
+      # apply_stat_delta. `spellbook` and `repertoire` count picks: a rank key gives that many
+      # spells at that rank, while `any` gives that many at the player's choice of rank, so for
+      # those only the total can be predicted.
       def self.absorb_magic(acc, value, level = nil)
         (value || {}).each_pair do |key, sub|
           case key.to_s
@@ -159,10 +159,10 @@ module AresMUSH
             # A rank key pins the pick to that rank; `any` lets the player place it, so only the
             # total is predictable for those.
             #
-            # At chargen the figure is a statement of the *total*, and a specialty's figure
-            # supersedes the class's: a Wizard's school says 11 cantrips and 7 first-rank, which
-            # is the class's 10 and 5 with the curriculum's 1 and 2 already counted in. Advance
-            # blocks grant increments and so accumulate.
+            # A chargen figure states the total, and a specialty's supersedes the class's. A
+            # Wizard's school says 11 cantrips and 7 first-rank, which is the class's 10 and 5 with
+            # the curriculum's 1 and 2 already counted in. Advance blocks grant increments, so those
+            # accumulate.
             chargen = level.to_i <= 1
 
             (sub || {}).each_pair do |rank, count|
@@ -182,8 +182,8 @@ module AresMUSH
         end
       end
 
-      # The engine reads "+1" as a delta and a bare number as a value; the expectation has to
-      # agree or it will disagree with a correct climb.
+      # The engine reads "+1" as a delta and a bare number as a value. The expectation has to agree,
+      # or it will call a correct climb wrong.
       def self.apply_delta(current, value)
         return current.to_i + value.strip.to_i if value.is_a?(String) && value.strip.match?(/\A[+-]\d+\z/)
 
@@ -207,10 +207,10 @@ module AresMUSH
         blocks.select { |_lv, block| block.is_a?(Hash) }
       end
 
-      # Everything that shapes a character of this class: the class table, and the specialty's own
-      # table when one was chosen. A Warpriest Cleric's expert fortitude and its martial weapon
-      # proficiency are in the specialty's blocks, not the class's, so an expectation built from
-      # the class alone reads a correct character as wrong.
+      # Everything that shapes a character of this class: the class table, plus the specialty's own
+      # table when one was chosen. A Warpriest Cleric's expert fortitude and martial weapon
+      # proficiency are in the specialty's blocks, so an expectation built from the class alone
+      # calls a correct character wrong.
       def self.blocks(charclass, level, specialize: nil)
         found = blocks_in(Global.read_config('pf2e_class', charclass), level)
 
@@ -261,8 +261,8 @@ module AresMUSH
         found.sort.uniq
       end
 
-      # `choose_feat` entries that are not slot types, across every class. These open no slot and
-      # grant nothing - the entry is simply inert. See finding 29.
+      # `choose_feat` entries that are not slot types, across every class. Such an entry opens no
+      # slot and grants nothing.
       def self.inert_feat_slots
         (Global.read_config('pf2e_class') || {}).each_with_object({}) do |(charclass, config), found|
           bad = blocks_in(config, 20).flat_map do |_lv, block|

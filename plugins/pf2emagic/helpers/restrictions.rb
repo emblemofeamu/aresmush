@@ -3,10 +3,10 @@ module AresMUSH
 
     # Which of a caster's slots at a rank are restricted, and to what.
     #
-    # PF2e restricts slots in several unrelated ways and the list keeps growing: a Wizard's
-    # curriculum slot takes a spell from the school's list, a Cleric's divine font slot only heal
-    # or harm, a Sorcerer's bloodline slot only the bloodline spell. Each kind is a row, so adding
-    # one is adding a row, and `Pf2emagic::SlotFit` places spells without knowing what any mean.
+    # PF2e restricts slots in several unrelated ways, and the list keeps growing. A Wizard's
+    # curriculum slot takes a spell from the school's list; a Cleric's divine font slot takes only
+    # heal or harm. Each kind is a row here, so adding one is a new row, and `Pf2emagic::SlotFit`
+    # places spells without knowing what any of them mean.
     module Restrictions
 
       CANTRIP = 'cantrip'.freeze
@@ -24,8 +24,8 @@ module AresMUSH
         },
         {
           'name' => 'divine font',
-          # One extra slot at every rank the character can already cast at - not cantrips, and
-          # not a rank they have no slots at.
+          # One extra slot at every rank the character can already cast at. Cantrips get none, and
+          # neither does a rank they have no slots at.
           'count' => lambda { |char, charclass, level|
             next 0 unless charclass.to_s.casecmp?('Cleric')
             next 0 if level.to_s.casecmp?(CANTRIP)
@@ -50,8 +50,8 @@ module AresMUSH
           found[kind['name']] = { 'count' => count, 'eligible' => kind['eligible'].call(char, charclass, level) }
         end
 
-        # A restriction no row here knows about still takes its slot away, and accepts nothing.
-        # Accepting anything instead would hand out a free slot with no sign that it happened.
+        # A restriction no row here knows about still takes its slot away, and accepts nothing. If
+        # it accepted anything, the character would gain a free slot with nothing to show it.
         unknown(char, charclass, level).each do |name, count|
           next if named.key?(name)
 
@@ -62,8 +62,8 @@ module AresMUSH
         named
       end
 
-      # What may go in one named restriction's slots, whether or not it grants any at this rank -
-      # for callers that display a restriction's list rather than enforce it.
+      # What may go in one named restriction's slots, whether or not it grants any at this rank.
+      # Callers that display a restriction's list want this; callers that enforce it want `at`.
       def self.eligible(char, charclass, name, level)
         kind = KINDS.find { |k| k['name'].casecmp?(name.to_s) }
 

@@ -3,13 +3,13 @@ module AresMUSH
 
     # Can this set of spells be placed in the slots available at one rank?
     #
-    # PF2e slots are pools, and a pool can be restricted: a Wizard's curriculum slot takes only a
-    # spell from the school's list, a Cleric's divine font slot only heal or harm, a Sorcerer's
-    # bloodline slot only the bloodline spell. So this is an assignment - which spell goes in which
-    # slot - and comparing counts cannot answer it once there are two restricted pools at a rank.
-    # Nor can greedy assignment: the pool a spell *can* use is not always the pool it *should*.
+    # PF2e slots are pools, and a pool can be restricted. A Wizard's curriculum slot takes only a
+    # spell from the school's list; a Cleric's divine font slot takes only heal or harm. The
+    # question is therefore which spell goes in which slot, and comparing counts does not answer
+    # that once a rank has two restricted pools. Greedy assignment does not either, because the
+    # pool a spell is allowed to use may be the one another spell needs.
     #
-    # Pure: pools and spell names in, a boolean out. No character, no config, no database.
+    # Pure: pools and spell names in, a boolean out. It reads nothing outside its arguments.
     module SlotFit
 
       # A slot that takes anything.
