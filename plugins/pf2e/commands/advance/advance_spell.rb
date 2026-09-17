@@ -193,39 +193,18 @@ module AresMUSH
 
         spell = choice[0]
 
-        if list.any? { |s| s.to_s.casecmp?(spell) }
-          client.emit_failure t('pf2emagic.spell_already_on_list_to_assign')
-          return
-        end
+        # The rules a spell pick has to satisfy, from the one place chargen asks them too.
+        failure = Pf2emagic::SpellPick.check(
+          'list' => self.type,
+          'rank' => level,
+          'spell' => spell,
+          'tradition' => Pf2emagic::Entries.tradition_of(enactor.magic, class_for_spell),
+          'details' => choice[1] || {},
+          'adapted' => Pf2emagic.adapted_spell?(enactor, class_for_spell, spell),
+          'picks' => list,
+          'known' => known_for(class_for_spell))
 
-        if self.type == "spellbook"
-          spellbook = Pf2e.preview_spellbook(enactor, class_for_spell)
-          book_for_class = spellbook[class_for_spell] || {}
-          book_spells = book_for_class.values.flatten
-
-          if book_spells.any? { |s| s.to_s.casecmp?(spell) }
-            client.emit_failure t('pf2emagic.spell_already_in_spellbook')
-            return
-          end
-        elsif self.type == "repertoire"
-          repertoire = Pf2e.preview_repertoire(enactor, class_for_spell)
-          rep_for_class = repertoire[class_for_spell] || {}
-          rep_spells_at_level = Array(rep_for_class[level])
-
-          if rep_spells_at_level.any? { |s| s.to_s.casecmp?(spell) }
-            client.emit_failure t('pf2emagic.spell_already_in_repertoire')
-            return
-          end
-        elsif self.type == "signature"
-          repertoire = Pf2e.preview_repertoire(enactor, class_for_spell)
-          rep_for_class = repertoire[class_for_spell] || {}
-          rep_spells_at_level = Array(rep_for_class[level])
-
-          unless rep_spells_at_level.include?(spell)
-            client.emit_failure t('pf2emagic.signature_not_in_repertoire', :level => level)
-            return
-          end
-        end
+        return if Pf2e::CharState.emit_error!(client, failure)
 
         advancement = enactor.pf2_advancement
 
@@ -255,6 +234,15 @@ module AresMUSH
         enactor.save
 
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
+      end
+
+      # What the character already knows for this class, counting the picks this level has staged.
+      # Which list that is follows from what is being added: a signature spell is designated from
+      # the repertoire, so it asks the repertoire.
+      def known_for(class_key)
+        preview = self.type == 'spellbook' ? Pf2e.preview_spellbook(enactor, class_key) : Pf2e.preview_repertoire(enactor, class_key)
+
+        preview[class_key] || {}
       end
 
       # Where a spell list lives in the pool.
@@ -362,23 +350,13 @@ module AresMUSH
 
         deets = hash[to_add]
 
-        return t('pf2emagic.innate_not_spell_eligible') unless deets['tradition']
+        failure = Pf2emagic::SpellPick.check_innate(
+          'rank' => level,
+          'details' => deets,
+          'tradition' => pending['tradition'],
+          'granted_rank' => pending['level'])
 
-        tradition = pending['tradition']
-        return t('pf2emagic.innate_tradition_mismatch') unless deets['tradition'].include?(tradition)
-
-        spbl = deets['base_level'].to_i
-        level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-        spell_is_cantrip = spbl.zero?
-
-        return t('pf2emagic.innate_cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-        return t('pf2emagic.innate_cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-        return t('pf2emagic.innate_cant_prepare_level') if spbl > level.to_i
-
-        slot_level = pending['level']
-        slot_is_cantrip = (slot_level.to_s.downcase == 'cantrip' || slot_level.to_i.zero?)
-        return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
-        return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
+        return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
         [ to_add ]
       end

@@ -609,7 +609,9 @@ module AresMUSH
         {
           'level' => @char.pf2_level,
           'xp' => @char.pf2_xp,
-          'feats' => (@char.pf2_feats || {}).transform_values { |v| Array(v).size },
+          # Through DraftSheet, because a pick made before the draft commits is in the draft rather
+          # than on the sheet, and a summary taken mid-chargen has to count it.
+          'feats' => Pf2e::DraftSheet.of(@char).feats_by_bucket.transform_values { |v| Array(v).size },
           'skills' => @char.skills.to_a.reject { |s| s.prof_level == 'untrained' }.group_by(&:prof_level).transform_values(&:size),
           'languages' => Array(@char.pf2_lang).size,
           'grants' => @char.grants.count

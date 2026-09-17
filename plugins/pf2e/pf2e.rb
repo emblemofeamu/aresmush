@@ -90,7 +90,7 @@ module AresMUSH
         when "feat"
           return PF2FeatSetCmd
         when "option"
-          return PF2ChargenOptionCmd
+          return PF2ChoiceOptionCmd
         when "undo", "redo"
           return PF2DraftUndoCmd
         end
@@ -213,7 +213,7 @@ module AresMUSH
         when "swapspell"
           return PF2AdvanceSwapSpellCmd
         when "option"
-          return PF2AdvanceOptionCmd
+          return PF2ChoiceOptionCmd
         when "info"
           return PF2AdvanceInfoCmd
         when "archetype"

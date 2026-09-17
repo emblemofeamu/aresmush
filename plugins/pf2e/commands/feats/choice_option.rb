@@ -1,9 +1,19 @@
 module AresMUSH
   module Pf2e
 
-    class PF2AdvanceOptionCmd
+    # Resolves a choice a feat or a class feature carries.
+    #
+    # `cg/option` and `advance/option` are this one command. They differ in one thing: a choice made
+    # during a level-up is staged for `advance/done`, and one made during chargen applies straight
+    # away, because chargen's boundary is approval and there is nothing later to stage it for.
+    #
+    # Both accept `<choice>=<value>`, or `feat/<choice>` and `charclass/<feature>` where a name is
+    # ambiguous. Without a value, they describe what may be picked.
+    class PF2ChoiceOptionCmd
       include CommandHandler
       prepend Pf2e::RecordsDraftStep
+
+      TYPES = [ 'feat', 'charclass' ].freeze
 
       attr_accessor :type, :option, :value
 
@@ -27,34 +37,33 @@ module AresMUSH
         [ self.option ]
       end
 
-      def check_advancing
-        return nil if enactor.advancing
-        return t('pf2e.not_advancing')
+      def check_known_type
+        return nil if self.type.nil? || TYPES.include?(self.type)
+
+        t('pf2e.bad_element', :invalid => self.type, :options => TYPES.join(', '))
       end
 
-      def check_known_type
-        return nil if self.type.nil?
-        return nil if [ 'feat', 'charclass' ].include?(self.type)
+      # A choice belongs to an open draft either side of approval, which is what Ledger.drafting?
+      # answers: chargen before approval, or an advancement between `advance` and `advance/done`.
+      def check_drafting
+        return nil if Pf2e::Ledger.drafting?(enactor)
+        return t('chargen.not_started') if !enactor.is_approved? && enactor.chargen_stage.zero?
 
-        return t('pf2e.bad_element', :invalid => self.type, :options => 'feat, charclass')
+        t('pf2e.not_advancing')
       end
 
       def handle
         # A class feature option is only ever reachable bare or under charclass/.
-        if self.type != 'feat' && class_option_feature
-          handle_class_option
-          return
-        end
+        return handle_class_option if self.type != 'feat' && class_option_feature
 
         found = Pf2e.validate_feat_choice(enactor, self.option, self.type)
 
-        if found.is_a?(Array)
-          handle_feat_choice(found[0], found[1])
-          return
-        end
+        return client.emit_failure(found) unless found.is_a?(Array)
 
-        client.emit_failure found
+        handle_feat_choice(found[0], found[1])
       end
+
+      private
 
       def handle_feat_choice(name, block)
         if self.value.blank?
@@ -69,7 +78,13 @@ module AresMUSH
           return
         end
 
-        messages = Pf2e.stage_feat_choice(enactor, name, block, matched, client)
+        # Staged while a level is open, applied now while chargen is: the two have different
+        # boundaries, and this is the only place the difference shows.
+        messages = if enactor.advancing
+          Pf2e.stage_feat_choice(enactor, name, block, matched, client)
+        else
+          Pf2e.apply_feat_choice(enactor, name, block, matched, client)
+        end
 
         client.emit_success t('pf2e.choice_resolved', :choice => name, :value => matched)
         messages.each { |msg| client.emit_ooc msg }
@@ -82,7 +97,7 @@ module AresMUSH
         @class_option_feature = pending_features.keys.find { |f| f.to_s.casecmp?(self.option.to_s) }
       end
 
-      # The feature list this level left open, wherever it was put.
+      # The feature list a level left open, wherever it was put.
       def pending_features
         to_assign = enactor.pf2_to_assign || {}
         slot = Pf2e::Advancement::Options::SLOTS.find { |key| to_assign[key].is_a?(Hash) }
@@ -93,7 +108,6 @@ module AresMUSH
       def handle_class_option
         feature = class_option_feature
 
-        # No value given, so tell them what they can pick.
         if self.value.blank?
           options = Pf2e::Advancement::Options.option_list(pending_features[feature])
 
@@ -109,7 +123,6 @@ module AresMUSH
         Pf2e::CharState.commit!(enactor, before, outcome)
         Pf2e::CharState.emit_messages!(client, outcome)
       end
-
     end
   end
 end

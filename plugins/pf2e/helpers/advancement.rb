@@ -280,68 +280,18 @@ module AresMUSH
       { assigned: assigned, open_count: open_count, open_lore_count: open_lore_count }
     end
 
-    def self.assess_advancement(char,info)
-      # Can the character advance?
+    # What advancing to the next level offers, as the messages telling the player what to pick.
+    #
+    # The level block's own keys are Advancement::Opens, a row each. What is left here is the three
+    # things that come from the character rather than from the table: the choices a feat or feature
+    # carries, and the level clauses an earlier pick deferred to this level.
+    def self.assess_advancement(char, info)
       advfail = Pf2e.can_advance(char)
       return advfail if advfail
 
-      # Return_msg returns a list of what they need to choose as an array.
-      return_msg = []
+      to_assign, advancement, pairs = Advancement::Opens.all(char, info)
 
-      advancement = {}
-      to_assign = {}
-
-      info.each_pair do |key, value|
-        case key
-        when "choose_feat"
-          # Value is an array of types to choose.
-          hash = to_assign['feats'] || {}
-          value.each do |feat|
-            hash[feat] = [ "open" ]
-
-            return_msg << t('pf2e.adv_item_feat', :value => feat)
-          end
-          to_assign['feats'] = hash
-        when "feat_choice", "grant_choice"
-          # Handled once after this loop, since granted_choice_names reads both keys off the
-          # whole entry and a level carrying both would otherwise open every slot twice.
-        when "magic_stats"
-          assess_magic = PF2Magic.assess_magic_stats(char, value)
-
-          advancement[key] = assess_magic['magic_stats']
-          magic_options = assess_magic['magic_options']
-
-          if magic_options
-            # Merge is acting funky, so we brute force.
-            magic_options.each_pair do |k,v|
-              to_assign[k] = v
-            end
-            return_msg.concat(magic_option_messages(magic_options.keys))
-          end
-        when "raise"
-          # Value is an array of all the things you can choose to raise.
-          # In this case, we put into to_assign what is to be raised as a key with an empty value.
-
-          value.each do |item|
-            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : [ "open" ]
-            return_msg << t('pf2e.adv_item_raise', :item => item)
-          end
-        when "choose", "charclass_choice"
-          name = value['choice_name']
-          options = value['options']
-          to_choose = to_assign['class option'] || {}
-          to_choose[name] = options.is_a?(Hash) ? options : Array(options)
-
-          display_options = options.is_a?(Hash) ? options.keys : Array(options)
-          return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
-
-          to_assign['class option'] = to_choose
-        when "charclass_feature"
-          advancement[key] = value
-        else
-          advancement[key] = value
-        end
-      end
+      return_msg = pairs.map { |(key, args)| t(key, **(args || {})) }
 
       # Feat choices this level opens.
       granted_choice_names(info).each do |name|

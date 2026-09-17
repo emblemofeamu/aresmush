@@ -27,6 +27,10 @@ module AresMUSH
       # magic plugin does not reach into the other one for a string.
       OPEN = 'open'.freeze
 
+      # The two divine fonts a deity can grant. Lowercase, because that is how a deity's config
+      # lists them and how every reader compares them.
+      FONTS = %w{heal harm}.freeze
+
       # The blank entry, so every row has every field whether or not its source fills it.
       FIELDS = {
         'name' => nil,

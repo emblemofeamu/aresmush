@@ -26,9 +26,9 @@ module AresMUSH
       end
 
       def check_valid_font
-        fonts = %w{ heal harm }
-        return nil if fonts.include? self.font
-        return t('pf2e.bad_option', :element => 'divine font', :options => fonts.join(", "))
+        return nil if Pf2emagic::Entries::FONTS.include? self.font
+
+        t('pf2e.bad_option', :element => 'divine font', :options => Pf2emagic::Entries::FONTS.join(", "))
       end
 
       def check_baseinfo_locked

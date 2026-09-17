@@ -55,35 +55,24 @@ module AresMUSH
       spell = match.first
       deets = hash[spell]
 
-      # Can the class they specified cast the spell they want?
+      # Can the class they specified cast at all?
       magic = char.magic
       caster_type = get_caster_type(charclass)
 
       return t('pf2emagic.cant_cast_as_class') unless Entries.casts_from?(magic, charclass) && caster_type
 
-      # A spell that does not have a tradition key cannot be put in a spellbook.
-      return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
+      # Everything else about the spell itself - the tradition, the rank, and whether a spellbook
+      # addition can still be seated - is SpellPick, which chargen asks too.
+      failure = SpellPick.check(
+        'list' => caster_type == 'prepared' ? 'spellbook' : 'repertoire',
+        'rank' => level,
+        'spell' => spell,
+        'tradition' => Entries.tradition_of(magic, charclass),
+        'details' => deets,
+        'adapted' => adapted_spell?(char, charclass, spell),
+        'fits' => spellbook_addition_fits?(char, charclass, level, spell, nil, :advancement))
 
-      # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
-      # even though it sits off that class's tradition list.
-      charclass_can_cast = deets['tradition'].include?(Entries.tradition_of(magic, charclass)) ||
-                           adapted_spell?(char, charclass, spell)
-
-      return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
-
-      # Can they take the spell at the level specified?
-
-      spbl = deets["base_level"].to_i
-      level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-      spell_is_cantrip = spbl.zero?
-
-      return t('pf2emagic.cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-      return t('pf2emagic.cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-      return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
-
-      unless spellbook_addition_fits?(char, charclass, level, spell, nil, :advancement)
-        return t('pf2emagic.no_unrestricted_spellbook')
-      end
+      return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
       [ spell, deets ]
     end
@@ -273,54 +262,45 @@ module AresMUSH
 
       return t('pf2emagic.cant_cast_as_class') unless (charclass_trad && caster_type)
 
-      # A spell that does not have a tradition key cannot be put in a spellbook.
-      return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
-
-      # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
-      # even though it sits off that class's tradition list.
-      charclass_can_cast = deets['tradition'].include?(charclass_trad[0]) ||
-                           adapted_spell?(char, charclass, to_add)
-
-      return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
-
-      # Can they learn that level of spell?
-      # This is assumed to be true if the base level of the spell is a key in either the to_assign hash for the list type
-      # OR in the character's personal list.
-
-      spbl = deets["base_level"].to_i
-      level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-      spell_is_cantrip = spbl.zero?
       new_spells_for_level = new_spells_to_assign[level]
-
-      return t('pf2emagic.cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-      return t('pf2emagic.cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-      return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
 
       return t('pf2emagic.no_new_spells_at_level') unless new_spells_for_level
 
-      # Do they already have that spell on their list of to_assign?
-      return t('pf2emagic.spell_already_on_list_to_assign') if new_spells_to_assign[level].include? to_add
+      # Which entry the spell goes into: the one holding the spell being replaced, or the first open
+      # one. Resolved before the rules, because whether a spellbook addition still fits depends on
+      # which spell is leaving.
+      if old_spell.blank?
+        old_spname = nil
+        i = new_spells_for_level.index "open"
 
-      # At this point, the spell choice is deemed valid. If old_spell is true, they're swapping. Can they do that?
-
-      if !(old_spell.blank?)
-        # Find the correct name for the old spell.
+        return t('pf2emagic.no_available_slots') unless i
+      else
         # This will fall to not_in_list if they got the wrong match due to lack of specificity.
         old_spname = get_spells_by_name(old_spell).first
 
         return t('pf2emagic.spell_to_delete_not_found') unless old_spname
 
         i = new_spells_for_level.index old_spname
+
         return t('pf2emagic.not_in_list') unless i
-      else
-        old_spname = nil
-        i = new_spells_for_level.index "open"
-        return t('pf2emagic.no_available_slots') unless i
       end
 
-      if sp_list_type == "spellbook" && !spellbook_addition_fits?(char, charclass, level, to_add, old_spname)
-        return t('pf2emagic.no_unrestricted_spellbook')
-      end
+      # Every rule that is not about how the name was resolved, from the one place a level-up asks
+      # them too - the ranks, the tradition, what they already have, and whether a spellbook
+      # addition can still be seated among its restricted entries.
+      failure = SpellPick.check(
+        'list' => sp_list_type,
+        'rank' => level,
+        'spell' => to_add,
+        'tradition' => charclass_trad[0],
+        'details' => deets,
+        'adapted' => adapted_spell?(char, charclass, to_add),
+        'picks' => new_spells_for_level,
+        'known' => Entries.known(magic, charclass),
+        'fits' => sp_list_type != 'spellbook' ||
+                  spellbook_addition_fits?(char, charclass, level, to_add, old_spname))
+
+      return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
       # If we have reached this point, it's time to add the spell.
       # Stuff into to_assign for tracking of what got bought when.
@@ -374,23 +354,13 @@ module AresMUSH
 
       deets = hash[to_add]
 
-      return t('pf2emagic.innate_not_spell_eligible') unless deets['tradition']
+      failure = SpellPick.check_innate(
+        'rank' => level,
+        'details' => deets,
+        'tradition' => source_info['tradition'],
+        'granted_rank' => source_info['level'])
 
-      tradition = source_info['tradition']
-      return t('pf2emagic.innate_tradition_mismatch') unless deets['tradition'].include?(tradition)
-
-      spbl = deets['base_level'].to_i
-      level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-      spell_is_cantrip = spbl.zero?
-
-      return t('pf2emagic.innate_cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-      return t('pf2emagic.innate_cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-      return t('pf2emagic.innate_cant_prepare_level') if spbl > level.to_i
-
-      slot_level = source_info['level']
-      slot_is_cantrip = (slot_level.to_s.downcase == 'cantrip' || slot_level.to_i.zero?)
-      return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
-      return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
+      return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
       # Naming the grant, rather than deleting a key and adding another. The grant keeps its
       # rank, tradition and ability - which is the whole reason it is a grant and not an entry

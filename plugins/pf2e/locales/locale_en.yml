@@ -308,7 +308,7 @@ en:
     lock_abil_first: "This command cannot be used until you have set and committed your attribute scores."
     lock_skills_first: "This command cannot be used until you have set and committed your skills."
 
-    missing_charclass_option_code: "Friend Spider has a quest for you. Your mission, should you choose to accept it, is to go smack your local coder and tell them to program the handling for class option %{feature} into do_advancement."
+    missing_charclass_option_code: "%xrYour choice for %{feature} is recorded, but nothing else it should change has been applied. Please let code staff know.%xn"
     missing_ancestry: "You haven't set an ancestry yet."
     missing_heritage: "You haven't set a heritage yet."
     missing_background: "You haven't set a background yet."

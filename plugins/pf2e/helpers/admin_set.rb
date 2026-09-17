@@ -19,8 +19,13 @@ module AresMUSH
 
       RANKS = %w{untrained trained expert master legendary}.freeze
       INSTRUCTIONS = %w{add delete}.freeze
-      FONTS = %w{heal harm}.freeze
       FOCUS_KINDS = %w{cantrip spell}.freeze
+
+      # The divine fonts, named where the magic plugin keeps them so staff and a player's own dfont
+      # command cannot come to disagree about what one is.
+      def self.fonts
+        Pf2emagic::Entries::FONTS
+      end
 
       TARGETS = {
         'skill' => {
@@ -212,7 +217,7 @@ module AresMUSH
       def self.plan_divine_font(words, state, target)
         font = words.join(' ').downcase
 
-        return Err.new(:bad_font, 'pf2e.bad_option', 'element' => 'divine font', 'options' => FONTS.join(', ')) unless FONTS.include?(font)
+        return Err.new(:bad_font, 'pf2e.bad_option', 'element' => 'divine font', 'options' => fonts.join(', ')) unless fonts.include?(font)
 
         # The word itself, because every reader of the font compares it against 'heal' or 'harm'.
         with_magic(state, 'Divine font', 'op' => 'update', 'charclass' => 'charclass',
