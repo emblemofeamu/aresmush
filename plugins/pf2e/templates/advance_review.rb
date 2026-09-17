@@ -116,6 +116,7 @@ module AresMUSH
       RESOLVED_BY = {
         'open languages' => 'advance/language <language>',
         'open skills' => 'advance/raise skill=<skill>',
+        'raise skill' => 'advance/raise skill=<skill>',
         'raise skill choice' => 'advance/raise skill choice=<skill>',
         'raise ability' => 'advance/raise ability=<four attributes>',
         'feat choice' => 'advance/info <feat> for the options, then advance/option <feat>=<choice>',
@@ -125,8 +126,8 @@ module AresMUSH
         'archetype specialty choice' => 'advance/archetype specialty=<specialty>',
         'archetype deity' => 'advance/archetype deity=<deity>',
         'archetype key ability' => 'advance/archetype key ability=<attribute>',
-        'repertoire' => 'advance/spell repertoire/<source>/<rank>=<spell>',
-        'spellbook' => 'advance/spell spellbook/<rank>=<spell>',
+        'repertoire' => 'advance/spell repertoire/<rank>=<spell>, or repertoire/<source>/<rank> for an archetype',
+        'spellbook' => 'advance/spell spellbook/<rank>=<spell>, or spellbook/<source>/<rank> for an archetype',
         'signature' => 'advance/spell signature/<rank>=<spell>',
         'innate' => 'advance/spell innate/<rank>=<spell>',
         'feats' => 'advance/feat <type>=<feat>'
@@ -136,23 +137,41 @@ module AresMUSH
         RESOLVED_BY[key.to_s]
       end
 
-      def command_hint(key)
-        hint = self.class.command_for(key)
-
-        hint ? "%r%b%b%xh#{hint}%xn" : ""
-      end
-
+      # One key at a time, with its command appended after whatever that key rendered.
+      #
+      # The hint used to be appended inside one branch of the renderer, so slots that go through the
+      # others - a feat slot, a spell slot, a skill raise - showed no command at all. Doing it here
+      # means a branch cannot be missed.
       def build_options
         list = []
 
         pending_options.each_pair do |key, value|
           next if key == "signature"
 
-          if key == "grants" && value.is_a?(Hash)
+          lines = option_lines_for(key, value)
+
+          next if lines.empty?
+
+          list.concat(lines)
+
+          hint = self.class.command_for(key)
+          list << "%b%b%xh#{hint}%xn" if hint
+        end
+
+        list.reject { |item| item.to_s.strip.empty? }
+      end
+
+      # The lines one outstanding key renders as. A `return` here is what a `next` was when this
+      # was the body of the loop above: done with this key.
+      def option_lines_for(key, value)
+        list = []
+
+        if key == "grants" && value.is_a?(Hash)
             value.each_pair do |feat, grant_info|
               list << "#{item_color}#{feat}:%xn #{grant_info}"
             end
-            next
+
+            return list
           end
 
           # Outstanding feat choices, shown by what they are for rather than by listing
@@ -166,7 +185,8 @@ module AresMUSH
 
               list << "#{item_color}#{name}:%xn #{summary}"
             end
-            next
+
+            return list
           end
 
           # Process according to the data type of the key.
@@ -184,7 +204,7 @@ module AresMUSH
               format_open_list(value)
             end
 
-            list << "#{item_color}#{heading}:%xn #{formatted}#{command_hint(key)}" unless value.empty?
+            list << "#{item_color}#{heading}:%xn #{formatted}" unless value.empty?
           elsif value.is_a? Hash
             if key == "class option" || key == "charclass option"
               list << "#{item_color}Class Feature Option:%xn"
@@ -198,7 +218,7 @@ module AresMUSH
                 list << "%b%b#{item_color}#{subkey}:%xn #{option_list.sort.join(", ")}" unless option_list.empty?
               end
 
-              next
+              return list
             end
 
             if key == "innate"
@@ -206,7 +226,8 @@ module AresMUSH
 
               unless innate_lines.empty?
                 list.concat(innate_lines)
-                next
+
+                return list
               end
             end
 
@@ -215,7 +236,8 @@ module AresMUSH
 
               unless spell_lines.empty?
                 list << "#{item_color}#{heading} Spells:%xn #{spell_lines.join}"
-                next
+
+                return list
               end
             end
 
@@ -258,12 +280,11 @@ module AresMUSH
             end
 
             list << sublist.join("%r")
-          else
-            list << "#{item_color}#{heading}:%xn #{value}"
-          end
+        else
+          list << "#{item_color}#{heading}:%xn #{value}"
         end
 
-        list.reject { |item| item.to_s.strip.empty? }
+        list
       end
 
       def pending_options

@@ -33,6 +33,23 @@ module AresMUSH
 
           expect(strays).to eq []
         end
+
+        # Every slot a player is left to fill themselves needs a command against it. These are the
+        # ones a level actually leaves open, and driving a character through level 11 found four of
+        # them rendering with no hint at all: the hint was appended on one branch of the review's
+        # renderer and these go through the others.
+        FILLED_BY_THE_PLAYER = [
+          'raise ability', 'raise skill', 'raise skill choice', 'open languages', 'open skills',
+          'feats', 'feat choice', 'repertoire', 'spellbook', 'innate', 'class option',
+          'divine font', 'archetype_specialty', 'archetype specialty choice', 'archetype deity',
+          'archetype key ability'
+        ].freeze
+
+        it "should have a command for every slot the player has to fill" do
+          missing = FILLED_BY_THE_PLAYER.reject { |key| PF2AdvanceReviewTemplate.command_for(key) }
+
+          expect(missing).to eq []
+        end
       end
     end
   end
