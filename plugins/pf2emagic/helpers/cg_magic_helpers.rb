@@ -44,12 +44,26 @@ module AresMUSH
       nil
     end
 
+    # What to say when a name matched nothing.
+    #
+    # The shipped data uses Remaster names and players arrive with the old ones - Magic Missile
+    # is Force Barrage, Ray of Frost is Frostbite, Burning Hands is Breathe Fire - so a bare "not
+    # in the spells database" leaves them guessing. Anything sharing a word is worth offering.
+    def self.no_such_spell_message(term, hash)
+      words = term.to_s.downcase.split.reject { |word| word.size < 3 }
+      near = hash.keys.select { |name| words.any? { |word| name.downcase.include?(word) } }
+
+      return t('pf2emagic.no_such_spell') if near.empty?
+
+      t('pf2emagic.no_such_spell_but', :options => near.sort.first(8).join(", "))
+    end
+
     def self.check_spell(char, charclass, level, term, common_only=false)
 
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == term.downcase }
 
-      return t('pf2emagic.no_such_spell') if match.empty?
+      return no_such_spell_message(term, hash) if match.empty?
       return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
 
       spell = match.first
@@ -202,7 +216,7 @@ module AresMUSH
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == new_spell.downcase }
 
-      return t('pf2emagic.no_such_spell') if match.empty?
+      return no_such_spell_message(new_spell, hash) if match.empty?
       return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
 
       # Spell's valid. Does it pass the gate?
@@ -265,7 +279,7 @@ module AresMUSH
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == new_spell.downcase }
 
-      return t('pf2emagic.no_such_spell') if match.empty?
+      return no_such_spell_message(new_spell, hash) if match.empty?
       return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
 
       to_add = match.first

@@ -9,7 +9,8 @@ module AresMUSH
         if cmd.args
           search_list = trimmed_list_arg(cmd.args, ", ")
 
-          self.search = search_list.map { |term| term.split("=") }
+          # At most two parts, so a term that itself holds an `=` stays whole.
+          self.search = search_list.map { |term| term.split("=", 2) }
         else
           self.search = nil
         end
@@ -40,15 +41,17 @@ module AresMUSH
         return t('pf2emagic.invalid_search_type', :options => valid_types.sort)
       end
 
+      # Every pair needs both halves. A term with no `=` used to reach nil.split and take the
+      # command down with "undefined method `split' for nil", which is what a player gets for
+      # typing `spell/search arcane` - and this is the command the magic help sends them to when
+      # they do not know a spell's name.
       def check_search_term
-        # Validate against funky-ass behavior when the parser is passed any separator other than a comma.
+        return t('pf2emagic.bad_search_syntax') if self.search.any? { |t| t[1].to_s.strip.empty? }
 
-        check = []
+        # One term, or an operator and a term. More than that is not a search this understands.
+        return t('pf2emagic.bad_search_syntax') unless self.search.all? { |t| t[1].split.size <= 2 }
 
-        self.search.each { |t| check << (t[1].split.size <=2) }
-
-        return nil if check.all?
-        return t('pf2emagic.bad_search_syntax')
+        nil
       end
 
       def handle
