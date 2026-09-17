@@ -672,6 +672,13 @@ module AresMUSH
         has_messages || base_info_set
       end
 
+      # Filled in is not the same as valid. Every message chargen_messages returns blocks the
+      # commit, so telling the player "everything for this stage is set, enter commit info" while
+      # one is on screen above it sends them at a command that refuses.
+      def ready_to_commit
+        base_info_set && !has_messages
+      end
+
       def commit_prompt
         t('pf2e.cg_stage_commit_prompt', :checkpoint => 'info')
       end
