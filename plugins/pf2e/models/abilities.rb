@@ -46,6 +46,25 @@ module AresMUSH
       end
     end
 
+    # An ability flaw, which is a boost read backwards: worth 2 below 18 and 1 above it, so that
+    # flawing a boosted score returns it to where it started.
+    def self.flawed_score(base, count)
+      count.to_i.clamp(0, 100).times.reduce(base.to_i) do |score, _|
+        score <= 18 ? score - 2 : score - 1
+      end
+    end
+
+    # A score from nothing but its counts. Every ability starts at 10, an ancestry's flaw applies,
+    # then every boost.
+    #
+    # Flaws first because that is the order chargen applies them and the order PF2e states: the
+    # ancestry step carries the flaw, and background, class and free boosts come after. From a base
+    # of 10 the two orders agree for every reachable count, and they differ from 17, which no
+    # sequence of boosts from 10 produces, so the order is stated rather than relied upon.
+    def self.derived_score(flaws, boosts)
+      boosted_score(flawed_score(10, flaws), boosts)
+    end
+
     def self.update_base_score(char,ability,mod=2)
       object = char.abilities.select { |a| a.name_upcase == ability.upcase }.first
 

@@ -30,10 +30,6 @@ module AresMUSH
     attribute :pf2_boosts_working, :type => DataType::Hash, :default => { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=> [] }
     attribute :pf2_boosts, :type => DataType::Hash, :default => {}
 
-    # Ability scores as they stood when chargen was approved. Boosts taken from level 2 onwards are
-    # counts in the grant ledger, and this is what they are applied to - which is what lets a
-    # rollback take one back. Chargen's own boosts are not in the ledger.
-    attribute :pf2_ability_baseline, :type => DataType::Hash, :default => {}
     attribute :pf2_lang, :type => DataType::Array, :default => []
     attribute :pf2_viewsheet, :type => DataType::Hash, :default => {}
     attribute :pf2_to_assign, :type => DataType::Hash, :default => {}

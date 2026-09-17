@@ -141,24 +141,9 @@ module AresMUSH
           'languages' => char.pf2_lang,
           'boosts' => char.pf2_boosts,
           'spells' => Pf2emagic::Entries.known_lists(char),
-          # The scores as approved, and the scores now. The boosts the fold holds are counts, so
-          # the baseline is what turns them back into scores.
-          'ability_baseline' => char.pf2_ability_baseline,
+          # What the derived scores are compared against.
           'ability_scores' => char.abilities.each_with_object({}) { |a, h| h[a.name] = a.base_val }
         }
-      end
-
-      # The scores to derive later boosts from: where chargen left them.
-      #
-      # Recorded once, at the boundary where chargen becomes history. Chargen's own boosts are not
-      # in the ledger, so this is what the fold's counts are added to.
-      def self.record_ability_baseline!(char)
-        return if char.pf2_ability_baseline.present?
-
-        baseline = char.abilities.each_with_object({}) { |a, h| h[a.name] = a.base_val }
-        return if baseline.empty?
-
-        char.update(:pf2_ability_baseline => baseline)
       end
 
       # True once the ledger is this character's source of truth. Before approval a character
@@ -471,8 +456,6 @@ module AresMUSH
       def self.commit_chargen!(char, granted_by: 'System')
         return nil if char.grants.count > 0
 
-        record_ability_baseline!(char)
-
         seed_from_sheet!(char, :granted_by => granted_by, :source_type => 'chargen', :source_ref => 'chargen')
       end
 
@@ -481,7 +464,6 @@ module AresMUSH
       # after the new level is saved, which is what makes the attribution right.
       def self.commit_level_up!(char, level, cost: nil)
         seed_from_sheet!(char, :source_type => 'chargen', :source_ref => 'chargen')
-        record_ability_baseline!(char)
 
         # Taking this level again is what makes a pending redo of it stale.
         supersede_rollback!(char, level)
@@ -505,9 +487,9 @@ module AresMUSH
           'traits' => char.pf2_traits,
           'specials' => char.pf2_special,
           'languages' => char.pf2_lang,
-          # A count per ability. The boost rule depends only on the score being boosted, so a
-          # count is enough to reproduce the score from the baseline - which is what puts boosts
-          # in the ledger and lets a rollback take them back.
+          # Every boost the character holds, counted per ability. The materialiser writes this
+          # attribute from the fold, so it already carries chargen's, and `raise ability` adds this
+          # level's on top. A fragment holding only this level's would read chargen's as gone.
           'boosts' => char.pf2_boosts,
           # Only enumerated casters contribute: a Cleric prepares from the whole divine list, so
           # there is nothing to record and nothing a rollback could take away.
@@ -546,6 +528,7 @@ module AresMUSH
         # they have. Without this the materialiser - which writes the known lists from the fold -
         # would erase every spell chosen before the ledger knew about them.
         known = Pf2emagic::Entries.known_lists(char)
+        boosts = boost_tally(char)
 
         write(char, :source_type => source_type, :source_ref => source_ref, :granted_by => granted_by, :effective_level => 1, :materialize => false) do |txn|
           known.each_pair do |source, by_rank|
@@ -571,10 +554,57 @@ module AresMUSH
           Array(char.pf2_traits).each { |t| txn.grant('add_trait', 'trait' => t) }
           Array(char.pf2_special).each { |s| txn.grant('add_special', 'special' => s) }
 
-          (char.pf2_boosts || {}).each_pair do |ability, count|
-            count.to_i.times { txn.grant('boost_ability', 'ability' => ability) }
+          boosts.each_pair do |ability, count|
+            count.times { txn.grant('boost_ability', 'ability' => ability) }
+          end
+
+          flaw_tally(char).each_pair do |ability, count|
+            count.times { txn.grant('flaw_ability', 'ability' => ability) }
           end
         end
+
+        # `pf2_boosts` is the running count the next level-up diffs against, and seeding does not
+        # materialise, so it is written here. Left empty, the first level-up would read every boost
+        # chargen recorded as one that had gone away and revoke it.
+        char.update(:pf2_boosts => boosts) unless boosts.empty?
+      end
+
+      # Every boost the character has taken, counted per ability, for the one moment a ledger is
+      # seeded and there is nothing but the sheet to read.
+      #
+      # Chargen stages its picks in `pf2_boosts_working`, a list per category: the ancestry's fixed
+      # and chosen boosts, the background's, the class's key ability, and four free ones. A character
+      # seeded mid-career also has `pf2_boosts`, so both are counted. Afterwards the fold owns the
+      # total and writes it back to `pf2_boosts`, so nothing else should add these together.
+      def self.boost_tally(char)
+        tally = Hash.new(0)
+
+        (char.pf2_boosts_working || {}).each_value do |slots|
+          Array(slots).each do |slot|
+            # A slot still holding a marker, or a list of the options allowed in it, is unfilled.
+            next unless slot.is_a?(String)
+            next if slot.strip.empty? || slot.casecmp?('open')
+
+            tally[slot] += 1
+          end
+        end
+
+        (char.pf2_boosts || {}).each_pair { |ability, count| tally[ability] += count.to_i }
+
+        tally
+      end
+
+      # The ancestry's flaw, read from the ancestry the character chose. Recorded as an outcome,
+      # which ability is flawed, so editing an ancestry's config later leaves an existing character
+      # alone.
+      def self.flaw_tally(char)
+        ancestry = (char.pf2_base_info || {})['ancestry']
+        return {} if ancestry.blank?
+
+        flaw = Global.read_config('pf2e_ancestry', ancestry, 'abl_flaw')
+        return {} if flaw.blank?
+
+        Array(flaw).each_with_object(Hash.new(0)) { |ability, tally| tally[ability] += 1 }
       end
 
     end

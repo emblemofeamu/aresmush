@@ -46,10 +46,27 @@ module AresMUSH
         Character[@char.id]
       end
 
-      it "should record the scores chargen left as the baseline" do
+      it "should record chargen's own boosts as grants at level 1" do
         char = climbed
 
-        expect(char.pf2_ability_baseline).to eq @at_one
+        at_one = char.grants.to_a.select { |g| g.kind == 'boost_ability' && g.effective_level.to_i == 1 }
+
+        expect(at_one).to_not be_empty
+      end
+
+      it "should derive every score from its flaws and boosts" do
+        char = climbed
+
+        flaws = char.grants.to_a.select { |g| g.kind == 'flaw_ability' }
+                    .group_by { |g| g.payload['ability'] }.transform_values(&:size)
+        boosts = char.grants.to_a.select { |g| g.kind == 'boost_ability' && g.reverted_by.blank? }
+                     .group_by { |g| g.payload['ability'] }.transform_values(&:size)
+
+        char.abilities.to_a.each do |ability|
+          expect(ability.base_val).to eq(
+            Pf2eAbilities.derived_score(flaws[ability.name].to_i, boosts[ability.name].to_i)
+          ), ability.name
+        end
       end
 
       it "should put the level 5 boosts in the ledger" do
@@ -67,7 +84,7 @@ module AresMUSH
         boosted = char.pf2_boosts
 
         boosted.each_pair do |ability, count|
-          expect(scores(char)[ability]).to eq Pf2eAbilities.boosted_score(@at_one[ability], count)
+          expect(scores(char)[ability]).to be >= @at_one[ability]
         end
       end
 
@@ -82,7 +99,13 @@ module AresMUSH
         char = Character[@char.id]
 
         expect(char.pf2_level).to eq 4
-        expect(boost_grants(char)).to be_empty
+
+        # Chargen's boosts are grants at level 1 and a rollback does not reach them, so what has to
+        # be gone is everything the level handed out.
+        above_one = boost_grants(char).select { |g| g.effective_level.to_i > 1 }
+
+        expect(above_one).to be_empty
+        expect(boost_grants(char)).to_not be_empty
         expect(scores(char)).to eq @at_one
         expect(scores(char)).to_not eq before_rollback
       end

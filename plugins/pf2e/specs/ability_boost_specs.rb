@@ -48,5 +48,63 @@ module AresMUSH
         expect(Pf2eAbilities.boosted_score(12, -1)).to eq 12
       end
     end
+    # A score built from nothing but its counts, which is what lets the grant ledger own it.
+    describe :derived_score do
+      it "should start every ability at 10" do
+        expect(Pf2eAbilities.derived_score(0, 0)).to eq 10
+      end
+
+      it "should apply boosts from 10" do
+        expect(Pf2eAbilities.derived_score(0, 4)).to eq 18
+      end
+
+      it "should apply a flaw from 10" do
+        expect(Pf2eAbilities.derived_score(1, 0)).to eq 8
+      end
+
+      # A flawed ability climbs from 8, so it lands two behind an unflawed one.
+      it "should apply the flaw before the boosts" do
+        expect(Pf2eAbilities.derived_score(1, 4)).to eq 16
+        expect(Pf2eAbilities.derived_score(0, 4)).to eq 18
+      end
+
+      # Chargen's four categories plus a level-up's boosts can put several on one ability.
+      it "should carry a long run of boosts through the 18 threshold" do
+        expect(Pf2eAbilities.derived_score(0, 5)).to eq 19
+        expect(Pf2eAbilities.derived_score(0, 6)).to eq 20
+      end
+
+      # Order is stated rather than left to chance. From a base of 10 the two orders agree for every
+      # reachable count, and they part company from 17, which no sequence of boosts from 10 reaches.
+      it "should agree with applying the boosts first, from a base of 10" do
+        (0..8).each do |boosts|
+          (0..2).each do |flaws|
+            other = boosts.times.reduce(Pf2eAbilities.flawed_score(10, flaws)) { |s, _| Pf2eAbilities.boosted_score(s, 1) }
+
+            expect(Pf2eAbilities.derived_score(flaws, boosts)).to eq(other),
+              "#{boosts} boosts and #{flaws} flaws"
+          end
+        end
+      end
+    end
+
+    describe :flawed_score do
+      it "should take two off a score below 18" do
+        expect(Pf2eAbilities.flawed_score(12, 1)).to eq 10
+      end
+
+      # The inverse of a boost: a boost at 18 is worth one, so a flaw from 19 is worth one.
+      it "should take one off a score above 18" do
+        expect(Pf2eAbilities.flawed_score(19, 1)).to eq 18
+      end
+
+      it "should take two off at exactly 18" do
+        expect(Pf2eAbilities.flawed_score(18, 1)).to eq 16
+      end
+
+      it "should leave a score alone for no flaws" do
+        expect(Pf2eAbilities.flawed_score(14, 0)).to eq 14
+      end
+    end
   end
 end

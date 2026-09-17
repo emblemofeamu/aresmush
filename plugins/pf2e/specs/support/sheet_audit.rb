@@ -213,10 +213,10 @@ module AresMUSH
         {
           'name' => 'attribute boosts',
           # Four at each of 5th, 10th, 15th and 20th, each to a different attribute, and each a
-          # `boost_ability` grant attributed to its level. Chargen's boosts are not in the ledger,
-          # so only levels above 1 are counted.
+          # `boost_ability` grant attributed to its level. Chargen's own boosts are grants too, at
+          # level 1, so the level filter is what separates the two.
           'check' => lambda { |ctx|
-            char, want, baseline = ctx.values_at('char', 'want', 'baseline')
+            char, want = ctx.values_at('char', 'want')
 
             wanted = want['boosts'] * 4
             recorded = SheetAudit.grants_of(char, 'boost_ability').select { |g| g.effective_level.to_i > 1 }
@@ -236,30 +236,19 @@ module AresMUSH
               problems << "level #{level} boosted #{abilities.tally.select { |_a, n| n > 1 }.keys.join(', ')} more than once"
             end
 
-            # And the scores have to be what those boosts make of the baseline.
-            base = char.pf2_ability_baseline || {}
+            # And every score has to be what its flaws and boosts make of 10.
+            flaws = SheetAudit.grants_of(char, 'flaw_ability')
+                              .group_by { |g| g.payload['ability'] }.transform_values(&:size)
+            boosts = SheetAudit.grants_of(char, 'boost_ability')
+                               .group_by { |g| g.payload['ability'] }.transform_values(&:size)
 
-            unless base.empty?
-              counts = recorded.group_by { |g| g.payload['ability'] }.transform_values(&:size)
+            char.abilities.to_a.each do |ability|
+              expected = Pf2eAbilities.derived_score(flaws[ability.name].to_i, boosts[ability.name].to_i)
 
-              base.each_pair do |ability, from|
-                held = SheetAudit.score_of(char, ability)
-                expected = Pf2eAbilities.boosted_score(from, counts[ability].to_i)
+              next if ability.base_val.to_i == expected
 
-                next if held == expected
-
-                problems << "#{ability} is #{held}, not the #{expected} that #{counts[ability].to_i} boosts make of #{from}"
-              end
-            end
-
-            # With no baseline recorded there is nothing to derive from, so the band is all that is
-            # checkable: a boost is worth at least +1 and at most +2.
-            if base.empty? && baseline['ability_total']
-              gained = SheetAudit.ability_total(char) - baseline['ability_total']
-
-              unless wanted.zero? || gained.between?(wanted, wanted * 2)
-                problems << "#{wanted} boosts should have raised the totals by #{wanted}-#{wanted * 2} points; they rose by #{gained}"
-              end
+              problems << "#{ability.name} is #{ability.base_val}, not the #{expected} that " \
+                          "#{flaws[ability.name].to_i} flaws and #{boosts[ability.name].to_i} boosts make of 10"
             end
 
             problems

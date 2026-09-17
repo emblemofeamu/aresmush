@@ -40,6 +40,12 @@ module AresMUSH
           'key' => 'ability', 'sheet' => 'boosts', 'sync' => 'counted',
           'apply' => lambda { |sheet, p| sheet['boosts'][p['ability']] = sheet['boosts'].fetch(p['ability'], 0) + 1 }
         },
+        # An ancestry's flaw. Counted apart from boosts because the two are worth different amounts
+        # at the 18 threshold, and because a score applies its flaws first.
+        'flaw_ability' => {
+          'key' => 'ability', 'sheet' => 'flaws', 'sync' => 'counted',
+          'apply' => lambda { |sheet, p| sheet['flaws'][p['ability']] = sheet['flaws'].fetch(p['ability'], 0) + 1 }
+        },
         'grant_feat' => {
           'key' => 'feat', 'sheet' => 'feats', 'sync' => 'bucketed_multi', 'default_bucket' => 'charclass',
           'apply' => lambda { |sheet, p|
@@ -117,6 +123,7 @@ module AresMUSH
           'skills' => {},
           'lores' => {},
           'boosts' => {},
+          'flaws' => {},
           'feats' => {},
           'feat_choices' => {},
           'features' => {},
@@ -220,15 +227,15 @@ module AresMUSH
           end
         end
 
-        # Attribute boosts taken after chargen. The fold holds a count per ability, the baseline
-        # holds the scores as approved, and PF2e's boost rule depends only on the score being
-        # boosted - so the score is derivable, which is what lets a rollback take a boost back.
-        # Chargen's own boosts are not in the fold, hence the baseline.
-        if !draft && !current['ability_baseline'].blank?
-          current['ability_baseline'].each_pair do |ability, base|
-            wanted = Pf2eAbilities.boosted_score(base, (sheet['boosts'] || {})[ability].to_i)
+        # Ability scores, derived from nothing. Every ability starts at 10, its ancestry flaw applies
+        # and then its boosts, and PF2e's rule for each depends only on the score being changed - so
+        # counts per ability are enough and a rollback that drops a boost puts the score back.
+        if !draft
+          (current['ability_scores'] || {}).each_key do |ability|
+            wanted = Pf2eAbilities.derived_score((sheet['flaws'] || {})[ability].to_i,
+                                                 (sheet['boosts'] || {})[ability].to_i)
 
-            next if (current['ability_scores'] || {})[ability].to_i == wanted
+            next if current['ability_scores'][ability].to_i == wanted
 
             ops << { 'op' => 'set_ability', 'ability' => ability, 'to' => wanted }
           end
