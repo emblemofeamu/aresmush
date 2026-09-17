@@ -102,10 +102,18 @@ module AresMUSH
       assoc_classes = Array(details['assoc_class']).compact
       assoc_charclasses = Array(details['assoc_charclass']).compact
 
-      return assoc_classes.any? { |c| c.to_s.casecmp?(base_class.to_s) } unless assoc_classes.empty?
+      # Two separate questions, and a dedication needs a yes to both.
+      #
+      # Which classes may take this archetype at all. `assoc_class` is a whitelist that leaves out
+      # the archetype's own class, so a Fighter cannot take Fighter Dedication.
+      if !assoc_classes.empty?
+        return false unless assoc_classes.any? { |c| c.to_s.casecmp?(base_class.to_s) }
+      elsif assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
+        return false
+      end
 
-      return false if assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
-
+      # And whether this character may take another dedication yet. PF2e: "You cannot select
+      # another dedication feat until you have gained two other feats from the archetype."
       dedication_archetype_ready?(char)
     end
 
@@ -116,11 +124,7 @@ module AresMUSH
       feat_name_map = {}
       feat_info.keys.each { |name| feat_name_map[name.to_s.upcase] = name }
 
-      feat_names = if char.advancing
-        Pf2e.preview_feat_names(char)
-      else
-        char.pf2_feats.values.flatten.map { |f| f.to_s.upcase }
-      end
+      feat_names = DraftSheet.of(char).feat_names
 
       dedication_archetypes = []
       archetype_feat_counts = Hash.new(0)
@@ -301,7 +305,7 @@ module AresMUSH
           Array(required).each_with_index do |entry, i|
             skill_name, minimum_prof = entry.to_s.split("/")
 
-            skill_prof = char.advancing ? Pf2e.preview_skill_prof(char, skill_name) : Pf2eSkills.get_skill_prof(char, skill_name)
+            skill_prof = DraftSheet.of(char).skill_prof(skill_name)
             char_prof = Pf2e.get_prof_bonus(char, skill_prof)
             min_prof = Pf2e.get_prof_bonus(char, minimum_prof)
 
@@ -339,9 +343,8 @@ module AresMUSH
           pool = magic.focus_pool['max']
           msg << "focus_pool" if pool.zero?
         when "feat"
-          feats = char.advancing ? Pf2e.preview_feat_names(char) : char.pf2_feats.values.flatten.map { |word| word.upcase }
+          feats = DraftSheet.of(char).feat_names
           req = required.map { |word| word.upcase }
-
 
           msg << "feat" unless req.all? { |f| feats.include? f }
         when "caster"
@@ -420,7 +423,7 @@ module AresMUSH
             msg << "deity" unless Array(required).any? { |d| d.to_s.casecmp?(deity.to_s) }
           end
         when "orfeat"
-          feats = char.advancing ? Pf2e.preview_feat_names(char) : char.pf2_feats.values.flatten.map { |word| word.upcase }
+          feats = DraftSheet.of(char).feat_names
           req = required.map { |word| word.upcase }
 
           msg << "feat" unless req.any? { |f| feats.include? f }
@@ -436,7 +439,7 @@ module AresMUSH
           factor = string[0]
           minimum = string[1]
 
-          skill_prof = char.advancing ? Pf2e.preview_skill_prof(char, factor) : Pf2eSkills.get_skill_prof(char, factor)
+          skill_prof = DraftSheet.of(char).skill_prof(factor)
           char_prof = Pf2e.get_prof_bonus(char, skill_prof)
           min_prof = Pf2e.get_prof_bonus(char, minimum)
 
@@ -460,10 +463,9 @@ module AresMUSH
             skill_names = (skill_names + pending).uniq { |s| s.to_s.downcase }
           end
 
-          char_ranks = skill_names.map do |s|
-            prof = char.advancing ? Pf2e.preview_skill_prof(char, s) : Pf2eSkills.get_skill_prof(char, s)
-            progression.index(prof) || 0
-          end
+          sheet = DraftSheet.of(char)
+
+          char_ranks = skill_names.map { |s| progression.index(sheet.skill_prof(s)) || 0 }
 
           Array(required).each_with_index do |entry, i|
             rank, count = entry.to_s.split("/")
@@ -913,6 +915,16 @@ module AresMUSH
 
             unless can_take_feat_details?(char, found[0], found[1])
               Global.logger.warn "#{char.name} was granted '#{found[0]}' but does not qualify for it."
+              next
+            end
+
+            # A granted feat is still bound by how many times it may be held. This is also what
+            # ends a chain that closes on itself: a feat granting itself, or a pair granting each
+            # other, would otherwise recurse through add_granted_feat until the stack gives out.
+            repeat = feat_repeat_block(char, found[0], found[1])
+
+            if repeat
+              Global.logger.warn "#{char.name} was granted '#{found[0]}' and may not hold it again: #{repeat}"
               next
             end
 
@@ -1847,7 +1859,7 @@ module AresMUSH
     end
 
     def self.effective_char_level(char)
-      char.advancing ? char.pf2_level + 1 : char.pf2_level
+      DraftSheet.of(char).level
     end
 
     def self.choice_skill_pool(char, filter)
