@@ -1971,7 +1971,9 @@ module AresMUSH
         true
       end
 
-      held = Array(char.magic&.focus_spells&.dig(filter['focus_type'].to_s)).map { |s| s.to_s.downcase }
+      # Focus spells are entries, not an attribute of the magic object - one per focus type per
+      # granting source - so Entries is the only place that can answer this.
+      held = Array(char.magic && Pf2emagic::Entries.focus_spells(char.magic, filter['focus_type'])).map { |s| s.to_s.downcase }
 
       list.reject { |name| held.include?(name.to_s.downcase) }.sort
     end
