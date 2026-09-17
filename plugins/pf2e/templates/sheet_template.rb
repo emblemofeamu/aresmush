@@ -267,19 +267,20 @@ module AresMUSH
       end
 
       def class_features
-        if @char.pf2_features['charclass_features'].empty?
-          "None"
-        else
-          @char.pf2_features['charclass_features'].sort.join(", ")
-        end
+        feature_list('charclass_features')
       end
 
       def archetype_features
-        if @char.pf2_features['archetype_features'].empty?
-          "None"
-        else
-          @char.pf2_features['archetype_features'].sort.join(", ")
-        end
+        feature_list('archetype_features')
+      end
+
+      # Through Array(), because the materialiser rebuilds pf2_features from the fold and the fold
+      # only makes a bucket that has something in it: a character with no archetype has no
+      # 'archetype_features' key at all, and `sheet` raised NoMethodError on every one of them.
+      def feature_list(bucket)
+        held = Array((@char.pf2_features || {})[bucket])
+
+        held.empty? ? "None" : held.sort.join(", ")
       end
 
       # Through DraftSheet, so a language picked during chargen or an open level-up shows on the
