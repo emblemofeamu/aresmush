@@ -25,12 +25,6 @@ module AresMUSH
         end
       end
 
-      def check_valid_font
-        return nil if Pf2emagic::Entries::FONTS.include? self.font
-
-        t('pf2e.bad_option', :element => 'divine font', :options => Pf2emagic::Entries::FONTS.join(", "))
-      end
-
       def check_baseinfo_locked
         # They need to have done commit info before they can use this command.
         return nil if enactor.pf2_baseinfo_locked
@@ -38,26 +32,17 @@ module AresMUSH
       end
 
       def handle
-        to_assign = enactor.pf2_to_assign
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :choose_divine_font, 'font' => self.font)
 
-        # Do they need to choose a font option? Not all deities grant this.
-        dfont_option = to_assign['divine font']
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        unless dfont_option
-          client.emit_failure t('pf2emagic.no_font_option')
-          return
-        end
+        Pf2e::CharState.commit!(enactor, before, outcome)
 
-        magic = enactor.magic
+        # The font itself lives on the magic object, which is not state a core writes.
+        enactor.magic&.update(:divine_font => outcome.state['divine_font'])
 
-        # Do it.
-
-        to_assign['divine font'] = self.font
-        enactor.update(pf2_to_assign: to_assign)
-
-        magic.update divine_font: self.font
-
-        client.emit_success t('pf2emagic.dfont_updated', :font => self.font.titleize)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
     end
   end

@@ -51,20 +51,16 @@ module AresMUSH
 
         section = outcome.state
 
-        # Names, not character objects: this is a hash attribute, and what reads it needs something
-        # it can print and compare.
-        permissions = enactor.pf2_viewsheet
-        granted = Array(permissions[section])
+        # A name, not a character object: this is a hash attribute, and what reads it needs
+        # something it can print and compare.
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :add_record,
+          'record' => 'viewsheet', 'key' => section, 'value' => char.name)
 
-        if granted.any? { |name| name.to_s.casecmp?(char.name.to_s) }
-          client.emit_success t('pf2e.player_added', :player => char.name, :section => section)
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        permissions[section] = granted + [ char.name ]
-        enactor.update(pf2_viewsheet: permissions)
-
-        client.emit_success t('pf2e.player_added', :player => char.name, :section => section)
+        Pf2e::CharState.commit!(enactor, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

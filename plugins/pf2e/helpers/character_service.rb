@@ -32,7 +32,14 @@ module AresMUSH
 
         # A staff correction. One action for all of admin/set's keywords, because which state a
         # keyword touches is the table's business and not the caller's.
-        :admin_set => lambda { |state, args| AdminSet.plan(state, args['item'], args['value']) }
+        :admin_set => lambda { |state, args| AdminSet.plan(state, args['item'], args['value']) },
+
+        # The four small records a character owns outright: roll shorthands, who they have shown a
+        # sheet section to, staff notes, and what they are known for.
+        :choose_divine_font => lambda { |state, args| Chargen::DivineFont.choose(state, args) },
+        :set_record => lambda { |state, args| Chargen::Records.set(state, args) },
+        :unset_record => lambda { |state, args| Chargen::Records.unset(state, args) },
+        :add_record => lambda { |state, args| Chargen::Records.add(state, args) }
       }.freeze
 
       def self.actions
