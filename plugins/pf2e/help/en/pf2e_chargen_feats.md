@@ -21,4 +21,4 @@ Now that you have locked your skills and selected your languages, it’s time to
 `cg/feat <input>=<feat>`: Sets an open feat. Input can be `ancestry`, `archetype`, `charclass`, `dedication`, `general`, `skill`.
 `cg/option <feature> = <option>`: Some class features and feats require that an option selected with this command in `advance/review`. `<feature>` is the name of the class feature or feat, and `<option>` is the option you'd like to choose. 
 
-It is not possible to unset a feat at this time. However, you can enter `cg/restore skills` to return to a point just before setting feats.
+To take a feat back, enter `cg/undo` - it takes back your most recent choice, so run it until the feat you want to change is gone. `cg/restore skills` still returns you to the point just before you started setting feats.

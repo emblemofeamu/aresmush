@@ -26,4 +26,4 @@ If you make a mistake, you can unset a boost that you set.
 `boost/unset charclass=<attribute>`: Unassigns your class `<attribute>` boost.
 `boost/unset free=<attribute>`: Unassigns your free `<attribute>` boost.
 
-**NOTE:** `boost/unset` is currently unavailable. Please use `cg/restore info` followed by `commit info` to reset boosts.
+**NOTE:** `boost/unset` is currently unavailable. `cg/undo` takes back your most recent boost, and `cg/restore info` followed by `commit info` resets them all.

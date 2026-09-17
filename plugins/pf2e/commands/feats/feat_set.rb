@@ -2,6 +2,7 @@ module AresMUSH
   module Pf2e
     class PF2FeatSetCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :feat_type, :feat_name
 

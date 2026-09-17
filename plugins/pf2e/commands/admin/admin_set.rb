@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2AdminSetCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :character, :item, :value
 
@@ -32,8 +33,13 @@ module AresMUSH
         return t('dispatcher.not_allowed')
       end
 
+      # The character being corrected, not the staff member typing it.
+      def draft_subject
+        @subject ||= Pf2e.get_character(self.character, enactor)
+      end
+
       def handle
-        char = Pf2e.get_character(self.character, enactor)
+        char = draft_subject
 
         if !char
           client.emit_failure t('pf2e.not_found')

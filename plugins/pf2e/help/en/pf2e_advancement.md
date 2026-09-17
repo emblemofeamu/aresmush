@@ -25,6 +25,7 @@ The following commands are broadly useful for the advancement process.
 `advance/review`: Your guidebook for what you get in advancement and the options you need to select. (Alternative alias: `adv/review`)
 `advance/done`: Locks your choices, takes you out of advancement mode, and updates your sheet. 
 `advance/reset`: Backs out of advancement and discards all changes.
+`advance/undo`: Takes back your most recent choice this level, one step at a time, newest first. `advance/redo` puts back the last thing you took back. Neither reaches past `advance/done`; once a level is locked in, only staff can change it, with `admin/rollback`.
 
 ### Raising Abilities and Skills, and Learning Languages
 See `help advanceskills`, `help advanceabilities`, or `help advancelanguages`.

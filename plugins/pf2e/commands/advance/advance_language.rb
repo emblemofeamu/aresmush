@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2AdvanceLanguageCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :language
 

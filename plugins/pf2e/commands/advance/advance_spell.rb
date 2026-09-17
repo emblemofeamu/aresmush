@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2AdvanceSpellCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :type, :level, :value, :old_value, :magic_class
 

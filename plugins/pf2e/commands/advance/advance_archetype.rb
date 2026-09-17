@@ -10,6 +10,7 @@ module AresMUSH
     # dedication block, and that half needs the live character rather than the draft.
     class PF2AdvanceArchetypeCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :type, :value
 

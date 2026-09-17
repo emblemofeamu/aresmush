@@ -61,6 +61,9 @@ module AresMUSH
     collection :pf2_ledger_entries, "AresMUSH::Pf2eLedgerEntry"
     collection :sheet_caches, "AresMUSH::Pf2eSheetCache"
 
+    # The steps of an open draft, which exist only until it commits.
+    collection :draft_steps, "AresMUSH::Pf2eDraftStep"
+
     before_delete :delete_pf2
 
     def delete_pf2

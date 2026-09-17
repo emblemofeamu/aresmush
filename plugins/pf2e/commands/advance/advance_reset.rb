@@ -28,6 +28,9 @@ module AresMUSH
 
         Pf2e::CharState.commit!(enactor, before, outcome)
 
+        # Nothing is left to take back a step at a time.
+        Pf2e::DraftJournal.clear!(enactor)
+
         # Not part of the state a core may write, and the commit boundary for a level-up is
         # advance/done - so leaving the flag set here would strand the character mid-level.
         enactor.update(:advancing => false)

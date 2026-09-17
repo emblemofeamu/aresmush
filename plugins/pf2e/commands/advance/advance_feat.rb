@@ -9,6 +9,7 @@ module AresMUSH
     # live sheet rather than the draft.
     class PF2AdvanceFeatCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :type, :value
 

@@ -498,7 +498,13 @@ module AresMUSH
       def self.commit_chargen!(char, granted_by: 'System')
         return nil if char.grants.count > 0
 
-        seed_from_sheet!(char, :granted_by => granted_by, :source_type => 'chargen', :source_ref => 'chargen')
+        txn = seed_from_sheet!(char, :granted_by => granted_by, :source_type => 'chargen', :source_ref => 'chargen')
+
+        # The draft's own history ends here: past this point the grants are the record and
+        # admin/rollback is the undo.
+        DraftJournal.clear!(char)
+
+        txn
       end
 
       # A level-up becomes history: one transaction, attributed to the level just gained, for
@@ -552,6 +558,10 @@ module AresMUSH
         # The cost is an audit entry rather than a folded grant, tagged with the transaction
         # that incurred it so a rollback can find and reverse exactly this level's spend.
         Audit.post(char, 'xp', -cost.to_i, :by => 'System', :reason => "advance to level #{level}", :ref => txn_id) if cost.to_i > 0
+
+        # The level's draft is history now, so its steps go: what can still be taken back is the
+        # whole level, through admin/rollback.
+        DraftJournal.clear!(char)
 
         plan['grants'].size
       end

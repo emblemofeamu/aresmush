@@ -2,6 +2,7 @@ module AresMUSH
   module Pf2e
     class PF2BoostSetCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :type, :value
 

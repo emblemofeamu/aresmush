@@ -3,6 +3,37 @@ $:.unshift File.dirname(__FILE__)
 module AresMUSH
   module Pf2e
 
+    # Makes a command's work one step of a draft, so a player can take it back.
+    #
+    #   class PF2SetChargenCmd
+    #     include CommandHandler
+    #     prepend Pf2e::RecordsDraftStep
+    #
+    # Prepended, so the journal wraps the command's own `handle` and the command has nothing to
+    # call. Every command that can change a drafting character declares itself this way; one that
+    # forgets is caught by `DraftJournal.stale?`, which refuses an undo rather than restoring a
+    # shape from before a change nobody recorded.
+    #
+    # It lives in this file because a command prepends it while its class body is being read, and
+    # the plugin loader reads this file before the command directories.
+    module RecordsDraftStep
+
+      def handle
+        subject = draft_subject
+
+        return super unless subject
+
+        DraftJournal.step!(subject, cmd.raw.to_s.split('=').first.to_s.strip) { super }
+      end
+
+      # Whose draft this command changes. Their own, unless the command says otherwise - a staff
+      # command changes the character it names, and journaling the staff member's draft instead
+      # would record nothing and leave the target's journal behind the character.
+      def draft_subject
+        enactor
+      end
+    end
+
     def self.plugin_dir
       File.dirname(__FILE__)
     end
@@ -57,6 +88,8 @@ module AresMUSH
           return PF2FeatSetCmd
         when "option"
           return PF2ChargenOptionCmd
+        when "undo", "redo"
+          return PF2DraftUndoCmd
         end
       when "roll"
         case cmd.switch
@@ -186,6 +219,8 @@ module AresMUSH
           return PF2AdvanceLanguageCmd
         when "done"
           return PF2AdvanceFinishCmd
+        when "undo", "redo"
+          return PF2DraftUndoCmd
         end
       when "listxp"
         return PF2ListXPCmd

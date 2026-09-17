@@ -392,6 +392,7 @@ module AresMUSH
       # character is not back in a draft: chargen commands would write history instead of a
       # working copy, and the next materialise would restore the sheet being cleared here.
       Ledger.delete_all!(char)
+      DraftJournal.clear!(char)
 
       BLANK_SHEET.each_pair { |attr, value| char.send("#{attr}=", value) }
 

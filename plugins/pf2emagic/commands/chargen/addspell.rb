@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2ChargenSpellsCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :caster_class, :spell_level, :new_spell, :old_spell
 

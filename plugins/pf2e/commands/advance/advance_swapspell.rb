@@ -7,6 +7,7 @@ module AresMUSH
     # names and reading the magic object, both of which need the live character.
     class PF2AdvanceSwapSpellCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :type, :level, :old_value, :new_value
 

@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2SetChargenCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :element, :value
 
