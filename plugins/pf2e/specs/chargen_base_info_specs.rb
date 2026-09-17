@@ -20,7 +20,7 @@ module AresMUSH
             'pf2e_class' => {
               'Wizard' => { 'chargen' => { 'charclass_feature' => [ 'Arcane Bond', 'Arcane Thesis' ] } },
               'Cleric' => { 'chargen' => { 'charclass_feature' => [ 'Divine Font' ] } },
-              'Champion' => { 'allowed_sanctifications' => [ 'Holy', 'Unsanctified' ], 'chargen' => {} }
+              'Champion' => { 'allowed_alignments' => [ 'OL', 'WL', 'OT', 'WT' ], 'allowed_sanctifications' => [ 'Holy', 'Unsanctified' ], 'chargen' => {} }
             },
             'pf2e_specialty' => {
               'Wizard' => { 'Department of Mana Syntaxia' => { 'choose' => { 'options' => { 'Improved Familiar Attunement' => {}, 'Spell Substitution' => {} } } } },
@@ -141,6 +141,37 @@ module AresMUSH
             result = BaseInfo.set(before, 'element' => 'charclass', 'value' => 'Champion')
 
             expect(result.code).to eq :champion_deity_mismatch
+          end
+
+          # cg/info lists the intersection of what the base list, the class, the cause and the
+          # deity allow. Setting one checked the cause but never the class, so a Champion with no
+          # cause yet could take an alignment cg/info had just refused to offer them.
+          it "should refuse an alignment the character's class does not allow" do
+            before = state({ 'charclass' => 'Champion' })
+            result = BaseInfo.set(before, 'element' => 'alignment', 'value' => 'BL')
+
+            expect(result.code).to eq :class_alignment_mismatch
+          end
+
+          it "should refuse a class whose alignments exclude the one already chosen" do
+            before = state({}, { 'alignment' => 'BL' })
+            result = BaseInfo.set(before, 'element' => 'charclass', 'value' => 'Champion')
+
+            expect(result.code).to eq :class_alignment_mismatch
+          end
+
+          it "should allow an alignment the class permits" do
+            before = state({ 'charclass' => 'Champion' })
+            result = BaseInfo.set(before, 'element' => 'alignment', 'value' => 'WL')
+
+            expect(result.ok?).to be true
+          end
+
+          it "should leave a class with no alignment restriction alone" do
+            before = state({ 'charclass' => 'Wizard' })
+            result = BaseInfo.set(before, 'element' => 'alignment', 'value' => 'BT')
+
+            expect(result.ok?).to be true
           end
 
           it "should refuse a champion cause the character's alignment does not allow" do

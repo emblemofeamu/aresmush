@@ -133,6 +133,28 @@ module AresMUSH
             }
           },
           {
+            # cg/info offers the intersection of what the base list, the class, the cause and the
+            # deity allow; setting has to enforce the same set. Only Champion restricts at class
+            # level, and its causes narrow it further - but a character picks a class before a
+            # cause, so without this the class's own restriction went unchecked.
+            'elements' => [ 'charclass', 'alignment' ],
+            'check' => lambda { |state, element, value|
+              next nil unless state['config'].read('pf2e', 'use_alignment')
+
+              charclass = element == 'charclass' ? value : state['base_info']['charclass']
+              alignment = element == 'alignment' ? value : state['faith']['alignment']
+
+              next nil if charclass.blank? || alignment.blank?
+
+              allowed = Array((state['config'].read('pf2e_class', charclass) || {})['allowed_alignments'])
+
+              next nil if allowed.empty? || allowed.include?(alignment)
+
+              Err.new(:class_alignment_mismatch, 'pf2e.cg_class_alignment_mismatch',
+                      'charclass' => charclass, 'options' => allowed.join(", "))
+            }
+          },
+          {
             'elements' => [ 'specialize', 'alignment', 'deity' ],
             'check' => lambda { |state, element, value|
               next nil unless state['config'].read('pf2e', 'use_alignment')
