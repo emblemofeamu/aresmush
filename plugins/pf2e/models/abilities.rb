@@ -26,7 +26,7 @@ module AresMUSH
     end
 
     def self.get_score(char, ability)
-      object = char.abilities.select { |a| a.name_upcase == ability.upcase }.first
+      object = Pf2e::SheetReads.rows(char, :abilities).find { |a| a.name_upcase == ability.upcase }
 
       return 10 if !object
 
@@ -65,7 +65,7 @@ module AresMUSH
     end
 
     def self.update_base_score(char,ability,mod=2)
-      object = char.abilities.select { |a| a.name_upcase == ability.upcase }.first
+      object = Pf2e::SheetReads.rows(char, :abilities).find { |a| a.name_upcase == ability.upcase }
 
       return nil if !object
 

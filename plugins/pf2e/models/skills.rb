@@ -28,9 +28,9 @@ module AresMUSH
     end
 
     def self.find_skill(name, char)
-      skill = char.skills.select { |s| s.name_upcase == name.upcase }.first
+      wanted = name.to_s.upcase
 
-      skill
+      Pf2e::SheetReads.rows(char, :skills).find { |s| s.name_upcase == wanted }
     end
 
     def self.get_skill_bonus(char, name)

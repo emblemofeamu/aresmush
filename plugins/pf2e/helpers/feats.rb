@@ -640,28 +640,31 @@ module AresMUSH
       count > 1 ? "#{feat} (x#{count})" : feat
     end
 
+    # Every feat of a type the character could take.
+    #
+    # The sheet is read once for the whole sweep - see Pf2e::SheetReads. The eligibility check
+    # looks a skill or an attribute up per prerequisite, which against the whole catalogue is
+    # hundreds of reads of collections that do not change while the sweep runs.
     def self.get_feat_options(char, type)
       ftype = type.capitalize
-
-      # experimental feat lookup fix
       feats = Global.read_config('pf2e_feats') || {}
-
       list = []
 
       # Tallied once rather than rebuilt inside the loop by has_feat?. A repeatable feat
       # stays in the list until it is actually maxed out.
       tally = feat_tally(char)
 
-      feats.each_pair do |name, details|
-        # Cheap filters first, so most candidates never reach the eligibility check.
-        next unless Array(details['feat_type']).include? ftype
-        next if feat_repeat_block(char, name, details, tally[name.to_s.upcase])
+      Pf2e::SheetReads.holding(char) do
+        feats.each_pair do |name, details|
+          # Cheap filters first, so most candidates never reach the eligibility check.
+          next unless Array(details['feat_type']).include? ftype
+          next if feat_repeat_block(char, name, details, tally[name.to_s.upcase])
 
-        list << name if can_take_feat_details?(char, name, details)
+          list << name if can_take_feat_details?(char, name, details)
+        end
       end
 
       list.sort
-
     end
 
     def self.format_feat(feat, details)
@@ -1801,10 +1804,13 @@ module AresMUSH
       # stays selectable until it is actually maxed out.
       tally = feat_tally(char)
 
-      list = feats.keys.select do |name|
-        next false if feat_repeat_block(char, name, feats[name], tally[name.to_s.upcase])
+      # One read of the sheet for the whole sweep, as get_feat_options does.
+      list = Pf2e::SheetReads.holding(char) do
+        feats.keys.select do |name|
+          next false if feat_repeat_block(char, name, feats[name], tally[name.to_s.upcase])
 
-        choice_feat_match?(char, name, feats[name], filter)
+          choice_feat_match?(char, name, feats[name], filter)
+        end
       end
 
       list.sort
