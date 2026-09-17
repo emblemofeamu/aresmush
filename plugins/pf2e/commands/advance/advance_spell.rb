@@ -87,26 +87,7 @@ module AresMUSH
           end
         end
 
-        if self.type == "innate"
-          unless list.is_a?(Array)
-            client.emit_failure t('pf2emagic.innate_no_new_spells')
-            return
-          end
-
-          result = resolve_innate_spell(level, self.value, list, class_key)
-          if result.is_a?(String)
-            client.emit_failure result
-            return
-          end
-
-          spell = result[0]
-
-          update_innate_advancement(spell, list, entries, level, class_key)
-
-          client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
-          return
-        end
-
+        return take_innate(level, list, entries, class_key) if self.type == "innate"
 
         # Now we have to figure out if we have an open slot.
         open_slot = list.index "open"
@@ -128,25 +109,9 @@ module AresMUSH
         end
 
         class_for_spell = class_key || charclass
-        magic = enactor.magic
-        added_tradition = false
 
-        if magic && class_for_spell && !magic.tradition.key?(class_for_spell)
-          preview_tradition = Pf2e.preview_magic_tradition(enactor)
-          preview_entry = preview_tradition[class_for_spell]
-
-          if preview_entry
-            temp_tradition = magic.tradition.dup
-            temp_tradition[class_for_spell] = preview_entry
-            magic.tradition = temp_tradition
-            added_tradition = true
-          end
-        end
-
-        choice = Pf2emagic.check_spell(enactor, class_for_spell, level, self.value, true)
-
-        if added_tradition
-          magic.tradition = magic.tradition.reject { |k, _| k.to_s.casecmp?(class_for_spell) }
+        choice = with_previewed_tradition(class_for_spell) do
+          Pf2emagic.check_spell(enactor, class_for_spell, level, self.value, true)
         end
 
         if choice.is_a? String
@@ -197,6 +162,44 @@ module AresMUSH
         enactor.save
 
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
+      end
+
+      # A level that grants a new spellcasting source does not grant it until `advance/done`, so a
+      # spell picked for it during the level has no tradition to be measured against yet. The
+      # tradition the level will grant stands in for the duration of the check, on the in-memory
+      # magic object only - nothing here saves it, and the ensure puts it back whatever happens.
+      def with_previewed_tradition(class_for_spell)
+        magic = enactor.magic
+        preview = class_for_spell && magic && !magic.tradition.key?(class_for_spell) &&
+                  Pf2e.preview_magic_tradition(enactor)[class_for_spell]
+
+        return yield unless preview
+
+        magic.tradition = magic.tradition.merge(class_for_spell => preview)
+
+        begin
+          yield
+        ensure
+          magic.tradition = magic.tradition.reject { |key, _| key.to_s.casecmp?(class_for_spell) }
+        end
+      end
+
+      # An innate grant is recorded twice while the level is open: as the pending entry in the
+      # draft's magic_stats, which is what advance/done hands to the magic object, and as a slot in
+      # the pool, which is what the review screen counts. Neither is a spellcasting entry yet, so
+      # the prepared and spontaneous path below does not apply.
+      def take_innate(level, list, entries, class_key)
+        return client.emit_failure t('pf2emagic.innate_no_new_spells') unless list.is_a?(Array)
+
+        result = resolve_innate_spell(level, self.value, list, class_key)
+
+        return client.emit_failure result if result.is_a?(String)
+
+        spell = result[0]
+
+        update_innate_advancement(spell, list, entries, level, class_key)
+
+        client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
       end
 
       # What the character already knows for this class, counting the picks this level has staged.
