@@ -142,19 +142,28 @@ module AresMUSH
       # spell picked for it during the level has no tradition to be measured against yet. The
       # tradition the level will grant stands in for the duration of the check, on the in-memory
       # magic object only - nothing here saves it, and the ensure puts it back whatever happens.
+      #
+      # The player types the source's name, and every other name in the game is matched
+      # case-insensitively - so both lookups here are too. Matching exactly missed the preview for
+      # `advance/spell repertoire/oracle archetype/...` against a draft holding `Oracle Archetype`,
+      # which left the source with no tradition and refused every spell as one the class cannot cast.
       def with_previewed_tradition(class_for_spell)
         magic = enactor.magic
-        preview = class_for_spell && magic && !magic.tradition.key?(class_for_spell) &&
-                  Pf2e.preview_magic_tradition(enactor)[class_for_spell]
 
-        return yield unless preview
+        return yield unless class_for_spell && magic
+        return yield if magic.tradition.keys.any? { |key| key.to_s.casecmp?(class_for_spell.to_s) }
 
-        magic.tradition = magic.tradition.merge(class_for_spell => preview)
+        previews = Pf2e.preview_magic_tradition(enactor) || {}
+        source = previews.keys.find { |key| key.to_s.casecmp?(class_for_spell.to_s) }
+
+        return yield unless source && previews[source]
+
+        magic.tradition = magic.tradition.merge(source => previews[source])
 
         begin
           yield
         ensure
-          magic.tradition = magic.tradition.reject { |key, _| key.to_s.casecmp?(class_for_spell) }
+          magic.tradition = magic.tradition.reject { |key, _| key.to_s.casecmp?(source.to_s) }
         end
       end
 
