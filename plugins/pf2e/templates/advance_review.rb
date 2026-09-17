@@ -108,6 +108,40 @@ module AresMUSH
         @option_lines ||= build_options
       end
 
+      # The command that fills each open slot, keyed by the to_assign key the review shows it under.
+      #
+      # Naming the slot without naming the command leaves a player who cannot guess it unable to
+      # finish the level - and the chargen command they would reach for first is refused, because
+      # chargen is over. One row per slot a player has to go and fill themselves.
+      RESOLVED_BY = {
+        'open languages' => 'advance/language <language>',
+        'open skills' => 'advance/raise skill=<skill>',
+        'raise skill choice' => 'advance/raise skill choice=<skill>',
+        'raise ability' => 'advance/raise ability=<four attributes>',
+        'feat choice' => 'advance/info <feat> for the options, then advance/option <feat>=<choice>',
+        'class option' => 'advance/option <feature>=<choice>',
+        'divine font' => 'advance/font <heal or harm>',
+        'archetype_specialty' => 'advance/archetype specialty=<specialty>',
+        'archetype specialty choice' => 'advance/archetype specialty=<specialty>',
+        'archetype deity' => 'advance/archetype deity=<deity>',
+        'archetype key ability' => 'advance/archetype key ability=<attribute>',
+        'repertoire' => 'advance/spell repertoire/<source>/<rank>=<spell>',
+        'spellbook' => 'advance/spell spellbook/<rank>=<spell>',
+        'signature' => 'advance/spell signature/<rank>=<spell>',
+        'innate' => 'advance/spell innate/<rank>=<spell>',
+        'feats' => 'advance/feat <type>=<feat>'
+      }.freeze
+
+      def self.command_for(key)
+        RESOLVED_BY[key.to_s]
+      end
+
+      def command_hint(key)
+        hint = self.class.command_for(key)
+
+        hint ? "%r%b%b%xh#{hint}%xn" : ""
+      end
+
       def build_options
         list = []
 
@@ -150,7 +184,7 @@ module AresMUSH
               format_open_list(value)
             end
 
-            list << "#{item_color}#{heading}:%xn #{formatted}" unless value.empty?
+            list << "#{item_color}#{heading}:%xn #{formatted}#{command_hint(key)}" unless value.empty?
           elsif value.is_a? Hash
             if key == "class option" || key == "charclass option"
               list << "#{item_color}Class Feature Option:%xn"
