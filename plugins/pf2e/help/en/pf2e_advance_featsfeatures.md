@@ -4,6 +4,8 @@ summary: Commands related to advancement, skills, and abilities.
 aliases:
 - advancefeats
 - advancefeatures
+- advance/feats
+- eligible feats
 ---
 
 # Advancement - Selecting Feats and Class Features

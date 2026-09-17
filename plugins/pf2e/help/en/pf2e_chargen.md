@@ -16,6 +16,10 @@ Begin by inputting the following command: `cg/review`.
 
 You can leave the sheet for later in chargen by entering `cg/next` to proceed to other parts of chargen, but you'll have to finish your sheet before you can submit your application.
 
+If you want to start the sheet over, `cg/reset` wipes it completely; it asks you to confirm with
+`cg/reset confirm` before it does anything. To go back to one earlier stage instead of wiping
+everything, see `help cg_restore`.
+
 **When you write your Prologue later in chargen, your Prologue should reflect your chosen sheet options.** See [Writing a Prologue](/wiki/resource:prologue) for more information.
 
 **Note**: If you're using [Pathbuilder 2e](https://pathbuilder2e.com/) or another character builder tool to help you in the character creation process, be aware that many ancestries and heritages have been renamed. See [Ea Conversion Guide](/wiki/resource:ea-conversion) for help finding your equivalent character options.

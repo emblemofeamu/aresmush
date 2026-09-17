@@ -23,6 +23,7 @@ The following commands are applicable for adding and reviewing spells.
 `repertoire`: Shows all the spells you know if you're a spontaneous caster.
 `magic`: Shows your magic casting stats, including focus spells and innate spells (if you know any).
 `spell/search`: Searches spells in the spell database. (See `help spell search` for more information.)
+`spell/eligible <level>`: Lists only the spells you could actually take at that level, rather than the whole database. Add `=<text>` to narrow it.
 
 **Note: All spells selected in character generation must be common spells.** A spell must not have the Uncommon or Rare traits. Uncommon and Rare spells can only be learned after chargen with RPP spends.
 

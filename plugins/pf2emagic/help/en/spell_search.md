@@ -5,6 +5,8 @@ aliases:
 - spellsearch
 - search spells
 - searching spells
+- spell/eligible
+- eligible spells
 ---
 
 # Searching Spells 

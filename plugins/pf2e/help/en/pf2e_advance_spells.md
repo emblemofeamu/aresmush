@@ -16,6 +16,7 @@ Repertoire spellcasters learn a handful of spells through advancement and can re
 `advance/spell innate/<level> = <spell name>`: Selects an open innate spell (by its `<spell name>`), if you have one from a feat. `<level>` is the level for which you want to learn the spell.
 `advance/swapspell repertoire/<level> = <old spell>/<spell name>`: Swaps a known repertoire spell for a new spell at the same level. You can do this once per advancement. Bloodline or class-granted spells cannot be swapped. Cantrips can be swapped.
 `advance/spell signature/<level>=<spell name>`: Designates a spell (by its `<spell name>`) as a signature spell. `<level>` is the spell's original (base) level.
+`spell/eligible <level>`: Lists every spell you could actually take at that level, for the traditions you cast. Add `=<text>` to narrow it. Use this rather than guessing a name and reading the refusal. See `help spell search`.
 
 ## Archetype Spells
 If your character class is a caster, and you take an archetype that can also learn magic, use the following commands to learn spells for your archetype, depending on caster type. If your main character class doesn't have any casting, you can use the regular spell learning commands.
