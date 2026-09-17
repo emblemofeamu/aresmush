@@ -64,11 +64,13 @@ module AresMUSH
         entries = found.state['entries']
         list = found.state['list']
         list_key = found.state['list_key']
-        spent_from_pool = false
+        spent_from_pool = found.state['from_pool']
 
         # A rank whose own slots are full can still be paid for from an any-rank slot, and the spell
-        # lands under the rank it actually is.
-        if self.type == 'spellbook' && spellbook_rank_full_for?(list, level, class_key || charclass)
+        # lands under the rank it actually is. A rank with no slots of its own was already resolved
+        # to the pool.
+        if self.type == 'spellbook' && !spent_from_pool &&
+           spellbook_rank_full_for?(list, level, class_key || charclass)
           pool_key = Pf2e::Advancement::SpellSlots.any_rank_key(entries)
 
           if pool_key

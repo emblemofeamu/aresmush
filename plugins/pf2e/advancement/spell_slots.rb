@@ -27,14 +27,30 @@ module AresMUSH
           entries = keyed ? pool[class_key] : pool
           list = entries.is_a?(Hash) ? entries[rank] : entries
 
-          return Err.new(:no_slots_at_rank, 'pf2e.adv_no_spell_slots_level',
-                         'type' => type, 'level' => rank) unless list
+          # A level may give slots that are tied to no rank: the pool is keyed `any`, and a pick at
+          # any rank spends one. So a rank with no list of its own is not a refusal while one of
+          # those is open.
+          if list.nil?
+            pool_key = any_rank_key(entries)
+
+            return Err.new(:no_slots_at_rank, 'pf2e.adv_no_spell_slots_level',
+                           'type' => type, 'level' => rank) unless pool_key
+
+            return Ok.new(:state => {
+              'class_key' => class_key,
+              'entries' => entries,
+              'list' => entries[pool_key],
+              'list_key' => pool_key,
+              'from_pool' => true
+            })
+          end
 
           Ok.new(:state => {
             'class_key' => class_key,
             'entries' => entries,
             'list' => list,
-            'list_key' => entries.is_a?(Hash) ? rank : nil
+            'list_key' => entries.is_a?(Hash) ? rank : nil,
+            'from_pool' => false
           })
         end
 

@@ -93,6 +93,38 @@ module AresMUSH
           end
         end
 
+        # A prepared caster's level often gives slots that are not tied to a rank: the pool is
+        # keyed `any` and nothing else, and a pick at any rank spends one. Refusing because the rank
+        # has no list of its own is what stalled every Wizard and Witch at level 2.
+        describe "a pool that is only any-rank" do
+          def any_only
+            { 'spellbook' => { Pf2emagic::ANY_RANK => %w(open open) } }
+          end
+
+          it "should spend the any-rank slot for a pick at a rank" do
+            result = resolve(any_only, :type => 'spellbook', :rank => '1')
+
+            expect(result.ok?).to be true
+            expect(result.state['list']).to eq %w(open open)
+            expect(result.state['list_key']).to eq Pf2emagic::ANY_RANK
+            expect(result.state['from_pool']).to be true
+          end
+
+          it "should refuse once the any-rank slots are spent" do
+            pool = { 'spellbook' => { Pf2emagic::ANY_RANK => [ 'Magic Missile' ] } }
+
+            expect(resolve(pool, :type => 'spellbook', :rank => '1').code).to eq :no_slots_at_rank
+          end
+
+          it "should still prefer the rank's own list when it has one" do
+            pool = { 'spellbook' => { '1' => [ 'open' ], Pf2emagic::ANY_RANK => [ 'open' ] } }
+            result = resolve(pool, :type => 'spellbook', :rank => '1')
+
+            expect(result.state['list_key']).to eq '1'
+            expect(result.state['from_pool']).to be false
+          end
+        end
+
         describe "an any-rank slot" do
           it "should be found when one is open" do
             entries = { '1' => [ 'Magic Missile' ], Pf2emagic::ANY_RANK => [ 'open' ] }
