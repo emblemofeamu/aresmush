@@ -35,6 +35,23 @@ module AresMUSH
         (held_feats + staged_feats).uniq
       end
 
+      # bucket => [ feats ], the sheet's and the draft's together, in the spelling they were
+      # recorded in. A feat the rules let you take more than once is held once per taking, so the
+      # lists are concatenated rather than merged.
+      def feats_by_bucket
+        buckets = (@char.pf2_feats || {}).each_with_object({}) { |(b, list), h| h[b.to_s] = Array(list).dup }
+
+        (draft['feats'] || {}).each_pair do |bucket, list|
+          taken = Array(list).reject { |f| f.to_s.blank? || f.to_s.casecmp?('open') }
+
+          next if taken.empty?
+
+          buckets[bucket.to_s] = Array(buckets[bucket.to_s]) + taken
+        end
+
+        buckets
+      end
+
       def skill_prof(name)
         held = Pf2eSkills.get_skill_prof(@char, name)
         raises = staged_raises_for(name)

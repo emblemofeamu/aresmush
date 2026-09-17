@@ -594,7 +594,9 @@ module AresMUSH
             txn.grant('raise_skill', 'skill' => skill.name, 'to' => skill.prof_level)
           end
 
-          (char.pf2_feats || {}).each_pair do |bucket, feats|
+          # Through DraftSheet, because a pick made during chargen is in the draft rather than on
+          # the sheet, and this is the boundary that turns it into history.
+          DraftSheet.of(char).feats_by_bucket.each_pair do |bucket, feats|
             Array(feats).each { |feat| txn.grant('grant_feat', 'bucket' => bucket, 'feat' => feat) }
           end
 

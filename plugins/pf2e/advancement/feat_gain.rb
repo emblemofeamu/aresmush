@@ -137,8 +137,6 @@ module AresMUSH
 
           messages << [ 'pf2e.advancement_feat_grants_addl', { :element => 'item' } ] if now || later
 
-          messages.concat(cantrip_expansion(ctx))
-
           if now
             grants = (ctx[:to_assign]['grants'] ||= {})
             grants[ctx[:feat]] = now
@@ -152,32 +150,6 @@ module AresMUSH
           messages
         end
 
-        # Cantrip Expansion gives a spontaneous caster two more cantrips to pick. Which slots
-        # that is comes from FeatSlots; all this does is ask, and apply.
-        def self.cantrip_expansion(ctx)
-          base_class = ctx[:char].pf2_base_info['charclass']
-
-          apply_slots(ctx, FeatSlots.deltas(ctx[:feat], ctx[:details],
-            :spontaneous => Pf2emagic.get_caster_type(base_class) == 'spontaneous',
-            :cantrip_path => cantrip_path(ctx[:to_assign], base_class)))
-
-          []
-        end
-
-        # Where a class's cantrip list lives. A character casting from more than one class has
-        # the list keyed by class first.
-        def self.cantrip_path(to_assign, base_class)
-          container = to_assign['repertoire']
-          class_keyed = container.is_a?(Hash) && container.keys.any? { |k| !Pf2e.level_key?(k) }
-          inner = class_keyed ? (container[base_class] || {}) : (container || {})
-          cantrip = inner.keys.find { |k| k.to_s.casecmp?('cantrip') } || 'cantrip'
-
-          class_keyed ? [ 'repertoire', base_class, cantrip ] : [ 'repertoire', cantrip ]
-        end
-
-        # Every change to the pool of things still to pick goes through the slot vocabulary, so
-        # what a feat opens up can be read off its deltas rather than inferred from the code
-        # that appended them. See Pf2e::Slots.
         def self.apply_slots(ctx, *deltas)
           updated = Slots.apply(ctx[:to_assign], deltas.flatten)
 

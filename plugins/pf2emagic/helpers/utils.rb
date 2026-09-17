@@ -118,7 +118,7 @@ module AresMUSH
       end
 
       spent = (max - current).to_i
-      charclass_feats = Array(target.pf2_feats['charclass']).map { |f| f.to_s.upcase }
+      charclass_feats = Array(Pf2e::DraftSheet.of(target).feats_by_bucket['charclass']).map { |f| f.to_s.upcase }
       charclass_features = Array(target.pf2_features['charclass_features']).map { |f| f.to_s.upcase }
       charclass = target.pf2_base_info['charclass']
 
@@ -203,7 +203,7 @@ module AresMUSH
       end
 
       # From feats
-      all_feats = char.pf2_feats.values.flatten.uniq
+      all_feats = Pf2e::DraftSheet.of(char).feats_by_bucket.values.flatten.uniq
 
       values = []
 

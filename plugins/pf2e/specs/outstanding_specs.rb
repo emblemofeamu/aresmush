@@ -116,8 +116,7 @@ module AresMUSH
         # increase at a level lands in 'raise skill'.
         settled = [ 'open skills', 'feat choice filter', 'feat_choices', 'bgskill', 'bg_lore', 'bgfeat',
                     'bg skill choice', 'class skill choice', 'specialty skill choice',
-                    'ancestry feat', 'charclass feat', 'skill feat', 'general feat',
-                    'archetype feat', 'dedication feat', 'divine font', 'archetype',
+                    'divine font', 'archetype',
                     'archetype sanctification' ]
 
         expect(holders - settled - PENDING.keys).to eq []

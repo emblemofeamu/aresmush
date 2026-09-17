@@ -31,12 +31,6 @@ module AresMUSH
             'name' => 'its own choice',
             'when' => lambda { |ctx| ctx[:opens_choice] },
             'deltas' => lambda { |ctx| [ Slots.open([ 'feat choice', ctx[:feat] ]) ] }
-          },
-          # Two more cantrips, for a spontaneous caster only.
-          {
-            'name' => 'cantrip expansion',
-            'when' => lambda { |ctx| (ctx[:details]['grants'] || {})['cantrip_expansion'] && ctx[:spontaneous] },
-            'deltas' => lambda { |ctx| [ Slots.open(ctx[:cantrip_path], :count => 2) ] }
           }
         ].freeze
 
@@ -44,16 +38,12 @@ module AresMUSH
         #
         #   bucket        the feat list it goes into, or nil to record it without spending a slot
         #   opens_choice  whether the feat's choice opens on this taking
-        #   spontaneous   whether the character casts spontaneously
-        #   cantrip_path  where their cantrip list lives
-        def self.deltas(feat, details, bucket: nil, opens_choice: false, spontaneous: false, cantrip_path: nil)
+        def self.deltas(feat, details, bucket: nil, opens_choice: false)
           ctx = {
             :feat => feat,
             :details => details || {},
             :bucket => bucket,
-            :opens_choice => opens_choice,
-            :spontaneous => spontaneous,
-            :cantrip_path => cantrip_path || [ 'repertoire', 'cantrip' ]
+            :opens_choice => opens_choice
           }
 
           RULES.flat_map do |rule|

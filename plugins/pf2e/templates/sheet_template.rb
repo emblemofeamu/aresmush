@@ -258,7 +258,7 @@ module AresMUSH
         # Each stored instance becomes its own entry, so a repeatable feat shows once per
         # taking with the choice that instance was taken for.
         %w(charclass ancestry general skill dedication).each do |type|
-          Pf2e.feat_display_list(@char, @char.pf2_feats[type] || []).each do |name|
+          Pf2e.feat_display_list(@char, Pf2e::DraftSheet.of(@char).feats_by_bucket[type] || []).each do |name|
             list << format_feat(name, type)
           end
         end

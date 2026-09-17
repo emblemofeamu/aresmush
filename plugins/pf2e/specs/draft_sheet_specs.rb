@@ -26,6 +26,52 @@ module AresMUSH
           .and_return(%w(untrained trained expert master legendary))
       end
 
+      # The commit boundary and the review screen need the buckets, not a flat list: a grant
+      # records which heading a feat sits under.
+      describe :feats_by_bucket do
+        it "should keep the sheet's own buckets" do
+          sheet = DraftSheet.of(char(:feats => { 'charclass' => [ 'Power Attack' ] }))
+
+          expect(sheet.feats_by_bucket).to eq('charclass' => [ 'Power Attack' ])
+        end
+
+        it "should add a draft's picks to the bucket they were taken in" do
+          sheet = DraftSheet.of(char(
+            :advancing => true,
+            :feats => { 'charclass' => [ 'Power Attack' ] },
+            :advancement => { 'feats' => { 'charclass' => [ 'Sudden Charge' ], 'skill' => [ 'Assurance' ] } }))
+
+          expect(sheet.feats_by_bucket).to eq('charclass' => [ 'Power Attack', 'Sudden Charge' ],
+                                              'skill' => [ 'Assurance' ])
+        end
+
+        it "should leave out an unfilled slot" do
+          sheet = DraftSheet.of(char(:advancing => true,
+                                     :advancement => { 'feats' => { 'skill' => [ 'open', 'Assurance' ] } }))
+
+          expect(sheet.feats_by_bucket).to eq('skill' => [ 'Assurance' ])
+        end
+
+        it "should keep a feat taken twice twice, since the rules allow some of them" do
+          sheet = DraftSheet.of(char(:advancing => true,
+                                     :feats => { 'skill' => [ 'Additional Lore' ] },
+                                     :advancement => { 'feats' => { 'skill' => [ 'Additional Lore' ] } }))
+
+          expect(sheet.feats_by_bucket).to eq('skill' => [ 'Additional Lore', 'Additional Lore' ])
+        end
+      end
+
+      # feat_names is uniqued, so anything that counts takings has to use the buckets. The rules
+      # let some feats be taken more than once, and a limit read from a uniqued list is always 1.
+      describe "counting a feat taken twice" do
+        it "should see both takings through the buckets" do
+          sheet = DraftSheet.of(char(:feats => { 'skill' => [ 'Additional Lore', 'Additional Lore' ] }))
+
+          expect(sheet.feats_by_bucket.values.flatten.size).to eq 2
+          expect(sheet.feat_names.size).to eq 1
+        end
+      end
+
       describe :feat_names do
         it "should give the feats on the sheet" do
           sheet = DraftSheet.of(char(:feats => { 'charclass' => [ 'Power Attack' ] }))

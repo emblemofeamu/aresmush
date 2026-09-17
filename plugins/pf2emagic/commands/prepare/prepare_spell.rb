@@ -31,7 +31,7 @@ module AresMUSH
         # Arcane Evolution Check
 
         if cmd.switch == "evo"
-          if character_has?(enactor.pf2_feats.values.flatten, "Arcane Evolution")
+          if character_has?(Pf2e::DraftSheet.of(enactor).feats_by_bucket.values.flatten, "Arcane Evolution")
             use_arcane_evo = true
           else
             client.emit_failure t('pf2e.does_not_have', :item => 'feat')

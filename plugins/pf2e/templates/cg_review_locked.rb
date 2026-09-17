@@ -492,21 +492,24 @@ module AresMUSH
         count.zero? ? t('pf2e.cg_no_free_languages') : count
       end
 
+      # Feat type to what a player calls it.
       FEAT_SLOTS = {
-        'ancestry feat'  => 'ancestry',
-        'charclass feat' => 'class',
-        'general feat'   => 'general',
-        'skill feat'     => 'skill'
+        'ancestry' => 'ancestry',
+        'charclass' => 'class',
+        'general' => 'general',
+        'skill' => 'skill'
       }
 
       def feats
-        assigned = Pf2e.feat_display_list(@char, @char.pf2_feats.values.flatten).sort
+        assigned = Pf2e.feat_display_list(@char, Pf2e::DraftSheet.of(@char).feats_by_bucket.values.flatten).sort
         (assigned + open_feat_slots).join(", ")
       end
 
       def open_feat_slots
+        open_slots = @to_assign['feats'] || {}
+
         FEAT_SLOTS.map do |key, label|
-          count = open_count(@to_assign[key])
+          count = open_count(open_slots[key])
           next if count.zero?
 
           "#{count} #{label} feat#{count == 1 ? "" : "s"} open"

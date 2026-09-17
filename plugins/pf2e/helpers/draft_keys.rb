@@ -23,12 +23,6 @@ module AresMUSH
         # Picks a player still owes, in to_assign.
         'open languages' => [ TO_ASSIGN, 'language picks, as open markers and filled names' ],
         'open skills' => [ TO_ASSIGN, 'free skill increases, as open markers' ],
-        'ancestry feat' => [ TO_ASSIGN, 'an ancestry feat slot' ],
-        'charclass feat' => [ TO_ASSIGN, 'a class feat slot' ],
-        'skill feat' => [ TO_ASSIGN, 'a skill feat slot' ],
-        'general feat' => [ TO_ASSIGN, 'a general feat slot' ],
-        'archetype feat' => [ TO_ASSIGN, 'an archetype feat slot' ],
-        'dedication feat' => [ TO_ASSIGN, 'a dedication feat slot' ],
         'feat choice' => [ TO_ASSIGN, 'open slots for a choice a feat or feature carries, by choice name' ],
         'feat choice filter' => [ TO_ASSIGN, 'what narrows one of those choices, by choice name' ],
         'feat_choices' => [ TO_ASSIGN, 'labels already chosen for a choice, by choice name' ],
@@ -47,7 +41,7 @@ module AresMUSH
         'archetype key ability' => [ TO_ASSIGN, 'the key ability an archetype asks for' ],
 
         # What a level-up has settled, in advancement.
-        'feats' => [ ADVANCEMENT, 'feats taken this level, by slot type' ],
+        'feats' => [ BOTH, 'the feat slot pool in to_assign, keyed by slot type, and what was taken in them in advancement' ],
         'grants' => [ ADVANCEMENT, 'what those feats handed over, pending advance/done' ],
         'magic_stats' => [ ADVANCEMENT, 'spellcasting this level grants, by source' ],
         'combat_stats' => [ ADVANCEMENT, 'proficiencies this level grants, including an archetype class DC' ],

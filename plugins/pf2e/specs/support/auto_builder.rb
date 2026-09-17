@@ -232,14 +232,19 @@ module AresMUSH
         'bg skill choice','class skill choice','specialty skill choice','bgskill','open skills','open languages',
         'feats','raise skill','raise skill choice','raise ability','languages','charclass_feature option',
         'spellbook','repertoire','signature','archetype_deity','archetype_sanctification','grants','innate','repertoire_swap',
-        'class option','archetype','feat choice',
-        'ancestry feat','charclass feat','skill feat','general feat','feat choice'
+        'class option','archetype','feat choice'
       ]
 
       # Resolving a choice is `cg/option` during chargen and `advance/option` afterwards; the wrong
       # one fails the `check_advancing` guard and the choice stays open.
       def option_cmd(context)
         context == :chargen ? 'cg/option' : 'advance/option'
+      end
+
+      # Spending a feat slot is `cg/feat` during chargen and `advance/feat` afterwards. The slot
+      # pool is the same one either side.
+      def feat_cmd(context)
+        context == :chargen ? 'cg/feat' : 'advance/feat'
       end
 
       def resolve_outstanding(context)
@@ -277,14 +282,8 @@ module AresMUSH
           run("advance/language=#{pick}"); runs += 1
         end
 
-        # Chargen-style single feat slots.
-        [['ancestry feat','ancestry'], ['charclass feat','charclass'], ['skill feat','skill'], ['general feat','general']].each do |key, type|
-          next unless ta[key] == 'open'
-          pick = feat_pick(type)
-          if pick then run("cg/feat #{type}=#{pick}"); runs += 1 else note "!! no #{type} feat options (chargen slot)" end
-        end
-
-        # Advancement feats: { type => [ 'open', ... ] }
+        # Feat slots, the same pool either side of approval. Which command spends one differs:
+        # cg/feat during chargen, advance/feat afterwards.
         if ta['feats'].is_a?(Hash)
           ta['feats'].each_pair do |type, slots|
             Array(slots).count('open').times do
@@ -293,7 +292,7 @@ module AresMUSH
                 note "!! no #{type} feat options at level #{@char.pf2_level}"
                 break
               end
-              run("advance/feat #{type}=#{pick}"); runs += 1
+              run("#{feat_cmd(context)} #{type}=#{pick}"); runs += 1
             end
           end
         end

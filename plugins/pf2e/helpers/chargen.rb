@@ -157,7 +157,7 @@ module AresMUSH
     def self.chargen_warn_player(char)
       messages = []
 
-      feat_list = char.pf2_feats.values.flatten
+      feat_list = DraftSheet.of(char).feats_by_bucket.values.flatten
       dup_feats = feat_list != feat_list.uniq
 
       messages << t('pf2e.duplicate_feats') if dup_feats
@@ -410,24 +410,14 @@ module AresMUSH
       feats['charclass'] = Array(granted['charclass'])
       feats['skill'] = Array(feats['skill']) + Array(granted['skill'])
 
-      to_assign['ancestry feat'] = 'open'
+      # One slot pool, keyed by feat type, which is the shape a level-up uses: a slot is a slot
+      # whichever side of approval it was handed out on.
+      slots = [ 'ancestry' ]
+      slots << 'charclass' if class_features_info['choose_feat']&.include? 'charclass'
+      slots << 'skill' if class_features_info['choose_feat']&.include? 'skill'
+      slots.concat(Array(heritage_info['choose_feat']))
 
-      if class_features_info['choose_feat']&.include? 'charclass'
-        to_assign['charclass feat'] = 'open'
-      end
-
-      if class_features_info['choose_feat']&.include? 'skill'
-        to_assign['skill feat'] = 'open'
-      end
-
-      if heritage_info['choose_feat']
-        heritage_info['choose_feat'].each do |entry|
-          type_key = entry + " feat"
-          list = to_assign[type_key] || []
-          list << "open"
-          to_assign[type_key] = list
-        end
-      end
+      to_assign = Slots.apply(to_assign, slots.map { |type| Slots.open([ 'feats', type ]) })
 
       enactor.pf2_feats = feats
 

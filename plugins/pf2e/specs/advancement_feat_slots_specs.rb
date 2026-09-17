@@ -40,41 +40,21 @@ module AresMUSH
             expect(deltas.map { |d| d[:op] }).to eq %w(fill)
           end
 
-          it "should open two cantrips for a spontaneous caster" do
-            details = skill_feat('grants' => { 'cantrip_expansion' => true })
-            deltas = FeatSlots.deltas('Cantrip Expansion', details, :bucket => 'charclass', :spontaneous => true)
+          # Extra cantrips reach a caster through a magic_stats block, which every feat that grants
+          # them uses, so there is no slot rule for them here.
+          it "should leave magic a feat grants to the magic_stats path" do
+            details = skill_feat('magic_stats' => { 'spontaneous' => { 'repertoire' => { 'cantrip' => 2 } } })
 
-            opened = deltas.find { |d| d[:op] == 'open' }
-
-            expect(opened[:count]).to eq 2
-            expect(opened[:path]).to eq [ 'repertoire', 'cantrip' ]
-          end
-
-          # A prepared caster gets Cantrip Expansion's effect through their spellbook instead,
-          # so there is no repertoire slot to open.
-          it "should open nothing for a prepared caster" do
-            details = skill_feat('grants' => { 'cantrip_expansion' => true })
-            deltas = FeatSlots.deltas('Cantrip Expansion', details, :bucket => 'charclass', :spontaneous => false)
-
-            expect(deltas.map { |d| d[:op] }).to eq %w(fill)
-          end
-
-          it "should put the cantrips where a multi-class caster keeps them" do
-            details = skill_feat('grants' => { 'cantrip_expansion' => true })
-            deltas = FeatSlots.deltas('Cantrip Expansion', details,
-              :spontaneous => true, :cantrip_path => [ 'repertoire', 'Sorcerer', 'cantrip' ])
-
-            expect(deltas.first[:path]).to eq [ 'repertoire', 'Sorcerer', 'cantrip' ]
+            expect(FeatSlots.deltas('Cantrip Expansion', details, :bucket => 'charclass').map { |d| d[:op] }).to eq %w(fill)
           end
         end
 
         describe :openings do
           it "should say what taking the feat opens up" do
-            details = skill_feat('grants' => { 'cantrip_expansion' => true })
-            opened = FeatSlots.openings('Cantrip Expansion', details,
-              :bucket => 'charclass', :spontaneous => true, :opens_choice => true)
+            opened = FeatSlots.openings('Additional Lore', skill_feat,
+              :bucket => 'skill', :opens_choice => true)
 
-            expect(opened).to eq('feat choice/Cantrip Expansion' => 1, 'repertoire/cantrip' => 2)
+            expect(opened).to eq('feat choice/Additional Lore' => 1)
           end
 
           it "should say nothing opens when nothing does" do
@@ -85,17 +65,15 @@ module AresMUSH
         # The deltas are the whole description, so applying them to a pool is the pick.
         describe "applied to a pool" do
           it "should fill the slot and open what the feat brings, in one fold" do
-            details = skill_feat('grants' => { 'cantrip_expansion' => true })
-            pool = { 'feats' => { 'charclass' => [ 'open' ] } }
+            pool = { 'feats' => { 'skill' => [ 'open' ] } }
 
-            deltas = FeatSlots.deltas('Cantrip Expansion', details,
-              :bucket => 'charclass', :spontaneous => true, :opens_choice => true)
+            deltas = FeatSlots.deltas('Additional Lore', skill_feat,
+              :bucket => 'skill', :opens_choice => true)
 
             result = Slots.apply(pool, deltas)
 
-            expect(result['feats']['charclass']).to eq [ 'Cantrip Expansion' ]
-            expect(result['feat choice']['Cantrip Expansion']).to eq [ 'open' ]
-            expect(result['repertoire']['cantrip']).to eq %w(open open)
+            expect(result['feats']['skill']).to eq [ 'Additional Lore' ]
+            expect(result['feat choice']['Additional Lore']).to eq [ 'open' ]
           end
 
           it "should refuse the whole fold when the slot it needs is not open" do
