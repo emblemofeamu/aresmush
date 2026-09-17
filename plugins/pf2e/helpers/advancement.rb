@@ -737,174 +737,34 @@ module AresMUSH
       return nil
     end
 
+    # What the review screen says is still outstanding, and the gate advance/done checks.
+    #
+    # Which picks are open is Advancement::Outstanding's table; this renders what it returns. One
+    # message needs the character to describe itself - the summary of what a feat's choice may be
+    # drawn from - so that lookup happens here rather than in the pure table.
     def self.advancement_messages(char)
-      # Handles messages related to advancement choices in the Messages section of the advance/review screen.
-      msg = []
+      # Only the draft and the config, not a folded sheet: this runs on every review screen and at
+      # every advance/done, and Outstanding reads nothing else.
+      state = CharState.build({ 'to_assign' => char.pf2_to_assign, 'advancement' => char.pf2_advancement })
 
-      to_assign = char.pf2_to_assign
+      msg = Advancement::Outstanding.messages(state).map do |(key, args)|
+        args = args.merge('summary' => choice_pending_summary(char, args['choice'])) if args.key?('choice')
 
-      to_assign.each_pair do |item, info|
-        case item
-        when "feats"
-          info.each_pair do |k,v|
-            msg << t('pf2e.adv_item_feat', :value => k.gsub("charclass", "class")) if v.include? "open"
-          end
-        when "class option", "charclass option"
-          if info.is_a?(Hash)
-            info.each_pair do |feature, options|
-              next unless options.is_a?(Array) || options.is_a?(Hash)
-
-              msg << t('pf2e.adv_item_class_option_select', :name => feature, :name_downcase => feature.to_s.downcase)
-            end
-          end
-        when "raise skill", "raise ability"
-          type = item.delete_prefix "raise "
-
-          # Info is blank if the item has not yet been selected.
-          has_open = if info.is_a?(Array)
-            info.any? { |entry| open_skill_token?(entry) }
-          else
-            open_skill_token?(info)
-          end
-
-          has_untrained_only = if type == "skill"
-            if info.is_a?(Array)
-              info.any? { |entry| untrained_only_token?(entry) }
-            else
-              untrained_only_token?(info)
-            end
-          else
-            false
-          end
-
-          untrained_only_count = if type == "skill"
-            if info.is_a?(Array)
-              info.count { |entry| untrained_only_token?(entry) }
-            else
-              untrained_only_token?(info) ? 1 : 0
-            end
-          else
-            0
-          end
-
-          if has_open
-            if type == "ability"
-              msg << t('pf2e.adv_item_raise_ability')
-            elsif !has_untrained_only
-              msg << t('pf2e.adv_item_raise', :item => type)
-            end
-          end
-
-          if has_untrained_only
-            if untrained_only_count > 1
-              msg << t('pf2e.adv_item_raise_untrained_skill_multiple', :count => untrained_only_count)
-            else
-              msg << t('pf2e.adv_item_raise_untrained_skill')
-            end
-          end
-        when "raise skill choice"
-          needs_choice = if info.is_a?(Array)
-            !info.empty?
-          else
-            info.to_s.downcase == 'open'
-          end
-
-          msg << t('pf2e.adv_item_skill_choice') if needs_choice
-        when "open languages"
-          open_count = if info.is_a?(Array)
-            info.count { |entry| entry.to_s.casecmp?('open') }
-          else
-            info.to_s.casecmp?('open') ? 1 : 0
-          end
-
-          if open_count.positive?
-            msg << t('pf2e.adv_item_language', :count => open_count)
-          end
-        when "spellbook", "repertoire", "innate"
-          needs_open = lambda do |value|
-            if value.is_a?(Hash)
-              value.values.any? { |sub| needs_open.call(sub) }
-            elsif value.is_a?(Array)
-              value.include?("open")
-            else
-              value.to_s.downcase == 'open'
-            end
-          end
-
-          if item == "innate"
-            msg << t('pf2e.adv_item_innate_spells') if needs_open.call(info)
-          elsif info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
-            info.each_pair do |class_key, value|
-              next unless needs_open.call(value)
-
-              if Pf2e.archetype_key?(class_key) && (item == "spellbook" || item == "repertoire")
-                locale_key = item == "spellbook" ? 'pf2e.adv_item_archetype_spellbook' : 'pf2e.adv_item_archetype_repertoire'
-                msg << t(locale_key, :archetype => class_key)
-              else
-                msg << t('pf2e.adv_item_spells', :options => item)
-              end
-            end
-          else
-            msg << t('pf2e.adv_item_spells', :options => item) if needs_open.call(info)
-          end
-        when "signature"
-          needs_signature = false
-          if info.is_a?(Hash)
-            if info.keys.any? { |k| !Pf2e.level_key?(k) }
-              needs_signature = info.values.any? do |v|
-                if v.is_a?(Hash)
-                  v.values.any? { |sub| sub.is_a?(Array) ? sub.include?("open") : sub.to_i > 0 }
-                else
-                  v.is_a?(Array) ? v.include?("open") : v.to_i > 0
-                end
-              end
-            else
-              needs_signature = info.values.any? do |v|
-                v.is_a?(Array) ? v.include?("open") : v.to_i > 0
-              end
-            end
-          end
-          msg << t('pf2e.adv_item_signaturespells') if needs_signature
-        when "archetype_specialty"
-          msg << t('pf2e.adv_item_archetype_specialty') if info == "open"
-          when "archetype specialty choice"
-            needs_choice = info.is_a?(Hash) && info.values.any? do |entry|
-              entry.is_a?(Hash) && entry['choice'].to_s.downcase == 'open'
-            end
-
-            msg << t('pf2e.adv_item_archetype_specialty_choice') if needs_choice
-        when "archetype key ability"
-          needs_choice = if info.is_a?(Array)
-            !info.empty?
-          else
-            info.to_s.downcase == 'open'
-          end
-
-          msg << t('pf2e.adv_item_archetype_key_ability') if needs_choice
-        when "archetype deity"
-          msg << t('pf2e.adv_item_archetype_deity') if info.to_s.downcase == 'open'
-        when "archetype_sanctification"
-          msg << t('pf2e.adv_item_archetype_sanctification') if info.to_s.downcase == 'open'
-        when "feat choice"
-          # Only the fact that a choice is outstanding, and where to see its options.
-          info.each_pair do |name, slots|
-            next unless Array(slots).include?('open')
-
-            block = Pf2e.find_choice_block(char, name)
-            summary = block ? Pf2e.choice_summary(block) : 'eligible option'
-
-            msg << t('pf2e.adv_item_feat_choice_pending', :summary => Pf2e.with_article(summary))
-          end
-        when "grants"
-          info.keys.each do |feat|
-            msg << t('pf2e.adv_item_grants', :feat => feat)
-          end
-        end
-
+        t(key, **args.reject { |k, _v| k == 'choice' }.transform_keys(&:to_sym))
       end
 
       return nil if msg.empty?
-      return msg
+
+      msg
+    end
+
+    # What a feat's open choice is drawn from, in words: "a skill", "a lore". Falls back to a
+    # neutral phrase for a choice whose block cannot be found, so the player is still told they
+    # owe a pick.
+    def self.choice_pending_summary(char, name)
+      block = find_choice_block(char, name)
+
+      with_article(block ? choice_summary(block) : 'eligible option')
     end
 
     def self.merge_combat_stats(existing_stats, added_stats)

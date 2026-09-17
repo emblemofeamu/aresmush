@@ -15,6 +15,8 @@ module AresMUSH
 
       TO_ASSIGN = 'to_assign'.freeze
       ADVANCEMENT = 'advancement'.freeze
+      # One key appears in both hashes, so the holder column has to be able to say so.
+      BOTH = 'both'.freeze
 
       # key => [ holder, what it holds ]
       KEYS = {
@@ -43,7 +45,6 @@ module AresMUSH
         'archetype specialty choice' => [ TO_ASSIGN, 'a choice an archetype specialty carries, by archetype' ],
         'archetype deity' => [ TO_ASSIGN, 'the deity an archetype asks for' ],
         'archetype key ability' => [ TO_ASSIGN, 'the key ability an archetype asks for' ],
-        'archetype sanctification' => [ TO_ASSIGN, 'the sanctification an archetype asks for' ],
 
         # What a level-up has settled, in advancement.
         'feats' => [ ADVANCEMENT, 'feats taken this level, by slot type' ],
@@ -61,7 +62,7 @@ module AresMUSH
         'innate' => [ ADVANCEMENT, 'innate spells granted this level' ],
         'archetype_features' => [ ADVANCEMENT, 'features an archetype granted this level' ],
         'archetype_deity' => [ ADVANCEMENT, 'the deity chosen for an archetype' ],
-        'archetype_sanctification' => [ ADVANCEMENT, 'the sanctification chosen for an archetype' ],
+        'archetype_sanctification' => [ BOTH, 'the sanctification, as an open marker in to_assign and as the choice in advancement - the one archetype pick that uses the same key in both' ],
         'charclass_feature option' => [ ADVANCEMENT, 'the option chosen for a class feature' ]
       }.freeze
 
@@ -95,6 +96,8 @@ module AresMUSH
       def self.breaking_convention
         KEYS.select do |key, (holder, _what)|
           spaced = key.include?(' ')
+
+          next true if holder == BOTH
 
           (spaced && holder == ADVANCEMENT) || (!spaced && holder == TO_ASSIGN)
         end.keys
