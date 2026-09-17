@@ -1,0 +1,116 @@
+require "plugin_test_loader"
+
+module AresMUSH
+  module Pf2e
+    module Advancement
+
+      # Where a spell pick lands in the pool.
+      #
+      # Three shapes: a spellbook may be flat or per rank, a repertoire and a signature list are
+      # always per rank, and a character casting from more than one source has all of them keyed by
+      # source first. Which applies is the path, and the path is what this works out.
+      describe SpellSlots do
+
+        def state(pool)
+          CharState.build({ 'to_assign' => pool }, :config => ConfigView.fixture({}))
+        end
+
+        def resolve(pool, type: 'repertoire', rank: '1', magic_class: nil, charclass: 'Bard')
+          SpellSlots.resolve(state(pool), :type => type, :rank => rank,
+                             :magic_class => magic_class, :charclass => charclass)
+        end
+
+        describe "a pool keyed by rank" do
+          it "should find the entries at that rank" do
+            result = resolve({ 'repertoire' => { '1' => [ 'open', 'open' ] } })
+
+            expect(result.state['list']).to eq [ 'open', 'open' ]
+            expect(result.state['list_key']).to eq '1'
+            expect(result.state['class_key']).to be_nil
+          end
+
+          it "should refuse a rank the level did not open" do
+            expect(resolve({ 'repertoire' => { '2' => [ 'open' ] } }).code).to eq :no_slots_at_rank
+          end
+        end
+
+        describe "a flat spellbook list" do
+          # A spellbook can be one list with no ranks, in which case the rank is not part of the path.
+          it "should take the list as it is and leave the rank out of the path" do
+            result = resolve({ 'spellbook' => %w(open open) }, :type => 'spellbook')
+
+            expect(result.state['list']).to eq %w(open open)
+            expect(result.state['list_key']).to be_nil
+          end
+        end
+
+        describe "a pool keyed by source" do
+          def two_sources
+            { 'repertoire' => { 'Bard' => { '1' => [ 'open' ] }, 'Sorcerer Archetype' => { '1' => [ 'open', 'open' ] } } }
+          end
+
+          it "should take the source the player named" do
+            result = resolve(two_sources, :magic_class => 'sorcerer archetype')
+
+            expect(result.state['class_key']).to eq 'Sorcerer Archetype'
+            expect(result.state['list']).to eq [ 'open', 'open' ]
+          end
+
+          it "should fall back to the character's own class" do
+            expect(resolve(two_sources).state['class_key']).to eq 'Bard'
+          end
+
+          it "should refuse a source they do not have" do
+            expect(resolve(two_sources, :magic_class => 'Wizard').code).to eq :not_an_option
+          end
+
+          # With one source and no prefix there is nothing to be ambiguous about.
+          it "should take the only source there is" do
+            pool = { 'repertoire' => { 'Sorcerer Archetype' => { '1' => [ 'open' ] } } }
+
+            expect(resolve(pool).state['class_key']).to eq 'Sorcerer Archetype'
+          end
+
+          it "should refuse to guess between two sources that are not theirs" do
+            pool = { 'repertoire' => { 'Wizard Archetype' => { '1' => [ 'open' ] },
+                                       'Sorcerer Archetype' => { '1' => [ 'open' ] } } }
+
+            expect(resolve(pool).code).to eq :not_an_option
+          end
+        end
+
+        describe "a type the level did not open" do
+          it "should say so" do
+            expect(resolve({ 'spellbook' => { '1' => [ 'open' ] } }).code).to eq :not_an_option
+          end
+
+          # Typing your own class where a list type belongs is common enough to answer specifically.
+          it "should name the mistake when the type is their class" do
+            result = resolve({}, :type => 'bard', :charclass => 'Bard')
+
+            expect(result.code).to eq :wrong_type
+            expect(result.args['class']).to eq 'Bard'
+          end
+        end
+
+        describe "an any-rank slot" do
+          it "should be found when one is open" do
+            entries = { '1' => [ 'Magic Missile' ], Pf2emagic::ANY_RANK => [ 'open' ] }
+
+            expect(SpellSlots.any_rank_key(entries)).to eq Pf2emagic::ANY_RANK
+          end
+
+          it "should not be found when it is already spent" do
+            entries = { Pf2emagic::ANY_RANK => [ 'Magic Missile' ] }
+
+            expect(SpellSlots.any_rank_key(entries)).to be_nil
+          end
+
+          it "should not be found in a flat list" do
+            expect(SpellSlots.any_rank_key([ 'open' ])).to be_nil
+          end
+        end
+      end
+    end
+  end
+end

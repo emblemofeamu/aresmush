@@ -50,62 +50,28 @@ module AresMUSH
       end
 
       def handle
-        # Do they have one of these to select?
-
         to_assign = enactor.pf2_to_assign
-
         charclass = enactor.pf2_base_info['charclass']
-        type_option = to_assign[self.type]
-
-        unless type_option
-          if self.type == charclass.downcase
-            client.emit_failure t('pf2e.adv_spell_wrong_type', :class => charclass)
-            return
-          end
-
-          client.emit_failure t('pf2e.adv_not_an_option')
-          return
-        end
-
         level = self.level.to_i.zero? ? 'cantrip' : self.level
 
-        class_key = nil
-        if type_option.is_a?(Hash) && type_option.keys.any? { |k| !Pf2e.level_key?(k) }
-          if self.magic_class
-            class_key = type_option.keys.find { |k| k.to_s.casecmp?(self.magic_class) }
-            unless class_key
-              client.emit_failure t('pf2e.adv_not_an_option')
-              return
-            end
-          else
-            class_key = type_option.keys.find { |k| k.to_s.casecmp?(charclass) }
-            class_key = type_option.keys.first if class_key.nil? && type_option.keys.size == 1
-            if class_key.nil?
-              client.emit_failure t('pf2e.adv_not_an_option')
-              return
-            end
-          end
+        # Where the pick lands: whose list, the entries in it, and the rank they live under.
+        found = Pf2e::Advancement::SpellSlots.resolve(Pf2e::CharState.of(enactor),
+          :type => self.type, :rank => level, :magic_class => self.magic_class, :charclass => charclass)
 
-          type_option = type_option[class_key]
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        list = if self.type == "spellbook"
-          type_option.is_a?(Hash) ? type_option[level] : type_option
-        else
-          type_option[level]
-        end
-
-        # A spellbook may be one flat list rather than one per rank, in which case the rank is
-        # not part of where it lives.
-        list_key = type_option.is_a?(Hash) ? level : nil
+        class_key = found.state['class_key']
+        entries = found.state['entries']
+        list = found.state['list']
+        list_key = found.state['list_key']
         spent_from_pool = false
 
-        if self.type == "spellbook" && type_option.is_a?(Hash) &&
-           spellbook_rank_full_for?(list, level, class_key || charclass)
-          pool_key = type_option.keys.find { |k| Pf2emagic.any_rank?(k) }
-          pool = pool_key && type_option[pool_key]
+        # A rank whose own slots are full can still be paid for from an any-rank slot, and the spell
+        # lands under the rank it actually is.
+        if self.type == 'spellbook' && spellbook_rank_full_for?(list, level, class_key || charclass)
+          pool_key = Pf2e::Advancement::SpellSlots.any_rank_key(entries)
 
-          if Array(pool).include?("open")
+          if pool_key
             msg = any_rank_spend_error(level)
 
             if msg
@@ -113,15 +79,10 @@ module AresMUSH
               return
             end
 
-            list = pool
+            list = entries[pool_key]
             list_key = pool_key
             spent_from_pool = true
           end
-        end
-
-        unless list
-          client.emit_failure t('pf2e.adv_no_spell_slots_level', :type => self.type, :level => level_label(level))
-          return
         end
 
         if self.type == "innate"
