@@ -19,18 +19,21 @@ module AresMUSH
     module RecordsDraftStep
 
       def handle
-        subject = draft_subject
+        subject = journal_subject
 
         return super unless subject
 
         DraftJournal.step!(subject, cmd.raw.to_s.split('=').first.to_s.strip) { super }
       end
 
-      # Whose draft this command changes. Their own, unless the command says otherwise - a staff
-      # command changes the character it names, and journaling the staff member's draft instead
-      # would record nothing and leave the target's journal behind the character.
-      def draft_subject
-        enactor
+      # Whose draft this command changes. Their own, unless the command defines `draft_subject` -
+      # a staff command changes the character it names, and journaling the staff member's draft
+      # instead would record nothing and leave the target's journal behind the character.
+      #
+      # Asked for by a different name than the command answers to, because a prepended module's
+      # method wins over the class's: a default here would shadow the command's own.
+      def journal_subject
+        respond_to?(:draft_subject, true) ? draft_subject : enactor
       end
     end
 

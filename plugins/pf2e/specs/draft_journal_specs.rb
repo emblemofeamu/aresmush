@@ -77,13 +77,16 @@ module AresMUSH
           expect(DraftSnapshot.diff(before, DraftSnapshot.of(reread))).to be_empty
         end
 
+        # The step creates the row, so there is no earlier rank to put back. An untrained row is
+        # what a skill nobody has trained looks like, so that is what undoing it leaves.
         it "should put a skill the step trained back to untrained" do
-          Pf2eSkills.factory_default(@char)
-          @char = reread
-
           DraftJournal.step!(@char, 'skill/set') do
-            Pf2eSkills.update_skill_for_char('Arcana', Character[@char.id], 'trained', false)
+            char = Character[@char.id]
+            Pf2eSkills.create_skill_for_char('Arcana', char)
+            Pf2eSkills.update_skill_for_char('Arcana', Character[char.id], 'trained', false)
           end
+
+          expect(Pf2eSkills.find_skill('Arcana', reread).prof_level).to eq 'trained'
 
           DraftJournal.undo!(reread)
 
