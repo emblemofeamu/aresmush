@@ -137,12 +137,21 @@ module AresMUSH
       return nil
     end
 
+    # The rank above the one a skill holds, or nil when there is none.
+    #
+    # nil is the honest answer in two cases and both used to go wrong: a skill already at the top
+    # of the progression has nothing above it, and indexing past the end returned nil anyway - which
+    # the caller then wrote, blanking a legendary skill. A proficiency that is not on the
+    # progression at all gave a nil index, and nil + 1 took the whole of advance/done down with it.
     def self.get_next_prof(char, value)
-      progression = Global.read_config('pf2e', 'prof_progression')
-
+      progression = Array(Global.read_config('pf2e', 'prof_progression'))
       skill = Pf2eSkills.find_skill(value, char)
-      current_prof = skill.prof_level
-      index = progression.index(current_prof)
+
+      return nil unless skill
+
+      index = progression.index(skill.prof_level)
+
+      return nil if index.nil?
 
       progression[index + 1]
     end

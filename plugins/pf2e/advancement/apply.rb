@@ -175,7 +175,12 @@ module AresMUSH
 
             next Global.logger.error("#{char.name} raised '#{name}', which is not one of their skills.") unless skill
 
-            skill.update(:prof_level => Pf2eSkills.get_next_prof(char, name))
+            # nil means there is no rank above the one they hold. Writing it blanked the skill.
+            raised = Pf2eSkills.get_next_prof(char, name)
+
+            next Global.logger.error("#{char.name} raised '#{name}', which is #{skill.prof_level.inspect} and has no rank above it.") unless raised
+
+            skill.update(:prof_level => raised)
           end
 
           []
