@@ -23,6 +23,11 @@ module AresMUSH
     # from one the journal knows about.
     attribute :shape
 
+    # The whole draft as this step left it, kept on the newest step only. The next step reads it
+    # instead of reading the character again: a snapshot walks every skill and ability row, and
+    # taking one per command rather than two halves what a draft costs.
+    attribute :shape_data, :type => DataType::Hash, :default => {}
+
     attribute :undo, :type => DataType::Hash, :default => {}
     attribute :redo_to, :type => DataType::Hash, :default => {}
 

@@ -43,7 +43,12 @@ module AresMUSH
 
         return yield unless Ledger.drafting?(char)
 
-        before = DraftSnapshot.of(char)
+        # The newest step kept the shape it left the character in, and that is the shape this step
+        # starts from - so a step reads the character once rather than twice. A snapshot walks every
+        # skill and ability row, which is most of what a draft command costs.
+        previous = steps(char).last
+        before = previous && !previous.shape_data.blank? ? previous.shape_data : DraftSnapshot.of(char)
+
         result = yield
         char = Character[char.id]
         after = DraftSnapshot.of(char)
@@ -55,9 +60,13 @@ module AresMUSH
         # A new step is a new branch: a redo after it would write over what was just done.
         undone(char).each { |row| row.delete }
 
+        # Only the newest step needs the shape, so the one before it gives it up.
+        previous&.update(:shape_data => {})
+
         Pf2eDraftStep.create(:character => char, :seq => next_seq(char), :action => action.to_s,
                              :undo => undo, :redo_to => DraftSnapshot.diff(after, before),
-                             :shape => DraftSnapshot.digest(after), :undone => false, :at => Time.now)
+                             :shape => DraftSnapshot.digest(after), :shape_data => after,
+                             :undone => false, :at => Time.now)
 
         result
       end
@@ -110,7 +119,11 @@ module AresMUSH
       def self.restamp(char)
         last = rows(char).last
 
-        last&.update(:shape => DraftSnapshot.digest(DraftSnapshot.of(Character[char.id])))
+        return unless last
+
+        shape = DraftSnapshot.of(Character[char.id])
+
+        last.update(:shape => DraftSnapshot.digest(shape), :shape_data => shape)
       end
 
       def self.clear!(char)
