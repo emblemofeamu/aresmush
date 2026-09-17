@@ -47,7 +47,13 @@ module AresMUSH
 
     def self.reset_gear(char, preserve_money=false)
       char.pf2_gear = {'consumables' => {}, 'gear' => {}}
-      char.pf2_money = 1500 unless preserve_money
+
+      unless preserve_money
+        char.pf2_money = STARTING_MONEY
+        # The entries are the record and the total is their sum, so a balance set back to the
+        # starting figure leaves no transactions behind to disagree with it.
+        Pf2e::Audit.delete_all!(char, 'money')
+      end
 
       char.weapons&.each { |i| i.delete }
       char.armor&.each { |i| i.delete }

@@ -27,7 +27,7 @@ module AresMUSH
           return
         end
 
-        Pf2e.reset_character(char)
+        Pf2e.respec_character(char)
 
         client.emit_success t('pf2e.admin_respec_ok', :name => char.name)
 

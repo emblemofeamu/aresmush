@@ -309,125 +309,99 @@ module AresMUSH
       return nil
     end
 
+    # A blank sheet, attribute by attribute. Both ways of starting a character over write this;
+    # which of them is running decides only what is *kept*, so there is one list of what a blank
+    # character looks like rather than two that drift apart.
+    BLANK_SHEET = {
+      :chargen_stage => 0,
+      :pf2_baseinfo_locked => false,
+      :pf2_abilities_locked => false,
+      :pf2_skills_locked => false,
+      :pf2_checkpoint => 'start',
+      :pf2_reset => false,
+      :pf2_base_info => { 'ancestry' => '', 'heritage' => '', 'background' => '', 'charclass' => '', 'specialize' => '' },
+      :pf2_archetypeinfo => {
+        'archetype1' => '', 'archetype2' => '', 'archetype3' => '', 'archetype4' => '',
+        'archetype_specialty1' => '', 'archetype_specialty2' => '', 'archetype_specialty3' => '', 'archetype_specialty4' => '',
+        'archetype_specialty_choice1' => '', 'archetype_specialty_choice2' => '',
+        'archetype_specialty_choice3' => '', 'archetype_specialty_choice4' => ''
+      },
+      :pf2_conditions => {},
+      :pf2_features => { 'charclass_features' => [], 'archetype_features' => [] },
+      :pf2_traits => [],
+      :pf2_feats => { 'ancestry' => [], 'charclass' => [], 'skill' => [], 'general' => [] },
+      :pf2_faith => { 'deity' => '', 'alignment' => '', 'sanctification' => '' },
+      :pf2_special => [],
+      :pf2_boosts_working => { 'free' => [], 'ancestry' => [], 'background' => [], 'charclass' => [] },
+      :pf2_boosts => {},
+      :pf2_to_assign => {},
+      :pf2_advancement => {},
+      :pf2_lang => [],
+      :pf2_movement => {},
+      :pf2_reagents => {},
+      :pf2_formula_book => {},
+      :advancing => nil,
+      :pf2_last_refresh => nil,
+      :pf2_cg_assigned => {},
+      :pf2_level_tracker => {},
+      :pf2_size => '',
+      :pf2_roll_aliases => {},
+      :pf2_actions => {},
+      :pf2_is_dead => nil,
+      :pf2_known_for => [],
+      :pf2_alloc_reagents => 0,
+      :groups => {},
+      :demographics => {}
+    }.freeze
+
+    # What a character earned rather than built. A respec keeps these; a reset does not.
+    EARNED = {
+      :pf2_xp => 0,
+      :pf2_level => 1,
+      :pf2_viewsheet => {}
+    }.freeze
+
+    # A respec: the character keeps their level, XP, money and inventory, and rebuilds everything
+    # they chose. Their recorded build goes, because a ledger they are about to contradict would
+    # be folded back over the blank sheet at the first write.
     def self.respec_character(char)
-      # A respec does not delete XP, level, or character wealth, but does clear all stats and inventory.
-
-      if char.is_approved?
-        char.update(approval_job: nil)
-        char.update(chargen_locked: false)
-        Roles.remove_role(char, "approved")
-      end
-
-      # I am aware of Faraday's suggestion for using .update, but when I am changing many things at once,
-      # I may as well do one DB write instead of two dozen.
-
-      char.chargen_stage = 0
-      char.pf2_baseinfo_locked = false
-      char.pf2_abilities_locked = false
-      char.pf2_reset = false
-
-      char.pf2_base_info = { 'ancestry'=>"", 'heritage'=>"", 'background'=>"", 'charclass'=>"", "specialize"=>"" }
-      char.pf2_archetypeinfo = { 'archetype1'=>"", 'archetype2'=>"", 'archetype3'=>"", 'archetype4'=>"", 'archetype_specialty1'=>"", 'archetype_specialty2'=>"", 'archetype_specialty3'=>"", 'archetype_specialty4'=>"", 'archetype_specialty_choice1'=>"", 'archetype_specialty_choice2'=>"", 'archetype_specialty_choice3'=>"", 'archetype_specialty_choice4'=>"" }
-      char.pf2_conditions = {}
-      char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
-      char.pf2_traits = []
-      char.pf2_feats = { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[] }
-      char.pf2_faith = { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
-      char.pf2_special = []
-      char.pf2_boosts_working = { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=>[] }
-      char.pf2_boosts = {}
-      char.pf2_to_assign = {}
-      char.pf2_lang = []
-      char.pf2_movement = {}
-      char.pf2_reagents = {}
-      char.pf2_formula_book = {}
-      char.advancing = nil
-      char.pf2_last_refresh = nil
-      char.pf2_cg_assigned = {}
-      char.pf2_level_tracker = {}
-      char.pf2_size = ""
-      char.pf2_roll_aliases = {}
-      char.pf2_actions = {}
-      char.pf2_is_dead = nil
-      char.pf2_known_for = []
-      char.pf2_alloc_reagents = 0
-
-      char.groups = {}
-      char.demographics = {}
-
-      # Reset money and gear if that plugin is installed. Respec preserves money.
-      Pf2egear.reset_gear(char, true) if AresMUSH.const_defined?("Pf2egear")
-
-      # All characters have all objects except magic, so to minimize DB bloat, reuse existing objects.
-      Pf2eAbilities.factory_default(char)
-      Pf2eSkills.factory_default(char)
-      Pf2eHP.factory_default(char)
-      Pf2eCombat.factory_default(char)
-      PF2Magic.factory_default(char)
-
+      blank_sheet!(char)
+      Pf2egear.reset_gear(char, true) if AresMUSH.const_defined?('Pf2egear')
       char.save
     end
 
+    # A reset: back to the very beginning, including the XP and money they were given.
     def self.reset_character(char)
-      # This undoes all approvals and takes the character back to the very beginning.
+      blank_sheet!(char)
 
+      EARNED.each_pair { |attr, value| char.send("#{attr}=", value) }
+      Pf2e::Audit.delete_all!(char, 'xp')
+
+      Pf2egear.reset_gear(char) if AresMUSH.const_defined?('Pf2egear')
+      char.save
+    end
+
+    def self.blank_sheet!(char)
       if char.is_approved?
         char.update(approval_job: nil)
         char.update(chargen_locked: false)
-        Roles.remove_role(char, "approved")
+        Roles.remove_role(char, 'approved')
       end
 
-      char.chargen_stage = 0
-      char.pf2_baseinfo_locked = false
-      char.pf2_abilities_locked = false
-      char.pf2_skills_locked = false
-      char.pf2_checkpoint = 'start'
-      char.pf2_reset = false
+      # The grants first. A character with grants is finalized, so until they are gone the
+      # character is not back in a draft: chargen commands would write history instead of a
+      # working copy, and the next materialise would restore the sheet being cleared here.
+      Ledger.delete_all!(char)
 
-      char.pf2_base_info = { 'ancestry'=>"", 'heritage'=>"", 'background'=>"", 'charclass'=>"", "specialize"=>"" }
-      char.pf2_archetypeinfo = { 'archetype1'=>"", 'archetype2'=>"", 'archetype3'=>"", 'archetype4'=>"", 'archetype_specialty1'=>"", 'archetype_specialty2'=>"", 'archetype_specialty3'=>"", 'archetype_specialty4'=>"", 'archetype_specialty_choice1'=>"", 'archetype_specialty_choice2'=>"", 'archetype_specialty_choice3'=>"", 'archetype_specialty_choice4'=>"" }
-      char.pf2_xp = 0
-      Pf2e::Audit.delete_all!(char, 'xp')
-      char.pf2_conditions = {}
-      char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
-      char.pf2_traits = []
-      char.pf2_feats = { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[] }
-      char.pf2_faith = { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
-      char.pf2_special = []
-      char.pf2_boosts_working = { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=>[] }
-      char.pf2_boosts = {}
-      char.pf2_to_assign = {}
-      char.pf2_lang = []
-      char.pf2_movement = {}
-      char.pf2_reagents = {}
-      char.pf2_formula_book = {}
-      char.advancing = nil
-      char.pf2_last_refresh = nil
-      char.pf2_level = 1
-      char.pf2_viewsheet = {}
-      char.pf2_cg_assigned = {}
-      char.pf2_level_tracker = {}
-      char.pf2_size = ""
-      char.pf2_roll_aliases = {}
-      char.pf2_actions = {}
-      char.pf2_is_dead = nil
-      char.pf2_known_for = []
-      char.pf2_alloc_reagents = 0
+      BLANK_SHEET.each_pair { |attr, value| char.send("#{attr}=", value) }
 
-      char.groups = {}
-      char.demographics = {}
-
-      # Reset money and gear if that plugin is installed.
-      Pf2egear.reset_gear(char) if AresMUSH.const_defined?("Pf2egear")
-
-      # All characters have all objects except magic, so to minimize DB bloat, reuse existing objects.
+      # Every character has all of these except magic, so they are reset in place rather than
+      # deleted and rebuilt.
       Pf2eAbilities.factory_default(char)
       Pf2eSkills.factory_default(char)
       Pf2eHP.factory_default(char)
       Pf2eCombat.factory_default(char)
       PF2Magic.factory_default(char)
-
-      char.save
     end
 
     def self.get_character(name, enactor)

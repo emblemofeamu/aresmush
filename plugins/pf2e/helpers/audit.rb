@@ -20,8 +20,20 @@ module AresMUSH
         'money' => 'pf2_money'
       }.freeze
 
+      # What a character holds before any transaction. Money is given to them at creation and no
+      # entry records that gift, so a balance is the opening figure plus every entry since - and
+      # without this row a money total could never be checked against its history at all.
+      OPENING = {
+        'xp' => lambda { 0 },
+        'money' => lambda { AresMUSH.const_defined?('Pf2egear') ? Pf2egear::STARTING_MONEY : 0 }
+      }.freeze
+
       def self.currencies
         CURRENCIES.keys
+      end
+
+      def self.opening(currency)
+        (OPENING[currency.to_s] || lambda { 0 }).call.to_i
       end
 
       def self.total_attr(currency)
@@ -118,14 +130,14 @@ module AresMUSH
       end
 
       def self.consistent?(char, currency)
-        sum(char, currency) == char.send(total_attr(currency)).to_i
+        opening(currency) + sum(char, currency) == char.send(total_attr(currency)).to_i
       end
 
       # Puts the total back to what the entries say it should be. The entries are the record;
       # the total is a cache of their sum that exists so the sheet does not have to add them up.
       def self.repair!(char, currency)
         attr = total_attr(currency)
-        correct = sum(char, currency)
+        correct = opening(currency) + sum(char, currency)
 
         return false if char.send(attr).to_i == correct
 
