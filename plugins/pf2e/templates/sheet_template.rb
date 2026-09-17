@@ -153,7 +153,10 @@ module AresMUSH
 
         return [] if skills.empty?
 
-        filter_skills = skills.to_a.delete_if { |s| s.prof_level == 'untrained' }
+        # A row with no proficiency at all is not one the player has trained, and `untrained` was
+        # the only value being filtered - so a blank one reached format_skill and `nil[0]` took
+        # the whole sheet down.
+        filter_skills = skills.to_a.reject { |s| s.prof_level.to_s.strip.empty? || s.prof_level == 'untrained' }
 
         sort_skills = filter_skills.sort_by { |s| s.name }
 
@@ -468,13 +471,13 @@ module AresMUSH
         linked_attr = print_linked_attr(name)
         skill_mod = "%xh#{Pf2eSkills.get_skill_bonus(char, name)}%xn"
         linebreak = i % 2 == 1 ? "" : "%r"
-        proflevel = " (#{s.prof_level[0].upcase})"
+        proflevel = " (#{s.prof_level.to_s[0].to_s.upcase})"
         "#{linebreak}#{left(fmt_name + linked_attr,21)} #{left(skill_mod + proflevel, 17)}"
       end
 
       def format_profs(name, prof, i)
         fmt_name = "%xh#{name.capitalize}%xn"
-        fmt_prof = prof[0].upcase
+        fmt_prof = prof.to_s[0].to_s.upcase
 
         "#{fmt_name} (#{fmt_prof})"
       end

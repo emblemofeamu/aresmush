@@ -131,7 +131,7 @@ module AresMUSH
       spell_abil tradition spells_per_day restricted_slots restricted_spellbook repertoire
       focus_pool addrepertoire get_genie_repertoire get_dragon_repertoire focus_spell
       domain_focus_spell focus_cantrip spellbook addspellbook adapted_spell signature_spell
-      signature_spells innate_spell divine_font grant_choice gated_spell
+      signature_spells innate_spell divine_font grant_choice gated_spell focus_source
     }.freeze
 
     def self.stats_block?(info)
@@ -410,6 +410,11 @@ module AresMUSH
           sublist_name = value + " spell"
 
           to_assign[sublist_name] = value
+        when 'focus_source'
+          # Not a stat of its own: it names what granted the focus spell in the same block, and
+          # the focus_spell arm above reads it. Falling through to the else told a Champion
+          # taking their devotion spell to go and inform staff.
+          next
         else
           client.emit_ooc "Unknown key #{key} in update_magic. Please inform staff."
         end
