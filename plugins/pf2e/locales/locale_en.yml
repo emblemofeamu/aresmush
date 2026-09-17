@@ -330,7 +330,7 @@ en:
     must_confirm: "Enter '%xwcg/reset confirm%xn%xc' to confirm that you want to wipe your sheet."
 
     no_cginfo_available: "The option you chose for %{prereq} does not have options for %{element}."
-    no_double_mojo: "%xrYour base options include too many restricted elements. See wiki for details.%xr"
+    no_double_mojo: "%xrYou may take one restricted option, and you have taken more than one: %{options}. Change all but one of them to a common option.%xn"
     no_duplicate_boosts: "The boosts for a given category must all be assigned to different stats."
     unknown_slot_op: "Something asked for a draft operation this game does not have (%{op}). Please put in a request to code staff."
     unknown_slot_key: "Something asked for a draft slot this game does not have (%{key}). Please put in a request to code staff."

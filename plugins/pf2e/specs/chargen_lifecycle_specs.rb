@@ -150,9 +150,18 @@ module AresMUSH
           end
 
           it "should refuse when chargen has not been started" do
-            result = Lifecycle.commit(complete_wizard.merge('chargen_stage' => 0), 'stage' => 'info')
+            result = Lifecycle.commit(complete_wizard.merge('chargen_stage' => nil), 'stage' => 'info')
 
             expect(result.code).to eq :not_in_chargen
+          end
+
+          # `cg/start` sets the stage to 0, which is page zero of the walkthrough and means the
+          # player is in chargen. Reading it as "not started" made the command the error message
+          # names put them in the state it complained about.
+          it "should accept a character standing on page zero, which is where cg/start puts them" do
+            result = Lifecycle.commit(complete_wizard.merge('chargen_stage' => 0), 'stage' => 'info')
+
+            expect(result.ok?).to be true
           end
         end
 
@@ -211,6 +220,21 @@ module AresMUSH
         end
 
         describe :reset do
+          # The arming has to survive the command that set it. CharState did not carry
+          # `reset_pending`, so the core never saw it and `cg/reset confirm` answered
+          # "enter cg/reset first" however many times a player tried.
+          it "should see an arming that CharState carried back" do
+            armed = CharState.build({ 'reset_pending' => true }, :config => ConfigView.fixture({}))
+
+            expect(Lifecycle.reset(armed, 'confirm' => true).state['do_reset']).to be true
+          end
+
+          it "should refuse a confirm that no arming preceded" do
+            fresh = CharState.build({}, :config => ConfigView.fixture({}))
+
+            expect(Lifecycle.reset(fresh, 'confirm' => true).code).to eq :reset_first
+          end
+
           it "should ask for confirmation the first time" do
             result = Lifecycle.reset(state, 'confirm' => false)
 

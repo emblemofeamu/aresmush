@@ -47,7 +47,7 @@ module AresMUSH
       # answers: chargen before approval, or an advancement between `advance` and `advance/done`.
       def check_drafting
         return nil if Pf2e::Ledger.drafting?(enactor)
-        return t('chargen.not_started') if !enactor.is_approved? && enactor.chargen_stage.zero?
+        return t('chargen.not_started') if !enactor.is_approved? && !Pf2e.in_chargen?(enactor)
 
         t('pf2e.not_advancing')
       end

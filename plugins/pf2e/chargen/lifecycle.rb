@@ -53,7 +53,7 @@ module AresMUSH
         def self.commit(state, args)
           stage = args['stage'].to_s
 
-          return Err.new(:not_in_chargen, 'pf2e.only_in_chargen') if state['chargen_stage'].to_i.zero? || state['approved']
+          return Err.new(:not_in_chargen, 'pf2e.only_in_chargen') if state['chargen_stage'].nil? || state['approved']
 
           index = CHECKPOINTS.index(stage)
 

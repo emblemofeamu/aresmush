@@ -39,6 +39,16 @@ module AresMUSH
       char.update(:pf2_lang => Array(char.pf2_lang).reject { |l| l.to_s.casecmp?(language.to_s) })
     end
 
+    # Is this character in chargen at all?
+    #
+    # `cg/start` sets chargen_stage to 0, which is page zero of the walkthrough and means they
+    # have started. Testing `.zero?` read that as "not started", so the command the error told
+    # them to run put them in the state the error complained about, and the only way forward was
+    # cg/next. The base chargen plugin has always tested for nil; this matches it.
+    def self.in_chargen?(char)
+      !char.chargen_stage.nil?
+    end
+
     def self.get_prof_bonus(char, p="untrained")
       p = "untrained" unless p
       level = (p == "untrained") ? 0 : char.pf2_level

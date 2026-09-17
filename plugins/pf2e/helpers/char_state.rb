@@ -31,6 +31,9 @@ module AresMUSH
             'archetypes' => char.pf2_archetypeinfo,
             'boosts_working' => char.pf2_boosts_working,
             'boosts' => char.pf2_boosts,
+            # Armed by a bare cg/reset and read back by the confirming one. Without it the core
+            # never saw the arming and `cg/reset confirm` answered "enter cg/reset first" forever.
+            'reset_pending' => char.pf2_reset,
             'lang' => char.pf2_lang,
             'traits' => char.pf2_traits,
             'features' => char.pf2_features,
@@ -84,6 +87,7 @@ module AresMUSH
           'archetypes' => data['archetypes'] || {},
           'boosts_working' => data['boosts_working'] || {},
           'boosts' => data['boosts'] || {},
+          'reset_pending' => !!data['reset_pending'],
           'lang' => data['lang'] || [],
           'traits' => data['traits'] || [],
           # The character's own features, which for a draft are the only place they are: the fold

@@ -26,7 +26,7 @@ module AresMUSH
 
       def check_chargen_or_advancement
         return t('pf2e.only_in_chargen') if enactor.chargen_locked || enactor.is_admin?
-        return t('chargen.not_started') if enactor.chargen_stage.zero?
+        return t('chargen.not_started') if !Pf2e.in_chargen?(enactor)
 
         nil
       end

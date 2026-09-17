@@ -144,11 +144,14 @@ module AresMUSH
       b_rare = background.blank? ? nil : Global.read_config('pf2e_background', background)['rare']
       h_rare = heritage.blank? ? nil : Global.read_config('pf2e_heritage', heritage)['rare']
 
-      restricted << "ancestry" if a_rare
-      restricted << "background" if b_rare
-      restricted << "heritage" if h_rare
+      restricted << "ancestry #{ancestry}" if a_rare
+      restricted << "background #{background}" if b_rare
+      restricted << "heritage #{heritage}" if h_rare
 
-      messages << t('pf2e.no_double_mojo') if restricted.count > 1
+      # Named, because the player cannot see which of their three choices is the restricted one:
+      # no ancestry is rare, five backgrounds are, and five heritages are, and a message that
+      # only says "too many" sends them changing the wrong thing.
+      messages << t('pf2e.no_double_mojo', :options => restricted.join(", ")) if restricted.count > 1
 
       return nil if messages.empty?
       return messages.join("%r")
