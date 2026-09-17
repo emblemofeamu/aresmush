@@ -44,6 +44,26 @@ module AresMUSH
       nil
     end
 
+    # What to tell a player holding an innate spell slot they have not filled, or nil.
+    #
+    # The rank and the tradition both narrow what may go in, and the command wants the rank - so
+    # the prompt carries all three. Saying only that a choice was outstanding sent players to
+    # guess the rank, and a guess that misses is refused without explaining why.
+    def self.innate_prompt(pending)
+      slots = Array(pending).map do |grant|
+        rank = grant['level'].to_s
+        rank = 'cantrip' if rank.casecmp?('cantrip') || rank.to_i.zero?
+        tradition = grant['tradition'].to_s
+
+        t(tradition.empty? ? 'pf2emagic.cg_innate_slot_plain' : 'pf2emagic.cg_innate_slot',
+          :rank => rank, :tradition => tradition, :command => "addspell innate/#{rank} = <spell>")
+      end
+
+      return nil if slots.empty?
+
+      t('pf2emagic.cg_innate_spells', :slots => slots.join(" "))
+    end
+
     # What to say when a name matched nothing.
     #
     # The shipped data uses Remaster names and players arrive with the old ones, so a bare "not in
@@ -446,8 +466,8 @@ module AresMUSH
 
       msg << t('pf2emagic.choose_divine_font') if to_assign['divine font'].is_a? Array
 
-      # The rank and tradition of each open slot are listed in the Magic section of cg/review.
-      msg << t('pf2emagic.cg_innate_spells') if magic && !Entries.pending_innate(magic).empty?
+      msg << innate_prompt(magic ? Entries.pending_innate(magic) : []).to_s.then { |line| line.empty? ? nil : line }
+      msg.compact!
 
       return msg
     end
