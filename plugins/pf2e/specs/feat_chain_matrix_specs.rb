@@ -167,15 +167,15 @@ module AresMUSH
           expect(unknown).to eq []
         end
 
-        # Egalrin Feather Fan grants itself. The engine survives it now, and the grant achieves
-        # nothing, so the data is worth knowing about.
-        it "should record which feats grant themselves" do
+        # A feat naming itself under `grants` recurses through add_granted_feat. The repeat check
+        # ends it, and no shipped feat does it any more.
+        it "should have no feat that grants itself" do
           selfish = all_feats.select do |name, info|
             info.is_a?(Hash) && info['grants'].is_a?(Hash) &&
               Array(info['grants']['feat']).any? { |e| granted_name(e).to_s == name.to_s }
           end
 
-          expect(selfish.keys).to eq [ 'Egalrin Feather Fan' ]
+          expect(selfish.keys).to eq []
         end
       end
     end
