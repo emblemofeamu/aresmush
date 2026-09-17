@@ -51,11 +51,17 @@ module AresMUSH
     # in the spells database" leaves them guessing. Anything sharing a word is worth offering.
     def self.no_such_spell_message(term, hash)
       words = term.to_s.downcase.split.reject { |word| word.size < 3 }
-      near = hash.keys.select { |name| words.any? { |word| name.downcase.include?(word) } }
+      scored = hash.keys.map { |name| [ name, words.count { |word| name.downcase.include?(word) } ] }
+                   .reject { |_name, hits| hits.zero? }
 
-      return t('pf2emagic.no_such_spell') if near.empty?
+      return t('pf2emagic.no_such_spell') if scored.empty?
 
-      t('pf2emagic.no_such_spell_but', :options => near.sort.first(8).join(", "))
+      # Most words matched first, then alphabetically. A wholesale rename is beyond any string
+      # match - Magic Missile is Force Barrage - so this catches the partial ones and the message
+      # points at spell/search for the rest.
+      near = scored.sort_by { |name, hits| [ -hits, name ] }.map(&:first)
+
+      t('pf2emagic.no_such_spell_but', :options => near.first(8).join(", "))
     end
 
     def self.check_spell(char, charclass, level, term, common_only=false)
