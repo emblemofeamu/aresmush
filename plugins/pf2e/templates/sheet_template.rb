@@ -282,8 +282,10 @@ module AresMUSH
         end
       end
 
+      # Through DraftSheet, so a language picked during chargen or an open level-up shows on the
+      # sheet before its commit boundary records it.
       def languages
-        lang = @char.pf2_lang
+        lang = Pf2e::DraftSheet.of(@char).languages
         lang.empty? ? "None set." : lang.sort.join(", ")
       end
 

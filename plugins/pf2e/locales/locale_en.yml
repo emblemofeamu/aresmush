@@ -314,6 +314,8 @@ en:
 
     missing_charclass_option_code: "%xrYour choice for %{feature} is recorded, but nothing else it should change has been applied. Please let code staff know.%xn"
     missing_ancestry: "You haven't set an ancestry yet."
+    missing_alignment: "You haven't set an alignment yet."
+    missing_deity: "Your class requires you to choose a deity."
     missing_heritage: "You haven't set a heritage yet."
     missing_background: "You haven't set a background yet."
     background_needs_deity: "The %{background} background takes its skills and feat from your deity, so you must set a deity before you can commit."

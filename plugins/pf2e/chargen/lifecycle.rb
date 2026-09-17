@@ -63,7 +63,15 @@ module AresMUSH
           if stage == 'info'
             missing = missing_base_info(state)
 
-            return Err.new(:incomplete, 'pf2e.cg_commit_failed', 'msg' => missing.join(", "), 'option' => stage) unless missing.empty?
+            # `missing` stays as locale stems, which is what a spec asserts on; `msg` is what the
+            # player reads. Joined unrendered, the failure told them "missing_subclass_info".
+            unless missing.empty?
+              stem_args = missing_args(state)
+
+              return Err.new(:incomplete, 'pf2e.cg_commit_failed',
+                             'msg' => missing.map { |stem| t("pf2e.#{stem}", **(stem_args[stem] || {})) }.join(" "),
+                             'missing' => missing, 'option' => stage)
+            end
           end
 
           Ok.new(:state => state.merge('checkpoint' => stage, 'locks' => state['locks'].merge(locks_at(stage))))
@@ -112,8 +120,9 @@ module AresMUSH
         # What is still missing before base info can be locked
         # ------------------------------------------------------------------------------
 
-        # Returns locale key *stems* rather than rendered text: the command joins and renders
-        # them, and a spec can assert on 'missing_heritage' without a translation table.
+        # Returns locale key *stems* rather than rendered text, so a spec can assert on
+        # 'missing_heritage' without a translation table. A stem that takes arguments carries
+        # them in the second element of the pair `missing_args` returns.
         def self.missing_base_info(state)
           base = state['base_info']
           faith = state['faith']
@@ -144,6 +153,19 @@ module AresMUSH
           end
 
           missing
+        end
+
+        # What each stem needs to render. Only one of them takes anything, and rendering it
+        # without its options put a literal %{options} in front of the player.
+        def self.missing_args(state)
+          base = state['base_info']
+          charclass = base['charclass']
+
+          return {} unless BaseInfo.uses_sanctification?(charclass)
+
+          options = BaseInfo.sanctification_options(state, charclass, state['faith']['deity'], base['specialize'])
+
+          { 'sanctification_invalid' => { :options => options.sort.join(", ") } }
         end
 
         def self.needs_specialty?(state, charclass)

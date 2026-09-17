@@ -299,8 +299,10 @@ module AresMUSH
         @char.pf2_special.join(", ")
       end
 
+      # Through DraftSheet: a language the player picked is in the draft until the sheet commits,
+      # and pf2_lang holds only what an ancestry, heritage or background handed over.
       def languages
-        @char.pf2_lang.uniq.sort.join(", ")
+        Pf2e::DraftSheet.of(@char).languages.uniq.sort.join(", ")
       end
 
       def chosen_languages
@@ -308,7 +310,7 @@ module AresMUSH
       end
 
       def starting_languages
-        granted = @char.pf2_lang.uniq - chosen_languages
+        granted = Pf2e::DraftSheet.of(@char).languages.uniq - chosen_languages
 
         groups = [
           [ 'Ancestry Languages',   config_list(@ancestry_info, 'languages') ],

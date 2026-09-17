@@ -47,7 +47,10 @@ module AresMUSH
 
               options.each_pair { |key, value| ctx[:pool][key] = value }
 
-              Pf2e.magic_option_messages(options.keys)
+              # Already sentences, so they go through as [ nil, text ] the way FeatGain's and
+              # Onboarding's do; a bare string here reached t() as its own key and the player
+              # was shown "Translation missing: en.You need to make magic choices...".
+              Pf2e.magic_option_messages(options.keys).map { |msg| [ nil, msg ] }
             }
           },
           # An increase to pick, one slot per thing the level says can be raised. Attributes come

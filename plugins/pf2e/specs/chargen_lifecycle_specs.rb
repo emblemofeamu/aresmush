@@ -71,14 +71,14 @@ module AresMUSH
             result = Lifecycle.commit(state, 'stage' => 'info')
 
             expect(result.code).to eq :incomplete
-            expect(result.args['msg']).to include 'missing_ancestry'
-            expect(result.args['msg']).to include 'missing_charclass'
+            expect(result.args['missing']).to include 'missing_ancestry'
+            expect(result.args['missing']).to include 'missing_charclass'
           end
 
           it "should require a heritage once an ancestry is chosen" do
             result = Lifecycle.commit(state({ 'ancestry' => 'Khazad' }), 'stage' => 'info')
 
-            expect(result.args['msg']).to include 'missing_heritage'
+            expect(result.args['missing']).to include 'missing_heritage'
           end
 
           it "should require a specialty for a class that has them" do
@@ -87,7 +87,7 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.args['msg']).to include 'missing_subclass'
+            expect(result.args['missing']).to include 'missing_subclass'
           end
 
           it "should require the specialty's own choice when it has one" do
@@ -96,7 +96,9 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.args['msg']).to include 'missing_subclass_info'
+            expect(result.args['missing']).to include 'missing_subclass_info'
+            # And the player is told in words, not in locale keys.
+            expect(result.args['msg']).to_not include 'missing_subclass_info'
           end
 
           it "should not require a specialty for Fighter, which has none" do
@@ -115,7 +117,7 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.args['msg']).to include 'missing_deity'
+            expect(result.args['missing']).to include 'missing_deity'
           end
 
           it "should require a deity for a background that demands one" do
@@ -124,7 +126,7 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.args['msg']).to include 'missing_deity'
+            expect(result.args['missing']).to include 'missing_deity'
           end
 
           it "should require a sanctification for a cleric" do
@@ -133,7 +135,7 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.args['msg']).to include 'missing_sanctification'
+            expect(result.args['missing']).to include 'missing_sanctification'
           end
 
           it "should refuse a sanctification the deity does not allow" do
@@ -142,7 +144,9 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.args['msg']).to include 'sanctification_invalid'
+            expect(result.args['missing']).to include 'sanctification_invalid'
+            # Rendered with its options, not as a literal %{options}.
+            expect(result.args['msg']).to_not include '%{options}'
           end
 
           it "should refuse when chargen has not been started" do

@@ -291,7 +291,9 @@ module AresMUSH
 
       to_assign, advancement, pairs = Advancement::Opens.all(char, info)
 
-      return_msg = pairs.map { |(key, args)| t(key, **(args || {})) }
+      # A nil key means the row rendered its own sentence, which some of them must: the magic
+      # options are assembled from the caster's own stat block rather than named by a locale key.
+      return_msg = pairs.map { |(key, args)| key.nil? ? args.to_s : t(key, **(args || {})) }
 
       # Feat choices this level opens.
       granted_choice_names(info).each do |name|
