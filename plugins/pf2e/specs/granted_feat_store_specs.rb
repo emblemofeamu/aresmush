@@ -42,9 +42,14 @@ module AresMUSH
         Pf2e.record_feat(@char, 'general', 'Shield Block')
         @char.update(:pf2_feats => { 'skill' => [ 'Assurance' ] })
 
+        expect(held).to contain_exactly('Shield Block', 'Assurance')
+
+        # By name, however it was capitalised: the draft holds one and the sheet the other.
         Pf2e.forget_feat(reread, 'Shield Block')
         Pf2e.forget_feat(reread, 'assurance')
 
+        expect(reread.pf2_advancement['feats']['general']).to eq []
+        expect(reread.pf2_feats['skill']).to eq []
         expect(held).to be_empty
       end
 

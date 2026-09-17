@@ -61,11 +61,15 @@ module AresMUSH
           expect(result.state['faith']['deity']).to eq 'Althea'
         end
 
-        it "should collect a message for every step of the build" do
+        # A chain accumulates its steps' messages, so the shell can speak the whole build at once.
+        it "should collect each step's message, in the order the steps ran" do
           result = CharacterService.chain(fresh_state, base_info_steps)
           set_messages = result.messages.select { |m| m['key'] == 'pf2e.option_set' }
 
-          expect(set_messages.size).to eq base_info_steps.size
+          expect(set_messages.map { |m| m['args']['element'] })
+            .to eq %w(ancestry heritage background charclass specialize alignment deity)
+          expect(set_messages.map { |m| m['args']['option'] })
+            .to eq [ 'Khazad', 'Forge', 'Acolyte', 'Wizard', "Department of Null's Purview", 'BL', 'Althea' ]
         end
 
         it "should continue into ability boosts once base info is locked" do

@@ -64,11 +64,11 @@ module AresMUSH
       # feat_names is uniqued, so anything that counts takings has to use the buckets. The rules
       # let some feats be taken more than once, and a limit read from a uniqued list is always 1.
       describe "counting a feat taken twice" do
-        it "should see both takings through the buckets" do
+        it "should see both takings through the buckets, and one name through feat_names" do
           sheet = DraftSheet.of(char(:feats => { 'skill' => [ 'Additional Lore', 'Additional Lore' ] }))
 
-          expect(sheet.feats_by_bucket.values.flatten.size).to eq 2
-          expect(sheet.feat_names.size).to eq 1
+          expect(sheet.feats_by_bucket['skill']).to eq [ 'Additional Lore', 'Additional Lore' ]
+          expect(sheet.feat_names).to eq [ 'ADDITIONAL LORE' ]
         end
       end
 

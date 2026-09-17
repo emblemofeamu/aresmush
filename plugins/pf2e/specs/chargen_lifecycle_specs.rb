@@ -105,7 +105,8 @@ module AresMUSH
               'stage' => 'info'
             )
 
-            expect(result.ok?).to be true
+            expect(result.state['checkpoint']).to eq 'info'
+            expect(result.state['locks']['baseinfo']).to be true
           end
 
           it "should require a deity for a class that venerates one" do

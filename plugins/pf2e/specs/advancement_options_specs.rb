@@ -85,7 +85,7 @@ module AresMUSH
           it "should allow any save for the first" do
             result = Options.choose(state(:pending => { 'Path to Perfection' => %w(Fortitude Reflex Will) }), 'feature' => 'Path to Perfection', 'value' => 'Fortitude')
 
-            expect(result.ok?).to be true
+            expect(result.state['advancement']['charclass_feature option']['Path to Perfection']).to eq 'Fortitude'
           end
 
           it "should refuse a second path on a save already taken" do
@@ -103,7 +103,7 @@ module AresMUSH
               'feature' => 'Second Path to Perfection', 'value' => 'Reflex'
             )
 
-            expect(result.ok?).to be true
+            expect(result.state['advancement']['charclass_feature option']['Second Path to Perfection']).to eq 'Reflex'
           end
 
           it "should refuse a third path on a save that is not already master" do
@@ -121,7 +121,7 @@ module AresMUSH
               'feature' => 'Third Path to Perfection', 'value' => 'Fortitude'
             )
 
-            expect(result.ok?).to be true
+            expect(result.state['advancement']['charclass_feature option']['Third Path to Perfection']).to eq 'Fortitude'
           end
         end
       end

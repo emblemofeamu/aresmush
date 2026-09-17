@@ -47,7 +47,10 @@ module AresMUSH
           end
 
           it "should allow an uncommon language" do
-            expect(Languages.learn(state, 'language' => 'Aklo').ok?).to be true
+            result = Languages.learn(state, 'language' => 'Aklo')
+
+            expect(result.state['to_assign']['open languages']).to eq [ 'Aklo', 'open' ]
+            expect(result.grants.first['payload']['language']).to eq 'Aklo'
           end
 
           it "should refuse when the character has no language picks at all" do

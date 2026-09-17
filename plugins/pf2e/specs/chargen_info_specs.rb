@@ -23,10 +23,11 @@ module AresMUSH
           )
         end
 
+        # By the row's own name, so a pair that both resolved to nothing would not pass.
         it "should accept an alias" do
-          expect(ChargenInfo.find('backgrounds')).to eq ChargenInfo.find('background')
-          expect(ChargenInfo.find('class')).to eq ChargenInfo.find('charclass')
-          expect(ChargenInfo.find('align')).to eq ChargenInfo.find('alignment')
+          expect(ChargenInfo.find('backgrounds')['name']).to eq 'background'
+          expect(ChargenInfo.find('class')['name']).to eq 'charclass'
+          expect(ChargenInfo.find('align')['name']).to eq 'alignment'
         end
 
         it "should not find a word that is not an element" do

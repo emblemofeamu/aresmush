@@ -64,18 +64,23 @@ module AresMUSH
           Audit.post(@char, 'xp', 1000, :by => 'Staff', :reason => 'award')
           Audit.post(@char, 'xp', -1000, :by => 'System', :reason => 'advance to level 2')
 
+          spend = Audit.page(@char, 'xp', 1, 10).first
+
+          expect(spend.amount.to_i).to eq(-1000)
+          expect(spend.reason).to eq 'advance to level 2'
+          expect(spend.balance_after.to_i).to eq 0
           expect(Character[@char.id].pf2_xp).to eq 0
-          expect(Audit.count(@char, 'xp')).to eq 2
         end
 
         it "should keep xp and money apart" do
           Audit.post(@char, 'xp', 500, :by => 'Staff', :reason => 'award')
           Audit.post(@char, 'money', 75, :by => 'Item Vendor', :reason => 'Item Sale')
 
+          # Each currency's own index, so neither page can see the other's entry.
+          expect(Audit.page(@char, 'xp', 1, 10).map(&:reason)).to eq [ 'award' ]
+          expect(Audit.page(@char, 'money', 1, 10).map(&:reason)).to eq [ 'Item Sale' ]
           expect(Character[@char.id].pf2_xp).to eq 500
           expect(Character[@char.id].pf2_money).to eq 75
-          expect(Audit.count(@char, 'xp')).to eq 1
-          expect(Audit.count(@char, 'money')).to eq 1
         end
 
         it "should refuse a currency it does not know" do
@@ -115,7 +120,12 @@ module AresMUSH
           expect(Audit.page(@char, 'xp', 9, 10)).to eq []
         end
 
-        it "should count without loading anything" do
+        # The reason this is a ZCARD rather than a collection read: `char.pf2_ledger_entries` has
+        # no range query, so touching it builds an object per row and sorts them in Ruby - 1.9
+        # seconds at a hundred thousand entries, on the one reactor thread the game shares.
+        it "should count without reading the entries" do
+          expect(@char).to_not receive(:pf2_ledger_entries)
+
           expect(Audit.count(@char, 'xp')).to eq 25
         end
 

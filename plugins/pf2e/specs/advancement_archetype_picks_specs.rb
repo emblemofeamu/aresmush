@@ -151,7 +151,9 @@ module AresMUSH
             champion = state(
               :to_assign => { 'archetype' => 'Champion Archetype', 'archetype_specialty' => 'open', 'archetype_sanctification' => 'open' })
 
-            expect(ArchetypePicks.set(champion, 'specialty', 'Beacon').ok?).to be true
+            result = ArchetypePicks.set(champion, 'specialty', 'Beacon')
+
+            expect(result.state['to_assign']['archetype_specialty']).to eq 'Beacon'
           end
 
           it "should refuse a Champion cause the character's alignment does not allow" do
@@ -345,7 +347,9 @@ module AresMUSH
             waiting = state(
               :to_assign => { 'archetype' => 'Champion Archetype', 'archetype_sanctification' => 'open', 'archetype_specialty' => 'Justiciar' })
 
-            expect(ArchetypePicks.set(waiting, 'sanctification', 'Unholy').ok?).to be true
+            result = ArchetypePicks.set(waiting, 'sanctification', 'Unholy')
+
+            expect(result.state['to_assign']['archetype_sanctification']).to eq 'Unholy'
           end
         end
 
@@ -384,7 +388,9 @@ module AresMUSH
           end
 
           it "should allow that deity to anyone else" do
-            expect(ArchetypePicks.set(waiting, 'deity', 'Maugrim').ok?).to be true
+            result = ArchetypePicks.set(waiting, 'deity', 'Maugrim')
+
+            expect(result.state['to_assign']['archetype deity']).to eq 'Maugrim'
           end
 
           it "should refuse a deity the character's alignment does not allow" do
