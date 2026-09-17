@@ -91,12 +91,12 @@ module AresMUSH
         uses = use.keys || []
 
         if uses.size > 1 && !self.use_option
-          client.emit_failure t('pf2egear.needs_use_option', :options => uses.keys.sort.join(", "))
+          client.emit_failure t('pf2egear.needs_use_option', :options => uses.sort.join(", "))
           return
         end
 
         if !(uses.include? self.use_option)
-          client.emit_failure t('pf2egear.bad_use')
+          client.emit_failure t('pf2egear.bad_use', :options => uses.sort.join(", "))
           return
         end
 

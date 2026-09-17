@@ -29,7 +29,7 @@ module AresMUSH
           
           Scenes.emit_pose(enactor, self.pose, true, false, nil, false, scene.room)  
           if (scene.room != enactor.room)      
-            client.emit_success t('scenes.pose_added.' )          
+            client.emit_success t('scenes.pose_added')          
           end
         end
       end
