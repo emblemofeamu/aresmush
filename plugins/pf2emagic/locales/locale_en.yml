@@ -91,8 +91,8 @@ en:
     not_prepared: "Spell not currently prepared."
     not_prepared_at_level: "Spell not prepared at the specified rank."
     not_a_caster: "You have no spellcasting source to draw a spell list from."
-    eligible_ranks: "Your spellcasting sources:%r%{sources}%r%rAdd a rank to list what you could take: '%xwspell/eligible 3%xn', or '%xwspell/eligible cantrip%xn'. Add '=<text>' to narrow it."
-    eligible_source: "%xh%{source}%xn draws on the %xh%{tradition}%xn tradition."
+    eligible_ranks: "Your spellcasting sources:%r%{sources}%r%rAdd a rank to list what you could take: '%xwspell/eligible %{example}%xn', or '%xwspell/eligible cantrip%xn'. Add '=<text>' to narrow it."
+    eligible_source: "%xh%{source}%xn draws on the %xh%{tradition}%xn tradition. Ranks: %{ranks}."
     eligible_title: "Eligible %{traditions} spells at rank %{rank}"
     not_spellbook_eligible: "This spell is a focus or class spell and cannot be added to a spellbook or repertoire."
 

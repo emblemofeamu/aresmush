@@ -10,11 +10,12 @@ module AresMUSH
 
       attr_accessor :rank, :filter
 
+      # `<rank>`, `<rank>=<text>`, or neither. The same shape `cg/info` and `advance/info` take, and
+      # for the same reason: a parser that insists on the `=` refuses the forms the help offers.
       def parse_args
-        args = cmd.parse_args(ArgParser.arg1_equals_arg2)
+        rank, self.filter = Pf2e.split_info_filter(cmd.args)
 
-        self.rank = downcase_arg(args.arg1)
-        self.filter = trim_arg(args.arg2)
+        self.rank = rank&.downcase
       end
 
       def handle
@@ -26,7 +27,8 @@ module AresMUSH
         end
 
         if self.rank.blank?
-          client.emit t('pf2emagic.eligible_ranks', :sources => source_lines(sources).join("%r"))
+          client.emit t('pf2emagic.eligible_ranks', :sources => source_lines(sources).join("%r"),
+                                                    :example => example_rank(sources))
           return
         end
 
@@ -35,12 +37,26 @@ module AresMUSH
 
       private
 
-      # Each source, the tradition it draws on, and the command that lists a rank of it.
+      # Each source, the tradition it draws on, and the ranks the character has of it - a level 3
+      # sorcerer is offered cantrips and rank 1 and 2, rather than an example they cannot cast.
       def source_lines(sources)
         sources.map do |entry|
           t('pf2emagic.eligible_source', :source => entry['name'], :tradition => entry['tradition'],
-                                         :cmd => "spell/eligible <rank>")
+                                         :ranks => ranks_of(entry).join(", "))
         end
+      end
+
+      CANTRIP = 'cantrip'.freeze
+
+      def ranks_of(entry)
+        highest = Pf2e.preview_max_spell_rank(enactor, entry['name']).to_i
+
+        [ CANTRIP ] + (1..highest).to_a.map(&:to_s)
+      end
+
+      # A rank this character actually has, for the hint to name.
+      def example_rank(sources)
+        sources.flat_map { |entry| ranks_of(entry) }.max_by { |rank| rank.to_i }
       end
 
       def show_rank(sources)
