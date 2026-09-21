@@ -10,6 +10,9 @@ aliases:
 Now you can start assigning attribute boosts to your attributes. Some of your stats already have boosts from your Background and Class choices, but you will need to assign other attribute boosts before you can move on. Your attribute options are **Strength, Dexterity, Constitution, Wisdom, Intelligence, and Charisma**. For more information about attributes, see [Archives of Nethys's page on character creation](https://2e.aonprd.com/Rules.aspx?ID=2027).
 
 ## Setting attribute boost commands
+Every chargen pick can also be made as a switch of `cg`, the way every advancement pick is a switch
+of `advance`: `cg/boost` is `boost/set` and `cg/unboost` is `boost/unset`. Both spellings work.
+
 `boost/set ancestry=<attribute>`: Sets one of your two ancestry boosts to `<attribute>`.
 %t On Emblem of Ea MUSH, **ancestry attributes are open.**
 `boost/set background=<attribute>`: Sets one of your background boosts to `<attribute>`.

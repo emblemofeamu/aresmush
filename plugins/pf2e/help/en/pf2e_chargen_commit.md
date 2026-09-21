@@ -34,7 +34,7 @@ have is staff's to do with `admin/rollback`.
 
 ## Commands
 
-`commit <stage>`: If you're satisfied with your selections in a given stage, this command records changes and moves on to the next stage of chargen. 
+`commit <stage>` (or `cg/commit <stage>`): If you're satisfied with your selections in a given stage, this command records changes and moves on to the next stage of chargen. 
 `cg/restore <stage>`: If you would like to change your base info, ability scores or skills after you have committed them, this command restores your character to the point before you initially committed your choices. **Note:** You will have to input `commit <stage>` again after using `cg/restore` to return to a previous stage. For example, Sandy decides to `cg/restore info` to redo her choice of ancestry and background. Sandy must `commit info` again before proceeding to the next stage.
 `cg/undo`: Takes back your most recent choice, whatever it was - a pick, a boost, a language, a feat. Run it again to take back the one before that. `cg/redo` puts back the last thing you took back.
 `commit featskills`: Some feats grant a skill you are already trained in, and give you a free skill to assign instead. Taking a feat that grants you a skill that you're already trained in unlocks your skills so you can assign it with `skill/set free=<skill>`; `commit featskills` locks them again when you're done. 

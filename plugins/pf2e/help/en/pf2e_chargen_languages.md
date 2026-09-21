@@ -21,6 +21,9 @@ Your choice of ancestry, the region you come from, and possibly your character c
 `cg/review`: Lists the number of languages you can assign.
 `sheet`: Shows your character sheet.
 
+`cg/language <lang>` and `cg/unlanguage <lang>` are the same two commands under `cg` - `cg/lang` and
+`cg/unlang` for short. Both spellings work.
+
 `lang/set <lang>`: Chooses an extra language.
 `lang/unset <lang>`: Deletes a language from your sheet. You cannot delete languages granted by your ancestry, background, and character class selections.
 `lang/info <input>`: Shows one of the language lists. <input> can be `common`, `uncommon`, or `secret`.

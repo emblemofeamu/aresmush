@@ -24,8 +24,9 @@ A cleric whose deity grants both fonts chooses which one their extra daily slots
 choice is usually made in chargen, but a level can open it too, and `advance/review` lists it under
 Options To Choose when it is outstanding.
 
-`dfont <heal or harm>`: Chooses your divine font. Your extra daily spell slots at each rank are then
-that spell. Staff can set it with `admin/set <character>/divine font = <heal or harm>`.
+`advance/font <heal or harm>`: Chooses your divine font. Your extra daily spell slots at each rank
+are then that spell. In chargen the same command is `cg/font` or `dfont`; staff can set it with
+`admin/set <character>/divine font = <heal or harm>`.
 
 ## Archetype Spells
 If your character class is a caster, and you take an archetype that can also learn magic, use the following commands to learn spells for your archetype, depending on caster type. If your main character class doesn't have any casting, you can use the regular spell learning commands.

@@ -30,7 +30,8 @@ pf2e:
     listalias: roll/listalias
     rollfor: roll/for
     csheet: sheet/combat
-    formulalist: formulas/list
+    # `formulas` with no switch is the list; there is no `formulas/list` to point at.
+    formulalist: formulas
     boog: boost # Just for Whirlpool
     tinit: encounter/view
     pinit: encounter/prev
@@ -40,6 +41,22 @@ pf2e:
     jinit: encounter/add
     modinit: encounter/mod
     resume: encounter/end
+    # A chargen pick answers to `cg` as well as to the root it has always had, so a player who has
+    # learned `cg/review` can reach the rest of the stage from the same word - the way every
+    # advancement pick is a switch of `advance`. The older spellings still work.
+    cg/boost: boost/set
+    cg/unboost: boost/unset
+    cg/skill: skill/set
+    cg/unskill: skill/unset
+    cg/language: lang/set
+    cg/unlanguage: lang/unset
+    cg/lang: lang/set
+    cg/unlang: lang/unset
+    cg/commit: commit
+    cg/font: dfont
+    # A level can owe a divine font too, and `advance/review` lists it: the command that fills it
+    # answers to `advance` as well.
+    advance/font: dfont
   max_level: 20
   allowed_alignments:
     - OL
