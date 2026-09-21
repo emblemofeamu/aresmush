@@ -21,10 +21,7 @@ module AresMUSH
         outcome = Pf2e::Sheet.viewable?(enactor, char, 'combat')
                     .and_then { Pf2e::Sheet.available(char, 'combat') }
 
-        if outcome.err?
-          client.emit_failure t(outcome.key, outcome.args.transform_keys(&:to_sym))
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
         client.emit PF2CombatSheetTemplate.new(char, client).render
       end

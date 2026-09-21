@@ -63,7 +63,7 @@ module AresMUSH
           if outcome.code == :insufficient && taking_money
             client.emit_failure t('pf2egear.not_enough_target', :target => payer.name, :item => 'money')
           else
-            client.emit_failure t(outcome.key, outcome.args.transform_keys(&:to_sym))
+            Pf2e::CharState.emit_error!(client, outcome)
           end
           return
         end

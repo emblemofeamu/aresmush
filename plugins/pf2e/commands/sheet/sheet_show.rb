@@ -44,10 +44,7 @@ module AresMUSH
         # use.
         outcome = Pf2e::Sheet.available(enactor, self.section)
 
-        if outcome.err?
-          client.emit_failure t(outcome.key, outcome.args.transform_keys(&:to_sym))
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
         section = outcome.state
 
