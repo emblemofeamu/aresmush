@@ -15,7 +15,13 @@ module AresMUSH
         [ self.font ]
       end
 
+      # A font is a chargen choice for a cleric, but a level can open one too: a `magic_stats` block
+      # granting `divine_font` with both options writes the same `to_assign` slot mid-climb, and
+      # `advance/review` lists it as outstanding. The command that fills it has to be reachable then,
+      # or the level cannot be finished - and `dfont` is the only one there is.
       def check_in_chargen
+        return nil if font_owed_by_a_level?
+
         if enactor.is_approved? || enactor.chargen_locked || enactor.is_admin?
           return t('pf2e.only_in_chargen')
         elsif !Pf2e.in_chargen?(enactor)
@@ -23,6 +29,10 @@ module AresMUSH
         else
           return nil
         end
+      end
+
+      def font_owed_by_a_level?
+        enactor.advancing && (enactor.pf2_to_assign || {})['divine font'].is_a?(Array)
       end
 
       def check_baseinfo_locked

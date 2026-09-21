@@ -108,44 +108,53 @@ module AresMUSH
         @option_lines ||= build_options
       end
 
-      # The command that fills each open slot, keyed by the to_assign key the review shows it under.
+      # The help topic that covers each open slot, keyed by the to_assign key the review shows it
+      # under, with the activity it names.
       #
-      # Naming the slot without naming the command leaves a player who cannot guess it unable to
-      # finish the level - and the chargen command they would reach for first is refused, because
-      # chargen is over. One row per slot a player has to go and fill themselves.
+      # Naming the slot without saying where the commands are leaves a player who cannot guess them
+      # unable to finish the level. `cg/review` answers that by pointing at the help topic for the
+      # stage rather than printing the grammar inline, and this follows it: one indirection the
+      # player already knows how to follow, and a topic with room to explain `<source>` and `<rank>`
+      # rather than a 122-character line that wraps badly and is a second copy of the parsers.
       RESOLVED_BY = {
-        'open languages' => 'advance/language <language>',
-        'open skills' => 'advance/raise skill=<skill>',
-        'raise skill' => 'advance/raise skill=<skill>',
-        'raise skill choice' => 'advance/raise skill choice=<skill>',
-        'raise ability' => 'advance/raise ability=<four attributes>',
-        'feat choice' => 'advance/info <feat> for the options, then advance/option <feat>=<choice>',
-        'class option' => 'advance/option <feature>=<choice>',
-        'divine font' => 'advance/font <heal or harm>',
-        'archetype_specialty' => 'advance/archetype specialty=<specialty>',
-        'archetype specialty choice' => 'advance/archetype specialty=<specialty>',
-        'archetype deity' => 'advance/archetype deity=<deity>',
-        'archetype key ability' => 'advance/archetype key ability=<attribute>',
-        'repertoire' => 'advance/spell repertoire/<rank>=<spell> (repertoire/<source>/<rank> for an archetype); spell/eligible <rank> lists what you may take',
-        'spellbook' => 'advance/spell spellbook/<rank>=<spell> (spellbook/<source>/<rank> for an archetype); spell/eligible <rank> lists what you may take',
-        'signature' => 'advance/spell signature/<rank>=<spell>, from the spells you already know at that rank',
-        'innate' => 'advance/spell innate/<rank>=<spell>; spell/eligible <rank> lists what you may take',
-        'feats' => 'advance/feat <type>=<feat>'
+        'open languages' => [ 'learning languages', 'advancelanguages' ],
+        'open skills' => [ 'training skills', 'advanceskills' ],
+        'raise skill' => [ 'training skills', 'advanceskills' ],
+        'raise skill choice' => [ 'training skills', 'advanceskills' ],
+        'raise ability' => [ 'raising attributes', 'advanceattributes' ],
+        'feats' => [ 'taking feats', 'advancefeats' ],
+        'feat choice' => [ 'taking feats', 'advancefeats' ],
+        'class option' => [ 'choosing class features', 'advancefeatures' ],
+        'archetype_specialty' => [ 'archetype choices', 'advancearchetypes' ],
+        'archetype specialty choice' => [ 'archetype choices', 'advancearchetypes' ],
+        'archetype deity' => [ 'archetype choices', 'advancearchetypes' ],
+        'archetype key ability' => [ 'archetype choices', 'advancearchetypes' ],
+        'repertoire' => [ 'selecting spells', 'advancespells' ],
+        'spellbook' => [ 'selecting spells', 'advancespells' ],
+        'innate' => [ 'selecting spells', 'advancespells' ],
+        'divine font' => [ 'choosing your divine font', 'advancespells' ]
       }.freeze
 
-      def self.command_for(key)
-        RESOLVED_BY[key.to_s]
+      # `To review advancement commands for taking feats, see 'help advancefeats'.`
+      def self.help_for(key)
+        found = RESOLVED_BY[key.to_s]
+
+        return nil unless found
+
+        t('pf2e.advance_slot_help', :activity => found.first, :topic => found.last)
       end
 
-      # One key at a time, with its command appended after whatever that key rendered.
+      # One key at a time, with its help pointer appended after whatever that key rendered.
       #
-      # The hint used to be appended inside one branch of the renderer, so slots that go through the
-      # others - a feat slot, a spell slot, a skill raise - showed no command at all. Doing it here
-      # means a branch cannot be missed.
+      # The pointer is added here rather than inside one branch of the renderer, so a slot that goes
+      # through another - a feat slot, a spell slot, a skill raise - cannot be missed.
       def build_options
         list = []
 
         pending_options.each_pair do |key, value|
+          # Signature spells are owed per rank of a repertoire rather than as a slot of their own, so
+          # they are said in the messages above rather than listed here, and their message carries
+          # its own pointer.
           next if key == "signature"
 
           lines = option_lines_for(key, value)
@@ -154,8 +163,8 @@ module AresMUSH
 
           list.concat(lines)
 
-          hint = self.class.command_for(key)
-          list << "%b%b%xh#{hint}%xn" if hint
+          hint = self.class.help_for(key)
+          list << "%b%b#{hint}" if hint
         end
 
         list.reject { |item| item.to_s.strip.empty? }
