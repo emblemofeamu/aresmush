@@ -44,18 +44,14 @@ module AresMUSH
           return
         end
 
-        # No validation for presence of keyname deemed necessary, onus is on the user not to duplicate keys.
-        # They may do so intentionally for purposes of updating the key, if desired.
+        before = Pf2e::CharState.of(char)
+        outcome = Pf2e::CharacterService.call(before, :set_record,
+          'record' => 'cnote', 'key' => self.notename, 'value' => self.text)
 
-        cnotes = char.pf2_cnotes
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        client.emit_ooc t('pf2e.cnote_updated', name => self.notename) if cnotes[self.notename]
-
-        cnotes[self.notename] = self.text
-
-        char.update(pf2_cnotes: cnotes)
-
-        client.emit_success t('pf2e.cnote_added', :name => self.notename, :char => char.name)
+        Pf2e::CharState.commit!(char, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
 
       end
     end

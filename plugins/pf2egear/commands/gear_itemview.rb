@@ -54,20 +54,11 @@ module AresMUSH
           char = enactor
         end
 
-        case category
-        when "weapons", "weapon"
-          item = Pf2egear.items_in_inventory(char.weapons).to_a[index]
-        when "armor"
-          item = Pf2egear.items_in_inventory(char.armor).to_a[index]
-        when "shields", "shield"
-          item = Pf2egear.items_in_inventory(char.shields).to_a[index]
-        when "magicitem"
-          item = Pf2egear.items_in_inventory(char.magic_items).to_a[index]
-        end
+        found = Pf2egear::Inventory.item(char, category, index)
 
-        if !item
-          return t('pf2egear.not_found')
-        end
+        return t(found.key) if found.err?
+
+        item = found.state
 
         template = Pf2eDisplayItemTemplate.new(enactor, item, self.category, client)
 

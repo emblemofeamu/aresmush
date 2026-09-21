@@ -41,16 +41,13 @@ module AresMUSH
       end
       
       def check_item_exists
-        case category
-        when "weapons", "weapon"
-          @item = Pf2egear.items_in_inventory(@char.weapons).to_a[@item_index]
-        when "armor"
-          @item = Pf2egear.items_in_inventory(@char.armor).to_a[@item_index]
-        end
-        if @item.nil?
-          return t('pf2egear.not_found')
-          return nil
-        end
+        found = Pf2egear::Inventory.item(@char, category, @item_index)
+
+        return t(found.key) if found.err?
+
+        @item = found.state
+
+        nil
       end
 
       def check_rune_level

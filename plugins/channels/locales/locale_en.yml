@@ -4,7 +4,6 @@ en:
         channel_doesnt_exist: "Channel %{name} does not exist."
 
         channel_created: "Channel created.  Default alias to speak on it: %{alias}.  You can change this with the channel/defaultalias command."
-        channel_renamed: "Channel renamed."
         channel_being_renamed: "This channel is being renamed to %{new_name} by %{name}.%R  Your channel alias has been reset to %{alias}."
         channel_deleted: "Channel deleted."
         channel_being_deleted: "This channel is being deleted by %{name}."

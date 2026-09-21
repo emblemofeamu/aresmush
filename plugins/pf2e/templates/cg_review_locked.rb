@@ -104,10 +104,10 @@ module AresMUSH
         return false if !@magic
 
         return true if @to_assign['repertoire'] || @to_assign['spellbook'] || @to_assign['divine font']
-        return true if !@magic.innate_spells.empty?
-        return true if !@magic.focus_spells.empty? || !@magic.focus_cantrips.empty?
-        return true if !@magic.spells_per_day.empty?
-        return true if !(@magic.tradition.keys - [ 'innate' ]).empty?
+        return true if Pf2emagic::Entries.innate?(@magic)
+        return true if Pf2emagic::Entries.focus?(@magic)
+        return true if !Pf2emagic::Entries.slots_by_source(@magic).empty?
+        return true if !Pf2emagic::Entries.casting(@magic).empty?
 
         false
       end
@@ -299,8 +299,10 @@ module AresMUSH
         @char.pf2_special.join(", ")
       end
 
+      # Through DraftSheet: a language the player picked is in the draft until the sheet commits,
+      # and pf2_lang holds only what an ancestry, heritage or background handed over.
       def languages
-        @char.pf2_lang.uniq.sort.join(", ")
+        Pf2e::DraftSheet.of(@char).languages.uniq.sort.join(", ")
       end
 
       def chosen_languages
@@ -308,7 +310,7 @@ module AresMUSH
       end
 
       def starting_languages
-        granted = @char.pf2_lang.uniq - chosen_languages
+        granted = Pf2e::DraftSheet.of(@char).languages.uniq - chosen_languages
 
         groups = [
           [ 'Ancestry Languages',   config_list(@ancestry_info, 'languages') ],
@@ -492,21 +494,24 @@ module AresMUSH
         count.zero? ? t('pf2e.cg_no_free_languages') : count
       end
 
+      # Feat type to what a player calls it.
       FEAT_SLOTS = {
-        'ancestry feat'  => 'ancestry',
-        'charclass feat' => 'class',
-        'general feat'   => 'general',
-        'skill feat'     => 'skill'
+        'ancestry' => 'ancestry',
+        'charclass' => 'class',
+        'general' => 'general',
+        'skill' => 'skill'
       }
 
       def feats
-        assigned = Pf2e.feat_display_list(@char, @char.pf2_feats.values.flatten).sort
+        assigned = Pf2e.feat_display_list(@char, Pf2e::DraftSheet.of(@char).feats_by_bucket.values.flatten).sort
         (assigned + open_feat_slots).join(", ")
       end
 
       def open_feat_slots
+        open_slots = @to_assign['feats'] || {}
+
         FEAT_SLOTS.map do |key, label|
-          count = open_count(@to_assign[key])
+          count = open_count(open_slots[key])
           next if count.zero?
 
           "#{count} #{label} feat#{count == 1 ? "" : "s"} open"
@@ -706,11 +711,11 @@ module AresMUSH
       end
 
       def innate_spells
-        spells = (@magic && @magic.innate_spells) || {}
+        grants = Pf2emagic::Entries.innate_grants(@magic)
 
-        return nil if spells.empty?
+        return nil if grants.empty?
 
-        innate_blocks(spells.map { |name, info| [ name, info['tradition'], info['level'] ] })
+        innate_blocks(grants.map { |grant| [ grant['name'], grant['tradition'], grant['level'] ] })
       end
 
       def innate_blocks(entries)
@@ -831,13 +836,13 @@ module AresMUSH
       def has_repertoire
         return true if @to_assign['repertoire']
 
-        @magic && !@magic.repertoire.empty?
+        @magic && !Pf2emagic::Entries.known_by_source(@magic, 'spontaneous').empty?
       end
 
       def has_spellbook
         return true if @to_assign['spellbook']
 
-        @magic && !@magic.spellbook.empty?
+        @magic && !Pf2emagic::Entries.known_by_source(@magic, 'prepared').empty?
       end
 
       def casting_tradition
@@ -866,7 +871,7 @@ module AresMUSH
       def prepares_from_tradition?
       # Clerics and druids prepare from their tradition's whole spell list. Unlike a witch or a
       # wizard, they have no list to fill.
-        return false if !@magic || @magic.spells_per_day.empty?
+        return false if !@magic || Pf2emagic::Entries.slots_by_source(@magic).empty?
 
         !has_repertoire && !has_spellbook
       end
@@ -881,7 +886,7 @@ module AresMUSH
       # An unnamed innate spell is still waiting to be picked.
         return false if !@magic
 
-        @magic.innate_spells.keys.any? { |name| name.to_s.casecmp?('open') }
+        !Pf2emagic::Entries.pending_innate(@magic).empty?
       end
 
       def no_spells_to_select?

@@ -7,7 +7,6 @@ module AresMUSH
     attribute :name_upcase
     attribute :prof_level
     attribute :cg_skill, :type => DataType::Boolean
-    attribute :checkpoint, :type=> DataType::Hash, :default => {}
 
     index :name_upcase
 
@@ -29,9 +28,9 @@ module AresMUSH
     end
 
     def self.find_skill(name, char)
-      skill = char.skills.select { |s| s.name_upcase == name.upcase }.first
+      wanted = name.to_s.upcase
 
-      skill
+      Pf2e::SheetReads.rows(char, :skills).find { |s| s.name_upcase == wanted }
     end
 
     def self.get_skill_bonus(char, name)
@@ -111,11 +110,14 @@ module AresMUSH
       open_lang = Pf2eSkills.open_language_count(enactor)
       return t('pf2e.lang_issues', :count => open_lang) if open_lang.positive?
 
+      # Before the background's feats, so the checkpoint holds the skills assigned during the
+      # stage and `skill/unset` can tell them from the ones a feat hands over next.
+      Pf2e::Checkpoints.record!(enactor, 'skills')
+
       Pf2eSkills.apply_bg_granted_feats(enactor, client)
 
       enactor.update(pf2_skills_locked: true)
 
-      Pf2e.record_checkpoint(enactor, "skills")
       return nil
     end
 
@@ -135,12 +137,21 @@ module AresMUSH
       return nil
     end
 
+    # The rank above the one a skill holds, or nil when there is none.
+    #
+    # nil is the honest answer in two cases and both used to go wrong: a skill already at the top
+    # of the progression has nothing above it, and indexing past the end returned nil anyway - which
+    # the caller then wrote, blanking a legendary skill. A proficiency that is not on the
+    # progression at all gave a nil index, and nil + 1 took the whole of advance/done down with it.
     def self.get_next_prof(char, value)
-      progression = Global.read_config('pf2e', 'prof_progression')
-
+      progression = Array(Global.read_config('pf2e', 'prof_progression'))
       skill = Pf2eSkills.find_skill(value, char)
-      current_prof = skill.prof_level
-      index = progression.index(current_prof)
+
+      return nil unless skill
+
+      index = progression.index(skill.prof_level)
+
+      return nil if index.nil?
 
       progression[index + 1]
     end

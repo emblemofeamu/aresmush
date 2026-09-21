@@ -31,15 +31,11 @@ module AresMUSH
         # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
+        found = Pf2e::Encounters::Finder.find(enactor, scene, self.encounter_id)
 
-        encounter = self.encounter_id ?
-          PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter(enactor, scene)
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        if !encounter
-          client.emit_failure t('pf2e.bad_id', :type => 'encounter')
-          return
-        end
+        encounter = found.state
 
         # Verify that this character can modify the encounter.
 

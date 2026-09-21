@@ -4,10 +4,10 @@ module AresMUSH
     class PF2AdvanceInfoCmd
       include CommandHandler
 
-      attr_accessor :element
+      attr_accessor :element, :filter
 
       def parse_args
-        self.element = trim_arg(cmd.args)
+        self.element, self.filter = Pf2e.split_info_filter(cmd.args)
       end
 
       def check_advancing
@@ -30,7 +30,7 @@ module AresMUSH
           return
         end
 
-        display = Pf2e.info_option_display(found[0], found[1], cmd.page)
+        display = Pf2e.info_option_display(found[0], found[1], cmd.page, self.filter)
 
         if display[:error]
           client.emit_failure display[:error]
@@ -39,48 +39,21 @@ module AresMUSH
         end
       end
 
+      # What is still outstanding is one pure query over the draft - see
+      # Pf2e::Advancement::Outstanding - so this command, the review template and any
+      # completeness check cannot disagree about what is left to do.
+      def outstanding
+        @outstanding ||= Pf2e::CharState.of(enactor)
+      end
+
       # A class feature option awaiting a pick, as [ title, options ].
       def class_option_element
-        to_assign = enactor.pf2_to_assign || {}
-        feature_list = to_assign['class option'] || to_assign['charclass'] || to_assign['charclass option']
-
-        return nil unless feature_list.is_a?(Hash)
-
-        feature = feature_list.keys.find { |f| f.to_s.casecmp?(self.element.to_s) }
-        return nil unless feature
-
-        options = feature_list[feature]
-
-        # A resolved feature renders the chosen value as a bare string, not a list to pick from.
-        return nil if options.is_a?(String)
-
-        list = if options.is_a?(Hash)
-          options.keys
-        else
-          Array(options).map { |opt| opt.is_a?(Array) ? opt.first : opt }
-        end
-
-        [ feature, list.sort ]
+        Pf2e::Advancement::Outstanding.class_option(outstanding, self.element)
       end
 
       # Everything the character could usefully ask about right now.
       def pending_elements
-        to_assign = enactor.pf2_to_assign || {}
-
-        elements = Pf2e.pending_feat_choices(enactor).keys
-
-        feature_list = to_assign['class option'] || to_assign['charclass'] || to_assign['charclass option']
-        elements.concat(feature_list.keys) if feature_list.is_a?(Hash)
-
-        pending_feats = to_assign['feats']
-
-        if pending_feats.is_a?(Hash)
-          pending_feats.each_pair do |type, slots|
-            elements << "#{type} feat" if Array(slots).include?('open')
-          end
-        end
-
-        elements.uniq.sort
+        Pf2e::Advancement::Outstanding.labels(outstanding)
       end
 
       def show_pending

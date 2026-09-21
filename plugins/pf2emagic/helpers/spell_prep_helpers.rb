@@ -1,6 +1,24 @@
 module AresMUSH
   module Pf2emagic
 
+    # Records a spell as a signature spell.
+    #
+    # The one writer, because there were two and they disagreed: the level-up path stored
+    # charclass => rank => [ spells ], which is what the cast path and the magic display both
+    # read, and the prepared-caster path stored a flat list under the granting feat's name -
+    # so a signature spell designated that way was never treated as one.
+    def self.record_signature_spell(magic, charclass, rank, spell_name)
+      signatures = magic.signature_spells || {}
+      for_class = signatures[charclass] || {}
+
+      for_class[rank.to_s] = (Array(for_class[rank.to_s]) + [ spell_name ]).uniq
+      signatures[charclass] = for_class
+
+      magic.update(:signature_spells => signatures)
+
+      signatures
+    end
+
     def self.prepare_spell(spell, char, castclass, level, use_arcane_evo=false)
       # All validations are done in the helper.
 
@@ -9,9 +27,7 @@ module AresMUSH
       magic = char.magic
 
       cc = castclass.capitalize
-      tradition = magic.tradition[cc]
-
-      return t('pf2emagic.not_casting_class', :cc => cc) if !tradition
+      return t('pf2emagic.not_casting_class', :cc => cc) unless Entries.casts_from?(magic, cc)
 
       prepared_cc_list = Global.read_config('pf2e_magic', 'prepared_casters')
 
@@ -55,7 +71,10 @@ module AresMUSH
 
       needs_spellbook = spell_details['traits'].intersect?(['rare', 'uncommon', 'unique'])
 
-      if !is_adapted && (use_arcane_evo || needs_spellbook || cc == 'Wizard')
+      # Whether this class has to have the spell written down comes from its config - does it get a
+      # spellbook at all - rather than from its name, so a class that enumerates its spells is not
+      # handed its whole tradition list.
+      if !is_adapted && (use_arcane_evo || needs_spellbook || Entries.enumerated?(cc))
         is_in_spellbook = spellbook_check(magic, cc, level, spell_name)
         return t('pf2emagic.not_in_spellbook') unless is_in_spellbook[0]
         make_signature = is_in_spellbook[1]
@@ -69,9 +88,9 @@ module AresMUSH
       }
 
       if make_signature
-        signature_spells = magic.signature_spells
-        signature_spells["Arcane Evolution"] = [ spell_name ]
-        magic.update(signature_spells: signature_spells)
+        # Recorded under the caster class at the spell's rank, which is where the cast path looks.
+        # A list keyed by the granting feat's own name is one it does not read.
+        Pf2emagic.record_signature_spell(magic, cc, level, spell_name)
 
         return return_msg
       end
@@ -158,11 +177,13 @@ module AresMUSH
       prepare_ok = false
       make_signature = false
 
-      spellbook = obj.spellbook[castclass]
+      # A prepared caster's book and, for the classes that keep both, their repertoire. Read
+      # through Entries so a source held as an entry rather than in the class-keyed hash counts.
+      spellbook = Entries.known_by_source(obj, 'prepared')[castclass]
 
       return [false, false] unless spellbook
 
-      repertoire = obj.repertoire[castclass]
+      repertoire = Entries.known_by_source(obj, 'spontaneous')[castclass]
 
       book_spells_list = spellbook.values&.flatten
 
@@ -182,54 +203,33 @@ module AresMUSH
       magic = char.magic
       return 0 unless magic
 
-      list = magic.spells_per_day[charclass]
-      return 0 unless list
+      list = Entries.slots(magic, charclass)
 
       list[level].to_i
     end
 
-    # { restriction => count } for one rank.
+    # { restriction => count } for one rank. Which slots each kind grants and what may go in them
+    # is Pf2emagic::Restrictions' business.
     def self.restricted_slots_at(char, charclass, level)
-      magic = char.magic
-      return {} unless magic
-
-      for_class = (magic.restricted_slots || {})[charclass]
-      return {} unless for_class.is_a?(Hash)
-
-      for_class.each_with_object({}) do |(restriction, by_rank), hash|
-        count = Pf2emagic.restricted_count_at_rank(by_rank, level)
-        hash[restriction] = count if count.positive?
-      end
+      Pf2emagic::Restrictions.counts_at(char, charclass, level)
     end
 
+    # Which spells may go in one restriction's slots.
     def self.restricted_spell_list(char, charclass, restriction, level)
-      case restriction.to_s.downcase
-      when 'curriculum'
-        Pf2emagic.curriculum_spells(char, charclass, level)
-      else
-        Global.logger.error "Unknown restricted slot '#{restriction}' for #{char.name}."
-        []
-      end
+      Pf2emagic::Restrictions.eligible(char, charclass, restriction, level)
     end
 
     # Whether a set of prepared spells fits the slots available at a rank.
+    #
+    # An assignment, not a subtraction: the pools are the open slots plus one per restriction, and
+    # Pf2emagic::SlotFit works out whether every spell has somewhere to go.
     def self.prepared_set_fits?(char, charclass, level, spells)
-      open = open_spells_per_day(char, charclass, level)
-      restricted = restricted_slots_at(char, charclass, level)
+      pools = Pf2emagic::SlotFit.from_slots(
+        open_spells_per_day(char, charclass, level),
+        Pf2emagic::Restrictions.at(char, charclass, level)
+      )
 
-      return spells.size <= open if restricted.empty?
-      return false if spells.size > open + restricted.values.sum
-
-      if restricted.size > 1
-        Global.logger.error "More than one restricted slot type at rank #{level} for #{char.name}; only the first is enforced."
-      end
-
-      restriction, count = restricted.first
-      eligible = restricted_spell_list(char, charclass, restriction, level).map { |s| s.to_s.downcase }
-
-      others = spells.reject { |s| eligible.include?(s.to_s.downcase) }
-
-      others.size <= open && spells.size <= open + count
+      Pf2emagic::SlotFit.fits?(pools, spells)
     end
 
     def self.max_spells_per_day(char, charclass, level)
@@ -243,8 +243,7 @@ module AresMUSH
       return 0 unless type
 
       # This is the same whether you're a prepared or spontcaster.
-      list = magic.spells_per_day[charclass]
-      return 0 unless list
+      list = Entries.slots(magic, charclass)
 
       sublist = list[level]
 
@@ -262,8 +261,8 @@ module AresMUSH
       return nil unless type
 
       # This is the same whether you're a prepared or spontcaster.
-      list = magic.spells_per_day[charclass]
-      return nil unless list
+      list = Entries.slots(magic, charclass)
+      return nil if list.empty?
 
       levels_available = list.keys.sort { |a,b| a.to_i <=> b.to_i }
 

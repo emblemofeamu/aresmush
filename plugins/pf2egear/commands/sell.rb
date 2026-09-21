@@ -53,31 +53,15 @@ module AresMUSH
         # Find the item in the list. How to do that depends on the category.
         index = self.item_num
 
-        case category
-        when "weapons", "weapon"
-          item_id = Pf2egear.items_in_inventory(enactor.weapons).to_a[index]
-        when "armor"
-          item_id = Pf2egear.items_in_inventory(enactor.armor).to_a[index]
-        when "shields", "shield"
-          item_id = Pf2egear.items_in_inventory(enactor.shields).to_a[index]
-        when "bags"
-          item_id = enactor.bags.to_a[index]
-        when "magicitem", "magicitems"
-          item_id = Pf2egear.items_in_inventory(enactor.magic_items).to_a[index]
-        when "consumables"
-          item_id = Pf2egear.items_in_inventory(enactor.consumables).to_a[index]
-          item_qty = item_id.quantity
-        when "gear"
-          item_id = Pf2egear.items_in_inventory(enactor.gear).to_a[index]
-          item_qty = item_id.quantity
-        end
+        found = Pf2egear::Inventory.item(enactor, category, index)
 
-        if !item_id
-          client.emit_failure t('pf2egear.not_found')
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        purse = enactor.pf2_money
+        item_id = found.state
+
+        # Gear and consumables are held as one row with a quantity, so selling one is a decrement.
+        item_qty = item_id.quantity if Pf2egear::Inventory.stackable?(category)
+
 
         itemname = item_id.name
         price = (item_id.price) / 2
@@ -100,9 +84,7 @@ module AresMUSH
           item_id.update(quantity: item_qty - q)
         end
 
-        enactor.update(pf2_money: purse + to_be_paid)
-
-        Pf2egear.record_money_history(enactor, 'Item Vendor', to_be_paid, "Item Sale: #{itemname}")
+        Pf2egear.pay_player(enactor, to_be_paid, 'Item Vendor', "Item Sale: #{itemname}")
 
         client.emit_success t('pf2egear.item_sold_ok', :item => itemname, :cost => Pf2egear.display_money(to_be_paid), :quantity => q)
 

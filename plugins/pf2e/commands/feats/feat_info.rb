@@ -31,14 +31,14 @@ module AresMUSH
 
         # Does this character have feats to view? 
 
-        char_has_feats = char.pf2_feats
+        char_has_feats = Pf2e::DraftSheet.of(char).feats_by_bucket
 
         if !char_has_feats
           client.emit_failure t('pf2e.nothing_to_display', :elements => "feats")
           return
         end
 
-        feat_list = char.pf2_feats.values.flatten
+        feat_list = Pf2e::DraftSheet.of(char).feats_by_bucket.values.flatten
 
         if feat_list.empty?
           client.emit_failure t('pf2e.nothing_to_display', :elements => "feats")

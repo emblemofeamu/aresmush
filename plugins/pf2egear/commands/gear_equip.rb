@@ -18,11 +18,13 @@ module AresMUSH
         [ self.category, self.item_num ]
       end
 
-      def check_valid_category
-        cats = %w(weapons weapon armor shields shield)
+      # Only what can be worn or wielded. A bag is carried, and gear is not equipped at all.
+      EQUIPPABLE = %w{weapons weapon armor shields shield}.freeze
 
-        return nil if cats.include?(self.category)
-        return t('pf2egear.bad_category')
+      def check_valid_category
+        return nil if EQUIPPABLE.include?(self.category)
+
+        t('pf2egear.bad_category')
       end
 
       def check_is_number
@@ -31,41 +33,19 @@ module AresMUSH
       end
 
       def handle
-
-        case self.category
-        when "weapon", "weapons"
-          item_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-        when "armor"
-          item_list = Pf2egear.items_in_inventory(enactor.armor.to_a)
-
-          # Can only equip one armor at a time.
-          equipped_items = item_list.select { |item| item.equipped }
-        when "shield", "shields"
-          item_list = Pf2egear.items_in_inventory(enactor.shields.to_a)
-
-          # Can only equip one shield at a time.
-          equipped_items = item_list.select { |item| item.equipped }
-        end
-
-        # Some categories only allow one item to be equipped at a time.
-
-        if equipped_items
-          if !equipped_items.empty?
-            client.emit_failure t('pf2egear.already_equipped')
-            return
-          end
-        end
-
-        # Does item_num exist in category?
-
-        item = item_list[self.item_num]
-
-        if !item
-          client.emit_failure t('pf2egear.not_found')
+        # Armour and a shield are worn one at a time, which Inventory says rather than this command.
+        if Pf2egear::Inventory.single?(self.category) &&
+           Pf2egear::Inventory.held(enactor, self.category).any? { |item| item.equipped }
+          client.emit_failure t('pf2egear.already_equipped')
           return
         end
 
-        # Equip the item.
+        found = Pf2egear::Inventory.item(enactor, self.category, self.item_num)
+
+        return if Pf2e::CharState.emit_error!(client, found)
+
+        item = found.state
+
         item.update(equipped: true)
 
         iname = item.nickname ? item.nickname : item.name

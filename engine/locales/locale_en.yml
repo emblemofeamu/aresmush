@@ -72,7 +72,8 @@ en:
         anonymous: Anonymous
 
     number:
-        separator: '.'
+        format:
+            separator: '.'
 
     pages:
         page_x_of_y: "page %{x} of %{y}"

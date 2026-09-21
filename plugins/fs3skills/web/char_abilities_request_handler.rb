@@ -15,7 +15,7 @@ module AresMUSH
         
         can_view = FS3Skills.can_view_sheets?(enactor) || (enactor && enactor.id == char.id)
         if (!can_view)
-          return { error: t('dispatcher.not_alllowed') }
+          return { error: t('dispatcher.not_allowed') }
         end
         
         abilities = []

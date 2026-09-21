@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2ChargenSpellsCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :caster_class, :spell_level, :new_spell, :old_spell
 
@@ -34,7 +35,7 @@ module AresMUSH
       def check_in_chargen
         if enactor.is_approved? || enactor.chargen_locked || enactor.is_admin?
           return t('pf2e.only_in_chargen')
-        elsif enactor.chargen_stage.zero?
+        elsif !Pf2e.in_chargen?(enactor)
           return t('chargen.not_started')
         else
           return nil

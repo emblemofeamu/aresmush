@@ -41,7 +41,7 @@ module AresMUSH
 
       def handle
 
-        # Which way is the money going?
+        # Which way is the money going? A negative value takes rather than gives.
 
         taking_money = self.value.negative?
 
@@ -52,49 +52,23 @@ module AresMUSH
           return
         end
 
-        if taking_money
-          payer = target_char
-          payee = enactor
-        else
-          payer = enactor
-          payee = target_char
-        end
-
-        staff_payer = payer.is_admin?
-        staff_payee = payee.is_admin?
-
-        # Does the person paying have enough money?
-        from_purse = payer.pf2_money
+        payer, payee = taking_money ? [ target_char, enactor ] : [ enactor, target_char ]
 
         actual_value = Pf2egear.convert_money(self.value.abs, self.cointype)
 
-        has_enough = true if staff_payer || (from_purse - actual_value) >= 0
+        outcome = Pf2egear::Payment.plan(payer, payee, actual_value)
 
-        if !has_enough
-          fail_msg = taking_money ?
-            t('pf2egear.not_enough_target',
-            :target => payer.name,
-            :item=>'money'
-            ) :
-            t('pf2egear.not_enough_you',
-            :item => 'money'
-          )
-
-          client.emit_failure fail_msg
+        if outcome.err?
+          # The same refusal reads differently depending on who is short of money.
+          if outcome.code == :insufficient && taking_money
+            client.emit_failure t('pf2egear.not_enough_target', :target => payer.name, :item => 'money')
+          else
+            Pf2e::CharState.emit_error!(client, outcome)
+          end
           return
         end
 
-        # Let's do it.
-
-        to_purse = payee.pf2_money
-
-        from_purse = from_purse - actual_value
-
-        to_purse = to_purse + actual_value
-
-        # Don't bother tracking money totals for a staffer.
-        payer.update(pf2_money: from_purse) unless staff_payer
-        payee.update(pf2_money: to_purse) unless staff_payee
+        Pf2egear::Payment.post!(outcome.state)
 
         success_msg = taking_money ?
                 t('pf2egear.money_taken_ok',
@@ -121,9 +95,6 @@ module AresMUSH
             :value => self.value,
             :cointype => self.cointype
           )
-
-        Pf2egear.record_money_history(payee, payer.name, actual_value, "Payment from #{payer.name}")
-        Pf2egear.record_money_history(payer, payee.name, -actual_value, "Payment to #{payee.name}")
 
         Login.notify(target_char, :pf2_money, recipient_msg, actual_value)
 

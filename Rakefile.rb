@@ -104,6 +104,18 @@ rescue LoadError
   # no rspec available
 end
 
+desc "Run only the specs that need a live database."
+begin
+  require 'rspec/core/rake_task'
+
+  RSpec::Core::RakeTask.new('spec:db') do |t|
+    t.pattern = "spec/**/*_specs.rb,spec/**/*_spec.rb,plugins/**/*_specs.rb,plugins/**/*_spec.rb"
+    t.rspec_opts = "--tag dbtest"
+  end
+rescue LoadError
+  # no rspec available
+end
+
 desc "Run all specs except the db ones."
 begin
   require 'rspec/core/rake_task'
@@ -116,6 +128,19 @@ rescue LoadError
   # no rspec available
 end
 
+
+desc "Audit one class's climb to a level against what its tables promise. rake pf2e:audit[Wizard,20]"
+begin
+  require 'rspec/core/rake_task'
+
+  RSpec::Core::RakeTask.new('pf2e:audit', :charclass, :level) do |t, args|
+    charclass = args[:charclass]
+    t.pattern = "plugins/pf2e/specs/level_twenty_audit_specs.rb"
+    t.rspec_opts = charclass ? "--tag dbtest --example \"#{charclass}\"" : "--tag dbtest"
+  end
+rescue LoadError
+  # no rspec available
+end
 
 # Generate documentation
 # Use yardoc

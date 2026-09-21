@@ -341,6 +341,18 @@ pf2e_spells:
     duration: 1 minute
     effect: "You send your mind and soul into the target's body, attempting to take control. The target must attempt a Will save. If you want to exert less control over the target, you can choose to use the effects of any degree of success more favorable to the target.%r%rWhile you're possessing a target, your own body is unconscious and can't wake up normally. You can sense everything the possessed target does. You can Dismiss this spell. If the possessed body dies, the spell ends and you must succeed at a Fortitude save against your spell DC or be paralyzed for 1 hour, or 24 hours on a critical failure. If the spell ends during an encounter, you act just before the possessed creature's initiative.%r%r**Critical Success** The target is unaffected.%r**Success** You possess the target but can't control it. You ride along in the body while the spell lasts.%r**Failure** You possess the target and take partial control of it. You no longer have a separate turn; instead, you might control the target. At the start of each of the target's turns, it attempts another Will save. If it fails, it's controlled by you on that turn; if it succeeds, it chooses its own actions; and if it critically succeeds, it forces you out and the spell ends.%r**Critical Failure** You possess the target fully, and it can only watch as you manipulate it like a puppet. The target is controlled by you."
     heighten: "**9th:** The duration is 10 minutes, and you can physically enter the creature's body, protecting your physical body while the spell lasts."
+  Practice Makes Perfect:
+    base_level: 1
+    traits:
+      - cleric
+      - focus
+      - manipulate
+      - uncommon
+    actions: reaction
+    trigger: "You or an ally within range fails a skill check for a skill in which you or they are trained."
+    range: "30 feet"
+    target: "the triggering creature"
+    effect: "The target gains a +2 status bonus to the triggering check, or a +3 bonus if the target has master or better proficiency in the skill. This bonus can change the outcome of the target's skill check."
   Precious Metals:
     base_level: 4
     traits:
@@ -708,6 +720,20 @@ pf2e_spells:
     target: 1 living creature per action spent to Cast this Spell
     effect: You snatch creatures from the jaws of death, restoring them without the straing of a typical close call. You can spend 1 to 3 actions Casting this Spell, and you can target a number of creatures equal to the actions spent. Each target regains 3d6 Hit Points. If the target had the dying condition, coming back from Dying due to this healing doesn't increase its wounded condition.
     heighten: "**+1:** Increase the healing by 1d6."
+  Redact:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    range: "30 feet"
+    target: "unattended written materials of up to 1 Bulk or less"
+    duration: "1 day"
+    effect: "You strike mention of a specific name from one or more documents. When you Cast the Spell, give one proper name, be it a creature, location, or object. Any mention of that name within the document becomes blurred, smudged, or otherwise completely illegible. Epithets and unambiguous references to the name are redacted as well; for instance, redacting the name of the goddess Sarenrae from a book would also remove references to her title \"the Dawnflower.\" Attempts to use this reference material to Recall Knowledge about the given proper name automatically fail."
+    heighten: "**3rd:** Instead of striking out a given name, you can replace it with a different name you choose. Epithets and references are substituted with similar ones relating to the replacement name. Anyone reading the text can attempt a Perception or Society check against your spell DC to notice the altered text, though that doesn't tell them what the original said.%r**4th:** At your choice, the duration is unlimited."
   Regenerate:
     base_level: 7
     traits:
@@ -900,6 +926,21 @@ pf2e_spells:
     range: 30 feet
     duration: 10 minutes
     effect: "You designate an area in which lies are revealed. Creatures in the area also take a –2 status penalty to Deception checks. Each time a creature in the area speaks a true statement, the soft ring of a bell sounds in the area. Creatures are aware of the magic; therefore, they can avoid answering questions to which they would normally respond with a lie, or they can be evasive as long as they remain within the boundaries of the truth. If a creature is in the area when the spell is cast or later enters the area, that creature attempts a Will save. It uses the results of this initial save if it leaves and reenters the area.%r%r**Critical Success** The target is so convincing that the bell rings even if they lie.%r**Success** If the target lies and succeeds at their Deception check against all targets, the bell still rings.%r**Failure** The bell accurately sees through their deception and will never ring if they lie."
+  Roar of the Dragon:
+    base_level: 1
+    traits:
+      - auditory
+      - cleric
+      - concentrate
+      - emotion
+      - focus
+      - manipulate
+      - mental
+      - uncommon
+    actions: 2
+    area: 30-foot emanation
+    duration: "varies"
+    effect: "You channel the might of dragons into your voice, letting out a roar that engenders respect in dragonkind but that instills fear in most other creatures. The impressive roar grants you a +2 circumstance bonus to Diplomacy checks for 10 minutes against dragons that were in the area at the time of casting.%r%rRoar of the dragon affects non-dragon creatures with deep ties to dragonkind (such as a barbarian with the draconic instinct, a sorcerer with the draconic bloodline, or a member of a culture that reveres dragons) as if they had the dragon trait. The GM decides if a creature is aligned enough with dragonkind to be affected in this way. All enemies within the area other than dragons must attempt a Will save; to these enemies, roar of the dragon is a fear effect.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature is frightened 1.%r**Failure** The creature is frightened 2.%r**Critical Failure** The creature is frightened 3 and fleeing for 1 round."
   Rouse Skeletons:
     base_level: 3
     traits:
@@ -1237,6 +1278,19 @@ pf2e_spells:
     range: touch
     target: an unworked piece of wood up to 20 cubic feet in volume
     effect: You shape the wood into a rough shape of your choice. The shaping power is too crude to produce with intricate parts, fine details, moving pieces, or the like. You cannot use this spell to enhance the value of the wooden object you are shaping.
+  Share Burden:
+    base_level: 1
+    traits:
+      - cleric
+      - focus
+      - manipulate
+      - mental
+      - uncommon
+    actions: reaction
+    trigger: "An ally within range is about to attempt a saving throw against a harmful emotion effect, and you would not otherwise have to save against the effect."
+    range: "30 feet"
+    target: "you and the triggering ally"
+    effect: "You shoulder some of your ally's pain. Both you and your ally use the outcome one degree of success better than the result of your ally's saving throw, even if the triggering effect usually affects only one target."
   Share Life:
     base_level: 2
     traits:
@@ -1852,6 +1906,20 @@ pf2e_spells:
     range: 30 feet
     target: 1 dying creature
     effect: Life energy shuts death's door. The target loses the dying condition, though it remains unconscious at 0 Hit Points.
+  Stasis:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - incapacitation
+      - manipulate
+      - uncommon
+    actions: 2
+    range: "30 feet"
+    target: "1 creature or up to 1 Bulk of objects"
+    duration: "varies"
+    effect: "The flow of time congeals around an object or creature, holding it in place. The target must attempt a Will save (an unattended object automatically critically fails its save).%r%r**Critical Success** The target is unaffected.%r**Success** The target is stunned 1 as time thickens around it.%r**Failure** Time ceases to pass for the target for 1 round. It is invulnerable to all damage, it can't be targeted or affected by anything, and no rounds elapse for any timed durations, conditions, afflictions, and other effects it has. While in stasis, the target can't be moved, and it remains fixed in place, defying gravity if need be.%r**Critical Failure** As failure, but the target is held in stasis for 3 rounds. At the end of each of its turns, it can attempt a Will save to reduce the remaining duration by 1 round or end it entirely on a critical success."
   Status:
     base_level: 2
     traits:
@@ -2244,6 +2312,41 @@ pf2e_spells:
     duration: 1 minute
     effect: Ground in the area turns swampy and fetid. The area is difficult terrain. The sludge at the bottom of the morass animates into diminutive sludge beasts that have a demonic appearance. These don't function as normal creatures, but they swarm over creatures in the swamp and exude a noxious stench. The swamp deals 1d6 poison damage to creatures that end their turn in the area (basic Fortitude save). For each additional action you use when Casting the Spell, increase the burst's radius by 5 feet.
     heighten: "**+2:** The damage increases by 1d6, and the initial radius increases by 5 feet"
+  Swarm Form:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - polymorph
+      - uncommon
+    actions: 2
+    duration: "5 minutes"
+    effect: "You discorporate into a swarm of Tiny creatures. While in swarm form, you are the same size, you have the swarm trait and you gain resistance 5 to slashing and piercing damage and weakness 5 to area and splash damage. You can fit into spaces only a few inches wide, moving your constituent creatures through the gap, and you can share a space with another creature. You don't gain the swarm mind ability, so you are still affected normally by mental effects. As a swarm, you can't speak, cast spells, use manipulate actions requiring your hands, activate your magic items, or make any of your Strikes with your normal body. While in swarm form, you can crawl all over any creature that shares your space as a single action. That creature must attempt a Fortitude save against your spell DC or become sickened 1 (sickened 2 on a critical failure). You can Dismiss the Spell."
+    heighten: "**+2:** Your resistances and weaknesses each increase by 5."
+  Swarmsense:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 3
+    effect: "You extend your senses through a multitude of crawling and flying creatures. You create a crawling swarm in your square. You can hear through the swarm as if using your normal auditory senses. When you Cast this Spell and the first time you Sustain it each round, you can move the swarm 10 feet along the ground in any direction. The swarm has AC 15 and a +0 bonus to its saves. Any damage dealt to the swarm destroys it and ends the spell."
+    heighten: "**3rd:** The swarm has a climb Speed of 10 feet.%r**5th:** The swarm has a fly Speed of 10 feet. You can see through the swarm using your visual senses.%r**7th:** The swarm gains a 10-foot status bonus to its Speeds."
+  Swear Oath:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - uncommon
+    actions: 1 or 2
+    duration: "until the end of your next turn"
+    effect: "You loudly and firmly state a course of action that you swear to fulfill. When you Cast this Spell, Ready a single action or free action you can use. If the action is in line with your personal edicts or the edicts presented by your religion, you can Cast this Spell as a single action.%r%rIf the trigger you designate occurs and you can use the chosen action as a reaction, you gain a +1 status bonus to any attack roll or skill check required. If the trigger you designate doesn't occur, you can Sustain the spell on your next turn to regain the Focus Point spent for this spell."
+    heighten: "**5th:** The status bonus is +2.%r**9th:** The status bonus is +3."
   Sweet Dream:
     base_level: 1
     traits:
@@ -2639,6 +2742,20 @@ pf2e_spells:
     range: 60 feet
     target: 1 creature
     effect: You call forth a tremendous wave to move the target either in a body of water or on the ground. You move the target up to 10 feet in any direction along the ground or 20 feet through a body of water. An unwilling target can attempt a Fortitude save, and it avoids being moved if it succeeds.
+  Tireless Worker:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - healing
+      - manipulate
+      - uncommon
+    actions: 2
+    range: "30 feet"
+    target: "1 creature"
+    duration: "1 minute"
+    effect: "You suppress your choice of one of the following conditions that's affecting the target: clumsy, encumbered, enfeebled, or fatigued. The duration of the condition doesn't elapse while it is suppressed, so if you don't remove the effect that caused the condition, the condition returns after the spell's duration expires."
   Touch of Death:
     base_level: 8
     traits:

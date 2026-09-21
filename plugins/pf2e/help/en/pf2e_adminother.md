@@ -23,7 +23,7 @@ see the third page of the history, you'd type `rpphist3 <name>`.
 ### Reset or respec a character
 **Commands**:
 `admin/reset <character>`: Resets the character sheet, sets them to unapproved, forces them back through chargen, and wipes level / XP / gold back to starting default. 
-`admin/respec <character>`: Resets the character sheet, sets them to unapproved, forces them back through chargen, but preserves level / XP / money / inventory. 
+`admin/respec <character>`: Resets the character sheet, sets them to unapproved, forces them back through chargen, but preserves level / XP / money. Inventory and stats are cleared. 
 
 ### Manage jobs
 See `help jobs`.

@@ -14,15 +14,11 @@ module AresMUSH
         # If they didn't specify the encounter ID, go get it.
 
         scene = enactor_room.scene
+        found = Pf2e::Encounters::Finder.find(enactor, scene, self.encounter_id)
 
-        encounter = self.encounter_id ?
-          PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter(enactor, scene)
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        if !encounter
-          client.emit_failure t('pf2e.bad_id', :type => 'encounter')
-          return
-        end
+        encounter = found.state
 
         # Verify that this character can modify the encounter.
 
@@ -33,31 +29,21 @@ module AresMUSH
         end
 
         initlist = encounter.participants
+        moved = Pf2e::Encounters::Turn.move('prev', :size => initlist.size,
+                                            :at => encounter.next_init, :round => encounter.round)
 
-        # Going back might back us up a round.
+        return if Pf2e::CharState.emit_error!(client, moved)
 
-        if encounter.next_init.zero?
-          round = round - 1
-          this_init = initlist.size
-          next_init = 0
-          encounter.update(round: round)
-        else
-          round = encounter.round
-          this_init = encounter.next_init - 1
-          next_init = (this_init + 1) % initlist.size
-        end
+        this_init = moved.state['current']
+        next_init = moved.state['upcoming']
 
-        round_text = "Initiative backs up."
-        this_name = initlist[this_init][1]
-        next_name = initlist[next_init][1]
-
-        # Generate and send the message.
+        encounter.update(:round => moved.state['round']) if moved.state['new_round']
 
         @message = t('pf2e.advance_init',
-          :current => this_name,
-          :next => next_name,
+          :current => initlist[this_init][1],
+          :next => initlist[next_init][1],
           :init => initlist[this_init][0].to_i,
-          :round => round_text
+          :round => t(moved.state['label'])
         )
 
         enactor_room.emit @message

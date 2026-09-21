@@ -19,12 +19,12 @@ module AresMUSH
 
       def handle
 
-        encounter = PF2Encounter[self.encounter_id]
+        # This one takes the id and does not fish for it, so the scene is not consulted.
+        found = Pf2e::Encounters::Finder.find(enactor, nil, self.encounter_id)
 
-        if !encounter
-          client.emit_failure t('pf2e.bad_id', :type => 'encounter')
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
+
+        encounter = found.state
 
         # Verify that this character can modify the encounter.
 
@@ -34,11 +34,7 @@ module AresMUSH
           return
         end
 
-        # You cannot restart an encounter if the scene to which it is tied is not running.
-
-
-
-        encounter.update(is_active: true)
+        encounter.update(:is_active => true)
 
         @message = t('pf2e.encounter_restarted', :id => encounter.id)
 

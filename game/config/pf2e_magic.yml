@@ -86,7 +86,7 @@ pf2e_magic:
     Dragon:
       description: You draw on the power of dragons, linnorms, and other powerful reptilian creatures.
       initial: Draconic Barrage
-      advanced: Roar of the Wyrm
+      advanced: Roar of the Dragon
     Dreams:
       description: You have the power to enter and manipulate dreams.
       initial: Sweet Dream

@@ -1194,9 +1194,10 @@ pf2e_feats:
       - Egalrin
     traits:
       - egalrin
-    grants:
-      feat:
-        - Egalrin Feather Fan
+    # This feat hands over a magic item, which the grant vocabulary cannot express, so it grants
+    # nothing - and never itself, which a feat's grants block cannot be without recursing.
+    # PF2e's Tengu Feather Fan is the same feat under its original name, and Wind God's Fan is the
+    # follow-up that adds spells and activations to it.
     shortdesc: "You've learned to bind some of your feathers together into a fan to focus your ancestral magic. You gain a *egalrin feather fan*: a magic item of light Bulk with a level equal to your level and the primal trait. You (and only you) can cast egalrin magic with the Wave Fan activation. If your fan is lost or destroyed, you can create a replacement during your daily preparations; if you do so, your previous fan falls apart into mundane feathers.%r%rYour *egalrin feather fan* contains a 1st-rank *gust of wind* spell. Further feats might add more spells and grant you additional activations of your egalrin feather fan, but you can never have more than three activations per day, no matter how many such feats you have.%r%r**Activate—Wave Fan** (manipulate)%r%r**Frequency** once per day%r%r**Effect** You cast your choice of one spell contained in your *egalrin feather fan*. You can instead cast a cantrip you've gained from a heritage or an ancestry feat; this doesn't use up one of the fan's daily activations. This activation takes the spell's normal number of actions. The spell's DC is your class DC or spell DC, whichever is higher."
     prereq:
       level: 5
@@ -3205,9 +3206,6 @@ pf2e_feats:
     shortdesc: The long and complicated history of your bloodline manifests in your ability to draw power from more of your heritage's planar sources than most other nephilim. Choose a lineage feat carrying your heritage's trait that you don't already possess; if you're an aesa, your choices are Angelkin, Lawbringer, or Musetouched, and if you're a niasa, your choices are Grimspawn, Hellspawn, or Pitborn. You gain that feat and all of its benefits, even if you already took a lineage feat at 1st level.
     prereq:
       level: 5
-      orheritage:
-        - Aesa
-        - Niasa
       orheritage:
         - Aesa
         - Niasa

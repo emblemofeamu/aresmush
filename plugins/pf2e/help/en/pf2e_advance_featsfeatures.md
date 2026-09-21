@@ -4,6 +4,8 @@ summary: Commands related to advancement, skills, and abilities.
 aliases:
 - advancefeats
 - advancefeatures
+- advance/feats
+- eligible feats
 ---
 
 # Advancement - Selecting Feats and Class Features
@@ -23,3 +25,15 @@ Sometimes, feats might give training in skills you're already trained in. Those 
 ### Examples
 Ancestral Paragon: `advance/feat special/ancestral paragon=Unwavering Mien` would satisfy Ancestral Paragon if the player character is a sildanyar or silyara.
 Fighter Weapon Mastery: `advance/option Fighter Weapon Mastery=sword` would satisfy the Fighter Weapon Mastery class feature for fighters.
+
+## What can I actually take?
+
+`advance/feats`: Lists every feat slot this level still has open, and how many feats you are
+eligible for in each.
+`advance/feats <slot type>`: Lists those feats. The slot types are the ones the summary names -
+general, skill, ancestry, charclass, archetype, dedication.
+`advance/feats <slot type>=<text>`: The same list, narrowed to names containing that text.
+
+The same narrowing works on `advance/info` and `cg/info`, which matters for choices with hundreds
+of options: `advance/info Additional Lore=arch` lists only the Lores containing 'arch' rather than
+paging through every one of them.

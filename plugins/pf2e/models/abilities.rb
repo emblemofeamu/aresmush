@@ -8,7 +8,6 @@ module AresMUSH
     attribute :shortname
     attribute :base_val, :type => DataType::Integer, :default => 10
     attribute :mod_val, :default => false
-    attribute :checkpoint, :type=> DataType::Hash, :default => {}
 
     index :name_upcase
 
@@ -27,15 +26,46 @@ module AresMUSH
     end
 
     def self.get_score(char, ability)
-      object = char.abilities.select { |a| a.name_upcase == ability.upcase }.first
+      object = Pf2e::SheetReads.rows(char, :abilities).find { |a| a.name_upcase == ability.upcase }
 
       return 10 if !object
 
       object.mod_val ? object.mod_val : object.base_val
     end
 
+    # A score after some number of boosts, per PF2e: a boost is worth 2, or 1 once the score has
+    # reached 18.
+    #
+    # The rule depends only on the score being boosted, so a *count* of boosts per ability is
+    # enough to derive the result - there is no ordering to preserve between abilities. That is
+    # what lets the grant ledger hold boosts as counts and still reproduce the sheet.
+    def self.boosted_score(base, count)
+      count.to_i.clamp(0, 100).times.reduce(base.to_i) do |score, _|
+        score < 18 ? score + 2 : score + 1
+      end
+    end
+
+    # An ability flaw, which is a boost read backwards: worth 2 below 18 and 1 above it, so that
+    # flawing a boosted score returns it to where it started.
+    def self.flawed_score(base, count)
+      count.to_i.clamp(0, 100).times.reduce(base.to_i) do |score, _|
+        score <= 18 ? score - 2 : score - 1
+      end
+    end
+
+    # A score from nothing but its counts. Every ability starts at 10, an ancestry's flaw applies,
+    # then every boost.
+    #
+    # Flaws first because that is the order chargen applies them and the order PF2e states: the
+    # ancestry step carries the flaw, and background, class and free boosts come after. From a base
+    # of 10 the two orders agree for every reachable count, and they differ from 17, which no
+    # sequence of boosts from 10 produces, so the order is stated rather than relied upon.
+    def self.derived_score(flaws, boosts)
+      boosted_score(flawed_score(10, flaws), boosts)
+    end
+
     def self.update_base_score(char,ability,mod=2)
-      object = char.abilities.select { |a| a.name_upcase == ability.upcase }.first
+      object = Pf2e::SheetReads.rows(char, :abilities).find { |a| a.name_upcase == ability.upcase }
 
       return nil if !object
 
@@ -101,6 +131,9 @@ module AresMUSH
 
       return t('pf2e.abil_issues') if errors
 
+      # The stage starts here, after validation, so a refused commit does not move the checkpoint.
+      Pf2e::Checkpoints.record!(enactor, 'abilities')
+
       # Identify anything else they need to set.
       to_assign = enactor.pf2_to_assign
 
@@ -126,7 +159,6 @@ module AresMUSH
       enactor.pf2_abilities_locked = true
       enactor.save
 
-      Pf2e.record_checkpoint(enactor, "abilities")
       return nil
     end
 

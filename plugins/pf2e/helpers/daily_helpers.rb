@@ -119,8 +119,8 @@ module AresMUSH
 
     def self.do_daily_investiture(char)
 
-      char_wp_list = Pf2egear.items_in_inventory(char.weapons.to_a)
-      char_a_list = Pf2egear.items_in_inventory(char.armor.to_a)
+      char_wp_list = Pf2egear::Inventory.held(char, 'weapons')
+      char_a_list = Pf2egear::Inventory.held(char, 'armor')
       char_mi_list = Pf2egear.items_in_inventory(char.magic_items.to_a)
 
       investable_list = char_wp_list + char_a_list + char_mi_list

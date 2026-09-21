@@ -204,7 +204,7 @@ module AresMUSH
       attacks = {}
 
       recorded_choices(char).each do |feat, label, _level|
-        options = Global.read_config('pf2e_feats', feat.to_s, 'feat_choice', 'options')
+        options = (Global.read_config('pf2e_feats', feat.to_s, 'feat_choice') || {})['options']
         next if !options.is_a?(Hash)
 
         key = options.keys.find { |k| k.to_s.casecmp?(label.to_s) }
@@ -226,7 +226,7 @@ module AresMUSH
     def self.equipped_weapon_names(char)
       return [] if !AresMUSH.const_defined?("Pf2egear")
 
-      weapons = Pf2egear.items_in_inventory(char.weapons) || []
+      weapons = Pf2egear::Inventory.held(char, 'weapons')
 
       weapons.select { |w| w.equipped }.map { |w| w.name }
     end

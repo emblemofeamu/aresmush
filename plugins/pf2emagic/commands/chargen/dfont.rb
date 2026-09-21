@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2DivineFontCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :font
 
@@ -14,20 +15,24 @@ module AresMUSH
         [ self.font ]
       end
 
+      # A font is a chargen choice for a cleric, but a level can open one too: a `magic_stats` block
+      # granting `divine_font` with both options writes the same `to_assign` slot mid-climb, and
+      # `advance/review` lists it as outstanding. The command that fills it has to be reachable then,
+      # or the level cannot be finished - and `dfont` is the only one there is.
       def check_in_chargen
+        return nil if font_owed_by_a_level?
+
         if enactor.is_approved? || enactor.chargen_locked || enactor.is_admin?
           return t('pf2e.only_in_chargen')
-        elsif enactor.chargen_stage.zero?
+        elsif !Pf2e.in_chargen?(enactor)
           return t('chargen.not_started')
         else
           return nil
         end
       end
 
-      def check_valid_font
-        fonts = %w{ heal harm }
-        return nil if fonts.include? self.font
-        return t('pf2e.bad_option', :element => 'divine font', :options => fonts.join(", "))
+      def font_owed_by_a_level?
+        enactor.advancing && (enactor.pf2_to_assign || {})['divine font'].is_a?(Array)
       end
 
       def check_baseinfo_locked
@@ -37,26 +42,17 @@ module AresMUSH
       end
 
       def handle
-        to_assign = enactor.pf2_to_assign
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :choose_divine_font, 'font' => self.font)
 
-        # Do they need to choose a font option? Not all deities grant this.
-        dfont_option = to_assign['divine font']
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        unless dfont_option
-          client.emit_failure t('pf2emagic.no_font_option')
-          return
-        end
+        Pf2e::CharState.commit!(enactor, before, outcome)
 
-        magic = enactor.magic
+        # The font itself lives on the magic object, which is not state a core writes.
+        enactor.magic&.update(:divine_font => outcome.state['divine_font'])
 
-        # Do it.
-
-        to_assign['divine font'] = self.font
-        enactor.update(pf2_to_assign: to_assign)
-
-        magic.update divine_font: self.font
-
-        client.emit_success t('pf2emagic.dfont_updated', :font => self.font.titleize)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
     end
   end

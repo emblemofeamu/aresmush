@@ -13,7 +13,7 @@ module AresMUSH
         entry = {
           'base_info' => char.pf2_base_info,
           'boosts' => char.pf2_boosts_working,
-          'feats' => char.pf2_feats,
+          'feats' => Pf2e::DraftSheet.of(char).feats_by_bucket,
           'languages' => char.pf2_lang,
           'faith' => char.pf2_faith,
           'skills' => char.skills.each_with_object({}) do |skill, hash|
@@ -26,8 +26,9 @@ module AresMUSH
 
         Pf2e.record_level(char, level, entry)
 
-        # Baseline snapshot, so a later rollback has something to restore back to.
-        Pf2e.capture_level_snapshot(char, level)
+        # The draft becomes history: everything chargen produced is written as one chargen
+        # transaction, and from here the ledger is the source of truth for this sheet.
+        Pf2e::Ledger.commit_chargen!(char)
       end
     end
   end

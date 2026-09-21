@@ -20,7 +20,7 @@ module AresMUSH
       def weapons
         list = []
 
-        wp_list = @char.weapons ? Pf2egear.items_in_inventory(@char.weapons.to_a)  : []
+        wp_list = Pf2egear::Inventory.held(@char, 'weapons')
 
         @weapon_bulk = wp_list.map { |wp| wp.bulk }.sum
 
@@ -34,7 +34,7 @@ module AresMUSH
       def armor
         list = []
 
-        armor_list = @char.armor ? Pf2egear.items_in_inventory(@char.armor.to_a) : []
+        armor_list = Pf2egear::Inventory.held(@char, 'armor')
 
         @armor_bulk = armor_list.map { |a| a.bulk }.sum
 

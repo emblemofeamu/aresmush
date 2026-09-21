@@ -55,37 +55,29 @@ module AresMUSH
       end
 
       def has_focus_spells
-        focus_spells = @magic.focus_spells
-        focus_cantrips = @magic.focus_cantrips
-
-        (focus_spells.values + focus_cantrips.values).any? { |list| !Array(list).empty? }
+        !Pf2emagic::Entries.all_focus(@magic).empty?
       end
 
+      # One block per focus entry rather than per focus type, so two sources of one type are shown
+      # separately: each casts at its own DC.
       def focus_spells
         tradition = @magic.tradition
-
         focus_sources = Global.read_config('pf2e_magic', 'focus_type_by_source') || {}
 
-        focus_spells = @magic.focus_spells
-        focus_cantrips = @magic.focus_cantrips
+        Pf2emagic::Entries.focus_entries(@magic).sort_by { |entry| entry['name'].to_s }.filter_map do |entry|
+          spell_list = Array((entry['known'] || {})['spell'])
+          cantrip_list = Array((entry['known'] || {})['cantrip'])
 
-        fs = (focus_spells.keys + focus_cantrips.keys).uniq.sort
-        fs = fs.select do |focus_type|
-          !Array(focus_spells[focus_type]).empty? || !Array(focus_cantrips[focus_type]).empty?
-        end
+          next if spell_list.empty? && cantrip_list.empty?
 
-        list = []
-        fs.each do |fs|
-          charclass = focus_source_for(focus_sources, fs, tradition)
+          # An entry knows which source granted it; a projected one has to be looked up the old
+          # way, from which class the focus type belongs to.
+          charclass = entry['granted_by'].presence || focus_source_for(focus_sources, entry['name'], tradition)
           next unless charclass
 
-          trad_info = tradition[charclass]
-          spell_list = focus_spells[fs]
-          cantrip_list = focus_cantrips[fs]
-          list << format_focus_spells(@char, charclass, fs, trad_info, spell_list, cantrip_list)
+          format_focus_spells(@char, charclass, Pf2emagic::Entries.focus_label(entry),
+            tradition[charclass], spell_list, cantrip_list)
         end
-
-        list
       end
 
       # The casting source a focus type belongs to for this character.
@@ -96,35 +88,31 @@ module AresMUSH
           sources.first
       end
 
-      def has_signature_spells
-        signatures = @magic.signature_spells || {}
+      # Asked of the spellcasting entries rather than of the signature_spells hash, so the display
+      # and the cast path agree about what a signature spell is - the hash can hold a flat list under
+      # a feat's name, which a per-rank read skips.
+      def signature_entries
+        @signature_entries ||= Pf2emagic::Entries.with_signatures(@magic)
+          .select { |entry| entry['category'] == 'spontaneous' }
+          .sort_by { |entry| entry['name'].to_s }
+      end
 
-        signatures.any? do |charclass, levels|
-          Pf2emagic.get_caster_type(charclass) == 'spontaneous' &&
-            levels.is_a?(Hash) &&
-            levels.values.any? { |spells| !Array(spells).empty? }
-        end
+      def has_signature_spells
+        !signature_entries.empty?
       end
 
       def signature_spells
-        signatures = @magic.signature_spells || {}
-        tradition = @magic.tradition || {}
         list = []
 
-        signatures.keys.sort.each do |charclass|
-          next unless Pf2emagic.get_caster_type(charclass) == 'spontaneous'
+        signature_entries.each do |entry|
+          charclass = entry['name']
 
-          sig_levels = signatures[charclass]
-          next unless sig_levels.is_a?(Hash)
-
-          sorted = Pf2emagic.sort_level_spell_list(sig_levels)
+          sorted = Pf2emagic.sort_level_spell_list(entry['signature'])
           next if sorted.empty?
+          next unless entry['tradition'] && entry['proficiency']
 
-          trad_info = tradition[charclass]
-          next unless trad_info
-
-          trad = Pf2e.pretty_string(trad_info[0])
-          prof = Pf2e.pretty_string(trad_info[1].slice(0).upcase)
+          trad = Pf2e.pretty_string(entry['tradition'])
+          prof = Pf2e.pretty_string(entry['proficiency'].slice(0).upcase)
           atk = PF2Magic.get_spell_attack_bonus(@char, charclass)
 
           sublist = []
@@ -173,20 +161,14 @@ module AresMUSH
       end
 
       def has_innate_spells
-        !(@magic.innate_spells.empty?)
+        Pf2emagic::Entries.innate?(@magic)
       end
 
       def innate_spells
-        spell_list = @magic.innate_spells
+        spell_list = Pf2emagic::Entries.innate_grants(@magic)
         prof = @magic.tradition['innate'][1]
 
-        list = []
-
-        spell_list.each_pair do |name, values|
-          list << format_innate_spells(@char, name, values, prof)
-        end
-
-        list
+        spell_list.map { |grant| format_innate_spells(@char, grant['name'], grant, prof) }
       end
 
       def innate_remaining_spells_today
@@ -291,9 +273,8 @@ module AresMUSH
         focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
         return '' unless focus_type
 
-        focus_spells = @magic.focus_spells || {}
-        focus_cantrips = @magic.focus_cantrips || {}
-        has_focus_magic = !Array(focus_spells[focus_type]).empty? || !Array(focus_cantrips[focus_type]).empty?
+        has_focus_magic = !Pf2emagic::Entries.focus_spells(@magic, focus_type).empty? ||
+                          !Pf2emagic::Entries.focus_cantrips(@magic, focus_type).empty?
 
         return '' unless has_focus_magic
 
@@ -320,9 +301,11 @@ module AresMUSH
 
         # Spell List Block
 
-        cantrips = !Array(cantrip_list).empty? ? "%b%b#{item_color}Cantrips (#{fstype.capitalize}):%xn #{cantrip_list.sort.join(", ")}%r" : ""
+        # fstype arrives as a label rather than a bare type - "Domain Healing, lvl 3" for a
+        # cleric's domain spell - so it is shown as given rather than capitalised over.
+        cantrips = !Array(cantrip_list).empty? ? "%b%b#{item_color}Cantrips (#{fstype}):%xn #{cantrip_list.sort.join(", ")}%r" : ""
 
-        spells = !Array(spell_list).empty? ? "%b%b#{item_color}Focus Spells (#{fstype.capitalize}):%xn #{spell_list.sort.join(", ")}" : ""
+        spells = !Array(spell_list).empty? ? "%b%b#{item_color}Focus Spells (#{fstype}):%xn #{spell_list.sort.join(", ")}" : ""
 
         "#{trad_string}#{cantrips}#{spells}"
       end

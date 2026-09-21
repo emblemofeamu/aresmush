@@ -144,11 +144,14 @@ module AresMUSH
       b_rare = background.blank? ? nil : Global.read_config('pf2e_background', background)['rare']
       h_rare = heritage.blank? ? nil : Global.read_config('pf2e_heritage', heritage)['rare']
 
-      restricted << "ancestry" if a_rare
-      restricted << "background" if b_rare
-      restricted << "heritage" if h_rare
+      restricted << "ancestry #{ancestry}" if a_rare
+      restricted << "background #{background}" if b_rare
+      restricted << "heritage #{heritage}" if h_rare
 
-      messages << t('pf2e.no_double_mojo') if restricted.count > 1
+      # Named, because the player cannot see which of their three choices is the restricted one:
+      # no ancestry is rare, five backgrounds are, and five heritages are, and a message that
+      # only says "too many" sends them changing the wrong thing.
+      messages << t('pf2e.no_double_mojo', :options => restricted.join(", ")) if restricted.count > 1
 
       return nil if messages.empty?
       return messages.join("%r")
@@ -157,7 +160,7 @@ module AresMUSH
     def self.chargen_warn_player(char)
       messages = []
 
-      feat_list = char.pf2_feats.values.flatten
+      feat_list = DraftSheet.of(char).feats_by_bucket.values.flatten
       dup_feats = feat_list != feat_list.uniq
 
       messages << t('pf2e.duplicate_feats') if dup_feats
@@ -184,7 +187,8 @@ module AresMUSH
 
       # Take a snapshot prior to calculations for a later restore.
       # This must happen after validation so failed commit attempts don't advance checkpoints.
-      Pf2e.record_checkpoint(enactor, 'info')
+      Pf2e::Checkpoints.record!(enactor, 'info')
+
 
       # Create abilities. Might already exist if the character reset, so check for that.
 
@@ -381,8 +385,6 @@ module AresMUSH
 
       client.emit_ooc "Looking for feats..."
 
-      feats = enactor.pf2_feats
-
       bg_feats = background_info["feat"] || []
 
       if bg_feats.size > 1
@@ -398,30 +400,27 @@ module AresMUSH
       heritage_feats = heritage_info["feat"] ? heritage_info["feat"] : []
       subclass_info_feats = subclassopt_features_info.blank? ? [] : subclassopt_features_info["feat"] || []
 
-      feats['general'] = []
-      feats['ancestry'] = heritage_feats
-      feats['charclass'] = class_feats + subclass_feats + subclass_info_feats
+      # A granted feat goes under the heading its own data names, not under the heading of
+      # whatever granted it: Shield Block is a general feat however the class hands it over.
+      # Advancement has always done this through `add_granted_feat`; chargen filed everything as
+      # a class feat.
+      granted = Pf2e.bucket_feats(class_feats + subclass_feats + subclass_info_feats)
 
-      to_assign['ancestry feat'] = 'open'
+      feats = granted.dup
+      feats['ancestry'] = Array(heritage_feats) + Array(granted['ancestry'])
 
-      if class_features_info['choose_feat']&.include? 'charclass'
-        to_assign['charclass feat'] = 'open'
-      end
+      # One slot pool, keyed by feat type, which is the shape a level-up uses: a slot is a slot
+      # whichever side of approval it was handed out on.
+      slots = [ 'ancestry' ]
+      slots << 'charclass' if class_features_info['choose_feat']&.include? 'charclass'
+      slots << 'skill' if class_features_info['choose_feat']&.include? 'skill'
+      slots.concat(Array(heritage_info['choose_feat']))
 
-      if class_features_info['choose_feat']&.include? 'skill'
-        to_assign['skill feat'] = 'open'
-      end
+      to_assign = Slots.apply(to_assign, slots.map { |type| Slots.open([ 'feats', type ]) })
 
-      if heritage_info['choose_feat']
-        heritage_info['choose_feat'].each do |entry|
-          type_key = entry + " feat"
-          list = to_assign[type_key] || []
-          list << "open"
-          to_assign[type_key] = list
-        end
-      end
-
-      enactor.pf2_feats = feats
+      # Into the draft, where a pick goes: the sheet's own list is what the materialiser writes at
+      # approval, from the fold. Recorded rather than assigned, so what is already there stays.
+      feats.each_pair { |bucket, held| Array(held).each { |feat| Pf2e.record_feat(enactor, bucket, feat) } }
 
       # Check for feat choices the class, subclass, or specialty option opens at chargen.
 
@@ -762,6 +761,23 @@ module AresMUSH
 
       enactor.pf2_actions = char_actions
 
+      # Class features granted at level 1.
+      #
+      # Gathered from every source that names one, the same way actions are just above. Nothing
+      # gathered them before - only advancement wrote `charclass_features` - so a character began
+      # play without their class's defining features: a Barbarian with no Rage, a Fighter with no
+      # Reactive Strike, and a specialty's own features (a Cleric's First Doctrine) lost too.
+
+      feature_sources = [ class_features_info, subclass_features_info, subclassopt_features_info ]
+
+      chargen_features = feature_sources.flat_map do |source|
+        source.blank? ? [] : Array(source['charclass_feature'])
+      end.map(&:to_s).uniq
+
+      features = enactor.pf2_features
+      features['charclass_features'] = (Array(features['charclass_features']) + chargen_features).uniq
+      enactor.pf2_features = features
+
       # Put everything together, lock it, record the checkpoint, and save to database
       enactor.pf2_to_assign = to_assign
       enactor.pf2_boosts_working = boosts
@@ -813,160 +829,10 @@ module AresMUSH
       end
 
       magic = char.magic
-      return true if magic && magic.innate_spells.any? { |k,_| k.to_s.casecmp?('open') }
+      return true if magic && !Pf2emagic::Entries.pending_innate(magic).empty?
 
       return false
     end
 
-    def self.record_checkpoint(char, checkpoint)
-      case checkpoint
-      when "info"
-      
-        checkpoint_info = { 
-          "info" => {
-            "pf2_base_info" => char.pf2_base_info,
-            "pf2_to_assign" => char.pf2_to_assign,
-            "pf2_traits" => char.pf2_traits,
-            "pf2_boosts" => char.pf2_boosts,
-            "pf2_faith" => char.pf2_faith
-          }
-        }
-        char.pf2_cg_assigned = checkpoint_info
-        char.pf2_checkpoint = 'info'
-        char.save
-
-      when "abilities" # Used by commit abilities
-        checkpoint_info = { 
-          "info" => char.pf2_cg_assigned["info"],
-          "abilities" => { "pf2_boosts_working" => char.pf2_boosts_working }
-        }
-
-        char.abilities.each do |ability|
-          cp_state = {}
-          cp_state['base_val'] = ability.base_val
-          cp_state['mod_val'] = false
-          ability.update(checkpoint: cp_state)
-        end
-
-        char.pf2_cg_assigned = checkpoint_info
-        char.pf2_checkpoint = 'abilities'
-
-        char.save
-      when "skills"
-        checkpoint_info = {
-          "info" => char.pf2_cg_assigned["info"],
-          "abilities" => char.pf2_cg_assigned["abilities"],
-          # Languages are chosen during the skills stage but live on the character rather than in
-          # to_assign, so they need their own entry to survive a restore.
-          "skills" => {
-            "pf2_to_assign" => char.pf2_to_assign,
-            "pf2_lang" => char.pf2_lang
-          }
-        }
-        
-        char.skills.each do |skill|
-          cp_state = {}
-          cp_state = {
-            "prof_level" => skill.prof_level,
-            "cg_skill" => skill.cg_skill
-          }
-          skill.update(checkpoint: cp_state)
-        end
-
-        char.pf2_cg_assigned = checkpoint_info
-        char.update(pf2_checkpoint: 'skills')
-        char.save
-
-      when "advance"
-      else
-        return nil
-      end
-    end
-
-    def self.restore_checkpoint(char, checkpoint)
-      # Check and ensure the player is beyond the requested checkpoint
-      # If not, return an error.
-      # Set the stage back to requested restore point
-      # pf2_baseinfo_locked must be unset as part of the restoration project
-      # Preserve groups and demographics
-      # # demographics, groups, prologue?
-      # Envoke function that resets character in cg
-      # Go through preserved attributes to the point requested, finalize what needs finalizing
-      # Between each checkpoint, run finalization for that section of CG
-      # Save the character
-      groups = char.groups
-      prologue = char.cg_background
-      demographics = char.demographics
-      checkpoint_info = char.pf2_cg_assigned
-      skills_checkpoint = {}
-      char.skills.each do |skill|
-        skills_checkpoint[skill.name] = {
-          "prof_level" => skill.checkpoint["prof_level"], 
-          "cg_skill" => skill.checkpoint["cg_skill"]
-        }
-      end
-      client = Global.client_monitor.find_game_client(char)
-      case checkpoint
-        when "info"
-          Pf2e.reset_character(char)
-
-          char.groups = groups
-          char.cg_background = prologue
-          char.demographics = demographics
-
-          # Restore to_assign
-          char.pf2_base_info = checkpoint_info["info"]["pf2_base_info"]
-          char.pf2_to_assign = checkpoint_info["info"]["pf2_to_assign"]
-          char.pf2_traits = checkpoint_info["info"]["pf2_traits"]
-          char.pf2_boosts = checkpoint_info["info"]["pf2_boosts"]
-          char.pf2_faith = checkpoint_info["info"]["pf2_faith"]
-
-          # Set the chargen stage
-          char.chargen_stage = "5"
-
-          # Write the character object
-          char.save
-        when "abilities"
-          restore_checkpoint(char, "info")
-          Pf2e.cg_lock_base_options(char, client)
-          char.pf2_boosts_working = checkpoint_info["abilities"]["pf2_boosts_working"]
-
-          # Restore saved ability scores from the checkpoint snapshot.
-          char.abilities.each do |ability|
-            cp_state = ability.checkpoint || {}
-            next if cp_state.empty?
-
-            ability.update(base_val: cp_state['base_val']) if cp_state.key?('base_val')
-            ability.update(mod_val: cp_state['mod_val']) if cp_state.key?('mod_val')
-          end
-
-          char.chargen_stage = "6"
-          char.save
-        when "skills"
-          checkpoint_info_backup = checkpoint_info
-          restore_checkpoint(char, "abilities")
-          Pf2eAbilities.cg_lock_abilities(char)
-          char.pf2_to_assign = checkpoint_info_backup["skills"]["pf2_to_assign"]
-
-          # cg_lock_base_options rebuilt pf2_lang from the base grants alone, which drops anything the
-          # player picked with lang/set. Checkpoints taken before this key existed have nothing to
-          # restore, so those fall back to the rebuilt list.
-          saved_lang = checkpoint_info_backup["skills"]["pf2_lang"]
-          char.pf2_lang = saved_lang if saved_lang
-
-          # name, char, prof, cg_skill=false
-          char.skills.each do |skill|
-            prof_level = skills_checkpoint[skill.name]["prof_level"]
-            cg_skill = skills_checkpoint[skill.name]["cg_skill"]
-            Pf2eSkills.update_skill_for_char(skill.name, char, prof_level, cg_skill)
-          end
-
-          char.chargen_stage = "7"
-          char.pf2_skills_locked = false
-          char.save
-        else
-          return nil
-      end
-    end
   end
 end
