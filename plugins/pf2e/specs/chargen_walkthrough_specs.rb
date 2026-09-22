@@ -1,0 +1,391 @@
+require "plugin_test_loader"
+require_relative "support/auto_builder"
+
+module AresMUSH
+  module Pf2e
+
+    # Type 1: drive the real command classes, with the real config and a real character, from
+    # a blank sheet to a built one. Tagged :dbtest because it needs Redis/Valkey, so
+    # `rake spec:unit` skips it and `rake spec:db` runs it.
+    describe "chargen walkthrough", :dbtest => true do
+
+      # Stands in for a connected player: records what the command said instead of writing to
+      # a socket, so a spec can assert on failures without parsing text.
+      class CaptureClient
+        attr_reader :successes, :failures, :oocs
+
+        def initialize
+          @successes = []
+          @failures = []
+          @oocs = []
+        end
+
+        def logged_in?
+          true
+        end
+
+        def emit_success(msg)
+          @successes << msg.to_s
+        end
+
+        def emit_failure(msg)
+          @failures << msg.to_s
+        end
+
+        def emit_ooc(msg)
+          @oocs << msg.to_s
+        end
+
+        def emit(msg)
+          @successes << msg.to_s
+        end
+
+        def to_s
+          "CaptureClient"
+        end
+      end
+
+      # Config and the database are (re)loaded per example: other spec files stub
+      # Global.read_config, and a leftover stub leaves the database url empty.
+      before(:each) do
+        bootstrapper = AresMUSH::Bootstrapper.new
+        bootstrapper.config_reader.load_game_config
+        bootstrapper.db.load_config
+
+        @client = CaptureClient.new
+        @char = Character.create(:name => "Walkthrough#{rand(100000)}")
+        @char.update(:chargen_stage => 4)
+        Pf2eAbilities.factory_default(@char)
+        Pf2eSkills.factory_default(@char)
+      end
+
+      after(:each) do
+        @char.delete if @char
+      end
+
+      # Runs a command the way the dispatcher does: parse, check, handle.
+      def run(cmd_class, text)
+        handler = cmd_class.new(@client, Command.new(text), @char)
+        handler.on_command
+        @char = Character[@char.id]
+        handler
+      end
+
+      def expect_no_failures
+        expect(@client.failures).to eq []
+      end
+
+      it "should take a blank character through base info with the real commands" do
+        run PF2SetChargenCmd, "cg/set ancestry=Khazad"
+        run PF2SetChargenCmd, "cg/set heritage=Forge"
+        run PF2SetChargenCmd, "cg/set background=Acolyte"
+        run PF2SetChargenCmd, "cg/set charclass=Wizard"
+        run PF2SetChargenCmd, "cg/set specialize=Mana Syntaxia"
+        run PF2SetChargenCmd, "cg/set specialize_info=Spell Substitution"
+        run PF2SetChargenCmd, "cg/set alignment=BL"
+        run PF2SetChargenCmd, "cg/set deity=Althea"
+
+        expect_no_failures
+        expect(@char.pf2_base_info['ancestry']).to eq 'Khazad'
+        expect(@char.pf2_base_info['heritage']).to eq 'Forge'
+        expect(@char.pf2_base_info['background']).to eq 'Acolyte'
+        expect(@char.pf2_base_info['charclass']).to eq 'Wizard'
+        expect(@char.pf2_base_info['specialize']).to eq 'Department of Mana Syntaxia'
+        expect(@char.pf2_base_info['specialize_info']).to eq 'Spell Substitution'
+        expect(@char.pf2_faith['alignment']).to eq 'BL'
+        expect(@char.pf2_faith['deity']).to eq 'Althea'
+      end
+
+      it "should tell the player what to pick next as they go" do
+        run PF2SetChargenCmd, "cg/set ancestry=Khazad"
+
+        expect(@client.oocs.join(" ")).to include 'Forge'
+      end
+
+      it "should refuse a heritage that belongs to another ancestry" do
+        run PF2SetChargenCmd, "cg/set ancestry=Khazad"
+        run PF2SetChargenCmd, "cg/set heritage=Cavern"
+
+        expect(@client.failures.size).to eq 1
+        expect(@char.pf2_base_info['heritage']).to eq ''
+      end
+
+      it "should clear the heritage when the ancestry is changed again" do
+        run PF2SetChargenCmd, "cg/set ancestry=Khazad"
+        run PF2SetChargenCmd, "cg/set heritage=Forge"
+        run PF2SetChargenCmd, "cg/set ancestry=Sildanyar"
+
+        expect_no_failures
+        expect(@char.pf2_base_info['heritage']).to eq ''
+      end
+
+      it "should commit base info and then accept ability boosts" do
+        run PF2SetChargenCmd, "cg/set ancestry=Khazad"
+        run PF2SetChargenCmd, "cg/set heritage=Forge"
+        run PF2SetChargenCmd, "cg/set background=Acolyte"
+        run PF2SetChargenCmd, "cg/set charclass=Wizard"
+        run PF2SetChargenCmd, "cg/set specialize=Mana Syntaxia"
+        run PF2SetChargenCmd, "cg/set specialize_info=Spell Substitution"
+        run PF2SetChargenCmd, "cg/set alignment=BL"
+        run PF2SetChargenCmd, "cg/set deity=Althea"
+
+        run PF2CommitCmd, "cg/commit info"
+
+        expect_no_failures
+        expect(@char.pf2_baseinfo_locked).to be true
+        expect(@char.pf2_checkpoint).to eq 'info'
+
+        free_slots = @char.pf2_boosts_working['free']
+        expect(free_slots).to_not be_nil
+
+        run PF2BoostSetCmd, "boost/set free=Constitution"
+
+        expect_no_failures
+        expect(@char.pf2_boosts_working['free']).to include 'Constitution'
+      end
+
+      it "should keep a chargen language pick in the draft, out of the ledger" do
+        # The skills stage hands out these slots; set them directly so this example stays
+        # about the language command rather than replaying all of chargen.
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Silya"
+
+        expect_no_failures
+        expect(@char.pf2_to_assign['open languages']).to include 'Silya'
+
+        # In the draft, not on the sheet: pf2_lang is what the materialiser writes from the fold,
+        # and a pick written there is not something a reset could take back.
+        expect(@char.pf2_advancement['languages']).to eq [ 'Silya' ]
+        expect(Array(@char.pf2_lang)).to_not include 'Silya'
+        expect(Pf2e::DraftSheet.of(@char).languages).to include 'Silya'
+
+        # Nothing is history yet: a character in chargen is a draft.
+        expect(@char.grants.count).to eq 0
+      end
+
+      it "should take a chargen language pick back out of the draft" do
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Silya"
+        run PF2LanguageUnSetCmd, "lang/unset Silya"
+
+        expect_no_failures
+        expect(Pf2e::DraftSheet.of(@char).languages).to_not include 'Silya'
+        expect(Array(@char.pf2_advancement['languages'])).to eq []
+        expect(@char.pf2_to_assign['open languages']).to eq [ 'open', 'open' ]
+        expect(@char.grants.count).to eq 0
+      end
+
+      it "should write the whole chargen draft to the ledger when the character is approved" do
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open', 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Silya"
+
+        Pf2e::Ledger.commit_chargen!(@char)
+        @char = Character[@char.id]
+
+        languages = Pf2e::Ledger.rows(@char).select { |g| g['kind'] == 'add_language' }
+
+        expect(languages.map { |g| g['payload']['language'] }).to include 'Silya'
+        expect(languages.first['source_type']).to eq 'chargen'
+        expect(languages.first['effective_level']).to eq 1
+
+        # And committing twice does not double the history.
+        expect { Pf2e::Ledger.commit_chargen!(@char) }.to_not change { Character[@char.id].grants.count }
+      end
+
+      it "should refuse a rare language through the command" do
+        @char.update(:pf2_abilities_locked => true, :pf2_to_assign => { 'open languages' => [ 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Mynsandraal"
+
+        expect(@client.failures).to_not be_empty
+        expect(@char.pf2_lang).to_not include 'Mynsandraal'
+      end
+
+      # The guard read the fold, which is empty until approval, so a player could spend an open
+      # slot on a language their ancestry had already given them.
+      it "should refuse a language the character already has" do
+        @char.update(:pf2_abilities_locked => true,
+                     :pf2_lang => [ 'Kamin' ],
+                     :pf2_to_assign => { 'open languages' => [ 'open' ] })
+
+        run PF2LanguageSetCmd, "lang/set Kamin"
+
+        expect(@client.failures).to_not be_empty
+        expect(Character[@char.id].pf2_to_assign['open languages']).to eq [ 'open' ]
+      end
+
+      # A language picked during a level-up is part of that level's draft, so abandoning the
+      # level takes it back. It used to be written to the sheet as the player typed it.
+      it "should take back a language picked in an abandoned advancement" do
+        builder = AutoBuilder.new(@char)
+        builder.build('Fighter', 4)
+
+        before = Array(Character[@char.id].pf2_lang).sort
+
+        builder.clear
+        builder.run "advance"
+        builder.run "lang/set Kamin" unless before.include?('Kamin')
+        builder.run "advance/reset"
+
+        expect(Array(Character[@char.id].pf2_lang).sort).to eq before
+      end
+
+      it "should refuse a boost before base info is locked" do
+        run PF2SetChargenCmd, "cg/set ancestry=Khazad"
+        run PF2BoostSetCmd, "boost/set free=Constitution"
+
+        expect(@client.failures).to_not be_empty
+      end
+    end
+  end
+end
+
+module AresMUSH
+  module Pf2e
+
+    # A full climb, driven by the same commands a player would type. Slow (a couple of minutes
+    # per class), so it lives behind the :dbtest tag with the rest.
+    describe "level 20 builds", :dbtest => true do
+
+      before(:each) do
+        bootstrapper = AresMUSH::Bootstrapper.new
+        bootstrapper.config_reader.load_game_config
+        bootstrapper.db.load_config
+
+        @char = Character.create(:name => "Climb#{rand(100000)}")
+      end
+
+      after(:each) do
+        @char.delete if @char
+      end
+
+      # Every class, from a blank character to level 20, through the commands a player types.
+      #
+      # What each climb is measured against is the class's *own* advance table: across levels
+      # 2-20 the table promises so many feats of each type, and the finished character must
+      # hold exactly that many more than they finished chargen with. Whether the table itself
+      # matches PF2e is a separate question, asserted against the Player Core schedule in
+      # class_table_specs.rb - so a config that drifts from the rules fails there, and an
+      # engine that drifts from the config fails here.
+      def self.class_names
+        (Global.read_config('pf2e_class') || {}).keys.sort
+      end
+
+      # Feats the advance table hands out between level 2 and level 20, by type.
+      #
+      # Two sources, both in config. `choose_feat` is the ordinary slot the player fills.
+      # `grant_choice` names a class feature that hands over a feat of its own from a pool -
+      # the Investigator's Skillful Lessons at every odd level, the Swashbuckler's Stylish
+      # Tricks at 3, 7 and 15 - and those are feats the character ends up holding too.
+      def table_feats(charclass)
+        table = Global.read_config('pf2e_class', charclass, 'advance') || {}
+        blocks = Global.read_config('pf2e_class', charclass, 'feat_choice') || {}
+
+        table.each_with_object(Hash.new(0)) do |(_level, data), counts|
+          next unless data.is_a?(Hash)
+
+          Array(data['choose_feat']).each { |type| counts[type.to_s.downcase] += 1 }
+
+          Array(data['grant_choice']).each do |name|
+            pool = (blocks[name] || {})['from_feats']
+            next unless pool
+
+            counts[pool['feat_type'].to_s.downcase] += 1
+          end
+        end
+      end
+
+      class_names.each do |charclass|
+        it "should carry a #{charclass} from nothing to level 20" do
+          builder = AutoBuilder.new(@char)
+
+          builder.build_level_one(charclass)
+          at_one = builder.summary['feats']
+
+          builder.advance_to(20)
+          summary = builder.summary
+
+          # Print why it stalled before asserting, so a failure names the level and reason.
+          puts "  #{charclass} stalled: #{builder.notes.last(2).join(' | ')}" if summary['level'] != 20
+
+          expect(summary['level']).to eq 20
+
+          table_feats(charclass).each_pair do |type, expected|
+            # By name, so a class that gained the right number of the wrong things still fails.
+            gained = Array(summary['feats'][type]) - Array(at_one[type])
+
+            expect(gained.size).to eq(expected),
+              "#{charclass} gained #{gained.size} #{type} feats between 2 and 20 (#{gained.join(', ')}); its table promises #{expected}"
+          end
+
+          # The sheet is a fold of the ledger, so every feat on it has a grant that explains it.
+          char = Character[@char.id]
+
+          summary['feats'].each_pair do |_type, held|
+            Array(held).uniq.each do |feat|
+              expect(Pf2e::Ledger.explain_for(char, :kind => 'grant_feat', :key => feat)).to_not be_empty,
+                "#{charclass} holds #{feat} with no grant explaining it"
+            end
+          end
+        end
+      end
+
+      it "should leave a level 20 character's sheet reproducible from the ledger alone" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 20)
+
+        expect(builder.summary['level']).to eq 20
+
+        # Refolding and re-materialising must not move anything: the sheet is already exactly
+        # what the ledger says it is.
+        Pf2e::Ledger.invalidate!(char)
+        ops = Pf2e::Ledger.materialize!(char)
+
+        expect(ops).to eq 0
+      end
+
+      it "should roll a level 20 character back to 19 and forward again without losing history" do
+        builder = AutoBuilder.new(@char)
+        char = builder.build('Fighter', 20)
+
+        expect(builder.summary['level']).to eq 20
+
+        at_20 = builder.summary
+        rows_at_20 = Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort
+
+        marker = Pf2e::Ledger.rollback_to_level!(char, 20)
+        char = Character[char.id]
+
+        expect(char.pf2_level).to eq 19
+
+        # Nothing is deleted by an undo, which is what makes the redo below possible: the same
+        # rows are there, and the ones the level wrote are marked instead.
+        expect(Pf2e::Ledger.rows(char).map { |r| r['id'] }.sort).to eq rows_at_20
+
+        reverted = Pf2e::Ledger.rows(char).reject { |r| r['reverted_by'].blank? }
+
+        expect(reverted).to_not be_empty
+        expect(reverted.map { |r| r['effective_level'].to_i }.uniq).to eq [ 20 ]
+
+        # The sheet moved with it: level 20's feats are gone from it while the rollback stands.
+        rolled_back = builder.summary
+
+        expect(rolled_back['feats'].values.flatten).to_not eq at_20['feats'].values.flatten
+
+        Pf2e::Ledger.redo_rollback!(char, marker)
+        char = Character[char.id]
+
+        expect(char.pf2_level).to eq 20
+        expect(Pf2e::Ledger.rows(char).count { |r| !r['reverted_by'].blank? }).to eq 0
+
+        # The whole sheet, by name: the same feats in the same buckets, the same skills at the
+        # same ranks, the same languages and features. A count would pass for a redo that handed
+        # back a different set of the same size.
+        expect(builder.summary).to eq at_20
+      end
+    end
+  end
+end

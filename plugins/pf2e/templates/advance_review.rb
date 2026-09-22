@@ -108,17 +108,79 @@ module AresMUSH
         @option_lines ||= build_options
       end
 
+      # The help topic that covers each open slot, keyed by the to_assign key the review shows it
+      # under, with the activity it names.
+      #
+      # Naming the slot without saying where the commands are leaves a player who cannot guess them
+      # unable to finish the level. `cg/review` answers that by pointing at the help topic for the
+      # stage rather than printing the grammar inline, and this follows it: one indirection the
+      # player already knows how to follow, and a topic with room to explain `<source>` and `<rank>`
+      # rather than a 122-character line that wraps badly and is a second copy of the parsers.
+      RESOLVED_BY = {
+        'open languages' => [ 'learning languages', 'advancelanguages' ],
+        'open skills' => [ 'training skills', 'advanceskills' ],
+        'raise skill' => [ 'training skills', 'advanceskills' ],
+        'raise skill choice' => [ 'training skills', 'advanceskills' ],
+        'raise ability' => [ 'raising attributes', 'advanceattributes' ],
+        'feats' => [ 'taking feats', 'advancefeats' ],
+        'feat choice' => [ 'taking feats', 'advancefeats' ],
+        'class option' => [ 'choosing class features', 'advancefeatures' ],
+        'archetype_specialty' => [ 'archetype choices', 'advancearchetypes' ],
+        'archetype specialty choice' => [ 'archetype choices', 'advancearchetypes' ],
+        'archetype deity' => [ 'archetype choices', 'advancearchetypes' ],
+        'archetype key ability' => [ 'archetype choices', 'advancearchetypes' ],
+        'repertoire' => [ 'selecting spells', 'advancespells' ],
+        'spellbook' => [ 'selecting spells', 'advancespells' ],
+        'innate' => [ 'selecting spells', 'advancespells' ],
+        'divine font' => [ 'choosing your divine font', 'advancespells' ]
+      }.freeze
+
+      # `To review advancement commands for taking feats, see 'help advancefeats'.`
+      def self.help_for(key)
+        found = RESOLVED_BY[key.to_s]
+
+        return nil unless found
+
+        t('pf2e.advance_slot_help', :activity => found.first, :topic => found.last)
+      end
+
+      # One key at a time, with its help pointer appended after whatever that key rendered.
+      #
+      # The pointer is added here rather than inside one branch of the renderer, so a slot that goes
+      # through another - a feat slot, a spell slot, a skill raise - cannot be missed.
       def build_options
         list = []
 
         pending_options.each_pair do |key, value|
+          # Signature spells are owed per rank of a repertoire rather than as a slot of their own, so
+          # they are said in the messages above rather than listed here, and their message carries
+          # its own pointer.
           next if key == "signature"
 
-          if key == "grants" && value.is_a?(Hash)
+          lines = option_lines_for(key, value)
+
+          next if lines.empty?
+
+          list.concat(lines)
+
+          hint = self.class.help_for(key)
+          list << "%b%b#{hint}" if hint
+        end
+
+        list.reject { |item| item.to_s.strip.empty? }
+      end
+
+      # The lines one outstanding key renders as. A `return` here is what a `next` was when this
+      # was the body of the loop above: done with this key.
+      def option_lines_for(key, value)
+        list = []
+
+        if key == "grants" && value.is_a?(Hash)
             value.each_pair do |feat, grant_info|
               list << "#{item_color}#{feat}:%xn #{grant_info}"
             end
-            next
+
+            return list
           end
 
           # Outstanding feat choices, shown by what they are for rather than by listing
@@ -132,7 +194,8 @@ module AresMUSH
 
               list << "#{item_color}#{name}:%xn #{summary}"
             end
-            next
+
+            return list
           end
 
           # Process according to the data type of the key.
@@ -164,7 +227,7 @@ module AresMUSH
                 list << "%b%b#{item_color}#{subkey}:%xn #{option_list.sort.join(", ")}" unless option_list.empty?
               end
 
-              next
+              return list
             end
 
             if key == "innate"
@@ -172,7 +235,8 @@ module AresMUSH
 
               unless innate_lines.empty?
                 list.concat(innate_lines)
-                next
+
+                return list
               end
             end
 
@@ -181,7 +245,8 @@ module AresMUSH
 
               unless spell_lines.empty?
                 list << "#{item_color}#{heading} Spells:%xn #{spell_lines.join}"
-                next
+
+                return list
               end
             end
 
@@ -224,12 +289,11 @@ module AresMUSH
             end
 
             list << sublist.join("%r")
-          else
-            list << "#{item_color}#{heading}:%xn #{value}"
-          end
+        else
+          list << "#{item_color}#{heading}:%xn #{value}"
         end
 
-        list.reject { |item| item.to_s.strip.empty? }
+        list
       end
 
       def pending_options

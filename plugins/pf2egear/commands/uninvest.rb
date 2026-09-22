@@ -18,7 +18,7 @@ module AresMUSH
 
         ### VALIDATION SECTION ###
 
-        valid_cats = %w(weapons weapon armor magicitem)
+        valid_cats = Pf2egear::Inventory.categories.select { |c| Pf2egear::Inventory.investable?(c) }
 
         # Check for correct format.
 
@@ -52,20 +52,13 @@ module AresMUSH
           category = args[0]
           num = args[1].to_i
 
-          case category
-          when "weapon", "weapons"
-            item_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-          when "armor"
-            item_list = Pf2egear.items_in_inventory(enactor.armor.to_a)
-          when "magicitem"
-            item_list = Pf2egear.items_in_inventory(enactor.magic_items.to_a)
-          end
+          found = Pf2egear::Inventory.item(enactor, category, num)
 
-          item_id = item_list[num]
+          next if Pf2e::CharState.emit_error!(client, found)
 
-          item_id.update(invest_on_refresh: false)
+          found.state.update(:invest_on_refresh => false)
 
-          uninvest_list << item_id.name
+          uninvest_list << found.state.name
 
         end
 

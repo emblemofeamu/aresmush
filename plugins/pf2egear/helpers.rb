@@ -36,22 +36,29 @@ module AresMUSH
       msg.squeeze(" ").strip
     end
 
-    def self.pay_player(char, amount)
-      purse = char.pf2_money
-      char.update(pf2_money: purse + amount)
+    # The one door for moving a character's purse, in either direction. Negative takes.
+    #
+    # Records the transaction and moves the total together, so a purse cannot move without a
+    # line saying why - which is what buy, sell and pay each had to remember separately, and
+    # what pay_player never did at all.
+    def self.pay_player(char, amount, paid_by = 'System', reason = nil, ref = nil)
+      Pf2e::Audit.post(char, 'money', amount, :by => paid_by, :reason => reason, :ref => ref)
     end
 
     def self.reset_gear(char, preserve_money=false)
       char.pf2_gear = {'consumables' => {}, 'gear' => {}}
-      char.pf2_money = 1500 unless preserve_money
 
-      char.weapons&.each { |i| i.delete }
-      char.armor&.each { |i| i.delete }
-      char.bags&.each { |i| i.delete }
-      char.shields&.each { |i| i.delete }
-      char.magic_items&.each { |i| i.delete }
-      char.gear&.each { |i| i.delete }
-      char.consumables&.each { |i| i.delete }
+      unless preserve_money
+        char.pf2_money = STARTING_MONEY
+        # The entries are the record and the total is their sum, so a balance set back to the
+        # starting figure leaves no transactions behind to disagree with it.
+        Pf2e::Audit.delete_all!(char, 'money')
+      end
+
+      # Every category, from the table, so a new kind of item is cleared without this being edited.
+      Inventory::CATEGORIES.each do |row|
+        Array(char.send(row['collection'])&.to_a).each { |item| item.delete }
+      end
 
       char.save
     end
@@ -87,47 +94,29 @@ module AresMUSH
       wp_load + armor_load + shield_load + mi_load + c_load + gear_load
     end
 
-    def self.invested_items(char)
-      magic_items = char.magic_items.select { |item| item.invested }.to_a
-      weapons = char.weapons.select { |item| item.invested }.to_a
-      armor = char.magic_items.select { |item| item.invested }.to_a
-
-      magic_items + weapons + armor
-    end
-
+    # Gives a character an item the shop sells.
+    #
+    # Gear and consumables stack: many of the same thing is one row with a quantity. Everything else
+    # is one row per item, because a weapon carries its own runes and a bag its own contents.
+    # Inventory says which is which.
     def self.create_item(char, category, name, quantity, item_info)
+      if Inventory.stackable?(category)
+        held = Inventory.all(char, category).find { |item| item.name == name }
 
-      source_type = AresMUSH.const_get(Global.read_config('pf2e_gear_options', 'item_classes', category))
+        return held.update(:quantity => held.quantity.to_i + quantity.to_i) if held
 
-      case category
-      when "weapons", "weapon", "armor", "shields", "shield", "bags", "magicitem"
-
-        new_item = source_type.create(character: char, name: name)
-
-        item_info.each_pair do |k,v|
-          new_item.update("#{k}": v)
-        end
-
-      when "consumables", "gear"
-
-        ilist = category == "gear" ? char.gear : char.consumables
-
-        has_item = ilist.select { |item| item.name == name }.first
-
-        if has_item
-          old_qty = has_item.quantity
-          has_item.update(quantity: quantity + old_qty)
-        else
-          new_item = source_type.create(character: char, name: name)
-            item_info.each_pair do |k,v|
-              new_item.update("#{k}": v)
-            end
-
-          new_item.update(quantity: quantity)
-        end
-
+        return build_item(char, category, name, item_info).update(:quantity => quantity)
       end
 
+      build_item(char, category, name, item_info)
+    end
+
+    def self.build_item(char, category, name, item_info)
+      item = Inventory.model(category).create(:character => char, :name => name)
+
+      (item_info || {}).each_pair { |key, value| item.update("#{key}": value) }
+
+      item
     end
 
     def self.get_item_name(item)
@@ -141,15 +130,13 @@ module AresMUSH
       value ? value : 0
     end
 
+    # Every invested item, across the categories PF2e lets a character invest. Reading only the
+    # magic items meant an invested weapon's or armour's item bonus counted for nothing.
     def self.get_invested_items(char)
-      invested_items = []
-
-      char.magic_items.each do |i|
-
-        invested_items << i if i.invested
-      end
-
-      invested_items
+      Inventory.categories.select { |c| Inventory.investable?(c) }
+               .map { |c| Inventory.canonical(c) }.uniq
+               .flat_map { |c| Inventory.held(char, c) }
+               .select { |item| item.invested }
     end
 
     def self.bonus_from_item(char, roll)
@@ -173,16 +160,6 @@ module AresMUSH
       client.emit_ooc dest_msg
     end
 
-    def self.record_money_history(char, awarded_by, amount, reason)
-      timestamp = Time.now.to_i
-
-      money_history = char.pf2_money_history
-
-      # History is displayed in reverse chrono, so prepending makes more sense
-      money_history.unshift [ timestamp, awarded_by, amount, reason ]
-
-      char.update(pf2_money_history: money_history)
-    end
 
 
   end

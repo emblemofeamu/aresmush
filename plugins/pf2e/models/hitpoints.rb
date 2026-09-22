@@ -108,8 +108,13 @@ module AresMUSH
       char.hp
     end
 
+    # A character who has not committed base info has no HP row yet, and approving one used to
+    # raise `undefined method 'ancestry_hp' for nil`. No row means no hit points.
     def self.get_max_hp(char)
       hp = get_hp_obj(char)
+
+      return 0 unless hp
+
       con_mod = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Constitution"))
       ancestry_hp = hp.ancestry_hp
       charclass_hp = hp.charclass_hp
@@ -123,10 +128,10 @@ module AresMUSH
 
     def self.get_current_hp(char)
       hp = get_hp_obj(char)
-      max_hp = get_max_hp(char)
-      damage = hp.damage
 
-      max_hp - damage
+      return 0 unless hp
+
+      get_max_hp(char) - hp.damage.to_i
     end
 
     def self.factory_default(char)

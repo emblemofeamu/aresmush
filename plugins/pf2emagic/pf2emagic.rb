@@ -25,6 +25,8 @@ module AresMUSH
         case cmd.switch
         when "search"
           return PF2SearchSpellCmd
+        when "eligible"
+          return PF2SpellEligibleCmd
         when nil
           return PF2DisplaySpellCmd
         end

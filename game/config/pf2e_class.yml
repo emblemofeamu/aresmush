@@ -127,8 +127,9 @@ pf2e_class:
           - Medium Armor Expertise
           - Weapon Specialization
         combat_stats:
-          armor_light: expert
-          armor_unarmored: expert
+          armor_prof:
+            light: expert
+            unarmored: expert
       14:
         choose_feat:
           - charclass
@@ -872,7 +873,7 @@ pf2e_class:
         magic_stats:
           focus_spell:
             devotion:
-              spell: Hero's Defiance
+              - Hero's Defiance
         choose_feat:
           - general
         raise:
@@ -1066,7 +1067,7 @@ pf2e_class:
         raise:
           - skill
         choose_feat:
-          - general
+          - ancestry
         magic_stats:
           spells_per_day:
             9: 2
@@ -1092,7 +1093,7 @@ pf2e_class:
         raise:
           - ability
         choose_feat:
-          - general
+          - charclass
           - skill
   Druid:
     key_abil:
@@ -1123,9 +1124,17 @@ pf2e_class:
         - Voice of Nature
       feat:
         - Shield Block
-      choose_feat:
-        - Animal Empathy
-        - Plant Empathy
+      # Voice of Nature: "You gain your choice of the Animal Empathy or Plant Empathy druid
+      # feat." A choice between two named feats, not a class feat slot - the druid's first class
+      # feat is at 2nd level. These two names used to sit in choose_feat, which holds slot types,
+      # where nothing read them.
+      feat_choice:
+        Voice of Nature:
+          summary: Animal Empathy or Plant Empathy
+          from_feats:
+            names:
+              - Animal Empathy
+              - Plant Empathy
       reaction:
         - Shield Block
       magic_stats:
@@ -1264,7 +1273,7 @@ pf2e_class:
             light: expert
             medium: expert
         choose_feat:
-          - general
+          - ancestry
         magic_stats:
           spells_per_day:
             7: 2
@@ -1775,7 +1784,7 @@ pf2e_class:
           - skill
       19:
         choose_feat:
-        - ancestry
+        - general
         grant_choice:
           - Skillful Lessons
         raise:
@@ -1984,7 +1993,7 @@ pf2e_class:
           - skill
       19:
         choose_feat:
-          - ancestry
+          - general
         raise:
           - skill
         charclass_feature:
@@ -2259,7 +2268,7 @@ pf2e_class:
             9: 1
       19:
         choose_feat:
-          - ancestry
+          - general
         raise:
           - skill
         charclass_feature:
@@ -2456,7 +2465,7 @@ pf2e_class:
           - skill
       19:
         choose_feat:
-          - ancestry
+          - general
         raise:
           - skill
         charclass_feature:
@@ -2540,9 +2549,10 @@ pf2e_class:
           - Sneak Attack 2d6
           - Weapon Tricks
         combat_stats:
-          unarmed: expert
-          simple: expert
-          martial: expert
+          weapon_prof:
+            unarmed: expert
+            simple: expert
+            martial: expert
           sneak_attack: 2d6
       6:
         choose_feat:
@@ -2673,7 +2683,7 @@ pf2e_class:
       19:
         choose_feat:
           - skill
-          - ancestry
+          - general
         raise:
           - skill
         charclass_feature:
@@ -2941,7 +2951,7 @@ pf2e_class:
             9: 1
       19:
         choose_feat:
-          - ancestry
+          - general
         raise:
           - skill
         charclass_feature:
@@ -3405,7 +3415,7 @@ pf2e_class:
             any: 2
       19:
         choose_feat:
-          - ancestry
+          - general
         raise:
           - skill
         charclass_feature:

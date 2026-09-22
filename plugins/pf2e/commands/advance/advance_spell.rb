@@ -3,6 +3,7 @@ module AresMUSH
 
     class PF2AdvanceSpellCmd
       include CommandHandler
+      prepend Pf2e::RecordsDraftStep
 
       attr_accessor :type, :level, :value, :old_value, :magic_class
 
@@ -49,138 +50,42 @@ module AresMUSH
       end
 
       def handle
-        # Do they have one of these to select?
-
         to_assign = enactor.pf2_to_assign
-
         charclass = enactor.pf2_base_info['charclass']
-        type_option = to_assign[self.type]
-
-        unless type_option
-          if self.type == charclass.downcase
-            client.emit_failure t('pf2e.adv_spell_wrong_type', :class => charclass)
-            return
-          end
-
-          client.emit_failure t('pf2e.adv_not_an_option')
-          return
-        end
-
         level = self.level.to_i.zero? ? 'cantrip' : self.level
 
-        class_key = nil
-        if type_option.is_a?(Hash) && type_option.keys.any? { |k| !Pf2e.level_key?(k) }
-          if self.magic_class
-            class_key = type_option.keys.find { |k| k.to_s.casecmp?(self.magic_class) }
-            unless class_key
-              client.emit_failure t('pf2e.adv_not_an_option')
-              return
-            end
-          else
-            class_key = type_option.keys.find { |k| k.to_s.casecmp?(charclass) }
-            class_key = type_option.keys.first if class_key.nil? && type_option.keys.size == 1
-            if class_key.nil?
-              client.emit_failure t('pf2e.adv_not_an_option')
-              return
-            end
-          end
+        # Where the pick lands: whose list, the entries in it, and the rank they live under.
+        found = Pf2e::Advancement::SpellSlots.resolve(Pf2e::CharState.of(enactor),
+          :type => self.type, :rank => level, :magic_class => self.magic_class, :charclass => charclass)
 
-          type_option = type_option[class_key]
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        list = if self.type == "spellbook"
-          type_option.is_a?(Hash) ? type_option[level] : type_option
-        else
-          type_option[level]
-        end
+        # Only a spellbook has entries reserved at a rank, so only a spellbook can be full while
+        # something is still open, and the restriction lookup is worth doing only then.
+        found = Pf2e::Advancement::SpellSlots.spend_from_pool(found.state,
+          :full => self.type == 'spellbook' && rank_full?(found.state, level, charclass),
+          :rank => level,
+          :max_rank => Pf2e.preview_max_spell_rank(enactor, charclass))
 
-        list_key = level
-        spent_from_pool = false
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        if self.type == "spellbook" && type_option.is_a?(Hash) &&
-           spellbook_rank_full_for?(list, level, class_key || charclass)
-          pool_key = type_option.keys.find { |k| Pf2emagic.any_rank?(k) }
-          pool = pool_key && type_option[pool_key]
+        class_key = found.state['class_key']
+        entries = found.state['entries']
+        list = found.state['list']
+        list_key = found.state['list_key']
+        spent_from_pool = found.state['from_pool']
 
-          if Array(pool).include?("open")
-            msg = any_rank_spend_error(level)
+        return take_innate(level, list, entries, class_key) if self.type == "innate"
 
-            if msg
-              client.emit_failure msg
-              return
-            end
+        entry = Pf2e::Advancement::SpellSlots.entry_to_fill(list, self.old_value, self.type)
 
-            list = pool
-            list_key = pool_key
-            spent_from_pool = true
-          end
-        end
+        return if Pf2e::CharState.emit_error!(client, entry)
 
-        unless list
-          client.emit_failure t('pf2e.adv_no_spell_slots_level', :type => self.type, :level => level_label(level))
-          return
-        end
-
-        if self.type == "innate"
-          unless list.is_a?(Array)
-            client.emit_failure t('pf2emagic.innate_no_new_spells')
-            return
-          end
-
-          result = resolve_innate_spell(level, self.value, list, class_key)
-          if result.is_a?(String)
-            client.emit_failure result
-            return
-          end
-
-          spell = result[0]
-
-          update_innate_advancement(spell, list, type_option, level, class_key)
-
-          client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
-          return
-        end
-
-
-        # Now we have to figure out if we have an open slot.
-        open_slot = list.index "open"
-
-        if open_slot
-          old = "open"
-        elsif self.old_value
-          old = list.select {|s| s.downcase.match? self.old_value.downcase}.first
-
-          unless old
-            client.emit_failure t('pf2e.not_in_list', :option => self.old_value)
-            return
-          end
-
-          open_slot = list.index old
-        else
-          client.emit_failure t('pf2e.no_free', :element => "#{self.type} slot")
-          return
-        end
-
+        old = entry.state['token']
         class_for_spell = class_key || charclass
-        magic = enactor.magic
-        added_tradition = false
 
-        if magic && class_for_spell && !magic.tradition.key?(class_for_spell)
-          preview_tradition = Pf2e.preview_magic_tradition(enactor)
-          preview_entry = preview_tradition[class_for_spell]
-
-          if preview_entry
-            temp_tradition = magic.tradition.dup
-            temp_tradition[class_for_spell] = preview_entry
-            magic.tradition = temp_tradition
-            added_tradition = true
-          end
-        end
-
-        choice = Pf2emagic.check_spell(enactor, class_for_spell, level, self.value, true)
-
-        if added_tradition
-          magic.tradition = magic.tradition.reject { |k, _| k.to_s.casecmp?(class_for_spell) }
+        choice = with_previewed_tradition(class_for_spell) do
+          Pf2emagic.check_spell(enactor, class_for_spell, level, self.value, true)
         end
 
         if choice.is_a? String
@@ -190,125 +95,138 @@ module AresMUSH
 
         spell = choice[0]
 
-        if list.any? { |s| s.to_s.casecmp?(spell) }
-          client.emit_failure t('pf2emagic.spell_already_on_list_to_assign')
-          return
-        end
+        # The rules a spell pick has to satisfy, from the one place chargen asks them too.
+        failure = Pf2emagic::SpellPick.check(
+          spell_check_context(class_for_spell, level, spell, choice[1] || {}).merge('picks' => list))
 
-        if self.type == "spellbook"
-          spellbook = Pf2e.preview_spellbook(enactor, class_for_spell)
-          book_for_class = spellbook[class_for_spell] || {}
-          book_spells = book_for_class.values.flatten
-
-          if book_spells.any? { |s| s.to_s.casecmp?(spell) }
-            client.emit_failure t('pf2emagic.spell_already_in_spellbook')
-            return
-          end
-        elsif self.type == "repertoire"
-          repertoire = Pf2e.preview_repertoire(enactor, class_for_spell)
-          rep_for_class = repertoire[class_for_spell] || {}
-          rep_spells_at_level = Array(rep_for_class[level])
-
-          if rep_spells_at_level.any? { |s| s.to_s.casecmp?(spell) }
-            client.emit_failure t('pf2emagic.spell_already_in_repertoire')
-            return
-          end
-        elsif self.type == "signature"
-          repertoire = Pf2e.preview_repertoire(enactor, class_for_spell)
-          rep_for_class = repertoire[class_for_spell] || {}
-          rep_spells_at_level = Array(rep_for_class[level])
-
-          unless rep_spells_at_level.include?(spell)
-            client.emit_failure t('pf2emagic.signature_not_in_repertoire', :level => level)
-            return
-          end
-        end
+        return if Pf2e::CharState.emit_error!(client, failure)
 
         advancement = enactor.pf2_advancement
 
-        # because Ruby is stupid and doesn't let you replace at an index directly.
-        list.delete_at open_slot
-
-        if spent_from_pool && type_option.is_a?(Hash)
-          (type_option[level] ||= []) << spell
+        # Spending the slot and recording the spell, as slot deltas. This was four branches:
+        # one per list shape, each doubled for whether the lists are keyed by class. The shape
+        # differences are now in the path, and the path is worked out once.
+        deltas = if spent_from_pool
+          # An any-rank slot pays, and the spell lands under the rank it actually is.
+          [ Slots.consume(spell_path(class_key, list_key)), Slots.add(spell_path(class_key, level), [ spell ]) ]
         else
-          list << spell
+          # `old` is 'open' for a new pick, or the spell being replaced - the same fill either
+          # way, told which entry it is allowed to spend.
+          [ Slots.fill(spell_path(class_key, list_key), spell, :tokens => [ old ]) ]
         end
 
-        # Because I was stupid and repertoire is a Hash and spellbook is an array.
+        updated = Slots.apply(to_assign, deltas)
 
-        if self.type == "spellbook"
-          type_option[list_key] = list if type_option.is_a?(Hash)
+        return if Pf2e::CharState.emit_error!(client, updated)
 
-          resolved = type_option.is_a?(Hash) ? type_option : list
-
-          if class_key
-            to_assign[self.type] ||= {}
-            to_assign[self.type][class_key] = resolved
-            advancement[self.type] ||= {}
-            advancement[self.type][class_key] = resolved
-          else
-            to_assign[self.type] = resolved
-            advancement[self.type] = resolved
-          end
-        elsif self.type == "repertoire" || self.type == "signature"
-          type_option[level] = list
-
-          if class_key
-            to_assign[self.type] ||= {}
-            to_assign[self.type][class_key] = type_option
-            advancement[self.type] ||= {}
-            advancement[self.type][class_key] = type_option
-          else
-            to_assign[self.type] = type_option
-            advancement[self.type] = type_option
-          end
-        end
+        # The draft mirrors the pool for this list, which is what advance/done reads.
+        mirror = [ self.type, class_key ].compact
+        Slots.write(advancement, mirror, Slots.read(updated, mirror))
 
         enactor.pf2_advancement = advancement
-        enactor.pf2_to_assign = to_assign
+        enactor.pf2_to_assign = updated
 
         enactor.save
 
         client.emit_success t('pf2e.add_ok', :item => spell, :list => self.type)
       end
 
-      # Keep prepared casters from adding spells to spellbooks higher than what they can actually cast.
-      def any_rank_spend_error(level)
-        return t('pf2e.adv_any_rank_cantrip') if level.to_s.casecmp?('cantrip')
+      # A level that grants a new spellcasting source does not grant it until `advance/done`, so a
+      # spell picked for it during the level has no tradition to be measured against yet. The
+      # tradition the level will grant stands in for the duration of the check, on the in-memory
+      # magic object only - nothing here saves it, and the ensure puts it back whatever happens.
+      #
+      # The player types the source's name, and every other name in the game is matched
+      # case-insensitively - so both lookups here are too. Matching exactly missed the preview for
+      # `advance/spell repertoire/oracle archetype/...` against a draft holding `Oracle Archetype`,
+      # which left the source with no tradition and refused every spell as one the class cannot cast.
+      def with_previewed_tradition(class_for_spell)
+        magic = enactor.magic
 
-        charclass = enactor.pf2_base_info['charclass']
-        max = Pf2e.preview_max_spell_rank(enactor, charclass)
+        return yield unless class_for_spell && magic
+        return yield if magic.tradition.keys.any? { |key| key.to_s.casecmp?(class_for_spell.to_s) }
 
-        return nil if max && level.to_i <= max.to_i
+        previews = Pf2e.preview_magic_tradition(enactor) || {}
+        source = previews.keys.find { |key| key.to_s.casecmp?(class_for_spell.to_s) }
 
-        t('pf2e.adv_any_rank_no_slots', :level => level_label(level))
+        return yield unless source && previews[source]
+
+        magic.tradition = magic.tradition.merge(source => previews[source])
+
+        begin
+          yield
+        ensure
+          magic.tradition = magic.tradition.reject { |key, _| key.to_s.casecmp?(source.to_s) }
+        end
       end
 
-      def spellbook_rank_full_for?(rank_list, level, charclass)
-        opens = Array(rank_list).count { |s| s.to_s.casecmp?('open') }
-        return true if opens.zero?
-
-        for_class = Pf2emagic.advancement_restricted_spellbook(enactor, charclass)
-        return false unless for_class.is_a?(Hash)
-
-        restriction = nil
-        reserved = 0
-        for_class.each_pair do |name, by_rank|
-          count = Pf2emagic.restricted_count_at_rank(by_rank, level)
-          next unless count.positive?
-
-          restriction = name
-          reserved = count
+      # Everything SpellPick needs about the character, read inside the preview.
+      #
+      # The tradition used to be read on the line after the preview block, by which time the ensure
+      # had taken the preview back off - so a source this level granted had no tradition to be
+      # measured against and refused every spell as one the class cannot cast. Gathering it here
+      # means the preview cannot be out of force for one of these reads and in force for another.
+      def spell_check_context(class_for_spell, rank, spell, details)
+        with_previewed_tradition(class_for_spell) do
+          {
+            'list' => self.type,
+            'rank' => rank,
+            'spell' => spell,
+            'tradition' => Pf2emagic::Entries.tradition_of(enactor.magic, class_for_spell),
+            'details' => details,
+            'adapted' => Pf2emagic.adapted_spell?(enactor, class_for_spell, spell),
+            'known' => known_for(class_for_spell)
+          }
         end
-        return false if reserved.zero?
+      end
 
-        eligible = Pf2emagic.restricted_spell_list(enactor, charclass, restriction, level).map { |s| s.to_s.downcase }
-        return false if eligible.include?(self.value.to_s.downcase)
+      # An innate grant is recorded twice while the level is open: as the pending entry in the
+      # draft's magic_stats, which is what advance/done hands to the magic object, and as a slot in
+      # the pool, which is what the review screen counts. Neither is a spellcasting entry yet, so
+      # the prepared and spontaneous path below does not apply.
+      def take_innate(level, list, entries, class_key)
+        return client.emit_failure t('pf2emagic.innate_no_new_spells') unless list.is_a?(Array)
 
-        already_eligible = Array(rank_list).count { |s| eligible.include?(s.to_s.downcase) }
+        result = resolve_innate_spell(level, self.value, list, class_key)
 
-        opens <= [ reserved - already_eligible, 0 ].max
+        return client.emit_failure result if result.is_a?(String)
+
+        spell = result[0]
+
+        update_innate_advancement(spell, list, entries, level, class_key)
+
+        client.emit_success t('pf2e.add_ok', :item => spell, :list => 'innate spells')
+      end
+
+      # What the character already knows for this class, counting the picks this level has staged.
+      # Which list that is follows from what is being added: a signature spell is designated from
+      # the repertoire, so it asks the repertoire.
+      def known_for(class_key)
+        preview = self.type == 'spellbook' ? Pf2e.preview_spellbook(enactor, class_key) : Pf2e.preview_repertoire(enactor, class_key)
+
+        preview[class_key] || {}
+      end
+
+      # Where a spell list lives in the pool.
+      #
+      # Three shapes, one path. A spellbook may be a flat list or one list per rank; repertoire and
+      # signature are always per rank; and a character casting from more than one class has all of
+      # them keyed by class first. Which applies is the path, not the logic.
+      def spell_path(class_key, rank)
+        [ self.type, class_key, rank ].compact
+      end
+
+      # What the rule needs that only the magic object knows: how many entries the rank reserves,
+      # and which spells may sit in them.
+      def rank_full?(found, level, charclass)
+        for_class = found['class_key'] || charclass
+        restriction = Pf2emagic.advancement_restriction_at(enactor, for_class, level)
+
+        return Pf2e::Advancement::SpellSlots.rank_full?(found['list'], self.value, 0, []) unless restriction
+
+        eligible = Pf2emagic.restricted_spell_list(enactor, for_class, restriction['name'], level)
+
+        Pf2e::Advancement::SpellSlots.rank_full?(found['list'], self.value, restriction['count'], eligible)
       end
 
       def innate_stats(advancement, class_key)
@@ -369,42 +287,20 @@ module AresMUSH
 
         deets = hash[to_add]
 
-        return t('pf2emagic.innate_not_spell_eligible') unless deets['tradition']
+        failure = Pf2emagic::SpellPick.check_innate(
+          'rank' => level,
+          'details' => deets,
+          'tradition' => pending['tradition'],
+          'granted_rank' => pending['level'])
 
-        tradition = pending['tradition']
-        return t('pf2emagic.innate_tradition_mismatch') unless deets['tradition'].include?(tradition)
-
-        spbl = deets['base_level'].to_i
-        level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-        spell_is_cantrip = spbl.zero?
-
-        return t('pf2emagic.innate_cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-        return t('pf2emagic.innate_cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-        return t('pf2emagic.innate_cant_prepare_level') if spbl > level.to_i
-
-        slot_level = pending['level']
-        slot_is_cantrip = (slot_level.to_s.downcase == 'cantrip' || slot_level.to_i.zero?)
-        return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
-        return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
+        return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
         [ to_add ]
       end
 
-      def level_label(level)
-        return 'cantrip' if level.to_s.downcase == 'cantrip' || level.to_i.zero?
-
-        abs_level = level.to_i.abs
-        suffix = case abs_level % 10
-                 when 1 then 'st'
-                 when 2 then 'nd'
-                 when 3 then 'rd'
-                 else 'th'
-                 end
-
-        "#{abs_level}#{suffix}-rank"
-      end
-
-      def update_innate_advancement(spell, list, type_option, level, class_key=nil)
+      # `entries` is the rank-keyed hash this list lives in, so the rank's slots go back into the
+      # pool under the same key the resolution found them under.
+      def update_innate_advancement(spell, list, entries, level, class_key=nil)
         advancement = enactor.pf2_advancement || {}
         pending = innate_stats(advancement, class_key)
 
@@ -431,15 +327,15 @@ module AresMUSH
           list << spell
         end
 
-        type_option[level] = list
+        entries[level] = list
 
         to_assign = enactor.pf2_to_assign
 
         if class_key
           to_assign[self.type] ||= {}
-          to_assign[self.type][class_key] = type_option
+          to_assign[self.type][class_key] = entries
         else
-          to_assign[self.type] = type_option
+          to_assign[self.type] = entries
         end
 
         enactor.pf2_advancement = advancement

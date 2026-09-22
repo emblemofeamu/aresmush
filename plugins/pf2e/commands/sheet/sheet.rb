@@ -11,36 +11,23 @@ module AresMUSH
         self.target = trim_arg(cmd.args)
       end
 
-      def check_can_view
-        return nil unless self.target
-        return nil if Global.read_config('pf2e','open_sheets')
-        return nil if enactor.has_permission?("view_sheets")
-        return t('pf2e.cannot_view_sheet')
-      end
-
       def handle
         char = Pf2e.get_character(self.target, enactor)
+
         if !char
           client.emit_failure t('pf2e.not_found')
           return
-        elsif char.is_admin?
-          client.emit_failure t('pf2e.admin_no_sheet')
-          return
-        elsif !char.pf2_baseinfo_locked
-          client.emit_failure t('pf2e.no_sheet_yet')
-          return
         end
 
-        valid_sections = %w{all info ability skills feats features languages magic}
+        # Whether this viewer may see it, and whether the section exists at all, are both
+        # Pf2e::Sheet's business - including the grants `sheet/show` writes, which nothing used
+        # to read.
+        outcome = Pf2e::Sheet.viewable?(enactor, char, self.section)
+                    .and_then { Pf2e::Sheet.available(char, self.section) }
 
-        if self.section == "magic" && !(char.magic)
-          client.emit_failure t('pf2emagic.not_caster')
-        elsif valid_sections.include? self.section
-          template = Pf2eSheetTemplate.new(char, self.section, client, char.pf2_base_info, char.pf2_faith)
-        else
-          client.emit_failure t('pf2e.bad_section', :section => self.section)
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, outcome)
+
+        template = Pf2eSheetTemplate.new(char, outcome.state, client, char.pf2_base_info, char.pf2_faith)
 
         client.emit template.render
       end

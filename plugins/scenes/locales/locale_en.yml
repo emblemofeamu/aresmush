@@ -11,7 +11,6 @@ en:
         scene_summary: "Summary: "
         players_title: "Players: "
         location_title: "Location: "
-        scene_type_title: "Scene Type: "
         scene_type_title: "Type: "
         organizer_title: "Organized By: %{name}"
         organizer_deleted: "(Organizer Deleted)"

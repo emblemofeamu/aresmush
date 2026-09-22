@@ -31,13 +31,13 @@ module AresMUSH
           return
         end
 
-        char_is_known_for = char.pf2_known_for ? char.pf2_known_for : []
+        before = Pf2e::CharState.of(char)
+        outcome = Pf2e::CharacterService.call(before, :add_record, 'record' => 'known_for', 'value' => self.blurb)
 
-        char_is_known_for << self.blurb
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        char.update(pf2_known_for: char_is_known_for)
-
-        client.emit_success t('pf2e.knownfor_set_ok', :name => char.name, :blurb => self.blurb)
+        Pf2e::CharState.commit!(char, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
 
       end
 

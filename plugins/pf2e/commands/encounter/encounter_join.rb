@@ -35,15 +35,11 @@ module AresMUSH
 
       def handle
         scene = enactor_room.scene
+        found = Pf2e::Encounters::Finder.find(enactor, scene, self.encounter_id)
 
-        encounter = self.encounter_id ?
-          PF2Encounter[self.encounter_id] :
-          PF2Encounter.get_encounter(enactor, scene)
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        if !encounter
-          client.emit_failure t('pf2e.bad_id', :type => 'encounter')
-          return
-        end
+        encounter = found.state
 
         # Can the character join this encounter?
 

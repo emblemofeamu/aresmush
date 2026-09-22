@@ -29,17 +29,16 @@ module AresMUSH
       end
 
       def handle
-        list = enactor.pf2_roll_aliases
+        before = Pf2e::CharState.of(enactor)
+        action = self.value ? :set_record : :unset_record
 
-        if self.value
-          list[self.rollalias] = self.value
-          client.emit_success t('pf2e.alias_set_ok', :alias => self.rollalias, :value => self.value)
-        else
-          list.delete(self.rollalias)
-          client.emit_success t('pf2e.alias_deleted_ok', :alias => self.rollalias)
-        end
+        outcome = Pf2e::CharacterService.call(before, action,
+          'record' => 'alias', 'key' => self.rollalias, 'value' => self.value)
 
-        enactor.update(pf2_roll_aliases: list)
+        return if Pf2e::CharState.emit_error!(client, outcome)
+
+        Pf2e::CharState.commit!(enactor, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

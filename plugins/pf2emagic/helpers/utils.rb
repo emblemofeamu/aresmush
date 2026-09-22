@@ -27,9 +27,7 @@ module AresMUSH
       trad = trad.delete('innate')
       innate_only = trad.empty?
 
-      innate_spells = magic.innate_spells
-
-      return false if innate_only && innate_spells.empty?
+      return false if innate_only && !Entries.innate?(magic)
       return true
     end
 
@@ -52,21 +50,15 @@ module AresMUSH
           prepared_list = magic.spells_prepared
           spells_today[cc] = prepared_list[cc] || {}
         else
-          spontlist = magic.spells_per_day[cc]
-          spells_today[cc] = spontlist || {}
+          spells_today[cc] = Entries.slots(magic, cc)
         end
       end
 
-      innate_spells = magic.innate_spells || {}
-      innate_spells_today = {}
+      # Only the ranked ones take a daily use; cantrips are cast at will.
+      innate_spells_today = Entries.innate_ranked(magic).each_with_object({}) do |grant, today|
+        rank = grant['level'].to_s
 
-      innate_spells.each_pair do |spell_name, info|
-        level = info['level'].to_s
-        next if level.downcase == 'cantrip' || level.to_i.zero?
-
-        uses = innate_spells_today[level] || []
-        uses << spell_name
-        innate_spells_today[level] = uses
+        today[rank] = Array(today[rank]) + [ grant['name'] ]
       end
 
       spells_today['innate'] = innate_spells_today unless innate_spells_today.empty?
@@ -86,9 +78,7 @@ module AresMUSH
       current = focus_pool["current"].to_i
       max = focus_pool["max"].to_i
 
-      focus_spells = magic.focus_spells || {}
-      focus_cantrips = magic.focus_cantrips || {}
-      has_focus_magic = !((focus_spells.keys + focus_cantrips.keys).empty?)
+      has_focus_magic = Entries.focus?(magic)
 
       if max.zero?
         recalculated_max = get_max_focus_pool(target, 0)
@@ -128,7 +118,7 @@ module AresMUSH
       end
 
       spent = (max - current).to_i
-      charclass_feats = Array(target.pf2_feats['charclass']).map { |f| f.to_s.upcase }
+      charclass_feats = Array(Pf2e::DraftSheet.of(target).feats_by_bucket['charclass']).map { |f| f.to_s.upcase }
       charclass_features = Array(target.pf2_features['charclass_features']).map { |f| f.to_s.upcase }
       charclass = target.pf2_base_info['charclass']
 
@@ -213,7 +203,7 @@ module AresMUSH
       end
 
       # From feats
-      all_feats = char.pf2_feats.values.flatten.uniq
+      all_feats = Pf2e::DraftSheet.of(char).feats_by_bucket.values.flatten.uniq
 
       values = []
 
@@ -246,6 +236,30 @@ module AresMUSH
       spell_details = Global.read_config('pf2e_spells', spell_name)
 
       [ spell_name, spell_details ]
+    end
+
+    # Every spell a source casting `tradition` could put in a slot of `rank`.
+    #
+    # The same two rules SpellPick enforces when a pick is made - the tradition has to match, and a
+    # spell cannot be learned above its own rank or in the wrong kind of slot - asked in advance,
+    # so a player can read the list instead of guessing a name and being refused.
+    def self.eligible_spells(tradition, rank)
+      wanted = tradition.to_s.downcase
+      cantrip_slot = rank.to_s.casecmp?('cantrip') || rank.to_s.to_i.zero?
+
+      (Global.read_config('pf2e_spells') || {}).select do |_name, details|
+        traditions = Array(details['tradition']).compact.map { |trad| trad.to_s.downcase }
+
+        next false unless traditions.include?(wanted)
+
+        base = details['base_level']
+        spell_cantrip = base.to_s.casecmp?('cantrip') || base.to_s.to_i.zero?
+
+        next spell_cantrip if cantrip_slot
+        next false if spell_cantrip
+
+        base.to_i <= rank.to_i
+      end.keys.sort
     end
 
     def self.search_spells(search_type, term, operator='=')

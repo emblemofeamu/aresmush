@@ -24,3 +24,6 @@ Casting spells depends on what type of spell you'd like to cast. For more inform
 
 ## Searching Spells
 The `spell/search` command provides a robust search function to help you find spells for your character to learn. See `help spell search` for more information.
+
+To see only the spells you could actually put in a slot - the right tradition, at a rank you can
+cast - use `spell/eligible <level>`, or `spell/eligible` on its own to see which traditions you draw on.

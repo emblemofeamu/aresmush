@@ -50,6 +50,23 @@ module AresMUSH
       match.sort
     end
 
+    # What to say when a feat name matched nothing. A pre-Remaster name is the common case, and
+    # the rename table answers it outright; only a name it has never heard of gets the spelling
+    # advice, which is all this used to say.
+    def self.bad_feat_message(term)
+      names = (Global.read_config('pf2e_feats') || {}).keys
+
+      Pf2e::Renames.hint_for('feats', term, names) || t('pf2e.bad_feat_name', :name => term)
+    end
+
+    # The player-facing answer for each way get_feat_details can fail, so every command that
+    # resolves a feat name gives the same one.
+    def self.feat_lookup_failure(term, code)
+      return t('pf2e.multiple_feat_matches', :options => get_feat_match_options(term).join(", ")) if code == 'ambiguous'
+
+      bad_feat_message(term)
+    end
+
     def self.search_feats(search_type, term, operator='=')
       feat_info = Global.read_config('pf2e_feats')
 
@@ -102,10 +119,18 @@ module AresMUSH
       assoc_classes = Array(details['assoc_class']).compact
       assoc_charclasses = Array(details['assoc_charclass']).compact
 
-      return assoc_classes.any? { |c| c.to_s.casecmp?(base_class.to_s) } unless assoc_classes.empty?
+      # Two separate questions, and a dedication needs a yes to both.
+      #
+      # Which classes may take this archetype at all. `assoc_class` is a whitelist that leaves out
+      # the archetype's own class, so a Fighter cannot take Fighter Dedication.
+      if !assoc_classes.empty?
+        return false unless assoc_classes.any? { |c| c.to_s.casecmp?(base_class.to_s) }
+      elsif assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
+        return false
+      end
 
-      return false if assoc_charclasses.any? { |c| c.to_s.casecmp?(base_class.to_s) }
-
+      # And whether this character may take another dedication yet. PF2e: "You cannot select
+      # another dedication feat until you have gained two other feats from the archetype."
       dedication_archetype_ready?(char)
     end
 
@@ -116,11 +141,7 @@ module AresMUSH
       feat_name_map = {}
       feat_info.keys.each { |name| feat_name_map[name.to_s.upcase] = name }
 
-      feat_names = if char.advancing
-        Pf2e.preview_feat_names(char)
-      else
-        char.pf2_feats.values.flatten.map { |f| f.to_s.upcase }
-      end
+      feat_names = DraftSheet.of(char).feat_names
 
       dedication_archetypes = []
       archetype_feat_counts = Hash.new(0)
@@ -263,7 +284,7 @@ module AresMUSH
       magic = char.magic
       return [] unless magic
 
-      lists = Array(magic.focus_spells&.values) + Array(magic.focus_cantrips&.values)
+      lists = [ Pf2emagic::Entries.all_focus(magic) ]
 
       lists.flatten.compact.map { |s| s.to_s.strip }.reject(&:empty?)
     end
@@ -301,7 +322,7 @@ module AresMUSH
           Array(required).each_with_index do |entry, i|
             skill_name, minimum_prof = entry.to_s.split("/")
 
-            skill_prof = char.advancing ? Pf2e.preview_skill_prof(char, skill_name) : Pf2eSkills.get_skill_prof(char, skill_name)
+            skill_prof = DraftSheet.of(char).skill_prof(skill_name)
             char_prof = Pf2e.get_prof_bonus(char, skill_prof)
             min_prof = Pf2e.get_prof_bonus(char, minimum_prof)
 
@@ -339,9 +360,8 @@ module AresMUSH
           pool = magic.focus_pool['max']
           msg << "focus_pool" if pool.zero?
         when "feat"
-          feats = char.advancing ? Pf2e.preview_feat_names(char) : char.pf2_feats.values.flatten.map { |word| word.upcase }
+          feats = DraftSheet.of(char).feat_names
           req = required.map { |word| word.upcase }
-
 
           msg << "feat" unless req.all? { |f| feats.include? f }
         when "caster"
@@ -379,13 +399,10 @@ module AresMUSH
 
           msg << "innate_tradition" && next unless magic
 
-          innate_spells = magic.innate_spells || {}
           required_traditions = Array(required).map { |t| t.to_s.downcase.strip }.reject(&:empty?)
+          held = Pf2emagic::Entries.innate_traditions(magic)
 
-          has_required_innate_tradition = innate_spells.values.any? do |spell_info|
-            tradition = spell_info && spell_info['tradition']
-            required_traditions.include?(tradition.to_s.downcase)
-          end
+          has_required_innate_tradition = held.any? { |tradition| required_traditions.include?(tradition) }
 
           msg << "innate_tradition" unless has_required_innate_tradition
         when "combat_stats"
@@ -423,7 +440,7 @@ module AresMUSH
             msg << "deity" unless Array(required).any? { |d| d.to_s.casecmp?(deity.to_s) }
           end
         when "orfeat"
-          feats = char.advancing ? Pf2e.preview_feat_names(char) : char.pf2_feats.values.flatten.map { |word| word.upcase }
+          feats = DraftSheet.of(char).feat_names
           req = required.map { |word| word.upcase }
 
           msg << "feat" unless req.any? { |f| feats.include? f }
@@ -439,7 +456,7 @@ module AresMUSH
           factor = string[0]
           minimum = string[1]
 
-          skill_prof = char.advancing ? Pf2e.preview_skill_prof(char, factor) : Pf2eSkills.get_skill_prof(char, factor)
+          skill_prof = DraftSheet.of(char).skill_prof(factor)
           char_prof = Pf2e.get_prof_bonus(char, skill_prof)
           min_prof = Pf2e.get_prof_bonus(char, minimum)
 
@@ -463,10 +480,9 @@ module AresMUSH
             skill_names = (skill_names + pending).uniq { |s| s.to_s.downcase }
           end
 
-          char_ranks = skill_names.map do |s|
-            prof = char.advancing ? Pf2e.preview_skill_prof(char, s) : Pf2eSkills.get_skill_prof(char, s)
-            progression.index(prof) || 0
-          end
+          sheet = DraftSheet.of(char)
+
+          char_ranks = skill_names.map { |s| progression.index(sheet.skill_prof(s)) || 0 }
 
           Array(required).each_with_index do |entry, i|
             rank, count = entry.to_s.split("/")
@@ -485,9 +501,7 @@ module AresMUSH
     end
 
     def self.has_feat?(char, feat)
-      feat_list = char.pf2_feats.values.flatten.map { |f| f.upcase }
-
-      feat_list.include?(feat.upcase)
+      DraftSheet.of(char).feat_names.include?(feat.upcase)
     end
 
     # How many times this feat may be taken in total. Infinity when uncapped.
@@ -521,9 +535,10 @@ module AresMUSH
       levels[nth - 1]
     end
 
-    # How many times the character has already holds this feat.
+    # How many times the character already holds this feat, counting an open draft - a feat taken
+    # earlier in the same build is held as far as a repeat limit is concerned.
     def self.feat_taken_count(char, feat_name)
-      char.pf2_feats.values.flatten.count { |f| f.to_s.casecmp?(feat_name.to_s) }
+      DraftSheet.of(char).feats_by_bucket.values.flatten.count { |f| f.to_s.casecmp?(feat_name.to_s) }
     end
 
     # Whether another instance may be taken. Returns nil when allowed, or a failure message.
@@ -549,7 +564,7 @@ module AresMUSH
     # feat_name => times held, upcased, for loops that would otherwise re-flatten per feat.
     def self.feat_tally(char)
       tally = Hash.new(0)
-      char.pf2_feats.values.flatten.each { |f| tally[f.to_s.upcase] += 1 }
+      DraftSheet.of(char).feats_by_bucket.values.flatten.each { |f| tally[f.to_s.upcase] += 1 }
 
       tally
     end
@@ -625,28 +640,31 @@ module AresMUSH
       count > 1 ? "#{feat} (x#{count})" : feat
     end
 
+    # Every feat of a type the character could take.
+    #
+    # The sheet is read once for the whole sweep - see Pf2e::SheetReads. The eligibility check
+    # looks a skill or an attribute up per prerequisite, which against the whole catalogue is
+    # hundreds of reads of collections that do not change while the sweep runs.
     def self.get_feat_options(char, type)
       ftype = type.capitalize
-
-      # experimental feat lookup fix
       feats = Global.read_config('pf2e_feats') || {}
-
       list = []
 
       # Tallied once rather than rebuilt inside the loop by has_feat?. A repeatable feat
       # stays in the list until it is actually maxed out.
       tally = feat_tally(char)
 
-      feats.each_pair do |name, details|
-        # Cheap filters first, so most candidates never reach the eligibility check.
-        next unless Array(details['feat_type']).include? ftype
-        next if feat_repeat_block(char, name, details, tally[name.to_s.upcase])
+      Pf2e::SheetReads.holding(char) do
+        feats.each_pair do |name, details|
+          # Cheap filters first, so most candidates never reach the eligibility check.
+          next unless Array(details['feat_type']).include? ftype
+          next if feat_repeat_block(char, name, details, tally[name.to_s.upcase])
 
-        list << name if can_take_feat_details?(char, name, details)
+          list << name if can_take_feat_details?(char, name, details)
+        end
       end
 
       list.sort
-
     end
 
     def self.format_feat(feat, details)
@@ -734,24 +752,21 @@ module AresMUSH
       "#{fmt_name}%r%r#{feat_type}%r#{associated}%r#{traits}%r#{prereqs}%r#{desc}"
     end
 
+    # A feat type to the line that says one of its slots is still open.
+    UNASSIGNED_FEAT = {
+      'charclass' => 'pf2e.unassigned_class_feat',
+      'general' => 'pf2e.unassigned_general_feat',
+      'ancestry' => 'pf2e.unassigned_ancestry_feat',
+      'skill' => 'pf2e.unassigned_skill_feat'
+    }.freeze
+
     def self.feat_messages(char)
       msgs = []
       to_assign = char.pf2_to_assign
+      open_slots = to_assign['feats'] || {}
 
-      if to_assign['charclass feat']
-        msgs << t('pf2e.unassigned_class_feat') if to_assign['charclass feat'].include? 'open'
-      end
-
-      if to_assign['general feat']
-        msgs << t('pf2e.unassigned_general_feat') if to_assign['general feat'].include? 'open'
-      end
-
-      if to_assign['ancestry feat']
-        msgs << t('pf2e.unassigned_ancestry_feat') if to_assign['ancestry feat'].include? 'open'
-      end
-
-      if to_assign['skill feat']
-        msgs << t('pf2e.unassigned_skill_feat') if to_assign['skill feat'].include? 'open'
+      UNASSIGNED_FEAT.each_pair do |type, key|
+        msgs << t(key) if Array(open_slots[type]).include?('open')
       end
 
       pending_feat_choices(char).each_pair do |name, slots|
@@ -764,281 +779,340 @@ module AresMUSH
       return msgs
     end
 
-    def self.assess_feat_grants(info)
-      hash = {}
-      assign = {}
-      advance = {}
-
-      info.each_pair do |k,v|
-        case k
-        when "assign", "grant_choice"
-          assign[k] = v
-        else
-          advance[k] = v
-        end
-      end
-
-      hash['assign'] = assign
-      hash['advance'] = advance
-
-      hash
-    end
-
     OPEN_SKILL_VALUES = %w(open choice)
 
-    def self.do_feat_grants(char, info, charclass, client)
-      # Processes cases where taking a feat grants something else.
+    # What is still unchosen among a character's innate spell grants, one label each.
+    #
+    # Reads through Pf2emagic::Entries: `innate_spells` is a list of grants, not a map keyed by
+    # spell name, because two sources can grant the same spell at different ranks and traditions.
+    def self.open_innate_labels(magic)
+      return [] unless magic
 
-      return_msg = []
-      info.each_pair do |key, value|
-        case key
-        when 'magic_stats'
-          update = PF2Magic.update_magic(char, charclass, value, client)
-          # Use core classes explicitly to avoid any constant shadowing.
-          return_msg << update if update.is_a?(::String)
+      Pf2emagic::Entries.pending_innate(magic).map do |grant|
+        rank = grant['level'].to_s.downcase
+        cantrip = rank == 'cantrip' || rank.to_i.zero?
 
-          source_counts = {
-            'repertoire' => {},
-            'spellbook' => {}
-          }
+        tradition = Array(grant['tradition']).first.to_s
+        tradition_label = tradition.empty? ? 'unknown tradition' : tradition
 
-          if update.is_a?(::Hash)
-            update.each_pair do |update_key, v|
-              next unless source_counts.key?(update_key)
+        if cantrip
+          "innate cantrip (#{tradition_label})"
+        else
+          "innate #{Pf2emagic.ordinal_level(rank)}-rank spell (#{tradition_label})"
+        end
+      end
+    end
 
-              if v.is_a?(Hash)
-                v.each_pair do |level, list|
-                  level_label = level.to_s.downcase
-                  open_count = Array(list).count { |entry| entry.to_s.downcase == 'open' }
-                  next if open_count.zero?
+    # What a feat's `grants` block can hand over, one row per key.
+    #
+    #   timing - 'assign' for a pick the player resolves straight away, 'advance' for what is
+    #            applied when a level commits. `assess_feat_grants` splits a block on this, so the
+    #            two readings of the same vocabulary cannot drift.
+    #   apply  - takes the context below and returns [ locale key, args ] pairs.
+    #
+    # The context carries the character, the value from config, the class the grant is attributed
+    # to, and the client, which the magic helpers still render their own messages through.
+    #
+    # A key with no row is logged rather than shown: config naming something this does not handle
+    # is a data error for staff to see in the log, not a sentence for the player.
+    GRANTS = {
+      'magic_stats' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx| Pf2e.grant_magic_stats(ctx) }
+      },
+      'assign' => {
+        'timing' => 'assign',
+        'apply' => lambda { |ctx|
+          to_assign = ctx[:char].pf2_to_assign
 
-                  source_counts[update_key][level_label] ||= 0
-                  source_counts[update_key][level_label] += open_count
-                end
-              elsif v.is_a?(Array)
-                open_count = v.count { |entry| entry.to_s.downcase == 'open' }
-                next if open_count.zero?
+          messages = Array(ctx[:value]).map do |item|
+            to_assign[item] = Array(to_assign[item]) + [ 'open' ]
 
-                source_counts[update_key]['1'] ||= 0
-                source_counts[update_key]['1'] += open_count
-              end
-            end
+            [ 'pf2e.feat_grants_addl', { :element => item } ]
           end
 
-          innate_spells = char.magic&.innate_spells || {}
-          open_innate = innate_spells.select { |k, _| k.to_s.casecmp?('open') }
-          open_innate_labels = open_innate.values.map do |info|
-            level_label = info['level'].to_s.downcase
-            is_cantrip = (level_label == 'cantrip' || level_label == '0')
-            tradition = Array(info['tradition']).first
-            tradition_label = tradition.to_s.empty? ? 'unknown tradition' : tradition.to_s
+          ctx[:char].update(:pf2_to_assign => to_assign)
 
-            if is_cantrip
-              "innate cantrip (#{tradition_label})"
-            else
-              "innate #{Pf2emagic.ordinal_level(level_label)}-rank spell (#{tradition_label})"
-            end
-          end
+          messages
+        }
+      },
+      'feat' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx| Pf2e.grant_feats(ctx) }
+      },
+      'grant_choice' => {
+        'timing' => 'assign',
+        'apply' => lambda { |ctx|
+          to_assign = ctx[:char].pf2_to_assign
 
-          details_parts = []
+          Array(ctx[:value]).compact.each { |name| Pf2e.open_feat_choice(to_assign, name.to_s) }
 
-          open_innate_counts = open_innate_labels.tally
-          open_innate_counts.each_pair do |label, count|
-            plural_label = Pf2emagic.pluralize_label(label, count)
-            details_parts << "#{count} #{plural_label} to assign"
-          end
+          ctx[:char].update(:pf2_to_assign => to_assign)
 
-          source_counts.each_pair do |source, level_counts|
-            next if level_counts.empty?
+          []
+        }
+      },
+      # The same choice, opened only if the character has neither an open one nor a resolved one:
+      # a feat granted twice does not ask twice.
+      'grant_choice_once' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx|
+          to_assign = ctx[:char].pf2_to_assign
 
-            level_counts.each_pair do |level_label, count|
-              is_cantrip = (level_label == 'cantrip' || level_label == '0')
-              level_text = is_cantrip ? 'cantrip' : "#{Pf2emagic.ordinal_level(level_label)}-rank spell"
-              level_text = Pf2emagic.pluralize_label(level_text, count)
-
-              if source == 'spellbook'
-                details_parts << "#{count} #{level_text} to add to your spellbook"
-              elsif source == 'repertoire'
-                details_parts << "#{count} #{level_text} to add to your repertoire"
-              end
-            end
-          end
-
-          if details_parts.any?
-            details_text = Pf2emagic.join_with_and(details_parts)
-            review_cmd = char.advancing ? 'advance/review' : 'cg/review'
-            return_msg << t('pf2e.feat_grants_magic_open', :review_cmd => review_cmd, :details => details_text)
-          else
-            return_msg << t('pf2e.feat_grants_magic')
-          end
-
-          # Update_magic returns a hash intended to be stuffed into pf2_to_assign. Do that.
-          if update.is_a?(::Hash) && !(update.empty?)
-            return_msg << t('pf2e.feat_grants_addl', :element => 'magic')
-            to_assign = char.pf2_to_assign.merge(update)
-
-            char.update(pf2_to_assign: to_assign)
-          end
-
-        when 'assign'
-          to_assign = char.pf2_to_assign
-
-          value.each do |item|
-            to_assign_subitem = to_assign[item] ? to_assign[item] : []
-            to_assign_subitem << 'open'
-            to_assign[item] = to_assign_subitem
-            
-            return_msg << t('pf2e.feat_grants_addl', :element => item)
-          end
-
-          char.update(pf2_to_assign: to_assign)
-        when 'feat'
-          Array(value).each do |entry|
-            parsed = granted_feat_entry(entry)
-            next unless parsed
-
-            fname, label, source, filter = parsed
-            found = get_feat_details(fname)
-
-            if found.is_a?(String)
-              Global.logger.error "A feat grant names '#{fname}', which did not resolve (#{found})."
-              next
-            end
-
-            unless can_take_feat_details?(char, found[0], found[1])
-              Global.logger.warn "#{char.name} was granted '#{found[0]}' but does not qualify for it."
-              next
-            end
-
-            label = granted_choice_label(char, source) if source.present?
-
-            return_msg.concat(add_granted_feat(char, found[0], found[1], charclass, client))
-            return_msg.concat(resolve_granted_choice(char, found[0], found[1], label, client, filter))
-          end
-        when 'grant_choice'
-          to_assign = char.pf2_to_assign
-
-          Array(value).compact.each { |name| open_feat_choice(to_assign, name.to_s) }
-
-          char.update(pf2_to_assign: to_assign)
-        when 'grant_choice_once'
-          to_assign = char.pf2_to_assign
-
-          Array(value).compact.each do |name|
+          Array(ctx[:value]).compact.each do |name|
             key = name.to_s
 
             next if Array((to_assign['feat choice'] || {})[key]).include?('open')
-            next if choice_labels_for(char, key).any?
+            next if Pf2e.choice_labels_for(ctx[:char], key).any?
 
-            open_feat_choice(to_assign, key)
+            Pf2e.open_feat_choice(to_assign, key)
           end
 
-          char.update(pf2_to_assign: to_assign)
-        when 'reagents'
-          return_msg << "This feat grants reagents."
-          Pf2e.update_reagents(char, value)
-        when 'cantrip_expansion'
-          base_class = char.pf2_base_info['charclass']
-          caster_type = Pf2emagic.get_caster_type(base_class)
+          ctx[:char].update(:pf2_to_assign => to_assign)
 
-          magic = PF2Magic.get_create_magic_obj(char)
+          []
+        }
+      },
+      'reagents' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx|
+          Pf2e.update_reagents(ctx[:char], ctx[:value])
 
-          if caster_type == 'prepared'
-            spells_per_day = magic.spells_per_day || {}
-            class_slots = spells_per_day[base_class] || {}
-            cantrip_key = class_slots.keys.find { |k| k.to_s.downcase == 'cantrip' } || 'cantrip'
+          [ [ 'pf2e.feat_grants_reagents', {} ] ]
+        }
+      },
+      'attack' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx|
+          combat = Pf2eCombat.get_create_combat_obj(ctx[:char])
+          attacks = combat.unarmed_attacks
 
-            class_slots[cantrip_key] = class_slots[cantrip_key].to_i + 2
-            spells_per_day[base_class] = class_slots
-            magic.update(spells_per_day: spells_per_day)
+          ctx[:value].each_pair { |attack, info| attacks[attack] = info }
 
-            return_msg << "You can prepare two additional cantrips each day."
-          elsif caster_type == 'spontaneous'
-            to_assign = char.pf2_to_assign
-            repertoire = to_assign['repertoire'] || {}
-            cantrip_key = repertoire.keys.find { |k| k.to_s.downcase == 'cantrip' } || 'cantrip'
-            list = repertoire[cantrip_key] || []
+          combat.update(:unarmed_attacks => attacks)
 
-            list.concat(Array.new(2, 'open'))
-            repertoire[cantrip_key] = list
-            to_assign['repertoire'] = repertoire
-            char.update(pf2_to_assign: to_assign)
+          [ [ 'pf2e.feat_grants_attack', {} ] ]
+        }
+      },
+      'skill' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx| Pf2e.grant_skills(ctx) }
+      },
+      'raise_skill' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx| Pf2e.grant_raises(ctx) }
+      },
+      'combat_stats' => {
+        'timing' => 'advance',
+        'apply' => lambda { |ctx|
+          Pf2eCombat.update_combat_stats(ctx[:char], ctx[:value])
 
-            return_msg << "This feat grants 2 cantrip choices for your repertoire."
-          end
-        when 'attack'
-          combat = Pf2eCombat.get_create_combat_obj(char)
-          unarmed_attacks = combat.unarmed_attacks
+          [ [ 'pf2e.feat_grants_combat_stats', {} ] ]
+        }
+      }
+    }.freeze
 
-          value.each_pair do |attack, info|
-            unarmed_attacks[attack] = info
-          end
+    def self.grant_keys
+      GRANTS.keys
+    end
 
-          combat.update(unarmed_attacks: unarmed_attacks)
-          return_msg << "This feat grants an unarmed attack."
-        when "skill"
-          # The value of the skill subkey is an array.
-          # Skills should check to see if the character already has training in that skill and grant a
-          # free one if so.
+    # Applies a feat's grants block. Returns rendered messages, because every caller emits them
+    # straight to a client.
+    #
+    # A row answers with [ locale key, args ] pairs, or with a string where the helper it delegates
+    # to has already rendered its own.
+    def self.do_feat_grants(char, info, charclass, client)
+      (info || {}).flat_map do |key, value|
+        row = GRANTS[key.to_s]
 
-          value.each do |skill|
-            open_choice = OPEN_SKILL_VALUES.include?(skill.to_s.downcase)
-            has_skill = open_choice || Pf2eSkills.get_skill_prof(char, skill) != 'untrained'
-
-            if has_skill
-              if (char.advancing || !char.is_approved?)
-                to_assign = char.pf2_to_assign
-                open_skills = to_assign['open skills'] || []
-                open_skills << 'open'
-                to_assign['open skills'] = open_skills
-                char.update(pf2_to_assign: to_assign)
-
-                return_msg << if open_choice
-                  "This feat grants a skill of your choice. Your skills have been unlocked. Assign it using 'skill/set free=<skill>', then enter 'commit featskills' to lock your skills again. You may take other feats that grant skills first."
-                else
-                  "You already had a skill granted by this feat, so you have another free skill to assign. Your skills have been unlocked. Assign it using 'skill/set free=<skill>', then enter 'commit featskills' to lock your skills again. You may take other feats that grant skills first."
-                end
-
-                char.update(pf2_skills_locked: false)
-              else
-                return_msg << "#{char.name} needs to choose a free skill."
-              end
-            else
-              skill_obj = Pf2eSkills.find_skill(skill, char)
-
-              Pf2eSkills.create_skill_for_char(skill, char) if !skill_obj
-
-              Pf2eSkills.update_skill_for_char(skill, char, 'trained')
-              return_msg << "This feat grants the skill #{skill}."
-            end
-
-          end
-        when 'raise_skill'
-          Array(value).compact.each do |skill_name|
-            next if skill_name.to_s.strip.empty?
-
-            Pf2eSkills.create_skill_for_char(skill_name, char) unless Pf2eSkills.find_skill(skill_name, char)
-
-            skill = Pf2eSkills.find_skill(skill_name, char)
-            next unless skill
-
-            new_prof = Pf2eSkills.get_next_prof(char, skill_name)
-            next if new_prof.blank? || new_prof.to_s.casecmp?(skill.prof_level.to_s)
-
-            skill.update(prof_level: new_prof)
-            return_msg << "Your proficiency in #{skill_name} increases to #{new_prof}."
-          end
-        when "combat_stats"
-          # The value of the combat_stats subkey should always be a hash.
-          Pf2eCombat.update_combat_stats(char, value)
-          return_msg << "This feat modifies your combat proficiencies."
-        else
-          return_msg << "Unknown key '#{key}' in do_feat_grants. Please inform code staff."
+        unless row
+          Global.logger.error "A feat grants '#{key}', which is not one of #{grant_keys.join(', ')}."
+          next []
         end
 
+        ctx = { :char => char, :value => value, :charclass => charclass, :client => client }
+
+        Array(row['apply'].call(ctx)).map do |message|
+          next message if message.is_a?(::String)
+
+          locale_key, args = message
+
+          t(locale_key, **(args || {}))
+        end
+      end
+    end
+
+    # Which of a grants block is resolved now and which waits for the level to commit.
+    def self.assess_feat_grants(info)
+      split = { 'assign' => {}, 'advance' => {} }
+
+      (info || {}).each_pair do |key, value|
+        timing = (GRANTS[key.to_s] || {})['timing'] || 'advance'
+
+        split[timing][key] = value
       end
 
-      return_msg
+      split
+    end
+
+    # ------------------------------------------------------------------------------
+    # The longer grants, each its own function so the table stays readable
+    # ------------------------------------------------------------------------------
+
+    # Spellcasting a feat hands over. What it opens for the player to choose is counted and named,
+    # because "you have spells to choose" without saying how many or at what rank is not actionable.
+    def self.grant_magic_stats(ctx)
+      char = ctx[:char]
+      update = PF2Magic.update_magic(char, ctx[:charclass], ctx[:value], ctx[:client])
+
+      # update_magic renders its own complaint, so it is passed through as it is.
+      return [ update ] if update.is_a?(::String)
+
+      messages = []
+      details = magic_open_details(char, update)
+
+      if details.any?
+        review_cmd = char.advancing ? 'advance/review' : 'cg/review'
+        messages << [ 'pf2e.feat_grants_magic_open',
+                      { :review_cmd => review_cmd, :details => Pf2emagic.join_with_and(details) } ]
+      else
+        messages << [ 'pf2e.feat_grants_magic', {} ]
+      end
+
+      # update_magic answers with what belongs in pf2_to_assign, so it goes there.
+      if update.is_a?(::Hash) && !update.empty?
+        messages << [ 'pf2e.feat_grants_addl', { :element => 'magic' } ]
+        char.update(:pf2_to_assign => char.pf2_to_assign.merge(update))
+      end
+
+      messages
+    end
+
+    # "two 1st-rank spells to add to your spellbook", one phrase per rank and list, with the innate
+    # spells still to assign first - which is the order a player reads them in on the review screen.
+    def self.magic_open_details(char, update)
+      innate = open_innate_labels(char.magic).tally.map do |label, count|
+        t('pf2e.feat_grants_magic_innate', :count => count,
+          :label => Pf2emagic.pluralize_label(label, count))
+      end
+
+      lists = update.is_a?(::Hash) ? update : {}
+
+      innate + [ 'spellbook', 'repertoire' ].flat_map do |source|
+        open_counts_by_rank(lists[source]).map do |rank, count|
+          label = Pf2emagic.pluralize_label(rank_label(rank), count)
+
+          t("pf2e.feat_grants_magic_#{source}", :count => count, :label => label)
+        end
+      end
+    end
+
+    # rank => how many picks at it are still open, for either shape update_magic answers with.
+    def self.open_counts_by_rank(value)
+      return {} unless value.is_a?(Hash) || value.is_a?(Array)
+
+      pairs = value.is_a?(Hash) ? value : { '1' => value }
+
+      pairs.each_with_object({}) do |(rank, list), counts|
+        open = Array(list).count { |entry| entry.to_s.casecmp?('open') }
+
+        counts[rank.to_s.downcase] = open if open.positive?
+      end
+    end
+
+    def self.rank_label(rank)
+      return 'cantrip' if rank == 'cantrip' || rank == '0'
+
+      "#{Pf2emagic.ordinal_level(rank)}-rank spell"
+    end
+
+    # Feats a feat hands over. Each is bound by the same eligibility and repeat rules as one the
+    # player picks, which is also what ends a chain that closes on itself.
+    def self.grant_feats(ctx)
+      char = ctx[:char]
+
+      Array(ctx[:value]).flat_map do |entry|
+        parsed = granted_feat_entry(entry)
+
+        next [] unless parsed
+
+        fname, label, source, filter = parsed
+        found = get_feat_details(fname)
+
+        if found.is_a?(String)
+          Global.logger.error "A feat grant names '#{fname}', which did not resolve (#{found})."
+          next []
+        end
+
+        unless can_take_feat_details?(char, found[0], found[1])
+          Global.logger.warn "#{char.name} was granted '#{found[0]}' but does not qualify for it."
+          next []
+        end
+
+        repeat = feat_repeat_block(char, found[0], found[1])
+
+        if repeat
+          Global.logger.warn "#{char.name} was granted '#{found[0]}' and may not hold it again: #{repeat}"
+          next []
+        end
+
+        label = granted_choice_label(char, source) if source.present?
+
+        # Both of these render their own messages, so they are passed through as they are.
+        add_granted_feat(char, found[0], found[1], ctx[:charclass], ctx[:client]) +
+          resolve_granted_choice(char, found[0], found[1], label, ctx[:client], filter)
+      end
+    end
+
+    # A skill a feat grants. One the character is already trained in becomes a free skill to assign
+    # instead, which is the rule PF2e states for a duplicate.
+    def self.grant_skills(ctx)
+      char = ctx[:char]
+
+      Array(ctx[:value]).flat_map do |skill|
+        open_choice = OPEN_SKILL_VALUES.include?(skill.to_s.downcase)
+        held = open_choice || Pf2eSkills.get_skill_prof(char, skill) != 'untrained'
+
+        next [ grant_one_skill(char, skill) ] unless held
+        next [ [ 'pf2e.feat_needs_free_skill', { :name => char.name } ] ] unless char.advancing || !char.is_approved?
+
+        to_assign = char.pf2_to_assign
+        to_assign['open skills'] = Array(to_assign['open skills']) + [ 'open' ]
+        char.update(:pf2_to_assign => to_assign)
+        char.update(:pf2_skills_locked => false)
+
+        [ [ open_choice ? 'pf2e.feat_grants_free_skill' : 'pf2e.feat_grants_duplicate_skill', {} ] ]
+      end
+    end
+
+    def self.grant_one_skill(char, skill)
+      Pf2eSkills.create_skill_for_char(skill, char) unless Pf2eSkills.find_skill(skill, char)
+      Pf2eSkills.update_skill_for_char(skill, char, 'trained')
+
+      [ 'pf2e.feat_grants_skill', { :skill => skill } ]
+    end
+
+    # A skill increase a feat grants, which moves one skill up a rank.
+    def self.grant_raises(ctx)
+      char = ctx[:char]
+
+      Array(ctx[:value]).compact.flat_map do |name|
+        next [] if name.to_s.strip.empty?
+
+        Pf2eSkills.create_skill_for_char(name, char) unless Pf2eSkills.find_skill(name, char)
+
+        skill = Pf2eSkills.find_skill(name, char)
+
+        next [] unless skill
+
+        raised = Pf2eSkills.get_next_prof(char, name)
+
+        next [] if raised.blank? || raised.to_s.casecmp?(skill.prof_level.to_s)
+
+        skill.update(:prof_level => raised)
+
+        [ [ 'pf2e.feat_grants_raise', { :skill => name, :prof => raised } ] ]
+      end
     end
 
     CASTER_TYPE_STAT_KEYS = %w(prepared spontaneous)
@@ -1271,7 +1345,10 @@ module AresMUSH
         focus_type_by_source = Global.read_config('pf2e_magic', 'focus_type_by_source') || {}
         focus_type = focus_type_by_source[char.pf2_base_info['charclass']] || 'devotion'
 
-        { 'magic_stats' => { 'focus_spell' => { focus_type => [ domain_info['initial'] ] } } }
+        # The domain is what granted the spell, so it travels with it - otherwise the sheet has
+        # to work back from the deity's domain list to say where the spell came from.
+        { 'magic_stats' => { 'focus_spell' => { focus_type => [ domain_info['initial'] ] },
+                             'focus_source' => "Domain #{value}" } }
       when 'devotion_spells'
         { 'magic_stats' => { 'focus_spell' => { 'devotion' => [ value ] } } }
       when 'traditions', 'other_traditions'
@@ -1287,7 +1364,7 @@ module AresMUSH
       magic = char.magic
       return [] unless magic
 
-      (magic.tradition || {}).reject { |k, _| k.to_s.strip.casecmp?('innate') }
+      Pf2emagic::Entries.casting(magic).each_with_object({}) { |e, h| h[e['name']] = [ e['tradition'], e['proficiency'] ] }
         .values
         .map { |entry| Array(entry).first.to_s.downcase }
         .reject(&:empty?)
@@ -1428,7 +1505,7 @@ module AresMUSH
     def self.deferred_feat_grants(char, level)
       feats = Global.read_config('pf2e_feats') || {}
 
-      char.pf2_feats.values.flatten.uniq.flat_map do |name|
+      DraftSheet.of(char).feat_names.uniq.flat_map do |name|
         key = feats.keys.find { |k| k.to_s.casecmp?(name.to_s) }
         next [] unless key
 
@@ -1581,16 +1658,10 @@ module AresMUSH
       stored.each_with_object({}) { |(name, slots), pending| pending[name] = Array(slots) }
     end
 
+    # A choice a feat carries is a slot like any other, so opening one is the slot vocabulary
+    # rather than an inline array append - see Pf2e::Slots.
     def self.open_feat_choice(to_assign, choice_name, count = 1)
-      choices = to_assign['feat choice'] || {}
-      slots = Array(choices[choice_name])
-
-      count.times { slots << 'open' }
-
-      choices[choice_name] = slots
-      to_assign['feat choice'] = choices
-
-      to_assign
+      to_assign.replace(Slots.apply(to_assign, [ Slots.open([ 'feat choice', choice_name ], :count => count) ]))
     end
 
     def self.fill_feat_choice(to_assign, choice_name, value)
@@ -1598,13 +1669,11 @@ module AresMUSH
       key = choices.keys.find { |k| k.to_s.casecmp?(choice_name.to_s) }
       return false unless key
 
-      slots = Array(choices[key])
-      index = slots.index('open')
-      return false unless index
+      filled = Slots.apply(to_assign, [ Slots.fill([ 'feat choice', key ], value) ])
+      return false if filled.is_a?(Err)
 
-      slots[index] = value
-      choices[key] = slots
-      to_assign['feat choice'] = choices
+      to_assign.replace(filled)
+      slots = Array(to_assign['feat choice'][key])
 
       # A narrowing only applies while the slot it was opened for is still open.
       clear_choice_filter(to_assign, key) unless slots.include?('open')
@@ -1735,10 +1804,13 @@ module AresMUSH
       # stays selectable until it is actually maxed out.
       tally = feat_tally(char)
 
-      list = feats.keys.select do |name|
-        next false if feat_repeat_block(char, name, feats[name], tally[name.to_s.upcase])
+      # One read of the sheet for the whole sweep, as get_feat_options does.
+      list = Pf2e::SheetReads.holding(char) do
+        feats.keys.select do |name|
+          next false if feat_repeat_block(char, name, feats[name], tally[name.to_s.upcase])
 
-        choice_feat_match?(char, name, feats[name], filter)
+          choice_feat_match?(char, name, feats[name], filter)
+        end
       end
 
       list.sort
@@ -1753,6 +1825,14 @@ module AresMUSH
 
       # No double-dipping on base class / dedication, per Paizo RAW.
       return false unless dedication_allowed?(char, details)
+
+      # A named pair rather than a category: PF2e has features that hand over one of two specific
+      # feats, the Druid's Voice of Nature being "your choice of the Animal Empathy or Plant
+      # Empathy druid feat". A whitelist, so the rest of the filter still applies.
+      if filter['names']
+        wanted = Array(filter['names']).compact.map { |n| n.to_s.downcase }
+        return false unless wanted.include?(feat_name.to_s.downcase)
+      end
 
       if filter['feat_type']
         wanted = Array(filter['feat_type']).compact.map { |f| f.to_s.downcase }
@@ -1838,7 +1918,7 @@ module AresMUSH
     end
 
     def self.effective_char_level(char)
-      char.advancing ? char.pf2_level + 1 : char.pf2_level
+      DraftSheet.of(char).level
     end
 
     def self.choice_skill_pool(char, filter)
@@ -1897,7 +1977,9 @@ module AresMUSH
         true
       end
 
-      held = Array(char.magic&.focus_spells&.dig(filter['focus_type'].to_s)).map { |s| s.to_s.downcase }
+      # Focus spells are entries, not an attribute of the magic object - one per focus type per
+      # granting source - so Entries is the only place that can answer this.
+      held = Array(char.magic && Pf2emagic::Entries.focus_spells(char.magic, filter['focus_type'])).map { |s| s.to_s.downcase }
 
       list.reject { |name| held.include?(name.to_s.downcase) }.sort
     end
@@ -2069,7 +2151,8 @@ module AresMUSH
           deity = pending unless pending.blank? || pending.to_s.casecmp?('open')
         end
 
-        fonts = deity.blank? ? [] : Array(Global.read_config('pf2e_deities', deity, 'magic_stats', 'divine_font'))
+        # read_config takes at most three keys, so the fourth is a plain hash read.
+        fonts = deity.blank? ? [] : Array((Global.read_config('pf2e_deities', deity, 'magic_stats') || {})['divine_font'])
 
         options << 'Lay on Hands' if fonts.any? { |f| f.to_s.casecmp?('heal') }
         options << 'Touch of the Void' if fonts.any? { |f| f.to_s.casecmp?('harm') }
@@ -2187,19 +2270,73 @@ module AresMUSH
       Global.read_config('pf2e_deities', deity)
     end
 
+    # The headings a sheet groups feats under. `pf2_feats` is keyed by these.
+    FEAT_BUCKETS = %w(charclass skill general ancestry archetype dedication).freeze
+
+    # Where a feat belongs, taken from the type its own data names. A feat that is both Skill and
+    # General belongs under the more specific one, which the data lists first.
+    #
+    # Falls back to `charclass` for a feat whose data names no type at all, since a bucket named
+    # `''` is one no heading on the sheet reads.
     def self.feat_bucket(details)
-      Array(details['feat_type']).first.to_s.downcase
+      types = Array((details || {})['feat_type']).map { |t| t.to_s.downcase }
+
+      types.find { |t| FEAT_BUCKETS.include?(t) } || 'charclass'
+    end
+
+    # The same question asked by name, for callers holding a granted feat's name and not its data.
+    def self.feat_bucket_for(name)
+      feats = Global.read_config('pf2e_feats') || {}
+      key = feats.keys.find { |k| k.to_s.casecmp?(name.to_s) }
+
+      feat_bucket(key && feats[key])
+    end
+
+    # A list of granted feats, grouped by the heading each belongs under. What granted a feat has no
+    # bearing on which heading it takes. Shield Block is a general feat however a class hands it
+    # over.
+    def self.bucket_feats(names)
+      Array(names).each_with_object({}) do |name, grouped|
+        next if name.blank?
+
+        bucket = feat_bucket_for(name)
+        grouped[bucket] = Array(grouped[bucket]) + [ name ]
+      end
+    end
+
+    # Files a feat under a heading, in the draft, which is where a pick goes too.
+    #
+    # The sheet's own lists are the materialiser's output, so a feat written straight to pf2_feats
+    # would be erased by the next fold. Both commit boundaries read the draft as well as the sheet,
+    # so a feat recorded here is history at the same moment a chosen one is.
+    def self.record_feat(char, bucket, fname)
+      draft = char.pf2_advancement || {}
+      feats = draft['feats'] || {}
+
+      feats[bucket] = Array(feats[bucket]) + [ fname ]
+      draft['feats'] = feats
+
+      char.update(:pf2_advancement => draft)
+    end
+
+    # Takes a feat back out of wherever it is held. Both stores, because a draft holds what has been
+    # picked and the sheet holds what a fold has already written.
+    def self.forget_feat(char, fname)
+      draft = char.pf2_advancement || {}
+      feats = draft['feats'] || {}
+
+      feats.each_key { |bucket| feats[bucket] = Array(feats[bucket]).reject { |f| f.to_s.casecmp?(fname.to_s) } }
+      draft['feats'] = feats
+
+      held = char.pf2_feats || {}
+      held.each_key { |bucket| held[bucket] = Array(held[bucket]).reject { |f| f.to_s.casecmp?(fname.to_s) } }
+
+      char.update(:pf2_advancement => draft)
+      char.update(:pf2_feats => held)
     end
 
     def self.add_granted_feat(char, fname, details, charclass, client)
-      feats = char.pf2_feats
-      bucket = feat_bucket(details)
-
-      list = feats[bucket] || []
-      list << fname
-      feats[bucket] = list
-
-      char.update(pf2_feats: feats)
+      record_feat(char, feat_bucket(details), fname)
 
       msgs = []
       msgs.concat(do_feat_grants(char, details['grants'], charclass, client)) if details['grants']
@@ -2244,18 +2381,13 @@ module AresMUSH
 
       if choice_grants_feat?(block)
         feat = get_feat_details(value)
-        return [ t('pf2e.bad_feat_name', :name => value) ] if feat.is_a?(String)
+        return [ feat_lookup_failure(value, feat) ] if feat.is_a?(String)
 
         fname = feat[0]
         fdetails = feat[1]
         charclass = fdetails['assoc_charclass'] || char.pf2_base_info['charclass']
 
-        feats = char.pf2_feats
-        ftype = Array(fdetails['feat_type']).first.to_s.downcase
-        list = feats[ftype] || []
-        list << fname
-        feats[ftype] = list
-        char.update(pf2_feats: feats)
+        record_feat(char, Array(fdetails['feat_type']).first.to_s.downcase, fname)
 
         msgs.concat(do_feat_grants(char, fdetails['grants'], charclass, client)) if fdetails['grants']
         msgs.concat(do_feat_magic_stats(char, fdetails, charclass, client))
@@ -2304,39 +2436,25 @@ module AresMUSH
       advancement = char.pf2_advancement
       to_assign = char.pf2_to_assign
 
+      deferred = []
+
       if choice_grants_feat?(block)
         feat = get_feat_details(value)
-        return [ t('pf2e.bad_feat_name', :name => value) ] if feat.is_a?(String)
+        return [ feat_lookup_failure(value, feat) ] if feat.is_a?(String)
 
         fname = feat[0]
         fdetails = feat[1]
 
-        feats_to_do = advancement['feats'] || {}
-        ftype = Array(fdetails['feat_type']).first.to_s.downcase
-        list = feats_to_do[ftype] || []
-        list << fname
-        feats_to_do[ftype] = list
-        advancement['feats'] = feats_to_do
+        # The same path a feat typed at advance/feat takes, so a feat handed over by a choice is
+        # worth exactly what the same feat chosen directly is.
+        gained = Advancement::FeatGain.apply(char, fname, fdetails,
+          :bucket => Array(fdetails['feat_type']).first.to_s.downcase,
+          :to_assign => to_assign,
+          :advancement => advancement,
+          :client => client)
 
-        if fdetails['grants']
-          adv_grants = advancement['grants'] || {}
-          adv_grants[fname] = fdetails['grants']
-          advancement['grants'] = adv_grants
-        end
-
-        if fdetails['magic_stats']
-          magic_options = stage_feat_magic_stats(char, fname, fdetails, to_assign, advancement)
-          msgs.concat(magic_option_messages(magic_options))
-        end
-
-        # Staged rather than stored until advance/done, so the instance is one past the count.
-        nested = feat_choice_def(fdetails)
-        nested = nil unless feat_choice_opens_at?(nested, feat_taken_count(char, fname) + 1)
-
-        if nested
-          open_feat_choice(to_assign, fname)
-          msgs << t('pf2e.choice_opened', :choice => fname, :summary => choice_summary(nested), :cmd => choice_info_cmd(char))
-        end
+        msgs.concat(Advancement::FeatGain.render(gained[:messages]))
+        deferred.concat(gained[:after_save])
 
         value = fname
       else
@@ -2372,6 +2490,10 @@ module AresMUSH
       char.pf2_advancement = advancement
       char.pf2_to_assign = to_assign
       char.save
+
+      # Work that had to wait for the draft to be written, such as staging a choice the gained
+      # feat resolved by itself - that re-reads and saves the character.
+      deferred.each { |run| msgs.concat(Advancement::FeatGain.render(run.call)) }
 
       msgs
     end

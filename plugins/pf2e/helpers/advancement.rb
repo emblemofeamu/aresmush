@@ -223,28 +223,23 @@ module AresMUSH
       result
     end
 
+    # Which of the four skill markers a restriction asks for. A slot can be limited to a Lore,
+    # to something the character is untrained in, or both - and Advancement::Raises reads the
+    # same vocabulary to decide what may spend it.
+    SKILL_SLOT_TOKENS = {
+      [ false, false ] => 'open',
+      [ false, true ] => 'open untrained',
+      [ true, false ] => 'open lore',
+      [ true, true ] => 'open lore untrained'
+    }.freeze
+
     def self.add_open_skill_slot(to_assign, advancement, lore=false, untrained_only=false)
-      token = if lore
-        untrained_only ? 'open lore untrained' : 'open lore'
-      else
-        untrained_only ? 'open untrained' : 'open'
-      end
+      token = SKILL_SLOT_TOKENS[[ !!lore, !!untrained_only ]]
+      delta = [ Slots.open('raise skill', :token => token) ]
 
-      to_assign['raise skill'] = if to_assign['raise skill'].is_a?(Array)
-        to_assign['raise skill'] + [token]
-      elsif to_assign['raise skill'].nil?
-        [token]
-      else
-        [to_assign['raise skill'], token]
-      end
-
-      advancement['raise skill'] = if advancement['raise skill'].is_a?(Array)
-        advancement['raise skill'] + [token]
-      elsif advancement['raise skill'].nil?
-        [token]
-      else
-        [advancement['raise skill'], token]
-      end
+      # A scalar left over from an older shape is folded into the list by Slots.open.
+      to_assign.replace(Slots.apply(to_assign, delta))
+      advancement.replace(Slots.apply(advancement, delta))
     end
 
     def self.add_training_skills(char, skills, to_assign, advancement)
@@ -285,68 +280,20 @@ module AresMUSH
       { assigned: assigned, open_count: open_count, open_lore_count: open_lore_count }
     end
 
-    def self.assess_advancement(char,info)
-      # Can the character advance?
+    # What advancing to the next level offers, as the messages telling the player what to pick.
+    #
+    # The level block's own keys are Advancement::Opens, a row each. What is left here is the three
+    # things that come from the character rather than from the table: the choices a feat or feature
+    # carries, and the level clauses an earlier pick deferred to this level.
+    def self.assess_advancement(char, info)
       advfail = Pf2e.can_advance(char)
       return advfail if advfail
 
-      # Return_msg returns a list of what they need to choose as an array.
-      return_msg = []
+      to_assign, advancement, pairs = Advancement::Opens.all(char, info)
 
-      advancement = {}
-      to_assign = {}
-
-      info.each_pair do |key, value|
-        case key
-        when "choose_feat"
-          # Value is an array of types to choose.
-          hash = to_assign['feats'] || {}
-          value.each do |feat|
-            hash[feat] = [ "open" ]
-
-            return_msg << t('pf2e.adv_item_feat', :value => feat)
-          end
-          to_assign['feats'] = hash
-        when "feat_choice", "grant_choice"
-          # Handled once after this loop, since granted_choice_names reads both keys off the
-          # whole entry and a level carrying both would otherwise open every slot twice.
-        when "magic_stats"
-          assess_magic = PF2Magic.assess_magic_stats(char, value)
-
-          advancement[key] = assess_magic['magic_stats']
-          magic_options = assess_magic['magic_options']
-
-          if magic_options
-            # Merge is acting funky, so we brute force.
-            magic_options.each_pair do |k,v|
-              to_assign[k] = v
-            end
-            return_msg.concat(magic_option_messages(magic_options.keys))
-          end
-        when "raise"
-          # Value is an array of all the things you can choose to raise.
-          # In this case, we put into to_assign what is to be raised as a key with an empty value.
-
-          value.each do |item|
-            to_assign["raise #{item}"] = item == "ability" ? Array.new(4, "open") : [ "open" ]
-            return_msg << t('pf2e.adv_item_raise', :item => item)
-          end
-        when "choose", "charclass_choice"
-          name = value['choice_name']
-          options = value['options']
-          to_choose = to_assign['class option'] || {}
-          to_choose[name] = options.is_a?(Hash) ? options : Array(options)
-
-          display_options = options.is_a?(Hash) ? options.keys : Array(options)
-          return_msg << t('pf2e.adv_item_choose', :name => name, :options => display_options.sort.join(", "))
-
-          to_assign['class option'] = to_choose
-        when "charclass_feature"
-          advancement[key] = value
-        else
-          advancement[key] = value
-        end
-      end
+      # A nil key means the row rendered its own sentence, which some of them must: the magic
+      # options are assembled from the caster's own stat block rather than named by a locale key.
+      return_msg = pairs.map { |(key, args)| key.nil? ? args.to_s : t(key, **(args || {})) }
 
       # Feat choices this level opens.
       granted_choice_names(info).each do |name|
@@ -392,306 +339,19 @@ module AresMUSH
       messages = advancement_messages(char)
       return messages.join("%r") if messages
 
-      # In advancement, to_process holds everything to be added to the sheet.
-      # As with commit info, char.update is not used here generally because it would mean many separate writes, quickly.
-      # Kinder to the database to make a whole bunch of changes and write the lot in one go at the end.
-      charclass = char.pf2_base_info['charclass']
-      archetype1 = char.pf2_archetypeinfo['archetype1'] && char.pf2_archetypeinfo['archetype_specialty1'] || []
-      archetype2 = char.pf2_archetypeinfo['archetype2'] && char.pf2_archetypeinfo['archetype_specialty2'] || []
-      archetype3 = char.pf2_archetypeinfo['archetype3'] && char.pf2_archetypeinfo['archetype_specialty3'] || []
-      archetype4 = char.pf2_archetypeinfo['archetype4'] && char.pf2_archetypeinfo['archetype_specialty4'] || []
-
       to_process = char.pf2_advancement
-      to_process.each_pair do |key, value|
-        case key
-        when "charclass_feature"
-          features = char.pf2_features
-          features['charclass_features'] ||= []
-          features['charclass_features'].concat(Array(value)).uniq!
-          char.pf2_features = features
-        when "archetype_feature"
-          features = char.pf2_features
-          features['archetype_features'] ||= []
-          features['archetype_features'].concat(Array(value)).uniq!
-          char.pf2_features = features
-        when "combat_stats"
-          Pf2eCombat.update_combat_stats(char, value)
-        when "magic_stats"
-          # Ignore any return, this key only includes items that do not populate to_assign.
-          # Every stat key update_magic understands has to be listed: an unlisted one makes the
-          # whole block look class-keyed, and each stat then gets dispatched as if it were a class.
-          stat_keys = %w(
-            spell_abil
-            tradition
-            spells_per_day
-            repertoire
-            spellbook
-            signature
-            signature_spells
-            signature_spell
-            focus_pool
-            focus_spell
-            focus_cantrip
-            innate_spell
-            addrepertoire
-            addspellbook
-            divine_font
-            restricted_slots
-            restricted_spellbook
-          )
 
-          if value.is_a?(Hash) && value.keys.any? { |k| !stat_keys.include?(k.to_s) }
-            value.each_pair do |class_key, stats|
-              PF2Magic.update_magic(char, class_key, stats, client)
-            end
-          else
-            PF2Magic.update_magic(char, charclass, value, client)
-          end
-        when "action"
-          all_actions = char.pf2_actions
-          actions = all_actions['actions']
+      # What each draft key writes to the sheet is Advancement::Apply, a row per key. The writes are
+      # collected and saved once at the end rather than one attribute at a time.
+      Advancement::Apply.all(char, to_process,
+                             :charclass => char.pf2_base_info['charclass'],
+                             :client => client).each do |(key, args, kind)|
+        rendered = t(key, **(args || {}))
 
-          value.each do |item|
-            actions << item
-          end
-
-          all_actions['actions'] = actions.uniq.sort
-          char.pf2_actions = all_actions
-        when "reaction"
-          all_actions = char.pf2_actions
-          reactions = all_actions['reactions']
-
-          value.each do |item|
-            reactions << item
-          end
-
-          all_actions['reactions'] = reactions.uniq.sort
-          char.pf2_actions = all_actions
-        when "raise ability"
-          value.each do |ability|
-            Pf2eAbilities.update_base_score(char, ability)
-          end
-        when "languages"
-          char_languages = Array(char.pf2_lang)
-          char_languages.concat(Array(value))
-          char.pf2_lang = char_languages.uniq
-        when "raise skill"
-          Array(value).each do |skill_name|
-            next if skill_name.to_s.strip.empty?
-            next if open_skill_token?(skill_name)
-
-            skill = Pf2eSkills.find_skill(skill_name, char)
-            return nil if !skill
-
-            new_prof = Pf2eSkills.get_next_prof(char, skill_name)
-            skill.update(prof_level: new_prof)
-          end
-        when "raise skill choice"
-          Array(value).each do |skill_name|
-            next if skill_name.to_s.strip.empty?
-            next if open_skill_token?(skill_name)
-
-            skill = Pf2eSkills.find_skill(skill_name, char)
-            return nil if !skill
-
-            new_prof = Pf2eSkills.get_next_prof(char, skill_name)
-            skill.update(prof_level: new_prof)
-          end
-        when "feats"
-          char_feats = char.pf2_feats
-          value.each_pair do |type, feat_list|
-            char_feats[type] ||= []
-            char_feats[type].concat(feat_list)
-
-            feat_list.each do |feat_name|
-              feat_info = Pf2e.get_feat_details(feat_name)
-              next if feat_info.is_a?(String)
-
-              Pf2e.apply_init_magic_feat(char, feat_info[0], feat_info[1], client)
-            end
-          end
-          char.pf2_feats = char_feats
-        when "charclass_feature option"
-          value.each_pair do |feature, option|
-            features = char.pf2_features
-            features['charclass_features'] ||= []
-            feature_label = "#{feature} (#{option})"
-            features['charclass_features'] << feature_label unless features['charclass_features'].include?(feature_label)
-            char.pf2_features = features
-
-            case feature
-            when "Path to Perfection", "Second Path to Perfection", "Third Path to Perfection"
-              combat = char.combat
-              saves = combat.saves
-              path = saves['Path to Perfection'] || []
-
-              already_chosen = path.any? { |s| s.to_s.casecmp?(option.to_s) }
-
-              # Second must be a different save; Third must be one of the earlier two.
-              if feature == "Third Path to Perfection" && !already_chosen
-                client.emit_failure t('pf2e.path_perfection_needs_earlier', :option => option)
-                next
-              elsif feature != "Third Path to Perfection" && already_chosen
-                client.emit_failure t('pf2e.path_perfection_needs_new', :option => option)
-                next
-              end
-
-              rank = (feature == "Third Path to Perfection") ? 'legendary' : 'master'
-
-              path << option unless already_chosen
-
-              saves[option] = rank
-              saves['Path to Perfection'] = path
-
-              combat.update(saves: saves)
-            when "Fighter Weapon Mastery"
-              combat = Pf2eCombat.get_create_combat_obj(char)
-              group_profs = combat.weapon_group_prof || {}
-              group_profs[option] = {
-                'simple' => 'master',
-                'martial' => 'master',
-                'unarmed' => 'master',
-                'advanced' => 'expert'
-              }
-              combat.update(weapon_group_prof: group_profs)
-            when "Weapon Legend"
-              combat = Pf2eCombat.get_create_combat_obj(char)
-              profs = combat.weapon_prof || {}
-              profs['simple'] = Pf2e.higher_prof(profs['simple'], 'master')
-              profs['martial'] = Pf2e.higher_prof(profs['martial'], 'master')
-              profs['unarmed'] = Pf2e.higher_prof(profs['unarmed'], 'master')
-              profs['advanced'] = Pf2e.higher_prof(profs['advanced'], 'expert')
-              combat.update(weapon_prof: profs)
-
-              group_profs = combat.weapon_group_prof || {}
-              group_profs[option] = {
-                'simple' => 'legendary',
-                'martial' => 'legendary',
-                'unarmed' => 'legendary',
-                'advanced' => 'master'
-              }
-              combat.update(weapon_group_prof: group_profs)
-            when "Divine Ally"
-              # Divine Ally is recorded in charclass features; no extra automation yet.
-            else
-              client.emit_ooc t('pf2e.missing_charclass_option_code', :feature => feature)
-              next
-            end
-          end
-        when "spellbook"
-          magic = char.magic
-
-          csb = magic.spellbook
-          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
-            value
-          else
-            { charclass => value }
-          end
-
-          class_map.each_pair do |class_key, class_value|
-            class_csb = csb[class_key] || {}
-
-            if class_value.is_a?(Hash)
-              class_value.each_pair do |level, spells|
-                Array(spells).each do |spell|
-                  splist = class_csb[level.to_s] || []
-                  splist << spell
-                  class_csb[level.to_s] = splist
-                end
-              end
-            else
-              Array(class_value).each do |spell|
-                sp = Pf2emagic.get_spell_details(spell)
-                spdeets = sp[1]
-
-                level = spdeets['base_level'].to_s
-
-                splist = class_csb[level] || []
-                splist << spell
-                class_csb[level] = splist
-              end
-            end
-
-            csb[class_key] = class_csb
-          end
-
-          magic.update(spellbook: csb)
-        when "repertoire"
-          magic = char.magic
-          repertoire = magic.repertoire
-          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
-            value
-          else
-            { charclass => value }
-          end
-
-          class_map.each_pair do |class_key, class_value|
-            class_rep = repertoire[class_key] || {}
-
-            if class_value.is_a?(Hash)
-              class_value.each_pair do |level, spells|
-                splist = (Array(class_rep[level]) + Array(spells)).sort
-                class_rep[level] = splist
-              end
-            end
-
-            repertoire[class_key] = class_rep
-          end
-
-          magic.update(repertoire: repertoire)
-        when "signature"
-          magic = char.magic
-          signatures = magic.signature_spells || {}
-          class_map = if value.is_a?(Hash) && value.keys.any? { |k| !Pf2e.level_key?(k) }
-            value
-          else
-            { charclass => value }
-          end
-
-          class_map.each_pair do |class_key, class_value|
-            class_sigs = signatures[class_key] || {}
-
-            if class_value.is_a?(Hash)
-              class_value.each_pair do |level, spells|
-                chosen = Array(spells).reject { |s| s.to_s.strip.empty? || s.to_s.downcase == 'open' }
-                next if chosen.empty?
-
-                class_sigs[level] = chosen
-              end
-            end
-
-            signatures[class_key] = class_sigs
-          end
-
-          magic.update(signature_spells: signatures)
-        when "archetype_deity"
-          faith_info = char.pf2_faith
-          faith_info['deity'] = value
-          char.pf2_faith = faith_info
-        when "archetype_sanctification"
-          faith_info = char.pf2_faith
-          faith_info['sanctification'] = value
-          char.pf2_faith = faith_info
-
-          traits = char.pf2_traits.dup
-          traits.reject! { |tr| tr.casecmp?('holy') || tr.casecmp?('unholy') }
-          unless value.blank? || value.casecmp?('Unsanctified')
-            traits << value.downcase
-            traits = traits.uniq.sort
-          end
-          char.pf2_traits = traits
-        when "grants"
-          value.each_pair do |feat, info|
-            do_feat_grants(char, info, charclass, client)
-          end
-        when "innate"
-          # Innate spells are granted by the magic_stats entry that opened the slot, which records the
-          # chosen spell as its name. Older advancements that stashed the filled slots here too need
-          # no second pass.
-        when "repertoire_swap"
-          # Already applied during advance/spellswap; no additional work needed here.
-        else
-          client.emit_ooc "Unknown key #{key} in do_advancement. Please put in a request to code staff."
+        case kind
+        when :failure then client.emit_failure rendered
+        when :ooc then client.emit_ooc rendered
+        else client.emit rendered
         end
       end
 
@@ -714,193 +374,54 @@ module AresMUSH
       tracker[new_level.to_s] = (tracker[new_level.to_s] || {}).merge(entry)
       char.pf2_level_tracker = tracker
 
-      # Deduct the XP.
-      char.pf2_xp = char.pf2_xp - ADVANCEMENT_XP_COST
-
       # Update level.
       char.pf2_level = new_level
 
-      # Record everything and kick out of advancement mode.
-      char.pf2_to_assign = {}
-      char.pf2_advancement = {}
+      # Out of advancement mode, but the draft stays for one more step: the commit below diffs
+      # against it, and a feat handed over while applying this level's grants lands there.
       char.advancing = false
 
       char.save
 
-      # Snapshot the finished sheet so admin rollback can put them back here later.
-      Pf2e.capture_level_snapshot(char, new_level)
+      # The single commit point for a level-up: everything this advancement produced becomes
+      # one level_up transaction attributed to the level just gained, XP spend included.
+      Pf2e::Ledger.commit_level_up!(char, new_level)
+
+      # History now, so the draft goes.
+      char.update(:pf2_to_assign => {})
+      char.update(:pf2_advancement => {})
 
       return nil
     end
 
+    # What the review screen says is still outstanding, and the gate advance/done checks.
+    #
+    # Which picks are open is Advancement::Outstanding's table; this renders what it returns. One
+    # message needs the character to describe itself - the summary of what a feat's choice may be
+    # drawn from - so that lookup happens here rather than in the pure table.
     def self.advancement_messages(char)
-      # Handles messages related to advancement choices in the Messages section of the advance/review screen.
-      msg = []
+      # Only the draft and the config, not a folded sheet: this runs on every review screen and at
+      # every advance/done, and Outstanding reads nothing else.
+      state = CharState.build({ 'to_assign' => char.pf2_to_assign, 'advancement' => char.pf2_advancement })
 
-      to_assign = char.pf2_to_assign
+      msg = Advancement::Outstanding.messages(state).map do |(key, args)|
+        args = args.merge('summary' => choice_pending_summary(char, args['choice'])) if args.key?('choice')
 
-      to_assign.each_pair do |item, info|
-        case item
-        when "feats"
-          info.each_pair do |k,v|
-            msg << t('pf2e.adv_item_feat', :value => k.gsub("charclass", "class")) if v.include? "open"
-          end
-        when "class option", "charclass option"
-          if info.is_a?(Hash)
-            info.each_pair do |feature, options|
-              next unless options.is_a?(Array) || options.is_a?(Hash)
-
-              msg << t('pf2e.adv_item_class_option_select', :name => feature, :name_downcase => feature.to_s.downcase)
-            end
-          end
-        when "raise skill", "raise ability"
-          type = item.delete_prefix "raise "
-
-          # Info is blank if the item has not yet been selected.
-          has_open = if info.is_a?(Array)
-            info.any? { |entry| open_skill_token?(entry) }
-          else
-            open_skill_token?(info)
-          end
-
-          has_untrained_only = if type == "skill"
-            if info.is_a?(Array)
-              info.any? { |entry| untrained_only_token?(entry) }
-            else
-              untrained_only_token?(info)
-            end
-          else
-            false
-          end
-
-          untrained_only_count = if type == "skill"
-            if info.is_a?(Array)
-              info.count { |entry| untrained_only_token?(entry) }
-            else
-              untrained_only_token?(info) ? 1 : 0
-            end
-          else
-            0
-          end
-
-          if has_open
-            if type == "ability"
-              msg << t('pf2e.adv_item_raise_ability')
-            elsif !has_untrained_only
-              msg << t('pf2e.adv_item_raise', :item => type)
-            end
-          end
-
-          if has_untrained_only
-            if untrained_only_count > 1
-              msg << t('pf2e.adv_item_raise_untrained_skill_multiple', :count => untrained_only_count)
-            else
-              msg << t('pf2e.adv_item_raise_untrained_skill')
-            end
-          end
-        when "raise skill choice"
-          needs_choice = if info.is_a?(Array)
-            !info.empty?
-          else
-            info.to_s.downcase == 'open'
-          end
-
-          msg << t('pf2e.adv_item_skill_choice') if needs_choice
-        when "open languages"
-          open_count = if info.is_a?(Array)
-            info.count { |entry| entry.to_s.casecmp?('open') }
-          else
-            info.to_s.casecmp?('open') ? 1 : 0
-          end
-
-          if open_count.positive?
-            msg << t('pf2e.adv_item_language', :count => open_count)
-          end
-        when "spellbook", "repertoire", "innate"
-          needs_open = lambda do |value|
-            if value.is_a?(Hash)
-              value.values.any? { |sub| needs_open.call(sub) }
-            elsif value.is_a?(Array)
-              value.include?("open")
-            else
-              value.to_s.downcase == 'open'
-            end
-          end
-
-          if item == "innate"
-            msg << t('pf2e.adv_item_innate_spells') if needs_open.call(info)
-          elsif info.is_a?(Hash) && info.keys.any? { |k| !Pf2e.level_key?(k) }
-            info.each_pair do |class_key, value|
-              next unless needs_open.call(value)
-
-              if Pf2e.archetype_key?(class_key) && (item == "spellbook" || item == "repertoire")
-                locale_key = item == "spellbook" ? 'pf2e.adv_item_archetype_spellbook' : 'pf2e.adv_item_archetype_repertoire'
-                msg << t(locale_key, :archetype => class_key)
-              else
-                msg << t('pf2e.adv_item_spells', :options => item)
-              end
-            end
-          else
-            msg << t('pf2e.adv_item_spells', :options => item) if needs_open.call(info)
-          end
-        when "signature"
-          needs_signature = false
-          if info.is_a?(Hash)
-            if info.keys.any? { |k| !Pf2e.level_key?(k) }
-              needs_signature = info.values.any? do |v|
-                if v.is_a?(Hash)
-                  v.values.any? { |sub| sub.is_a?(Array) ? sub.include?("open") : sub.to_i > 0 }
-                else
-                  v.is_a?(Array) ? v.include?("open") : v.to_i > 0
-                end
-              end
-            else
-              needs_signature = info.values.any? do |v|
-                v.is_a?(Array) ? v.include?("open") : v.to_i > 0
-              end
-            end
-          end
-          msg << t('pf2e.adv_item_signaturespells') if needs_signature
-        when "archetype_specialty"
-          msg << t('pf2e.adv_item_archetype_specialty') if info == "open"
-          when "archetype specialty choice"
-            needs_choice = info.is_a?(Hash) && info.values.any? do |entry|
-              entry.is_a?(Hash) && entry['choice'].to_s.downcase == 'open'
-            end
-
-            msg << t('pf2e.adv_item_archetype_specialty_choice') if needs_choice
-        when "archetype key ability"
-          needs_choice = if info.is_a?(Array)
-            !info.empty?
-          else
-            info.to_s.downcase == 'open'
-          end
-
-          msg << t('pf2e.adv_item_archetype_key_ability') if needs_choice
-        when "archetype deity"
-          msg << t('pf2e.adv_item_archetype_deity') if info.to_s.downcase == 'open'
-        when "archetype_sanctification"
-          msg << t('pf2e.adv_item_archetype_sanctification') if info.to_s.downcase == 'open'
-        when "feat choice"
-          # Only the fact that a choice is outstanding, and where to see its options.
-          info.each_pair do |name, slots|
-            next unless Array(slots).include?('open')
-
-            block = Pf2e.find_choice_block(char, name)
-            summary = block ? Pf2e.choice_summary(block) : 'eligible option'
-
-            msg << t('pf2e.adv_item_feat_choice_pending', :summary => Pf2e.with_article(summary))
-          end
-        when "grants"
-          info.keys.each do |feat|
-            msg << t('pf2e.adv_item_grants', :feat => feat)
-          end
-        end
-
+        t(key, **args.reject { |k, _v| k == 'choice' }.transform_keys(&:to_sym))
       end
 
       return nil if msg.empty?
-      return msg
+
+      msg
+    end
+
+    # What a feat's open choice is drawn from, in words: "a skill", "a lore". Falls back to a
+    # neutral phrase for a choice whose block cannot be found, so the player is still told they
+    # owe a pick.
+    def self.choice_pending_summary(char, name)
+      block = find_choice_block(char, name)
+
+      with_article(block ? choice_summary(block) : 'eligible option')
     end
 
     def self.merge_combat_stats(existing_stats, added_stats)
@@ -950,28 +471,12 @@ module AresMUSH
       left_rank >= right_rank ? left.to_s.downcase : right.to_s.downcase
     end
 
+    # Kept for callers outside the advance/option path. The rule itself lives in
+    # Advancement::Options, so the gate and the apply side cannot drift apart again.
     def self.valid_class_option?(char, feature, option)
-      passes_check = true
+      saves = (char.combat && char.combat.saves) || {}
 
-      case feature
-      when "Path to Perfection"
-        valid_values = %w(fortitude reflex will)
-
-        return false unless valid_values.include? option
-
-        saves = char.combat.saves
-        path = saves['Path to Perfection'] || []
-
-        return true if path.empty?
-
-        if path.size == 1
-          passes_check = true unless path.include? option
-        else
-          passes_check = true if path.include? option
-        end
-      end
-
-      passes_check
+      Advancement::Options.allowed?({ 'saves' => saves }, feature, option)
     end
 
   end

@@ -44,6 +44,28 @@ pf2e_spells:
     target: 1 creature
     effect: "An ephemeral, taloned hand grips the target, burning it with magical acid. The target takes 2d8 acid damage plus 1d6 persistent acid damage depending on its Reflex save. A creature taking persistent damage from this spell takes a –10-foot status penalty to its Speeds.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage and no persistent damage, and the claw moves it up to 5 feet in a direction of your choice.%r**Failure** The creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice.%r**Critical Failure** The creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice."
     heighten: "**+2:** The initial damage increases by 2d8, and the persistent acid damage increases by 1d6."
+  Adapt Self:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - morph
+    actions: 2
+    duration: "1 minute"
+    effect: "You make subtle changes to your body to adapt to the situation. Choose one of the following options that applies to you.%r%r%t- If you are in water, you gain a swim Speed equal to half your Speed.%r%t- If you are in water, you become able to breathe water.%r%t- If it's too dark for you to see, you gain darkvision.%r%t- If you are in an environment of severe heat or severe cold, you are protected from the effects of severe heat or severe cold, and the spell lasts 10 minutes."
+  Adaptive Ablation:
+    base_level: 1
+    traits:
+      - cleric
+      - focus
+      - manipulate
+    actions: reaction
+    trigger: "You take acid, cold, electricity, fire, or sonic damage."
+    duration: "1 minute"
+    effect: "You shift yourself to adapt to the mystical wavelengths of the energy damage, protecting yourself from further harm. You gain resistance 5 to the triggering energy type; you gain this resistance after you take the triggering damage, so it applies only to future damage you take during the duration."
+    heighten: "**+2:** The resistance increases by 5."
   Aerial Form:
     base_level: 4
     traits:
@@ -1685,6 +1707,19 @@ pf2e_spells:
     target: 1 creature
     effect: "With a surge of healing energy, you push back against an affliction threatening the target and grant a small amount of healing. The target recovers 3d8 Hit Points.%r%rYou attempt to counteract any one affliction you are aware the target has, suspending its effects for 1 hour on a success rather than removing it.%r%rThe target is then temporarily immune to delay affliction for 1 day. You don't need to have identified the name of the specific affliction, but you do need to be aware of it; for instance, you couldn't delay an ingested poison during its onset period unless you were aware of the poison"
     heighten: "**+1:** The target recovers an additional 1d8 Hit Points, and you can attempt to suspend an additional affliction"
+  Delay Consequence:
+    base_level: 1
+    traits:
+      - cleric
+      - focus
+      - manipulate
+      - uncommon
+    actions: reaction
+    trigger: "A creature or object within range is hit by an attack."
+    range: "30 feet"
+    target: "the triggering creature or object"
+    duration: "1 round"
+    effect: "You transpose the moment that the target would be injured to a point later in its timestream. Roll damage normally, but do not reduce Hit Points or apply any other effects of the attack until the spell's duration has elapsed. When the spell ends, the target is immediately affected by the attack, taking damage and being affected by any additional effects. You can Dismiss this spell."
   Delusional Pride:
     base_level: 4
     traits:
@@ -2063,6 +2098,20 @@ pf2e_spells:
     duration: until the next time you make your daily preparations
     effect: "You take command of the target, forcing it to obey your orders. If you issue an obviously self-destructive order, the target doesn't act until you issue a new order. The effect depends on its Will save.%r%r**Critical Success** The target is unaffected.%r**Success** The target is stunned 1 as it fights off your commands.%r**Failure** You control the target. It gains the controlled condition, but it can attempt a Will save at the end of each of its turns. On a success, the spell ends.%r**Critical Failure** As a failure, but the target receives a new save only if you give it a new order that is against its nature, such as killing its allies."
     heighten: "**10th:** The duration is unlimited."
+  Door to Beyond:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    area: 20-foot emanation
+    range: "5 feet"
+    duration: "1 minute"
+    effect: "Striking at thin air, you create hairline cracks in an unoccupied adjacent space that lead somewhere outside reality. Air rushes through the cracks, drawing Large or smaller creatures and objects of light Bulk or less toward the center. Large or smaller creatures in the area must attempt a Fortitude save at the start of their turn; creatures that move into the area must attempt the save upon entering.%r%rThe cracks of the door to beyond are too thin for anything to fully slip through, but decompressive effects deal 4d6 slashing damage to any creature or object that ends its turn adjacent to the door. You are unaffected by your own door to beyond. You can Dismiss the spell.%r%r**Success** The creature is unaffected.%r**Failure** The creature is pulled 10 feet toward the door.%r**Critical Failure** The creature is pulled 20 feet toward the door."
+    heighten: "**+1:** The damage increases by 1d6."
   Downpour:
     base_level: 4
     traits:
@@ -2078,6 +2127,18 @@ pf2e_spells:
     duration: 1 minute
     effect: You call forth a torrential downpour, which extinguishes non-magical flames. Creatures in the area are concealed and gain fire resistance 10. Creatures outside the area are Concealed to those inside the area. If a creature with weakness to water ends its turn in the area, the downpour triggers its weakness.
     heighten: "**+1:** The fire resistance increases by 2."
+  Draconic Barrage:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    duration: "1 minute"
+    effect: "You shape energy into a small group of tiny dragons (or other serpentine creatures) that flit around you. Choose fire, force, mental, or spirit damage when you Cast the Spell. For the duration of the spell, your Strikes with weapons or unarmed attacks deal 1 additional damage of the chosen type, as the dragons add their energy to your attacks. You can Sustain the spell to change the damage type.%r%rIn addition, you can Sustain the spell to have the dragons fly off to bombard a creature within 60 feet. That creature takes 2d4 damage of the chosen type (basic Reflex save). Once the dragons have been used in this way, they wink out of existence and the spell ends."
+    heighten: "**+1:** The additional amount of damage from the dragons increases by 1 and the damage dealt by the dragons' bombardment increases by 2d4."
   Dragon Breath:
     base_level: 3
     bloodline:
@@ -2270,6 +2331,20 @@ pf2e_spells:
     duration: 1 minute
     effect: "You create a temporary duplicate of an enemy to fight on your behalf. The target can attempt a Fortitude save to disrupt the spell. The duplicate appears in an unoccupied space adjacent to the target and has the target's attack modifier, AC, saving throw modifiers, Perception, and skill modifiers, but it has only 70 Hit Points and lacks the target's special abilities, including immunities, resistances, and weaknesses. It has no magic items except weapon potency runes.%r%rThe duplicate gains the minion trait, and it can only Stride and Strike. Its Strikes deal the target's normal damage but don't apply added effects, since it doesn't have special abilities. The spell automatically ends if the duplicate's Hit Points drop to 0.%r%rThe duplicate attacks your enemies to the best of its abilities. You can also try to give it additional instructions; when you Sustain the spell, you can also Command a Minion as part of your action, but the GM determines whether the duplicate follows your command.%r%rThe duplicate is unstable, so each turn after it takes its actions, it loses 4d6 Hit Points. It's not a living creature, and it can never regain its lost Hit Points in any way.%r%r**Critical Success** You fail to create a duplicate.%r**Success** The duplicate deals half damage with its Strikes and the duration is reduced to a maximum of 2 rounds.%r**Failure** The duplicate works as described."
     heighten: "**+1:** The level of creature you can target increases by 2. The duplicate has 10 more HP."
+  Dutiful Challenge:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    range: "30 feet"
+    target: "1 creature"
+    duration: "1 minute"
+    effect: "As you challenge an enemy, you take some of its attention away from your allies. The target takes a -1 status penalty to attack rolls, damage rolls, and skill checks against creatures other than you, and you take a -1 status penalty to attack rolls, damage rolls, and skill checks against creatures other than the target.%r%rEach time a creature other than you uses a hostile action that affects the challenged enemy, the enemy can attempt a Will save. On a success, the enemy no longer takes the penalty against that creature. You can Dismiss the spell, and it ends automatically if you or the target is defeated."
+    heighten: "**+3:** The status penalties increase by 1."
   Déjà Vu:
     base_level: 1
     traits:
@@ -2347,6 +2422,33 @@ pf2e_spells:
     range: 500 feet
     effect: "A globe of freezing darkness explodes in the area, dealing 8d10 cold damage to creatures in the area, plus an additional 8d4 void damage to living creatures. Each creature in the area must attempt a Reflex save.%r%rIf the globe overlaps with an area of magical light or affects a creature affected by magical light, eclipse burst attempts to counteract the light effect.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes half damage.%r**Failure** The creature takes full damage.%r**Critical Failure** The creature takes double damage and becomes blinded by the darkness for an unlimited duration."
     heighten: "**+1:** The cold damage increases by 1d10 and the void damage against the living increases by 1d4."
+  Ectoplasmic Interstice:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - uncommon
+    actions: 2
+    area: 15-foot burst
+    range: "30 feet"
+    duration: "1 minute"
+    effect: "You force the mortal Universe and Ethereal Planes to partially merge, creating a zone that causes incorporeal and spiritual entities to take on many of the aspects of corporeal creatures. Within the area of effect, incorporeal creatures can't pass through solid objects or corporeal creatures, and they can manipulate and attempt Strength-based checks against physical creatures and objects. An incorporeal PC or other creature with a normal Strength modifier simply uses that modifier, but if the creature had a Strength modifier of –5, like most incorporeal monsters, it uses a +4 modifier instead, increasing its Athletics modifier by 9 accordingly. Attacks against creatures that are within the area overcome resistances as if they were by ghost touch weapons."
+  Eject Soul:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - incapacitation
+      - manipulate
+      - uncommon
+    actions: 2
+    range: "touch"
+    target: "1 living creature that has a soul"
+    effect: "Your touch disrupts the connection between body and soul, possibly forcing the soul out of the body altogether. The target must attempt a Fortitude save. You can allow allies to choose the degree of success instead of rolling a saving throw.%r%r**Success** The target is unaffected.%r**Failure** The target is stunned 1 as its soul briefly loses its connection to their body.%r**Critical Failure** The target's soul exits its body and the target's body becomes stunned for 1 round. While their body is stunned in this way, the target remains fully aware in soul form; they simply can't consciously move their body (though the body makes basic instinctual defensive movements). The target's soul has the incorporeal trait, is invisible, and has a fly Speed of 60 feet. It can't attack, cast spells, or attempt any skill checks that require a physical body, and it must always maintain line of effect to the target's body. When the target's body ceases being stunned, the target's soul instantly returns to their body as the target wakes."
+    heighten: "**+3:** If a willing ally chooses to critically fail, they can stay in soul form for 1 additional round."
   Electric Arc:
     base_level: cantrip
     mystery:
@@ -2476,6 +2578,17 @@ pf2e_spells:
     duration: 1 minute
     effect: Devil horns grow from your skull, and your skin takes on features of the devil responsible for your diabolic bloodline. You gain resistance 5 to fire and poison, and resistance 1 to physical damage (except silver).
     heighten: "**+2:** The resistance to fire and poison increase by 5, and the resistance to physical damage (except silver) by 2."
+  Empty Inside:
+    base_level: 1
+    traits:
+      - cleric
+      - concentrate
+      - focus
+      - mental
+      - uncommon
+    actions: 1
+    effect: "You inject a sliver of the void into your mind, momentarily remaking it into a bleak and empty place. Attempt a counteract check against one emotion effect affecting you."
+    heighten: "**5th:** You can attempt counteract checks against any number of emotion effects affecting you."
   Enduring Might:
     base_level: 4
     traits:

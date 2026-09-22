@@ -22,7 +22,7 @@ module AresMUSH
         match = feat_list.select { |k,v| k.upcase == self.featname }
 
         if match.empty?
-          client.emit_failure t('pf2e.nothing_to_display', :elements => "feats")
+          client.emit_failure Pf2e.bad_feat_message(self.feat_displayname)
           return
         end
 

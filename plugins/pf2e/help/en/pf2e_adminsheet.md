@@ -17,7 +17,8 @@ Game admins and those they designate can make some modifications to characters' 
 **Key**:
 `<character>`: The character's name.
 `<ability name>`: The name of the ability. For example, Charisma.
-`<ability score>`: The number to set the score to.
+`<ability score>`: The number to set the score to. Attribute boosts the character earns at later
+levels still apply on top of it, so setting a score at 1st level does not freeze it.
 
 ### Setting character features
 **Command**:
@@ -34,12 +35,38 @@ Game admins and those they designate can make some modifications to characters' 
 
 **Key**:
 `<character>`: The character's name.
-`<skill name>`: The name of the skill to train.
+`<skill name>`: The name of the skill to train, or a lore ending in `Lore`.
 `<proficiency level>`: `untrained`, `trained`, `expert`, `master`, `legendary`
 
 ### Changing feats
 Feats cannot be set directly. To change a character's feats, use `admin/rollback` to send them back to the level where the
 choice was made and let them redo it, or `admin/respec` to let them rebuild the character from scratch while keeping their XP.
+
+### Rolling a character back to an earlier level
+**Command**:
+`admin/rollback <character> = <level>`
+`admin/unrollback <character>`
+
+`admin/rollback` puts a character back to just before the level you name, so they can make
+that level's choices again with `advance`. Everything they chose at that level and above is
+set aside, the XP those levels cost is refunded, and they are told in-game if they are
+connected.
+
+Nothing is thrown away. `admin/unrollback` undoes the last rollback on that character and
+puts the choices back exactly as they were, which is the command to reach for if you rolled
+back the wrong person or the wrong level.
+
+Two things a rollback deliberately leaves alone:
+- **Boons** granted outside the level ladder. One that takes effect at a level the character
+  no longer has goes quiet until they level back up to it; one granted with no level at all
+  is never touched.
+- **A character part-way through an advancement.** They have to finish it with
+  `advance/done` or abandon it with `advance/reset` first, or their in-progress choices
+  would be lost.
+
+**Key**:
+`<character>`: The character's name.
+`<level>`: The level to send them back to redo. Must be 2 or higher.
 
 ### Setting alignment and deity
 **Command**:

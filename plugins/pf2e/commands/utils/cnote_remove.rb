@@ -40,24 +40,13 @@ module AresMUSH
           return
         end
 
-        # This time, I need to make sure that the notename in question exists and is unique.
+        before = Pf2e::CharState.of(char)
+        outcome = Pf2e::CharacterService.call(before, :unset_record, 'record' => 'cnote', 'key' => self.notename)
 
-        cnotes = char.pf2_cnotes
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        note_list = cnotes.keys.select { |note| note.downcase == self.notename }
-
-        unless note_list.size == 1
-          client.emit_failure t('pf2e.not_unique')
-          return
-        end
-
-        note = note_list.first
-
-        cnotes.delete(note)
-
-        char.update(pf2_cnotes: cnotes)
-
-        client.emit_success t('pf2e.cnote_removed', :name => note, :char => char.name)
+        Pf2e::CharState.commit!(char, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
 
       end
     end

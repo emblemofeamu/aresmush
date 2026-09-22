@@ -23,7 +23,7 @@ module AresMUSH
       end
 
       def spells_per_day
-        @char.magic.spells_per_day
+        Pf2emagic::Entries.slots_by_source(@char.magic)
       end
 
       def help_text

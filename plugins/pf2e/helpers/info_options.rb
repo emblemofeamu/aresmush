@@ -9,6 +9,36 @@ module AresMUSH
     # Entries per page once paging kicks in. Two columns, so this is 20 rows.
     INFO_PAGE_SIZE = 40
 
+    # The feat slot types this level still has something open in.
+    #
+    # `advance/info <type>` lists the feats eligible for one type, but only to a player who already
+    # knows the vocabulary. This is how one command can answer "what can I take now" without the
+    # player being told the words first. Archetype slots nest a level deeper, keyed by archetype.
+    # `<element>=<filter>`, with either half allowed to be missing. The element may itself hold
+    # spaces, and only the first `=` separates the two.
+    def self.split_info_filter(args)
+      element, _, filter = args.to_s.partition('=')
+      element = element.strip
+      filter = filter.strip
+
+      [ element.empty? ? nil : element, filter.empty? ? nil : filter ]
+    end
+
+    def self.open_feat_slot_types(char)
+      pool = (char.pf2_to_assign || {})['feats']
+
+      return [] unless pool.is_a?(Hash)
+
+      pool.select { |_type, slots| any_open_slot?(slots) }.keys.sort
+    end
+
+    def self.any_open_slot?(slots)
+      return slots.values.any? { |sub| any_open_slot?(sub) } if slots.is_a?(Hash)
+      return slots.any? { |slot| any_open_slot?(slot) } if slots.is_a?(Array)
+
+      slots.to_s.casecmp?('open')
+    end
+
     def self.info_options(char, element)
       return nil if element.blank?
 
@@ -33,10 +63,19 @@ module AresMUSH
       nil
     end
 
-    def self.info_option_display(title, options, page)
+    # `filter` narrows the pool by substring before paging. A pool of two hundred lores is six
+    # pages, which is barely more use to a player than the refusal that sent them here.
+    def self.info_option_display(title, options, page, filter = nil)
       options = Array(options).compact
 
       return { :error => t('pf2e.info_no_options', :element => title) } if options.empty?
+
+      unless filter.to_s.strip.empty?
+        wanted = filter.to_s.strip.downcase
+        options = options.select { |option| option.to_s.downcase.include?(wanted) }
+
+        return { :error => t('pf2e.info_no_match', :element => title, :filter => filter.to_s.strip) } if options.empty?
+      end
 
       if options.size <= INFO_PAGINATE_LIMIT
         return { :text => t('pf2e.cg_info', :element => title, :options => options.join(", ")) }

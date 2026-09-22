@@ -3,6 +3,40 @@ $:.unshift File.dirname(__FILE__)
 module AresMUSH
   module Pf2e
 
+    # Makes a command's work one step of a draft, so a player can take it back.
+    #
+    #   class PF2SetChargenCmd
+    #     include CommandHandler
+    #     prepend Pf2e::RecordsDraftStep
+    #
+    # Prepended, so the journal wraps the command's own `handle` and the command has nothing to
+    # call. Every command that can change a drafting character declares itself this way; one that
+    # forgets is caught by `DraftJournal.stale?`, which refuses an undo rather than restoring a
+    # shape from before a change nobody recorded.
+    #
+    # It lives in this file because a command prepends it while its class body is being read, and
+    # the plugin loader reads this file before the command directories.
+    module RecordsDraftStep
+
+      def handle
+        subject = journal_subject
+
+        return super unless subject
+
+        DraftJournal.step!(subject, cmd.raw.to_s.split('=').first.to_s.strip) { super }
+      end
+
+      # Whose draft this command changes. Their own, unless the command defines `draft_subject` -
+      # a staff command changes the character it names, and journaling the staff member's draft
+      # instead would record nothing and leave the target's journal behind the character.
+      #
+      # Asked for by a different name than the command answers to, because a prepended module's
+      # method wins over the class's: a default here would shadow the command's own.
+      def journal_subject
+        respond_to?(:draft_subject, true) ? draft_subject : enactor
+      end
+    end
+
     def self.plugin_dir
       File.dirname(__FILE__)
     end
@@ -56,7 +90,9 @@ module AresMUSH
         when "feat"
           return PF2FeatSetCmd
         when "option"
-          return PF2ChargenOptionCmd
+          return PF2ChoiceOptionCmd
+        when "undo", "redo"
+          return PF2DraftUndoCmd
         end
       when "roll"
         case cmd.switch
@@ -153,6 +189,8 @@ module AresMUSH
           return PF2AdminRespecCmd
         when "rollback"
           return PF2AdminRollbackCmd
+        when "unrollback"
+          return PF2AdminRollbackRedoCmd
         end
       when "advance"
         if cmd.switch&.start_with?("language=")
@@ -170,12 +208,14 @@ module AresMUSH
           return PF2AdvanceResetCmd
         when "feat"
           return PF2AdvanceFeatCmd
+        when "feats"
+          return PF2AdvanceFeatsCmd
         when "spell"
           return PF2AdvanceSpellCmd
         when "swapspell"
           return PF2AdvanceSwapSpellCmd
         when "option"
-          return PF2AdvanceOptionCmd
+          return PF2ChoiceOptionCmd
         when "info"
           return PF2AdvanceInfoCmd
         when "archetype"
@@ -184,6 +224,8 @@ module AresMUSH
           return PF2AdvanceLanguageCmd
         when "done"
           return PF2AdvanceFinishCmd
+        when "undo", "redo"
+          return PF2DraftUndoCmd
         end
       when "listxp"
         return PF2ListXPCmd

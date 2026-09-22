@@ -16,43 +16,48 @@ module AresMUSH
         if enactor.is_admin?
           client.emit_ooc t('pf2e.admin_no_sheet')
           return
-        elsif !(cmd.args)
-          permissions = enactor.pf2_viewsheet
-          template = PF2SheetPermissions.new(permissions)
+        end
 
-          client.emit template.render
+        if !cmd.args
+          client.emit PF2SheetPermissions.new(enactor.pf2_viewsheet).render
           return
         end
 
-        char = ClassTargetFinder.find(self.target, Character, enactor)
+        # `find` hands back a FindResult, not a character: `target`, `error` and `found?` are its
+        # whole interface.
+        found = ClassTargetFinder.find(self.target, Character, enactor)
 
-        if char.error
-          client.emit_failure t('pf2e.ambiguous_target')
+        if !found.found?
+          # The finder's own message distinguishes an unknown name from an ambiguous one.
+          client.emit_failure found.error
           return
-        elsif char.is_admin?
+        end
+
+        char = found.target
+
+        if char.is_admin?
           client.emit_failure t('pf2e.admin_no_sheet')
           return
         end
 
-        valid_sections = %w{all info ability skills feats combat features languages magic}
+        # You can only share a section you have, read from the same table both display commands
+        # use.
+        outcome = Pf2e::Sheet.available(enactor, self.section)
 
-        if !(valid_sections.include? self.section)
-          client.emit_failure t('pf2e.bad_section', :section => self.section)
-          return
-        end
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        permissions = enactor.pf2_viewsheet
-        section_perm = permissions[self.section]
+        section = outcome.state
 
-        if section_perm
-          permissions[self.section] << char
-        else
-          permissions[self.section] = [ char ]
-        end
+        # A name, not a character object: this is a hash attribute, and what reads it needs
+        # something it can print and compare.
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :add_record,
+          'record' => 'viewsheet', 'key' => section, 'value' => char.name)
 
-        enactor.update(pf2_viewsheet: permissions)
+        return if Pf2e::CharState.emit_error!(client, outcome)
 
-        client.emit_success t('pf2e.player_added', :player => char.name, :section => self.section)
+        Pf2e::CharState.commit!(enactor, before, outcome)
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

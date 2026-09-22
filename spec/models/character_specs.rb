@@ -118,33 +118,37 @@ module AresMUSH
     
     end
     
+    # Emblem of Ea deliberately dropped handle display from ooc_name (see
+    # Character#ooc_name), so a handle must never leak into the OOC name the way
+    # it does upstream.  These examples pin that choice rather than inheriting
+    # upstream's "Name (@Handle)" expectations.
     describe :ooc_name do
       before do
         @char = Character.new(name: "Bob")
         @handle = Handle.new(name: "Star")
       end
-      
+
       it "should display the name by itself" do
         expect(@char.ooc_name).to eq "Bob"
       end
-      
 
-      it "should display a char with a public handle" do
+
+      it "should not display the handle of a char with a public handle" do
         allow(@char).to receive(:handle) {@handle}
-        expect(@char.ooc_name).to eq "Bob (@Star)"
+        expect(@char.ooc_name).to eq "Bob"
       end
-      
-      it "should display a char with a public handle and alias" do
+
+      it "should ignore the alias of a char with a public handle" do
         allow(@char).to receive(:handle) {@handle}
         @char.alias = "B"
-        expect(@char.ooc_name).to eq "Bob (@Star)"
+        expect(@char.ooc_name).to eq "Bob"
       end
-      
-      it "should display public handle matching name" do
+
+      it "should not repeat a handle that matches the name" do
         allow(@char).to receive(:handle) {@handle}
         @char.name = "Star"
         @char.alias = "B"
-        expect(@char.ooc_name).to eq "Star (@Star)"
+        expect(@char.ooc_name).to eq "Star"
       end
     end
      

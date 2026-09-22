@@ -82,7 +82,7 @@ module AresMUSH
           return
         end
 
-        csb = char.magic.spellbook
+        csb = Pf2emagic::Entries.known_by_source(char.magic, 'prepared')
 
         # Cut the music if there is nothing in the spellbook at all.
         if csb.empty?

@@ -32,26 +32,11 @@ module AresMUSH
       end
 
       def handle
+        found = Pf2egear::Inventory.item(enactor, self.category, self.item_num)
 
-        case self.category
-        when "weapon", "weapons"
-          item_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-        when "armor"
-          item_list = Pf2egear.items_in_inventory(enactor.armor.to_a)
-        when "shield", "shields"
-          item_list = Pf2egear.items_in_inventory(enactor.shields.to_a)
-        when "bags", "bag"
-          item_list = enactor.bags.to_a
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        # Does item_num exist in category?
-
-        item = item_list[self.item_num]
-
-        if !item
-          client.emit_failure t('pf2egear.not_found')
-          return
-        end
+        item = found.state
 
         # Give the item its nickname.
         item.update(nickname: self.nickname)

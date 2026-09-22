@@ -3,6 +3,52 @@ module AresMUSH
 
     # p can be passed to this method as nil
     #
+    # Whether a list of traits holds one, however it was written.
+    #
+    # The weapon catalogue writes them Title Case with parenthesised parameters (`Deadly (d8)`),
+    # chargen writes an unarmed attack's lowercase, and a few are slugs. A reader that compares with
+    # `include?` answers no for half the game's data.
+    def self.has_trait?(traits, wanted)
+      Array(traits).any? { |trait| trait.to_s.strip.casecmp?(wanted.to_s.strip) }
+    end
+
+    # Files a language in the draft, which is where a pick and a grant both go.
+    #
+    # `pf2_lang` is what the materialiser writes from the fold, and during a level-up it is the
+    # levels already committed. A language written straight there is not part of the draft, so
+    # `advance/reset` cannot take it back - which is how an abandoned advancement used to leave the
+    # character a free language.
+    def self.record_language(char, language)
+      draft = char.pf2_advancement || {}
+      held = Array(draft['languages'])
+
+      return if held.any? { |l| l.to_s.casecmp?(language.to_s) }
+
+      draft['languages'] = held + [ language ]
+
+      char.update(:pf2_advancement => draft)
+    end
+
+    # Takes a language out of wherever it is held. Both stores, because a draft holds what has been
+    # picked and the sheet holds what a fold has already written.
+    def self.forget_language(char, language)
+      draft = char.pf2_advancement || {}
+      draft['languages'] = Array(draft['languages']).reject { |l| l.to_s.casecmp?(language.to_s) }
+
+      char.update(:pf2_advancement => draft)
+      char.update(:pf2_lang => Array(char.pf2_lang).reject { |l| l.to_s.casecmp?(language.to_s) })
+    end
+
+    # Is this character in chargen at all?
+    #
+    # `cg/start` sets chargen_stage to 0, which is page zero of the walkthrough and means they
+    # have started. Testing `.zero?` read that as "not started", so the command the error told
+    # them to run put them in the state the error complained about, and the only way forward was
+    # cg/next. The base chargen plugin has always tested for nil; this matches it.
+    def self.in_chargen?(char)
+      !char.chargen_stage.nil?
+    end
+
     def self.get_prof_bonus(char, p="untrained")
       p = "untrained" unless p
       level = (p == "untrained") ? 0 : char.pf2_level
@@ -24,80 +70,123 @@ module AresMUSH
       [ level - step, 0 ].max
     end
 
-    def self.get_linked_attr_mod(char, value, type=nil)
-      attr_type = type.is_a?(String) ? type.downcase : type
+    # The six abilities, and every word that names one: the full name and the three-letter
+    # shorthand players actually type.
+    ABILITIES = %w(Strength Dexterity Constitution Intelligence Wisdom Charisma).freeze
 
-      case attr_type
-      when 'skill'
-        skill_mod = Pf2eSkills.get_linked_attr(value)
-        return Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, skill_mod))
-      when 'lore'
-        return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Intelligence')
-      when nil
-        case value.downcase
-        when 'fort', 'fortitude'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Constitution')
-        when 'ref', 'reflex', 'ranged', 'finesse'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Dexterity')
-        when 'will', 'perception'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Wisdom')
-        when 'melee'
-          return Pf2eAbilities.abilmod(Pf2eAbilities.get_score char, 'Strength')
-        end
-      end
+    ABILITY_BY_WORD = ABILITIES.each_with_object({}) { |ability, words|
+      words[ability.downcase] = ability
+      words[ability[0, 3].downcase] = ability
+    }.freeze
+
+    # The ability a save, an attack kind or perception is rolled off. PF2e fixes all of these, so
+    # this is a register to look things up in.
+    LINKED_ABILITY = {
+      'fort' => 'Constitution', 'fortitude' => 'Constitution',
+      'ref' => 'Dexterity', 'reflex' => 'Dexterity', 'ranged' => 'Dexterity', 'finesse' => 'Dexterity',
+      'will' => 'Wisdom', 'perception' => 'Wisdom',
+      'melee' => 'Strength'
+    }.freeze
+
+    SAVES = %w(will fort fortitude ref reflex).freeze
+
+    # An attack keyword names which ability the attack uses. The bonus comes from the weapon, so the
+    # keyword itself adds nothing to a roll.
+    ATTACK_KINDS = %w(melee ranged unarmed finesse).freeze
+
+    # The ability modifier behind a value, for a roll that looks one up instead of adding it. `type`
+    # says how to read `value`: a skill's linked ability, a lore's Intelligence, or, when no type is
+    # given, a save or attack keyword.
+    def self.get_linked_attr_mod(char, value, type=nil)
+      ability = case type.to_s.downcase
+                when 'skill' then Pf2eSkills.get_linked_attr(value)
+                when 'lore'  then 'Intelligence'
+                when ''      then LINKED_ABILITY[value.to_s.downcase]
+                end
+
+      return nil unless ability
+
+      ability_mod(char, ability)
     end
 
+    def self.ability_mod(char, ability)
+      Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, ability))
+    end
+
+    # A word in a roll string, and how to turn it into a number.
+    #
+    # Rows are tried in order and the last one matches anything, so a word this does not recognise
+    # is looked up as a skill and otherwise contributes nothing. Adding a keyword is adding a row.
+    #
+    # A row may return an array of individual dice, which `parse_roll_string` shows in brackets
+    # and flattens into the total. Sneak attack does; that is deliberate.
+    KEYWORDS = [
+      {
+        'name' => 'shenanigans',
+        'match' => lambda { |word| word == 'shenanigans' },
+        'value' => lambda { |_char, _word| Pf2e.shenanigans }
+      },
+      {
+        'name' => 'save',
+        'match' => lambda { |word| SAVES.include?(word) },
+        'value' => lambda { |char, word| Pf2eCombat.get_save_bonus(char, word) }
+      },
+      {
+        'name' => 'perception',
+        'match' => lambda { |word| word == 'perception' },
+        'value' => lambda { |char, _word| Pf2eCombat.get_perception(char) }
+      },
+      {
+        'name' => 'attack',
+        'match' => lambda { |word| ATTACK_KINDS.include?(word) },
+        'value' => lambda { |_char, _word| 0 }
+      },
+      {
+        'name' => 'ability',
+        'match' => lambda { |word| ABILITY_BY_WORD.key?(word) },
+        'value' => lambda { |char, word| Pf2e.ability_mod(char, ABILITY_BY_WORD[word]) }
+      },
+      {
+        'name' => 'sneak attack',
+        'match' => lambda { |word| word == 'sneak attack' },
+        'value' => lambda { |char, _word| Pf2e.sneak_attack_dice(char) }
+      },
+      {
+        'name' => 'skill',
+        'match' => lambda { |_word| true },
+        'value' => lambda { |char, word| Pf2e.skill_keyword_bonus(char, word) }
+      }
+    ].freeze
+
     def self.get_keyword_value(char, word)
-      downcase_word = word.downcase
+      downcased = word.to_s.downcase
+      keyword = KEYWORDS.find { |k| k['match'].call(downcased) }
 
-      # Word could be many things - figure out which
-      case downcase_word
-      when 'shenanigans'
-        t = Time.now
-        sides = [ 2, 3, 4, 6, 8, 10, 12, 20, 30, 100, 1000 ].sample
-        amount = rand(1..50)
+      keyword['value'].call(char, downcased)
+    end
 
-        die_roll = Pf2e.roll_dice(amount, sides).sum
-        value = t.to_i.odd? ? die_roll : -die_roll
-      when 'will', 'fort', 'fortitude', 'ref', 'reflex'
-        value = Pf2eCombat.get_save_bonus(char, downcase_word)
+    # A joke roll: some number of some die, as often negative as not.
+    def self.shenanigans
+      sides = [ 2, 3, 4, 6, 8, 10, 12, 20, 30, 100, 1000 ].sample
+      roll = Pf2e.roll_dice(rand(1..50), sides).sum
 
-      when 'melee', 'ranged', 'unarmed', 'finesse' then 0
+      Time.now.to_i.odd? ? roll : -roll
+    end
 
-      when 'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'
-        value = Pf2eAbilities.abilmod Pf2eAbilities.get_score(char, word)
+    def self.sneak_attack_dice(char)
+      dice = char.combat&.sneak_attack
+      return 0 if !dice
 
-      when 'str', 'dex', 'con', 'int', 'wis', 'cha'
-        shortname = word.upcase
-        obj = char.abilities.select { |a| a.shortname == shortname }
-        return 0 if !obj
-        value = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, obj.name))
+      amount, sides = dice.gsub("d", " ").split
 
-      when 'sneak attack'
-        sa_dice = char.combat&.sneak_attack
+      Pf2e.roll_dice(amount.to_i, sides.to_i)
+    end
 
-        return 0 if !sa_dice
+    def self.skill_keyword_bonus(char, word)
+      name = word.capitalize
+      return 0 unless Global.read_config('pf2e_skills').keys.include?(name)
 
-        dice = sa_dice.gsub("d"," ").split
-        amount = dice[0].to_i
-        sides = dice[1].to_i
-
-        value = Pf2e.roll_dice(amount, sides)
-
-      when 'perception'
-        value = Pf2eCombat.get_perception(char)
-      else
-
-        title_word = downcase_word.capitalize
-        skills = Global.read_config('pf2e_skills').keys
-        if skills.include?(title_word)
-          value = Pf2eSkills.get_skill_bonus(char, title_word) + Pf2egear.bonus_from_item(char, title_word)
-        else
-          value = 0
-        end
-
-        value
-      end
+      Pf2eSkills.get_skill_bonus(char, name) + Pf2egear.bonus_from_item(char, name)
     end
 
     def self.roll_dice(amount=1, sides=20)
@@ -217,35 +306,12 @@ module AresMUSH
       text =~ /\A[aeiou8]/i ? "an #{text}" : "a #{text}"
     end
 
-    def self.award_xp(target, amount)
-      xp = target.pf2_xp + amount
-      target.update(pf2_xp: xp)
-    end
-
-    def self.record_history(char, record_type, awarded_by, amount, reason)
-      new_record = {
-        'from' => awarded_by,
-        'amount' => amount,
-        'reason' => reason.slice(0,60)
-      }
-      timestamp = Time.now
-
-      full_list = char.pf2_award_history
-      type_list = full_list[record_type]
-      type_list[timestamp] = new_record
-      full_list[record_type] = type_list
-      char.update(pf2_award_history: full_list)
-    end
-
-    def self.record_xp_history(char, awarded_by, amount, reason)
-      timestamp = Time.now.to_i
-
-      xp_history = char.pf2_xp_history
-
-      # History is displayed in reverse chrono, so prepending makes more sense
-      xp_history.unshift [ timestamp, awarded_by, amount, reason ]
-
-      char.update(pf2_xp_history: xp_history)
+    # The one door for moving a character's XP, in either direction. Negative spends.
+    #
+    # It records the transaction and moves the running total together, so there is no separate
+    # history call for a caller to forget.
+    def self.award_xp(target, amount, awarded_by = 'System', reason = nil, ref = nil)
+      Pf2e::Audit.post(target, 'xp', amount, :by => awarded_by, :reason => reason, :ref => ref)
     end
 
     def self.is_proficient?(char, category, name)
@@ -289,127 +355,100 @@ module AresMUSH
       return nil
     end
 
+    # A blank sheet, attribute by attribute. Both ways of starting a character over write this;
+    # which of them is running decides only what is *kept*, so there is one list of what a blank
+    # character looks like rather than two that drift apart.
+    BLANK_SHEET = {
+      :chargen_stage => 0,
+      :pf2_baseinfo_locked => false,
+      :pf2_abilities_locked => false,
+      :pf2_skills_locked => false,
+      :pf2_checkpoint => 'start',
+      :pf2_reset => false,
+      :pf2_base_info => { 'ancestry' => '', 'heritage' => '', 'background' => '', 'charclass' => '', 'specialize' => '' },
+      :pf2_archetypeinfo => {
+        'archetype1' => '', 'archetype2' => '', 'archetype3' => '', 'archetype4' => '',
+        'archetype_specialty1' => '', 'archetype_specialty2' => '', 'archetype_specialty3' => '', 'archetype_specialty4' => '',
+        'archetype_specialty_choice1' => '', 'archetype_specialty_choice2' => '',
+        'archetype_specialty_choice3' => '', 'archetype_specialty_choice4' => ''
+      },
+      :pf2_conditions => {},
+      :pf2_features => { 'charclass_features' => [], 'archetype_features' => [] },
+      :pf2_traits => [],
+      :pf2_feats => { 'ancestry' => [], 'charclass' => [], 'skill' => [], 'general' => [] },
+      :pf2_faith => { 'deity' => '', 'alignment' => '', 'sanctification' => '' },
+      :pf2_special => [],
+      :pf2_boosts_working => { 'free' => [], 'ancestry' => [], 'background' => [], 'charclass' => [] },
+      :pf2_boosts => {},
+      :pf2_to_assign => {},
+      :pf2_advancement => {},
+      :pf2_lang => [],
+      :pf2_movement => {},
+      :pf2_reagents => {},
+      :pf2_formula_book => {},
+      :advancing => nil,
+      :pf2_last_refresh => nil,
+      :pf2_level_tracker => {},
+      :pf2_size => '',
+      :pf2_roll_aliases => {},
+      :pf2_actions => {},
+      :pf2_is_dead => nil,
+      :pf2_known_for => [],
+      :pf2_alloc_reagents => 0,
+      :groups => {},
+      :demographics => {}
+    }.freeze
+
+    # What a character earned rather than built. A respec keeps these; a reset does not.
+    EARNED = {
+      :pf2_xp => 0,
+      :pf2_level => 1,
+      :pf2_viewsheet => {}
+    }.freeze
+
+    # A respec: the character keeps their level, XP, money and inventory, and rebuilds everything
+    # they chose. Their recorded build goes, because a ledger they are about to contradict would
+    # be folded back over the blank sheet at the first write.
     def self.respec_character(char)
-      # A respec does not delete XP, level, or character wealth, but does clear all stats and inventory.
-
-      if char.is_approved?
-        char.update(approval_job: nil)
-        char.update(chargen_locked: false)
-        Roles.remove_role(char, "approved")
-      end
-
-      # I am aware of Faraday's suggestion for using .update, but when I am changing many things at once,
-      # I may as well do one DB write instead of two dozen.
-
-      char.chargen_stage = 0
-      char.pf2_baseinfo_locked = false
-      char.pf2_abilities_locked = false
-      char.pf2_reset = false
-
-      char.pf2_base_info = { 'ancestry'=>"", 'heritage'=>"", 'background'=>"", 'charclass'=>"", "specialize"=>"" }
-      char.pf2_archetypeinfo = { 'archetype1'=>"", 'archetype2'=>"", 'archetype3'=>"", 'archetype4'=>"", 'archetype_specialty1'=>"", 'archetype_specialty2'=>"", 'archetype_specialty3'=>"", 'archetype_specialty4'=>"", 'archetype_specialty_choice1'=>"", 'archetype_specialty_choice2'=>"", 'archetype_specialty_choice3'=>"", 'archetype_specialty_choice4'=>"" }
-      char.pf2_conditions = {}
-      char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
-      char.pf2_traits = []
-      char.pf2_feats = { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[] }
-      char.pf2_faith = { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
-      char.pf2_special = []
-      char.pf2_boosts_working = { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=>[] }
-      char.pf2_boosts = {}
-      char.pf2_to_assign = {}
-      char.pf2_lang = []
-      char.pf2_movement = {}
-      char.pf2_reagents = {}
-      char.pf2_formula_book = {}
-      char.advancing = nil
-      char.pf2_last_refresh = nil
-      char.pf2_cg_assigned = {}
-      char.pf2_level_tracker = {}
-      Pf2e.delete_level_snapshots(char)
-      char.pf2_size = ""
-      char.pf2_roll_aliases = {}
-      char.pf2_actions = {}
-      char.pf2_is_dead = nil
-      char.pf2_known_for = []
-      char.pf2_alloc_reagents = 0
-
-      char.groups = {}
-      char.demographics = {}
-
-      # Reset money and gear if that plugin is installed. Respec preserves money.
-      Pf2egear.reset_gear(char, true) if AresMUSH.const_defined?("Pf2egear")
-
-      # All characters have all objects except magic, so to minimize DB bloat, reuse existing objects.
-      Pf2eAbilities.factory_default(char)
-      Pf2eSkills.factory_default(char)
-      Pf2eHP.factory_default(char)
-      Pf2eCombat.factory_default(char)
-      PF2Magic.factory_default(char)
-
+      blank_sheet!(char)
+      Pf2egear.reset_gear(char, true) if AresMUSH.const_defined?('Pf2egear')
       char.save
     end
 
+    # A reset: back to the very beginning, including the XP and money they were given.
     def self.reset_character(char)
-      # This undoes all approvals and takes the character back to the very beginning.
+      blank_sheet!(char)
 
+      EARNED.each_pair { |attr, value| char.send("#{attr}=", value) }
+      Pf2e::Audit.delete_all!(char, 'xp')
+
+      Pf2egear.reset_gear(char) if AresMUSH.const_defined?('Pf2egear')
+      char.save
+    end
+
+    def self.blank_sheet!(char)
       if char.is_approved?
         char.update(approval_job: nil)
         char.update(chargen_locked: false)
-        Roles.remove_role(char, "approved")
+        Roles.remove_role(char, 'approved')
       end
 
-      char.chargen_stage = 0
-      char.pf2_baseinfo_locked = false
-      char.pf2_abilities_locked = false
-      char.pf2_skills_locked = false
-      char.pf2_checkpoint = 'start'
-      char.pf2_reset = false
+      # The grants first. A character with grants is finalized, so until they are gone the
+      # character is not back in a draft: chargen commands would write history instead of a
+      # working copy, and the next materialise would restore the sheet being cleared here.
+      Ledger.delete_all!(char)
+      DraftJournal.clear!(char)
+      Checkpoints.clear!(char)
 
-      char.pf2_base_info = { 'ancestry'=>"", 'heritage'=>"", 'background'=>"", 'charclass'=>"", "specialize"=>"" }
-      char.pf2_archetypeinfo = { 'archetype1'=>"", 'archetype2'=>"", 'archetype3'=>"", 'archetype4'=>"", 'archetype_specialty1'=>"", 'archetype_specialty2'=>"", 'archetype_specialty3'=>"", 'archetype_specialty4'=>"", 'archetype_specialty_choice1'=>"", 'archetype_specialty_choice2'=>"", 'archetype_specialty_choice3'=>"", 'archetype_specialty_choice4'=>"" }
-      char.pf2_xp = 0
-      char.pf2_conditions = {}
-      char.pf2_features = { 'charclass_features'=>[], 'archetype_features'=>[] }
-      char.pf2_traits = []
-      char.pf2_feats = { "ancestry"=>[], "charclass"=>[], "skill"=>[], "general"=>[] }
-      char.pf2_faith = { 'deity'=>"", 'alignment'=>"", 'sanctification'=>"" }
-      char.pf2_special = []
-      char.pf2_boosts_working = { 'free'=>[], 'ancestry'=>[], 'background'=>[], 'charclass'=>[] }
-      char.pf2_boosts = {}
-      char.pf2_to_assign = {}
-      char.pf2_lang = []
-      char.pf2_movement = {}
-      char.pf2_reagents = {}
-      char.pf2_formula_book = {}
-      char.advancing = nil
-      char.pf2_last_refresh = nil
-      char.pf2_level = 1
-      char.pf2_viewsheet = {}
-      char.pf2_cg_assigned = {}
-      char.pf2_level_tracker = {}
-      Pf2e.delete_level_snapshots(char)
-      char.pf2_size = ""
-      char.pf2_roll_aliases = {}
-      char.pf2_actions = {}
-      char.pf2_xp_history = []
-      char.pf2_is_dead = nil
-      char.pf2_known_for = []
-      char.pf2_alloc_reagents = 0
+      BLANK_SHEET.each_pair { |attr, value| char.send("#{attr}=", value) }
 
-      char.groups = {}
-      char.demographics = {}
-
-      # Reset money and gear if that plugin is installed.
-      Pf2egear.reset_gear(char) if AresMUSH.const_defined?("Pf2egear")
-
-      # All characters have all objects except magic, so to minimize DB bloat, reuse existing objects.
+      # Every character has all of these except magic, so they are reset in place rather than
+      # deleted and rebuilt.
       Pf2eAbilities.factory_default(char)
       Pf2eSkills.factory_default(char)
       Pf2eHP.factory_default(char)
       Pf2eCombat.factory_default(char)
       PF2Magic.factory_default(char)
-
-      char.save
     end
 
     def self.get_character(name, enactor)
@@ -452,7 +491,7 @@ module AresMUSH
     end
 
     def self.easter_scrub(ary)
-      # This is used to scrub Easter egg options out of any array.
+      # Scrubs Easter egg options out of any array.
       # Use for option output to players.
 
       return ary unless ary.is_a? Array

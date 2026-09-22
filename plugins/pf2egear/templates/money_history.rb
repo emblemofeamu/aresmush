@@ -31,25 +31,33 @@ module AresMUSH
       end
 
       def header_line
-        "%b%b#{item_color}#{left("Date", 20)}%b%b#{left("Awarder", 15)}%b%b#{left("Award", 8)}%b%b#{left("Reason", 35)}"
+        "%b%b#{item_color}#{left("Date", 18)}%b%b#{left("From", 14)}%b%b#{left("Amount", 11)}%b%b#{left("Purse", 11)}%b%b#{left("Reason", 24)}"
+      end
+
+      # An out-of-bounds page hands the template a message string instead of entries.
+      def entry?(item)
+        item.is_a?(AresMUSH::Pf2eLedgerEntry)
       end
 
       def time(item)
-        converted_time = Time.at(item[0])
-
-        OOCTime.local_short_timestr(@char, converted_time)
+        OOCTime.local_short_timestr(@char, Time.at(item.at.to_i))
       end
 
       def awarded_by(item)
-        item[1]
+        item.by
       end
 
       def award(item)
-        "#{item[2]} cp"
+        item.amount.to_i.positive? ? "+#{item.amount} cp" : "#{item.amount} cp"
+      end
+
+      # What the purse held after this line, so one line explains itself.
+      def running_total(item)
+        "#{item.balance_after} cp"
       end
 
       def reason(item)
-        item[3]
+        item.reason
       end
 
 

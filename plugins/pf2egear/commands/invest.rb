@@ -18,7 +18,7 @@ module AresMUSH
 
         ### VALIDATION SECTION ###
 
-        valid_cats = %w(weapons weapon armor magicitem)
+        valid_cats = Pf2egear::Inventory.categories.select { |c| Pf2egear::Inventory.investable?(c) }
 
         # Check for correct format.
 
@@ -46,13 +46,11 @@ module AresMUSH
 
         max_investable = Pf2e.has_feat?(enactor, 'Incredible Investiture') ? 12 : 10
 
-        char_wp_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-        char_a_list = Pf2egear.items_in_inventory(enactor.armor.to_a)
-        char_mi_list = Pf2egear.items_in_inventory(enactor.magic_items.to_a)
+        # Every item PF2e lets a character invest, which Inventory says rather than this command.
+        investable_list = valid_cats.map { |c| Pf2egear::Inventory.canonical(c) }.uniq
+                                    .flat_map { |c| Pf2egear::Inventory.held(enactor, c) }
 
-        investable_list = char_wp_list + char_a_list + char_mi_list
-
-        already_invested = investable_list.select {|i| i.invest_on_refresh }
+        already_invested = investable_list.select { |item| item.invest_on_refresh }
 
         counter = already_invested.size
 
@@ -62,18 +60,13 @@ module AresMUSH
           category = args[0]
           num = args[1].to_i
 
-          case category
-          when "weapon", "weapons"
-            item_list = char_wp_list
-          when "armor"
-            item_list = char_a_list
-          when "magicitem"
-            item_list = char_mi_list
-          end
+          found = Pf2egear::Inventory.item(enactor, category, num)
 
-          item_id = item_list[num]
+          next if Pf2e::CharState.emit_error!(client, found)
 
-          if item_id&.traits.include? 'invested'
+          item_id = found.state
+
+          if Array(item_id.traits).include? 'invested'
 
             if item_id.invest_on_refresh
               client.emit_failure t('pf2egear.already_set_for_investment')

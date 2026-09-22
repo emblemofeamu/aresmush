@@ -1,0 +1,1001 @@
+# Pre-Remaster names and where each one went, from the Foundry VTT pf2e system's own
+# "Remaster Changes" journal. Players arrive knowing the old names, so a lookup that misses
+# checks here before saying the name is not in the game.
+#
+# Regenerate with scripts/import_remaster_renames.py.
+pf2e_renames:
+  spells:
+    "Abundant Step":
+      status: renamed
+      to: "Shrink the Span"
+    "Abyssal Wrath":
+      status: renamed
+      to: "Chthonian Wrath"
+    "Animate Dead":
+      status: renamed
+      to: "Summon Undead"
+    "Augment Summoning":
+      status: renamed
+      to: "Fortify Summoning"
+    "Baleful Polymorph":
+      status: renamed
+      to: "Cursed Metamorphosis"
+    "Barkskin":
+      status: renamed
+      to: "Oaken Resilience"
+    "Bind Soul":
+      status: renamed
+      to: "Seize Soul"
+    "Blind Ambition":
+      status: renamed
+      to: "Ignite Ambition"
+    "Blink":
+      status: renamed
+      to: "Flicker"
+    "Burning Hands":
+      status: renamed
+      to: "Breathe Fire"
+    "Calm Emotions":
+      status: renamed
+      to: "Calm"
+    "Charming Words":
+      status: renamed
+      to: "Charming Push"
+    "Chill Touch":
+      status: renamed
+      to: "Void Warp"
+    "Cloudkill":
+      status: renamed
+      to: "Toxic Cloud"
+    "Color Spray":
+      status: renamed
+      to: "Dizzying Colors"
+    "Commune with Nature":
+      status: merged
+      to: "Commune"
+    "Comprehend Language":
+      status: renamed
+      to: "Translate"
+    "Continual Flame":
+      status: renamed
+      to: "Everlight"
+    "Crushing Despair":
+      status: renamed
+      to: "Wave of Despair"
+    "Dancing Lights":
+      status: merged
+      to: "Light"
+    "Dimension Door":
+      status: renamed
+      to: "Translocate"
+    "Dimensional Anchor":
+      status: renamed
+      to: "Planar Tether"
+    "Dimensional Lock":
+      status: renamed
+      to: "Planar Seal"
+    "Discern Location":
+      status: renamed
+      to: "Pinpoint"
+    "Disrupt Undead":
+      status: renamed
+      to: "Vitality Lash"
+    "Disrupting Weapons":
+      status: renamed
+      to: "Infuse Vitality"
+    "Divine Vessel":
+      status: removed
+    "Dragon Claws":
+      status: renamed
+      to: "Flurry of Claws"
+    "Efficient Apport":
+      status: renamed
+      to: "Reclined Apport"
+    "Empty Body":
+      status: renamed
+      to: "Embrace Nothingness"
+    "Endure Elements":
+      status: renamed
+      to: "Environmental Endurance"
+    "Entangle":
+      status: renamed
+      to: "Entangling Flora"
+    "Faerie Fire":
+      status: merged
+      to: "Revealing Light"
+    "False Life":
+      status: renamed
+      to: "False Vitality"
+    "Feather Fall":
+      status: renamed
+      to: "Gentle Landing"
+    "Feeblemind":
+      status: renamed
+      to: "Never Mind"
+    "Finger of Death":
+      status: renamed
+      to: "Execute"
+    "Flaming Sphere":
+      status: renamed
+      to: "Floating Flame"
+    "Flesh To Stone":
+      status: renamed
+      to: "Petrify"
+    "Floating Disk":
+      status: renamed
+      to: "Carryall"
+    "Force Cage":
+      status: renamed
+      to: "Lifewood Cage"
+    "Freedom of Movement":
+      status: renamed
+      to: "Unfettered Movement"
+    "Gaseous Form":
+      status: renamed
+      to: "Vapor Form"
+    "Gentle Repose":
+      status: renamed
+      to: "Peaceful Rest"
+    "Glibness":
+      status: renamed
+      to: "Honeyed Words"
+    "Glitterdust":
+      status: merged
+      to: "Revealing Light"
+    "Globe of Invulnerability":
+      status: renamed
+      to: "Dispelling Globe"
+    "Glutton's Jaw":
+      status: renamed
+      to: "Glutton's Jaws"
+    "Glyph of Warding":
+      status: renamed
+      to: "Rune Trap"
+    "Goodberry":
+      status: renamed
+      to: "Cornucopia"
+    "Hallucinatory Terrain":
+      status: renamed
+      to: "Mirage"
+    "Heroes' Feast":
+      status: renamed
+      to: "Fortifying Brew"
+    "Hideous Laughter":
+      status: renamed
+      to: "Laughing Fit"
+    "Horrid Wilting":
+      status: renamed
+      to: "Desiccate"
+    "Hyperfocus":
+      status: renamed
+      to: "Clouded Focus"
+    "Hypnotic Pattern":
+      status: renamed
+      to: "Hypnotize"
+    "Inspire Competence":
+      status: renamed
+      to: "Uplifting Overture"
+    "Inspire Courage":
+      status: renamed
+      to: "Courageous Anthem"
+    "Inspire Defense":
+      status: renamed
+      to: "Rallying Anthem"
+    "Inspire Heroics":
+      status: renamed
+      to: "Fortissimo Composition"
+    "Invisibility Sphere":
+      status: renamed
+      to: "Shared Invisibility"
+    "Ki Blast":
+      status: renamed
+      to: "Qi Blast"
+    "Ki Form":
+      status: renamed
+      to: "Qi Form"
+    "Ki Rush":
+      status: renamed
+      to: "Qi Rush"
+    "Ki Strike":
+      status: renamed
+      to: "Inner Upheaval"
+    "Know Direction":
+      status: renamed
+      to: "Know the Way"
+    "Legend Lore":
+      status: renamed
+      to: "Collective Memories"
+    "Litany against Sloth":
+      status: removed
+    "Litany against Wrath":
+      status: removed
+    "Litany of Depravity":
+      status: removed
+    "Litany of Righteousness":
+      status: removed
+    "Litany of Self-Interest":
+      status: removed
+    "Longstrider":
+      status: renamed
+      to: "Tailwind"
+    "Mage Armor":
+      status: renamed
+      to: "Mystic Armor"
+    "Mage Hand":
+      status: renamed
+      to: "Telekinetic Hand"
+    "Magic Aura":
+      status: renamed
+      to: "Disguise Magic"
+    "Magic Fang":
+      status: renamed
+      to: "Runic Body"
+    "Magic Missile":
+      status: renamed
+      to: "Force Barrage"
+    "Magic Mouth":
+      status: renamed
+      to: "Embed Message"
+    "Magic Weapon":
+      status: renamed
+      to: "Runic Weapon"
+    "Magnificent Mansion":
+      status: renamed
+      to: "Planar Palace"
+    "Maze":
+      status: renamed
+      to: "Quandary"
+    "Meld into Stone":
+      status: renamed
+      to: "One with Stone"
+    "Meteor Swarm":
+      status: renamed
+      to: "Falling Stars"
+    "Mind Blank":
+      status: renamed
+      to: "Hidden Mind"
+    "Misdirection":
+      status: renamed
+      to: "Disguise Magic"
+    "Modify Memory":
+      status: renamed
+      to: "Rewrite Memory"
+    "Neutralize Poison":
+      status: renamed
+      to: "Cleanse Affliction"
+    "Nondetection":
+      status: renamed
+      to: "Veil of Privacy"
+    "Obscuring Mist":
+      status: renamed
+      to: "Mist"
+    "Pass Without Trace":
+      status: renamed
+      to: "Vanishing Tracks"
+    "Passwall":
+      status: renamed
+      to: "Magic Passage"
+    "Phantom Mount":
+      status: renamed
+      to: "Marvelous Mount"
+    "Planar Binding":
+      status: renamed
+      to: "Planar Servitor"
+    "Plane Shift":
+      status: renamed
+      to: "Interplanar Teleport"
+    "Positive Luminance":
+      status: renamed
+      to: "Vital Luminance"
+    "Private Sanctum":
+      status: renamed
+      to: "Peaceful Bubble"
+    "Produce Flame":
+      status: renamed
+      to: "Ignition"
+    "Prying Eye":
+      status: renamed
+      to: "Scouting Eye"
+    "Pulse of The City":
+      status: renamed
+      to: "Pulse of Civilization"
+    "Purify Food And Drink":
+      status: renamed
+      to: "Cleanse Cuisine"
+    "Quivering Palm":
+      status: renamed
+      to: "Touch of Death"
+    "Ray of Enfeeblement":
+      status: renamed
+      to: "Enfeeble"
+    "Remove Curse":
+      status: renamed
+      to: "Cleanse Affliction"
+    "Remove Disease":
+      status: renamed
+      to: "Cleanse Affliction"
+    "Remove Fear":
+      status: renamed
+      to: "Clear Mind"
+    "Remove Paralysis":
+      status: renamed
+      to: "Sure Footing"
+    "Resilient Sphere":
+      status: renamed
+      to: "Containment"
+    "Restore Senses":
+      status: renamed
+      to: "Sound Body"
+    "Righteous Might":
+      status: renamed
+      to: "Sacred Form"
+    "Roar of the Wyrm":
+      status: renamed
+      to: "Roar of the Dragon"
+    "Sanctified Ground":
+      status: renamed
+      to: "Anointed Ground"
+    "Scintillating Pattern":
+      status: renamed
+      to: "Confusing Colors"
+    "Scorching Ray":
+      status: renamed
+      to: "Blazing Bolt"
+    "Searing Light":
+      status: renamed
+      to: "Holy Light"
+    "See Invisibility":
+      status: renamed
+      to: "See the Unseen"
+    "Shadow Walk":
+      status: renamed
+      to: "Umbral Journey"
+    "Shapechange":
+      status: renamed
+      to: "Metamorphosis"
+    "Shield Other":
+      status: renamed
+      to: "Share Life"
+    "Simulacrum":
+      status: renamed
+      to: "Shadow Double"
+    "Sound Burst":
+      status: renamed
+      to: "Noise Blast"
+    "Spectral Hand":
+      status: renamed
+      to: "Ghostly Carrier"
+    "Spider Climb":
+      status: renamed
+      to: "Gecko Grip"
+    "Splash of Art":
+      status: renamed
+      to: "Creative Splash"
+    "Stone Tell":
+      status: renamed
+      to: "Speak with Stones"
+    "Stoneskin":
+      status: renamed
+      to: "Mountain Resilience"
+    "Tanglefoot":
+      status: renamed
+      to: "Tangle Vine"
+    "Time Stop":
+      status: renamed
+      to: "Freeze Time"
+    "Tongues":
+      status: renamed
+      to: "Truespeech"
+    "Touch of Corruption":
+      status: renamed
+      to: "Touch of the Void"
+    "Touch of Idiocy":
+      status: renamed
+      to: "Stupefy"
+    "Tree Shape":
+      status: renamed
+      to: "One with Plants"
+    "Tree Stride":
+      status: renamed
+      to: "Nature's Pathway"
+    "True Strike":
+      status: renamed
+      to: "Sure Strike"
+    "Trueseeing":
+      status: renamed
+      to: "Truesight"
+    "Undetectable Alignment":
+      status: removed
+    "Unseen Custodians":
+      status: renamed
+      to: "Phantasmal Custodians"
+    "Unseen Servant":
+      status: renamed
+      to: "Phantasmal Minion"
+    "Vampiric Touch":
+      status: renamed
+      to: "Vampiric Feast"
+    "Veil":
+      status: merged
+      to: "Illusory Disguise"
+    "Vigilant Eye":
+      status: renamed
+      to: "Rune of Observation"
+    "Wail of the Banshee":
+      status: renamed
+      to: "Wails of the Damned"
+    "Wholeness of Body":
+      status: renamed
+      to: "Harmonize Self"
+    "Wind Walk":
+      status: renamed
+      to: "Migration"
+    "Word of Recall":
+      status: renamed
+      to: "Gathering Call"
+    "Zone of Truth":
+      status: renamed
+      to: "Ring of Truth"
+  feats:
+    "Aasimar's Mercy":
+      status: renamed
+      to: "Celestial Mercy"
+    "Abundant Step":
+      status: merged
+      to: "Advanced Qi Spells"
+    "Alchemical Savant":
+      status: renamed
+      to: "Alchemical Assessment"
+    "Align Armament":
+      status: renamed
+      to: "Sanctify Armament"
+    "Align Ki":
+      status: renamed
+      to: "Align Qi"
+    "Angelic Magic":
+      status: renamed
+      to: "Celestial Magic"
+    "Animal Feature":
+      status: renamed
+      to: "Advanced Warden"
+    "Archon Magic":
+      status: merged
+      to: "Celestial Magic"
+    "Arrow Snatching":
+      status: renamed
+      to: "Projectile Snatching"
+    "Aura of Preservation":
+      status: renamed
+      to: "Aura of Determination"
+    "Aura of Unbreakable Virtue":
+      status: removed
+    "Azata Magic":
+      status: merged
+      to: "Celestial Magic"
+    "Beastbrood":
+      status: removed
+    "Bespell Weapon":
+      status: renamed
+      to: "Bespell Strikes"
+    "Blade of Justice":
+      status: removed
+    "Bloodline Wellspring":
+      status: removed
+    "Buckler Expertise":
+      status: renamed
+      to: "Elegant Buckler"
+    "Burrow Elocutionist":
+      status: renamed
+      to: "Animal Elocutionist"
+    "Call Bonded Item":
+      status: renamed
+      to: "Call Wizardly Tools"
+    "Celestial Eyes":
+      status: renamed
+      to: "Nephilim Eyes"
+    "Celestial Lore":
+      status: renamed
+      to: "Nephilim Lore"
+    "Celestial Mount":
+      status: removed
+    "Celestial Resistance":
+      status: renamed
+      to: "Nephilim Resistance"
+    "Celestial Wings":
+      status: renamed
+      to: "Divine Wings"
+    "Celestial Word":
+      status: renamed
+      to: "Divine Declaration"
+    "Channeled Succor":
+      status: renamed
+      to: "Restorative Channel"
+    "Combat Reflexes":
+      status: renamed
+      to: "Tactical Reflexes"
+    "Conceited Mindset":
+      status: removed
+    "Conflux Wellspring":
+      status: removed
+    "Connections":
+      status: renamed
+      to: "Leverage Connections"
+    "Corrupted Shield":
+      status: removed
+    "Courageous Opportunity":
+      status: renamed
+      to: "Reflexive Courage"
+    "Crystalline Dust":
+      status: renamed
+      to: "Extraplanar Haze"
+    "Daemon Magic":
+      status: renamed
+      to: "Fiendish Magic"
+    "Deepest Wellspring":
+      status: removed
+    "Deflect Arrow":
+      status: renamed
+      to: "Deflect Projectile"
+    "Demon Magic":
+      status: merged
+      to: "Fiendish Magic"
+    "Devil Magic":
+      status: merged
+      to: "Fiendish Magic"
+    "Disrupt Ki":
+      status: renamed
+      to: "Disrupt Qi"
+    "Divine Ally":
+      status: renamed
+      to: "Devout Blessing"
+    "Diviner Sense":
+      status: renamed
+      to: "Keen Magical Detection"
+    "Domain Wellspring":
+      status: removed
+    "Dragging Strike":
+      status: renamed
+      to: "Sleek Reposition"
+    "Dragonslayer Oath":
+      status: removed
+    "Drow Shootist":
+      status: renamed
+      to: "Crossbow Infiltrator"
+    "Dueling Parry":
+      status: renamed
+      to: "Extravagant Parry"
+    "Dwarven Weapon Cunning":
+      status: merged
+      to: "Dwarven Weapon Familiarity"
+    "Dwarven Weapon Expertise":
+      status: removed
+    "Eldritch Nails":
+      status: renamed
+      to: "Witch's Armaments"
+    "Elven Weapon Elegance":
+      status: merged
+      to: "Elven Weapon Familiarity"
+    "Elven Weapon Expertise":
+      status: removed
+    "Emberkin":
+      status: removed
+    "Empty Body":
+      status: merged
+      to: "Grandmaster Qi Spells"
+    "Empyreal Blessing":
+      status: renamed
+      to: "Extraplanar Supplication"
+    "Enchanting Arrow":
+      status: renamed
+      to: "Enchanting Shot"
+    "Environmental Grace":
+      status: renamed
+      to: "Environmental Guide"
+    "Ephemeral Tracking":
+      status: renamed
+      to: "Masterful Warden"
+    "Eschew Materials":
+      status: removed
+    "Esoteric Oath":
+      status: removed
+    "Expanded Luck":
+      status: merged
+      to: "Lucky Break"
+    "Expert Disassembler":
+      status: renamed
+      to: "Expert Disassembly"
+    "Expert Herbalism":
+      status: renamed
+      to: "Advanced Herbalism"
+    "Expert Poison":
+      status: renamed
+      to: "Advanced Poisoncraft"
+    "Extend Armament Alignment":
+      status: renamed
+      to: "Lasting Armament"
+    "Eyes of the Night":
+      status: renamed
+      to: "Eyes of Night"
+    "Favored Enemy":
+      status: renamed
+      to: "Favored Prey"
+    "Fiend's Door":
+      status: renamed
+      to: "Slip Sideways"
+    "Fiendish Eyes":
+      status: merged
+      to: "Nephilim Eyes"
+    "Fiendish Lore":
+      status: merged
+      to: "Nephilim Lore"
+    "Fiendish Mount":
+      status: removed
+    "Fiendish Resistance":
+      status: merged
+      to: "Nephilim Resistance"
+    "Fiendish Wings":
+      status: merged
+      to: "Divine Wings"
+    "Fiendish Word":
+      status: merged
+      to: "Divine Declaration"
+    "Fiendsbane Oath":
+      status: removed
+    "Firearm Expert":
+      status: renamed
+      to: "Advanced Firearm Familiarity"
+    "Form of the Fiend":
+      status: renamed
+      to: "Bestial Manifestation"
+    "Ganzi Gaze":
+      status: merged
+      to: "Nephilim Eyes"
+    "Gnoll Lore":
+      status: renamed
+      to: "Kholo Lore"
+    "Gnoll Weapon Familiarity":
+      status: renamed
+      to: "Kholo Weapon Familiarity"
+    "Gnome Weapon Expertise":
+      status: removed
+    "Gnome Weapon Innovator":
+      status: merged
+      to: "Gnome Weapon Familiarity"
+    "Goblin Weapon Expertise":
+      status: removed
+    "Goblin Weapon Frenzy":
+      status: merged
+      to: "Goblin Weapon Familiarity"
+    "Godless Healing":
+      status: renamed
+      to: "Robust Health"
+    "Golem Dynamo":
+      status: renamed
+      to: "Construct Dynamo"
+    "Gravity Weapon":
+      status: renamed
+      to: "Initiate Warden"
+    "Green Empathy":
+      status: renamed
+      to: "Plant Empathy"
+    "Grippli Guide":
+      status: renamed
+      to: "Tripkee Glide"
+    "Grippli Lore":
+      status: renamed
+      to: "Tripkee Weapon Familiarity"
+    "Grippli Weapon Familiarity":
+      status: renamed
+      to: "Tripkee Lore"
+    "Halfling Weapon Expertise":
+      status: removed
+    "Halfling Weapon Trickster":
+      status: merged
+      to: "Halfling Weapon Familiarity"
+    "Hand of the Apprentice":
+      status: removed
+    "Hatchling Flight":
+      status: renamed
+      to: "Winglet Flight"
+    "Healing Touch":
+      status: renamed
+      to: "Devout Magic"
+    "Hex Wellspring":
+      status: removed
+    "Holy Castigation":
+      status: renamed
+      to: "Divine Castigation"
+    "Hunter's Luck":
+      status: merged
+      to: "Advanced Warden"
+    "Hunter's Vision":
+      status: renamed
+      to: "Peerless Warden"
+    "Idyllkin":
+      status: removed
+    "Improved Communal Healing":
+      status: merged
+      to: "Communal Healing"
+    "Improved Knockdown":
+      status: renamed
+      to: "Crashing Slam"
+    "Inspirational Performance":
+      status: renamed
+      to: "Anthemic Performance"
+    "Inspire Competence":
+      status: renamed
+      to: "Uplifting Overture"
+    "Inspire Defense":
+      status: renamed
+      to: "Rallying Anthem"
+    "Inspire Heroics":
+      status: renamed
+      to: "Fortissimo Composition"
+    "Intercorporate":
+      status: renamed
+      to: "Resilient Physiology"
+    "Ki Blast":
+      status: merged
+      to: "Advanced Qi Spells"
+    "Ki Center":
+      status: renamed
+      to: "Qi Center"
+    "Ki Form":
+      status: merged
+      to: "Grandmaster Qi Spells"
+    "Ki Rush":
+      status: merged
+      to: "Qi Spells"
+    "Ki Strike":
+      status: merged
+      to: "Qi Spells"
+    "Knockdown":
+      status: renamed
+      to: "Slam Down"
+    "Leech-Clipper":
+      status: renamed
+      to: "Leech-Clip"
+    "Lemma of Vision":
+      status: merged
+      to: "Nephilim Eyes"
+    "Lightslayer Oath":
+      status: removed
+    "Link Wellspring":
+      status: removed
+    "Litany against Sloth":
+      status: removed
+    "Litany against Wrath":
+      status: removed
+    "Litany of Depravity":
+      status: removed
+    "Litany of Righteousness":
+      status: removed
+    "Litany of Self-Interest":
+      status: removed
+    "Living Hair":
+      status: merged
+      to: "Witch's Armaments"
+    "Magic Arrow":
+      status: renamed
+      to: "Magic Ammunition"
+    "Malicious Bane":
+      status: merged
+      to: "Extraplanar Supplication"
+    "Meditative Wellspring":
+      status: removed
+    "Medusa's Wrath":
+      status: merged
+      to: "Master Qi Spells"
+    "Metamagic Channel":
+      status: renamed
+      to: "Spellshape Channel"
+    "Necrotic Infusion":
+      status: merged
+      to: "Divine Infusion"
+    "Nimble Dodge":
+      status: renamed
+      to: "Flashy Dodge"
+    "Nimble Roll":
+      status: renamed
+      to: "Flashy Roll"
+    "Nocturnal Grippli":
+      status: renamed
+      to: "Nocturnal Tripkee"
+    "Nocturnal Sense":
+      status: renamed
+      to: "Nocturnal Senses"
+    "Opportunist":
+      status: renamed
+      to: "Reactive Striker"
+    "Orc Weapon Carnage":
+      status: merged
+      to: "Orc Weapon Familiarity"
+    "Orc Weapon Expertise":
+      status: removed
+    "Pale Horse":
+      status: removed
+    "Pirate Weapon Training":
+      status: renamed
+      to: "Pirate Combat Training"
+    "Plumekith":
+      status: removed
+    "Point-Blank Shot":
+      status: renamed
+      to: "Point Blank Stance"
+    "Polearm Tricks":
+      status: renamed
+      to: "Rod of Rule"
+    "Power Attack":
+      status: renamed
+      to: "Vicious Swing"
+    "Precious Arrow":
+      status: renamed
+      to: "Precious Ammunition"
+    "Primal Wellspring":
+      status: removed
+    "Quick Alchemy":
+      status: renamed
+      to: "Advanced Alchemy"
+    "Quivering Palm":
+      status: merged
+      to: "Master Qi Spells"
+    "Radiant Blade Master":
+      status: renamed
+      to: "Armament Paragon"
+    "Radiant Blade Spirit":
+      status: renamed
+      to: "Radiant Armament"
+    "Radiant Infusion":
+      status: renamed
+      to: "Divine Infusion"
+    "Ranged Reprisal":
+      status: renamed
+      to: "Nimble Reprisal"
+    "Ranger's Bramble":
+      status: merged
+      to: "Masterful Warden"
+    "Ratfolk Growth":
+      status: renamed
+      to: "Greater than the Sum"
+    "Razor Claws":
+      status: merged
+      to: "Iruxi Armaments"
+    "Reckless Abandon":
+      status: renamed
+      to: "Desperate Wrath"
+    "Red Herring":
+      status: renamed
+      to: "Eliminate Red Herrings"
+    "Relentless Wings":
+      status: merged
+      to: "Eternal Wings (Nephilim)"
+    "Riftmarked":
+      status: removed
+    "Sacred Ki":
+      status: removed
+    "Safeguarded Spell":
+      status: renamed
+      to: "Safeguard Spell"
+    "School Counterspell":
+      status: renamed
+      to: "Sin Counterspell"
+    "Scroll Savant":
+      status: renamed
+      to: "Scroll Adept"
+    "Second Ally":
+      status: renamed
+      to: "Second Blessing"
+    "Second Chance Spell":
+      status: renamed
+      to: "Second Thoughts"
+    "Seeker Arrow":
+      status: renamed
+      to: "Homing Shot"
+    "Sense Evil":
+      status: renamed
+      to: "Sense Unholiness"
+    "Sense Good":
+      status: renamed
+      to: "Sense Holiness"
+    "Shackleborn":
+      status: removed
+    "Shared Luck":
+      status: renamed
+      to: "Luck of the Clowder"
+    "Sharp Fangs":
+      status: merged
+      to: "Iruxi Armaments"
+    "Shining Oath":
+      status: removed
+    "Silent Spell":
+      status: merged
+      to: "Conceal Spell"
+    "Smite Evil":
+      status: merged
+      to: "Smite"
+    "Smite Good":
+      status: merged
+      to: "Smite"
+    "Sneak Savant":
+      status: renamed
+      to: "Sneak Adept"
+    "Soothing Mist":
+      status: merged
+      to: "Advanced Warden"
+    "Speedy Rituals":
+      status: merged
+      to: "Efficient Rituals"
+    "Spell Penetration":
+      status: renamed
+      to: "Irresistible Magic"
+    "Spirit Strikes":
+      status: renamed
+      to: "Quietus Strikes"
+    "Spring Attack":
+      status: renamed
+      to: "Dashing Strike"
+    "Stance Savant":
+      status: renamed
+      to: "Reflexive Stance"
+    "Stonecunning":
+      status: renamed
+      to: "Stonemason's Eye"
+    "Stunning Fist":
+      status: renamed
+      to: "Stunning Blows"
+    "Subtle Delivery":
+      status: renamed
+      to: "Blowgun Poisoner"
+    "Summon Celestial Kin":
+      status: renamed
+      to: "Summon Nephilim Kin"
+    "Summon Fiendish Kin":
+      status: merged
+      to: "Summon Nephilim Kin"
+    "Tail Whip":
+      status: merged
+      to: "Iruxi Armaments"
+    "Temporary Potions":
+      status: merged
+      to: "Cauldron"
+    "Terrain Transposition":
+      status: merged
+      to: "Peerless Warden"
+    "Thousand Faces":
+      status: renamed
+      to: "Anthropomorphic Shape"
+    "Turn Undead":
+      status: renamed
+      to: "Panic the Dead"
+    "Unconventional Expertise":
+      status: removed
+    "Universal Versatility":
+      status: removed
+    "Vanth's Weapon Familiarity":
+      status: renamed
+      to: "Duskwalker Weapon Familiarity"
+    "Vengeful Hatred":
+      status: renamed
+      to: "Mountain Strategy"
+    "Vigorous Inspiration":
+      status: renamed
+      to: "Vigorous Anthem"
+    "Vile Desecration":
+      status: merged
+      to: "Divine Castigation"
+    "Warden's Wellspring":
+      status: removed
+    "Warding Rune":
+      status: removed
+    "Wholeness of Body":
+      status: renamed
+      to: "Harmonize Self"
+    "Wild Empathy":
+      status: renamed
+      to: "Animal Empathy (Ranger)"
+    "Wild Shape":
+      status: renamed
+      to: "Untamed Form"
+    "Woodland Stride":
+      status: renamed
+      to: "Forest Passage"

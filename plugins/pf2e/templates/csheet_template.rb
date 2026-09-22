@@ -138,7 +138,7 @@ module AresMUSH
       end
 
       def weapons
-        weapon_list = Pf2egear.items_in_inventory(@char.weapons)
+        weapon_list = Pf2egear::Inventory.held(@char, 'weapons')
 
         list = []
 
@@ -244,7 +244,7 @@ module AresMUSH
 
         traits = atk_info['traits']
 
-        abilmod = traits.include?('finesse') ?
+        abilmod = Pf2e.has_trait?(traits, 'finesse') ?
           Pf2eCombat.abilmod_with_finesse(char) :
           Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, "Strength"))
         prof = Pf2e.get_prof_bonus(char, unarmed_prof)

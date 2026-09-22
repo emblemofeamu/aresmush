@@ -402,6 +402,20 @@ pf2e_spells:
     duration: until your next daily preparations
     effect: Vitality radiates outward from you, allowing others to supplicate and receive healing. Once per round, either you or an ally can use an Interact action to supplicate and lay hands upon you to regain Hit Points. Each time the beacon heals someone, it decreases in strength. It restores 4d10 Hit Points to the first creature, 4d8 Hit Points to the second, 4d6 Hit Points to the third, and 4d4 Hit Points to the fourth, after which the spell ends. You can have only one vital beacon active at a time.
     heighten: "**+1:** The beacon restores one additional die of Hit Points each time it heals, using the same die size as the others for that step."
+  Vital Luminance:
+    base_level: 1
+    traits:
+      - aura
+      - cleric
+      - focus
+      - light
+      - manipulate
+      - vitality
+      - uncommon
+    actions: 1
+    duration: "1 minute"
+    effect: "Drawing life force into yourself, you become a beacon of vitality. You glow with bright light in a 30-foot emanation (and dim light to the next 30 feet), and you gain an internal pool of light called a luminance reservoir, which begins with a value of 4. At the start of each of your turns, increase your reservoir by 4.%r%rIf an undead creature damages you with an attack or spell while it's within the bright light of your aura, that creature takes vitality damage equal to half your luminance reservoir value. It takes this damage only the first time it damages you in a round.%r%rYou can Dismiss this Spell. When you do, you can target a creature within your light and direct the vital energy into it. The target must be a willing living creature or an undead creature. This heals a living target or deals vitality damage to an undead target equal to your luminance reservoir's value.%r%rIf you Cast this Spell again, any previous casting ends."
+    heighten: "**+1:** Both the initial value of your luminance reservoir and the amount you gain each turn increase by 1."
   Vitality Lash:
     base_level: cantrip
     mystery:
@@ -822,6 +836,20 @@ pf2e_spells:
     duration: 1 minute
     effect: You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.
     heighten: "**6th:** At the end of your turn, you can attempt a DC 30 Acrobatics check to find purchase in midair. If you succeed, you don't fall."
+  Withering Grasp:
+    base_level: 1
+    traits:
+      - attack
+      - cleric
+      - concentrate
+      - focus
+      - manipulate
+      - void
+    actions: 2
+    range: "touch"
+    target: "1 creature or object"
+    effect: "Your touch rots organic material and decays objects. Make a spell attack against the target's AC. Your touch deals 1d12 void damage plus 1d4 persistent void damage. If a creature uses an item to block withering grasp, such as with the Shield Block reaction, the item is automatically affected, but the creature doesn't take damage (even if there is damage left over after the shield's Hardness). Unlike normal void damage, the void damage from withering grasp damages objects, constructs, and the like by eroding away their substance.%r%r**Critical Success** Your touch deals double damage (both initial and persistent). If you target an object, lower its Hardness by 4 for 1 minute.%r**Success** Your touch deals full damage. If you target an object, lower its Hardness by 2 for 1 minute."
+    heighten: "**+1:** The damage increases by 1d12 and the persistent damage increases by 1. If you target an object, lower its Hardness by an additional 1 point on both a success and a critical success."
   Word of Freedom:
     base_level: 4
     traits:

@@ -1,7 +1,10 @@
 ---
 en:
   pf2egear:
+    already_equipped: "You already have one of those equipped. Unequip it first."
     ambiguous_item: "I have more than one item matching that name. Please be more specific."
+    bad_use: "That is not something this item does. It can be used for: %{options}."
+    item_destroyed: "%{name} is destroyed."
     approved_players_only: "You must be approved for play to use this command."
     already_set_for_investment: "That item is already set for investment."
 

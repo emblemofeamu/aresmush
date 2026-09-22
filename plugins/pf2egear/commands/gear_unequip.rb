@@ -18,11 +18,11 @@ module AresMUSH
         [ self.category, self.item_num ]
       end
 
+      # What can be taken off again: the same list equipping accepts.
       def check_valid_category
-        cats = %w(weapons weapon armor shields shield)
+        return nil if PF2GearEquipCmd::EQUIPPABLE.include?(self.category)
 
-        return nil if cats.include?(self.category)
-        return t('pf2egear.bad_category')
+        t('pf2egear.bad_category')
       end
 
       def check_is_number
@@ -31,26 +31,12 @@ module AresMUSH
       end
 
       def handle
+        found = Pf2egear::Inventory.item(enactor, self.category, self.item_num)
 
-        case self.category
-        when "weapon", "weapons"
-          item_list = Pf2egear.items_in_inventory(enactor.weapons.to_a)
-        when "armor"
-          item_list = Pf2egear.items_in_inventory(enactor.armor.to_a)
-        when "shield", "shields"
-          item_list = Pf2egear.items_in_inventory(enactor.shields.to_a)
-        end
+        return if Pf2e::CharState.emit_error!(client, found)
 
-        # Does item_num exist in category?
+        item = found.state
 
-        item = item_list[self.item_num]
-
-        if !item
-          client.emit_failure t('pf2egear.not_found')
-          return
-        end
-
-        # Equip the item.
         item.update(equipped: false)
 
         iname = item.nickname ? item.nickname : item.name

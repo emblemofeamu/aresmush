@@ -24,5 +24,5 @@ A few things to be aware of:
 `gear/equip <category> = <item number>`: Equips the specified item in `<category>`. (Alias: `equip`)
 `gear/unequip <category> = <item number>`: Unequips the specified item in `<category>`. (Alias: `unequip`)
 
-`invest <category>/<item number>`: Sets a specified list of items for investment at next daily refresh. Note that some magic items are treated as weapons or armor. Multiple 
-`uninvest <category>/<item number>`: Uninvest items.
+`gear/invest <category>/<item number>`: Sets a specified list of items for investment at next daily refresh. Note that some magic items are treated as weapons or armor. (Alias: `invest`) Multiple 
+`gear/uninvest <category>/<item number>`: Uninvest items. (Alias: `uninvest`)

@@ -70,12 +70,10 @@ module AresMUSH
 
         #  If it's gear or a consumable, multiples are allowed, otherwise only one.
 
-        case self.category
-        when "weapons", "weapon", "armor", "shields", "shield", "bags", "magicitem"
-          if q > 1
-            client.emit_ooc t('pf2egear.quantity_one_only')
-            q = 1
-          end
+        # Only gear and consumables stack; a weapon has its own runes, so each is its own item.
+        if q > 1 && !Pf2egear::Inventory.stackable?(self.category)
+          client.emit_ooc t('pf2egear.quantity_one_only')
+          q = 1
         end
 
         # Do they have enough money?
@@ -91,9 +89,7 @@ module AresMUSH
 
         Pf2egear.create_item(enactor, self.category, item_name, q, item_info)
 
-        enactor.update(pf2_money: (purse - cost))
-
-        Pf2egear.record_money_history(enactor, 'Item Vendor', -cost, "Purchase #{item_name}")
+        Pf2egear.pay_player(enactor, -cost, 'Item Vendor', "Purchase #{item_name}")
 
         client.emit_success t('pf2egear.item_bought_ok', :item => item_name, :cost => Pf2egear.display_money(cost), :quantity => q)
 

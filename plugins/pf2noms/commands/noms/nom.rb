@@ -67,8 +67,8 @@ module AresMUSH
         success_list = []
 
         nom_okay.each do |target|
-          Pf2e.award_xp(target, nom_amount)
-          Pf2egear.pay_player(target, nom_money)
+          Pf2e.award_xp(target, nom_amount, enactor.name, 'Nomination')
+          Pf2egear.pay_player(target, nom_money, enactor.name, 'Nomination')
           already_nomd << target.player
           success_list << target.name
         end

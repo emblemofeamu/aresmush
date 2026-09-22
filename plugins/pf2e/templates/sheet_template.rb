@@ -153,7 +153,10 @@ module AresMUSH
 
         return [] if skills.empty?
 
-        filter_skills = skills.to_a.delete_if { |s| s.prof_level == 'untrained' }
+        # A row with no proficiency at all is not one the player has trained, and `untrained` was
+        # the only value being filtered - so a blank one reached format_skill and `nil[0]` took
+        # the whole sheet down.
+        filter_skills = skills.to_a.reject { |s| s.prof_level.to_s.strip.empty? || s.prof_level == 'untrained' }
 
         sort_skills = filter_skills.sort_by { |s| s.name }
 
@@ -258,7 +261,7 @@ module AresMUSH
         # Each stored instance becomes its own entry, so a repeatable feat shows once per
         # taking with the choice that instance was taken for.
         %w(charclass ancestry general skill dedication).each do |type|
-          Pf2e.feat_display_list(@char, @char.pf2_feats[type] || []).each do |name|
+          Pf2e.feat_display_list(@char, Pf2e::DraftSheet.of(@char).feats_by_bucket[type] || []).each do |name|
             list << format_feat(name, type)
           end
         end
@@ -267,23 +270,26 @@ module AresMUSH
       end
 
       def class_features
-        if @char.pf2_features['charclass_features'].empty?
-          "None"
-        else
-          @char.pf2_features['charclass_features'].sort.join(", ")
-        end
+        feature_list('charclass_features')
       end
 
       def archetype_features
-        if @char.pf2_features['archetype_features'].empty?
-          "None"
-        else
-          @char.pf2_features['archetype_features'].sort.join(", ")
-        end
+        feature_list('archetype_features')
       end
 
+      # Through Array(), because the materialiser rebuilds pf2_features from the fold and the fold
+      # only makes a bucket that has something in it: a character with no archetype has no
+      # 'archetype_features' key at all, and `sheet` raised NoMethodError on every one of them.
+      def feature_list(bucket)
+        held = Array((@char.pf2_features || {})[bucket])
+
+        held.empty? ? "None" : held.sort.join(", ")
+      end
+
+      # Through DraftSheet, so a language picked during chargen or an open level-up shows on the
+      # sheet before its commit boundary records it.
       def languages
-        lang = @char.pf2_lang
+        lang = Pf2e::DraftSheet.of(@char).languages
         lang.empty? ? "None set." : lang.sort.join(", ")
       end
 
@@ -465,13 +471,13 @@ module AresMUSH
         linked_attr = print_linked_attr(name)
         skill_mod = "%xh#{Pf2eSkills.get_skill_bonus(char, name)}%xn"
         linebreak = i % 2 == 1 ? "" : "%r"
-        proflevel = " (#{s.prof_level[0].upcase})"
+        proflevel = " (#{s.prof_level.to_s[0].to_s.upcase})"
         "#{linebreak}#{left(fmt_name + linked_attr,21)} #{left(skill_mod + proflevel, 17)}"
       end
 
       def format_profs(name, prof, i)
         fmt_name = "%xh#{name.capitalize}%xn"
-        fmt_prof = prof[0].upcase
+        fmt_prof = prof.to_s[0].to_s.upcase
 
         "#{fmt_name} (#{fmt_prof})"
       end

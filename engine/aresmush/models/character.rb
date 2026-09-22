@@ -146,15 +146,11 @@ module AresMUSH
     end
 
     def ooc_name
-      # Emblem of Ea chooses not to display handle names on channels.
-      # if (self.handle)
-        # display_name = "#{self.name} (@#{self.handle.name})"
-      # else
-        display_name = self.name
-      # end
-
-      return display_name
-    end  
+      # Emblem of Ea chooses not to display handle names on channels, pages or
+      # scene poses, so this is the character's name whether or not they have a
+      # public handle.  Upstream AresMUSH renders "Name (@Handle)" here.
+      self.name
+    end
     
     def is_blocked?(target, block_type)
       return false if !target

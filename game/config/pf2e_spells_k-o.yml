@@ -38,6 +38,22 @@ pf2e_spells:
     actions: 2
     effect: In your mind's eye, you magically reorient yourself. You immediately know which direction is north (if it exists at your current location), and you can choose a location you were at within the last 24 hours and learn what direction it lies.
     heighten: "**3rd:** You can choose a location you were at within the last week.%r**7th:** You can choose a location you were at regardless of how long ago you were there."
+  Lament:
+    base_level: 1
+    traits:
+      - auditory
+      - cleric
+      - concentrate
+      - emotion
+      - focus
+      - manipulate
+      - mental
+      - uncommon
+    actions: 2
+    range: "30-foot cone"
+    target: "1 or more creatures"
+    effect: "You let out your negative emotions in a guttural wail that shakes your enemies' hearts and deals 1d8 mental damage (basic Will save) to each creature in the area. If you have any harmful conditions imposed by emotion effects, lament deals additional mental damage equal to the counteract rank of the highest-level effect."
+    heighten: "**+1:** The damage increases by 1d8."
   Laughing Fit:
     base_level: 2
     bloodline:
@@ -1006,6 +1022,23 @@ pf2e_spells:
     range: touch
     target: 1 creature
     effect: "You afflict the target with a curse that makes its presence abrasive and off-putting. The target must attempt a Will save.%r%r**Critical Success** The target is unaffected.%r**Success** For 10 minutes, the target must roll twice and use the worse result whenever attempting a Deception, Diplomacy, Intimidation, or Performance check, and creatures they encounter have an initial attitude toward them of one step worse (for instance, unfriendly instead of indifferent).%r%r**Failure** As success, but the effect is permanent.%r%r**Critical Failure** As failure, and creatures that the target encounters have an initial attitude toward them of two steps worse."
+  Overflowing Sorrow:
+    base_level: 1
+    traits:
+      - aura
+      - cleric
+      - concentrate
+      - emotion
+      - focus
+      - incapacitation
+      - manipulate
+      - mental
+      - uncommon
+    actions: 2
+    area: 15-foot emanation
+    duration: "1 minute"
+    effect: "Sadness flows out of you into nearby creatures, blotting out any other thoughts they had. The first time a creature begins its turn in the area or enters the area, it must attempt a Will save. If it later leaves and reenters the area, it uses the same effect as before.%r%r**Critical Success** The creature is unaffected.%r**Success** The creature takes a –1 status penalty to skill checks and Perception checks as long as it remains in the area.%r**Failure** While the creature is in the area, any emotion effects of lower counteract rank than overflowing sorrow are suppressed, and whenever the creature attempts to use an emotion action or cast an emotion spell, it must succeed at a flat check (DC 11) or the action or spell is disrupted.%r**Critical Failure** As failure, but the creature can't use emotion actions or spells."
+    heighten: "**+2:** When you Cast the Spell, you can choose to increase the area by 5 feet."
   Overstuff:
     base_level: 1
     traits:

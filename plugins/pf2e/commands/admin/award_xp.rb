@@ -37,9 +37,7 @@ module AresMUSH
           return
         end
 
-        Pf2e.award_xp(awardee, self.award)
-
-        Pf2e.record_xp_history(awardee, enactor.name, self.award, self.reason)
+        Pf2e.award_xp(awardee, self.award, enactor.name, self.reason)
 
         client.emit_success t('pf2e.xp_awarded', :awardee => awardee.name, :award => self.award)
       end

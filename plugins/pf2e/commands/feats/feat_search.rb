@@ -6,12 +6,28 @@ module AresMUSH
 
       attr_accessor :search_type, :search_term
 
+      # The searches that take something in front of the term: a comparison for level, a class for
+      # classlevel. Everywhere else the whole argument is the term, so a name may run to as many
+      # words as it likes.
+      OPERATOR_TYPES = %w{level classlevel}.freeze
+
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_equals_arg2)
 
         self.search_type = downcase_arg(args.arg1)
-        self.search_term = trimmed_list_arg(args.arg2)
+        self.search_term = trim_arg(args.arg2)
 
+      end
+
+      # [ term, operator ], with the operator nil on every search that does not take one.
+      def term_and_operator
+        return [ self.search_term.to_s, nil ] unless OPERATOR_TYPES.include?(self.search_type)
+
+        operator, _, term = self.search_term.to_s.strip.partition(' ')
+
+        return [ self.search_term.to_s, nil ] if term.strip.empty?
+
+        [ term.strip, operator ]
       end
 
       def required_args
@@ -38,18 +54,13 @@ module AresMUSH
 
       def handle
 
-        if self.search_term[1]
-          term = self.search_term[1]
-          operator = self.search_term[0]
-        else 
-          # Operator has default defined in search_feats.
-          term = self.search_term[0].upcase
-        end
+        term, operator = term_and_operator
 
-        match = Pf2e.search_feats(self.search_type, term, operator)
+        match = Pf2e.search_feats(self.search_type, term.upcase, operator)
 
         if match.empty?
-          client.emit_failure t('pf2e.nothing_to_display', :elements => 'feats')
+          client.emit_failure Pf2e::Renames.hint_for('feats', term, Global.read_config('pf2e_feats').keys) ||
+                              t('pf2e.nothing_to_display', :elements => 'feats')
           return
         end
 

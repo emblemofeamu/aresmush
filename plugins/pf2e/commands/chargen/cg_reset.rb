@@ -19,28 +19,26 @@ module AresMUSH
         end
       end
 
+      # The confirmation dance is Pf2e::Chargen::Lifecycle.reset; the destructive part runs
+      # here once the core says the player confirmed.
       def handle
+        before = Pf2e::CharState.of(enactor)
+        outcome = Pf2e::CharacterService.call(before, :reset_chargen, 'confirm' => !!self.confirm)
 
-        if (enactor.pf2_reset && !self.confirm)
-          client.emit_ooc t('pf2e.must_confirm')
-          return nil
-        elsif !enactor.pf2_reset && self.confirm
-          client.emit_failure t('pf2e.reset_first')
-          return nil
-        elsif !enactor.pf2_reset && !self.confirm
-          client.emit_ooc t('pf2e.are_you_sure')
-          enactor.update(pf2_reset: true)
-          return nil
+        return if Pf2e::CharState.emit_error!(client, outcome)
+
+        if outcome.state['do_reset']
+          Pf2e.reset_character(enactor)
+
+          # The cuddles are load-bearing.
+          message = rand(0..20).zero? ? t('pf2e.cg_reset_ok_cuddles') : t('pf2e.cg_reset_ok')
+          enactor.update(:pf2_reset => false)
+          client.emit_success message
+          return
         end
 
-        Pf2e.reset_character(enactor)
-
-        cuddles = rand(0..20)
-
-        message = cuddles.zero? ? t('pf2e.cg_reset_ok_cuddles') : t('pf2e.cg_reset_ok')
-
-        client.emit_success message
-
+        enactor.update(:pf2_reset => !!outcome.state['reset_pending'])
+        Pf2e::CharState.emit_messages!(client, outcome)
       end
 
     end

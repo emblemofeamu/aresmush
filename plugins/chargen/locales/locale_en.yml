@@ -1,7 +1,6 @@
 en:
     chargen:
         you_are_already_approved: "You are already approved."
-        already_approved: "%{name} is already approved."
         not_approved: "%{name} is not approved."
         app_unapproved: "You unapprove %{name}."
         app_approved: "You approve %{name}."

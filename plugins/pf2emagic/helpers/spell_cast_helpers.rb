@@ -12,8 +12,8 @@ module AresMUSH
       return caster_stats if caster_stats.is_a? String
 
       # Do they have this spell in their list for that type?
-      splist = magic.focus_spells[focus_type] || []
-      cantrip_list = magic.focus_cantrips[focus_type] || []
+      splist = Entries.focus_spells(magic, focus_type)
+      cantrip_list = Entries.focus_cantrips(magic, focus_type)
 
       spname = splist.select { |sp| sp.downcase.match? spell.downcase }
       cantrip_match = cantrip_list.select { |sp| sp.downcase.match? spell.downcase }
@@ -61,7 +61,7 @@ module AresMUSH
       caster_stats = get_caster_stats(char, charclass, focus_type)
       return caster_stats if caster_stats.is_a? String
 
-      splist = magic.focus_cantrips[focus_type]
+      splist = Entries.focus_cantrips(magic, focus_type)
 
       spname = splist.select { |sp| sp.downcase.match? spell.downcase }
 
@@ -149,12 +149,7 @@ module AresMUSH
                                  .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
       max_castable_level = castable_levels.max || 0
 
-      signature_spells = magic.signature_spells[charclass] || {}
-
-      known_signature_levels = signature_spells.select do |_sig_level, sig_spells|
-        Array(sig_spells).include?(spname)
-      end.keys
-
+      known_signature_levels = Pf2emagic::Entries.signature_ranks(magic, charclass, spname)
       is_signature_spell = !known_signature_levels.empty?
 
       available = if splevel == 'cantrip'
@@ -293,15 +288,13 @@ module AresMUSH
                  .map { |lv| lv.to_s.downcase == 'cantrip' ? 0 : lv.to_i }
       max_castable_level = castable_levels.max || 0
 
-      repertoire = magic.repertoire[charclass] || {}
+      # Through Entries, so a source recorded as an entry rather than in the class-keyed hash -
+      # a spontaneous archetype, an item - can be cast from.
+      repertoire = Pf2emagic::Entries.known(magic, charclass)
       known_at_level = Array(repertoire[splevel]).include?(spname) ||
                        Array(repertoire[splevel.to_i]).include?(spname)
 
-      signature_spells = magic.signature_spells[charclass] || {}
-      known_signature_levels = signature_spells.select do |_sig_level, sig_spells|
-        Array(sig_spells).include?(spname)
-      end.keys
-
+      known_signature_levels = Pf2emagic::Entries.signature_ranks(magic, charclass, spname)
       is_signature_spell = !known_signature_levels.empty?
 
       valid_signature_level = if splevel == 'cantrip'
@@ -367,13 +360,12 @@ module AresMUSH
 
       # Is that spell name in their list of innate spells?
 
-      innate_spells = magic.innate_spells
-      splist = innate_spells.keys
+      return t('pf2emagic.not_in_innate_list', :name => spname) unless Entries.knows_innate?(magic, spname)
 
-      return t('pf2emagic.not_in_innate_list', :name => spname) unless splist.include? spname
-
-      # Innate spells are structured a little differently and may overwrite base caster stats.
-      spinfo = innate_spells[spname]
+      # Innate spells are structured a little differently and may overwrite base caster stats. One
+      # spell can be granted more than once at different ranks, so which grant to cast from is a
+      # decision, and it is Entries' to make.
+      spinfo = Entries.innate_to_cast(magic, spname, (magic.spells_today || {})['innate'])
 
       level = spinfo['level'].to_s
       if level.downcase != 'cantrip' && level.to_i > 0
@@ -453,8 +445,8 @@ module AresMUSH
       focus_type = Global.read_config('pf2e_magic', 'focus_type_by_source', charclass)
       return nil unless focus_type
 
-      focus_spells = magic.focus_spells[focus_type] || []
-      focus_cantrips = magic.focus_cantrips[focus_type] || []
+      focus_spells = Entries.focus_spells(magic, focus_type)
+      focus_cantrips = Entries.focus_cantrips(magic, focus_type)
 
       spell_match = focus_spells.select { |sp| sp.downcase.match? spell.downcase }
       cantrip_match = focus_cantrips.select { |sp| sp.downcase.match? spell.downcase }
@@ -475,12 +467,11 @@ module AresMUSH
 
       # Can this character cast as this class?
 
-      cast_stats = magic.tradition[charclass]
-      return t('pf2emagic.not_casting_class', :cc => charclass) unless cast_stats
+      return t('pf2emagic.not_casting_class', :cc => charclass) unless Entries.casts_from?(magic, charclass)
 
       spell_abil = PF2Magic.get_spell_abil(char, charclass, is_focus)
-      tradition = cast_stats[0]
-      prof_level = cast_stats[1]
+      tradition = Entries.tradition_of(magic, charclass)
+      prof_level = Entries.proficiency_of(magic, charclass)
       modifier = Pf2eAbilities.abilmod(Pf2eAbilities.get_score(char, spell_abil))
 
       # Return a hash of all the pieces of their casting stats for that class.

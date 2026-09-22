@@ -2,11 +2,19 @@ module AresMUSH
   class PF2Magic < Ohm::Model
     include ObjectModel
 
-    attribute :focus_cantrips, :type => DataType::Hash, :default => {}
-    attribute :focus_spells, :type => DataType::Hash, :default => {}
+    # The focus pool is shared: PF2e gives a character one pool however many sources feed it. The
+    # spells live on Pf2eSpellcastingEntry rows, one per focus type per granting source, because a
+    # bucket per type cannot say whose the spells are.
     attribute :focus_pool, :type => DataType::Hash, :default => { "max"=>0, "current"=>0 }
     attribute :last_refocus, :type => DataType::Time
-    attribute :innate_spells, :type => DataType::Hash, :default => {}
+    # A list of grants rather than a map keyed by spell name, because two sources can grant the same
+    # innate spell and a map holds only one of them. Charm comes from Enthralling Allure at rank 4
+    # divine and Supernatural Charm at rank 1 arcane; Interplanar Teleport is divine from one source
+    # and primal from another; and six sources grant an unchosen 'open' spell, so a single 'open' key
+    # would hold one pick where the character has several.
+    # Each grant is { 'name', 'level', 'tradition', 'cast_stat' }. Read it through
+    # Pf2emagic::Entries, not directly.
+    attribute :innate_spells, :type => DataType::Array, :default => []
     attribute :revelation_locked, :type => DataType::Boolean
     attribute :signature_spells, :type => DataType::Hash, :default => {}
     attribute :repertoire, :type => DataType::Hash, :default => {}
@@ -115,6 +123,21 @@ module AresMUSH
       hash
     end
 
+    # Every key update_magic understands. Named because a caller holding a magic_stats block has to
+    # tell "a block of stats" from "a block keyed by class", and the only difference is whether its
+    # keys are these. A key missing from this list makes a block of stats look class-keyed, and each
+    # stat is then dispatched as if it were a class name.
+    STAT_KEYS = %w{
+      spell_abil tradition spells_per_day restricted_slots restricted_spellbook repertoire
+      focus_pool addrepertoire get_genie_repertoire get_dragon_repertoire focus_spell
+      domain_focus_spell focus_cantrip spellbook addspellbook adapted_spell signature_spell
+      signature_spells innate_spell divine_font grant_choice gated_spell focus_source
+    }.freeze
+
+    def self.stats_block?(info)
+      info.is_a?(Hash) && info.keys.all? { |key| STAT_KEYS.include?(key.to_s) }
+    end
+
     def self.update_magic(char, charclass, info, client)
       magic = get_create_magic_obj(char)
 
@@ -128,11 +151,16 @@ module AresMUSH
           spell_abil[charclass] = value
           magic.spell_abil = spell_abil
 
+          Pf2emagic::Entries.grant_casting!(char, charclass, :ability => value)
+
         when "tradition"
-          # magic.tradition structure: { charclass => [ trad, prof ] }
+          # The hash is still the register of which classes cast at all - Entries.derived reads
+          # it to find them - so it is written as well as the row, until the spell lists move too.
           tradition = magic.tradition
           value.each_pair do |trad, prof|
             tradition[charclass] = [ trad, prof ]
+
+            Pf2emagic::Entries.grant_casting!(char, charclass, :tradition => trad, :proficiency => prof)
           end
 
           magic.tradition = tradition
@@ -150,31 +178,15 @@ module AresMUSH
           spells_per_day[charclass] = spd_for_class
 
           magic.spells_per_day = spells_per_day
-        when "restricted_slots"
-          # Structure: { charclass => { restriction => { "cantrip" => 1, 1 => 1 } } }
+        when "restricted_slots", "restricted_spellbook"
+          # Structure: { charclass => { restriction => { "cantrip" => 1, 1 => 1 } } }, for the
+          # slots a restriction reserves per day and the spellbook entries it reserves. The two
+          # differ only in which attribute they land in, so they share one branch.
+          restricted = magic.send(key)
+          for_class = restricted[charclass] || {}
 
-          restricted = magic.restricted_slots
-          for_class = restricted[charclass] ? restricted[charclass] : {}
-
-          value.each_pair do |restriction, by_rank|
-            existing = for_class[restriction] ? for_class[restriction] : {}
-
-            (by_rank || {}).each_pair do |rank, num|
-              existing[rank] = Pf2emagic.apply_stat_delta(existing[rank], num)
-            end
-
-            for_class[restriction] = existing
-          end
-
-          restricted[charclass] = for_class
-
-          magic.restricted_slots = restricted
-        when "restricted_spellbook"
-          restricted = magic.restricted_spellbook
-          for_class = restricted[charclass] ? restricted[charclass] : {}
-
-          value.each_pair do |restriction, by_rank|
-            existing = for_class[restriction] ? for_class[restriction] : {}
+          (value || {}).each_pair do |restriction, by_rank|
+            existing = for_class[restriction] || {}
 
             (by_rank || {}).each_pair do |rank, num|
               existing[rank] = Pf2emagic.apply_stat_delta(existing[rank], num)
@@ -184,7 +196,8 @@ module AresMUSH
           end
 
           restricted[charclass] = for_class
-          magic.restricted_spellbook = restricted
+
+          magic.send("#{key}=", restricted)
         when "repertoire"
           # Structure: { "cantrip" => 5, 1 => 3, 2 => 1 }
           # This key gets dumped into to_assign as repertoire and represents spells that need to be chosen
@@ -287,30 +300,22 @@ module AresMUSH
           repertoire[charclass] = rep_for_class
 
           magic.repertoire = repertoire
-        when "focus_spell", "domain_focus_spell"
-          # focus spell structure: { "devotion" => [spell, spell, spell], "revelation" => [spell] }
+        when "focus_spell", "domain_focus_spell", "focus_cantrip"
+          # One spellcasting entry per focus type per granting source, so two sources of the same
+          # type stay apart - they share PF2e's single focus pool but cast at their own DCs.
+          # Cantrips and spells are the same entry under different keys, because they differ only
+          # in how they are cast.
+          kind = key.to_s == 'focus_cantrip' ? 'cantrip' : 'spell'
 
-          focus_spells = magic.focus_spells
-
-          value.each_pair do |fstype, spell_list|
-            fs_by_type = focus_spells[fstype] ? focus_spells[fstype] : []
-            fs_by_type = (fs_by_type + spell_list).uniq
-            focus_spells[fstype] = fs_by_type
-          end
-
-          magic.focus_spells = focus_spells
-        when "focus_cantrip"
-          # Structure identical to focus_spells, kept separate because they are cast differently.
-
-          focus_cantrips = magic.focus_cantrips
+          # A block may name what granted it - "Domain Healing" for a cleric's domain spell -
+          # and otherwise it is the class itself. Recorded with the level, so the sheet can say
+          # where a focus spell came from without deriving it.
+          source = info['focus_source'].presence || charclass
 
           value.each_pair do |fstype, spell_list|
-            fs_by_type = focus_cantrips[fstype] ? focus_cantrips[fstype] : []
-            fs_by_type = (fs_by_type + spell_list).uniq
-            focus_cantrips[fstype] = fs_by_type
+            Pf2emagic::Entries.grant_focus!(char, fstype, spell_list,
+              :kind => kind, :granted_by => source, :granted_at => char.pf2_level)
           end
-
-          magic.focus_cantrips = focus_cantrips
         when "spellbook"
           # Spells need to be chosen, redirect to to_assign.
 
@@ -380,19 +385,18 @@ module AresMUSH
           to_assign["signature"] = assignment_list
 
         when "innate_spell"
-          # Structure of innate spells: {spell name => { 'level' => <level>, 'tradition' => tradition, 'cast_stat' => cast_stat}}
-
-          ilist = magic.innate_spells
-          names = Array(value['name'])
+          # One grant appended per spell, so two sources granting the same spell are two grants
+          # rather than one overwriting the other. See the note on the attribute.
+          grants = Array(magic.innate_spells)
           spell_data = value.reject { |k, _| k == 'name' }
 
-          names.each do |spell_name|
-            next if spell_name.nil? || spell_name.empty?
+          Array(value['name']).each do |spell_name|
+            next if spell_name.nil? || spell_name.to_s.empty?
 
-            ilist[spell_name] = spell_data
+            grants = grants + [ spell_data.merge('name' => spell_name) ]
           end
 
-          magic.innate_spells = ilist
+          magic.innate_spells = grants
         when "divine_font"
           if value.size > 1
 
@@ -406,6 +410,11 @@ module AresMUSH
           sublist_name = value + " spell"
 
           to_assign[sublist_name] = value
+        when 'focus_source'
+          # Not a stat of its own: it names what granted the focus spell in the same block, and
+          # the focus_spell arm above reads it. Falling through to the else told a Champion
+          # taking their devotion spell to go and inform staff.
+          next
         else
           client.emit_ooc "Unknown key #{key} in update_magic. Please inform staff."
         end

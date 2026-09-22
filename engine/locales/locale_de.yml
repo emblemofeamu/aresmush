@@ -23,7 +23,8 @@ de:
         welcome: "Wilkommen bei AresMUSH!"
 
     number:
-        separator: ','
+        format:
+            separator: ','
 
       
     pages:

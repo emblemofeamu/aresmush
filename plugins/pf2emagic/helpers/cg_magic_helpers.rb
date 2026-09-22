@@ -1,19 +1,6 @@
 module AresMUSH
   module Pf2emagic
 
-    def self.generate_blank_spell_list(obj, charclass)
-
-      spells_per_day = obj.spells_per_day
-      class_spells_per_day = spells_per_day[charclass]
-
-      class_spells_per_day.each_pair do |level, count|
-        list = Array.new(count, "open")
-
-        prepared_list[level] = list
-      end
-
-    end
-
     def self.get_caster_type(charclass)
       prepared = Array(Global.read_config('pf2e_magic', 'prepared_casters'))
       spont = Array(Global.read_config('pf2e_magic', 'spontaneous_casters'))
@@ -30,51 +17,122 @@ module AresMUSH
 
     end
 
+    # Writes a spell into the list its class keeps - a spellbook for a prepared caster, a
+    # repertoire for a spontaneous one - replacing `old_spname` when this is a swap rather than an
+    # addition. Returns nil on success and a player-facing string when the spell being replaced is
+    # not there, which is the shape every caller of it already expects.
+    def self.record_known_spell(magic, caster_type, charclass, level, to_add, old_spname = nil)
+      attr = caster_type == 'prepared' ? :spellbook : :repertoire
+      held = magic.send(attr) || {}
+      for_class = held[charclass] || {}
+      at_level = for_class[level] || []
+
+      if old_spname
+        index = at_level.index old_spname
+
+        return t('pf2emagic.spell_to_delete_not_found') unless index
+
+        at_level[index] = to_add
+      else
+        at_level << to_add
+      end
+
+      for_class[level] = at_level
+      held[charclass] = for_class
+      magic.update(attr => held)
+
+      nil
+    end
+
+    # What to tell a player holding an innate spell slot they have not filled, or nil.
+    #
+    # The rank and the tradition both narrow what may go in, and the command wants the rank - so
+    # the prompt carries all three. Saying only that a choice was outstanding sent players to
+    # guess the rank, and a guess that misses is refused without explaining why.
+    def self.innate_prompt(pending)
+      slots = Array(pending).map do |grant|
+        rank = grant['level'].to_s
+        rank = 'cantrip' if rank.casecmp?('cantrip') || rank.to_i.zero?
+        tradition = grant['tradition'].to_s
+
+        t(tradition.empty? ? 'pf2emagic.cg_innate_slot_plain' : 'pf2emagic.cg_innate_slot',
+          :rank => rank, :tradition => tradition, :command => "addspell innate/#{rank} = <spell>")
+      end
+
+      return nil if slots.empty?
+
+      t('pf2emagic.cg_innate_spells', :slots => slots.join(" "))
+    end
+
+    # What to say when a name matched nothing.
+    #
+    # The shipped data uses Remaster names and players arrive with the old ones, so a bare "not in
+    # the spells database" leaves them guessing. Two answers, in order of how much they help: the
+    # rename table knows Magic Missile is Force Barrage outright, and anything sharing a word with
+    # what they typed is worth offering after that.
+    def self.no_such_spell_message(term, hash)
+      table = Pf2e::Renames.table('spells')
+      renamed = Pf2e::Renames.lookup(term, table)
+
+      # A name the table knows outright is the whole answer. Guessing at what else they might have
+      # meant on top of it only buries the one line that helps.
+      return Pf2e::Renames.describe_one(renamed.first, renamed.last, hash.keys) if renamed
+
+      [ Pf2e::Renames.hint(term, table, hash.keys), near_spell_message(term, hash) ].compact.join(" ")
+    end
+
+    def self.near_spell_message(term, hash)
+      words = term.to_s.downcase.split.reject { |word| word.size < 3 }
+      scored = hash.keys.map { |name| [ name, words.count { |word| name.downcase.include?(word) } ] }
+                   .reject { |_name, hits| hits.zero? }
+
+      return t('pf2emagic.no_such_spell') if scored.empty?
+
+      # Most words matched first, then alphabetically.
+      near = scored.sort_by { |name, hits| [ -hits, name ] }.map(&:first)
+
+      t('pf2emagic.no_such_spell_but', :options => near.first(8).join(", "))
+    end
+
     def self.check_spell(char, charclass, level, term, common_only=false)
 
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == term.downcase }
 
-      return t('pf2emagic.no_such_spell') if match.empty?
+      return no_such_spell_message(term, hash) if match.empty?
       return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
 
       spell = match.first
       deets = hash[spell]
 
-      # Can the class they specified cast the spell they want?
+      # Can the class they specified cast at all?
       magic = char.magic
-      charclass_trad = magic.tradition[charclass]
       caster_type = get_caster_type(charclass)
 
-      return t('pf2emagic.cant_cast_as_class') unless (charclass_trad && caster_type)
+      return t('pf2emagic.cant_cast_as_class') unless Entries.casts_from?(magic, charclass) && caster_type
 
-      # A spell that does not have a tradition key cannot be put in a spellbook.
-      return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
+      # Everything else about the spell itself - the tradition, the rank, and whether a spellbook
+      # addition can still be seated - is SpellPick, which chargen asks too.
+      failure = SpellPick.check(
+        'list' => caster_type == 'prepared' ? 'spellbook' : 'repertoire',
+        'rank' => level,
+        'spell' => spell,
+        'tradition' => Entries.tradition_of(magic, charclass),
+        'details' => deets,
+        'adapted' => adapted_spell?(char, charclass, spell),
+        'fits' => spellbook_addition_fits?(char, charclass, level, spell, nil, :advancement))
 
-      # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
-      # even though it sits off that class's tradition list.
-      charclass_can_cast = deets['tradition'].include?(charclass_trad[0]) ||
-                           adapted_spell?(char, charclass, spell)
-
-      return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
-
-      # Can they take the spell at the level specified?
-
-      spbl = deets["base_level"].to_i
-      level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-      spell_is_cantrip = spbl.zero?
-
-      return t('pf2emagic.cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-      return t('pf2emagic.cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-      return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
-
-      unless spellbook_addition_fits?(char, charclass, level, spell, nil, :advancement)
-        return t('pf2emagic.no_unrestricted_spellbook')
-      end
+      return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
       [ spell, deets ]
     end
 
+    # Whether one more spell fits in a prepared caster's spellbook at a rank.
+    #
+    # The same assignment problem as preparing spells into slots, one lifetime earlier: some
+    # entries at a rank are reserved - a Wizard's curriculum entry takes a school spell and nothing
+    # else - so which of the proposed spells can sit in the reserved place decides it, not how many
+    # there are. Pf2emagic::SlotFit answers that.
     def self.spellbook_addition_fits?(char, charclass, level, spell, replacing=nil, scope=:all)
       magic = char.magic
       return true unless magic
@@ -86,29 +144,26 @@ module AresMUSH
       end
       return true unless for_class.is_a?(Hash)
 
-      restricted = for_class.each_with_object({}) do |(restriction, by_rank), hash|
+      restrictions = for_class.each_with_object({}) do |(restriction, by_rank), found|
         count = restricted_count_at_rank(by_rank, level)
-        hash[restriction] = count if count.positive?
+        next unless count.positive?
+
+        found[restriction] = {
+          'count' => count,
+          'eligible' => Pf2emagic::Restrictions.eligible(char, charclass, restriction, level)
+        }
       end
 
-      return true if restricted.empty?
-
-      if restricted.size > 1
-        Global.logger.error "More than one spellbook restriction at rank #{level} for #{char.name}; only the first is enforced."
-      end
-
-      restriction, count = restricted.first
+      return true if restrictions.empty?
 
       held = if scope == :advancement
         Array((Pf2e.preview_spellbook(char, charclass)[charclass] || {})[level])
       else
-        Array((magic.spellbook[charclass] || {})[level])
+        Array(Entries.known(magic, charclass)[level])
       end
 
-      capacity = held.size + pending_spellbook_picks(char, charclass, level)
-      open = capacity - count
-
-      return true if open >= capacity
+      total = held.size + pending_spellbook_picks(char, charclass, level)
+      open = total - restrictions.each_value.sum { |r| r['count'] }
 
       proposed = held + [ spell ]
 
@@ -117,10 +172,7 @@ module AresMUSH
         proposed.delete_at(out) if out
       end
 
-      eligible = Pf2emagic.restricted_spell_list(char, charclass, restriction, level).map { |s| s.to_s.downcase }
-      others = proposed.reject { |s| eligible.include?(s.to_s.downcase) }
-
-      others.size <= open
+      Pf2emagic::SlotFit.fits?(Pf2emagic::SlotFit.from_slots(open, restrictions), proposed)
     end
 
     def self.restricted_count_at_rank(by_rank, level)
@@ -142,6 +194,21 @@ module AresMUSH
       end
 
       block.is_a?(Hash) ? block : {}
+    end
+
+    # Which restriction claims entries at a rank while a level is open, and how many.
+    #
+    # A restricted spellbook is `restriction => rank => count`, and the shipped data gives a class
+    # one restriction at a time. Nil when nothing is claimed at the rank, which is every caster
+    # without a curriculum.
+    def self.advancement_restriction_at(char, charclass, level)
+      advancement_restricted_spellbook(char, charclass).each_pair do |name, by_rank|
+        count = restricted_count_at_rank(by_rank, level)
+
+        return { 'name' => name, 'count' => count } if count.positive?
+      end
+
+      nil
     end
 
     def self.pending_spellbook_picks(char, charclass, level)
@@ -185,7 +252,7 @@ module AresMUSH
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == new_spell.downcase }
 
-      return t('pf2emagic.no_such_spell') if match.empty?
+      return no_such_spell_message(new_spell, hash) if match.empty?
       return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
 
       # Spell's valid. Does it pass the gate?
@@ -214,42 +281,9 @@ module AresMUSH
         return t('pf2emagic.spell_to_delete_not_found') unless old_spname
       end
 
-      if caster_type == "prepared"
-        csb = magic.spellbook
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        # There might be a spell swap.
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
+      error = record_known_spell(magic, caster_type, charclass, level, to_add, old_spname)
 
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(spellbook: csb)
-      else
-        csb = magic.repertoire
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
-
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(repertoire: csb)
-      end
+      return error if error
 
       # The calling handler should interpret a nil response as a successful add and a String as a failure.
       return nil
@@ -281,7 +315,7 @@ module AresMUSH
       hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == new_spell.downcase }
 
-      return t('pf2emagic.no_such_spell') if match.empty?
+      return no_such_spell_message(new_spell, hash) if match.empty?
       return t('pf2emagic.multiple_matches', :item => 'spell') if (match.size > 1)
 
       to_add = match.first
@@ -293,54 +327,45 @@ module AresMUSH
 
       return t('pf2emagic.cant_cast_as_class') unless (charclass_trad && caster_type)
 
-      # A spell that does not have a tradition key cannot be put in a spellbook.
-      return t('pf2emagic.not_spellbook_eligible') unless deets['tradition']
-
-      # An adapted spell (Adapted Cantrip and friends) counts as castable by the class
-      # even though it sits off that class's tradition list.
-      charclass_can_cast = deets['tradition'].include?(charclass_trad[0]) ||
-                           adapted_spell?(char, charclass, to_add)
-
-      return t('pf2emagic.class_does_not_get_spell') unless charclass_can_cast
-
-      # Can they learn that level of spell?
-      # This is assumed to be true if the base level of the spell is a key in either the to_assign hash for the list type
-      # OR in the character's personal list.
-
-      spbl = deets["base_level"].to_i
-      level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-      spell_is_cantrip = spbl.zero?
       new_spells_for_level = new_spells_to_assign[level]
-
-      return t('pf2emagic.cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-      return t('pf2emagic.cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-      return t('pf2emagic.cant_prepare_level') if spbl > level.to_i
 
       return t('pf2emagic.no_new_spells_at_level') unless new_spells_for_level
 
-      # Do they already have that spell on their list of to_assign?
-      return t('pf2emagic.spell_already_on_list_to_assign') if new_spells_to_assign[level].include? to_add
+      # Which entry the spell goes into: the one holding the spell being replaced, or the first open
+      # one. Resolved before the rules, because whether a spellbook addition still fits depends on
+      # which spell is leaving.
+      if old_spell.blank?
+        old_spname = nil
+        i = new_spells_for_level.index "open"
 
-      # At this point, the spell choice is deemed valid. If old_spell is true, they're swapping. Can they do that?
-
-      if !(old_spell.blank?)
-        # Find the correct name for the old spell.
+        return t('pf2emagic.no_available_slots') unless i
+      else
         # This will fall to not_in_list if they got the wrong match due to lack of specificity.
         old_spname = get_spells_by_name(old_spell).first
 
         return t('pf2emagic.spell_to_delete_not_found') unless old_spname
 
         i = new_spells_for_level.index old_spname
+
         return t('pf2emagic.not_in_list') unless i
-      else
-        old_spname = nil
-        i = new_spells_for_level.index "open"
-        return t('pf2emagic.no_available_slots') unless i
       end
 
-      if sp_list_type == "spellbook" && !spellbook_addition_fits?(char, charclass, level, to_add, old_spname)
-        return t('pf2emagic.no_unrestricted_spellbook')
-      end
+      # Every rule that is not about how the name was resolved, from the one place a level-up asks
+      # them too - the ranks, the tradition, what they already have, and whether a spellbook
+      # addition can still be seated among its restricted entries.
+      failure = SpellPick.check(
+        'list' => sp_list_type,
+        'rank' => level,
+        'spell' => to_add,
+        'tradition' => charclass_trad[0],
+        'details' => deets,
+        'adapted' => adapted_spell?(char, charclass, to_add),
+        'picks' => new_spells_for_level,
+        'known' => Entries.known(magic, charclass),
+        'fits' => sp_list_type != 'spellbook' ||
+                  spellbook_addition_fits?(char, charclass, level, to_add, old_spname))
+
+      return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
       # If we have reached this point, it's time to add the spell.
       # Stuff into to_assign for tracking of what got bought when.
@@ -354,42 +379,9 @@ module AresMUSH
       # Note that this function should not be used for uncommon or rare spells going in a spellbook.
       # That is expected to be handled by admin/set.
 
-      if caster_type == "prepared"
-        csb = magic.spellbook
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        # There might be a spell swap.
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
+      error = record_known_spell(magic, caster_type, charclass, level, to_add, old_spname)
 
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(spellbook: csb)
-      else
-        csb = magic.repertoire
-        csb_cc = csb[charclass] || {}
-        csb_level = csb_cc[level] || []
-        if old_spname
-          csb_i = csb_level.index old_spname
-          # Probably an unnecessary check, but it flags if spells are not being added properly.
-          return t('pf2emagic.spell_to_delete_not_found') unless csb_i
-
-          csb_level[csb_i] = to_add
-        else
-          csb_level << to_add
-        end
-
-        csb_cc[level] = csb_level
-        csb[charclass] = csb_cc
-        magic.update(repertoire: csb)
-      end
+      return error if error
 
       # The calling handler should interpret a nil response as a successful add and a String as a failure.
       return nil
@@ -397,20 +389,22 @@ module AresMUSH
 
     def self.select_innate_spell(char, level, old_spell, new_spell, common_only=false)
       magic = char.magic
-      innate_spells = magic.innate_spells || {}
 
-      return t('pf2emagic.innate_no_new_spells') if innate_spells.empty?
+      return t('pf2emagic.innate_no_new_spells') unless Entries.innate?(magic)
 
       old_spname = nil
 
+      # Either they are replacing a spell they already have, or filling a grant that is still
+      # waiting to be chosen. Either way it is one grant in the list, and the grant - not the
+      # spell name - is what carries the rank, tradition and ability it is cast at.
       if !(old_spell.blank?)
         old_spname = get_spells_by_name(old_spell).first
         return t('pf2emagic.innate_spell_to_delete_not_found') unless old_spname
 
-        source_info = innate_spells[old_spname]
+        source_info = Entries.innate_for(magic, old_spname).first
         return t('pf2emagic.innate_spell_to_delete_not_found') unless source_info
       else
-        source_info = innate_spells['open']
+        source_info = Entries.pending_innate(magic).first
         return t('pf2emagic.innate_no_new_spells') unless source_info
       end
 
@@ -421,36 +415,29 @@ module AresMUSH
       return t('pf2emagic.innate_multiple_matches', :item => 'spell') if (match.size > 1)
 
       to_add = match.first
-      return t('pf2emagic.innate_spell_already_on_list_to_assign') if innate_spells.key?(to_add)
+      return t('pf2emagic.innate_spell_already_on_list_to_assign') if Entries.knows_innate?(magic, to_add)
 
       deets = hash[to_add]
 
-      return t('pf2emagic.innate_not_spell_eligible') unless deets['tradition']
+      failure = SpellPick.check_innate(
+        'rank' => level,
+        'details' => deets,
+        'tradition' => source_info['tradition'],
+        'granted_rank' => source_info['level'])
 
-      tradition = source_info['tradition']
-      return t('pf2emagic.innate_tradition_mismatch') unless deets['tradition'].include?(tradition)
+      return t(failure.key, **Pf2e::CharState.symbolize(failure.args)) if failure
 
-      spbl = deets['base_level'].to_i
-      level_is_cantrip = (level.to_s.downcase == 'cantrip' || level.to_i.zero?)
-      spell_is_cantrip = spbl.zero?
+      # Naming the grant, rather than deleting a key and adding another. The grant keeps its
+      # rank, tradition and ability - which is the whole reason it is a grant and not an entry
+      # in a map keyed by spell name.
+      grants = Entries.innate_grants(magic)
+      index = grants.index(source_info)
 
-      return t('pf2emagic.innate_cant_learn_cantrip_slot') if spell_is_cantrip && !level_is_cantrip
-      return t('pf2emagic.innate_cant_learn_spell_cantrip') if !spell_is_cantrip && level_is_cantrip
-      return t('pf2emagic.innate_cant_prepare_level') if spbl > level.to_i
+      return t('pf2emagic.innate_no_new_spells') unless index
 
-      slot_level = source_info['level']
-      slot_is_cantrip = (slot_level.to_s.downcase == 'cantrip' || slot_level.to_i.zero?)
-      return t('pf2emagic.innate_cant_prepare_level') if slot_is_cantrip != level_is_cantrip
-      return t('pf2emagic.innate_cant_prepare_level') if !slot_is_cantrip && slot_level.to_i != level.to_i
+      grants[index] = source_info.merge('name' => to_add)
 
-      if old_spname
-        innate_spells.delete(old_spname)
-      else
-        innate_spells.delete('open')
-      end
-
-      innate_spells[to_add] = source_info
-      magic.update(innate_spells: innate_spells)
+      magic.update(:innate_spells => grants)
 
       nil
     end
@@ -479,11 +466,8 @@ module AresMUSH
 
       msg << t('pf2emagic.choose_divine_font') if to_assign['divine font'].is_a? Array
 
-      innate_spells = magic&.innate_spells || {}
-      open_innate = innate_spells.select { |k, _| k.to_s.casecmp?('open') }
-
-      # The rank and tradition of each open slot are listed in the Magic section of cg/review.
-      msg << t('pf2emagic.cg_innate_spells') if !open_innate.empty?
+      msg << innate_prompt(magic ? Entries.pending_innate(magic) : []).to_s.then { |line| line.empty? ? nil : line }
+      msg.compact!
 
       return msg
     end
@@ -515,16 +499,14 @@ module AresMUSH
       # Tradition check
       magic = char.magic
 
-      trad_info = magic.tradition[charclass]
-      return false unless trad_info
-
-      tradition = trad_info[0]
+      tradition = Entries.tradition_of(magic, charclass)
+      return false unless tradition
       return false unless spdeets['tradition'].include? tradition
       # Gate check
 
       case gate
       when 'school'
-        # Legacy gate, no longer enforced after school traits were removed.
+        # Not enforced: the game's spell data carries no school traits to gate on.
         passes_gate = true
       else
         # Fail any gate not recognized.

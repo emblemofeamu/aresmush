@@ -18,7 +18,8 @@ Now that you have locked your skills and selected your languages, it’s time to
 `feat <name>`: Lists the details of a feat.
 `feat/info`: Shows the details of all feats that you have so far. Be aware that this command paginates, there may be more than one page!
 `cg/info <type> feat`: Shows the list of all feats you qualify for of a specific feat type. Types: `ancestry`, `archetype`, `charclass`, `dedication`, `general`, `skill`. Long lists are paginated, so add a page number if there is more than one page (for example, `cg/info2 charclass feat`).
+A choice with hundreds of options - `Additional Lore` has over two hundred - pages rather than listing them all. Add `=<text>` to narrow it: `cg/info Additional Lore=arch`.
 `cg/feat <input>=<feat>`: Sets an open feat. Input can be `ancestry`, `archetype`, `charclass`, `dedication`, `general`, `skill`.
 `cg/option <feature> = <option>`: Some class features and feats require that an option selected with this command in `advance/review`. `<feature>` is the name of the class feature or feat, and `<option>` is the option you'd like to choose. 
 
-It is not possible to unset a feat at this time. However, you can enter `cg/restore skills` to return to a point just before setting feats.
+To take a feat back, enter `cg/undo` - it takes back your most recent choice, so run it until the feat you want to change is gone. `cg/restore skills` still returns you to the point just before you started setting feats.

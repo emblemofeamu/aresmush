@@ -1,6 +1,7 @@
 ---
 en:
   pf2noms:
+    dmnomallsuccess: "You nominate everyone in the scene."
 
     dmnom_notify: "You got a DM nom from %{sender}!"
 

@@ -82,7 +82,7 @@ module AresMUSH
           return
         end
 
-        rep = char.magic.repertoire
+        rep = Pf2emagic::Entries.known_by_source(char.magic, 'spontaneous')
 
         # There is no repertoire data at all.
         if rep.empty?

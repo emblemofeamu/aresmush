@@ -23,10 +23,12 @@ module AresMUSH
       def handle
         valid_email = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-        if self.target =~ valid_email
-          player = AltTracker.find_player_by_email(self.target)
-        elsif self.target == enactor
+        # Themselves first: with no argument `target` is the Character, and asking a Character
+        # whether it looks like an email address is what took `alts` down every time.
+        if self.target == enactor
           player = enactor.player
+        elsif self.target.to_s =~ valid_email
+          player = AltTracker.find_player_by_email(self.target)
         else
           player = Character.find_one_by_name(self.target)&.player
         end
