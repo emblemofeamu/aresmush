@@ -627,6 +627,8 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Guidance
+            1:
+            - Ill Omen
           focus_spell:
             revelation:
             - Ancestral Touch
@@ -635,6 +637,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Whispers of Weakness
+      advance:
+        3:
+          magic_stats:
+            addrepertoire:
+              2:
+              - Ghostly Carrier
+        9:
+          magic_stats:
+            addrepertoire:
+              5:
+              - Dreaming Potential
     Battle:
       chargen:
         skills:
@@ -643,6 +656,8 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Shield
+            1:
+            - Sure Strike
           focus_spell:
             revelation:
             - Weapon Trance
@@ -651,6 +666,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Oracular Warning
+      advance:
+        3:
+          magic_stats:
+            addrepertoire:
+              2:
+              - Telekinetic Maneuver
+        7:
+          magic_stats:
+            addrepertoire:
+              4:
+              - Weapon Storm
     Bones:
       chargen:
         skills:
@@ -659,6 +685,8 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Void Warp
+            1:
+            - Grim Tendrils
           focus_spell:
             revelation:
             - Soul Siphon
@@ -667,6 +695,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Nudge the Scales
+      advance:
+        3:
+          magic_stats:
+            addrepertoire:
+              2:
+              - False Vitality
+        5:
+          magic_stats:
+            addrepertoire:
+              3:
+              - Ghostly Weapon
     Cosmos:
       chargen:
         skills:
@@ -675,6 +714,8 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Light
+            1:
+            - Dizzying Colors
           focus_spell:
             revelation:
             - Spray of Stars
@@ -683,6 +724,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Oracular Warning
+      advance:
+        3:
+          magic_stats:
+            addrepertoire:
+              2:
+              - Darkness
+        9:
+          magic_stats:
+            addrepertoire:
+              5:
+              - Moon Frenzy
     Flames:
       chargen:
         skills:
@@ -691,6 +743,8 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Ignition
+            1:
+            - Breathe Fire
           focus_spell:
             revelation:
             - Incendiary Aura
@@ -699,6 +753,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Foretell Harm
+      advance:
+        3:
+          magic_stats:
+            addrepertoire:
+              2:
+              - Blazing Bolt
+        5:
+          magic_stats:
+            addrepertoire:
+              3:
+              - Fireball
     Life:
       chargen:
         skills:
@@ -706,7 +771,9 @@ pf2e_specialty:
         magic_stats:
           addrepertoire:
             cantrip:
-            - Stabilize
+            - Vitality Lash
+            1:
+            - Soothe
           focus_spell:
             revelation:
             - Life Link
@@ -715,6 +782,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Nudge the Scales
+      advance:
+        3:
+          magic_stats:
+            addrepertoire:
+              2:
+              - False Vitality
+        9:
+          magic_stats:
+            addrepertoire:
+              5:
+              - Grisly Growths
     Lore:
       chargen:
         skills:
@@ -723,6 +801,8 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Read Aura
+            1:
+            - Mindlink
           focus_spell:
             revelation:
             - Brain Drain
@@ -731,6 +811,17 @@ pf2e_specialty:
         reaction: []
         feat:
         - Whispers of Weakness
+      advance:
+        5:
+          magic_stats:
+            addrepertoire:
+              3:
+              - Hypercognition
+        11:
+          magic_stats:
+            addrepertoire:
+              6:
+              - Never Mind
     Tempest:
       chargen:
         skills:
@@ -739,14 +830,27 @@ pf2e_specialty:
           addrepertoire:
             cantrip:
             - Electric Arc
+            1:
+            - Thunderstrike
           focus_spell:
             revelation:
             - Tempest Touch
-          curse: Perpetual Storm
+        curse: Perpetual Storm
         action: []
         reaction: []
         feat:
         - Foretell Harm
+      advance:
+        7:
+          magic_stats:
+            addrepertoire:
+              4:
+              - Hydraulic Torrent
+        11:
+          magic_stats:
+            addrepertoire:
+              6:
+              - Chain Lightning
   Ranger:
     Flurry: {}
     Outwit: {}
