@@ -2041,7 +2041,7 @@ pf2e_class:
           1: 3
         repertoire:
           cantrip: 5
-          1: 2
+          1: 3
         focus_pool: 1
       action: []
       reaction: []
@@ -2066,7 +2066,7 @@ pf2e_class:
           spells_per_day:
             2: 3
           repertoire:
-            2: 2
+            2: 3
           signature_spells:
             1: 1
             2: 1
@@ -2091,7 +2091,7 @@ pf2e_class:
           signature_spells:
             3: 1
           repertoire:
-            3: 2
+            3: 3
       6:
         choose_feat:
           - charclass
@@ -2120,7 +2120,7 @@ pf2e_class:
           tradition:
             divine: expert
           repertoire:
-            4: 2
+            4: 3
       8:
         choose_feat:
           - charclass
@@ -2146,7 +2146,7 @@ pf2e_class:
           signature_spells:
             5: 1
           repertoire:
-            5: 2
+            5: 3
       10:
         choose_feat:
           - charclass
@@ -2179,7 +2179,7 @@ pf2e_class:
           signature_spells:
             6: 1
           repertoire:
-            6: 2
+            6: 3
       12:
         choose_feat:
           - charclass
@@ -2210,7 +2210,7 @@ pf2e_class:
           signature_spells:
             7: 1
           repertoire:
-            7: 2
+            7: 3
       14:
         choose_feat:
           - charclass
@@ -2236,7 +2236,7 @@ pf2e_class:
           signature_spells:
             8: 1
           repertoire:
-            8: 2
+            8: 3
       16:
         choose_feat:
           - charclass
@@ -2263,7 +2263,7 @@ pf2e_class:
           signature_spells:
             9: 1
           repertoire:
-            9: 2
+            9: 3
       18:
         choose_feat:
           - charclass
