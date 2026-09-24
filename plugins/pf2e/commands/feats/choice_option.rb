@@ -78,13 +78,7 @@ module AresMUSH
           return
         end
 
-        # Staged while a level is open, applied now while chargen is: the two have different
-        # boundaries, and this is the only place the difference shows.
-        messages = if enactor.advancing
-          Pf2e.stage_feat_choice(enactor, name, block, matched, client)
-        else
-          Pf2e.apply_feat_choice(enactor, name, block, matched, client)
-        end
+        messages = Pf2e.resolve_feat_choice(enactor, name, block, matched, client)
 
         client.emit_success t('pf2e.choice_resolved', :choice => name, :value => matched)
         messages.each { |msg| client.emit_ooc msg }

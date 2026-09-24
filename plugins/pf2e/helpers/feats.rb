@@ -2376,6 +2376,16 @@ module AresMUSH
       msgs
     end
 
+    # A choice resolved to a value, applied at whichever boundary is open. Chargen writes it to the
+    # character now; an open level stages it for advance/done to carry out.
+    def self.resolve_feat_choice(char, choice_name, block, value, client)
+      if DraftSheet.of(char).drafting?
+        stage_feat_choice(char, choice_name, block, value, client)
+      else
+        apply_feat_choice(char, choice_name, block, value, client)
+      end
+    end
+
     def self.apply_feat_choice(char, choice_name, block, value, client)
       msgs = []
 
