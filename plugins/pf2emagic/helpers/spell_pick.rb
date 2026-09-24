@@ -27,10 +27,13 @@ module AresMUSH
             Pf2e::Err.new(:no_tradition, 'pf2emagic.not_spellbook_eligible')
           }
         },
-        # Off the class's own tradition list, unless something adapted it onto it.
+        # Off the class's own tradition list, unless something adapted it onto it. A signature
+        # designates a spell already known, and a mystery or a bloodline grants spells from any
+        # tradition for the class to cast as its own, so knowing it is the only test there.
         {
           'name' => 'the class can cast it',
           'check' => lambda { |ctx|
+            next nil if ctx['list'] == 'signature'
             next nil if ctx['adapted']
             next nil if Array(ctx['details']['tradition']).any? { |trad| trad.to_s.casecmp?(ctx['tradition'].to_s) }
 

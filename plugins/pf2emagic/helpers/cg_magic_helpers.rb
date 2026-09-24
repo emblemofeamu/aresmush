@@ -96,7 +96,7 @@ module AresMUSH
 
     def self.check_spell(char, charclass, level, term, common_only=false)
 
-      hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
+      hash = common_only ? pickable_spells(char, charclass, level) : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == term.downcase }
 
       return no_such_spell_message(term, hash) if match.empty?
@@ -311,8 +311,8 @@ module AresMUSH
       return t('pf2emagic.no_new_spells') unless new_spells_to_assign
 
       # Is new_spell a valid, unique choice?
-      # Only common spells are available in cg/advancement, set last argument to true to enforce
-      hash = common_only ? find_common_spells : Global.read_config('pf2e_spells')
+      # Only the spells the class may pick by name are available in cg/advancement, set last argument to true to enforce
+      hash = common_only ? pickable_spells(char, charclass, level) : Global.read_config('pf2e_spells')
       match = hash.keys.select { |s| s.downcase == new_spell.downcase }
 
       return no_such_spell_message(new_spell, hash) if match.empty?
@@ -442,8 +442,22 @@ module AresMUSH
       nil
     end
 
+    RARITY_TRAITS = %w{uncommon rare unique}.freeze
+
+    # The spells anyone may pick by name. A granted spell reaches the sheet without this list, so a
+    # mystery's uncommon spell is still theirs.
     def self.find_common_spells
-      Global.read_config('pf2e_spells').select { |k,v| !v['traits'].include? 'uncommon' or !v['traits'].include? 'rare' or !v['traits'].include? 'unique' }
+      Global.read_config('pf2e_spells').select { |_name, details| (Array(details['traits']) & RARITY_TRAITS).empty? }
+    end
+
+    # The spells this class may pick by name at a rank: every common spell, and the school's
+    # curriculum at that rank whatever its rarity, because the school teaches it.
+    def self.pickable_spells(char, charclass, level)
+      curriculum = curriculum_spells(char, charclass, level).map(&:downcase)
+
+      Global.read_config('pf2e_spells').select do |name, details|
+        curriculum.include?(name.downcase) || (Array(details['traits']) & RARITY_TRAITS).empty?
+      end
     end
 
     def self.get_spells_by_name(term)
