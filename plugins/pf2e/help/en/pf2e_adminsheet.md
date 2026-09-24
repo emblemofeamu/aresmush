@@ -47,22 +47,13 @@ choice was made and let them redo it, or `admin/respec` to let them rebuild the 
 `admin/rollback <character> = <level>`
 `admin/unrollback <character>`
 
-`admin/rollback` puts a character back to just before the level you name, so they can make
-that level's choices again with `advance`. Everything they chose at that level and above is
-set aside, the XP those levels cost is refunded, and they are told in-game if they are
-connected.
+`admin/rollback` puts a character back to just before the level you name, so they can make that level's choices again with `advance`. Everything they chose at that level and above is set aside, the XP those levels cost is refunded, and they are told in-game (if they are connected).
 
-Nothing is thrown away. `admin/unrollback` undoes the last rollback on that character and
-puts the choices back exactly as they were, which is the command to reach for if you rolled
-back the wrong person or the wrong level.
+Nothing is thrown away. `admin/unrollback` undoes the last rollback on that character and puts the choices back exactly as they were, which is the command to reach for if you rolled back the wrong person or the wrong level.
 
 Two things a rollback deliberately leaves alone:
-- **Boons** granted outside the level ladder. One that takes effect at a level the character
-  no longer has goes quiet until they level back up to it; one granted with no level at all
-  is never touched.
-- **A character part-way through an advancement.** They have to finish it with
-  `advance/done` or abandon it with `advance/reset` first, or their in-progress choices
-  would be lost.
+- **Boons** granted outside the leveling process. A boon that takes effect at a level the character no longer has goes quiet until they level back up to it, while a boon granted with no level at all is never touched.
+- **A character part-way through an advancement.** They have to finish it with `advance/done` or abandon it with `advance/reset` first, or their in-progress choices would be lost.
 
 **Key**:
 `<character>`: The character's name.
@@ -80,5 +71,5 @@ Offer respecs to these characters instead if they want to redo their sheet!
 
 **Key**:
 `<character>`: The character's name.
-`<alignment>`: Alignment code (such as, `LG`, `N`, or `CN`).
+`<alignment>`: Alignment code (such as, `OT`, `BT`, or `WT`).
 `<deity>`: The deity's name.
