@@ -242,16 +242,32 @@ module AresMUSH
       advancement.replace(Slots.apply(advancement, delta))
     end
 
+    # Trains each of `skills`, or hands back an open slot where it cannot.
+    #
+    # Three outcomes, counted separately because they are three different things to say:
+    # `assigned` trained outright, `free_count` for a grant that was a player's choice all along
+    # (the literal `open`/`choice` tokens the shipped feats use, such as Natural Skill's two), and
+    # `open_count`/`open_lore_count` for a named skill the character already has or is about to
+    # get, which PF2e turns into a free pick rather than wasting.
     def self.add_training_skills(char, skills, to_assign, advancement)
       cleaned = Array(skills).map { |s| s.to_s.strip }.reject(&:empty?)
-      return { assigned: [], open_count: 0, open_lore_count: 0 } if cleaned.empty?
+      return { assigned: [], free_count: 0, open_count: 0, open_lore_count: 0 } if cleaned.empty?
 
       pending = pending_skill_names(to_assign, advancement)
       assigned = []
+      free_count = 0
       open_count = 0
       open_lore_count = 0
 
       cleaned.each do |skill|
+        # Not a skill name at all: the feat grants a skill of the player's choice. Counted before
+        # the checks below, which would otherwise read it as a skill literally called "open" and
+        # call the second one a duplicate of the first.
+        if OPEN_SKILL_VALUES.include?(skill.to_s.downcase)
+          free_count += 1
+          next
+        end
+
         normalized = skill.to_s.downcase
         already_trained = Pf2eSkills.get_skill_prof(char, skill).to_s.downcase != 'untrained'
         already_pending = pending.include?(normalized)
@@ -274,10 +290,12 @@ module AresMUSH
         advancement['raise skill'] = merge_raise_skill_entries(advancement['raise skill'], assigned)
       end
 
+      # A free pick was never restricted to anything, so it opens an unrestricted slot.
+      free_count.times { add_open_skill_slot(to_assign, advancement, false, false) }
       open_count.times { add_open_skill_slot(to_assign, advancement, false, true) }
       open_lore_count.times { add_open_skill_slot(to_assign, advancement, true, true) }
 
-      { assigned: assigned, open_count: open_count, open_lore_count: open_lore_count }
+      { assigned: assigned, free_count: free_count, open_count: open_count, open_lore_count: open_lore_count }
     end
 
     # What advancing to the next level offers, as the messages telling the player what to pick.

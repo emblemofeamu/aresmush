@@ -18,6 +18,11 @@ module AresMUSH
 
         @char = Character.create(:name => "Gain#{rand(1000000)}")
         @char.update(:pf2_base_info => { 'charclass' => 'Fighter', 'ancestry' => 'Human' })
+
+        # Advancement unless a block says otherwise. The two modes stage a feat's grants
+        # differently - chargen applies them outright, having no advance/done to drain them -
+        # so which one a spec is in has to be said rather than left to a default.
+        @char.update(:advancing => true)
       end
 
       after(:each) do
@@ -25,7 +30,9 @@ module AresMUSH
         @char.delete if @char
       end
 
-      def gain(feat_name, bucket:, to_assign: {}, advancement: {})
+      # `after_save` holds work that could not run until the draft was written. The commands run
+      # it once they have saved; a spec that skips it sees only half of a chargen gain.
+      def gain(feat_name, bucket:, to_assign: {}, advancement: {}, run_after_save: false)
         found = Pf2e.get_feat_details(feat_name)
 
         raise "no such feat #{feat_name}: #{found}" if found.is_a?(String)
@@ -33,7 +40,10 @@ module AresMUSH
         result = Advancement::FeatGain.apply(@char, found[0], found[1],
           :bucket => bucket, :to_assign => to_assign, :advancement => advancement)
 
-        { :to_assign => to_assign, :advancement => advancement, :result => result }
+        deferred = run_after_save ? result[:after_save].flat_map { |d| Array(d.call) } : []
+
+        { :to_assign => to_assign, :advancement => advancement, :result => result,
+          :deferred => deferred }
       end
 
       it "should record the feat in the bucket it was asked for" do
@@ -44,10 +54,11 @@ module AresMUSH
 
       # Multilingual's grants are an `assign` block - two open language picks, which apply straight
       # away rather than waiting for advance/done.
-      it "should put a feat's immediate grants where they are read from" do
-        out = gain('Multilingual', :bucket => 'skill')
+      it "should apply a feat's immediate grants rather than filing them" do
+        out = gain('Multilingual', :bucket => 'skill', :run_after_save => true)
 
-        expect(out[:to_assign]['grants']['Multilingual']).to eq('assign' => [ 'open languages', 'open languages' ])
+        expect(Array(Character[@char.id].pf2_to_assign['open languages']).count('open')).to eq 2
+        expect(out[:to_assign]['grants']).to be_nil
         expect(out[:advancement]['grants']).to be_nil
       end
 
@@ -114,6 +125,93 @@ module AresMUSH
 
         expect(from_choice_to_assign['grants']).to eq typed[:to_assign]['grants']
         expect(from_choice_advancement['feats']).to eq typed[:advancement]['feats']
+      end
+
+      # Natural Skill grants `skill: [ open, open ]` - two picks the player makes, written as a
+      # placeholder rather than a skill name. Read as a name it looks like the same skill twice,
+      # which is what produced "you're already trained in that" for a feat that trains nothing.
+      describe "a grant of skills the player chooses" do
+        it "should not mistake the placeholder for a duplicate skill" do
+          out = gain('Natural Skill', :bucket => 'ancestry')
+
+          expect(out[:result][:messages]).to_not include(
+            [ 'pf2e.adv_duplicate_skill_open', { :item => 'Natural Skill feat' } ])
+        end
+
+        it "should open one unrestricted slot per pick" do
+          out = gain('Natural Skill', :bucket => 'ancestry')
+
+          expect(Array(out[:to_assign]['raise skill'])).to eq [ 'open', 'open' ]
+        end
+      end
+
+      # Multilingual is the only feat carrying a grant timed to land while the level is still open:
+      # two language slots the player fills before advance/done. Filed in to_assign['grants']
+      # instead of applied, it opens no slots, and Outstanding counts what sits there as an
+      # unresolved item - which refuses advance/done with nothing able to clear it.
+      describe "a grant timed to land while the level is open" do
+        it "should leave nothing outstanding to refuse advance/done" do
+          out = gain('Multilingual', :bucket => 'skill', :run_after_save => true)
+
+          state = CharState.build({ 'to_assign' => out[:to_assign], 'advancement' => out[:advancement] })
+
+          expect(Advancement::Outstanding.messages(state)).to eq []
+        end
+      end
+
+      # Chargen has no advance/done, and pf2_advancement is discarded when the character is
+      # approved - so a grant staged during chargen is lost outright. These are the guard on
+      # that: what a chargen feat hands over has to land on the character, not in the draft.
+      describe "in chargen" do
+
+        before(:each) do
+          @char.update(:advancing => false)
+          @char.update(:pf2_skills_locked => true)
+        end
+
+        it "should put the free picks in the pool chargen can actually spend" do
+          out = gain('Natural Skill', :bucket => 'ancestry', :run_after_save => true)
+
+          # 'open skills' is what `skill/set free=` spends and cg/review counts.
+          expect(Array(Character[@char.id].pf2_to_assign['open skills'])).to eq [ 'open', 'open' ]
+          expect(out[:deferred]).to_not be_empty
+        end
+
+        it "should stage nothing against an advance/done that never comes" do
+          out = gain('Natural Skill', :bucket => 'ancestry', :run_after_save => true)
+
+          expect(out[:advancement]['grants']).to be_nil
+          expect(out[:to_assign]['grants']).to be_nil
+          expect(Array(out[:advancement]['raise skill'])).to be_empty
+        end
+
+        it "should reopen skills so the picks are reachable after commit skills" do
+          gain('Natural Skill', :bucket => 'ancestry', :run_after_save => true)
+
+          expect(Character[@char.id].pf2_skills_locked).to be_falsey
+        end
+
+        it "should say the same thing once, not once per pick" do
+          out = gain('Natural Skill', :bucket => 'ancestry', :run_after_save => true)
+
+          expect(out[:deferred].size).to eq out[:deferred].uniq.size
+        end
+
+        # The sentence the player reads is the whole symptom: a feat that trains nothing answered
+        # with the one about already being trained.
+        it "should say the skills are the player's to choose" do
+          out = gain('Natural Skill', :bucket => 'ancestry', :run_after_save => true)
+
+          expect(out[:deferred]).to include([ nil, I18n.t('pf2e.feat_grants_free_skill') ])
+          expect(out[:deferred]).to_not include([ nil, I18n.t('pf2e.feat_grants_duplicate_skill') ])
+        end
+
+        # The feat is still the player's however the grants were applied.
+        it "should still record the feat" do
+          out = gain('Natural Skill', :bucket => 'ancestry', :run_after_save => true)
+
+          expect(out[:advancement]['feats']['ancestry']).to eq [ 'Natural Skill' ]
+        end
       end
     end
   end

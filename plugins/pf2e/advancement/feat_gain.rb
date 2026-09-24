@@ -61,6 +61,12 @@ module AresMUSH
         # `bucket` is the feat list it belongs in. advance/feat uses the slot the player is
         # filling; a feat arriving from a choice uses the feat's own first type.
         def self.apply(char, fname, details, bucket:, to_assign:, advancement:, client: nil)
+          # DraftSheet is the one place that knows whether a level is open, and which level a rule
+          # is measured against while it is. Chargen has nothing that drains staged grants, so it
+          # applies a feat's block outright - see `grants`.
+          draft = DraftSheet.of(char)
+          chargen = !draft.drafting?
+
           ctx = {
             :char => char,
             :feat => fname,
@@ -69,7 +75,8 @@ module AresMUSH
             :to_assign => to_assign,
             :advancement => advancement,
             :client => client,
-            :level => char.pf2_level.to_i + 1,
+            :chargen => chargen,
+            :level => draft.level,
             :after_save => []
           }
 
@@ -117,7 +124,15 @@ module AresMUSH
         # A feat's grants split into what lands now and what waits for advance/done. Skills
         # among them are trained through the shared helper, so a grant of a skill the character
         # already has turns into a free pick rather than being lost.
+        #
+        # Chargen does not split them at all. The 'advance' half is staged against an
+        # advance/done that chargen never runs, and pf2_advancement is discarded outright when
+        # the character is approved, so a grant staged during chargen is simply lost. Chargen
+        # applies the whole block immediately instead - the same path cg_lock_base_options takes
+        # for the feats an ancestry or background hands over.
         def self.grants(ctx)
+          return apply_grants_now(ctx, ctx[:details]['grants']) if ctx[:chargen]
+
           assessed = Pf2e.assess_feat_grants(ctx[:details]['grants'])
 
           now = assessed['assign'].empty? ? nil : assessed['assign']
@@ -127,6 +142,10 @@ module AresMUSH
           if later && later['skill']
             result = Pf2e.add_training_skills(ctx[:char], later['skill'], ctx[:to_assign], ctx[:advancement])
 
+            if result[:free_count].to_i > 0
+              messages << [ 'pf2e.adv_free_skill_open', { :item => "#{ctx[:feat]} feat" } ]
+            end
+
             if result[:open_count].to_i > 0 || result[:open_lore_count].to_i > 0
               messages << [ 'pf2e.adv_duplicate_skill_open', { :item => "#{ctx[:feat]} feat" } ]
             end
@@ -135,12 +154,12 @@ module AresMUSH
             later = nil if later.empty?
           end
 
-          messages << [ 'pf2e.advancement_feat_grants_addl', { :element => 'item' } ] if now || later
+          messages << [ 'pf2e.advancement_feat_grants_addl', { :element => 'item' } ] if later
 
-          if now
-            grants = (ctx[:to_assign]['grants'] ||= {})
-            grants[ctx[:feat]] = now
-          end
+          # The 'assign' half opens slots the player fills before advance/done, so it is applied
+          # now and speaks for itself. Nothing drains to_assign['grants'], and Outstanding counts
+          # whatever sits there as an unresolved item, which refuses advance/done.
+          messages.concat(apply_grants_now(ctx, now)) if now
 
           if later
             grants = (ctx[:advancement]['grants'] ||= {})
@@ -148,6 +167,30 @@ module AresMUSH
           end
 
           messages
+        end
+
+        # Applies a grants block through the live-character path, once the draft is written.
+        #
+        # Deferred rather than called here, because do_feat_grants writes the character and
+        # re-reads pf2_to_assign itself. Run inline it would read the draft the caller has not
+        # saved yet, and its own write would then be clobbered by the caller's save.
+        # ctx[:after_save] is the hook for exactly this - see `choice`.
+        def self.apply_grants_now(ctx, payload)
+          return [] if payload.blank?
+
+          char = ctx[:char]
+          client = ctx[:client]
+          charclass = char.pf2_base_info['charclass']
+
+          ctx[:after_save] << lambda do
+            # do_feat_grants renders its own text, so it is passed through already rendered.
+            # Deduplicated because a grant of two open skills - Natural Skill's two - answers
+            # with the same sentence once per skill, and saying it twice tells the player
+            # nothing the count in cg/review does not.
+            Pf2e.do_feat_grants(char, payload, charclass, client).uniq.map { |msg| [ nil, msg ] }
+          end
+
+          []
         end
 
         def self.apply_slots(ctx, *deltas)
@@ -168,11 +211,16 @@ module AresMUSH
         end
 
         # Clauses keyed to a level the character has already reached, including the one they
-        # are gaining now.
+        # are gaining now. These stage a grants block like any other, so chargen applies them
+        # outright for the same reason `grants` does.
         def self.at_level(ctx)
           Pf2e.feat_at_level_catch_up(ctx[:details], ctx[:level]).map do |level, payload|
-            grants = (ctx[:advancement]['grants'] ||= {})
-            grants["#{ctx[:feat]} (level #{level})"] = payload
+            if ctx[:chargen]
+              apply_grants_now(ctx, payload)
+            else
+              grants = (ctx[:advancement]['grants'] ||= {})
+              grants["#{ctx[:feat]} (level #{level})"] = payload
+            end
 
             [ 'pf2e.feat_level_clause_applied', { :feat => ctx[:feat], :level => level } ]
           end
@@ -200,13 +248,14 @@ module AresMUSH
           return opened(ctx, block) unless automatic
           return [ [ 'pf2e.choice_auto_none', { :choice => ctx[:feat] } ] ] unless label
 
-          # Staging re-reads and saves the character, so it waits until the draft is written.
+          # Resolving the choice re-reads and saves the character, so it waits until the draft is
+          # written.
           feat = ctx[:feat]
           char = ctx[:char]
           client = ctx[:client]
 
           ctx[:after_save] << lambda do
-            Pf2e.stage_feat_choice(char, feat, block, label, client).map { |msg| [ nil, msg ] } +
+            Pf2e.resolve_feat_choice(char, feat, block, label, client).map { |msg| [ nil, msg ] } +
               [ [ 'pf2e.choice_auto_resolved', { :choice => feat, :value => label } ] ]
           end
 
