@@ -199,6 +199,48 @@ module AresMUSH
         end
       end
 
+      # A mystery or a bloodline adds spells to the repertoire outright. Until advance/done they sit
+      # in the draft's magic_stats, and a pick made in the meantime has to count them as known.
+      describe :repertoire do
+        def caster(repertoire: {}, advancement: {})
+          magic = double(:spellbook => {}, :repertoire => repertoire, :spells_per_day => {}, :tradition => {})
+
+          double(:pf2_level => 2, :advancing => true, :pf2_feats => {}, :skills => [],
+                 :pf2_advancement => advancement, :magic => magic,
+                 :pf2_base_info => { 'charclass' => 'Oracle' })
+        end
+
+        it "should count a spell the level adds, staged as the class's own stats" do
+          char = caster(:advancement => { 'magic_stats' => {
+            'addrepertoire' => { '2' => [ 'Darkness' ] }, 'signature_spells' => { '2' => 1 } } })
+
+          expect(DraftSheet.of(char).repertoire['Oracle']['2']).to eq [ 'Darkness' ]
+        end
+
+        it "should count one staged under the class's name" do
+          char = caster(:advancement => { 'magic_stats' => {
+            'oracle' => { 'addrepertoire' => { '2' => [ 'Darkness' ] } } } })
+
+          expect(DraftSheet.of(char).repertoire['Oracle']['2']).to eq [ 'Darkness' ]
+        end
+
+        it "should keep another source's grant under that source" do
+          char = caster(:advancement => { 'magic_stats' => {
+            'Sorcerer Archetype' => { 'addrepertoire' => { '1' => [ 'Fear' ] } } } })
+
+          expect(DraftSheet.of(char).repertoire.dig('Oracle', '1')).to be_nil
+          expect(DraftSheet.of(char).repertoire('Sorcerer Archetype')['Sorcerer Archetype']['1']).to eq [ 'Fear' ]
+        end
+
+        it "should add to what the sheet already holds at that rank" do
+          char = caster(:repertoire => { 'Oracle' => { '2' => [ 'Silence' ] } },
+                        :advancement => { 'magic_stats' => { 'addrepertoire' => { '2' => [ 'Darkness' ] } },
+                                          'repertoire' => { '2' => [ 'Blur' ] } })
+
+          expect(DraftSheet.of(char).repertoire['Oracle']['2']).to eq [ 'Silence', 'Blur', 'Darkness' ]
+        end
+      end
+
       describe :level do
         it "should be the character's level when nothing is open" do
           expect(DraftSheet.of(char(:level => 5)).level).to eq 5

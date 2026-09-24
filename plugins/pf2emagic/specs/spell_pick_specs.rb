@@ -114,6 +114,23 @@ module AresMUSH
 
           expect(result).to be_nil
         end
+
+        # A mystery or a bloodline puts spells in the repertoire whatever their tradition, and the
+        # class casts them as its own. Designating one marks a spell already known.
+        it "should allow a known spell off the class's tradition" do
+          result = SpellPick.check(ctx('list' => 'signature',
+                                       'details' => { 'tradition' => [ 'primal' ], 'base_level' => 3 },
+                                       'known' => { '3' => [ 'Fireball' ] }))
+
+          expect(result).to be_nil
+        end
+
+        it "should still refuse that spell as a repertoire pick" do
+          result = SpellPick.check(ctx('list' => 'repertoire',
+                                       'details' => { 'tradition' => [ 'primal' ], 'base_level' => 3 }))
+
+          expect(result.code).to eq :wrong_tradition
+        end
       end
 
       describe "a spellbook's restricted entries" do

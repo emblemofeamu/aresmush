@@ -80,9 +80,23 @@ module AresMUSH
         progression[[ index + raises, progression.size - 1 ].min]
       end
 
-      # rank => [ spells ], for a spontaneous caster's repertoire.
+      # rank => [ spells ], for a spontaneous caster's repertoire. Counts the spells this level adds
+      # outright - a mystery's or a bloodline's - as well as the ones picked.
       def repertoire(class_key = nil)
-        merge_spell_lists(@char.magic&.repertoire, 'repertoire', class_key)
+        target = class_key || @char.pf2_base_info['charclass']
+        lists = merge_spell_lists(@char.magic&.repertoire, 'repertoire', class_key)
+        granted = staged_magic_stats_for(target)['addrepertoire']
+
+        return lists unless granted.is_a?(Hash) && !granted.empty?
+
+        for_class = lists[target] || {}
+
+        granted.each_pair do |rank, spells|
+          for_class[rank.to_s] = (Array(for_class[rank.to_s]) + Array(spells)).uniq
+        end
+
+        lists[target] = for_class
+        lists
       end
 
       # rank => [ spells ], for a prepared caster's spellbook. A pick staged at `any` rank is filed
@@ -223,6 +237,24 @@ module AresMUSH
         return {} unless stats.is_a?(Hash)
 
         stats.select { |_source, entry| entry.is_a?(Hash) }
+      end
+
+      # The stats this draft will hand one source at advance/done. A block of plain stats belongs
+      # to the character's own class, and anything else is keyed by source - the same reading
+      # Advancement::Apply makes.
+      def staged_magic_stats_for(source)
+        stats = draft['magic_stats']
+
+        return {} unless stats.is_a?(Hash)
+
+        if PF2Magic.stats_block?(stats)
+          return source.to_s.casecmp?(@char.pf2_base_info['charclass'].to_s) ? stats : {}
+        end
+
+        key = stats.keys.find { |k| k.to_s.casecmp?(source.to_s) }
+        entry = key && stats[key]
+
+        entry.is_a?(Hash) ? entry : {}
       end
 
       def deep_copy(value)
