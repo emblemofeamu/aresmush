@@ -91,6 +91,15 @@ module AresMUSH
         it "should leave a bag out of what a bag can hold" do
           expect(Inventory.bag_categories).to_not include 'bags'
         end
+
+        # Backpack, Chest and Sack were stocked as gear too, and `buy gear=backpack` sold a backpack
+        # that held nothing.
+        it "should sell a bag only as a bag" do
+          bags = YAML.load_file('game/config/pf2e_bags.yml')['pf2e_bags'].keys
+          gear = YAML.load_file('game/config/pf2e_gear.yml')['pf2e_gear'].keys
+
+          expect(bags & gear).to eq []
+        end
       end
 
       describe "what using an item requires" do

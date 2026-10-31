@@ -20,11 +20,6 @@ pf2e_gear:
     level: 0
     price: 400
     traits: []
-  Backpack:
-    bulk: 0
-    level: 0
-    price: 10
-    traits: []
   Basic Crafter's Book:
     bulk: 0.1
     level: 0
@@ -64,11 +59,6 @@ pf2e_gear:
     bulk: 0
     level: 0
     price: 1
-    traits: []
-  Chest:
-    bulk: 2
-    level: 0
-    price: 60
     traits: []
   Climbing Kit:
     bulk: 1
@@ -297,11 +287,6 @@ pf2e_gear:
     bulk: 0.1
     level: 0
     price: 50
-    traits: []
-  Sack:
-    bulk: 0.1
-    level: 0
-    price: 1
     traits: []
   Saddlebags:
     bulk: 0.1
