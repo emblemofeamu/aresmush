@@ -18,7 +18,8 @@ module AresMUSH
     #
     # `during` holds a memo for everyone a whole command asks about - a Strike reads its attacker's and
     # its target's sheets a thousand times over - and forgets everything the moment anything is written
-    # to the database (`written!`), so nothing read before a write answers after it.
+    # to the database, by this command or anyone else (`ReadCache`), so nothing read before a write
+    # answers after it. It holds the database's replies for the command too.
     module SheetReads
 
       KEY = :pf2e_sheet_reads
@@ -35,39 +36,34 @@ module AresMUSH
         Thread.current[KEY] = previous
       end
 
+      AT = :pf2e_sheet_reads_at
+
       # A memo for anyone asked about, for the length of the block. One already open is kept.
-      def self.during
-        return yield if Thread.current[KEY]&.default_proc
+      def self.during(&block)
+        return ReadCache.during(&block) if Thread.current[KEY]&.default_proc
 
         previous = Thread.current[KEY]
         Thread.current[KEY] = Hash.new { |memo, id| memo[id] = {} }.merge(previous || {})
+        Thread.current[AT] ||= ReadCache.generation
 
-        yield
+        ReadCache.during(&block)
       ensure
         Thread.current[KEY] = previous unless previous&.default_proc
+      end
+
+      # Emptied if anything was written since, by any thread.
+      def self.current!
+        return unless Thread.current[KEY]
+        return if Thread.current[AT] == ReadCache.generation
+
+        written!
+        Thread.current[AT] = ReadCache.generation
       end
 
       # Something was written: everything held may be out of date. The memos are emptied in place,
       # because a sweep inside a command shares them with it.
       def self.written!
         Thread.current[KEY]&.each_value(&:clear)
-      end
-
-      # What only reads. Anything else - Ohm's saves are scripts - is taken as a write.
-      READS = %w{GET MGET HGET HMGET HGETALL HEXISTS HLEN HKEYS SMEMBERS SISMEMBER SCARD SINTER SUNION SDIFF
-                 EXISTS TYPE STRLEN TTL ZRANGE ZRANGEBYSCORE ZREVRANGE ZREVRANGEBYSCORE ZCARD ZSCORE ZRANK
-                 LRANGE LLEN LINDEX SCAN SSCAN HSCAN KEYS PING ECHO SELECT AUTH}.freeze
-
-      def self.write?(command)
-        !READS.include?(command.to_s.upcase)
-      end
-
-      # Every command the database is sent passes here, so a write is seen however it was made.
-      module Watch
-        def write(args)
-          SheetReads.written! if Thread.current[SheetReads::KEY] && SheetReads.write?(args.first)
-          super
-        end
       end
 
       # The character's rows for `collection`, from the memo when one is open.
@@ -79,6 +75,7 @@ module AresMUSH
       # carry effects, which is a config lookup per feat; a sheet showing twenty figures would ask
       # twenty times.
       def self.memo(char, key)
+        current!
         held = (Thread.current[KEY] || {})[char.object_id]
 
         return yield unless held
@@ -89,4 +86,3 @@ module AresMUSH
   end
 end
 
-Redic::Client.prepend(AresMUSH::Pf2e::SheetReads::Watch)

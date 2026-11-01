@@ -164,8 +164,9 @@ module AresMUSH
       end
 
       it "should know a read from a write" do
-        expect([ 'HGETALL', 'smembers', 'SISMEMBER' ].map { |one| Pf2e::SheetReads.write?(one) }).to eq [ false, false, false ]
-        expect([ 'HSET', 'EVALSHA', 'SADD', 'DEL', 'INCR' ].map { |one| Pf2e::SheetReads.write?(one) }).to eq [ true ] * 5
+        expect([ 'HGETALL', 'smembers', 'SISMEMBER' ].map { |one| Pf2e::ReadCache.write?([ one, 'key' ]) }).to eq [ false ] * 3
+        expect([ 'HSET', 'EVALSHA', 'SADD', 'DEL', 'INCR' ].map { |one| Pf2e::ReadCache.write?([ one, 'key' ]) }).to eq [ true ] * 5
+        expect(Pf2e::ReadCache.write?([ 'EVALSHA', Stal::SHA, 0, '[]' ])).to be false
       end
     end
 
