@@ -68,7 +68,16 @@ module AresMUSH
       Global.read_config("pf2e", "shortcuts")
     end
 
+    # Each command and page reads a sheet once between its writes (`SheetReads.during`).
     def self.get_cmd_handler(client, cmd, enactor)
+      ReadsOnce.wrapped(cmd_handler(client, cmd, enactor))
+    end
+
+    def self.get_web_request_handler(request)
+      ReadsOnce.wrapped(web_request_handler(request))
+    end
+
+    def self.cmd_handler(client, cmd, enactor)
       case cmd.root
       when "damage"
         return PF2DamagePlayerCmd
@@ -460,7 +469,7 @@ module AresMUSH
       nil
     end
 
-    def self.get_web_request_handler(request)
+    def self.web_request_handler(request)
       case request.cmd
       when "pf2CharclassFeats"
         return PF2CharclassFeatsHandler
