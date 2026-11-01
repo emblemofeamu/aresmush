@@ -233,6 +233,8 @@ module AresMUSH
           return PF2EncounterAsCmd
         when "why"
           return PF2EncounterWhyCmd
+        when "how"
+          return PF2EncounterHowCmd
         when "turn"
           return PF2EncounterTurnCmd
         when "cover"

@@ -7,6 +7,7 @@ aliases:
 - strike
 - cast
 - why
+- how
 ---
 # Pathfinder 2E - Acting in an Encounter
 
@@ -19,6 +20,12 @@ All rolls are public, meaning that everyone in the scene sees each roll and its 
 `encounter/<verb> <what>=<who>/<circumstance>/<circumstance>`
 
 `<who>` is a combatant's ID from `encounter/view` (such as `#3`) or the combatant's name. Each part after a `/` is a circumstance, such as `flanking` or `range 2`. The "Circumstance bonuses and penalties" section lists them.
+
+`encounter/how <name>`: Shows the commands that do what you name, as you'd type them: an action you can use, a Strike, a spell you can cast, an item you carry, or something the game does, such as spending a Hero Point. If more than one thing goes by that name, or there's more than one way to do it, you get every command. In an encounter, it works from what you carried in.
+%t **Examples**:
+%t `encounter/how strike` gives a command for each Strike you can make.
+%t `encounter/how opportune riposte`, `encounter/how fear`, `encounter/how healing potion`
+%t `encounter/how hero point`, or `encounter/how reroll`
 
 ## Actions
 
