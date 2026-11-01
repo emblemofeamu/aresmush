@@ -11,6 +11,8 @@ module AresMUSH
     reference :owner, "AresMUSH::Character"
     attribute :organizer
     attribute :is_active, :type => DataType::Boolean, :default => true
+    # The running ones, so finding one reads it and none of those that have ended (`running`).
+    index :is_active
     attribute :round, :type => DataType::Integer, :default => 0
     attribute :current
     attribute :messages, :type => DataType::Array, :default => []
@@ -63,6 +65,33 @@ module AresMUSH
     # A character is in an encounter while it has a place for them in its order. `char.encounters` is
     # only where to look: joining adds to it, but nothing that takes them out of the order - `+e/remove`,
     # `+e/undo` - takes them out of it.
+    # The running encounters, of those `filters` find: `running(:scene_id => scene.id)`.
+    def self.running(filters = {})
+      indexed!
+      find(filters.merge(:is_active => true))
+    end
+
+    # The running encounters a character has been put in, read from the index of running ones.
+    def self.running_for(char)
+      indexed!
+      char.encounters.find(:is_active => true)
+    end
+
+    # The index of running encounters is kept as each is saved. One running from before it was kept is
+    # saved into it once, the first time it is asked for, and the database remembers that it was.
+    INDEXED = 'PF2Encounter:running_indexed'
+
+    def self.indexed!
+      return if @indexed
+
+      unless redis.call('EXISTS', INDEXED).to_i.positive?
+        all.to_a.select(&:is_active).each(&:save)
+        redis.call('SET', INDEXED, Time.now.to_i)
+      end
+
+      @indexed = true
+    end
+
     def self.in_active_encounter?(char)
       active_encounters(char).any?
     end
@@ -72,7 +101,7 @@ module AresMUSH
     end
 
     def self.scene_active_encounter(scene)
-      scene.encounters.select { |e| e.is_active }.first
+      running(:scene_id => scene.id).first
     end
 
     def self.get_encounter(char, scene=nil)
@@ -81,7 +110,7 @@ module AresMUSH
     end
 
     def self.active_encounters(char)
-      char.encounters.select { |e| in_encounter?(char, e) }
+      running_for(char).select { |e| in_encounter?(char, e) }
     end
 
     # The encounter's log: `[time, message]`, then for an encounter notice - `start`, `end`, `round` or

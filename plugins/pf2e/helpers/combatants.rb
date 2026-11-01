@@ -251,7 +251,7 @@ module AresMUSH
 
         return focused if focused&.is_active && gm?(char, focused)
 
-        running = PF2Encounter.find(:owner_id => char.id).select(&:is_active)
+        running = PF2Encounter.running(:owner_id => char.id).to_a
 
         running.size == 1 ? running.first : nil
       end

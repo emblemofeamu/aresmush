@@ -27,7 +27,7 @@ module AresMUSH
 
         # A scene stopping ends whatever encounter is still running in it, and tells the scene so.
         def self.scene_stopping(scene)
-          scene.encounters.select(&:is_active).each do |encounter|
+          PF2Encounter.running(:scene_id => scene.id).to_a.each do |encounter|
             end!(encounter)
             tell_ended(PF2Encounter[encounter.id], t('pf2e.encounter_ended_with_scene', :id => encounter.id), :with_scene => true)
           end
