@@ -140,10 +140,11 @@ module AresMUSH
 
       # The encounter and its history as an entry left them. Where making it again wrote nothing, the
       # entry is still there to be put back, and so is anything taken back after it; where it wrote
-      # something else in its place, the entry is written again.
+      # something else in its place, that is taken back and the entry is written again.
       def self.put_back(encounter, kept, written)
         return History.redo(encounter) unless written
 
+        History.restore(encounter, written.before)
         History.restore(encounter, kept[:after])
         written.delete
         Pf2eEncounterEntry.create(kept.merge(:encounter => encounter))

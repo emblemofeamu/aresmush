@@ -49,10 +49,11 @@ module AresMUSH
         return client.emit_failure(t('pf2e.no_encounter_here')) unless encounter
 
         at = History.at(encounter)
-        lines = History.entries(encounter).map do |entry|
-          spent = (entry.hero_spent || {}).empty? ? '' : t('pf2e.hero_history', :names => entry.hero_spent.keys.join(', '))
+        lines = History.listed(encounter).map do |entry|
+          seq = entry['seq']
+          spent = entry['heroes'].empty? ? '' : t('pf2e.hero_history', :names => entry['heroes'].join(', '))
 
-          "#{entry.seq == at ? '%xh>%xn' : ' '} #{entry.seq.to_s.rjust(3)}  #{entry.seq > at ? '%xx' : ''}#{entry.said}#{spent}%xn"
+          "#{seq == at ? '%xh>%xn' : ' '} #{seq.to_s.rjust(3)}  #{seq > at ? '%xx' : ''}#{entry['said']}#{spent}%xn"
         end
 
         return client.emit_ooc(t('pf2e.history_empty', :id => encounter.id)) if lines.empty?

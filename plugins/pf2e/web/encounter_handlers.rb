@@ -26,8 +26,8 @@ module AresMUSH
       def self.history(encounter)
         at = History.at(encounter)
 
-        History.entries(encounter).map do |entry|
-          { seq: entry.seq, said: entry.said, undone: entry.seq > at, heroes: (entry.hero_spent || {}).keys }
+        History.listed(encounter).map do |entry|
+          { seq: entry['seq'], said: entry['said'], undone: entry['seq'] > at, heroes: entry['heroes'] }
         end
       end
 
