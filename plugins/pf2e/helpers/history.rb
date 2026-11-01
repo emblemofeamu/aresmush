@@ -190,20 +190,118 @@ module AresMUSH
 
       # Runs a change and records it, if it changed anything. A change inside another - `+e/as` running
       # a Strike - is part of the outer one.
+      #
+      # What it moved is what it saved and deleted: each record of the encounter's is read as it was the
+      # first time the change writes it (`Tracked`), and as it is once the change is done. Nothing it did
+      # not write is read. With `PF2E_HISTORY_CHECK` set, the whole encounter is read before and after as
+      # well, and a change whose writes and whose snapshots disagree raises.
       def self.recording(encounter, said)
         return yield if encounter.nil? || !encounter.is_active || Thread.current[KEY]
 
-        Thread.current[KEY] = true
+        Thread.current[KEY] = { 'encounter' => encounter.id.to_s, 'touched' => {}, 'fields' => nil }
+        whole = ENV['PF2E_HISTORY_CHECK'] ? snapshot(encounter) : nil
 
         begin
-          before = snapshot(encounter)
           dice = DiceTape.recording { yield }
+          held = Thread.current[KEY]
         ensure
           Thread.current[KEY] = nil
         end
 
-        after = snapshot(encounter)
-        append(encounter, said, before, after, dice) unless before == after
+        before, after = moved(held)
+        checked!(encounter, said, whole, before, after) if whole
+        append(encounter, said, before, after, dice) unless before.keys == [ 'diff' ]
+      end
+
+      # Every save and delete passes here, and a record of the encounter being recorded is noted as it
+      # was before the first of them.
+      module Tracked
+        def save
+          held = Thread.current[History::KEY]
+
+          return super unless held.is_a?(Hash)
+
+          made = id.nil?
+          History.touching(self, held) unless made
+          saved = super
+          History.touching(self, held, :made => true) if made
+          saved
+        end
+
+        def delete
+          held = Thread.current[History::KEY]
+          History.touching(self, held) if held.is_a?(Hash)
+          super
+        end
+      end
+
+      def self.touching(record, held, made: false)
+        if record.is_a?(PF2Encounter)
+          held['fields'] ||= fields_of(record.id) if record.id.to_s == held['encounter']
+          return
+        end
+
+        name = bucket(record, held)
+
+        return unless name
+
+        place = [ name, record.id.to_s ]
+
+        return if held['touched'].key?(place)
+
+        held['touched'][place] = made ? nil : as_stored(record.class, record.id)
+      end
+
+      # Which of the encounter's own a record is, if it is one of them.
+      def self.bucket(record, held)
+        ours = lambda { |encounter_id| encounter_id.to_s == held['encounter'] }
+
+        case record
+        when Pf2eCombatantState then ours.call(record.encounter_id) ? 'states' : nil
+        when Pf2eNpc then ours.call(record.encounter_id) ? 'npcs' : nil
+        when Pf2eEffect then ours.call(record.encounter_id) ? 'effects' : nil
+        else
+          kind = Equipment.kinds.find { |_collection, model| record.is_a?(model) }
+          state = kind && record.respond_to?(:state_id) && record.state_id ? Pf2eCombatantState[record.state_id] : nil
+
+          state && ours.call(state.encounter_id) ? "items:#{kind.first}" : nil
+        end
+      end
+
+      def self.as_stored(model, id)
+        found = model[id]
+
+        found ? plain(found.attributes.except(*STAMPS)) : nil
+      end
+
+      def self.fields_of(id)
+        encounter = PF2Encounter[id]
+
+        plain(FIELDS.to_h { |field| [ field, encounter.public_send(field) ] })
+      end
+
+      # What the writes moved: `[ before, after ]`, as `difference` answers them.
+      def self.moved(held)
+        was = { 'encounter' => held['fields'] || {} }
+        now = { 'encounter' => held['fields'] ? fields_of(held['encounter']) : {} }
+        models = owned.transform_values(&:first)
+
+        held['touched'].each do |(name, id), before|
+          (was[name] ||= {})[id] = before
+          (now[name] ||= {})[id] = as_stored(models[name], id)
+        end
+
+        difference(was, now)
+      end
+
+      class Disagreement < StandardError; end
+
+      def self.checked!(encounter, said, whole, before, after)
+        expected = difference(whole, snapshot(encounter))
+
+        return if expected == [ before, after ]
+
+        raise Disagreement, "#{said}: the writes moved #{[ before, after ].inspect[0, 2000]}, the snapshots #{expected.inspect[0, 2000]}"
       end
 
       def self.entries(encounter)
@@ -251,8 +349,11 @@ module AresMUSH
       def self.append(encounter, said, before, after, dice = [])
         applied = at(encounter)
 
-        fields(encounter).select { |one| one['seq'] > applied }.each { |one| Pf2eEncounterEntry[one['id']]&.delete }
-        before, after = difference(before, after)
+        # Anything past the change in effect could only be redone, and there is any only after an undo.
+        if Pf2eEncounterEntry.find(:encounter_id => encounter.id).size > applied
+          fields(encounter).select { |one| one['seq'] > applied }.each { |one| Pf2eEncounterEntry[one['id']]&.delete }
+        end
+        before, after = difference(before, after) unless before['diff']
         Pf2eEncounterEntry.create(:encounter => encounter, :seq => applied + 1, :said => said,
                                   :before => before, :after => after, :dice => dice)
         PF2Encounter[encounter.id].update(:history_at => applied + 1)
@@ -289,3 +390,4 @@ module AresMUSH
     end
   end
 end
+Ohm::Model.prepend(AresMUSH::Pf2e::History::Tracked)
