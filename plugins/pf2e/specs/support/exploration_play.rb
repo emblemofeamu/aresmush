@@ -171,7 +171,7 @@ module AresMUSH
           encounter = PF2Encounter[one.id]
           @audit.find('scene', "encounter #{one.id}", 'still running after its scene stopped') if encounter.is_active
 
-          Array(encounter.messages).each do |_time, message|
+          EncounterLog.lines(encounter).each do |_time, message|
             next if text.include?(clean(message)) || told.include?(clean(message))
 
             @audit.find('scene', "encounter #{one.id}", "its line is not in the scene log: #{clean(message)[0, 120]}")

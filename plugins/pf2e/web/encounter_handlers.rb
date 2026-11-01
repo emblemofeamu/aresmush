@@ -14,7 +14,7 @@ module AresMUSH
       # the game told marked with its prefix at the reader's level. An encounter notice - `start`, `end`,
       # `round` or `turn` - also has its notice details, for the page to lay out as its own.
       def self.log(encounter, viewer = nil, last = 30)
-        Array(encounter.messages).last(last).map do |_time, message, notice, notice_details, line|
+        EncounterLog.lines(encounter, last).map do |_time, message, notice, notice_details, line|
           text = line ? SystemPrefix.for(viewer, message, line) : message
 
           # The formatter ends every message with a line break, which a line of the page does not need.

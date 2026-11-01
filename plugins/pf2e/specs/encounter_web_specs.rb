@@ -92,7 +92,7 @@ module AresMUSH
         end
 
         it "should say in the history who spent one in a change" do
-          History.append(encounter, "#{@hero.name}: e/strike #2=fist", {}, { 'x' => 1 })
+          History.append(encounter, "#{@hero.name}: e/strike #2=fist", { 'encounter' => { 'round' => 1 } }, { 'encounter' => { 'round' => 2 } })
           History.latest(encounter).update(:hero_spent => { @hero.name => 1 })
 
           expect(EncounterWeb.history(encounter).last).to include(:heroes => [ @hero.name ])

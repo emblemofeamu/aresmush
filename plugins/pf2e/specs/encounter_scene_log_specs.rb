@@ -88,7 +88,7 @@ module AresMUSH
         expect(PF2Encounter[@encounter.id].is_active).to be false
         expect(@logged.map(&:last).join).to include(t('pf2e.encounter_ended_with_scene', :id => @encounter.id))
         expect(@heard[@room.id].join).to include(t('pf2e.encounter_ended_with_scene', :id => @encounter.id))
-        expect(PF2Encounter[@encounter.id].messages.last.last(2)).to eq [ 'end', { 'id' => @encounter.id, 'with_scene' => true } ]
+        expect(EncounterLog.lines(PF2Encounter[@encounter.id]).last.last(2)).to eq [ 'end', { 'id' => @encounter.id, 'with_scene' => true } ]
       end
 
       # The end as the game client shows it: centered, between the lines the start banner has.

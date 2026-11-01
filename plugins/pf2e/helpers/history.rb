@@ -60,13 +60,15 @@ module AresMUSH
       # What moved between two snapshots: `[ before, after ]`, each holding only the records that differ, a
       # record that was not there as nil, and only the encounter's fields that moved.
       def self.difference(before, after)
-        fields = before['encounter'].keys.reject { |field| before['encounter'][field] == after['encounter'][field] }
+        was_held = before['encounter'] || {}
+        now_held = after['encounter'] || {}
+        fields = (was_held.keys | now_held.keys).reject { |field| was_held[field] == now_held[field] }
         was = { 'diff' => true }
         now = { 'diff' => true }
 
         unless fields.empty?
-          was['encounter'] = before['encounter'].slice(*fields)
-          now['encounter'] = after['encounter'].slice(*fields)
+          was['encounter'] = was_held.slice(*fields)
+          now['encounter'] = now_held.slice(*fields)
         end
 
         (before.keys | after.keys).each do |name|

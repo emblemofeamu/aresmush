@@ -15,6 +15,7 @@ module AresMUSH
     index :is_active
     attribute :round, :type => DataType::Integer, :default => 0
     attribute :current
+    # Its log from before the log was a list of its own (`Pf2e::EncounterLog`), which reads it.
     attribute :messages, :type => DataType::Array, :default => []
     attribute :init_stat
 
@@ -58,6 +59,7 @@ module AresMUSH
       self.npcs.each(&:delete)
       self.states.each(&:delete)
       self.entries.each(&:delete)
+      Pf2e::EncounterLog.delete(self)
     end
 
     ##### CLASS METHODS #####
@@ -118,9 +120,7 @@ module AresMUSH
     # game told what kind it is - `action` or `system` - for a page to mark it for its reader (see
     # `SystemPrefix`). A line the game told is kept as told, without the prefix.
     def self.send_to_encounter(enc, msg, notice: nil, notice_details: nil, line: nil)
-      message_list = enc.messages
-      message_list << [ Time.now, msg, notice, notice_details, line ].reverse.drop_while(&:nil?).reverse
-      enc.update(messages: message_list)
+      Pf2e::EncounterLog.add(enc, [ Time.now, msg, notice, notice_details, line ].reverse.drop_while(&:nil?).reverse)
     end
 
     # Its page on the portal.
