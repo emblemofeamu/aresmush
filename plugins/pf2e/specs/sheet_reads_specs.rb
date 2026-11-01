@@ -121,5 +121,62 @@ module AresMUSH
 
       expect(Pf2e::SheetReads.holding(char) { :done }).to eq :done
     end
+
+    # A whole command reads each sheet once between its writes: a Strike asks for the same rows a
+    # thousand times, and any write may change what they say.
+    describe "for the length of a command" do
+      it "should read once for anyone it asks about" do
+        counter = { :reads => 0 }
+        one = char_reading(counter, [ skill('Arcana') ])
+        two = char_reading(counter, [ skill('Stealth') ])
+
+        Pf2e::SheetReads.during do
+          10.times { [ one, two ].each { |char| Pf2eSkills.find_skill('Arcana', char) } }
+        end
+
+        expect(counter[:reads]).to eq 2
+      end
+
+      it "should read again after anything is written" do
+        counter = { :reads => 0 }
+        char = char_reading(counter, [ skill('Arcana') ])
+
+        Pf2e::SheetReads.during do
+          Pf2eSkills.find_skill('Arcana', char)
+          Pf2e::SheetReads.written!
+          Pf2eSkills.find_skill('Arcana', char)
+        end
+
+        expect(counter[:reads]).to eq 2
+      end
+
+      it "should forget what a sweep inside it read, once that sweep writes" do
+        counter = { :reads => 0 }
+        char = char_reading(counter, [ skill('Arcana') ])
+
+        Pf2e::SheetReads.during do
+          Pf2eSkills.find_skill('Arcana', char)
+          Pf2e::SheetReads.holding(char) { Pf2e::SheetReads.written! }
+          Pf2eSkills.find_skill('Arcana', char)
+        end
+
+        expect(counter[:reads]).to eq 2
+      end
+
+      it "should know a read from a write" do
+        expect([ 'HGETALL', 'smembers', 'SISMEMBER' ].map { |one| Pf2e::ReadCache.write?([ one, 'key' ]) }).to eq [ false ] * 3
+        expect([ 'HSET', 'EVALSHA', 'SADD', 'DEL', 'INCR' ].map { |one| Pf2e::ReadCache.write?([ one, 'key' ]) }).to eq [ true ] * 5
+        expect(Pf2e::ReadCache.write?([ 'EVALSHA', Stal::SHA, 0, '[]' ])).to be false
+      end
+    end
+
+    # Every command and page of the plugin's reads that way.
+    it "should be how the plugin's commands and pages read" do
+      handed = [ 'condition/set x=prone', 'encounter/view', 'sheet' ].map do |typed|
+        Pf2e.get_cmd_handler(nil, Command.new(typed), nil)
+      end + [ Pf2e.get_web_request_handler(double(:cmd => 'pf2Encounter')) ]
+
+      expect(handed.map { |one| one.ancestors.include?(Pf2e::ReadsOnce) }).to eq [ true ] * 4
+    end
   end
 end

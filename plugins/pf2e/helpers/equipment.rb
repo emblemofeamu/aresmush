@@ -178,11 +178,11 @@ module AresMUSH
         return nil unless char
 
         collection = kinds.find { |_collection, model| item.is_a?(model) }&.first
-        holding = Pf2eCombatantState.find(:character_id => char.id).to_a.find do |state|
-          state.encounter&.is_active && state.public_send(collection).to_a.any? { |copy| copy.copied_from.to_s == item.id.to_s }
-        end
 
-        holding&.encounter
+        PF2Encounter.running_for(char).to_a.find do |encounter|
+          state = CombatantStates.of(encounter, char)
+          state && state.public_send(collection).to_a.any? { |copy| copy.copied_from.to_s == item.id.to_s }
+        end
       end
 
       # What of the copy becomes the character's own when the encounter ends: what it gave them to keep.

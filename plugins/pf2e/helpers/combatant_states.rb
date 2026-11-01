@@ -26,7 +26,7 @@ module AresMUSH
 
       # The character's state in an encounter, if they have one there.
       def self.of(encounter, char)
-        Pf2eCombatantState.find(:encounter_id => encounter.id).to_a.find { |state| state.character_id == char.id }
+        Pf2eCombatantState.find(:encounter_id => encounter.id, :character_id => char.id).first
       end
 
       # The neutral sheet, rested: every hit point, a full focus pool, the day's spells from what they have
