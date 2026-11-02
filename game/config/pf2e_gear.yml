@@ -149,7 +149,7 @@ pf2e_gear:
   Healer's Toolkit:
     bulk: 1
     level: 0
-    price: 500
+    price: 10
     traits: []
   Hourglass:
     bulk: 0.1
