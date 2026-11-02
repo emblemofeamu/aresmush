@@ -15,9 +15,9 @@ module AresMUSH
         stood('hp' => 0).merge(overrides)
       end
 
-      def found_for(before, after, critical)
+      def found_for(before, after, critical, dealt = nil)
         audit = RollAudit.new
-        audit.hit_dropped('Aria', before, after, critical)
+        audit.hit_dropped('Aria', before, after, critical, dealt)
         audit.findings.map { |one| one['kind'] }
       end
 
@@ -45,6 +45,14 @@ module AresMUSH
 
       it "should say nothing of a hit that left them standing" do
         expect(found_for(stood, stood('hp' => 12), true)).to eq []
+      end
+
+      it "should say nothing of a hit on someone dying that their resistances took all of" do
+        expect(found_for(left('dying' => 1), left('dying' => 1), false, 0)).to eq []
+      end
+
+      it "should still find a hit on someone dying that landed and left them as they were" do
+        expect(found_for(left('dying' => 1), left('dying' => 1), false, 5)).to eq [ 'dying' ]
       end
     end
   end

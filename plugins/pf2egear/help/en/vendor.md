@@ -32,6 +32,6 @@ Weapons, armor, magic items, and shields will only permit you to buy or sell one
 
 A few things to be aware of:
  * Items of a higher level than the character cannot be bought or sold through the vendor. Please put in a request for such purchases.
- * If encumbrance tracking is turned on, the vendor will not permit you to purchase an item that you cannot carry (i.e. that would put you over your max Bulk capacity. Refer to the PRD for an explanation of Bulk.)
+ * If encumbrance tracking is turned on, the vendor sells you an item even if it's too heavy for you, and warns you if the purchase leaves you encumbered. To lighten your load, sell items, or stow them in a backpack or extradimensional container. See `help gear`.
  * Ordinary ammunition (arrows, bolts, and sling bullets) isn't sold or tracked, because ranged weapons always have it. Cold iron and silver ammunition is sold by the piece under consumables. To fire it, name the material when you attack; see "Ammunition and reloading" in `help encounter actions` or [read it on the web](/help/pf2e_encounter_actions).
  * The item list supports partial matching, but if there are multiple items with that name, it will try to match the exact one you specified, so it may help to cut and paste names.

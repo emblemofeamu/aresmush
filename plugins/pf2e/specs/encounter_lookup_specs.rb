@@ -3,6 +3,18 @@ require "plugin_test_loader"
 module AresMUSH
   module Pf2e
 
+    # The keys whose whole record was asked for while recording, by this thread. `ReadCache` is prepended
+    # to Redic, which `allow_any_instance_of` won't stub, so this listens at the client under it.
+    module RecordsLoaded
+      KEY = :pf2e_records_loaded
+
+      def write(args)
+        Thread.current[KEY] << args[1].to_s if Thread.current[KEY] && args.first.to_s.casecmp?('HGETALL')
+        super
+      end
+    end
+    Redic::Client.prepend(RecordsLoaded) unless Redic::Client < RecordsLoaded
+
     # Finding the encounter that is running reads that one, however many a scene, a GM or a character
     # has had before: the running ones are kept in an index of their own.
     describe "finding a running encounter", :dbtest => true do
@@ -35,18 +47,13 @@ module AresMUSH
       # The encounters whose own record was read while the block ran.
       def loaded
         keys = []
-        allow_any_instance_of(Redic).to receive(:call).and_wrap_original do |original, *args|
-          keys << args[1].to_s if args.first == 'HGETALL'
-          original.call(*args)
-        end
-        allow_any_instance_of(Redic).to receive(:queue).and_wrap_original do |original, *args|
-          keys << args[1].to_s if args.first == 'HGETALL'
-          original.call(*args)
-        end
+        Thread.current[RecordsLoaded::KEY] = keys
 
         yield
 
         (@ended + [ @running ]).map { |one| one.id }.select { |id| keys.include?(PF2Encounter.key[id].to_s) }
+      ensure
+        Thread.current[RecordsLoaded::KEY] = nil
       end
 
       it "should read only the running one of a scene's" do

@@ -12,9 +12,10 @@ module AresMUSH
     describe :condition_level do
 
       # Nothing alters a condition's value here: that is `Alterations`' own to answer, and this is about
-      # the arithmetic.
+      # the arithmetic. Nor is anyone carrying too much.
       before(:each) do
         allow(Pf2e::Alterations).to receive(:condition) { |_char, _name, value| value }
+        allow(Pf2egear::Bulk).to receive(:encumbered?).and_return(false)
       end
 
       # A character under no effects, since what an effect brings with it is a condition too.

@@ -127,6 +127,8 @@ module AresMUSH
           held = conditions_of(holder)
           wanted = { 3 => 'Restrained', 2 => 'Grabbed' }[degree]
 
+          # A swarm, among others, is never held, whatever was rolled.
+          next [ !held.key?(wanted), "an immune target was left #{wanted}" ] if wanted && Pf2e.immune_to?(holder, wanted)
           next [ !held.key?('Grabbed'), "degree #{degree} left it grabbed" ] unless wanted
           next [ false, "degree #{degree} should leave it #{wanted}, holds #{held.keys}" ] unless held.key?(wanted)
           next [ true, nil ] if holder.class[holder.id].hp_left.zero?
@@ -192,6 +194,8 @@ module AresMUSH
           degree = (@audit.last_roll(striker.name) || {}).dig('result', 'degree')
           prone = conditions_of(holder).key?('Prone')
 
+          # A swarm, among others, is never knocked down, whatever was rolled.
+          next [ !prone, "an immune target was left prone" ] if Pf2e.immune_to?(holder, 'Prone')
           next [ !prone, "degree #{degree} left it prone" ] unless degree.to_i >= 2
           next [ false, "degree #{degree} did not leave it prone" ] unless prone
           next [ true, nil ] if holder.class[holder.id].hp_left.zero?
@@ -273,6 +277,9 @@ module AresMUSH
 
         if helper
           probe('a potion given to a dying ally ends their dying, and leaves them wounded and awake') do
+            # The fight may have downed them already, and nothing more happens to the dead. They go from
+            # standing to dying here, so that it is this damage and this potion being checked.
+            rescue_the_fallen if down?(healed)
             type(@gm, "condition/set #{healed.name}=wounded/0") if value_of(state_of(healed), 'Wounded').positive?
             type(@gm, "damage #{healed.name}=#{hp_of(healed)}")
             dying = value_of(state_of(healed), 'Dying')
@@ -287,6 +294,15 @@ module AresMUSH
 
         # A night's rest restores Constitution times level, at least level, and ends what a fight left.
         probe('the GM\'s rest restores a night\'s hit points and clears what the fight left') do
+          # Nothing more happens to the dead, so they are brought back. Someone alive at 0 stays there, and
+          # the night has to get them up.
+          @party.each do |char|
+            next unless Pf2e.dead?(state_of(char))
+
+            raise_if_dead(char)
+            type(@gm, "condition/set #{char.name}=dying/0")
+          end
+
           before = @party.to_h { |char| [ char.name, hp_of(char) ] }
           type(@gm, 'e/rest')
           wrong = @party.filter_map do |char|
@@ -325,6 +341,8 @@ module AresMUSH
         mechanics = Acting.spell_mechanics(spell).last
 
         return unless mechanics && (mechanics['outcomes'] || {}).any?
+        # With no save or attack the cast rolls nothing, and the last roll is from something else.
+        return unless mechanics['attack'] || mechanics['save']
 
         row = Combatants.rows(encounter).find { |one| "##{one['id']}" == target_ref }
         holder = row && Combatants.holder_of(row)

@@ -32,6 +32,9 @@ module AresMUSH
         condition.to_s
     end
 
+    ENCUMBERED = 'Encumbered'.freeze
+    CARRYING_TOO_MUCH = 'Bulk'.freeze
+
     # Every condition a character has: the ones set on them, and the ones those bring with them.
     #
     #   { 'Off-Guard' => { 'value' => nil, 'granted_by' => 'Grabbed', 'derived' => true }, … }
@@ -58,6 +61,11 @@ module AresMUSH
 
         held[name] = { 'value' => grant['value'] || default_condition_value(name),
                        'granted_by' => effect, 'derived' => true }
+      end
+
+      # What they carry, past what they can carry easily. It goes when the bulk does.
+      if !held.key?(ENCUMBERED) && Actors.of(char).carries_items? && Pf2egear::Bulk.encumbered?(char)
+        held[ENCUMBERED] = { 'value' => nil, 'granted_by' => CARRYING_TOO_MUCH, 'derived' => true }
       end
 
       derive_conditions(held, held.keys).to_h do |name, one|

@@ -461,14 +461,17 @@ module AresMUSH
       # are brought back first.
       def rescue_the_fallen
         @party.select { |char| down?(char) }.each do |char|
-          if Pf2e.dead?(state_of(char))
-            @audit.counts['characters killed'] += 1
-            type(@gm, "condition/set #{char.name}=dead/0")
-          end
-
+          raise_if_dead(char)
           type(@gm, "condition/set #{char.name}=dying/0")
           type(@gm, "heal #{char.name}=#{max_hp_of(char)}")
         end
+      end
+
+      def raise_if_dead(char)
+        return unless Pf2e.dead?(state_of(char))
+
+        @audit.counts['characters killed'] += 1
+        type(@gm, "condition/set #{char.name}=dead/0")
       end
 
       # ------------------------------------------------------------------------------

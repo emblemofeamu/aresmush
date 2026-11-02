@@ -23,6 +23,7 @@ pf2e_bags:
     level: 4
     bulk: 0.1
     capacity: 10
+    max_item_bulk: 1
     bulk_bonus: 0
     traits:
       - extradimensional
@@ -32,8 +33,8 @@ pf2e_bags:
     price: 7500
     level: 4
     bulk: 1
-    capacity: 0
-    bulk_bonus: 25
+    capacity: 25
+    bulk_bonus: 0
     traits:
       - extradimensional
       - magical
@@ -41,7 +42,9 @@ pf2e_bags:
     price: 34000
     level: 7
     bulk: 0
-    capacity: 1
+    capacity: 0
+    max_items: 1
+    max_item_bulk: 1
     bulk_bonus: 0
     traits:
       - uncommon
@@ -52,8 +55,8 @@ pf2e_bags:
     price: 30000
     level: 7
     bulk: 1
-    capacity: 0
-    bulk_bonus: 50
+    capacity: 50
+    bulk_bonus: 0
     traits:
       - extradimensional
       - magical
@@ -61,7 +64,8 @@ pf2e_bags:
     price: 60000
     level: 9
     bulk: 0.1
-    capacity: 20
+    capacity: 40
+    max_item_bulk: 1
     bulk_bonus: 0
     traits:
       - extradimensional
@@ -71,7 +75,9 @@ pf2e_bags:
     price: 60000
     level: 9
     bulk: 0
-    capacity: 3
+    capacity: 0
+    max_items: 3
+    max_item_bulk: 1
     bulk_bonus: 0
     traits:
       - uncommon
@@ -82,8 +88,8 @@ pf2e_bags:
     price: 120000
     level: 11
     bulk: 1
-    capacity: 0
-    bulk_bonus: 100
+    capacity: 100
+    bulk_bonus: 0
     traits:
       - extradimensional
       - magical
@@ -91,8 +97,8 @@ pf2e_bags:
     price: 240000
     level: 13
     bulk: 1
-    capacity: 0
-    bulk_bonus: 150
+    capacity: 150
+    bulk_bonus: 0
     traits:
       - extradimensional
       - magical
@@ -100,7 +106,9 @@ pf2e_bags:
     price: 250000
     level: 13
     bulk: 0
-    capacity: 10
+    capacity: 0
+    max_items: 10
+    max_item_bulk: 1
     bulk_bonus: 0
     traits:
       - uncommon

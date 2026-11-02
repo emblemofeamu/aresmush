@@ -8,7 +8,13 @@ module AresMUSH
     attribute :traits, :type => DataType::Array, :default => []
     attribute :level, :type => DataType::Integer, :default => 0
     attribute :price, :type => DataType::Integer, :default => 0
+    # What it holds: `capacity` in Bulk, `max_items` in items, `max_item_bulk` the most any one item may
+    # weigh. Nothing means no limit of that kind.
     attribute :capacity, :type => DataType::Integer, :default => 0
+    attribute :max_items, :type => DataType::Integer, :default => 0
+    attribute :max_item_bulk, :type => DataType::Float, :default => 0
+    # Read by nothing. It stays because bags on the live game have it stored, and Ohm raises on loading a
+    # stored field that has no attribute.
     attribute :gear_contents, :type => DataType::Hash, :default => {}
     attribute :nickname
 

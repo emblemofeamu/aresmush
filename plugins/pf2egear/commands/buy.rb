@@ -85,6 +85,8 @@ module AresMUSH
           return
         end
 
+        before = Pf2egear::Bulk.standing(enactor)
+
         # Create the item.
 
         Pf2egear.create_item(enactor, self.category, item_name, q, item_info)
@@ -92,6 +94,10 @@ module AresMUSH
         Pf2egear.pay_player(enactor, -cost, 'Item Vendor', "Purchase #{item_name}")
 
         client.emit_success t('pf2egear.item_bought_ok', :item => item_name, :cost => Pf2egear.display_money(cost), :quantity => q)
+
+        warning = Pf2egear::Bulk.warning(enactor, before)
+
+        client.emit_ooc warning if warning
 
       end
 

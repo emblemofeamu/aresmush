@@ -111,6 +111,11 @@ module AresMUSH
         CATEGORIES.select { |row| row['in_bag'] }.flat_map { |row| row['names'] }
       end
 
+      # Everything stowed in a bag.
+      def self.bag_contents(bag)
+        CATEGORIES.select { |row| row['in_bag'] }.flat_map { |row| bag.send(row['in_bag']).to_a }
+      end
+
       # The wearer's proficiency with it, or nil for a thing nobody is trained in using.
       def self.proficiency(char, category, name)
         (row(category) || {})['proficiency']&.call(char, name)

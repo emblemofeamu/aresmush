@@ -22,8 +22,6 @@ module AresMUSH
 
         wp_list = Pf2egear::Inventory.held(@char, 'weapons')
 
-        @weapon_bulk = wp_list.map { |wp| wp.bulk }.sum
-
         wp_list.each_with_index do |wp,i|
           list << format_wp(@char,wp,i)
         end
@@ -35,8 +33,6 @@ module AresMUSH
         list = []
 
         armor_list = Pf2egear::Inventory.held(@char, 'armor')
-
-        @armor_bulk = armor_list.map { |a| a.bulk }.sum
 
         armor_list.each_with_index do |a,i|
           list << format_armor(@char,a,i)
@@ -50,8 +46,6 @@ module AresMUSH
 
         shields_list = @char.shields ? Pf2egear.items_in_inventory(@char.shields.to_a) : []
 
-        @shields_bulk = shields_list.map { |s| s.bulk }.sum
-
         shields_list.each_with_index do |s,i|
           list << format_shields(@char,s,i)
         end
@@ -63,8 +57,6 @@ module AresMUSH
         list = []
 
         consumables_list = @char.consumables ? Pf2egear.items_in_inventory(@char.consumables.to_a) : []
-
-        @consumables_bulk = consumables_list.map { |c| c.bulk }.sum
 
         consumables_list.each_with_index do |c,i|
           list << format_gear(c,i)
@@ -78,12 +70,6 @@ module AresMUSH
 
         bags = @char.bags ? @char.bags : []
 
-        blist = bags.map do |b|
-          Pf2egear.bag_effective_bulk b, Pf2egear.calculate_bag_load(b)
-        end
-
-        @bag_bulk = blist.sum
-
         bags.each_with_index do |b,i|
           list << format_bags(b,i)
         end
@@ -95,8 +81,6 @@ module AresMUSH
         list = []
 
         gear_list = @char.gear ? Pf2egear.items_in_inventory(@char.gear.to_a) : []
-
-        @gear_bulk = gear_list.map { |g| g.bulk }.sum
 
         gear_list.each_with_index do |g,i|
           list << format_gear(g,i)
@@ -110,14 +94,11 @@ module AresMUSH
       end
 
       def encumbrance
-        current_bulk = @weapon_bulk + @armor_bulk + @shields_bulk + @consumables_bulk + @gear_bulk + @bag_bulk
-
         max_capacity = Pf2egear.max_bulk(@char)
-        encumbered = Pf2egear.encumbered_at(@char)
 
-        enc_state = current_bulk >= encumbered ? "%xh%xyEncumbered%xn" : "%xgUnencumbered%xn"
+        enc_state = Pf2egear::Bulk.encumbered?(@char) ? "%xh%xyEncumbered%xn" : "%xgUnencumbered%xn"
 
-        "#{item_color}Current Bulk:%xn #{current_bulk.to_i} / #{max_capacity} (#{enc_state})"
+        "#{item_color}Current Bulk:%xn #{Pf2egear::Bulk.carried(@char)} / #{max_capacity} (#{enc_state})"
       end
 
       def money
@@ -129,8 +110,6 @@ module AresMUSH
         list = []
 
         mi_list = @char.magic_items ? Pf2egear.items_in_inventory(@char.magic_items.to_a) : []
-
-        @mi_bulk = mi_list.map { |m| m.bulk }.sum
 
         mi_list.each_with_index do |m,i|
           list << format_mi(m,i)
@@ -205,9 +184,7 @@ module AresMUSH
 
       def format_bags(bag, i)
         name = Pf2egear.get_item_name(bag)
-        capacity = bag.capacity
-        current_load = Pf2egear.calculate_bag_load(bag)
-        disp_load = "#{current_load} / #{capacity}"
+        disp_load = Pf2egear::Bulk.fill(bag)
 
         "%b%b#{left(i, 3)}%b#{left(name, 55)}%b#{left(disp_load, 12)}"
       end

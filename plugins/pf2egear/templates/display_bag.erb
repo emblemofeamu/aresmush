@@ -27,6 +27,12 @@
 <%= item -%>
 <% end %>
 
+<%= section_line("Magic Items") %>
+<%= header_mi %>
+<%= divider %>
+<% magic_items.each do |item| -%>
+<%= item %>
+<% end %>
 <% if use_encumbrance %>
 <%= divider %>
 <%= center(encumbrance, 78) %>

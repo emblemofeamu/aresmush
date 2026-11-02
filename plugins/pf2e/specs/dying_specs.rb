@@ -235,6 +235,14 @@ module AresMUSH
       end
     end
 
+    # Resistance that takes the whole of a hit leaves no damage taken, and so no nearer death.
+    it "should leave Dying as it was after a hit that dealt nothing" do
+      Pf2eHP.modify_damage(@char, Pf2eHP.get_max_hp(@char), false, true)
+      Pf2eHP.modify_damage(reread, 0, false, true)
+
+      expect(Pf2e.condition_level(reread, 'Dying')).to eq 1
+    end
+
     it "should leave a character standing who is only hurt" do
       Pf2eHP.modify_damage(@char, 1, false, true)
 

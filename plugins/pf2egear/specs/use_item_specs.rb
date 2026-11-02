@@ -70,6 +70,7 @@ module AresMUSH
         before(:each) do
           @encounter = PF2Encounter.create(:organizer => 'GM', :round => 1, :is_active => true)
           Pf2e::Combatants.join(@encounter, @char.name, 10, :holder => Character[@char.id])
+          Character[@char.id].encounters.add @encounter
           allow_any_instance_of(Character).to receive(:is_approved?).and_return(true)
         end
 

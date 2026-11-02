@@ -3,11 +3,14 @@ module AresMUSH
     class PF2BagStoreCmd
       include CommandHandler
 
-      attr_accessor :bag_id, :category, :item_id
+      attr_accessor :bag_id, :category, :item_id, :quantity
 
       def parse_args
         args = cmd.parse_args(ArgParser.arg1_slash_arg2_equals_arg3)
-        self.bag_id = integer_arg(args.arg3)
+        where, how_many = args.arg3.to_s.split('/', 2)
+
+        self.bag_id = integer_arg(where)
+        self.quantity = integer_arg(how_many)
         self.category = downcase_arg(args.arg1)
         self.item_id = integer_arg(args.arg2)
 
@@ -30,6 +33,12 @@ module AresMUSH
         return t('pf2egear.must_specify_by_number')
       end
 
+      def check_valid_quantity
+        return nil if !self.quantity
+        return nil if self.quantity.positive?
+        return t('pf2egear.bad_quantity')
+      end
+
       def handle
 
         bag = enactor.bags.to_a[self.bag_id]
@@ -45,11 +54,12 @@ module AresMUSH
 
         item = found.state
 
-        # Move the item.
+        name = item.name
+        moved = Pf2egear::Stowing.store(bag, self.category, item, self.quantity)
 
-        item.update(bag: bag)
+        return if Pf2e::CharState.emit_error!(client, moved)
 
-        client.emit_success t('pf2egear.bag_store_ok', :name => item.name, :bag => bag.name)
+        client.emit_success t('pf2egear.bag_store_ok', :quantity => moved.state, :name => name, :bag => bag.name)
       end
 
     end

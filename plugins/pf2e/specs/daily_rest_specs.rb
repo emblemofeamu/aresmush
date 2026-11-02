@@ -90,6 +90,26 @@ module AresMUSH
         expect(Pf2eHP[@hp.id].damage).to eq 0
       end
 
+      it "should get someone at 0 Hit Points up, and end their dying" do
+        full = Pf2eHP.get_max_hp(standing)
+
+        Pf2eHP.modify_damage(standing, full)
+        expect(Pf2e.condition_level(standing, 'Dying')).to be_positive
+
+        rest
+
+        expect(Pf2eHP.get_current_hp(standing)).to eq 6
+        expect(standing.pf2_conditions.keys & %w{Dying Unconscious}).to eq []
+      end
+
+      it "should do nothing for the dead" do
+        standing.update(:pf2_is_dead => true, :damage => Pf2eHP.get_max_hp(standing))
+
+        rest
+
+        expect(Pf2eHP.get_current_hp(standing)).to eq 0
+      end
+
       it "should rest as often as the GM says, and be taken back" do
         Pf2eHP.modify_damage(standing, 10)
 

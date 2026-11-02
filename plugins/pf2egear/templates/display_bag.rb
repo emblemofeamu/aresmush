@@ -27,8 +27,6 @@ module AresMUSH
 
         weapon_list = @bag.weapons ? @bag.weapons : []
 
-        @weapon_bulk = weapon_list.map { |wp| wp.bulk }.sum
-
         weapon_list.each_with_index do |wp,i|
           list << format_wp(@char,wp,i)
         end
@@ -41,8 +39,6 @@ module AresMUSH
 
         armor_list = @bag.armor ? @bag.armor : []
 
-        @armor_bulk = armor_list.map { |a| a.bulk }.sum
-
         armor_list.each_with_index do |a,i|
           list << format_armor(@char,a,i)
         end
@@ -54,8 +50,6 @@ module AresMUSH
         list = []
 
         shields_list = @bag.shields ? @bag.shields : []
-
-        @shields_bulk = shields_list.map { |s| s.bulk }.sum
 
         shields_list.each_with_index do |s,i|
           list << format_shields(s,i)
@@ -88,18 +82,19 @@ module AresMUSH
         list
       end
 
+      def magic_items
+        @bag.magicitem.to_a.each_with_index.map { |m,i| format_mi(m,i) }
+      end
+
       def use_encumbrance
         Global.read_config('pf2e_gear_options', 'use_encumbrance')
       end
 
       def encumbrance
+        stowed = Pf2egear::Bulk.sum(Pf2egear::Inventory.bag_contents(@bag))
+        bag_bulk = Pf2egear::Bulk.shown(Pf2egear::Bulk.carrying(@bag, stowed))
 
-        current_load = Pf2egear.calculate_bag_load(@bag)
-        max_capacity = @bag.capacity
-
-        bag_bulk = Pf2egear.bag_effective_bulk(@bag, current_load)
-
-        "#{item_color}Capacity:%xn #{current_load} / #{max_capacity}    #{item_color}Character Load%xn: #{bag_bulk}"
+        "#{item_color}Capacity:%xn #{Pf2egear::Bulk.fill(@bag)}    #{item_color}Character Load%xn: #{bag_bulk}"
       end
 
       def header_wp_armor
@@ -134,6 +129,15 @@ module AresMUSH
         disp_hp = "#{broken}#{cur_hp}%xn / #{hp}"
 
         "%b%b#{left(i, 3)}%b#{left(name, 45)}%b#{left(bulk, 8)}%b#{left(disp_hp,12)}"
+      end
+
+      def header_mi
+        "%b%b#{left("#", 3)}%b#{left("Name", 52)}%b#{left("Bulk", 8)}"
+      end
+
+      def format_mi(m,i)
+        bulk = m.bulk == 0.1 ? "L" : m.bulk.to_i
+        "%b%b#{left(i, 3)}%b#{left(Pf2egear.get_item_name(m), 52)}%b#{left(bulk, 8)}"
       end
 
       def format_gear(item,i)

@@ -178,8 +178,11 @@ module AresMUSH
           end
         end
 
-        # A line the GM alone was told - a creature's hit points - which the room never heard.
+        # A line the GM alone was told - a creature's hit points - which the room never heard. The room
+        # hears its lines with a prefix, and may hear the same words on their own account: an effect the
+        # GM was told ended as the fight began can end again on a later turn, in front of everyone.
         (@told_gm.uniq - @told_room).each do |line|
+          next if @told_room.any? { |heard| heard.include?(line) }
           next unless text.any? { |pose| pose.include?(line) } && line.length > 12
 
           @audit.find('scene', 'GM only', "a line only the GM was told is in the scene log: #{line[0, 120]}")

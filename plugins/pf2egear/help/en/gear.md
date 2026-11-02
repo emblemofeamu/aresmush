@@ -34,8 +34,12 @@ For equipping and investing gear, see `help equip`.
 These commands are specifically related to managing bags. You must buy a bag before you can use it to manage your gear.
 
 `bag <#>`: View the contents of bag `<#>`.
-`bag/store <category>/<item number> = <#>`: Stores `<item>` in `<category>` from your inventory in bag number `<#>`. (Alias: `bag/put`)
-`bag/retrieve <category>/<item number> = <#>`: Retrieves `<item>` in `<category>` from bag number `<#>` and places it in your inventory. (Alias: `bag/get`)
+`bag/store <category>/<item number> = <#>[/<quantity>]`: Store an item from your inventory in bag number `<#>`. Without a quantity, the whole stack goes in. (Alias: `bag/put`)
+`bag/retrieve <category>/<item number> = <#>[/<quantity>]`: Take an item out of bag number `<#>` and put it in your inventory. Without a quantity, the whole stack comes out. (Alias: `bag/get`)
+
+%t **Note:** A bag holds only what its limits allow: a total Bulk, a number of items, or a largest item, depending on the bag. Unequip or uninvest an item before you store it. You can't store or retrieve an item you carried into a running encounter.
+
+%t **Note:** A bag's contents count toward your Bulk, except that a backpack doesn't count the first 2 Bulk it holds, and an extradimensional container, such as a spacious pouch, doesn't count its contents at all. The container's own Bulk always counts.
 
 ## Using Items
 

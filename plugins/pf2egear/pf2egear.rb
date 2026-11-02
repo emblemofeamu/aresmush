@@ -11,7 +11,12 @@ module AresMUSH
       Global.read_config("pf2e_gear_options", "shortcuts")
     end
 
+    # Each command reads a sheet once between its writes (`Pf2e::SheetReads.during`).
     def self.get_cmd_handler(client, cmd, enactor)
+      Pf2e::ReadsOnce.wrapped(cmd_handler(client, cmd, enactor))
+    end
+
+    def self.cmd_handler(client, cmd, enactor)
       case cmd.root
       when "pay"
         return PF2PayCmd

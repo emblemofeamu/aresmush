@@ -89,24 +89,6 @@ module AresMUSH
       5 + Pf2e.ability_mod(char, 'Strength') + Pf2e::Paths.held(char, 'encumberedafteraddend').to_i
     end
 
-    def self.bag_effective_bulk(bag, load)
-      capacity_bonus = bag.bulk_bonus ? bag.bulk_bonus : 0
-      bag_bulk = bag.bulk
-
-      (load + bag_bulk - capacity_bonus).to_i.clamp(0,100)
-    end
-
-    def self.calculate_bag_load(bag)
-      wp_load = bag.weapons.map { |w| w.bulk }.sum
-      armor_load = bag.armor.map { |a| a.bulk }.sum
-      shield_load = bag.shields.map { |s| s.bulk }.sum
-      mi_load = bag.magicitem.map { |m| m.bulk }.sum
-      c_load = bag.consumables.map { |c| c.bulk }.sum
-      gear_load = bag.gear.map { |g| g.bulk }.sum
-
-      wp_load + armor_load + shield_load + mi_load + c_load + gear_load
-    end
-
     # Gives a character an item the shop sells.
     #
     # Gear and consumables stack: many of the same thing is one row with a quantity. Everything else
@@ -143,7 +125,9 @@ module AresMUSH
     end
 
     def self.get_item_name(item)
-      item.nickname ? "#{item.nickname} (#{item.name})" : item.name
+      nickname = item.respond_to?(:nickname) ? item.nickname : nil
+
+      nickname ? "#{nickname} (#{item.name})" : item.name
     end
 
     def self.get_rune_value(object, type, subtype)

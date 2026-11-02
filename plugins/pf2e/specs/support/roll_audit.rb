@@ -343,8 +343,11 @@ module AresMUSH
       # A whole hit on a character, whatever kinds of damage it dealt: one that leaves them at nothing
       # leaves them Dying 1, or 2 from a critical hit, more by their Wounded - or one or two higher than
       # they were - and dead only at the value Doomed leaves for it. `before` and `after` are
-      # `{ 'hp' =>, 'temp' =>, 'dying' =>, 'wounded' =>, 'doomed' =>, 'dead' => }`.
-      def hit_dropped(name, before, after, critical)
+      # `{ 'hp' =>, 'temp' =>, 'dying' =>, 'wounded' =>, 'doomed' =>, 'dead' => }`. `dealt` is what the hit
+      # landed after resistances: one that landed nothing, or only set damage to burn later, did them no
+      # damage and leaves their dying where it was.
+      def hit_dropped(name, before, after, critical, dealt = nil)
+        return if dealt&.zero?
         return if before['dead'] || after['hp'].positive? || (before['hp'].zero? && before['dying'].zero?)
         # Temporary hit points on someone already down may have taken all of it.
         return if before['hp'].zero? && before['temp'].to_i.positive?
