@@ -15,10 +15,14 @@ module AresMUSH
     #   Grabbed      an action with the manipulate trait is lost on a failed DC 5 flat check.
     #   Deafened     an action with the auditory trait is lost on a failed DC 5 flat check.
     #   Stupefied    a spell is lost on a failed flat check against 5 and the condition's value.
+    #   In a form    cannot cast a spell, use a manipulate action unless the form has hands, or use a shield,
+    #                which is absorbed with the rest of their gear. Each is the GM's to force (`forcible`),
+    #                because the rules leave doubts about a battle form to them.
     module Restraints
 
       FREEING = [ 'Escape', 'Force Open' ].freeze
       WAITING = %w{Delay Ready}.freeze
+      SHIELD_ACTIONS = [ 'Raise a Shield', 'Shield Block' ].freeze
 
       ROWS = [
         { 'condition' => 'Restrained', 'traits' => %w{attack manipulate}, 'key' => 'pf2e.act_restrained', 'unless' => FREEING },
@@ -31,7 +35,10 @@ module AresMUSH
         { 'condition' => 'Confused', 'types' => %w{reaction}, 'key' => 'pf2e.act_cannot_react' },
         { 'condition' => 'Grabbed', 'traits' => %w{manipulate}, 'flat' => ->(_value) { 5 }, 'unless' => FREEING },
         { 'condition' => 'Deafened', 'traits' => %w{auditory}, 'flat' => ->(_value) { 5 } },
-        { 'condition' => 'Stupefied', 'spell' => true, 'flat' => ->(value) { 5 + value } }
+        { 'condition' => 'Stupefied', 'spell' => true, 'flat' => ->(value) { 5 + value } },
+        { 'form' => true, 'spell' => true, 'key' => 'pf2e.form_no_cast', 'forcible' => true },
+        { 'form' => true, 'names' => SHIELD_ACTIONS, 'key' => 'pf2e.form_no_shield', 'forcible' => true },
+        { 'form' => true, 'traits' => %w{manipulate}, 'key' => 'pf2e.form_no_hands', 'forcible' => true, 'hands' => true }
       ].freeze
 
       # What is being tried, as the rows ask of it.
@@ -46,11 +53,13 @@ module AresMUSH
         held = Pf2e.held_conditions(holder)
         effects = Effects.effect_facts(holder)
 
-        ROWS.select { |row| under?(row, held, effects) && about?(row, tried) && !let?(row, holder, tried) }
-            .map { |row| [ row, row['condition'] || row['effect'].capitalize, (held[row['condition']] || {})['value'].to_i ] }
+        ROWS.select { |row| about?(row, tried) && under?(row, holder, held, effects) && !let?(row, holder, tried) }
+            .map { |row| [ row, row['condition'] || row['effect']&.capitalize, (held[row['condition']] || {})['value'].to_i ] }
       end
 
-      def self.under?(row, held, effects)
+      def self.under?(row, holder, held, effects)
+        return BattleForms.active?(holder) if row['form']
+
         row['condition'] ? held.key?(row['condition']) : effects.include?("self:effect:#{row['effect']}")
       end
 
@@ -63,17 +72,25 @@ module AresMUSH
         (Array(row['traits']) & tried.traits).any?
       end
 
-      # An action the row lets through: by its name, or by a feat that says it may be used.
+      # An action the row lets through: by its name, by a feat that says it may be used, or by a form that
+      # has hands to use it with.
       def self.let?(row, holder, tried)
         Array(row['unless']).include?(tried.name) ||
-          (row['feats'] || {}).any? { |feat, names| names.include?(tried.name) && Actions.owned?(holder, feat) }
+          (row['feats'] || {}).any? { |feat, names| names.include?(tried.name) && Actions.owned?(holder, feat) } ||
+          (row['hands'] && BattleForms.hands?(holder))
       end
 
-      # What stops the action, as an error to tell whoever tried, or nothing.
-      def self.refusal(actor, name, traits, type: nil, spell: false)
-        row, condition = rows_for(actor.holder, tried(name, traits, :type => type, :spell => spell)).find { |one, *_| one['key'] }
+      # What stops the action, as an error to tell whoever tried, or nothing. `forced` is the GM's word,
+      # which gets past what the rules leave to them.
+      def self.refusal(actor, name, traits, type: nil, spell: false, forced: false)
+        row, condition = rows_for(actor.holder, tried(name, traits, :type => type, :spell => spell))
+                         .find { |one, *_| one['key'] && !(forced && one['forcible']) }
 
-        row && Err.new(:restrained, row['key'], 'actor' => actor.label, 'action' => name, 'condition' => condition)
+        return nil unless row
+
+        form = row['form'] ? ActiveEffects.bare_name(BattleForms.active(actor.holder)['effect']) : nil
+
+        Err.new(:restrained, row['key'], 'actor' => actor.label, 'action' => name, 'condition' => condition, 'form' => form)
       end
 
       # The flat checks the action is risked on, rolled until one loses it: nothing where none is called

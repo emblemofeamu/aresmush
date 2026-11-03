@@ -115,11 +115,15 @@ module AresMUSH
 
       # The effect projecting an aura has ended: everything the aura put on anyone ends with it.
       def self.dispelled(emitter, effect)
-        slugs = Array(ActiveEffects.info(effect.name)['rules']).select { |row| row['key'] == 'Aura' }
-                                                               .map { |row| row['slug'] || Domains.slug(effect.name) }
-
-        slugs.flat_map { |slug| Pf2eEffect.find(:aura_of => "#{Pf2e.holder_key(emitter)}:#{slug}").to_a }.each do |one|
+        origins(emitter, effect.name).flat_map { |origin| Pf2eEffect.find(:aura_of => origin).to_a }.each do |one|
           ActiveEffects.remove(one.holder, one) if one.holder
+        end
+      end
+
+      # What the effects put on others by the auras of the named effect record as their origin.
+      def self.origins(emitter, name)
+        Array(ActiveEffects.info(name)['rules']).select { |row| row['key'] == 'Aura' }.map do |row|
+          "#{Pf2e.holder_key(emitter)}:#{row['slug'] || Domains.slug(name)}"
         end
       end
     end

@@ -28,6 +28,7 @@ Options after an effect's name include details that need to be manually added:
 
 - `rank <n>`: The rank the spell was cast at. For example, *heroism* at 6th rank gives a +2 bonus instead of +1.
 - `value <n>`: For an effect that counts something, how many.
+- `tradition <name>`: The tradition the spell was cast from, for an effect that depends on it. For example, *dragon form* gives extra resistance when the caster's tradition matches the dragon's.
 - Some effects ask you to make a choice. Add your choice as an option. For example, *resist energy* asks which type of energy to resist, so add `fire` to resist fire.
 
 ### How long effects last

@@ -240,11 +240,16 @@ module AresMUSH
         shield = able.find { |char| state_of(char).shields.to_a.any?(&:equipped) && !ShieldBlock.cannot_raise(state_of(char)) }
         if shield
           probe('Raise a Shield is +2 circumstance to AC against the next Strike') do
-            ref, _holder = aim
+            aim
+
+            # A restrained creature makes no Strike to read, and the Grapple probe can leave one so.
+            free = foes.find { |row| !Pf2e.held_conditions(Pf2eNpc[row['npc']]).key?('Restrained') }
+            next [ true, nil ] unless free
+
             raised = type(shield, 'e/act raise a shield')
             next [ false, "Raise a Shield was refused: #{raised.status}" ] unless raised.ok?
 
-            struck = type(@gm, "e/as #{ref}=strike #{shield.name}")
+            struck = type(@gm, "e/as ##{free['id']}=strike #{shield.name}")
             next [ false, "the creature's Strike was refused: #{struck.status}" ] unless struck.ok?
 
             rows = rows_of(@audit.last_defence(shield.name))

@@ -136,7 +136,8 @@ module AresMUSH
         listed = name == ESCAPE ? (Holding.inside(scene.actor.holder) || {})['escape_dc'] : nil
         words = Array(words) + [ listed.to_s ] if listed && Array(words).none? { |word| word.to_s.match?(/\A\d+\z/) }
 
-        stopped = Restraints.refusal(scene.actor, name, traits_of(scene, name), :type => type_of(scene, name)) ||
+        stopped = Restraints.refusal(scene.actor, name, traits_of(scene, name), :type => type_of(scene, name),
+                                                                                :forced => forced?(scene, words)) ||
                   SizeLimit.refusal(scene, name)
         return stopped if stopped
 
@@ -161,6 +162,14 @@ module AresMUSH
         return Delay.act(scene, report) if name == Delay::NAME
 
         targets ||= [ scene.target ].compact
+
+        if DragonBreath.action?(name)
+          risked = Restraints.risked(scene.actor, name, traits_of(scene, name), :type => type_of(scene, name))
+          return lost(scene, name, risked) if risked && !risked['kept']
+
+          return dragon_breath(scene, name, targets, words)
+        end
+
         own = Actors.of(scene.actor.holder).own_ability(name)
         ability = own ? MonsterAbilities.row(name, own, scene.actor.holder) : nil
         if targets.size > 1 && !(ability ? ability['several'] : CreatureAbilities.saves?(own_text(scene, name))) &&
@@ -182,6 +191,8 @@ module AresMUSH
         return several_strikes(scene, name, entry, words) if entry['strikes']
         return shield_block(scene, name, entry) if name == ShieldBlock::NAME
         return bonded_item(scene, name, entry, words) if name == BondedItem::NAME
+        return sustain_effect(scene, name, entry, words) if name == Sustaining::NAME
+        return dismiss_effect(scene, name, entry, words) if name == Dismissing::NAME
         return attack_answer(scene, name, entry) if entry['type'] == 'reaction' && AttackAnswers.answer(scene.actor.holder, name)
         said = said(words, scene.permitted)
         out = report
@@ -813,6 +824,27 @@ module AresMUSH
         drained
       end
 
+      def self.dragon_breath(scene, name, targets, words)
+        breathed = DragonBreath.act(scene, name, targets, said(words, scene.permitted), report)
+
+        spend(scene, name, Actions.info(name), breathed.state) if breathed.ok?
+        breathed
+      end
+
+      def self.sustain_effect(scene, name, entry, words)
+        kept = Sustaining.act(scene, said(words, scene.permitted)['words'].first, report)
+
+        spend(scene, name, entry, kept.state) if kept.ok?
+        kept
+      end
+
+      def self.dismiss_effect(scene, name, entry, words)
+        ended = Dismissing.act(scene, said(words, scene.permitted)['words'].first, report)
+
+        spend(scene, name, entry, ended.state) if ended.ok?
+        ended
+      end
+
       def self.shield_block(scene, name, entry)
         blocked = ShieldBlock.block(scene, report)
 
@@ -900,6 +932,10 @@ module AresMUSH
         refused(out, said)
 
         return Err.new(:no_target, 'pf2e.act_needs_target') unless scene.target
+
+        if BattleForms.strikeless?(scene.actor.holder)
+          return Err.new(:no_strikes, 'pf2e.form_no_strikes', 'actor' => scene.actor.label)
+        end
 
         attack = attack_for(scene.actor.holder, weapon_term, :melee => melee)
 
@@ -1409,11 +1445,11 @@ module AresMUSH
       end
 
       # What stops a spell before it is spent: a caster restrained cannot cast one that takes their
-      # hands, nor one raging a spell that takes concentration.
-      def self.casting_refused(scene, spell)
+      # hands, nor one raging a spell that takes concentration, nor anyone in a battle form any at all.
+      def self.casting_refused(scene, spell, words = [])
         name, traits = spell_traits(spell)
 
-        Restraints.refusal(scene.actor, name, traits, :spell => true)
+        Restraints.refusal(scene.actor, name, traits, :spell => true, :forced => forced?(scene, words))
       end
 
       # The flat checks a spell is risked on once it is spent - grabbed, deafened, stupefied - rolled:
@@ -1446,6 +1482,7 @@ module AresMUSH
         named = base && variant(base, said)
         mechanics = named
         rank = spell_rank(scene.actor.holder, spell, mechanics, said, cast)
+        rank = UntamedForm.rank_cast(cast, rank) if UntamedForm.spell?(spell)
         casting = Actors.of(scene.actor.holder).casting(spell, cast)
 
         out['lines'] << told('pf2e.act_cast', :actor => scene.actor.label, :spell => spell, :rank => rank,
@@ -1453,6 +1490,13 @@ module AresMUSH
 
         unless mechanics
           out['lines'] << told('pf2e.act_spell_gm')
+          return Ok.new(:state => out)
+        end
+
+        if UntamedForm.spell?(spell)
+          UntamedForm.transform(scene, rank, words, out)
+          spend_casting(scene, spell, named['time'], false, rank, out)
+
           return Ok.new(:state => out)
         end
 
@@ -1465,6 +1509,7 @@ module AresMUSH
           each = Scene.new(scene.encounter, scene.actor, target, scene.enactor, scene.permitted)
           mechanics = (named.equal?(base) ? way_for(base, target) : way_for(base, target, named['time']) || named)
                         .merge('cast_rank' => rank)
+          mechanics = DragonBreath.typed(scene.actor.holder, spell, mechanics)
           attack = mechanics['attack']
           out['about'] = DamageAbout.of_spell(mechanics, spell)
 

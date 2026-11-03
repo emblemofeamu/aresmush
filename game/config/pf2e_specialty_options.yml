@@ -435,7 +435,7 @@ pf2e_subclass:
     Bestial:
       element: poison
     Brine:
-      element: acid
+      element: bludgeoning
     Cloud:
       element: electricity
     Crystal:
@@ -455,7 +455,7 @@ pf2e_subclass:
     Mirage:
       element: mental
     Ossuary:
-      element: spirit
+      element: void
     Terra:
       element: bludgeoning
     Umbral:

@@ -128,12 +128,17 @@ module AresMUSH
       # What an effect declares about itself: the answers it was applied with, as the options its choice
       # sets name, and the options its own `RollOption` rules hold by default.
       def self.own_options(char, effect)
-        built = Effects.with_selections(char, Effects.source(effect.name, Array(info(effect.name)['rules']),
-                                                             'item' => instance_item(effect),
-                                                             'chosen' => effect.answers))
-        declared = Rules.of_kind(built, 'RollOption').map { |row| row['option'] }.compact
+        built = answered(char, effect)
+        declared = Rules.of_kind(built, 'RollOption').map { |row| Rules.resolved(row, built, {}) }
+                        .compact.map { |row| row['option'] }.compact
 
         Array(built['options']) + declared
+      end
+
+      def self.answered(char, effect)
+        Effects.with_selections(char, Effects.source(effect.name, Array(info(effect.name)['rules']),
+                                                     'item' => instance_item(effect),
+                                                     'chosen' => effect.answers))
       end
 
       # The conditions the character's effects bring with them for as long as they last, as
@@ -152,8 +157,9 @@ module AresMUSH
 
       # `options` are what the player said about it after its name: `rank 6` for the rank it was cast
       # at, `value 3` for a counter, and anything else as an answer to what it asks - `fire` for which
-      # energy Resist Energy resists.
-      def self.apply(char, term, options: [], applied_by: nil, encounter: nil, granted_by: nil)
+      # energy Resist Energy resists. `lasts` is a duration other than the catalogue's, where what applies
+      # it decides how long it goes on.
+      def self.apply(char, term, options: [], applied_by: nil, encounter: nil, granted_by: nil, lasts: nil)
         found = find(term)
 
         return found if found.err?
@@ -162,7 +168,7 @@ module AresMUSH
         entry = info(name)
         said = parse(options)
         said['answers'] = owned_answers(char, name, said['answers'])
-        duration = entry['duration'] || {}
+        duration = (entry['duration'] || {}).merge(lasts || {})
         unit = UNITS.key?(duration['unit']) ? duration['unit'] : 'unlimited'
         max_before = HitPointLoss.takes?(entry['rules']) ? HitPointLoss.max_hp(char) : nil
 
@@ -177,7 +183,7 @@ module AresMUSH
           :answers => said['answers'])
 
         effect.update(:granted_by => granted_by) if granted_by
-        effect.update(:sustained => true, :sustained_round => encounter.round.to_i) if duration['sustained'] && encounter
+        effect.update(:sustained => true, :sustained_round => sustained_through(effect, encounter)) if duration['sustained'] && encounter
 
         grant_stored(char, effect, encounter)
 
@@ -413,20 +419,60 @@ module AresMUSH
       end
 
       # A sustained effect ends at the end of the caster's next turn unless they sustain it, which is the
-      # rule; its duration is only the most it can last. The round it was last sustained in is the one
-      # it began in until someone says otherwise.
+      # rule; its duration is only the most it can last. It ends at the end of their first turn in a round
+      # after `sustained_round`.
       def self.unsustained(encounter, participant, round)
         in_encounter(encounter).select { |effect|
-          effect.holder && effect.sustained && (effect.started_turn || effect.holder.name) == participant &&
+          effect.holder && effect.sustained && caster_of(effect, encounter) == participant &&
             round.to_i > effect.sustained_round.to_i
         }.map { |effect| ended(effect) }
       end
 
+      # Who an effect in an encounter is the doing of, by their name in the order: whoever applied it if
+      # they are in the fight, and otherwise whoever is under it, which is what a GM's `effect/add` leaves.
+      def self.caster_of(effect, encounter)
+        return effect.applied_by if applied_by_combatant?(effect, encounter)
+
+        Combatants.all(encounter).find { |one| one.holder == effect.holder }&.label || effect.holder&.name
+      end
+
+      def self.applied_by_combatant?(effect, encounter)
+        Combatants.rows(encounter).any? { |row| row['name'] == effect.applied_by }
+      end
+
+      # An effect's name as a player says it.
+      def self.bare_name(effect)
+        effect.name.sub(PREFIXES, '')
+      end
+
+      # The names a player's words could mean: the one they spell out, or else any that contain them.
+      def self.matching(names, term)
+        wanted = Domains.slug(term)
+        exact = names.find { |name| Domains.slug(name) == wanted }
+
+        exact ? [ exact ] : names.select { |name| Domains.slug(name).include?(wanted) }
+      end
+
       # Keeps a sustained effect going through the caster's next turn.
       def self.sustain(effect, encounter)
-        effect.update(:sustained_round => encounter.round.to_i)
+        effect.update(:sustained_round => sustained_through(effect, encounter))
 
         Ok.new(:state => effect)
+      end
+
+      # The `sustained_round` that makes the caster's next turn the last: this round, or the one before it
+      # if that turn is still to come this round.
+      def self.sustained_through(effect, encounter)
+        round = encounter.round.to_i
+
+        turn_to_come?(caster_of(effect, encounter), encounter) ? round - 1 : round
+      end
+
+      def self.turn_to_come?(name, encounter)
+        order = Combatants.rows(encounter)
+        at = order.index { |row| row['name'] == name }
+
+        !at.nil? && encounter.round.to_i.positive? && at > (encounter.next_init.to_i - 1) % order.size
       end
 
       def self.ended(effect)

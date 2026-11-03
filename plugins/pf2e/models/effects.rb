@@ -31,9 +31,10 @@ module AresMUSH
     attribute :started_round, :type => DataType::Integer
     attribute :started_turn
 
-    # Whether it has to be sustained, and the round it was last sustained in. It ends at the end of the
-    # caster's next turn unless they sustain it again, which is the rule; its duration is only the most
-    # it can last. Held as a flag of its own because an unset round reads as nought.
+    # Whether it has to be sustained, and the round it was last sustained through. It ends at the end of
+    # the caster's first turn in a later round unless they sustain it again, which is the rule; its
+    # duration is only the most it can last. Held as a flag of its own because an unset round reads as
+    # nought.
     attribute :sustained, :type => DataType::Boolean, :default => false
     attribute :sustained_round, :type => DataType::Integer
 

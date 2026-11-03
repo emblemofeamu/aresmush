@@ -135,7 +135,8 @@ module AresMUSH
       # The value a listed choice records for what someone answered. A number is matched as a number, so
       # `-1` is not `+1`; a word by its slug; and failing both, the choice's own label - Bon Mot's
       # `Critical Success`, whose value is `-3`. Tried in that order, because labels like `+1` and `-1`
-      # slug alike.
+      # slug alike. A value that is a set of figures, as Dragon Form's dragons are, stays one: its rules read
+      # parts of it.
       NUMBER = /\A[+-]?\d+\z/
 
       def self.listed_answer(set, answer)
@@ -149,7 +150,9 @@ module AresMUSH
                 listed.find { |one| one['label'].to_s.casecmp?(typed) } ||
                 (!numeric && listed.find { |one| Domains.slug(one['label']) == Domains.slug(typed) })
 
-        found ? found['value'].to_s : nil
+        return nil unless found
+
+        found['value'].is_a?(Hash) ? found['value'] : found['value'].to_s
       end
 
       # A vocabulary may come with one condition covering every answer in it, written with the answer

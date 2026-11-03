@@ -29,6 +29,7 @@ import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import ea_dragons  # noqa: E402
 import formula_words  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -770,7 +771,7 @@ def main():
         # The class features' catalogue is made from the class tables, then filled like any other.
         made = class_feature_catalogue(theirs) if pack == 'class-features' else None
         if made and args.write:
-            open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w').write(made)
+            open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w').write(ea_dragons.dragon_instinct(made))
 
         for name in catalogues:
             path = os.path.join(CONFIG, name)

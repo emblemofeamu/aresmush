@@ -170,7 +170,7 @@ module AresMUSH
 
         # A character in a battle form has the form's AC, skills, attacks and speeds where those are
         # better or the form insists.
-        BattleForms.override(char, kind, name, figure)
+        BattleForms.override(char, kind, name, figure, options, extra)
       end
 
       # What the base is made of, for whoever asks why: `expert, level 11`; for AC the armour as well.

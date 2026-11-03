@@ -513,7 +513,7 @@
   shield: {"name": "Shield", "hardness": 5, "hp": 20, "ac": 2}
   strikes: [{"name": "Longsword", "bonus": 8, "damage": [["1d8+3", "slashing", null]], "traits": ["versatile-p"]}, {"name": "Shortbow", "bonus": 8, "damage": [["1d6", "piercing", null]], "traits": ["deadly-d10", "reload-0"], "range": 60}]
   actions: [{"name": "Formation", "type": "passive", "traits": [], "text": "When they're adjacent to at least two other allies, the hobgoblin soldier gains a +1 circumstance bonus to AC and saving throws.", "rules": [{"key": "RollOption", "option": "formation", "toggleable": true}, {"key": "FlatModifier", "selector": ["ac", "saving-throw"], "type": "circumstance", "value": 1, "predicate": ["formation"]}]}, {"name": "Raise a Shield", "type": "action", "traits": [], "cost": 1, "text": "The hobgoblin soldier lifts up their shield to get a +2 circumstance bonus to AC until the start of their next turn"}, {"name": "Shield Block", "type": "reaction", "traits": [], "text": "If they Raised a Shield since their last turn, the hobgoblin can spend their reaction to block a Strike. Reduce the damage by 5, but the hobgoblin and the shield both take the remaining damage, possibly breaking or destroying the shield."}]
-"Horned Dragon (Juvenile, BB)":
+"Bestial Dragon (Juvenile, BB)":
   pack: "menace-under-otari-bestiary"
   source: "Pathfinder Beginner Box: Secrets of the Unlit Star"
   level: 4

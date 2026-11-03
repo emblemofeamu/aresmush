@@ -25,6 +25,20 @@ You cast spells in an encounter, using what your last rest there gave you: the d
 `class <class>`: Which of your casting classes casts the spell, if you have more than one.
 `<how>`: The kind of casting: `focus` for a focus spell, `focusc` for a focus cantrip, `signature` for a signature spell at a higher rank, or `innate` for an innate spell.
 
+## Untamed Form
+
+`encounter/cast untamed form/focus/<shape>`: Turns you into a shape on your *untamed form* list, and only changes you.
+%t **Examples**:
+%t `encounter/cast untamed form/focus/bear`
+%t `encounter/cast untamed form/focus/air`
+%t `encounter/cast untamed form/focus/forest dragon`
+
+Omit the shape after `/focus/` to see the shapes you can select with Untamed Form. The spell isn't deducted from your focus points unless you specify a shape you can take at the spell's rank. Pest shapes last 10 minutes, and all others last 1 minute.
+
+With Dragon Shape, add the resistance you want for any shape but a dragon: `encounter/cast untamed form/focus/bear/poison`.
+
+You can't cast spells in a battle form, so the game refuses casting spells while you're in any form, including a shape from an earlier *untamed form*. To end your shape, use `encounter/act dismiss/untamed form`. To end a form from something else, use `encounter/act dismiss/<effect>` if that form allows it, or ask your GM to get rid of the effect.
+
 ## Slots for Certain Spells
 
 Divine Evolution, Primal Evolution, and Gifted Power each give you one extra slot a day at your highest rank, which can only cast certain spells, even ones not in your repertoire. `magic` lists the slot and its spells.

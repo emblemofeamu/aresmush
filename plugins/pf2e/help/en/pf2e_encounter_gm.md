@@ -2,8 +2,8 @@
 toc: Pathfinder Second Edition
 summary: Acting for creatures and undoing changes in an encounter, for the GM.
 aliases:
-- encounter_gm
-- encounter gm
+- encounter_gmactions
+- encounter gmactions
 ---
 # Pathfinder 2E Encounters - GM Actions
 
@@ -22,6 +22,8 @@ Use a creature's abilities by name: `encounter/as #3=act goblin scuttle`. The ga
 
 A creature can use the basic actions anyone can (Stride, Trip, Demoralize, Raise a Shield, and so on), its own abilities, and the spells its stat block lists. To have it use another action or cast another spell, add `/force`: `encounter/as #3=cast force barrage=aria/force`. A spell cast this way is cast at the creature's highest rank, which is half its level rounded up, unless you add `/rank <n>`.
 %t **Note:** A creature with no spell attack bonus on its stat block can't roll a spell attack, so you roll it. A creature with no spell DC can't set one for a save, so you set it.
+
+A player character in a battle form can't cast spells, use a shield, or use manipulate actions, unless the form has hands. If you rule they can do a specific action regardless of these restrictions, use the action for them with `/force` at the end of the command, such as `encounter/as aria=act interact/force`.
 
 When an ability's text gives its damage and save, such as Constrict or a breath weapon, the game rolls each target's save and deals the damage as a basic save: `encounter/as #6=act magma breath=#1,#2,aria`. You apply anything else in the ability's text.
 

@@ -287,10 +287,18 @@ module AresMUSH
           next nil unless info.is_a?(Hash) && info['rules']
 
           built = source(name, info['rules'], 'id' => Domains.slug(name), 'kind' => DOES,
-                                              'item' => { 'level' => char.pf2_level.to_i })
+                                              'item' => { 'level' => char.pf2_level.to_i },
+                                              'chosen' => subclass_choice(char, name))
 
           with_selections(char, built)
         end.compact
+      end
+
+      # What a subclass's own question was answered with at chargen: which dragon a Dragon Instinct is.
+      def self.subclass_choice(char, name)
+        picked = (char.pf2_base_info || {})['specialize_info']
+
+        name == subclass_named(char) && !picked.to_s.empty? ? [ picked ] + chosen_for(char, name) : nil
       end
 
       def self.subclass_named(char)
@@ -355,7 +363,7 @@ module AresMUSH
 
         # An effect carries the answers it was applied with; a feat's are recorded with the feat.
         chosen = built['chosen'] || chosen_for(char, built['name'])
-        declared = Array(built['options'])
+        declared = Array(built['options']) + cast_from(built['chosen'])
         selections = {}
 
         # A set may ask something of the character - Azarim's choice is from 11th level - and what is
@@ -376,6 +384,13 @@ module AresMUSH
         built.merge('item' => (built['item'] || {}).merge(
                       'flags' => { 'system' => { 'rulesSelections' => selections } }),
                     'options' => declared)
+      end
+
+      # The tradition an effect was cast from, where it was applied saying so: `tradition primal`. Dragon
+      # Form's resistance depends on the caster's tradition matching the dragon's.
+      def self.cast_from(answers)
+        Array(answers).map { |one| one.to_s[/\Atradition\s+(\w+)\z/i, 1] }.compact
+                      .map { |tradition| "parent:spellcasting:tradition:#{tradition.downcase}" }
       end
 
       # An answer counts only if it is one this set could have offered, so a choice recorded against some

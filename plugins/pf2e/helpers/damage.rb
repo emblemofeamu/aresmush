@@ -63,8 +63,8 @@ module AresMUSH
 
         # A battle form's attack keeps only what the form allows of the character's own.
         if attack['form']
-          dice = dice.select { |row| BattleForms.damage_kept?(row, attack['traits']) }
-          flat = flat.select { |row| BattleForms.damage_kept?(row, attack['traits']) }
+          dice = dice.select { |row| BattleForms.damage_kept?(row, attack['traits'], attack['source']) }
+          flat = flat.select { |row| BattleForms.damage_kept?(row, attack['traits'], attack['source']) }
         end
 
         met_dice, unmet_dice = dice.partition { |row| row['met'] }

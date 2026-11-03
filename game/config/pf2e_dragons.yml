@@ -1,0 +1,50 @@
+---
+# Ea's dragons. `replaces` maps each Pathfinder dragon to the Ea dragon it becomes. `left_out` are Pathfinder's
+# dragons that aren't in the setting: their stat blocks stay in the bestiary files, and the game doesn't list them.
+# To add one, move it to `replaces`.
+#
+# `scripts/ea_dragons.py` applies `replaces` to what the Foundry importers write, so run it after changing this
+# file: Dragon Form's and Dragon Instinct's choices, and the bestiary's names.
+pf2e_dragons:
+  replaces:
+    Adamantine: { name: Terra }
+    Brine: { name: Brine }
+    Cloud: { name: Cloud }
+    Conspirator: { name: Avarice }
+    Crystal: { name: Crystal }
+    Diabolic: { name: Diabolic }
+    Empyreal: { name: Empyreal }
+    Forest: { name: Forest }
+    Fortune: { name: Fortune }
+    Horned: { name: Bestial }
+    Magma: { name: Magma }
+    Mirage: { name: Mirage }
+    Resurrection: { name: Ossuary }
+    Sovereign: { name: Madness }
+    Umbral: { name: Umbral }
+  left_out:
+    - Barrage
+    - Bog
+    - Cinder
+    - Coral
+    - Delight
+    - Despair
+    - Executor
+    - Mocking
+    - Oath
+    - Omen
+    - Phase
+    - Requiem
+    - Rime
+    - Rune
+    - Sage
+    - Sea
+    - Sky
+    - Stormcrown
+    - Time
+    - Underworld
+    - Vizier
+    - Vorpal
+    - Wailing
+    - Whisper
+    - Wish

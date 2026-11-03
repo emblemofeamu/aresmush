@@ -514,6 +514,8 @@ module AresMUSH
       end
 
       def self.answer_value(value)
+        return value if value.is_a?(Hash)
+
         found = Grants::UUID.match(value.to_s)
 
         found ? Domains.slug(found[2]) : value.to_s

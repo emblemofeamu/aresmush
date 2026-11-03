@@ -402,8 +402,13 @@ module AresMUSH
     # Attacks a feat or an item granted, as descriptors the rest of the attack code already reads.
     #
     # A granted attack is proficient as an unarmed attack of its category, which is what the rules say of
-    # the ones that exist - a stance's claws use your unarmed proficiency.
+    # the ones that exist - a stance's claws use your unarmed proficiency. A battle form's attacks are the
+    # only ones its wearer has.
     def self.granted_strikes(char)
+      form = Pf2e::BattleForms.strikes(char)
+
+      return form if form.any?
+
       Pf2e::Rules.strikes(Pf2e::Effects.sources(char), Pf2e::Effects.options(char)).map do |strike|
         adjusted_strike(char, {
           'id' => nil, 'name' => strike['name'], 'source' => strike['source'], 'slug' => strike['slug'],

@@ -34,6 +34,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import ea_dragons  # noqa: E402
 import import_foundry_rules as rules  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -434,7 +435,7 @@ def main():
             repeated += 1
             continue
 
-        by_pack[pack][name] = npc_of(doc, pack, refused, words)
+        by_pack[pack][ea_dragons.creature_name(name)] = npc_of(doc, pack, refused, words)
 
     if args.write:
         os.makedirs(BESTIARY, exist_ok=True)

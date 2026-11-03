@@ -495,8 +495,8 @@
 "Warden of Peaks and Skies": {"pack": "howl-of-the-wild-bestiary", "level": 22, "traits": ["air", "beast"]}
 "Weremoose": {"pack": "howl-of-the-wild-bestiary", "level": 3, "traits": ["beast", "human", "humanoid", "werecreature"]}
 "Wereshark": {"pack": "howl-of-the-wild-bestiary", "level": 4, "traits": ["beast", "human", "humanoid", "werecreature"]}
-"Adamantine Archdragon": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["dragon", "primal"]}
-"Adamantine Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["dragon", "primal"]}
+"Terra Archdragon": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["dragon", "primal"]}
+"Terra Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["dragon", "primal"]}
 "Animate Aria": {"pack": "lost-omens-bestiary", "level": 9, "traits": ["construct", "mindless"]}
 "Animated Bamboo Figurine": {"pack": "lost-omens-bestiary", "level": 2, "traits": ["construct", "mindless"]}
 "Animated Kite": {"pack": "lost-omens-bestiary", "level": 0, "traits": ["construct", "mindless"]}
@@ -547,8 +547,8 @@
 "Cloud Dragon (Ancient, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 19, "traits": ["air", "dragon", "primal"]}
 "Cloud Dragon (Young)": {"pack": "lost-omens-bestiary", "level": 10, "traits": ["air", "dragon", "primal"]}
 "Cloud Dragon (Young, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 10, "traits": ["air", "dragon", "primal"]}
-"Conspirator Archdragon": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "occult"]}
-"Conspirator Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "occult"]}
+"Avarice Archdragon": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "occult"]}
+"Avarice Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "occult"]}
 "Coral Archdragon": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["amphibious", "dragon", "primal"]}
 "Coral Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["amphibious", "dragon", "primal"]}
 "Coral Capuchin": {"pack": "lost-omens-bestiary", "level": 1, "traits": ["amphibious", "beast"]}
@@ -613,8 +613,8 @@
 "Hellknight Retrieval Unit": {"pack": "lost-omens-bestiary", "level": 6, "traits": ["human", "humanoid", "troop"]}
 "Hellknight Signifer": {"pack": "lost-omens-bestiary", "level": 7, "traits": ["human", "humanoid"]}
 "Hopping Head": {"pack": "lost-omens-bestiary", "level": 1, "traits": ["clockwork", "construct"]}
-"Horned Archdragon": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["amphibious", "dragon", "primal"]}
-"Horned Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Archdragon": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["amphibious", "dragon", "primal"]}
 "Ijhyeojin": {"pack": "lost-omens-bestiary", "level": 14, "traits": ["fiend", "sahkil", "unholy"]}
 "Imugi": {"pack": "lost-omens-bestiary", "level": 7, "traits": ["amphibious", "dragon", "water"]}
 "Inkdrop": {"pack": "lost-omens-bestiary", "level": -1, "traits": ["construct", "mindless"]}
@@ -671,8 +671,8 @@
 "Pure Legion Regiment": {"pack": "lost-omens-bestiary", "level": 10, "traits": ["human", "humanoid", "troop"]}
 "Requiem Archdragon": {"pack": "lost-omens-bestiary", "level": 24, "traits": ["divine", "dragon"]}
 "Requiem Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 24, "traits": ["divine", "dragon"]}
-"Resurrection Archdragon": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["divine", "dragon"]}
-"Resurrection Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["divine", "dragon"]}
+"Ossuary Archdragon": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["divine", "dragon"]}
+"Ossuary Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["divine", "dragon"]}
 "Rime Archdragon": {"pack": "lost-omens-bestiary", "level": 18, "traits": ["cold", "dragon", "primal"]}
 "Rime Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 18, "traits": ["cold", "dragon", "primal"]}
 "Rime Dragon (Adult)": {"pack": "lost-omens-bestiary", "level": 10, "traits": ["cold", "dragon", "primal"]}
@@ -714,14 +714,14 @@
 "Sky Dragon (Ancient, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 18, "traits": ["divine", "dragon", "electricity", "metal"]}
 "Sky Dragon (Young)": {"pack": "lost-omens-bestiary", "level": 9, "traits": ["divine", "dragon", "electricity", "metal"]}
 "Sky Dragon (Young, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 9, "traits": ["divine", "dragon", "electricity", "metal"]}
-"Sovereign Archdragon": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Dragon (Adult)": {"pack": "lost-omens-bestiary", "level": 15, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Dragon (Adult, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 15, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Dragon (Ancient)": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Dragon (Ancient, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Dragon (Young)": {"pack": "lost-omens-bestiary", "level": 11, "traits": ["dragon", "earth", "occult"]}
-"Sovereign Dragon (Young, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 11, "traits": ["dragon", "earth", "occult"]}
+"Madness Archdragon": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["dragon", "earth", "occult"]}
+"Madness Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 23, "traits": ["dragon", "earth", "occult"]}
+"Madness Dragon (Adult)": {"pack": "lost-omens-bestiary", "level": 15, "traits": ["dragon", "earth", "occult"]}
+"Madness Dragon (Adult, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 15, "traits": ["dragon", "earth", "occult"]}
+"Madness Dragon (Ancient)": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "earth", "occult"]}
+"Madness Dragon (Ancient, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 20, "traits": ["dragon", "earth", "occult"]}
+"Madness Dragon (Young)": {"pack": "lost-omens-bestiary", "level": 11, "traits": ["dragon", "earth", "occult"]}
+"Madness Dragon (Young, Spellcaster)": {"pack": "lost-omens-bestiary", "level": 11, "traits": ["dragon", "earth", "occult"]}
 "Stormcrown Archdragon": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["dragon", "electricity", "primal"]}
 "Stormcrown Archdragon (Spellcaster)": {"pack": "lost-omens-bestiary", "level": 21, "traits": ["dragon", "electricity", "primal"]}
 "Stormcrown Dragon (Adult)": {"pack": "lost-omens-bestiary", "level": 13, "traits": ["dragon", "electricity", "primal"]}
@@ -829,7 +829,7 @@
 "Hell Hound (BB)": {"pack": "menace-under-otari-bestiary", "level": 3, "traits": ["beast", "fiend", "fire", "unholy"]}
 "Hobgoblin Archer (BB)": {"pack": "menace-under-otari-bestiary", "level": 4, "traits": ["hobgoblin", "humanoid"]}
 "Hobgoblin Soldier (BB)": {"pack": "menace-under-otari-bestiary", "level": 1, "traits": ["hobgoblin", "humanoid"]}
-"Horned Dragon (Juvenile, BB)": {"pack": "menace-under-otari-bestiary", "level": 4, "traits": ["amphibious", "dragon"]}
+"Bestial Dragon (Juvenile, BB)": {"pack": "menace-under-otari-bestiary", "level": 4, "traits": ["amphibious", "dragon"]}
 "Kobold Boss Zolgran (BB)": {"pack": "menace-under-otari-bestiary", "level": 2, "traits": ["evil", "humanoid", "kobold", "lawful"]}
 "Kobold Mage (Black, BB)": {"pack": "menace-under-otari-bestiary", "level": 2, "traits": ["humanoid", "kobold"]}
 "Kobold Mage (Blue, BB)": {"pack": "menace-under-otari-bestiary", "level": 2, "traits": ["humanoid", "kobold"]}
@@ -964,12 +964,12 @@
 "Verdure's Moonflower": {"pack": "pathfinder-dark-archive", "level": 8, "traits": ["plant"]}
 "Aapoph Granitescale": {"pack": "pathfinder-monster-core", "level": 6, "traits": ["humanoid", "mutant", "serpentfolk"]}
 "Aapoph Serpentfolk": {"pack": "pathfinder-monster-core", "level": 3, "traits": ["humanoid", "mutant", "serpentfolk"]}
-"Adamantine Dragon (Adult)": {"pack": "pathfinder-monster-core", "level": 13, "traits": ["dragon", "primal"]}
-"Adamantine Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 13, "traits": ["dragon", "primal"]}
-"Adamantine Dragon (Ancient)": {"pack": "pathfinder-monster-core", "level": 18, "traits": ["dragon", "primal"]}
-"Adamantine Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 18, "traits": ["dragon", "primal"]}
-"Adamantine Dragon (Young)": {"pack": "pathfinder-monster-core", "level": 9, "traits": ["dragon", "primal"]}
-"Adamantine Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 9, "traits": ["dragon", "primal"]}
+"Terra Dragon (Adult)": {"pack": "pathfinder-monster-core", "level": 13, "traits": ["dragon", "primal"]}
+"Terra Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 13, "traits": ["dragon", "primal"]}
+"Terra Dragon (Ancient)": {"pack": "pathfinder-monster-core", "level": 18, "traits": ["dragon", "primal"]}
+"Terra Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 18, "traits": ["dragon", "primal"]}
+"Terra Dragon (Young)": {"pack": "pathfinder-monster-core", "level": 9, "traits": ["dragon", "primal"]}
+"Terra Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 9, "traits": ["dragon", "primal"]}
 "Aeolaeka": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["azata", "celestial", "earth", "holy"]}
 "Aesra": {"pack": "pathfinder-monster-core", "level": 7, "traits": ["archon", "celestial", "holy"]}
 "Air Scamp": {"pack": "pathfinder-monster-core", "level": 1, "traits": ["air", "elemental"]}
@@ -1038,12 +1038,12 @@
 "Coil Spy": {"pack": "pathfinder-monster-core", "level": 4, "traits": ["humanoid", "serpentfolk"]}
 "Compsognathus": {"pack": "pathfinder-monster-core", "level": -1, "traits": ["animal", "dinosaur"]}
 "Con Rit": {"pack": "pathfinder-monster-core", "level": 7, "traits": ["animal", "aquatic"]}
-"Conspirator Dragon (Adult)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["dragon", "occult"]}
-"Conspirator Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["dragon", "occult"]}
-"Conspirator Dragon (Ancient)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["dragon", "occult"]}
-"Conspirator Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["dragon", "occult"]}
-"Conspirator Dragon (Young)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["dragon", "occult"]}
-"Conspirator Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["dragon", "occult"]}
+"Avarice Dragon (Adult)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["dragon", "occult"]}
+"Avarice Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["dragon", "occult"]}
+"Avarice Dragon (Ancient)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["dragon", "occult"]}
+"Avarice Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["dragon", "occult"]}
+"Avarice Dragon (Young)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["dragon", "occult"]}
+"Avarice Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["dragon", "occult"]}
 "Crag Linnorm": {"pack": "pathfinder-monster-core", "level": 14, "traits": ["dragon", "fire"]}
 "Crawling Hand": {"pack": "pathfinder-monster-core", "level": -1, "traits": ["undead", "unholy"]}
 "Crocodile": {"pack": "pathfinder-monster-core", "level": 2, "traits": ["animal"]}
@@ -1185,12 +1185,12 @@
 "Hobgoblin General": {"pack": "pathfinder-monster-core", "level": 6, "traits": ["hobgoblin", "humanoid"]}
 "Hobgoblin Soldier": {"pack": "pathfinder-monster-core", "level": 1, "traits": ["hobgoblin", "humanoid"]}
 "Homunculus": {"pack": "pathfinder-monster-core", "level": 0, "traits": ["construct"]}
-"Horned Dragon (Adult)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["amphibious", "dragon", "primal"]}
-"Horned Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["amphibious", "dragon", "primal"]}
-"Horned Dragon (Ancient)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["amphibious", "dragon", "primal"]}
-"Horned Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["amphibious", "dragon", "primal"]}
-"Horned Dragon (Young)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["amphibious", "dragon", "primal"]}
-"Horned Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Dragon (Adult)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 12, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Dragon (Ancient)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 17, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Dragon (Young)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["amphibious", "dragon", "primal"]}
+"Bestial Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core", "level": 8, "traits": ["amphibious", "dragon", "primal"]}
 "Hryngar Bombardier": {"pack": "pathfinder-monster-core", "level": 1, "traits": ["duergar", "dwarf", "humanoid"]}
 "Hryngar Sharpshooter": {"pack": "pathfinder-monster-core", "level": 0, "traits": ["duergar", "dwarf", "humanoid"]}
 "Hryngar Taskmaster": {"pack": "pathfinder-monster-core", "level": 2, "traits": ["duergar", "dwarf", "humanoid"]}
@@ -1729,12 +1729,12 @@
 "Requiem Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 20, "traits": ["divine", "dragon"]}
 "Requiem Dragon (Young)": {"pack": "pathfinder-monster-core-2", "level": 11, "traits": ["divine", "dragon"]}
 "Requiem Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 11, "traits": ["divine", "dragon"]}
-"Resurrection Dragon (Adult)": {"pack": "pathfinder-monster-core-2", "level": 12, "traits": ["divine", "dragon"]}
-"Resurrection Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 12, "traits": ["divine", "dragon"]}
-"Resurrection Dragon (Ancient)": {"pack": "pathfinder-monster-core-2", "level": 17, "traits": ["divine", "dragon"]}
-"Resurrection Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 17, "traits": ["divine", "dragon"]}
-"Resurrection Dragon (Young)": {"pack": "pathfinder-monster-core-2", "level": 8, "traits": ["divine", "dragon"]}
-"Resurrection Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 8, "traits": ["divine", "dragon"]}
+"Ossuary Dragon (Adult)": {"pack": "pathfinder-monster-core-2", "level": 12, "traits": ["divine", "dragon"]}
+"Ossuary Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 12, "traits": ["divine", "dragon"]}
+"Ossuary Dragon (Ancient)": {"pack": "pathfinder-monster-core-2", "level": 17, "traits": ["divine", "dragon"]}
+"Ossuary Dragon (Ancient, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 17, "traits": ["divine", "dragon"]}
+"Ossuary Dragon (Young)": {"pack": "pathfinder-monster-core-2", "level": 8, "traits": ["divine", "dragon"]}
+"Ossuary Dragon (Young, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 8, "traits": ["divine", "dragon"]}
 "Rune Dragon (Adult)": {"pack": "pathfinder-monster-core-2", "level": 14, "traits": ["arcane", "dragon"]}
 "Rune Dragon (Adult, Spellcaster)": {"pack": "pathfinder-monster-core-2", "level": 14, "traits": ["arcane", "dragon"]}
 "Rune Dragon (Ancient)": {"pack": "pathfinder-monster-core-2", "level": 19, "traits": ["arcane", "dragon"]}
