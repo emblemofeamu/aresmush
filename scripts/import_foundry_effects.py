@@ -28,6 +28,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import ea_dragons  # noqa: E402
+import foundry_source  # noqa: E402
 import import_foundry_rules as rules  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -185,6 +186,7 @@ def main():
 
     if args.write:
         open(os.path.join(CONFIG, OUT), 'w').write(ea_dragons.dragon_form(rendered(entries)))
+        foundry_source.record(args.checkout, __file__, [os.path.join(CONFIG, OUT)])
 
     carrying = sum(1 for entry in entries.values() if entry.get('rules'))
     rows = sum(len(entry.get('rules') or []) for entry in entries.values())

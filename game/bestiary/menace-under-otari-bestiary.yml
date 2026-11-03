@@ -35,6 +35,24 @@
   skills: {"Athletics": 13, "Stealth": 8}
   strikes: [{"name": "Jaws", "bonus": 15, "damage": [["2d8+4", "piercing", null]], "traits": ["unarmed"]}]
   actions: [{"name": "Petrifying Glance", "type": "reaction", "traits": ["arcane", "aura"], "text": "When a creature the basilisk can see within 30 feet starts its turn, the basilisk can use its reaction to glance at the creature.%rThe creature must attempt a DC 20 Fortitude save. If it fails, it gains the Slowed 1 condition for 1 minute as its body slowly stiffens.", "rules": [{"key": "Immunity", "definition": ["item:slug:petrifying-glance"], "type": "custom", "label": "{item|name}"}]}, {"name": "Petrifying Gaze", "type": "action", "traits": ["arcane", "concentrate"], "cost": 2, "text": "The basilisk stares at a creature it can see within 30 feet. If the creature can see the basilisk, that creature must attempt a DC 22 Fortitude save. If it fails and hasn't already gained the slowed condition from Petrifying Glance or this ability, it gains the Slowed 1 condition. If the creature fails this save when it already has the slowed condition from this ability or Petrifying Glance, the creature is permanently turned to stone.%rA creature petrified in this manner that is coated with fresh basilisk blood is instantly restored to flesh. A single basilisk contains enough blood to coat up to 2 creatures in this manner.", "rules": [{"key": "Immunity", "definition": ["item:slug:petrifying-gaze"], "type": "custom", "label": "{item|name}"}]}]
+"Bestial Dragon (Juvenile, BB)":
+  pack: "menace-under-otari-bestiary"
+  source: "Pathfinder Beginner Box: Secrets of the Unlit Star"
+  level: 4
+  size: "medium"
+  rarity: "common"
+  traits: ["amphibious", "dragon"]
+  ac: 20
+  hp: 60
+  perception: 11
+  saves: {"fortitude": 11, "reflex": 11, "will": 9}
+  abilities: {"cha": 3, "con": 3, "dex": 1, "int": 1, "str": 4, "wis": 1}
+  speeds: {"land": 25, "fly": 30, "swim": 20}
+  senses: ["darkvision"]
+  skills: {"Acrobatics": 8, "Arcana": 11, "Athletics": 12, "Deception": 9, "Diplomacy": 11, "Intimidation": 11, "Nature": 9, "Occultism": 12, "Society": 9, "Stealth": 10}
+  immunities: ["sleep", "poison"]
+  strikes: [{"name": "Jaws", "bonus": 14, "damage": [["2d6+4", "piercing", null], ["1d4", "poison", null]], "traits": ["poison", "unarmed"]}, {"name": "Claw", "bonus": 14, "damage": [["2d6+4", "slashing", null]], "traits": ["agile", "unarmed"]}, {"name": "Tail", "bonus": 12, "damage": [["1d8+4", "bludgeoning", null]], "traits": ["reach-10"]}, {"name": "Horn", "bonus": 12, "damage": [["1d12+4", "bludgeoning", null]], "traits": ["unarmed"]}]
+  actions: [{"name": "Twisting Tail", "type": "reaction", "traits": [], "text": "When a creature within 10 feet uses a move action or leaves a square during a move action it's using, the dragon can use their reaction to make a tail Strike at the creature with a –2 penalty. If it hits, the creature stops moving in the square it was in when the dragon used this reaction.", "rules": [{"key": "RollOption", "option": "twisting-tail", "toggleable": true}, {"key": "FlatModifier", "selector": "tail-attack", "value": -2, "predicate": ["twisting-tail"]}, {"key": "Note", "selector": "tail-attack", "title": "{item|name}", "text": "On a hit, the target's action is interrupted.", "predicate": ["twisting-tail"]}]}, {"name": "Draconic Frenzy", "type": "action", "traits": [], "cost": 2, "text": "The dragon makes two claw Strikes and one tail Strike in any order."}, {"name": "Draconic Momentum", "type": "passive", "traits": [], "text": "When the dragon gets a critical success on a Strike, they recharge their Poison Breath.", "rules": [{"key": "Note", "selector": "strike-attack-roll", "outcome": ["criticalSuccess"], "title": "{item|name}", "text": "{item|description}"}]}, {"name": "Poison Breath", "type": "action", "traits": ["poison", "primal"], "cost": 2, "text": "The dragon breathes a toxic cloud that deals 5d6 poison damage in a 30-foot cone. Each creature in the area must attempt a DC 21 basic Reflex save. The dragon can't use Poison Breath again for 1d4 rounds."}]
 "Boar (BB)":
   pack: "menace-under-otari-bestiary"
   source: "Pathfinder Beginner Box: Secrets of the Unlit Star"
@@ -513,24 +531,6 @@
   shield: {"name": "Shield", "hardness": 5, "hp": 20, "ac": 2}
   strikes: [{"name": "Longsword", "bonus": 8, "damage": [["1d8+3", "slashing", null]], "traits": ["versatile-p"]}, {"name": "Shortbow", "bonus": 8, "damage": [["1d6", "piercing", null]], "traits": ["deadly-d10", "reload-0"], "range": 60}]
   actions: [{"name": "Formation", "type": "passive", "traits": [], "text": "When they're adjacent to at least two other allies, the hobgoblin soldier gains a +1 circumstance bonus to AC and saving throws.", "rules": [{"key": "RollOption", "option": "formation", "toggleable": true}, {"key": "FlatModifier", "selector": ["ac", "saving-throw"], "type": "circumstance", "value": 1, "predicate": ["formation"]}]}, {"name": "Raise a Shield", "type": "action", "traits": [], "cost": 1, "text": "The hobgoblin soldier lifts up their shield to get a +2 circumstance bonus to AC until the start of their next turn"}, {"name": "Shield Block", "type": "reaction", "traits": [], "text": "If they Raised a Shield since their last turn, the hobgoblin can spend their reaction to block a Strike. Reduce the damage by 5, but the hobgoblin and the shield both take the remaining damage, possibly breaking or destroying the shield."}]
-"Bestial Dragon (Juvenile, BB)":
-  pack: "menace-under-otari-bestiary"
-  source: "Pathfinder Beginner Box: Secrets of the Unlit Star"
-  level: 4
-  size: "medium"
-  rarity: "common"
-  traits: ["amphibious", "dragon"]
-  ac: 20
-  hp: 60
-  perception: 11
-  saves: {"fortitude": 11, "reflex": 11, "will": 9}
-  abilities: {"cha": 3, "con": 3, "dex": 1, "int": 1, "str": 4, "wis": 1}
-  speeds: {"land": 25, "fly": 30, "swim": 20}
-  senses: ["darkvision"]
-  skills: {"Acrobatics": 8, "Arcana": 11, "Athletics": 12, "Deception": 9, "Diplomacy": 11, "Intimidation": 11, "Nature": 9, "Occultism": 12, "Society": 9, "Stealth": 10}
-  immunities: ["sleep", "poison"]
-  strikes: [{"name": "Jaws", "bonus": 14, "damage": [["2d6+4", "piercing", null], ["1d4", "poison", null]], "traits": ["poison", "unarmed"]}, {"name": "Claw", "bonus": 14, "damage": [["2d6+4", "slashing", null]], "traits": ["agile", "unarmed"]}, {"name": "Tail", "bonus": 12, "damage": [["1d8+4", "bludgeoning", null]], "traits": ["reach-10"]}, {"name": "Horn", "bonus": 12, "damage": [["1d12+4", "bludgeoning", null]], "traits": ["unarmed"]}]
-  actions: [{"name": "Twisting Tail", "type": "reaction", "traits": [], "text": "When a creature within 10 feet uses a move action or leaves a square during a move action it's using, the dragon can use their reaction to make a tail Strike at the creature with a –2 penalty. If it hits, the creature stops moving in the square it was in when the dragon used this reaction.", "rules": [{"key": "RollOption", "option": "twisting-tail", "toggleable": true}, {"key": "FlatModifier", "selector": "tail-attack", "value": -2, "predicate": ["twisting-tail"]}, {"key": "Note", "selector": "tail-attack", "title": "{item|name}", "text": "On a hit, the target's action is interrupted.", "predicate": ["twisting-tail"]}]}, {"name": "Draconic Frenzy", "type": "action", "traits": [], "cost": 2, "text": "The dragon makes two claw Strikes and one tail Strike in any order."}, {"name": "Draconic Momentum", "type": "passive", "traits": [], "text": "When the dragon gets a critical success on a Strike, they recharge their Poison Breath.", "rules": [{"key": "Note", "selector": "strike-attack-roll", "outcome": ["criticalSuccess"], "title": "{item|name}", "text": "{item|description}"}]}, {"name": "Poison Breath", "type": "action", "traits": ["poison", "primal"], "cost": 2, "text": "The dragon breathes a toxic cloud that deals 5d6 poison damage in a 30-foot cone. Each creature in the area must attempt a DC 21 basic Reflex save. The dragon can't use Poison Breath again for 1d4 rounds."}]
 "Kobold Boss Zolgran (BB)":
   pack: "menace-under-otari-bestiary"
   source: "Pathfinder Beginner Box"

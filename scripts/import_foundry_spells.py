@@ -34,6 +34,7 @@ import yaml
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import import_foundry_npcs as npcs  # noqa: E402
+import foundry_source  # noqa: E402
 import import_foundry_rules as rules  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -455,6 +456,7 @@ def main():
 
     if args.write:
         open(os.path.join(CONFIG, OUT), 'w').write(rendered(entries))
+        foundry_source.record(args.checkout, __file__, [os.path.join(CONFIG, OUT)])
 
     print('written' if args.write else 'dry run')
     print(f"  {len(entries)} spells: {sum('save' in one for one in entries.values())} with a save, "

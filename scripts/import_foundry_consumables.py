@@ -34,8 +34,13 @@ import glob
 import json
 import os
 import re
+import sys
 
 import yaml
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import foundry_source  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'game', 'config')
@@ -183,6 +188,7 @@ def main():
         out.extend(rendered(found[current]))
 
     open(path, 'w').write('\n'.join(out))
+    foundry_source.record(args.checkout, __file__, [path])
 
 
 def rendered(held):
