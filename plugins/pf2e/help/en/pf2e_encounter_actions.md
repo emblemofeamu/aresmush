@@ -72,6 +72,7 @@ Bows, crossbows, and slings always have ordinary ammunition, which the game does
 %t `encounter/cast fireball=#3,#4,#5/rank 4`
 %t `encounter/cast heal=#2/actions 2`
 %t **Note:** For a spell that can be cast more than one way, name the way: `/actions 2` for Heal's two-action version, which heals more at range, or a word from the variant's name, such as `/silver` for silver Needle Darts.
+%t **Note:** For a spell that affects an item or requires you to make a choice, specify the item or your choice with the following syntax: `encounter/cast runic weapon=Bram/longsword` or `encounter/cast resist energy=Bram/fire`. See `help cast` or [read it on the web](/help/cast).
 %t **Note:** Force Barrage fires one shard for each action you spend: `encounter/cast force barrage=#3/actions 3`. Every target you name takes all of the shards, so to split them between targets, name one target and the GM settles the rest.
 %t **Note:** For a save that isn't basic, the damage for each outcome comes from the spell's text. If the text doesn't say, the game shows the room the damage, and the GM settles it.
 

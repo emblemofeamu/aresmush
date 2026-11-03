@@ -25,6 +25,18 @@ You cast spells in an encounter, using what your last rest there gave you: the d
 `class <class>`: Which of your casting classes casts the spell, if you have more than one.
 `<how>`: The kind of casting: `focus` for a focus spell, `focusc` for a focus cantrip, `signature` for a signature spell at a higher rank, or `innate` for an innate spell.
 
+## Casting spells on items
+
+`encounter/cast <spell>=<target>/<item>`: Casts a spell, such as Runic Weapon or Shillelagh, on one of the target's items (`<item>`), by the item's name or nickname.
+%t **Examples**:
+%t `encounter/cast runic weapon=Bram/longsword`
+%t `encounter/cast runic weapon=Bram/longsword/rank 6`
+%t **Note:** You can leave the item out if the target has exactly one equipped item the spell can affect.
+
+## Casting spells with choices
+
+Some spells ask for choices, such as which damage type Resist Energy resists. Specify your choice after the target you're specifying, such as `encounter/cast resist energy=Bram/fire`.
+
 ## Untamed Form
 
 `encounter/cast untamed form/focus/<shape>`: Turns you into a shape on your *untamed form* list, and only changes you.

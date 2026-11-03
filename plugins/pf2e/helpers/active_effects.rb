@@ -206,6 +206,28 @@ module AresMUSH
         end
       end
 
+      # The questions about one of the character's own things that these answers leave open: those no
+      # answer settles with something the set would take, and whose own condition the answers meet.
+      def self.items_wanted(char, name, answers)
+        return [] unless Actors.of(char).carries_items?
+
+        built = Effects.with_selections(char, Effects.source(name, Array(info(name)['rules']),
+                                                             'chosen' => owned_answers(char, name, answers)))
+        selections = (built['item'] || {}).dig('flags', 'system', 'rulesSelections') || {}
+        known = Effects.character_facts(char) + Array(built['options'])
+
+        Rules.choice_sets(built).select do |set|
+          set['owned'] && set['flag'] && Predicate.test(set['when'], known) &&
+            !Choices.offer(set, char).include?(selections[set['flag'].to_s])
+        end
+      end
+
+      # The answers that go without saying, where the only thing a question could mean is equipped.
+      def self.items_in_hand(char, name, answers)
+        items_wanted(char, name, answers).map { |set| Choices.in_hand(set, char) }
+                                         .select { |held| held.size == 1 }.map(&:first)
+      end
+
       def self.parse(options)
         Array(options).each_with_object({ 'answers' => [] }) do |option, out|
           text = option.to_s.strip

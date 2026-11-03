@@ -1584,11 +1584,11 @@ module AresMUSH
           elsif mechanics['applies'] && each.target
             consequences(each, Array(mechanics['applies']).map { |one| one.merge('on' => 'target') }, out)
           else
-            spell_effect(each, spell, rank, out)
+            spell_effect(each, spell, rank, out, said['words'])
           end
         end
 
-        spell_effect(scene, spell, rank, out) if targets.empty? && !named['attack'] && !named['save']
+        spell_effect(scene, spell, rank, out, said['words']) if targets.empty? && !named['attack'] && !named['save']
 
         spend_casting(scene, spell, named['time'], named['attack'], rank, out)
 
@@ -1646,6 +1646,40 @@ module AresMUSH
 
         Err.new(:way_needed, 'pf2e.cast_way_needed', 'spell' => name,
                 'ways' => ways.map { |one| one['name'][/\(([^)]+)\)/, 1] || one['name'] }.join(', '))
+      end
+
+      # A spell whose effect goes on one of the target's things has to know which before it is spent: the
+      # caster names it, or it is the one thing the effect could go on that the target has equipped. A
+      # spell settled by its attack, its save, its damage or what it applies never reaches that effect.
+      def self.item_needed(scene, spell, targets, words)
+        name, mechanics = spell_mechanics(spell)
+        effect = effect_of_spell(name)
+
+        return nil unless mechanics && effect
+        return nil if mechanics['attack'] || mechanics['save'] || mechanics['applies'] || Array(mechanics['damage']).any?
+
+        given = said(words, false)['words']
+
+        (targets.empty? ? [ scene.actor ] : targets).each do |whom|
+          set = ActiveEffects.items_wanted(whom.holder, effect, given)
+                             .find { |one| Choices.in_hand(one, whom.holder).size != 1 }
+
+          return item_refusal(name, whom, set) if set
+        end
+
+        nil
+      end
+
+      # What to ask for: what is equipped, or whatever else the target carries that it could go on.
+      def self.item_refusal(spell, whom, set)
+        equipped = Choices.in_hand(set, whom.holder)
+        ids = equipped.empty? ? Choices.offer(set, whom.holder) : equipped
+        items = Choices.owned_names(set, whom.holder, ids)
+
+        return Err.new(:item_none, 'pf2e.cast_item_none', 'spell' => spell, 'target' => whom.label) if items.empty?
+
+        Err.new(:item_needed, 'pf2e.cast_item_needed', 'spell' => spell, 'target' => whom.label,
+                'items' => items.join(', '))
       end
 
       # How much of a spell's damage an outcome deals. A basic save is the basic scale; any other save
@@ -1894,15 +1928,21 @@ module AresMUSH
         heal_or_hurt(scene, mechanics, formulas, nil, out, once)
       end
 
+      def self.effect_of_spell(spell)
+        ActiveEffects.catalogue.key?("Spell Effect: #{spell}") ? "Spell Effect: #{spell}" : nil
+      end
+
       # A spell that puts an effect on whoever it is cast at, where the effect catalogue holds one of its
-      # name: Heroism is Spell Effect: Heroism.
-      def self.spell_effect(scene, spell, rank, out)
-        found = ActiveEffects.catalogue.key?("Spell Effect: #{spell}") ? "Spell Effect: #{spell}" : nil
+      # name: Heroism is Spell Effect: Heroism. `words` are what the caster said after the target, which
+      # answer what the effect asks: `fire` for Resist Energy, `longsword` for Runic Weapon.
+      def self.spell_effect(scene, spell, rank, out, words = [])
+        found = effect_of_spell(spell)
 
         return out['lines'] << told('pf2e.act_spell_gm') unless found
 
         whom = scene.target || scene.actor
-        applied = ActiveEffects.apply(whom.holder, found, :options => [ "rank #{rank}" ], :applied_by => scene.actor.label,
+        options = [ "rank #{rank}" ] + words + ActiveEffects.items_in_hand(whom.holder, found, words)
+        applied = ActiveEffects.apply(whom.holder, found, :options => options, :applied_by => scene.actor.label,
                                                           :encounter => scene.encounter)
 
         return if applied.err?
