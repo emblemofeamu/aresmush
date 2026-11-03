@@ -21,7 +21,8 @@
 #   recover    another flat check against persistent damage of this type, now, at `dc` where one is given
 #   suffer     persistent damage of this type dealt them now
 #   seen       someone hidden found, by so many steps: undetected, then hidden, then seen
-#   unseen     how well hidden they now are: hidden, undetected, or observed
+#   unseen     how well hidden they now are: hidden, undetected, or observed; `unless` they already
+#              stand as it says, which leaves them as they are
 pf2e_action_consequences:
   "trip":
     criticalSuccess: [{"on": "target", "condition": "Prone"}, {"on": "target", "damage": "1d6", "type": "bludgeoning"}]
@@ -48,8 +49,8 @@ pf2e_action_consequences:
     criticalSuccess: [{"on": "target", "seen": 2}]
     success: [{"on": "target", "seen": 1}]
   "hide":
-    criticalSuccess: [{"on": "actor", "unseen": "hidden"}]
-    success: [{"on": "actor", "unseen": "hidden"}]
+    criticalSuccess: [{"on": "actor", "unseen": "hidden", "unless": "undetected"}]
+    success: [{"on": "actor", "unseen": "hidden", "unless": "undetected"}]
   "sneak":
     criticalSuccess: [{"on": "actor", "unseen": "undetected"}]
     success: [{"on": "actor", "unseen": "undetected"}]

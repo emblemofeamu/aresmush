@@ -115,7 +115,7 @@ At the start of your turn, the game tells you what matters: your actions, your e
 
 ## More encounter help
 
-- `help encounter_cover`: Cover and concealment, and the Seek, Hide, Sneak, and Recall Knowledge actions. [Read it on the web](/help/pf2e_encounter_cover).
+- `help encounter_cover`: Cover and concealment, and the Seek, Hide, Sneak, Create a Diversion, and Recall Knowledge actions. [Read it on the web](/help/pf2e_encounter_cover).
 - `help encounter_conditions`: Being grabbed or held, other conditions that limit your actions, and afflictions. [Read it on the web](/help/pf2e_encounter_conditions).
 - `help encounter_gear`: Using items in your encounter inventory. [Read it on the web](/help/pf2e_encounter_gear).
 - `help encounter_gm`: Acting for creatures, and undoing changes, for the GM. [Read it on the web](/help/pf2e_encounter_gm).
