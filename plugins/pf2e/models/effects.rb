@@ -54,6 +54,13 @@ module AresMUSH
     # resists. Keyed by the choice set's flag, as Foundry keys them.
     attribute :answers, :type => DataType::Array, :default => []
 
+    # What brought it: the item, spell or action (`item`: its slug, level, traits and tags), the
+    # creature that used it (`actor`: its level and traits), and the degree of success of the check
+    # that did (`outcome`, 0 to 3). Its rules read these as `parent:origin:*` and
+    # `parent:context:check:outcome`, which is how a lesser antidote and a major one are the same
+    # effect with different numbers. Empty when nothing said - an effect a GM added by hand.
+    attribute :origin, :type => DataType::Hash, :default => {}
+
     # Who is under it: a character in an encounter, or a creature in one. `character` is a character
     # outside any encounter, which only an effect from before encounters held their own state can be.
     reference :character, "AresMUSH::Character"

@@ -26,7 +26,7 @@ module AresMUSH
         out = Acting.report
 
         heal(target, name, entry, out) if entry['heal']
-        effect(encounter, given_by, target, entry['effect'], out) if entry['effect']
+        effect(encounter, given_by, target, entry['effect'], out, item_origin(name, entry)) if entry['effect']
 
         out
       end
@@ -45,14 +45,22 @@ module AresMUSH
         out['gm'] << Telling.event('pf2e.act_hp_left', 'target' => target.label, 'hp' => Harm.hit_points(target.holder))
       end
 
-      def self.effect(encounter, given_by, target, name, out)
+      # `origin` is the item that left it, so its rules can tell which item that was: Effect: Antidote is
+      # one effect for all four antidotes, and its bonus is the one the antidote taken gives.
+      def self.effect(encounter, given_by, target, name, out, origin = nil)
         return unless ActiveEffects.catalogue.key?(name)
 
-        applied = ActiveEffects.apply(target.holder, name, :applied_by => given_by, :encounter => encounter)
+        applied = ActiveEffects.apply(target.holder, name, :applied_by => given_by, :encounter => encounter,
+                                                           :origin => origin)
 
         return unless applied.ok?
 
         out['lines'] << Telling.event('pf2e.consumable_effect', 'target' => target.label, 'effect' => name)
+      end
+
+      def self.item_origin(name, entry)
+        ActiveEffects.origin(item: { 'name' => name, 'type' => 'consumable', 'level' => entry['level'],
+                                     'traits' => Array(entry['traits']) })
       end
 
       # Vitality heals the living and does nothing for the undead; void the reverse; untyped either.
