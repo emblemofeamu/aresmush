@@ -2886,6 +2886,7 @@ pf2e_actions:
         title: "{item|name} F"
         text: "{item|description}Effect: RageEffect: Rage Temporary Hit Points Immunity"
         predicate: [{"not": "condition:encumbered"}, {"or": ["feat:invulnerable-rager", {"not": "armor:category:heavy"}]}]
+        effects: ["Effect: Rage", "Effect: Rage Temporary Hit Points Immunity"]
   "Quickened Casting":
     from: "feat"
     type: "free"

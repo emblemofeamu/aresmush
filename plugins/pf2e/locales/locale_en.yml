@@ -842,6 +842,7 @@ en:
     no_encounter_here: "There's no encounter running here. Damage, healing, and conditions do not apply unless you're in an encounter."
     encounter_sheet_creature: "%{ref} is a creature. Use e/creature %{ref} to see it."
     act_note: "  %{text}"
+    act_note_effect: "  %{effect}, if it applies: %{command}"
     act_crit_spec_text: "    %{text}"
     act_circumstances: " (%{list})"
     act_flanking: "flanking"

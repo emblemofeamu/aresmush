@@ -1,0 +1,52 @@
+# Who an effect linked from a roll's note is for, and whether the engine puts it on them.
+#
+# Foundry shows the link in the chat card and leaves the player to drag it onto someone. The importers keep
+# the links as `effects:` on the Note rows (`scripts/import_foundry_note_effects.py`); this says where each
+# one goes, which their data does not.
+#
+#   for     target - whoever the roll was against; self - whoever rolled
+#   apply   true   - put on them when the note shows with an outcome it names
+#           absent - the roll prints the `effect/add` command instead: the note's words hold a condition
+#                    the engine cannot test (the first time each round, if you pass through its square),
+#                    or the effect asks the player to choose (Debilitating Bomb, the Debilitations)
+#
+# An effect with `apply` must answer its own ChoiceSets from the roll (`parent:context:check:outcome`,
+# `parent:origin:item`), or it would be put on with a question nobody was asked.
+#
+# Left out: Effect: Divine Rebuttal, which is for every ally and not for one creature.
+pf2e_note_effects:
+  # On whoever the roll was against, by its outcome.
+  "Effect: Sympathetic Strike": { for: target, apply: true }
+  "Effect: Glue Bomb": { for: target, apply: true }
+  "Effect: Exemplary Finisher (Rascal)": { for: target, apply: true }
+  "Effect: Exemplary Finisher (Wit)": { for: target, apply: true }
+  "Effect: Distracting Feint": { for: target, apply: true }
+
+  # On whoever rolled, by its outcome.
+  "Effect: Panache": { for: self, apply: true }
+  "Effect: Panache (Temporary)": { for: self, apply: true }
+  "Spell Effect: Revel in Retribution (Temp HP)": { for: self, apply: true }
+
+  # Offered: the player or GM decides.
+  "Effect: Debilitating Bomb": { for: target }
+  "Effect: Debilitating Strike": { for: target }
+  "Effect: Precise Debilitations": { for: target }
+  "Effect: Tactical Debilitations (No Flanking)": { for: target }
+  "Effect: Vicious Debilitations": { for: target }
+  "Effect: Heartless Debilitations": { for: target }
+  "Effect: Goading Feint": { for: target }
+  "Effect: Overextending Feint": { for: target }
+  "Effect: The Bigger They Are": { for: target }
+  "Effect: Frost Vial": { for: target }
+  "Effect: Crystal Shards": { for: target }
+  "Spell Effect: Web": { for: target }
+  "Effect: Shining Ammunition": { for: target }
+  "Effect: Sash of Books (Bonus)": { for: self }
+  "Effect: Come and Get Me (Temporary Hit Points)": { for: self }
+  "Effect: Crash Against Me (Clang)": { for: self }
+  "Spell Effect: Corrosive Body (Temp HP)": { for: self }
+  "Spell Effect: Frenzied Revelry (Critical)": { for: self }
+  "Effect: Castigating Weapon": { for: self }
+  "Effect: Replenishment of War": { for: self }
+  "Effect: Rage": { for: self }
+  "Effect: Rage Temporary Hit Points Immunity": { for: self }

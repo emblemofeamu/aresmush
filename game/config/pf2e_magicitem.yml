@@ -37,6 +37,7 @@ pf2e_magicitem:
         selector: "{item|_id}-attack"
         title: "Shining Ammunition"
         text: "The ammunition sheds bright light in a 20-foot radius (and dim light to the next 20 feet) for 10 minutes. If it hits a target, it sticks, causing the target to shed light in the same radius. Effect: Shining Ammunition"
+        effects: ["Effect: Shining Ammunition"]
   Walking Cauldron:
     traits:
       - invested

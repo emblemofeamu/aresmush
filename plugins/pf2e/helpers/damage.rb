@@ -43,6 +43,16 @@ module AresMUSH
       #   true  -> in a crit only, undoubled
       BUCKETS = { nil => 'doubling', false => 'fixed', true => 'crit_only' }.freeze
 
+      # The notes a rule holds for this damage, as `Rules.notes` answers them.
+      # A creature's Strike has no attribute of its own to add.
+      def self.notes(char, attack, options = [])
+        ability = char.respond_to?(:pf2_base_info) ? damage_attribute(char, attack) : nil
+        domains = Domains.for('damage', attack, ability)
+        held = Effects.options(char, domains) + Pf2eCombat.attack_options(attack, char) + Array(options)
+
+        Rules.notes(Effects.sources(char), domains, held)
+      end
+
       # What a weapon does, with everything that modifies it.
       #
       #   { 'instances' => [ { 'damage_type' =>, 'dice' => [ [ n, die ] ], 'modifier' =>,

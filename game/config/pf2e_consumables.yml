@@ -276,6 +276,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|_id}-damage"
         text: "Effect The target takes a -5-foot penalty to its Speeds until the end of its next turn (Effect: Frost Vial)."
+        effects: ["Effect: Frost Vial"]
     effect: 'Effect: Frost Vial'
     bomb:
       dice: 1
@@ -357,11 +358,13 @@ pf2e_consumables:
         outcome: ["success"]
         title: "{item|name}"
         text: "On a hit, -10-foot Speed penalty for 1 minute."
+        effects: ["Effect: Glue Bomb"]
       - key: "Note"
         selector: "{item|_id}-attack"
         outcome: ["criticalSuccess"]
         title: "{item|name}"
         text: "On a critical hit, -10-foot Speed penalty for 1 minute and Immobilized for 1 round."
+        effects: ["Effect: Glue Bomb"]
     effect: 'Effect: Glue Bomb'
     bomb:
       damage_type: bludgeoning
@@ -587,6 +590,7 @@ pf2e_consumables:
         selector: "{item|_id}-attack"
         title: "Shining Ammunition"
         text: "The ammunition sheds bright light in a 20-foot radius (and dim light to the next 20 feet) for 10 minutes. If it hits a target, it sticks, causing the target to shed light in the same radius. Effect: Shining Ammunition"
+        effects: ["Effect: Shining Ammunition"]
     effect: 'Effect: Shining Ammunition'
   Signaling Snare:
     bulk: 0
@@ -1148,6 +1152,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|_id}-damage"
         text: "Effect The target takes a -10-foot penalty to its Speeds until the end of its next turn (Effect: Frost Vial)."
+        effects: ["Effect: Frost Vial"]
     effect: 'Effect: Frost Vial'
     bomb:
       dice: 2
@@ -1195,11 +1200,13 @@ pf2e_consumables:
         outcome: ["success"]
         title: "{item|name}"
         text: "On a hit, -15-foot Speed penalty for 1 minute."
+        effects: ["Effect: Glue Bomb"]
       - key: "Note"
         selector: "{item|_id}-attack"
         outcome: ["criticalSuccess"]
         title: "{item|name}"
         text: "On a critical hit, -15-foot Speed penalty for 1 minute and Immobilized for 1 round."
+        effects: ["Effect: Glue Bomb"]
     effect: 'Effect: Glue Bomb'
     bomb:
       damage_type: bludgeoning
@@ -1429,6 +1436,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|id}-damage"
         text: "The target takes 1 persistent bleed damage from the crystals embedded in its flesh. As long as the bleed damage persists, the target also takes a \u20135-foot penalty to its speed. Effect: Crystal Shards"
+        effects: ["Effect: Crystal Shards"]
     bomb:
       dice: 2
       die: d4
@@ -2805,6 +2813,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|_id}-damage"
         text: "Effect The target takes a -10-foot penalty to its Speeds until the end of its next turn (Effect: Frost Vial)."
+        effects: ["Effect: Frost Vial"]
     effect: 'Effect: Frost Vial'
     bomb:
       dice: 3
@@ -2860,11 +2869,13 @@ pf2e_consumables:
         outcome: ["success"]
         title: "{item|name}"
         text: "On a hit, -15-foot Speed penalty for 1 minute."
+        effects: ["Effect: Glue Bomb"]
       - key: "Note"
         selector: "{item|_id}-attack"
         outcome: ["criticalSuccess"]
         title: "{item|name}"
         text: "On a critical hit, -15-foot Speed penalty for 1 minute and Immobilized for 1 round."
+        effects: ["Effect: Glue Bomb"]
     effect: 'Effect: Glue Bomb'
     bomb:
       damage_type: bludgeoning
@@ -3047,6 +3058,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|_id}-damage"
         text: "The target takes 1 persistent bleed damage from the crystals embedded in its flesh. As long as the bleed damage persists, the target also takes a \u20135-foot penalty to its speed. Effect: Crystal Shards"
+        effects: ["Effect: Crystal Shards"]
     bomb:
       dice: 3
       die: d4
@@ -3986,6 +3998,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|_id}-damage"
         text: "Effect The target takes a -15-foot penalty to its Speeds until the end of its next turn (Effect: Frost Vial)."
+        effects: ["Effect: Frost Vial"]
     effect: 'Effect: Frost Vial'
     bomb:
       dice: 4
@@ -4041,11 +4054,13 @@ pf2e_consumables:
         outcome: ["success"]
         title: "{item|name}"
         text: "On a hit, -20-foot Speed penalty for 1 minute."
+        effects: ["Effect: Glue Bomb"]
       - key: "Note"
         selector: "{item|_id}-attack"
         outcome: ["criticalSuccess"]
         title: "{item|name}"
         text: "On a critical hit, -20-foot Speed penalty for 1 minute and Immobilized for 1 round."
+        effects: ["Effect: Glue Bomb"]
     effect: 'Effect: Glue Bomb'
     bomb:
       damage_type: bludgeoning
@@ -4156,6 +4171,7 @@ pf2e_consumables:
       - key: "Note"
         selector: "{item|_id}-damage"
         text: "The target takes 1 persistent bleed damage from the crystals embedded in its flesh. As long as the bleed damage persists, the target also takes a \u20135-foot penalty to its speed. Effect: Crystal Shards"
+        effects: ["Effect: Crystal Shards"]
     bomb:
       dice: 4
       die: d4

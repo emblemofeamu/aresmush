@@ -60,14 +60,16 @@ module AresMUSH
         },
         {
           'key' => 'Note',
-          'fields' => %w{key selector text title predicate outcome slug label},
+          'fields' => %w{key selector text title predicate outcome slug label effects},
           # Text shown with a roll, and only for the outcomes it names: Revel in Retribution reminds you of
           # its effect on a hit. The importer translates their localisation keys, so this is the English.
+          # `effects` are the effects its text links, which `NoteEffects` puts on someone or offers.
           'contribute' => lambda { |row, source, _context|
             { 'source' => source['name'],
               'title' => row['title'] || source['name'],
               'text' => row['text'].to_s,
-              'outcome' => Array(row['outcome']) }
+              'outcome' => Array(row['outcome']),
+              'effects' => Array(row['effects']) }
           }
         },
         {

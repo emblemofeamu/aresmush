@@ -637,6 +637,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "On a successful Feint, the target take a -2 circumstance penalty to attack rolls against you instead of any other effects that you would gain when you Feint. Effect: Goading Feint"
         predicate: ["action:feint", "goading-feint"]
+        effects: ["Effect: Goading Feint"]
   Harming Hands:
     assoc_charclass:
       - Cleric
@@ -921,6 +922,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "On a successful Feint, you can have the target take a -2 circumstance penalty to attack rolls against you instead of any other effects that would occur when you Feint. Effect: Overextending Feint"
         predicate: ["action:feint"]
+        effects: ["Effect: Overextending Feint"]
   Plant Empathy:
     assoc_charclass:
       - Druid
@@ -1836,6 +1838,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "You gain panache until the end of your next turn Effect: Panache (Temporary)"
         predicate: ["charmed-life"]
+        effects: ["Effect: Panache (Temporary)"]
   Clever Gambit:
     assoc_charclass:
       - Rogue
@@ -1962,6 +1965,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "While a creature is off-guard by your Feint, it also takes a -2 circumstance penalty to Perception checks and Reflex saves. Effect: Distracting Feint"
         predicate: ["action:feint"]
+        effects: ["Effect: Distracting Feint"]
   Divine Aegis:
     assoc_charclass:
       - Oracle
@@ -4171,6 +4175,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "Until the beginning of your next turn, the target takes a \u20131 circumstance penalty to its saves against your hexes, or a \u20132 penalty if the triggering Strike was a critical hit. Effect: Sympathetic Strike"
         predicate: ["item:tag:witchs-armaments", "sympathetic-strike"]
+        effects: ["Effect: Sympathetic Strike"]
   Tenacious Toxins:
     assoc_charclass:
       - Alchemist
@@ -4782,6 +4787,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "The target must succed at a , or suffer one of the following effects: dazzled, deafened, off-guard, or take a -5 foot status penalty to Speeds. Effect: Debilitating Bomb"
         predicate: ["debilitating-bomb", {"not": "feat:greater-debilitating-bomb"}]
+        effects: ["Effect: Debilitating Bomb"]
   Defensive Coordination:
     assoc_charclass:
       - Bard
@@ -4890,6 +4896,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "If your Strike hits, all your allies gain a +2 circumstance bonus to the triggering saving throw (or a +3 circumstance bonus on a critical hit). Effect: Divine Rebuttal"
         predicate: ["divine-rebuttal", "item:deity-favored"]
+        effects: ["Effect: Divine Rebuttal"]
   Divine Weapon:
     assoc_charclass:
       - Cleric
@@ -7521,6 +7528,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "After you deal spirit damage due to Divine Castigation, your weapon or unarmed Strikes gain your holy or unholy trait and deal additional spirit damage until the end of your turn. Effect: Castigating Weapon"
         predicate: ["divine-castigation", {"or": ["item:slug:harm", "item:slug:heal"]}]
+        effects: ["Effect: Castigating Weapon"]
   Certain Strike:
     assoc_charclass:
       - Fighter
@@ -7840,6 +7848,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "The target must succed at a , or suffer one of the following effects: clumsy 1, dazzled, deafened, enfeebled 1, off-guard, stupefied 1, or take a \u201310-foot status penalty to Speeds. Effect: Debilitating Bomb"
         predicate: ["debilitating-bomb", {"not": "feat:true-debilitating-bomb"}]
+        effects: ["Effect: Debilitating Bomb"]
   Healing Transformation:
     assoc_charclass:
       - Druid
@@ -8280,6 +8289,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "When you damage a creature with a Strike using your deity's favored weapon, you gain a number of temporary Hit Points equal to half your level, or equal to your level if the Strike was a critical hit. Effect: Replenishment of War"
         predicate: ["item:deity-favored"]
+        effects: ["Effect: Replenishment of War"]
   Resounding Blow:
     assoc_charclass:
       - Barbarian
@@ -9806,12 +9816,14 @@ pf2e_feats:
         title: "{item|name}"
         text: "On a critical success, if you successfully pass through the target's square, the target gains weakness to your precision damage until the end of your turn. Effect: The Bigger They Are"
         predicate: ["action:tumble-through", "the-bigger-they-are", {"gt": ["target:size", "self:size"]}]
+        effects: ["Effect: The Bigger They Are"]
       - key: "Note"
         selector: "skill-check"
         outcome: ["success"]
         title: "{item|name}"
         text: "On a success, if you successfully pass through the target's square, the target gains weakness to your precision damage for your next attack. Effect: The Bigger They Are"
         predicate: ["action:tumble-through", "the-bigger-they-are", {"gt": ["target:size", "self:size"]}]
+        effects: ["Effect: The Bigger They Are"]
   Titan's Stature:
     assoc_charclass:
       - Barbarian
@@ -10844,6 +10856,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "The target must succed at a , or suffer one of the following effects: clumsy 1, dazzled, deafened, enfeebled 2, off-guard, stupefied 2, or take a \u201315-foot status penalty to Speeds. Effect: Debilitating Bomb"
         predicate: ["debilitating-bomb"]
+        effects: ["Effect: Debilitating Bomb"]
   True Hypercognition:
     assoc_charclass:
       - Bard
