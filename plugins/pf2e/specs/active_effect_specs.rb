@@ -278,6 +278,35 @@ module AresMUSH
       end
     end
 
+    # What brought an effect is kept with it, and its rules read it under `parent:origin`.
+    describe "what brought it" do
+      def antidote(origin)
+        Pf2e::ActiveEffects.apply(reread, 'Effect: Antidote', :origin => origin)
+      end
+
+      def antidote_options
+        Pf2e::ActiveEffects.sources(reread).find { |one| one['name'] == 'Effect: Antidote' }['options']
+      end
+
+      it "should keep the item it came from" do
+        antidote(Pf2e::Consumables.item_origin('Antidote (Major)', Pf2e::Consumables.info('Antidote (Major)')))
+
+        expect(Pf2e::ActiveEffects.on(reread).first.origin['item']['name']).to eq 'Antidote (Major)'
+      end
+
+      it "should answer its own choice from that item" do
+        antidote(Pf2e::Consumables.item_origin('Antidote (Major)', Pf2e::Consumables.info('Antidote (Major)')))
+
+        expect(antidote_options).to include('parent:origin:item:slug:antidote-major', 'antidote:antidote-major')
+      end
+
+      it "should leave the choice open when nothing said where it came from" do
+        antidote(nil)
+
+        expect(antidote_options.grep(/\Aantidote:/)).to be_empty
+      end
+    end
+
     describe "a night's rest" do
       it "should end anything shorter than a day" do
         apply('Aurochs Jerky')

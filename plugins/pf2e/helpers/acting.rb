@@ -612,7 +612,8 @@ module AresMUSH
         temporary = temp_hp_of(scene.actor.holder)
         applied = ActiveEffects.apply(scene.actor.holder, entry['self_effect'], :options => effect_options(said),
                                                                                 :applied_by => scene.actor.label,
-                                                                                :encounter => scene.encounter)
+                                                                                :encounter => scene.encounter,
+                                                                                :origin => action_origin(scene, name, entry))
 
         if applied.err?
           out['lines'] << told(applied.key, applied.args)
@@ -634,6 +635,20 @@ module AresMUSH
         fresh = holder.class[holder.id] || holder
 
         (fresh.respond_to?(:temp_hp) ? fresh.temp_hp : fresh.hp&.temp_hp).to_i
+      end
+
+      # What brought an effect an action leaves: the action, whoever took it, and how their check went.
+      def self.action_origin(scene, name, entry, degree = nil)
+        ActiveEffects.origin(item: { 'name' => name, 'type' => 'action', 'traits' => Array(entry['traits']) },
+                             by: scene.actor.holder, outcome: degree)
+      end
+
+      # What brought an effect a spell leaves: the spell at the rank it was cast, and its caster.
+      def self.spell_origin(scene, spell, rank)
+        traits = (Global.read_config('pf2e_spell_mechanics', spell) || {})['traits']
+
+        ActiveEffects.origin(item: { 'name' => spell, 'type' => 'spell', 'level' => rank, 'traits' => Array(traits) },
+                             by: scene.actor.holder)
       end
 
       # What was said about an effect, in the words `ActiveEffects.apply` takes: `rank 6`, `value 3`, and
@@ -742,7 +757,8 @@ module AresMUSH
         applied = applied.reject { |one| one['on'] == 'actor' } if shared
 
         consequences(scene, applied, out, :rank => rank_of(scene.actor.holder, kind, stat_name), :dc => dc,
-                                          :options => Array(check['options']))
+                                          :options => Array(check['options']),
+                                          :origin => action_origin(scene, name, entry, result['degree']))
       end
 
       # What an action with no defence of its own is against, where it is aimed at someone: Seek, against
@@ -1943,7 +1959,8 @@ module AresMUSH
         whom = scene.target || scene.actor
         options = [ "rank #{rank}" ] + words + ActiveEffects.items_in_hand(whom.holder, found, words)
         applied = ActiveEffects.apply(whom.holder, found, :options => options, :applied_by => scene.actor.label,
-                                                          :encounter => scene.encounter)
+                                                          :encounter => scene.encounter,
+                                                          :origin => spell_origin(scene, spell, rank))
 
         return if applied.err?
 
@@ -1956,7 +1973,9 @@ module AresMUSH
 
       # What an outcome does, done: each on the target or on the actor. `rank` is the actor's proficiency
       # in what they rolled, which Aid's bonus grows with.
-      def self.consequences(scene, list, out, rank: 'trained', dc: nil, options: [])
+      #
+      # `origin` is what brought them, which an effect they leave keeps (`ActiveEffects.origin`).
+      def self.consequences(scene, list, out, rank: 'trained', dc: nil, options: [], origin: nil)
         list.each do |one|
           whom = one['on'] == 'actor' ? scene.actor : scene.target
 
@@ -1970,7 +1989,7 @@ module AresMUSH
           elsif one['dying'] then dying_consequence(whom, one, out)
           elsif one['recover'] then recovered(whom, one['recover'], one['dc'], out)
           elsif one['suffer'] then suffer_consequence(scene, whom, one, out)
-          elsif one['effect'] then effect_consequence(scene, whom, one, rank, out)
+          elsif one['effect'] then effect_consequence(scene, whom, one, rank, out, origin)
           elsif one['heal']
             thrown = Pf2e.thrown_formula(one['heal'])
             bonus = (one['bonus'] || {})[dc.to_s].to_i
@@ -2126,11 +2145,12 @@ module AresMUSH
         end
       end
 
-      def self.effect_consequence(scene, whom, one, rank, out)
+      def self.effect_consequence(scene, whom, one, rank, out, origin = nil)
         answer = one['answer'].is_a?(Hash) ? (one['answer'][rank] || one['answer']['default']) : one['answer']
         applied = ActiveEffects.apply(whom.holder, one['effect'], :options => [ answer ].compact,
                                                                   :applied_by => scene.actor.label,
-                                                                  :encounter => scene.encounter)
+                                                                  :encounter => scene.encounter,
+                                                                  :origin => origin)
 
         return out['lines'] << told(applied.key, applied.args) if applied.err?
 

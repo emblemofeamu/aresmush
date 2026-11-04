@@ -373,7 +373,7 @@ module AresMUSH
         sets.each do |set|
           next unless Predicate.test(set['when'], known + declared)
 
-          answer = answer_to(set, chosen, char)
+          answer = answer_to(set, chosen, char) || only_fitting(set, known + declared)
 
           next unless answer
 
@@ -391,6 +391,21 @@ module AresMUSH
       def self.cast_from(answers)
         Array(answers).map { |one| one.to_s[/\Atradition\s+(\w+)\z/i, 1] }.compact
                       .map { |tradition| "parent:spellcasting:tradition:#{tradition.downcase}" }
+      end
+
+      # The answer nobody had to give: a listed choice whose circumstances name what brought the effect
+      # (`parent:`), when only one of them holds. An antidote's effect asks which antidote, and each
+      # choice says "this one, if it came from a major antidote"; once the effect knows it did, there is
+      # nothing to ask, and Foundry does not ask either when its predicates leave one choice. A set whose
+      # choices are about something else is still asked.
+      def self.only_fitting(set, held)
+        listed = Array(set['choices'])
+
+        return nil unless listed.any? { |one| one['when'].to_json.include?('parent:') }
+
+        fitting = listed.select { |one| Predicate.test(one['when'], held) }
+
+        fitting.size == 1 ? fitting.first['value'] : nil
       end
 
       # An answer counts only if it is one this set could have offered, so a choice recorded against some
