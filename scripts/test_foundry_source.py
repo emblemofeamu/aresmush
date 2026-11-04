@@ -68,6 +68,14 @@ class FoundrySource(unittest.TestCase):
         import yaml
         self.assertEqual(list(yaml.safe_load(open(self.record))), ['pf2e_foundry_source'])
 
+    def test_crlf_and_lf_hash_the_same(self):
+        lf = os.path.join(self.temp.name, 'lf.yml')
+        crlf = os.path.join(self.temp.name, 'crlf.yml')
+        open(lf, 'wb').write(b'---\na: 1\nb: "x"\n')
+        open(crlf, 'wb').write(b'---\r\na: 1\r\nb: "x"\r\n')
+
+        self.assertEqual(foundry_source.digest(lf), foundry_source.digest(crlf))
+
     def test_removed_files_leave_the_record(self):
         foundry_source.record(self.checkout, 'import_foundry_effects.py', [self.written], at=self.record)
         foundry_source.record(self.checkout, 'import_foundry_effects.py', [], [self.written], at=self.record)

@@ -68,12 +68,10 @@ def describe(path):
 
 
 def digest(path):
-    hashed = hashlib.sha256()
+    """The file's sha256 with CRLF read as LF, so a Windows checkout with core.autocrlf hashes the same as
+    the LF the importers write and git stores. The largest catalogue is a few MB, so it is read whole."""
     with open(path, 'rb') as handle:
-        for block in iter(lambda: handle.read(1 << 20), b''):
-            hashed.update(block)
-
-    return hashed.hexdigest()
+        return hashlib.sha256(handle.read().replace(b'\r\n', b'\n')).hexdigest()
 
 
 def relative(path):
