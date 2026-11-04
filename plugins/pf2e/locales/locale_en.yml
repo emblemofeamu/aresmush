@@ -736,6 +736,8 @@ en:
     act_join_first: "Join encounter %{id} first: e/join."
     act_name_a_skill: "Say which skill you roll: add /<skill>, as in e/act aid=bram/athletics."
     act_needs_target: "Name a target: e/strike <target>."
+    how_title: "What does %{name}:"
+    how_nothing: "Nothing you have or can do goes by %{name}. Try +e/how strike, +e/how cast, +e/how hero point, or action/available for every action you can use."
     act_no_attack: "You have no attack called %{attack}. Your Strikes here come from what you carried into the encounter: e/sheet shows them, e/gear lists your gear, and e/equip draws a weapon you carry."
     act_out_of_range: "That's beyond the sixth range increment, where no ranged attack reaches."
     until_turn_end: " until the end of %{actor}'s turn"
