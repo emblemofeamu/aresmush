@@ -263,7 +263,7 @@ pf2e_ancestry:
         - Soaring Form
         - Wind God's Fan
       13:
-        - Harbinger's Caw
+        - Harbinger's Claw
         - Jinx Glutton
         - Thunder God's Fan
       17:
@@ -278,7 +278,7 @@ pf2e_ancestry:
       - Storm's Lash
       - Uncanny Agility
       - Magpie Snatch
-      - Harbinger's Caw
+      - Harbinger's Claw
       - Trickster Egalrin
   Goblin:
     HP: 6
@@ -706,6 +706,7 @@ pf2e_ancestry:
       5:
         - Ageless Patience
         - Ancestral Suspicion
+        - Martial Experience
       9:
         - Expert Longevity
         - Otherworldly Acumen
@@ -721,6 +722,7 @@ pf2e_ancestry:
       - Sildanyari Lore
       - Sildanyari Weapon Familiarity
       - Unwavering Mien
+      - Martial Experience
       - Expert Longevity
       - Sildanyar Step
       - Tree Climber (Sildanyar)

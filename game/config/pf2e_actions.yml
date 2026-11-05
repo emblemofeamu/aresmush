@@ -454,6 +454,12 @@ pf2e_actions:
     category: "class"
     traits: ["fighter", "press"]
     strikes: {"count": 1, "attack": "melee"}
+  "Chance Death":
+    from: "feat"
+    type: "reaction"
+    category: "ancestry"
+    traits: ["duskwalker", "fortune"]
+    frequency: {"max": 1, "per": "day"}
   "Change Tradition Focus":
     from: "action"
     source: "Pathfinder GM Core"
@@ -1574,6 +1580,12 @@ pf2e_actions:
     cost: 1
     category: "class"
     traits: ["druid", "manipulate", "spellshape"]
+  "Form Lock":
+    from: "feat"
+    type: "action"
+    cost: 1
+    category: "class"
+    traits: ["attack", "monk"]
   "Form of the Bat":
     from: "feat"
     type: "action"
@@ -1736,7 +1748,7 @@ pf2e_actions:
     category: "class"
     traits: ["fighter", "press"]
     strikes: {"count": 1}
-  "Harbinger's Caw":
+  "Harbinger's Claw":
     from: "feat"
     type: "reaction"
     category: "ancestry"
@@ -2566,6 +2578,13 @@ pf2e_actions:
     traits: ["manipulate"]
     check: {"slug": "palm-an-object", "statistic": "thievery", "options": ["action:palm-an-object"], "against": "perception", "notes": {"criticalSuccess": "The creature does not notice you Palming the Object.", "success": "The creature does not notice you Palming the Object.", "failure": "The creature notices you Palming the Object, and the GM determines the creature's response.", "criticalFailure": "The creature notices you Palming the Object, and the GM determines the creature's response."}}
     description: "You pick up a small, unattended object and try not to be noticed. Roll a single Thievery check against the Perception DCs of all creatures who are currently observing you. You can typically only Palm Objects of negligible Bulk, though the GM might determine otherwise depending on the situation.%rSuccess The creature doesn't notice you Palming the Object.%rFailure The creature notices you Palming the Object."
+  "Paragon's Guard":
+    from: "feat"
+    type: "action"
+    cost: 1
+    category: "class"
+    traits: ["fighter", "stance"]
+    self_effect: "Stance: Paragon's Guard"
   "Parting Shot":
     from: "feat"
     type: "action"
@@ -3264,6 +3283,12 @@ pf2e_actions:
     traits: ["move"]
     check: {"slug": "run-over", "statistic": "piloting", "options": ["action:run-over", "action:run-over"], "notes": {"failure": "The vehicle moves its Speed in a straight line along its most recent heading, drifting up to 45 degrees at the GM's discretion, and becomes uncontrolled.", "criticalFailure": "The vehicle moves its Speed in a straight line along its most recent heading, drifting up to 45 degrees at the GM's discretion, and becomes uncontrolled."}}
     description: "Requirements You are piloting a vehicle.%r(reckless) You try to run over creatures with your vehicle, possibly also ramming one larger creature or object. If you maintain control of your vehicle, the vehicle moves up to twice its Speed in a straight line at the vehicle's current heading. You attempt to run over any creatures in your path two sizes smaller than the vehicle or smaller, and you can attempt to ram one target creature or object in your path one size smaller than the vehicle or larger.%rEach creature in your path, including a rammed target, takes the vehicle's collision damage (basic Reflex save at vehicle's collision DC). If the rammed target is a vehicle, its pilot can attempt a piloting check in place of this Reflex save, with the same results. If the target of your ram takes damage, you and your vehicle each take collision damage (no save) and your movement ends."
+  "Running Reload":
+    from: "feat"
+    type: "action"
+    cost: 1
+    category: "class"
+    traits: ["ranger"]
   "Sabotage":
     from: "feat"
     type: "action"

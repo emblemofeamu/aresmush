@@ -501,6 +501,20 @@ pf2e_spells:
     actions: reaction
     trigger: You are about to attempt a saving throw, but you haven't rolled yet
     effect: "You're difficult to deter in battle. You gain a +2 status bonus to the triggering save, and if the triggering save is against an incapacitation effect, it treats you as if you were 2 levels higher."
+  Beastmaster Trance:
+    base_level: 3
+    traits:
+      - concentrate
+      - focus
+      - manipulate
+      - mental
+      - uncommon
+    actions: 3
+    range: 1 mile
+    target: one of your animal companions you can perceive
+    duration: sustained up to 1 minute
+    effect: "You enter a magical trance that allows you to perceive through the senses of the target companion. You attempt Perception checks using your own Perception, but you have any special senses the target has, such as low-light vision or darkvision.%r%rThis spell grants no special method of communication with the chosen animal, so it follows any instructions you gave it before you entered the trance and, failing that, it does as it wishes.%r%rFor the duration of the trance, your own senses are muted, though you can still communicate. This lack of awareness makes you off-guard. You can't take actions with the attack or move traits."
+    heighten: "**6th:** Increase the range to 100 miles and the duration to sustained up to 10 minutes. The target can hear you through the spell, allowing you to Command the Animal or use other actions that have the auditory trait.%r**8th:** Increase the range to planetary and the duration to sustained up to 1 hour. You can communicate telepathically with the target for the duration of the trance."
   Bestial Curse:
     base_level: 4
     traits:

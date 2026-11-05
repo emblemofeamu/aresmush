@@ -10,7 +10,7 @@ module AresMUSH
             'pf2e' => {
               'use_alignment' => true,
               'allowed_alignments' => [ 'OL', 'BL', 'WL', 'OT', 'BT', 'WT' ],
-              'subclass_names' => { 'Wizard' => 'Thesis', 'Champion' => 'Cause' }
+              'subclass_names' => { 'Wizard' => 'Arcane School', 'Champion' => 'Cause' }
             },
             'pf2e_ancestry' => {
               'Khazad' => { 'heritages' => [ 'Forge', 'Rock', 'Ancient-Blooded' ] },

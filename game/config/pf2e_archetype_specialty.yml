@@ -374,13 +374,15 @@ pf2e_archetype_specialty:
         skills: []
     Elemental:
       choose:
-        choice_name: Elemental Affinity
-        choice_description: Choose the element you have an affinity for.
+        choice_name: Elemental Influence
+        choice_description: Choose the elemental that influenced your bloodline.
         options:
           Fire:
           Air:
           Earth:
+          Metal:
           Water:
+          Wood:
       initial_dedication:
         magic_stats:
           tradition:

@@ -3959,6 +3959,16 @@ pf2e_feats:
     shortdesc: You drop your disguise at the right moment and surprise your target. After you Impersonate someone else using a disguise kit, you can remove your disguise with a dramatic gesture. Any creatures that previously failed to see through your disguise are off-guard against the next attack you make before the end of your turn.
     traits:
       - rogue
+  Running Reload:
+    assoc_charclass:
+      - Ranger
+    feat_type:
+      - Charclass
+    prereq:
+      level: 4
+    shortdesc: You can reload your weapon on the move. You Stride, Step, or Sneak, then Interact to reload.
+    traits:
+      - ranger
   Scout's Warning:
     assoc_charclass:
       - Ranger
@@ -5117,23 +5127,6 @@ pf2e_feats:
       tiers:
         - basic
         - greater
-  Green Empathy:
-    assoc_charclass:
-      - Druid
-    feat_type:
-      - Charclass
-    prereq:
-      level: 6
-      specialize: leaf
-    shortdesc: "You can communicate with plants and fungi on a basic level and use Diplomacy to Make an Impression on them and to make very simple Requests of them. Non-creature plants and fungi typically can't fulfill most requests you might ask of them unless you have access to other magic such as *speak with plants*.%r%rBecause of your affiliation with the leaf order, plants and fungi have a sense that you support them, so you gain a +2 circumstance bonus on your check to Make a Request of a plant or fungus using Green Empathy."
-    traits:
-      - druid
-    rules:
-      - key: "FlatModifier"
-        selector: "diplomacy"
-        type: "circumstance"
-        value: 2
-        predicate: ["action:request", "target:trait:plant"]
   Grown of Oak:
     assoc_charclass:
       - Druid
@@ -6984,6 +6977,24 @@ pf2e_feats:
       - exploration
       - oracle
       - prediction
+  Know-It-All:
+    assoc_charclass:
+      - Bard
+    feat_type:
+      - Charclass
+    prereq:
+      level: 8
+      specialize: enigma
+    shortdesc: When you succeed at a check to Recall Knowledge, you gain additional information or context. When you critically succeed at a check to Recall Knowledge, you get additional information or context or can ask an additional follow-up question (the GM chooses which).
+    traits:
+      - bard
+    rules:
+      - key: "Note"
+        selector: "skill-check"
+        outcome: ["criticalSuccess", "success"]
+        title: "{item|name}"
+        text: "When you succeed at a check to Recall Knowledge, you gain additional information or context. When you critically succeed, you get additional information or context or can ask an additional follow-up question (the GM chooses which)."
+        predicate: ["action:recall-knowledge"]
   Reflexive Courage:
     assoc_charclass:
       - Bard
@@ -7409,6 +7420,28 @@ pf2e_feats:
     traits:
       - cleric
 # Level 10 Class Feats
+  Sticky Bomb:
+    assoc_charclass:
+      - Alchemist
+    feat_type:
+      - Charclass
+    prereq:
+      level: 8
+    shortdesc: You can mix in a sticky additive to an alchemical bomb to make its contents adhere and continue to deal damage. A creature hit by a sticky bomb also takes persistent damage equal to and of the same type as the bomb's splash damage. Use the splash damage amount listed in the bomb's stat block, even if you used an ability to change the splash damage dealt. If the bomb already deals persistent damage, combine the two amounts.
+    traits:
+      - additive
+      - alchemist
+    rules:
+      - key: "RollOption"
+        option: "sticky-bomb"
+        domain: "alchemical-bomb-base-type-damage"
+        toggleable: true
+      - key: "FlatModifier"
+        selector: "alchemical-bomb-base-type-damage"
+        value: "@weapon.system.splashDamage.value"
+        damageCategory: "persistent"
+        slug: "sticky-bomb"
+        predicate: ["item:trait:splash", "sticky-bomb"]
   Advanced Efficient Alchemy:
     assoc_charclass:
       - Alchemist
@@ -10017,6 +10050,17 @@ pf2e_feats:
     shortdesc: When you call upon your deity's power to fulfill the promise of their domain, you gain divine protection. After you cast a domain spell, you gain resistance to all damage until the start of your next turn. The amount of resistance is equal to the rank of the domain spell you cast.
     traits:
       - cleric
+  Paragon's Guard:
+    assoc_charclass:
+      - Fighter
+    feat_type:
+      - Charclass
+    prereq:
+      level: 12
+    shortdesc: "**Requirements** You are wielding a shield.%r%rOnce you've had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you'd used the Raise a Shield action."
+    traits:
+      - fighter
+      - stance
   Desperate Finisher:
     assoc_charclass:
       - Fighter
@@ -10247,6 +10291,17 @@ pf2e_feats:
         toggleable: true
         suboptions: [{"label": "{item|name}", "value": "interweave-dispel"}]
         label: "Spellshape"
+  Form Lock:
+    assoc_charclass:
+      - Monk
+    feat_type:
+      - Charclass
+    prereq:
+      level: 14
+    shortdesc: "**Requirements** You have a creature grabbed or restrained.%r%rYour ability to manipulate your enemy's entire body is potent enough that you can tear and break apart alternate forms. Attempt an Athletics check to counteract a polymorph effect currently affecting the creature you have grabbed or restrained. If the target is somehow under the effect of multiple polymorph effects, you can choose which one to attempt to counteract; the GM chooses randomly if the separate effects aren't obvious. The target is then temporarily immune for 1 day."
+    traits:
+      - attack
+      - monk
   Ironblood Surge:
     assoc_charclass:
       - Monk
@@ -11392,6 +11447,18 @@ pf2e_feats:
     shortdesc: Your knowledge of monsters is so incredible that it reveals glaring flaws in your prey. Your bonus from Monster Hunter (and the bonus from Monster Warden if you have it) increases from +1 to +2 for you and any allies who benefit.
     traits:
       - ranger
+  Improved Reflexive Shield:
+    assoc_charclass:
+      - Fighter
+    feat_type:
+      - Charclass
+    prereq:
+      level: 16
+      feat:
+        - Reflexive Shield
+    shortdesc: Your shield can help save nearby allies from danger. When you use Shield Block against damage resulting from a Reflex save, adjacent allies who would take damage due to Reflex saves against the same effect also benefit from the damage reduction.
+    traits:
+      - fighter
   Master of Many Styles:
     assoc_charclass:
       - Fighter

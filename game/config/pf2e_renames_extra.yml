@@ -8,4 +8,7 @@ pf2e_renames:
     "Ray of Frost":
       status: renamed
       to: "Frostbite"
-  feats: {}
+  feats:
+    "Harbinger's Caw":
+      status: renamed
+      to: "Harbinger's Claw"
