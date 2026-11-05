@@ -42,6 +42,13 @@ pf2e_runes:
     rarity: "uncommon"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "anchoring"
+        outcome: ["criticalSuccess"]
+        title: "Anchoring"
+        text: "If you critically hit a target with an anchoring weapon, the weapon casts Dimensional Anchor on the target (DC 27 Will, counteract modifier +17)."
   Antimagic:
     slug: "antimagic"
     kind: "armor"
@@ -66,6 +73,11 @@ pf2e_runes:
         dieSize: "d4"
         damageType: "fire"
         category: "persistent"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "ashen"
+        title: "Ashen"
+        text: "This ash clouds the senses, causing the creature to become Confused for 1 round unless it succeeds at a DC 25 Will save."
   Assisting:
     slug: "assisting"
     kind: "armor"
@@ -132,6 +144,13 @@ pf2e_runes:
     rarity: "uncommon"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "bloodthirsty"
+        outcome: ["criticalSuccess"]
+        title: "Bloodbane"
+        text: "When you critically hit a target that's taking Persistent Bleed Damage, your target becomes Drained 1."
   Bolkas Blessing:
     slug: "bolkasBlessing"
     kind: "weapon"
@@ -169,6 +188,12 @@ pf2e_runes:
         dieSize: "d4"
         damageType: "vitality"
         predicate: ["target:negative-healing"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "brilliant"
+        outcome: ["criticalSuccess"]
+        title: "Brilliant"
+        text: "On a critical hit, the target must succeed at a DC 29 Fortitude save or be Blinded for 1 round."
   Called:
     slug: "called"
     kind: "weapon"
@@ -226,6 +251,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "acid"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "corrosive"
+        outcome: ["criticalSuccess"]
+        title: "Corrosive"
+        text: "On a critical hit, the target's armor (if any) takes 3d6 acid damage (before applying Hardness); if the target has a shield raised, the shield takes this damage instead."
   Crushing:
     slug: "crushing"
     kind: "weapon"
@@ -234,6 +265,14 @@ pf2e_runes:
     rarity: "uncommon"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "crushing"
+        outcome: ["criticalSuccess"]
+        title: "Crushing"
+        text: "When you critically hit a target with this weapon, your target becomes Clumsy 1 and Enfeebled 1 until the end of your next turn. Effect: Crushing"
+        effects: ["Effect: Crushing"]
   Cunning:
     slug: "cunning"
     kind: "weapon"
@@ -351,6 +390,13 @@ pf2e_runes:
         damageType: "vitality"
         category: "persistent"
         predicate: ["target:negative-healing"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "disrupting"
+        outcome: ["criticalSuccess"]
+        predicate: ["target:negative-healing"]
+        title: "Vitalizing"
+        text: "On a critical hit, the undead is also Enfeebled 1 until the end of your next turn."
   Earthbinding:
     slug: "earthbinding"
     kind: "weapon"
@@ -426,6 +472,13 @@ pf2e_runes:
       - "fear"
       - "magical"
       - "mental"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "fearsome"
+        outcome: ["criticalSuccess"]
+        title: "Fearsome"
+        text: "When you critically hit with this weapon, the target becomes Frightened 1."
   Fire Resistant:
     slug: "fireResistant"
     kind: "armor"
@@ -467,6 +520,13 @@ pf2e_runes:
     traits:
       - "illusion"
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "flickering"
+        outcome: ["criticalSuccess"]
+        title: "Flickering"
+        text: "On a critical hit, the weapon flashes bright pulses of color into the creature's eyes, Dazzling the creature for 1 round (this effect has the visual trait)."
   Flurrying:
     slug: "flurrying"
     kind: "weapon"
@@ -499,6 +559,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "cold"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "frost"
+        outcome: ["criticalSuccess"]
+        title: "Frost"
+        text: "On a critical hit, the target is also Slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save."
   Ghost Touch:
     slug: "ghostTouch"
     kind: "weapon"
@@ -523,6 +589,13 @@ pf2e_runes:
         dieSize: "d6"
         damageType: "mental"
         predicate: ["target:trait:giant"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "giantKilling"
+        outcome: ["criticalSuccess"]
+        predicate: ["target:trait:giant"]
+        title: "Giant-Killing"
+        text: "On a critical hit with this weapon, the giant is also Enfeebled 1 until the end of your next turn."
   Glamered:
     slug: "glamered"
     kind: "armor"
@@ -564,6 +637,19 @@ pf2e_runes:
     rarity: "uncommon"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterAnchoring"
+        outcome: ["criticalSuccess"]
+        title: "Greater Anchoring"
+        text: "When you critically hit a target with a weapon with the anchoring rune, the weapon casts 8th-rank Dimensional Anchor on the target (DC 38 Will, counteract modifier +28), except that if the target critically succeeds at its Will save, instead of having no effect, the dimensional anchor lasts for 1 round."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterAnchoring"
+        outcome: ["success"]
+        title: "Greater Anchoring"
+        text: "When you hit a target with the weapon but don't critically hit, the target is affected by 4th-rank Dimensional Anchor for 1 round without a save (counteract modifier +28)."
   Greater Ashen:
     slug: "greaterAshen"
     kind: "weapon"
@@ -580,6 +666,11 @@ pf2e_runes:
         dieSize: "d8"
         damageType: "fire"
         category: "persistent"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterAshen"
+        title: "Greater Ashen"
+        text: "This ash clouds the senses, causing the creature to become Confused for 1 round unless it succeeds at a DC 35 Will save. On a critical failure, the effect lasts for 1 minute."
   Greater Astral:
     slug: "greaterAstral"
     kind: "weapon"
@@ -642,6 +733,18 @@ pf2e_runes:
         dieSize: "d4"
         damageType: "vitality"
         predicate: ["target:negative-healing"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterBrilliant"
+        outcome: ["criticalSuccess"]
+        title: "Greater Brilliant"
+        text: "Damage dealt by this weapon ignores the target's resistances to fire, spirit, and vitality. On a critical hit, the target must succeed at a DC 41 Fortitude save or be Blinded for 1 round."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterBrilliant"
+        outcome: ["success"]
+        title: "Greater Brilliant"
+        text: "Damage dealt by this weapon ignores the target's resistances to fire, spirit, and vitality."
   Greater Cold Resistant:
     slug: "greaterColdResistant"
     kind: "armor"
@@ -674,6 +777,18 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "acid"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterCorrosive"
+        outcome: ["criticalSuccess"]
+        title: "Greater Corrosive"
+        text: "The acid damage dealt by this weapon ignores the target's acid resistance. On a critical hit, the target's armor (if any) takes 6d6 acid damage (before applying Hardness); if the target has a shield raised, the shield takes this damage instead."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterCorrosive"
+        outcome: ["success"]
+        title: "Greater Corrosive"
+        text: "The acid damage dealt by this weapon ignores the target's acid resistance."
   Greater Crushing:
     slug: "greaterCrushing"
     kind: "weapon"
@@ -682,6 +797,14 @@ pf2e_runes:
     rarity: "uncommon"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterCrushing"
+        outcome: ["criticalSuccess"]
+        title: "Greater Crushing"
+        text: "Your critical hits leave the target Clumsy 2 and Enfeebled 2 until the end of your next turn. Effect: Crushing (Greater)"
+        effects: ["Effect: Crushing (Greater)"]
   Greater Decaying:
     slug: "greaterDecaying"
     kind: "weapon"
@@ -724,6 +847,13 @@ pf2e_runes:
         damageType: "vitality"
         category: "persistent"
         predicate: ["target:negative-healing"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterDisrupting"
+        outcome: ["criticalSuccess"]
+        predicate: ["target:negative-healing"]
+        title: "Greater Vitalizing"
+        text: "On a critical hit, the undead creature is Enfeebled 1 and Stupefied 1 as long as it has the persistent damage from this rune."
   Greater Dread:
     slug: "greaterDread"
     kind: "armor"
@@ -779,6 +909,13 @@ pf2e_runes:
       - "fear"
       - "magical"
       - "mental"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterFearsome"
+        outcome: ["criticalSuccess"]
+        title: "Greater Fearsome"
+        text: "When you critically hit with this weapon, the target becomes Frightened 2."
   Greater Fire Resistant:
     slug: "greaterFireResistant"
     kind: "armor"
@@ -835,6 +972,18 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "cold"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterFrost"
+        outcome: ["criticalSuccess"]
+        title: "Greater Frost"
+        text: "Cold damage dealt by this weapon ignores the target's cold resistance. On a critical hit, the target is also Slowed 1 until the end of your next turn unless it succeeds at a DC 34 Fortitude save."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterFrost"
+        outcome: ["success"]
+        title: "Greater Frost"
+        text: "Cold damage dealt by this weapon ignores the target's cold resistance."
   Greater Giant Killing:
     slug: "greaterGiantKilling"
     kind: "weapon"
@@ -851,6 +1000,13 @@ pf2e_runes:
         dieSize: "d6"
         damageType: "mental"
         predicate: ["target:trait:giant"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterGiantKilling"
+        outcome: ["criticalSuccess"]
+        predicate: ["target:trait:giant"]
+        title: "Greater Giant-Killing"
+        text: "On a critical hit with this weapon, the giant must attempt a DC 34 Fortitude with the following effects.%rCritical Success The giant is Enfeebled 1 until the end of your next turn.%rSuccess The giant is Enfeebled 2 until the end of your next turn and takes 1d10 mental.%rFailure The giant is Enfeebled 2 for the next minute and takes 2d10 mental.%rCritical Failure The giant is Enfeebled 4 for the next minute and takes 4d10 mental."
   Greater Hauling:
     slug: "greaterHauling"
     kind: "weapon"
@@ -875,6 +1031,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "force"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterImpactful"
+        outcome: ["criticalSuccess"]
+        title: "Greater Impactful"
+        text: "On a critical hit, you can choose to force the target to succeed at a DC 37 Fortitude save or be pushed 10 feet away from you."
   Greater Invisibility:
     slug: "greaterInvisibility"
     kind: "armor"
@@ -926,6 +1088,13 @@ pf2e_runes:
       - "plant"
       - "magical"
       - "wood"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterRooting"
+        outcome: ["criticalSuccess"]
+        title: "Greater Rooting"
+        text: "When you critically hit a target with this weapon, roots grow from the target. It's immobilized for 1 round (escape dc=28) and Clumsy 1 for as long as the immobilization lasts."
   Greater Shadow:
     slug: "greaterShadow"
     kind: "armor"
@@ -950,6 +1119,18 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "electricity"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterShock"
+        outcome: ["criticalSuccess"]
+        title: "Greater Shock"
+        text: "Electricity damage dealt by this weapon ignores the targets electricity resistance (and the other creatures' on a critical hit). On a critical hit, electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the target."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterShock"
+        outcome: ["success"]
+        title: "Greater Shock"
+        text: "Electricity damage dealt by this weapon ignores the target's electricity resistance."
   Greater Slick:
     slug: "greaterSlick"
     kind: "armor"
@@ -998,6 +1179,18 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "sonic"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterThundering"
+        outcome: ["criticalSuccess"]
+        title: "Greater Thundering"
+        text: "Sonic damage dealt by this weapon ignores the target's sonic resistance. On a critical hit, the target has to succeed at a DC 34 Fortitude save or be Deafened permanently."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "greaterThundering"
+        outcome: ["success"]
+        title: "Greater Thundering"
+        text: "Sonic damage dealt by this weapon ignores the target's sonic resistance."
   Greater Trudds Strength:
     slug: "greaterTruddsStrength"
     kind: "weapon"
@@ -1031,6 +1224,97 @@ pf2e_runes:
         damageType: "bleed"
         critical: true
         predicate: ["critical-specialization", "item:group:dart"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:axe"]
+        title: "Grievous"
+        text: "You can damage a third creature, with the same restrictions."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:bow"]
+        title: "Grievous"
+        text: "The Athletics check to pull the missile free is DC 20."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: [{"or": ["item:group:brawling", "item:group:firearm"]}]
+        title: "Grievous"
+        text: "The target takes a -4 circumstance penalty to its save."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:club"]
+        title: "Grievous"
+        text: "You can knock the target up to 15 feet away."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:crossbow"]
+        title: "Grievous"
+        text: "If the target of the critical hit is adjacent to a surface, it gets stuck to that surface by the missile, as the bow critical specialization."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:flail"]
+        title: "Grievous"
+        text: "You move the target 5 feet. You can't move it away from you, but you can move it in another direction of your choice."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:hammer"]
+        title: "Grievous"
+        text: "You can also knock the target 5 feet away from you."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:knife"]
+        title: "Grievous"
+        text: "The target takes a -5-foot status penalty to its Speed while it has the Persistent Bleed Damage."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:polearm"]
+        title: "Grievous"
+        text: "You can move the target up to 10 feet."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:shield"]
+        title: "Grievous"
+        text: "You can knock the target up to 10 feet away."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:sling"]
+        title: "Grievous"
+        text: "The target also takes a -10-foot status penalty to its Speed for 1 round if it fails the save."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:spear"]
+        title: "Grievous"
+        text: "The clumsy condition lasts for 2 rounds."
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "grievous"
+        outcome: ["criticalSuccess"]
+        predicate: ["item:group:sword"]
+        title: "Grievous"
+        text: "The target is off-guard until the end of your next turn."
   Hauling:
     slug: "hauling"
     kind: "weapon"
@@ -1079,6 +1363,13 @@ pf2e_runes:
     rarity: "uncommon"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-attack"
+        slug: "hopeful"
+        outcome: ["criticalSuccess"]
+        title: "Hopeful"
+        text: "On a critical hit with this weapon, you inspire your comrades, pushing them to fight harder and stand for your shared convictions. Allies within 30 feet that share at least one alignment component with you gain a +1 status bonus to attack rolls until the end of your next turn."
   Immovable:
     slug: "immovable"
     kind: "armor"
@@ -1103,6 +1394,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "force"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "impactful"
+        outcome: ["criticalSuccess"]
+        title: "Impactful"
+        text: "On a critical hit, you can choose to force the target to succeed at a DC 27 Fortitude save or be pushed 5 feet away from you."
   Implacable:
     slug: "implacable"
     kind: "armor"
@@ -1221,6 +1518,13 @@ pf2e_runes:
       - "plant"
       - "magical"
       - "wood"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "majorRooting"
+        outcome: ["criticalSuccess"]
+        title: "Major Rooting"
+        text: "When you critically hit a target with this weapon, roots grow from the target. It's immobilized for 1 round (escape dc=34) and Clumsy 1 for as long as the immobilization lasts."
   Major Shadow:
     slug: "majorShadow"
     kind: "armor"
@@ -1331,6 +1635,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "mental"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "nightmare"
+        outcome: ["criticalSuccess"]
+        title: "Nightmare"
+        text: "On a critical hit, the target becomes Stupefied 1 by overwhelming visions in their mind of personal horrors that linger. If you critically hit a creature that's already stupefied, it becomes Frightened 2 as well. These critical hit effects have the emotion, fear, and mental traits."
   Pacifying:
     slug: "pacifying"
     kind: "weapon"
@@ -1380,6 +1690,12 @@ pf2e_runes:
     rarity: "common"
     traits:
       - "magical"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-attack"
+        slug: "returning"
+        title: "Returning"
+        text: "When you make a thrown Strike with this weapon, it flies back to your hand after the Strike is complete. If your hands are full when the weapon returns, it falls to the ground in your space."
   Rock Braced:
     slug: "rockBraced"
     kind: "armor"
@@ -1400,6 +1716,13 @@ pf2e_runes:
       - "plant"
       - "magical"
       - "wood"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "rooting"
+        outcome: ["criticalSuccess"]
+        title: "Rooting"
+        text: "When you critically hit a target with this weapon, roots grow from the target. It's immobilized for 1 round (escape dc=23) and Clumsy 1 for as long as the immobilization lasts."
   Safeguarding:
     slug: "safeguarding"
     kind: "armor"
@@ -1463,6 +1786,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "electricity"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "shock"
+        outcome: ["criticalSuccess"]
+        title: "Shock"
+        text: "On a critical hit, electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the target."
   Shockwave:
     slug: "shockwave"
     kind: "weapon"
@@ -1480,6 +1809,13 @@ pf2e_runes:
         damageType: "bludgeoning"
         damageCategory: "splash"
         predicate: ["item:melee", "item:damage:type:bludgeoning"]
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "shockwave"
+        outcome: ["success", "criticalSuccess"]
+        predicate: ["item:melee", "item:damage:type:bludgeoning"]
+        title: "Shockwave"
+        text: "The attacker is immune to the splash damage."
   Sidestepping:
     slug: "sidestepping"
     kind: "armor"
@@ -1593,6 +1929,12 @@ pf2e_runes:
         diceNumber: 1
         dieSize: "d6"
         damageType: "sonic"
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "thundering"
+        outcome: ["criticalSuccess"]
+        title: "Thundering"
+        text: "On a critical hit, the target has to succeed at a DC 24 Fortitude save or be Deafened for 1 minute (or 1 hour on a critical failure)."
   Trudds Strength:
     slug: "truddsStrength"
     kind: "weapon"
@@ -1619,6 +1961,13 @@ pf2e_runes:
       - "plant"
       - "magical"
       - "wood"
+    rules:
+      - key: "Note"
+        selector: "{item|id}-damage"
+        slug: "trueRooting"
+        outcome: ["criticalSuccess"]
+        title: "True Rooting"
+        text: "When you critically hit a target with this weapon, roots grow from the target. It's immobilized for 1 round (escape dc=41) and Clumsy 1 for as long as the immobilization lasts."
   True Stanching:
     slug: "trueStanching"
     kind: "armor"
