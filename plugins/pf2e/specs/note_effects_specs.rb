@@ -211,6 +211,48 @@ module AresMUSH
         it "should not show with another weapon's damage" do
           expect(Rules.notes([ source ], [ '78-damage' ], [])).to eq []
         end
+
+        # Raven's review of #9: an ordinary Longsword hit told Crushing's note and put Effect: Crushing on
+        # the goblin. 42 of the 53 rune notes are for critical hits only.
+        describe "on a Strike" do
+          let(:actor) { double('actor', :holder => double('Character', :id => 1, :pf2_level => 4, :pf2_traits => [ 'human' ]), :label => 'Aria') }
+          let(:target) { double('target', :holder => double('Character', :id => 2), :label => 'Goblin Warrior #2') }
+          let(:scene) { Acting::Scene.new(nil, actor, target, nil, true) }
+          let(:out) { Acting.report }
+
+          before(:each) do
+            allow(Global).to receive(:read_config).and_call_original
+            allow(Global).to receive(:read_config).with('pf2e_note_effects').and_return(table)
+            allow(Acting).to receive(:told) { |key, args = {}| "#{key} #{args.values.join(' | ')}" }
+            allow(ActiveEffects).to receive(:remaining).and_return('1 round')
+            allow(Domains).to receive(:for).and_return([ '77-damage' ])
+            allow(Effects).to receive(:options).and_return([])
+            allow(Effects).to receive(:sources).and_return([ source ])
+            allow(Pf2eCombat).to receive(:attack_options).and_return([])
+          end
+
+          def strike(degree)
+            NoteEffects.tell(scene, Damage.notes(actor.holder, {}, [], degree), out, :degree => degree)
+          end
+
+          it "should neither tell Crushing's note nor apply its effect on an ordinary hit" do
+            expect(ActiveEffects).not_to receive(:apply)
+
+            strike(Degree::SUCCESS)
+
+            expect(out['lines']).to eq []
+          end
+
+          it "should tell it and put Effect: Crushing on the target on a critical hit" do
+            expect(ActiveEffects).to receive(:apply).with(target.holder, 'Effect: Crushing', anything)
+                                                    .and_return(Ok.new(:state => double('effect', :name => 'Effect: Crushing')))
+
+            strike(Degree::CRITICAL_SUCCESS)
+
+            expect(out['lines'].first).to include('When you critically hit')
+            expect(out['lines']).to include('pf2e.act_now_under Goblin Warrior #2 | Effect: Crushing | 1 round')
+          end
+        end
       end
     end
   end
