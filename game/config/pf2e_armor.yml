@@ -887,7 +887,7 @@ pf2e_armor:
         selector: "{item|id}-attack"
         outcome: ["criticalSuccess"]
         title: "{item|name}"
-        text: "On a critical hit with the horns, the target must succeed at a or become Drained 1 (or Drained 2 on a critical failure)."
+        text: "On a critical hit with the horns, the target must succeed at a DC 30 Fortitude or become Drained 1 (or Drained 2 on a critical failure)."
       - key: "GrantItem"
         uuid: "Compendium.pf2e.conditionitems.Item.Drained"
         inMemoryOnly: true

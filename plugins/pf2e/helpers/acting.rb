@@ -1063,9 +1063,11 @@ module AresMUSH
         # Whoever struck from hiding is seen for it.
         conceal(scene, scene.actor, nil, out) if unseen
 
-        # The attack's notes for its outcome, and the effects they link: Sympathetic Strike's on a hit.
+        # The attack's notes for its outcome, and the effects they link: Sympathetic Strike's on a hit. A
+        # bomb's own effect is left to the hit, which puts it on.
         degree = rolled.dig('result', 'degree')
-        NoteEffects.tell(scene, check.notes(degree), out, :degree => degree) if degree
+        NoteEffects.tell(scene, check.notes(degree), out, :degree => degree,
+                         :done => [ attack['bomb'] && attack['effect'] ].compact) if degree
 
         # A hit kept to be answered is the last attack's; one that misses leaves nothing to answer.
         unless rolled['hit'] || scene.target.creature?

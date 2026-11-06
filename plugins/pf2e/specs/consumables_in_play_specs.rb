@@ -252,6 +252,49 @@ module AresMUSH
           expect(ActiveEffects.on(goblin).map(&:name)).to include('Effect: Glue Bomb')
         end
 
+        # A bomb in a pack is not worn, and its notes name its own attack, so they come with its throw
+        # and no other Strike. The hit puts on the bomb's effect; the note that links it does not again.
+        describe "a glue bomb's notes" do
+          before(:each) do
+            carry(@hero, 'Glue Bomb (Lesser)')
+            @hero = Character[@hero.id]
+            PF2Encounter[@encounter.id].states.each(&:delete)
+            Combatants.leave(PF2Encounter[@encounter.id], Combatants.rows(PF2Encounter[@encounter.id]).find { |row| row['char'] }['id'])
+            join(@hero)
+          end
+
+          def glue_effects
+            ActiveEffects.on(goblin).map(&:name).count('Effect: Glue Bomb')
+          end
+
+          it "should tell its note on a hit, and put its effect on once" do
+            run(PF2EncounterStrikeCmd, "e/strike ##{@goblin['id']}=glue bomb")
+
+            expect(@client.failures).to eq []
+            expect(said).to include('On a hit, -10-foot Speed penalty for 1 minute.')
+            expect(said).not_to include('Immobilized')
+            expect(said).not_to include('is now under Effect: Glue Bomb')
+            expect(glue_effects).to eq 1
+          end
+
+          it "should tell its critical hit's note on a critical hit" do
+            @dice = 1.0
+
+            run(PF2EncounterStrikeCmd, "e/strike ##{@goblin['id']}=glue bomb")
+
+            expect(said).to include('Immobilized for 1 round')
+            expect(said).not_to include('On a hit,')
+            expect(glue_effects).to eq 1
+          end
+
+          it "should not tell its notes with another bomb's Strike" do
+            run(PF2EncounterStrikeCmd, "e/strike ##{@goblin['id']}=alchemist's fire")
+
+            expect(said).to include("Alchemist's Fire (Lesser)")
+            expect(said).not_to include('Speed penalty')
+          end
+        end
+
         # Splash lands on a miss too, though not on a critical miss.
         it "should splash the target when it misses" do
           @dice = 0.4

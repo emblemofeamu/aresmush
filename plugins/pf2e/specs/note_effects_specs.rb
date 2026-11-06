@@ -119,14 +119,16 @@ module AresMUSH
           expect(made['holder']).to be actor.holder
         end
 
-        it "should offer an effect the player chooses, by the command that applies it" do
+        # `effect/add` is the GM's to use, so the command goes to them and not to the room.
+        it "should offer the GM an effect the player chooses, by the command that applies it" do
           bomb = { 'source' => 'Debilitating Bomb', 'text' => 'The target must succeed...', 'outcome' => %w{success},
                    'effects' => [ 'Effect: Debilitating Bomb' ] }
           expect(ActiveEffects).not_to receive(:apply)
 
           NoteEffects.tell(scene, [ bomb ], out, :degree => Degree::SUCCESS)
 
-          expect(out['lines']).to include('pf2e.act_note_effect Effect: Debilitating Bomb | effect/add Goblin=Effect: Debilitating Bomb')
+          expect(out['gm']).to eq [ 'pf2e.act_note_effect Effect: Debilitating Bomb | effect/add Goblin=Effect: Debilitating Bomb' ]
+          expect(out['lines']).to eq [ 'pf2e.act_note The target must succeed...' ]
         end
 
         # A note with no outcome holds whatever happened, so nothing says the effect's moment came.
@@ -135,7 +137,19 @@ module AresMUSH
 
           NoteEffects.tell(scene, [ sympathetic.merge('outcome' => []) ], out, :degree => Degree::SUCCESS)
 
-          expect(out['lines'].grep(/act_note_effect/).size).to eq 1
+          expect(out['gm'].grep(/act_note_effect/).size).to eq 1
+        end
+
+        # Divine Rebuttal's effect is for every ally, so the table leaves it out and nobody is offered it.
+        it "should neither apply nor offer an effect the table leaves out, and still tell the note" do
+          rebuttal = { 'source' => 'Divine Rebuttal', 'text' => 'Your allies gain...', 'outcome' => %w{success},
+                       'effects' => [ 'Effect: Divine Rebuttal' ] }
+          expect(ActiveEffects).not_to receive(:apply)
+
+          NoteEffects.tell(scene, [ rebuttal ], out, :degree => Degree::SUCCESS)
+
+          expect(out['lines']).to eq [ 'pf2e.act_note Your allies gain...' ]
+          expect(out['gm']).to eq []
         end
 
         # Raven's review of #8: a note for critical hits only came out on every hit.
@@ -171,7 +185,7 @@ module AresMUSH
             NoteEffects.tell(scene, Damage.notes(striker, {}, [], Degree::SUCCESS), out, :degree => Degree::SUCCESS)
 
             expect(out['lines'].grep(/critically hit/)).to eq []
-            expect(out['lines'].grep(/act_now_under|act_note_effect/)).to eq []
+            expect((out['lines'] + out['gm']).grep(/act_now_under|act_note_effect/)).to eq []
             expect(out['lines']).to include('pf2e.act_note The target is slowed.')
           end
 
@@ -190,7 +204,7 @@ module AresMUSH
 
           NoteEffects.tell(scene, [ sympathetic ], out, :degree => Degree::SUCCESS, :done => [ 'Effect: Sympathetic Strike' ])
 
-          expect(out['lines'].grep(/act_now_under|act_note_effect/)).to eq []
+          expect((out['lines'] + out['gm']).grep(/act_now_under|act_note_effect/)).to eq []
         end
       end
 

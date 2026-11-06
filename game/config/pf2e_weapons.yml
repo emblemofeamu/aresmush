@@ -1933,7 +1933,7 @@ pf2e_weapons:
         selector: "{item|id}-attack"
         outcome: ["criticalSuccess"]
         title: "{item|name}"
-        text: "When you critically succeed at an attack roll with the serpent dagger , the target becomes Sickened 1 unless it succeeds at a save."
+        text: "When you critically succeed at an attack roll with the serpent dagger, the target becomes Sickened 1 unless it succeeds at a DC 19 Fortitude save."
   Shield Boss:
     wp_type: melee
     category: martial

@@ -10,6 +10,10 @@ pf2e_foundry_source:
       commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
       version: 8.6.1
       committed: '2026-10-13T23:55:06-04:00'
+    import_foundry_rules:
+      commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
+      version: 8.6.1
+      committed: '2026-10-13T23:55:06-04:00'
     import_foundry_runes:
       commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
       version: 8.6.1
@@ -115,9 +119,27 @@ pf2e_foundry_source:
     game/bestiary/wardens-of-wildwood-bestiary.yml:
       by: import_foundry_npcs
       sha256: e9835dee7fc58575d50da0810fab0953d7e1dd22255634dc9b3cbe49b8275b73
+    game/config/pf2e_armor.yml:
+      by: import_foundry_rules
+      sha256: 81a0a98e2aeffce5e8ccf45f9ef6d147c9857325cc3ab32e76a71ca1865f1084
+    game/config/pf2e_consumables.yml:
+      by: import_foundry_rules
+      sha256: 2166de86fc3e5c9ede9e0561ae3a69e1b3473e99b5d3371f01289b1ebb64faac
+    game/config/pf2e_gear.yml:
+      by: import_foundry_rules
+      sha256: 8c4437833cc3aa3b703bc16c9d1de564b03c76815588ba8460b4a801cfed617d
+    game/config/pf2e_magicitem.yml:
+      by: import_foundry_rules
+      sha256: bc44442dd94437503a205699eec93fe178f9fe538782061bc1e958c225babaa2
     game/config/pf2e_renames.yml:
       by: import_remaster_renames
       sha256: 7818680709bcd65e53eb5ed2cddea55c5a7196f187314d5a32c71cf508ddb56a
     game/config/pf2e_runes.yml:
       by: import_foundry_runes
       sha256: e510eb0fb70bcd448d1bf0737d5b3cef1c555820d2901c6d0520d088fd5a72c2
+    game/config/pf2e_shields.yml:
+      by: import_foundry_rules
+      sha256: 44439476b06fa653c2383577d661f88eb7371b6c6fb1affead666618a254b718
+    game/config/pf2e_weapons.yml:
+      by: import_foundry_rules
+      sha256: c2e900068020ca75af14cce5946618dbed999e81f32d3a507f86848be5339148

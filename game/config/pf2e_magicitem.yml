@@ -66,29 +66,29 @@ pf2e_magicitem:
         selector: "{item|id}-ranged-damage"
         outcome: ["success"]
         title: "Antler Arrow"
-        text: "The target must succeed at a save or become stuck to the surface, taking the critical specialization effects of a bow"
+        text: "The target must succeed at a DC 16 Reflex save or become stuck to the surface, taking the critical specialization effects of a bow"
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         outcome: ["success"]
         title: "Critical Specialization"
-        text: "If the target of the critical hit is adjacent to a surface, it gets stuck to that surface by the missile. The target is Immobilized and must spend an Interact action to attempt a check to pull the missile free; it can't move from its space until it succeeds. The creature doesn't become stuck if it is incorporeal, is liquid, or could otherwise escape without effort (such as by being large enough that the missile would not be an impediment.)"
+        text: "If the target of the critical hit is adjacent to a surface, it gets stuck to that surface by the missile. The target is Immobilized and must spend an Interact action to attempt a DC 10 Athletics check to pull the missile free; it can't move from its space until it succeeds. The creature doesn't become stuck if it is incorporeal, is liquid, or could otherwise escape without effort (such as by being large enough that the missile would not be an impediment.)"
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         outcome: ["criticalSuccess"]
         title: "Antler Arrow"
-        text: "The target must succeed at a save or become stuck to the surface, taking the critical specialization effects of a bow"
+        text: "The target must succeed at a DC 16 Reflex save or become stuck to the surface, taking the critical specialization effects of a bow"
         predicate: [{"not": "critical-specialization"}]
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         outcome: ["criticalSuccess"]
         title: "Critical Specialization"
-        text: "If the target of the critical hit is adjacent to a surface, it gets stuck to that surface by the missile. The target is Immobilized and must spend an Interact action to attempt a check to pull the missile free; it can't move from its space until it succeeds. The creature doesn't become stuck if it is incorporeal, is liquid, or could otherwise escape without effort (such as by being large enough that the missile would not be an impediment.)"
+        text: "If the target of the critical hit is adjacent to a surface, it gets stuck to that surface by the missile. The target is Immobilized and must spend an Interact action to attempt a DC 10 Athletics check to pull the missile free; it can't move from its space until it succeeds. The creature doesn't become stuck if it is incorporeal, is liquid, or could otherwise escape without effort (such as by being large enough that the missile would not be an impediment.)"
         predicate: [{"not": "critical-specialization"}]
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         outcome: ["criticalSuccess"]
         title: "Antler Arrow"
-        text: "The DC of the Athletics check to pull the missile free increases to"
+        text: "The DC of the Athletics check to pull the missile free increases to DC 15 Athletics"
         predicate: ["critical-specialization"]
   Masquerade Scarf:
     traits:
@@ -469,7 +469,7 @@ pf2e_magicitem:
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         title: "Freezing Ammunition"
-        text: "The target must succeed at a save or be Slowed 1 for 1 round by the intense cold (slowed 1 for 1 minute on a critical failure)."
+        text: "The target must succeed at a DC 19 Fortitude save or be Slowed 1 for 1 round by the intense cold (slowed 1 for 1 minute on a critical failure)."
   Obsidian Goggles:
     traits:
       - invested
@@ -917,7 +917,7 @@ pf2e_magicitem:
     level: 9
     price: 57500
     bulk: 0.1
-    shortdesc: "This fine wooden box is inlaid with Khazadi runes, with hinges and a clasp of forged iron. The box contains a few handfuls of fine sand.%r%r**Activate--Replicate Earth** 1 minute (concentrate, manipulate); **Frequency** once per day; **Effect** You hold the box closed and, while envisioning the terrain, turn the box clockwise three times. When you open the box, the sand reveals, in miniature, the stone terrain surrounding you, to a range of 60 feet. This shows details of paths, hills, embankments, boulders, and even artificial structures like walls and ditches, as long as they're made of stone and earth. If you're underground, it reveals tunnels and voids in the earth within 60 feet at your current depth. The sand maintains its shape until you close the box."
+    shortdesc: "This fine wooden box is inlaid with khazdul runes, with hinges and a clasp of forged iron. The box contains a few handfuls of fine sand.%r%r**Activate--Replicate Earth** 1 minute (concentrate, manipulate); **Frequency** once per day; **Effect** You hold the box closed and, while envisioning the terrain, turn the box clockwise three times. When you open the box, the sand reveals, in miniature, the stone terrain surrounding you, to a range of 60 feet. This shows details of paths, hills, embankments, boulders, and even artificial structures like walls and ditches, as long as they're made of stone and earth. If you're underground, it reveals tunnels and voids in the earth within 60 feet at your current depth. The sand maintains its shape until you close the box."
   Eternal Eruption of the Sky Curtains:
     traits:
       - fire
@@ -939,7 +939,7 @@ pf2e_magicitem:
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         title: "Explosive Ammunition"
-        text: "The missile explodes in a 10-foot burst, dealing 6d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 25 Reflex save."
+        text: "The missile explodes in a 10-foot burst, dealing 6d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 25 basic Reflex save."
   Eyes of the Cat:
     traits:
       - invested
@@ -1162,6 +1162,11 @@ pf2e_magicitem:
         selector: "intimidation"
         type: "item"
         value: 1
+      - key: "FlatModifier"
+        selector: "{actor|flags.system.witch.patronSkill}"
+        type: "item"
+        value: 2
+        predicate: [{"or": ["class:witch", "feat:witch-dedication"]}]
   Daredevil Boots:
     traits:
       - invested
@@ -1556,7 +1561,7 @@ pf2e_magicitem:
       - key: "Note"
         selector: "{item|id}-ranged-damage"
         title: "Explosive Ammunition (Greater)"
-        text: "The missile explodes in a 10-foot burst, dealing 10d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 30 Reflex save."
+        text: "The missile explodes in a 10-foot burst, dealing 10d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 30 basic Reflex save."
   Eye of Fortune:
     traits:
       - invested
@@ -1564,7 +1569,7 @@ pf2e_magicitem:
     level: 13
     price: 270000
     bulk: 0
-    shortdesc: "Adherents of Erastil, god of the hunt, create these magical eye patches. An *eye of fortune* has a jeweled eye symbol on its front, allowing you to magically see through the eye patch as though it were transparent.%r%r**Activate--Luck Beyond Sight** Free Action (concentrate, fortune); **Trigger** You attack a concealed or hidden creature and haven't attempted the flat check yet; **Effect** You can roll the flat check for the concealed or hidden condition twice and use the higher result."
+    shortdesc: "Adherents of Gilead, god of the hunt, create these magical eye patches. An *eye of fortune* has a jeweled eye symbol on its front, allowing you to magically see through the eye patch as though it were transparent.%r%r**Activate--Luck Beyond Sight** Free Action (concentrate, fortune); **Trigger** You attack a concealed or hidden creature and haven't attempted the flat check yet; **Effect** You can roll the flat check for the concealed or hidden condition twice and use the higher result."
   Propulsive Boots:
     traits:
       - invested
@@ -1805,13 +1810,6 @@ pf2e_magicitem:
     price: 1000000
     bulk: 0
     shortdesc: "Attacks with a *quickstrike* weapon are supernaturally swift. While wielding a *quickstrike* weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon."
-  Reinforcing Rune (Major):
-    traits:
-      - magical
-    level: 16
-    price: 800000
-    bulk: 0
-    shortdesc: "Reinforcing runes make a shield significantly more durable, allowing it to effectively block more powerful attacks.%r%rThe shield's Hardness increases by 5, it gains an additional 84 Hit Points, and its BT increases by 42 (maximum 17 Hardness, 136 HP, and 68 BT)."
   Wand of Widening (7th-Rank Spell):
     traits:
       - magical
@@ -1824,13 +1822,6 @@ pf2e_magicitem:
       - key: "RollOption"
         option: "wand-of-widening"
         toggleable: true
-  Weapon Potency (+3):
-    traits:
-      - magical
-    level: 16
-    price: 893500
-    bulk: 0
-    shortdesc: "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +3 item bonus, and the weapon can be etched with three property rune.%r%rYou can upgrade the *weapon potency* rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.%r%r**Craft Requirements** You are legendary in Crafting."
   # Level 17 Magic Items
   Alchemist Goggles (Major):
     traits:
@@ -2097,6 +2088,11 @@ pf2e_magicitem:
         selector: "intimidation"
         type: "item"
         value: 2
+      - key: "FlatModifier"
+        selector: "{actor|flags.system.witch.patronSkill}"
+        type: "item"
+        value: 3
+        predicate: [{"or": ["class:witch", "feat:witch-dedication"]}]
   Inexplicable Apparatus:
     traits:
       - invested
@@ -2241,13 +2237,6 @@ pf2e_magicitem:
         selector: "intimidation"
         type: "item"
         value: 3
-  Reinforcing Rune (Supreme):
-    traits:
-      - magical
-    level: 19
-    price: 3200000
-    bulk: 0
-    shortdesc: "Reinforcing runes make a shield significantly more durable, allowing it to effectively block more powerful attacks.%r%rThe shield's Hardness increases by 7, it gains an additional 108 Hit Points, and its BT increases by 54 (maximum 20 Hardness, 160 HP, and 80 BT)."
   Spellstrike Ammunition (Type IX):
     traits:
       - consumable

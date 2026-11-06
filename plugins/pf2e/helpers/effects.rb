@@ -439,6 +439,9 @@ module AresMUSH
       #
       # Its id is its own, because a rule may name it - a rune that adds fire damage to *this* sword
       # says `{item|id}-damage`, and the sword's damage domains include exactly that.
+      #
+      # A bomb is never worn, only carried and thrown. A rule of its own that names its id reaches only
+      # the Strike that throws it, as a Glue Bomb's note on `{item|_id}-attack` does, so it is kept.
       def self.items(char)
         worn = Pf2egear.effective_items(char).map { |_category, item| item.id.to_s }
 
@@ -446,7 +449,9 @@ module AresMUSH
           info = Pf2egear.catalogue_entry(category, item) || {}
           rules = Array(info['rules'])
 
-          rules = rules.reject { |row| Rules.needs_wearing?(row) } unless worn.include?(item.id.to_s)
+          unless worn.include?(item.id.to_s)
+            rules = rules.reject { |row| Rules.needs_wearing?(row) && !(info['bomb'] && own_roll?(row)) }
+          end
 
           next nil if rules.empty?
 
@@ -454,6 +459,13 @@ module AresMUSH
                  'item' => { 'id' => item.id.to_s, '_id' => item.id.to_s, 'level' => item_level(item) },
                  'options' => item_options(item))
         end.compact
+      end
+
+      # Whether a rule names only its own item's rolls, by the item's id.
+      def self.own_roll?(row)
+        selectors = Array(row['selector'])
+
+        !selectors.empty? && selectors.all? { |one| one.to_s.start_with?('{item|_id}-', '{item|id}-') }
       end
 
       # The property runes etched on what a character is carrying, each as a source of its own.

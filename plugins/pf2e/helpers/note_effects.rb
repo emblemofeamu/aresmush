@@ -3,8 +3,8 @@ module AresMUSH
 
     # A roll's notes, and the effects they link. Foundry shows a note in the chat card with a link to an
     # effect, Sympathetic Strike's on a hit, and the player drags it onto whoever it is for. Here the note
-    # is told, and each effect it links is put on whoever `pf2e_note_effects.yml` says, or offered as the
-    # `effect/add` that would.
+    # is told, and each effect it links is put on whoever `pf2e_note_effects.yml` says, or offered to the GM
+    # as the `effect/add` that would.
     #
     # One put on carries where it came from: the note's item, who rolled, and the outcome, which is what
     # Sympathetic Strike's effect reads (`parent:context:check:outcome`) to take -1 on a hit and -2 on a
@@ -23,6 +23,8 @@ module AresMUSH
 
           Array(note['effects']).each do |name|
             next if Array(done).include?(name)
+            # An effect the table leaves out, such as Divine Rebuttal's for every ally, is not for one creature.
+            next unless table.key?(name)
 
             whom = applied_to(scene, name, note, degree)
 
@@ -53,13 +55,14 @@ module AresMUSH
                                                        :lasts => ActiveEffects.remaining(applied.state))
       end
 
+      # Offered to the GM, who is the one `effect/add` lets put it on a combatant.
       def self.offer(scene, name, out)
         entry = table[name] || {}
         whom = entry['for'].to_s == 'self' ? scene.actor : scene.target
         who = whom ? whom.label : '<who>'
         line = Acting.told('pf2e.act_note_effect', :effect => name, :command => "effect/add #{who}=#{name}")
 
-        out['lines'] << line unless out['lines'].include?(line)
+        out['gm'] << line unless out['gm'].include?(line)
       end
     end
   end
