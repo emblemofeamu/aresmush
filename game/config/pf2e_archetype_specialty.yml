@@ -44,9 +44,13 @@ pf2e_archetype_specialty:
             initial_dedication: {}
           Crystal:
             initial_dedication: {}
+          Delight:
+            initial_dedication: {}
           Diabolic:
             initial_dedication: {}
           Empyreal:
+            initial_dedication: {}
+          Executor:
             initial_dedication: {}
           Forest:
             initial_dedication: {}
@@ -56,13 +60,17 @@ pf2e_archetype_specialty:
             initial_dedication: {}
           Magma:
             initial_dedication: {}
-          Mirage:
+          Mocking:
             initial_dedication: {}
           Ossuary:
             initial_dedication: {}
           Terra:
             initial_dedication: {}
+          Time:
+            initial_dedication: {}
           Umbral:
+            initial_dedication: {}
+          Whisper:
             initial_dedication: {}
     Fury:
       initial_dedication: {}
@@ -288,6 +296,14 @@ pf2e_archetype_specialty:
               skills:
               - Intimidation
               - Nature
+          Delight:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+              - Intimidation
+              - Religion
           Diabolic:
             initial_dedication:
               magic_stats:
@@ -297,6 +313,14 @@ pf2e_archetype_specialty:
               - Intimidation
               - Religion
           Empyreal:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  divine: trained
+              skills:
+              - Intimidation
+              - Religion
+          Executor:
             initial_dedication:
               magic_stats:
                 tradition:
@@ -336,14 +360,14 @@ pf2e_archetype_specialty:
               skills:
               - Intimidation
               - Nature
-          Mirage:
+          Mocking:
             initial_dedication:
               magic_stats:
                 tradition:
-                  arcane: trained
+                  occult: trained
               skills:
               - Intimidation
-              - Arcana
+              - Occultism
           Ossuary:
             initial_dedication:
               magic_stats:
@@ -360,7 +384,23 @@ pf2e_archetype_specialty:
               skills:
               - Intimidation
               - Nature
+          Time:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  arcane: trained
+              skills:
+              - Intimidation
+              - Arcana
           Umbral:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  occult: trained
+              skills:
+              - Intimidation
+              - Occultism
+          Whisper:
             initial_dedication:
               magic_stats:
                 tradition:

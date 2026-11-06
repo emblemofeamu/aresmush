@@ -311,6 +311,20 @@ pf2e_spells:
     duration: until your next daily preparations
     effect: The target's latch mechanism clinks shut, held fast by unseen magical wards. When you magically lock a target, you set an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door. If the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.
     heighten: "**2nd:** The duration is unlimited, but you must expend 6 gp worth of precious metals as an additional cost."
+  Loose Time's Arrow:
+    base_level: 2
+    traits:
+      - concentrate
+      - manipulate
+    tradition:
+      - arcane
+      - occult
+      - primal
+    actions: 2
+    range: 30 feet
+    target: up to 6 creatures
+    duration: until the end of your next turn
+    effect: "You pluck the time stream like a bow—pull one string back, release, and watch a creature fly. All affected targets are quickened. They can use the extra action only to Step or Stride."
   Loremaster's Etude:
     base_level: 1
     traits:

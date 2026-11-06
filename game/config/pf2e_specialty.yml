@@ -187,16 +187,20 @@ pf2e_specialty:
           Brine:
           Cloud:
           Crystal:
+          Delight:
           Diabolic:
           Empyreal:
+          Executor:
           Forest:
           Fortune:
           Madness:
           Magma:
-          Mirage:
+          Mocking:
           Ossuary:
           Terra:
+          Time:
           Umbral:
+          Whisper:
       instinct_ability: Draconic Rage
     Fury:
       choose_feat:
@@ -1332,16 +1336,20 @@ pf2e_specialty:
           Brine:
           Cloud:
           Crystal:
+          Delight:
           Diabolic:
           Empyreal:
+          Executor:
           Forest:
           Fortune:
           Madness:
           Magma:
-          Mirage:
+          Mocking:
           Ossuary:
           Terra:
+          Time:
           Umbral:
+          Whisper:
       chargen:
         magic_stats:
           tradition: {}

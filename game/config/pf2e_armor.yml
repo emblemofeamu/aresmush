@@ -140,6 +140,26 @@ pf2e_armor:
       fundamental:
         potency: 2
         power: 2
+  Dragonplate (Delight):
+    category: heavy
+    traits:
+      - uncommon
+      - bulwark
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
   Dragonplate (Diabolic):
     category: heavy
     traits:
@@ -161,6 +181,26 @@ pf2e_armor:
         potency: 2
         power: 2
   Dragonplate (Empyreal):
+    category: heavy
+    traits:
+      - uncommon
+      - bulwark
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Executor):
     category: heavy
     traits:
       - uncommon
@@ -260,7 +300,7 @@ pf2e_armor:
       fundamental:
         potency: 2
         power: 2
-  Dragonplate (Mirage):
+  Dragonplate (Mocking):
     category: heavy
     traits:
       - uncommon
@@ -320,7 +360,47 @@ pf2e_armor:
       fundamental:
         potency: 2
         power: 2
+  Dragonplate (Time):
+    category: heavy
+    traits:
+      - uncommon
+      - bulwark
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
   Dragonplate (Umbral):
+    category: heavy
+    traits:
+      - uncommon
+      - bulwark
+      - invested
+      - magical
+    level: 16
+    price: 1000000
+    ac_bonus: 6
+    dex_cap: 0
+    check_penalty: -3
+    speed_penalty: -10
+    min_str: 18
+    bulk: 4
+    group: Plate
+    runes:
+      fundamental:
+        potency: 2
+        power: 2
+  Dragonplate (Whisper):
     category: heavy
     traits:
       - uncommon

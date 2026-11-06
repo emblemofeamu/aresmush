@@ -12,25 +12,27 @@ pf2e_dragons:
     Cloud: { name: Cloud }
     Conspirator: { name: Avarice }
     Crystal: { name: Crystal }
+    Delight: { name: Delight }
     Diabolic: { name: Diabolic }
     Empyreal: { name: Empyreal }
+    Executor: { name: Executor }
     Forest: { name: Forest }
     Fortune: { name: Fortune }
     Horned: { name: Bestial }
     Magma: { name: Magma }
-    Mirage: { name: Mirage }
+    Mocking: { name: Mocking }
     Resurrection: { name: Ossuary }
     Sovereign: { name: Madness }
+    Time: { name: Time }
     Umbral: { name: Umbral }
+    Whisper: { name: Whisper }
   left_out:
     - Barrage
     - Bog
     - Cinder
     - Coral
-    - Delight
     - Despair
-    - Executor
-    - Mocking
+    - Mirage
     - Oath
     - Omen
     - Phase
@@ -41,10 +43,8 @@ pf2e_dragons:
     - Sea
     - Sky
     - Stormcrown
-    - Time
     - Underworld
     - Vizier
     - Vorpal
     - Wailing
-    - Whisper
     - Wish

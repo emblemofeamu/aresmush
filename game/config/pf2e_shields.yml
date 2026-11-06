@@ -64,6 +64,17 @@ pf2e_shields:
     traits:
       - uncommon
       - magical
+  Dragonslayer's Shield (Delight):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
   Dragonslayer's Shield (Diabolic):
     ac_bonus: 2
     bulk: 1
@@ -76,6 +87,17 @@ pf2e_shields:
       - uncommon
       - magical
   Dragonslayer's Shield (Empyreal):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Executor):
     ac_bonus: 2
     bulk: 1
     hardness: 8
@@ -130,7 +152,7 @@ pf2e_shields:
     traits:
       - uncommon
       - magical
-  Dragonslayer's Shield (Mirage):
+  Dragonslayer's Shield (Mocking):
     ac_bonus: 2
     bulk: 1
     hardness: 8
@@ -163,7 +185,29 @@ pf2e_shields:
     traits:
       - uncommon
       - magical
+  Dragonslayer's Shield (Time):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
   Dragonslayer's Shield (Umbral):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
+  Dragonslayer's Shield (Whisper):
     ac_bonus: 2
     bulk: 1
     hardness: 8
