@@ -31,6 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import ea_dragons  # noqa: E402
 import formula_words  # noqa: E402
+import foundry_source  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'game', 'config')
@@ -753,6 +754,7 @@ def main():
     # above are not the whole story: a kind we have not built is a larger gap than a rule we refused.
     unread = collections.Counter()
     words = strings(args.checkout)
+    written = []
 
     for pack, catalogues in SOURCES:
         if args.only and pack != args.only:
@@ -772,6 +774,7 @@ def main():
         made = class_feature_catalogue(theirs) if pack == 'class-features' else None
         if made and args.write:
             open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w').write(ea_dragons.dragon_instinct(made))
+            written.append(os.path.join(CONFIG, 'pf2e_class_features.yml'))
 
         for name in catalogues:
             path = os.path.join(CONFIG, name)
@@ -800,6 +803,10 @@ def main():
 
             if args.write and additions:
                 open(path, 'w').write(insert(text, additions))
+                written.append(path)
+
+    if written:
+        foundry_source.record(args.checkout, __file__, sorted(set(written)))
 
     print('written' if args.write else 'dry run')
     for pack, _ in SOURCES:

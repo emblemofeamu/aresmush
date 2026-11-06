@@ -1,0 +1,31 @@
+  recorded import_foundry_npcs: foundryvtt/pf2e 8.6.1 at fda67da2ad6be91aa331d35ba903e7e4eee97148
+Run `bundle exec rake pf2e:creature_clashes` for saved creatures whose names this import has taken.
+written
+  2994 creatures in 31 packs; 21 repeats of a name already read; 3338 from Legacy books left out
+  85 from Remaster books under the OGL left out: 81 Pathfinder Rage of Elements, 2 Pathfinder Society Scenario #5-11: The Hidden Current, 2 Pathfinder Society Scenario #5-13: Thick as Thieves
+    486  pathfinder-monster-core
+    441  pathfinder-monster-core-2
+    305  lost-omens-bestiary
+    269  pathfinder-npc-core
+    251  pfs-season-6-bestiary
+     83  hells-destiny-bestiary
+     76  howl-of-the-wild-bestiary
+     75  menace-under-otari-bestiary
+     73  wardens-of-wildwood-bestiary
+     72  shades-of-blood-bestiary
+     71  season-of-ghosts-bestiary
+     68  bastion-of-blasphemies-bestiary
+
+  6481 rules kept on abilities and Strikes; not kept:
+     296  path 'system.attributes.hp.negativeHealing'
+      86  an alteration of melee items, which are not things here
+      76  not read: EphemeralEffect
+      47  an alteration of description, which changes nothing modelled here
+      44  Immunity field ['mode']
+      44  path 'system.attributes.hardness.value'
+      43  selector ['damage-received']
+      28  an alteration of action items, which are not things here
+      22  an alteration of area-size, which changes nothing modelled here
+      19  selector ['deception-dc']
+      17  not read: TokenLight
+      15  not read: SpecialStatistic

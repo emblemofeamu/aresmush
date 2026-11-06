@@ -24,7 +24,12 @@ import json
 import os
 import re
 import subprocess
+import sys
 import tempfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import foundry_source  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'game', 'config')
@@ -353,6 +358,7 @@ def main():
 
     if args.write:
         open(path, 'w').write(text)
+        foundry_source.record(args.checkout, __file__, [path])
 
     carrying = sum(1 for entry in entries.values() if entry['rules'])
     rows = sum(len(entry['rules']) for entry in entries.values())

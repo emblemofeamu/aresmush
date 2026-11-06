@@ -1,0 +1,116 @@
+---
+# Which Foundry VTT pf2e commit each import last read, and each file it wrote, hashed as written.
+# Written by the importers through scripts/foundry_source.py; `scripts/import_foundry.py --check`
+# compares the files with it. `pin` is the commit `scripts/import_foundry.py` imports by default.
+pf2e_foundry_source:
+  repository: https://github.com/foundryvtt/pf2e
+  pin: fda67da2ad6be91aa331d35ba903e7e4eee97148
+  imports:
+    import_foundry_npcs:
+      commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
+      version: 8.6.1
+      committed: '2026-10-13T23:55:06-04:00'
+    import_remaster_renames:
+      commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
+      version: 8.6.1
+      committed: '2026-10-13T23:55:06-04:00'
+  files:
+    game/bestiary/bastion-of-blasphemies-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 3004d1e0ca76d360489065258316d7d1c1e286043ffb4cf37796118145284c17
+    game/bestiary/battlecry-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: ea7cbdee5a77aadada398f1de51f04814f1d5c875e4f5d17a454f525a5755411
+    game/bestiary/blog-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: fca071736df6091229f1ef3d035b650917546a14266cb701b6898c4c75448325
+    game/bestiary/claws-of-the-tyrant-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 040af15785fc35a1ccd65527232d230f1976151b862e962a71cb05db519dd73f
+    game/bestiary/curtain-call-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: b0cdd56e279cd697a2c4c5c85b8df2aa0bc8833219937b0122ca669f754dfa29
+    game/bestiary/gatewalkers-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: f8aac85c4eb00ab0c4397f38ca7e350b9c01ecf62ac58594b3076faf0529e389
+    game/bestiary/hellbreakers-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 94ba8c3f39959439ec48e9acc9a65932855156f1983494ca90356bee10e767a2
+    game/bestiary/hells-destiny-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 128f91f86f1d8a4e71194fc0106e314b84027d2e8ed843dddb721c1e7e9edc84
+    game/bestiary/howl-of-the-wild-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: e533ada3cde78b51ee63fc46e7f1b56351259f8dcb4e796d748e6215bca9795b
+    game/bestiary/index.yml:
+      by: import_foundry_npcs
+      sha256: e8ee7a67dc3cdfd502aad1455c5dc78df34fe2df068aa58043084a41d71b5f4b
+    game/bestiary/lost-omens-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 5dd1f59484b8ce2b84d098f18e0391f382a839f893608c3a3bda4d83421434e6
+    game/bestiary/menace-under-otari-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 109072fec681e89a05adfa46eb0868b63c81e912fe3e3af51f95c037ac6fd614
+    game/bestiary/myth-speaker-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 547e1788644f8d978b5f2eb01fbe91cf22a38d01fcdb688aadd318d2586682cc
+    game/bestiary/one-shot-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 93ba55b69f99af05ce75a567202d5c1a95e11cb5315a0d23feae47d009a50562
+    game/bestiary/pathfinder-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 2dcfa61987adc260422aa8ee36f1472c5a2332f748b16956b4697ca635217597
+    game/bestiary/pathfinder-dark-archive.yml:
+      by: import_foundry_npcs
+      sha256: 63a737a12fb06e2d1b8a9be354636628df6eb1f1c2769fe3e99e01a19364d396
+    game/bestiary/pathfinder-monster-core-2.yml:
+      by: import_foundry_npcs
+      sha256: f2fd53812b975da3c7102a835e21c7ac611d31b16b674c9a685371ef92082207
+    game/bestiary/pathfinder-monster-core.yml:
+      by: import_foundry_npcs
+      sha256: 8285b62a1da5e93124f75bfdbe6f43888be61a1f3f951f188f094ad85fc1557a
+    game/bestiary/pathfinder-npc-core.yml:
+      by: import_foundry_npcs
+      sha256: 0b44e1b42ef83072454a3df8cfb886bb888aa1614604321192e06ea738eac838
+    game/bestiary/pfs-season-6-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 14413bc33dc0a04f6eadabd5de743679bd8e53cbbc36518794a2baecf3cb8dd2
+    game/bestiary/pfs-season-7-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: eaefd688432f9c18586381a228f53be2d07055ac4001560ed1668543a44acafb
+    game/bestiary/prey-for-death-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: a7571c419085615e8b19c6fbb9f00bfa840da5e5b966a94d54355496ca218d9f
+    game/bestiary/revenge-of-the-runelords-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 2b8868806bd7df9db097d53b4d3570228489d604a1dca5677969d924c98c0506
+    game/bestiary/season-of-ghosts-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 3d2d2eb0c2010c6578e6faa68efea16aa5c8061a343c0ea19c3333b2df4871f9
+    game/bestiary/shades-of-blood-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 97861279b73d8c1d4eda749d3b78645d7eef205578edaf70b34015ba16b3a280
+    game/bestiary/spore-war-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 86dd1c1bfdc43b4040b0c06a0ede04b57bce7d6eb31820451ccd2faa6ef820b4
+    game/bestiary/standalone-adventures.yml:
+      by: import_foundry_npcs
+      sha256: e51ddcc85e473c8ac08d87496a77a7db325bce5651ba90757455f319b4bbe19a
+    game/bestiary/the-dead-gods-hand-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 46437504cf97ed8c021aa2f80c8776c412353a1fb44dc1bab732eb1855510c7d
+    game/bestiary/triumph-of-the-tusk-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: e933f3438e36049b2b575f59675f4d2fdfe6a14efe819d842df04d0f3aae3587
+    game/bestiary/troubles-in-grayce-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: f9a378ff93d6a31297c3a688178e86926fccb821e8ef8c194285de0d288fd630
+    game/bestiary/war-of-immortals-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: 21ad7e84d180f2f27f66ee6e670ae8d7d6d1a7f3f47ea2a378071ef5c35d36b8
+    game/bestiary/wardens-of-wildwood-bestiary.yml:
+      by: import_foundry_npcs
+      sha256: e9835dee7fc58575d50da0810fab0953d7e1dd22255634dc9b3cbe49b8275b73
+    game/config/pf2e_renames.yml:
+      by: import_remaster_renames
+      sha256: 7818680709bcd65e53eb5ed2cddea55c5a7196f187314d5a32c71cf508ddb56a

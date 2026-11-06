@@ -7,10 +7,16 @@ The journal is one JSON file in the Foundry VTT pf2e system, with a table per ca
       https://api.github.com/repos/foundryvtt/pf2e/contents/packs/pf2e/journals/remaster-changes.json
     python3 scripts/import_remaster_renames.py remaster-changes.json
 
+or, from a checkout, `packs/pf2e/journals/remaster-changes.json`, which also records the commit.
+
 spec/config_yaml_specs.rb checks the shape of what comes out, so a change to the journal's
 markup fails a spec rather than reaching a player as an unreadable hint.
 """
 import argparse, json, os, re, html, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import foundry_source  # noqa: E402
 
 STATUS = {
     'renamed': 'renamed', 'rename': 'renamed',
@@ -92,3 +98,4 @@ for page, key in (('Spells', 'spells'), ('Feats', 'feats')):
     print(f'{key}: {len(data)}', file=sys.stderr)
 
 open(OUT, 'w').write('\n'.join(lines) + '\n')
+foundry_source.record(args.journal, __file__, [OUT])
