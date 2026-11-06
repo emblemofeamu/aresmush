@@ -167,6 +167,7 @@ def main():
 
     ids = by_id(args.checkout)
     words = rules.strings(args.checkout)
+    rules.effect_ids(args.checkout)
     refused = collections.Counter()
     unread = collections.Counter()
     entries = {}

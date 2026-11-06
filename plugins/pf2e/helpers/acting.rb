@@ -751,7 +751,7 @@ module AresMUSH
         note = (check['notes'] || {})[outcome]
         note_once(out, note) if note && applied.empty?
 
-        rolled_check.notes(result['degree']).each { |one| note_once(out, one['text']) if one['text'] }
+        NoteEffects.tell(scene, rolled_check.notes(result['degree']), out, :degree => result['degree'])
 
         shared['results'] << { 'degree' => result['degree'], 'applied' => applied } if shared
         applied = applied.reject { |one| one['on'] == 'actor' } if shared
@@ -1063,6 +1063,10 @@ module AresMUSH
         # Whoever struck from hiding is seen for it.
         conceal(scene, scene.actor, nil, out) if unseen
 
+        # The attack's notes for its outcome, and the effects they link: Sympathetic Strike's on a hit.
+        degree = rolled.dig('result', 'degree')
+        NoteEffects.tell(scene, check.notes(degree), out, :degree => degree) if degree
+
         # A hit kept to be answered is the last attack's; one that misses leaves nothing to answer.
         unless rolled['hit'] || scene.target.creature?
           TurnState.write(scene.target.holder, 'struck' => nil, 'attacked' => nil)
@@ -1209,6 +1213,10 @@ module AresMUSH
         return if Pf2e.dead?(scene.target.holder)
 
         Consumables.effect(scene.encounter, scene.actor.label, scene.target, attack['effect'], out) if attack['bomb'] && attack['effect']
+
+        # The damage's notes: a Debilitating Strike's choices, a Frost Vial's slowing.
+        NoteEffects.tell(scene, Damage.notes(scene.actor.holder, attack, check.options, result['degree']), out,
+                         :degree => result['degree'], :done => [ attack['bomb'] && attack['effect'] ].compact)
 
         follow_ups(scene, attack, out)
 

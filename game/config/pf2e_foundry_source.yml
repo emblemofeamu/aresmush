@@ -10,6 +10,10 @@ pf2e_foundry_source:
       commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
       version: 8.6.1
       committed: '2026-10-13T23:55:06-04:00'
+    import_foundry_runes:
+      commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
+      version: 8.6.1
+      committed: '2026-10-13T23:55:06-04:00'
     import_remaster_renames:
       commit: fda67da2ad6be91aa331d35ba903e7e4eee97148
       version: 8.6.1
@@ -114,3 +118,6 @@ pf2e_foundry_source:
     game/config/pf2e_renames.yml:
       by: import_remaster_renames
       sha256: 7818680709bcd65e53eb5ed2cddea55c5a7196f187314d5a32c71cf508ddb56a
+    game/config/pf2e_runes.yml:
+      by: import_foundry_runes
+      sha256: e510eb0fb70bcd448d1bf0737d5b3cef1c555820d2901c6d0520d088fd5a72c2

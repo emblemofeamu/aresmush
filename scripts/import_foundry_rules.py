@@ -141,8 +141,10 @@ KINDS = {
                      'damageCategory', 'critical', 'predicate', 'slug', 'label', 'hideIfDisabled', 'priority', 'phase',
                      'requiresEquipped', 'removeAfterRoll'},
     # Text shown with a roll, for an outcome where it says: Revel in Retribution's reminder on a hit.
+    # `effects` is not Foundry's field: it is the effects the note's text links (`linked_effects`),
+    # which Foundry shows for the player to drag onto someone and `Pf2e::NoteEffects` applies.
     'Note': {'key', 'selector', 'text', 'title', 'predicate', 'outcome', 'slug', 'label', 'visibility',
-             'priority'},
+             'priority', 'effects'},
     # Traits an effect gives or takes away: Humanoid Form makes you humanoid, Soul Thief undead.
     'ActorTraits': {'key', 'add', 'remove', 'predicate', 'priority', 'slug', 'label'},
     # The most Dexterity counts towards AC: Mountain Stance, a mutagen.
@@ -521,10 +523,54 @@ def translated(value, found):
     return value
 
 
+# A link to an effect in a note's text: `@UUID[Compendium.pf2e.feat-effects.Item.<name or id>]{<label>}`.
+EFFECT_LINK = re.compile(r'@UUID\[Compendium\.pf2e\.([a-z-]*effects)\.Item\.([^\]]+)\]')
+
+# Every effect their effect packs hold, by id, for a link that names its effect by id rather than name.
+EFFECT_IDS = {}
+
+
+def effect_ids(checkout):
+    """Fill `EFFECT_IDS` from the effect packs of a checkout."""
+    for path in glob.glob(os.path.join(checkout, 'packs', 'pf2e', '*effects', '**', '*.json'), recursive=True):
+        try:
+            doc = json.load(open(path))
+        except Exception:
+            continue
+        for document in documents(doc):
+            if document.get('_id') and document.get('name'):
+                EFFECT_IDS[document['_id']] = document['name']
+
+    return EFFECT_IDS
+
+
+def linked_effects(text, found):
+    """The effects a note's text links, by name, in the order it links them. The text may be a
+    localisation key, whose English is where the link is. A link by id is named from `EFFECT_IDS`."""
+    if isinstance(text, str) and LANG_KEY.match(text):
+        text = found.get(text, '')
+    if not isinstance(text, str):
+        return []
+
+    names = []
+    for found_link in EFFECT_LINK.finditer(text):
+        target = found_link.group(2)
+        name = EFFECT_IDS.get(target, target)
+        if name not in names:
+            names.append(name)
+
+    return names
+
+
 def worded(row, found):
     """A rule with its player-facing words translated: its own label or note, and the labels of the
-    answers a choice set or an option offers."""
+    answers a choice set or an option offers. A note keeps the effects its text links as `effects`."""
     out = {}
+
+    if row.get('key') == 'Note':
+        effects = linked_effects(row.get('text'), found)
+        if effects:
+            row = dict(row, effects=effects)
 
     for field, held in row.items():
         if field in WORDED:
@@ -755,6 +801,7 @@ def main():
     unread = collections.Counter()
     words = strings(args.checkout)
     written = []
+    effect_ids(args.checkout)
 
     for pack, catalogues in SOURCES:
         if args.only and pack != args.only:

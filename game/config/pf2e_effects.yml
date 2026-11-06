@@ -6589,6 +6589,7 @@ pf2e_effects:
         title: "Come and Get Me"
         text: "When you strike a creature who hit you in the last round, you gain temporary Hit Points equal to your Constitution modifier, or double that on a critical hit. These temporary Hit Points last until the end of your rage. Effect: Come and Get Me (Temporary Hit Points)"
         predicate: ["target:condition:off-guard"]
+        effects: ["Effect: Come and Get Me (Temporary Hit Points)"]
   "Effect: Come and Get Me (Circumstance Bonus)":
     pack: "feat-effects"
     level: 1
@@ -7409,10 +7410,12 @@ pf2e_effects:
         outcome: ["criticalFailure", "failure"]
         title: "Crash Against Me"
         text: "If a creature attacking you using a weapon dealing the same damage type as your resistance misses you or hits you but deals no damage due to your resistance, the weapon clangs wildly off your skin. This painful reverberation makes the attacking enemy off-guard and gives it a –2 circumstance penalty to attacks with that weapon until the start of the enemy's next turn. Effect: Crash Against Me (Clang)"
+        effects: ["Effect: Crash Against Me (Clang)"]
       - key: "Note"
         selector: "strike-damage"
         title: "Crash Against Me"
         text: "If a creature attacking you using a weapon dealing the same damage type as your resistance misses you or hits you but deals no damage due to your resistance, the weapon clangs wildly off your skin. This painful reverberation makes the attacking enemy off-guard and gives it a –2 circumstance penalty to attacks with that weapon until the start of the enemy's next turn. Effect: Crash Against Me (Clang)"
+        effects: ["Effect: Crash Against Me (Clang)"]
   "Effect: Create Opening":
     pack: "bestiary-effects"
     level: 1
@@ -22378,12 +22381,14 @@ pf2e_effects:
         title: "Failure"
         text: "You gain panache until the end of your next turn Effect: Panache (Temporary)"
         predicate: ["parent:tag:failure-note"]
+        effects: ["Effect: Panache (Temporary)"]
       - key: "Note"
         selector: ["strike-attack-roll"]
         outcome: ["criticalFailure"]
         title: "Critical Failure"
         text: "You gain panache until the end of your next turn Effect: Panache (Temporary)"
         predicate: ["parent:tag:critical-failure-note"]
+        effects: ["Effect: Panache (Temporary)"]
   "Effect: Panache (Temporary)":
     pack: "feat-effects"
     level: 1
@@ -26384,6 +26389,7 @@ pf2e_effects:
         title: "Sash of Books"
         text: "Regardless of the result, you gain a +1 circumstance bonus to attack rolls against the creature and to your AC and saving throws against attacks and effects from the creature for 1 minute. Effect: Sash of Books (Bonus)"
         predicate: ["action:recall-knowledge"]
+        effects: ["Effect: Sash of Books (Bonus)"]
   "Effect: Saurian Spike - Armor":
     pack: "equipment-effects"
     level: 9
@@ -27422,6 +27428,16 @@ pf2e_effects:
         value: "@item.origin.system.attributes.shield.ac"
         slug: "shield-paragon-saves"
         predicate: ["item:magical"]
+  "Effect: Shield Thoughts":
+    pack: "equipment-effects"
+    level: 7
+    duration: {"unit": "minutes", "value": 1, "expiry": "turn-start", "sustained": false}
+    traits: []
+    description: "Granted by Resolute Mind Wrap%rYou gain mental resistance 10."
+    rules:
+      - key: "Resistance"
+        type: "mental"
+        value: 10
   "Effect: Shield Your Eyes":
     pack: "feat-effects"
     level: 2
@@ -35878,6 +35894,7 @@ pf2e_effects:
         title: "{item|name}"
         text: "The first time each round that you deal acid damage to a creature in this way, you gain temporary Hit Points. Spell Effect: Corrosive Body (Temp HP)"
         predicate: ["item:category:unarmed"]
+        effects: ["Spell Effect: Corrosive Body (Temp HP)"]
       - key: "Immunity"
         type: "acid"
       - key: "DamageDice"
@@ -38240,6 +38257,7 @@ pf2e_effects:
         title: "{item|name}"
         text: "Whenever someone benefitting from this bonus critically succeeds at a saving throw against an enemy's mental effect, its revelry increases, granting it a +1 status bonus to attack rolls and damage rolls for 1 round. Spell Effect: Frenzied Revelry (Critical)"
         predicate: ["item:trait:mental", "origin:enemy"]
+        effects: ["Spell Effect: Frenzied Revelry (Critical)"]
   "Spell Effect: Frenzied Revelry (Critical)":
     pack: "spell-effects"
     level: 1
@@ -41267,6 +41285,7 @@ pf2e_effects:
         title: "Revel in Retribution"
         text: "Lashing out at a defenseless enemy invigorates you with the thrill of combat, granting you temporary Hit Points whenever you successfully hit with a Reactive Strike. The temporary Hit Points last for the spell's duration. Spell Effect: Revel in Retribution (Temp HP)"
         predicate: ["reactive-strike"]
+        effects: ["Spell Effect: Revel in Retribution (Temp HP)"]
       - key: "ActiveEffectLike"
         path: "flags.system.revelInRetribution"
         mode: "override"
@@ -43369,6 +43388,17 @@ pf2e_effects:
         path: "system.proficiencies.attacks.martial.rank"
         mode: "upgrade"
         value: "@actor.system.proficiencies.attacks.simple.rank"
+  "Spell Effect: Web":
+    pack: "spell-effects"
+    level: 2
+    duration: {"unit": "rounds", "value": 1, "expiry": "turn-start", "sustained": false}
+    traits: []
+    description: "Granted by Web%rYou take a –10-foot circumstance penalty to your Speeds."
+    rules:
+      - key: "FlatModifier"
+        selector: "all-speeds"
+        type: "circumstance"
+        value: -10
   "Spell Effect: Wind Jump":
     pack: "spell-effects"
     level: 5
