@@ -174,6 +174,17 @@ pf2e_shields:
     traits:
       - uncommon
       - magical
+  Dragonslayer's Shield (Rune):
+    ac_bonus: 2
+    bulk: 1
+    hardness: 8
+    hp: 32
+    level: 9
+    price: 67000
+    speed_penalty: 0
+    traits:
+      - uncommon
+      - magical
   Dragonslayer's Shield (Terra):
     ac_bonus: 2
     bulk: 1

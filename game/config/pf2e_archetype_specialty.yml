@@ -64,6 +64,8 @@ pf2e_archetype_specialty:
             initial_dedication: {}
           Ossuary:
             initial_dedication: {}
+          Rune:
+            initial_dedication: {}
           Terra:
             initial_dedication: {}
           Time:
@@ -376,6 +378,14 @@ pf2e_archetype_specialty:
               skills:
               - Intimidation
               - Religion
+          Rune:
+            initial_dedication:
+              magic_stats:
+                tradition:
+                  arcane: trained
+              skills:
+              - Intimidation
+              - Arcana
           Terra:
             initial_dedication:
               magic_stats:

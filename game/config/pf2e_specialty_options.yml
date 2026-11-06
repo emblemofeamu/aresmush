@@ -113,6 +113,10 @@ pf2e_subclass:
       2: Spirit Sense
       5: Invoke Spirits
       8: Moment of Renewal
+    Rune:
+      2: Embed Message
+      5: Imaginary Lockbox
+      8: Quandary
     Terra:
       2: Shatter
       5: Impaling Spike
@@ -445,6 +449,27 @@ pf2e_subclass:
           magic_stats:
             tradition:
               divine: legendary
+    Rune:
+      chargen:
+        magic_stats:
+          tradition:
+            arcane: trained
+        skills:
+        - Intimidation
+        - Arcana
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              arcane: expert
+        15:
+          magic_stats:
+            tradition:
+              arcane: master
+        19:
+          magic_stats:
+            tradition:
+              arcane: legendary
     Terra:
       chargen:
         magic_stats:
@@ -560,6 +585,8 @@ pf2e_subclass:
       element: bludgeoning
     Ossuary:
       element: void
+    Rune:
+      element: fire
     Terra:
       element: bludgeoning
     Time:

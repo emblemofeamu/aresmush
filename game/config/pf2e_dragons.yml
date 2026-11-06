@@ -22,6 +22,7 @@ pf2e_dragons:
     Magma: { name: Magma }
     Mocking: { name: Mocking }
     Resurrection: { name: Ossuary }
+    Rune: { name: Rune }
     Sovereign: { name: Madness }
     Time: { name: Time }
     Umbral: { name: Umbral }
@@ -38,7 +39,6 @@ pf2e_dragons:
     - Phase
     - Requiem
     - Rime
-    - Rune
     - Sage
     - Sea
     - Sky

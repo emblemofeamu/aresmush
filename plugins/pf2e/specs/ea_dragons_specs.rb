@@ -3,7 +3,7 @@ require "plugin_test_loader"
 module AresMUSH
   module Pf2e
 
-    # Ea's 19 dragons replace Pathfinder's, wherever the game offers a dragon.
+    # Ea's 20 dragons replace Pathfinder's, wherever the game offers a dragon.
     describe "Ea's dragons", :dbtest => true do
 
       # Tradition and damage for each dragon, the same wherever the game offers one.
@@ -13,8 +13,8 @@ module AresMUSH
         'Diabolic' => %w{divine fire}, 'Empyreal' => %w{divine spirit}, 'Executor' => %w{divine sonic},
         'Forest' => %w{primal piercing}, 'Fortune' => %w{arcane force}, 'Madness' => %w{occult mental},
         'Magma' => %w{primal fire}, 'Mocking' => %w{occult bludgeoning}, 'Ossuary' => %w{divine void},
-        'Terra' => %w{primal bludgeoning}, 'Time' => %w{arcane force}, 'Umbral' => %w{occult void},
-        'Whisper' => %w{occult mental}
+        'Rune' => %w{arcane fire}, 'Terra' => %w{primal bludgeoning}, 'Time' => %w{arcane force},
+        'Umbral' => %w{occult void}, 'Whisper' => %w{occult mental}
       }.freeze
 
       # A draconic sorcerer's 2nd-, 5th- and 8th-rank gifts, for the dragons added after the first fifteen.
@@ -22,6 +22,7 @@ module AresMUSH
         'Delight' => [ 'Laughing Fit', 'Breath of Life', 'Moment of Renewal' ],
         'Executor' => [ 'Revealing Light', 'Divine Immolation', 'Divine Inspiration' ],
         'Mocking' => [ 'Laughing Fit', 'Cloak of Colors', 'Uncontrollable Dance' ],
+        'Rune' => [ 'Embed Message', 'Imaginary Lockbox', 'Quandary' ],
         'Time' => [ "Loose Time's Arrow", 'Banishment', 'Quandary' ],
         'Whisper' => [ 'Humanoid Form', 'Scouting Eye', 'Dream Council' ]
       }.freeze
@@ -156,7 +157,7 @@ module AresMUSH
         end
 
         it "should list the dragons added to the setting" do
-          %w{Delight Executor Mocking Time Whisper}.each do |name|
+          %w{Delight Executor Mocking Rune Time Whisper}.each do |name|
             expect(Bestiary.index.keys.grep(/\A#{name} (?:Dragon|Archdragon)/)).to_not be_empty
           end
         end
