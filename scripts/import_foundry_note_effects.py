@@ -109,7 +109,7 @@ def item_span(lines, item):
 
 def fill(path, linked, report):
     """Add `effects:` to the Note rows of one catalogue. Answers the new text, or None if unchanged."""
-    lines = open(path).read().split('\n')
+    lines = open(path, encoding='utf-8').read().split('\n')
     changed = False
 
     for item, notes in linked.items():
@@ -158,9 +158,9 @@ def main():
     words = rules.strings(args.checkout)
     rules.effect_ids(args.checkout)
     linked = theirs(args.checkout, words)
-    commit = subprocess.run(['git', '-C', args.checkout, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+    commit = subprocess.run(['git', '-C', args.checkout, 'rev-parse', 'HEAD'], capture_output=True, text=True, encoding='utf-8').stdout.strip()
 
-    catalogue = (yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_effects.yml'))) or {}).get('pf2e_effects', {})
+    catalogue = (yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_effects.yml'), encoding='utf-8')) or {}).get('pf2e_effects', {})
     report = {'matched': 0, 'unmatched': [], 'found': set()}
     touched = []
 
@@ -172,7 +172,7 @@ def main():
         if text is not None:
             touched.append(name)
             if args.write:
-                open(path, 'w').write(text)
+                open(path, 'w', encoding='utf-8', newline='\n').write(text)
 
     linked_names = sorted({effect for notes in linked.values() for _shape, effects in notes for effect in effects})
 

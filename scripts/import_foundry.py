@@ -155,6 +155,8 @@ def main():
     parser.add_argument('--overwrite-edits', action='store_true',
                         help='replace files changed by hand since their import, or with no import recorded')
     args = parser.parse_args()
+    # The steps' output is echoed here, and a console's code page can't always show it.
+    sys.stdout.reconfigure(errors='replace')
 
     held = foundry_source.load()
 
@@ -189,12 +191,14 @@ def main():
         given = os.path.join(args.checkout, step['checkout']) if step.get('checkout') else args.checkout
         command = [sys.executable, os.path.join(HERE, step['script']), given] + step.get('write', ['--write'])
         print(f"== {step['name']}")
-        ran = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        # UTF-8 mode, so a step that prints a name outside the Windows code page doesn't fail on it.
+        ran = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding='utf-8',
+                             env=dict(os.environ, PYTHONUTF8='1'))
         sys.stdout.write(ran.stdout + ran.stderr)
         if ran.returncode != 0:
             print(f"{step['name']} failed; the steps after it were not run")
             return ran.returncode
-        with open(os.path.join(REPORTS, f"{step['name']}.txt"), 'w') as handle:
+        with open(os.path.join(REPORTS, f"{step['name']}.txt"), 'w', encoding='utf-8', newline='\n') as handle:
             handle.write(ran.stdout + ran.stderr)
 
     # Some of the steps from the pin leave the pin where it is; a commit asked for becomes it.

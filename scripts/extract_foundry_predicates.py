@@ -62,7 +62,7 @@ def main():
             if not name.endswith('.json'):
                 continue
             try:
-                doc = json.load(open(os.path.join(base, name)))
+                doc = json.load(open(os.path.join(base, name), encoding='utf-8'))
             except Exception:
                 continue
 
@@ -75,7 +75,7 @@ def main():
     if not found:
         raise SystemExit(f'no predicates found under {args.checkout} - is packs/ there?')
 
-    with open(OUT, 'w') as handle:
+    with open(OUT, 'w', encoding='utf-8', newline='\n') as handle:
         handle.write(HEADER)
         for text, count in found.most_common():
             handle.write(f'{count}\t{text}\n')

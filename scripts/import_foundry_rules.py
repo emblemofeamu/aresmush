@@ -83,7 +83,7 @@ def granted_features():
                 walk(one)
 
     for name in ('pf2e_class.yml', 'pf2e_specialty.yml'):
-        walk(yaml.safe_load(open(os.path.join(CONFIG, name))))
+        walk(yaml.safe_load(open(os.path.join(CONFIG, name), encoding='utf-8')))
 
     return found
 
@@ -91,7 +91,7 @@ def granted_features():
 def subclasses(theirs):
     """Every class's subclasses their pack has, as `{ their name: (class, ours) }`."""
     found = {}
-    specialties = yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_specialty.yml')))['pf2e_specialty']
+    specialties = yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_specialty.yml'), encoding='utf-8'))['pf2e_specialty']
 
     for charclass, held in specialties.items():
         for ours in held or {}:
@@ -388,10 +388,10 @@ def strings(checkout):
     for name in LANG_FILES:
         path = os.path.join(checkout, name)
         if os.path.exists(path):
-            text = open(path).read()
+            text = open(path, encoding='utf-8').read()
         else:
             shown = subprocess.run(['git', '-C', checkout, 'show', f'HEAD:{name}'],
-                                   capture_output=True, text=True)
+                                   capture_output=True, text=True, encoding='utf-8')
             if shown.returncode != 0:
                 continue
             text = shown.stdout
@@ -534,7 +534,7 @@ def effect_ids(checkout):
     """Fill `EFFECT_IDS` from the effect packs of a checkout."""
     for path in glob.glob(os.path.join(checkout, 'packs', 'pf2e', '*effects', '**', '*.json'), recursive=True):
         try:
-            doc = json.load(open(path))
+            doc = json.load(open(path, encoding='utf-8'))
         except Exception:
             continue
         for document in documents(doc):
@@ -622,7 +622,7 @@ def foundry(checkout, pack):
 
     for path in glob.glob(os.path.join(base, '**', '*.json'), recursive=True):
         try:
-            doc = json.load(open(path))
+            doc = json.load(open(path, encoding='utf-8'))
         except Exception:
             continue
         for document in documents(doc):
@@ -820,14 +820,14 @@ def main():
         # The class features' catalogue is made from the class tables, then filled like any other.
         made = class_feature_catalogue(theirs) if pack == 'class-features' else None
         if made and args.write:
-            open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w').write(ea_dragons.dragon_instinct(made))
+            open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w', encoding='utf-8', newline='\n').write(ea_dragons.dragon_instinct(made))
             written.append(os.path.join(CONFIG, 'pf2e_class_features.yml'))
 
         for name in catalogues:
             path = os.path.join(CONFIG, name)
             if not made and not os.path.exists(path):
                 continue
-            text = made or open(path).read()
+            text = made or open(path, encoding='utf-8').read()
             additions = {}
 
             for item, (rules, declared) in theirs.items():
@@ -849,7 +849,7 @@ def main():
             totals[f'{pack} rows'] += sum(len(rows) for rows, _ in additions.values())
 
             if args.write and additions:
-                open(path, 'w').write(insert(text, additions))
+                open(path, 'w', encoding='utf-8', newline='\n').write(insert(text, additions))
                 written.append(path)
 
     if written:

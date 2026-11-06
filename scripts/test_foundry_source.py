@@ -25,12 +25,12 @@ class FoundrySource(unittest.TestCase):
         run(self.checkout, 'init', '-q')
         run(self.checkout, 'config', 'user.email', 'test@example.com')
         run(self.checkout, 'config', 'user.name', 'test')
-        json.dump({'version': '8.6.1'}, open(os.path.join(self.checkout, 'system.pf2e.json'), 'w'))
-        open(os.path.join(self.checkout, 'packs', 'one.json'), 'w').write('{}')
+        json.dump({'version': '8.6.1'}, open(os.path.join(self.checkout, 'system.pf2e.json'), 'w', encoding='utf-8', newline='\n'))
+        open(os.path.join(self.checkout, 'packs', 'one.json'), 'w', encoding='utf-8', newline='\n').write('{}')
         run(self.checkout, 'add', '.')
         run(self.checkout, 'commit', '-q', '-m', 'one')
         self.commit = subprocess.run(['git', '-C', self.checkout, 'rev-parse', 'HEAD'],
-                                     capture_output=True, text=True).stdout.strip()
+                                     capture_output=True, text=True, encoding='utf-8').stdout.strip()
         self.record = os.path.join(self.temp.name, 'record.yml')
         self.written = os.path.join(foundry_source.ROOT, 'game', 'config', 'pf2e_effects.yml')
 
@@ -50,7 +50,7 @@ class FoundrySource(unittest.TestCase):
         self.assertEqual(held['commit'], self.commit)
 
     def test_local_changes_to_what_is_read_are_noted(self):
-        open(os.path.join(self.checkout, 'packs', 'one.json'), 'w').write('{"changed": 1}')
+        open(os.path.join(self.checkout, 'packs', 'one.json'), 'w', encoding='utf-8', newline='\n').write('{"changed": 1}')
 
         self.assertTrue(foundry_source.describe(self.checkout)['dirty'])
 
@@ -66,7 +66,7 @@ class FoundrySource(unittest.TestCase):
         foundry_source.record(self.checkout, 'import_foundry_effects.py', [self.written], at=self.record)
 
         import yaml
-        self.assertEqual(list(yaml.safe_load(open(self.record))), ['pf2e_foundry_source'])
+        self.assertEqual(list(yaml.safe_load(open(self.record, encoding='utf-8'))), ['pf2e_foundry_source'])
 
     def test_crlf_and_lf_hash_the_same(self):
         lf = os.path.join(self.temp.name, 'lf.yml')

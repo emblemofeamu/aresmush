@@ -27,7 +27,7 @@ HEADER = """\
 
 
 def git(path, *args):
-    found = subprocess.run(['git', '-C', path, *args], capture_output=True, text=True)
+    found = subprocess.run(['git', '-C', path, *args], capture_output=True, text=True, encoding='utf-8')
 
     return found.stdout.strip() if found.returncode == 0 else None
 
@@ -38,7 +38,7 @@ def version(top):
     for name in ('system.pf2e.json', 'system.json', 'static/system.json', 'package.json'):
         path = os.path.join(top, name)
         if os.path.exists(path):
-            held = json.load(open(path)).get('version')
+            held = json.load(open(path, encoding='utf-8')).get('version')
             if held:
                 return str(held)
         shown = git(top, 'show', f'HEAD:{name}')
@@ -83,7 +83,7 @@ def load(at=None):
     if not os.path.exists(at):
         return {'repository': REPOSITORY, 'pin': None, 'imports': {}, 'files': {}}
 
-    held = (yaml.safe_load(open(at)) or {}).get(SECTION) or {}
+    held = (yaml.safe_load(open(at, encoding='utf-8')) or {}).get(SECTION) or {}
     held.setdefault('repository', REPOSITORY)
     held.setdefault('pin', None)
     held['imports'] = held.get('imports') or {}
@@ -99,7 +99,7 @@ def save(held, at=None):
                'imports': {name: held['imports'][name] for name in sorted(held['imports'])},
                'files': {name: held['files'][name] for name in sorted(held['files'])}}
     body = yaml.safe_dump({SECTION: ordered}, sort_keys=False, default_flow_style=False, width=1000)
-    with open(at, 'w') as handle:
+    with open(at, 'w', encoding='utf-8', newline='\n') as handle:
         handle.write('---\n' + HEADER + body)
 
 

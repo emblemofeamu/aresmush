@@ -54,7 +54,7 @@ def blobs(checkout, packs='packs/pf2e'):
     """Every JSON file in their packs, or in the one pack named, read in one pass through git rather than
     one process per file."""
     listed = subprocess.run(['git', '-C', checkout, 'ls-tree', '-r', 'HEAD', packs],
-                            capture_output=True, text=True).stdout.splitlines()
+                            capture_output=True, text=True, encoding='utf-8').stdout.splitlines()
     wanted = [(line.split()[2], line.split('\t', 1)[1]) for line in listed
               if line.endswith('.json') and not line.endswith('_folders.json')]
 
@@ -449,10 +449,10 @@ def main():
         written = []
         for pack, entries in by_pack.items():
             written.append(os.path.join(BESTIARY, f'{pack}.yml'))
-            open(written[-1], 'w').write(rendered(entries))
-        commit = subprocess.run(['git', '-C', args.checkout, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+            open(written[-1], 'w', encoding='utf-8', newline='\n').write(rendered(entries))
+        commit = subprocess.run(['git', '-C', args.checkout, 'rev-parse', 'HEAD'], capture_output=True, text=True, encoding='utf-8').stdout.strip()
         written.append(os.path.join(BESTIARY, INDEX))
-        open(written[-1], 'w').write(indexed(by_pack, commit or 'an unknown commit'))
+        open(written[-1], 'w', encoding='utf-8', newline='\n').write(indexed(by_pack, commit or 'an unknown commit'))
         foundry_source.record(args.checkout, __file__, sorted(written), removed)
 
     if args.write:

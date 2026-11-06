@@ -65,7 +65,7 @@ class Filling(unittest.TestCase):
     def fill(self, linked):
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '__pycache__', 'note_effects_fixture.yml')
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, 'w') as out:
+        with open(path, 'w', encoding='utf-8', newline='\n') as out:
             out.write(self.CATALOGUE)
         report = {'matched': 0, 'unmatched': [], 'found': set()}
         try:

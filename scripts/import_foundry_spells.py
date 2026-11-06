@@ -76,7 +76,7 @@ VALUED_NAMES = ('Clumsy', 'Doomed', 'Drained', 'Enfeebled', 'Frightened', 'Sicke
 
 # The conditions this game has, which is what an outcome may leave: a spell that links an attitude -
 # Charm's Friendly - leaves no condition the engine knows.
-CONDITIONS = set(yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_conditions.yml')))['pf2e_conditions'])
+CONDITIONS = set(yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_conditions.yml'), encoding='utf-8'))['pf2e_conditions'])
 
 # What the caster gains, said of "you": Blinding Fury's "you become hidden to it".
 THE_CASTER = re.compile(r"\byou(?:'re)?\s+(?:become|are|gain)\b|\brendering you\b|\byou are\b", re.I)
@@ -455,7 +455,7 @@ def main():
             entries[doc['name']] = mechanics_of(doc)
 
     if args.write:
-        open(os.path.join(CONFIG, OUT), 'w').write(rendered(entries))
+        open(os.path.join(CONFIG, OUT), 'w', encoding='utf-8', newline='\n').write(rendered(entries))
         foundry_source.record(args.checkout, __file__, [os.path.join(CONFIG, OUT)])
 
     print('written' if args.write else 'dry run')

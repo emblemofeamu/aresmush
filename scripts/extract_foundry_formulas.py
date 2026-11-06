@@ -70,7 +70,7 @@ def main():
         if os.path.basename(path).startswith('_'):
             continue
         try:
-            doc = json.load(open(path))
+            doc = json.load(open(path, encoding='utf-8'))
         except Exception:
             continue
 
@@ -99,7 +99,7 @@ def main():
     if not found:
         raise SystemExit(f'no expressions found under {args.checkout} - is packs/ there?')
 
-    with open(OUT, 'w') as handle:
+    with open(OUT, 'w', encoding='utf-8', newline='\n') as handle:
         handle.write(HEADER)
         for text, count in found.most_common():
             handle.write(f'{count}\t{text}\n')

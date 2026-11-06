@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('journal', help="Foundry's packs/pf2e/journals/remaster-changes.json")
 args = parser.parse_args()
 
-pages = {p['name']: p['text']['content'] for p in json.load(open(args.journal))['pages']}
+pages = {p['name']: p['text']['content'] for p in json.load(open(args.journal, encoding='utf-8'))['pages']}
 
 
 def rows(page):
@@ -97,5 +97,5 @@ for page, key in (('Spells', 'spells'), ('Feats', 'feats')):
             lines.append(f'      to: {quote(to)}')
     print(f'{key}: {len(data)}', file=sys.stderr)
 
-open(OUT, 'w').write('\n'.join(lines) + '\n')
+open(OUT, 'w', encoding='utf-8', newline='\n').write('\n'.join(lines) + '\n')
 foundry_source.record(args.journal, __file__, [OUT])

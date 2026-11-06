@@ -54,7 +54,7 @@ def documents(checkout, pack):
 
     for path in sorted(glob.glob(os.path.join(base, '**', '*.json'), recursive=True)):
         try:
-            doc = json.load(open(path))
+            doc = json.load(open(path, encoding='utf-8'))
         except Exception:
             continue
 
@@ -186,7 +186,7 @@ def main():
             per_pack[pack] += 1
 
     if args.write:
-        open(os.path.join(CONFIG, OUT), 'w').write(ea_dragons.dragon_form(rendered(entries)))
+        open(os.path.join(CONFIG, OUT), 'w', encoding='utf-8', newline='\n').write(ea_dragons.dragon_form(rendered(entries)))
         foundry_source.record(args.checkout, __file__, [os.path.join(CONFIG, OUT)])
 
     carrying = sum(1 for entry in entries.values() if entry.get('rules'))

@@ -66,10 +66,10 @@ def source_text(checkout):
     path = os.path.join(checkout, SOURCE)
 
     if os.path.exists(path):
-        return open(path).read()
+        return open(path, encoding='utf-8').read()
 
     found = subprocess.run(['git', '-C', checkout, 'show', f'HEAD:{SOURCE}'],
-                           capture_output=True, text=True)
+                           capture_output=True, text=True, encoding='utf-8')
 
     if found.returncode != 0:
         raise SystemExit(f'no {SOURCE} in {checkout}')
@@ -196,7 +196,7 @@ def evaluated(block):
         script = handle.name
 
     try:
-        found = subprocess.run(['node', script], capture_output=True, text=True)
+        found = subprocess.run(['node', script], capture_output=True, text=True, encoding='utf-8')
 
         if found.returncode != 0:
             raise SystemExit(f'node could not read the table: {found.stderr.strip()[:400]}')
@@ -376,7 +376,7 @@ def main():
     path = os.path.join(CONFIG, OUT)
 
     if args.write:
-        open(path, 'w').write(text)
+        open(path, 'w', encoding='utf-8', newline='\n').write(text)
         foundry_source.record(args.checkout, __file__, [path])
 
     carrying = sum(1 for entry in entries.values() if entry['rules'])

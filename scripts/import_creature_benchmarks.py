@@ -237,8 +237,8 @@ def main():
     maps = rendered_road_maps(road_maps(sidebar(ROAD_MAPS_SIDEBAR)), day)
 
     if args.write:
-        open(OUT, 'w').write(text)
-        open(ROAD_MAPS_OUT, 'w').write(maps)
+        open(OUT, 'w', encoding='utf-8', newline='\n').write(text)
+        open(ROAD_MAPS_OUT, 'w', encoding='utf-8', newline='\n').write(maps)
         print(f'written {OUT} and {ROAD_MAPS_OUT}')
     else:
         print(text[:2000])
