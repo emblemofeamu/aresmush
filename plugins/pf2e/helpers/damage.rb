@@ -43,14 +43,19 @@ module AresMUSH
       #   true  -> in a crit only, undoubled
       BUCKETS = { nil => 'doubling', false => 'fixed', true => 'crit_only' }.freeze
 
-      # The notes a rule holds for this damage, as `Rules.notes` answers them.
+      # The notes a rule holds for this damage, as `Rules.notes` answers them, kept to the ones for the
+      # Strike's `degree` the way `Check#notes` keeps them: a note naming no outcome is for every roll, and
+      # one naming outcomes is for those only, so Crushing's critical-hit note stays off an ordinary hit.
       # A creature's Strike has no attribute of its own to add.
-      def self.notes(char, attack, options = [])
+      def self.notes(char, attack, options = [], degree = nil)
         ability = char.respond_to?(:pf2_base_info) ? damage_attribute(char, attack) : nil
         domains = Domains.for('damage', attack, ability)
         held = Effects.options(char, domains) + Pf2eCombat.attack_options(attack, char) + Array(options)
+        named = degree && Degree::NAMES[degree]
 
-        Rules.notes(Effects.sources(char), domains, held)
+        Rules.notes(Effects.sources(char), domains, held).select do |note|
+          note['outcome'].empty? || note['outcome'].include?(named)
+        end
       end
 
       # What a weapon does, with everything that modifies it.

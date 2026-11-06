@@ -32,11 +32,12 @@ module AresMUSH
       end
 
       # Who the engine puts this on, or nil where it is offered: only for an effect the table applies,
-      # from a note that named the outcome the roll came to.
+      # from a note that named the outcome the roll came to. A note that names other outcomes, or none,
+      # applies nothing, whoever passed it in.
       def self.applied_to(scene, name, note, degree)
         entry = table[name] || {}
 
-        return nil unless entry['apply'] && degree && Array(note['outcome']).any?
+        return nil unless entry['apply'] && degree && Array(note['outcome']).include?(Degree::NAMES[degree])
 
         entry['for'].to_s == 'self' ? scene.actor : scene.target
       end

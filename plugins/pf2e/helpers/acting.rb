@@ -1215,7 +1215,7 @@ module AresMUSH
         Consumables.effect(scene.encounter, scene.actor.label, scene.target, attack['effect'], out) if attack['bomb'] && attack['effect']
 
         # The damage's notes: a Debilitating Strike's choices, a Frost Vial's slowing.
-        NoteEffects.tell(scene, Damage.notes(scene.actor.holder, attack, check.options), out,
+        NoteEffects.tell(scene, Damage.notes(scene.actor.holder, attack, check.options, result['degree']), out,
                          :degree => result['degree'], :done => [ attack['bomb'] && attack['effect'] ].compact)
 
         follow_ups(scene, attack, out)

@@ -137,6 +137,53 @@ module AresMUSH
           expect(out['lines'].grep(/act_note_effect/).size).to eq 1
         end
 
+        # Raven's review of #8: a note for critical hits only came out on every hit.
+        it "should not apply an effect from a note for other outcomes than the roll's" do
+          expect(ActiveEffects).not_to receive(:apply)
+
+          NoteEffects.tell(scene, [ sympathetic.merge('outcome' => %w{criticalSuccess}) ], out, :degree => Degree::SUCCESS)
+
+          expect(out['lines'].grep(/act_now_under/)).to eq []
+        end
+
+        describe "a Strike's damage notes" do
+          let(:critical_only) { sympathetic.merge('text' => 'When you critically hit...', 'outcome' => %w{criticalSuccess}) }
+          let(:always) { { 'source' => 'Frost Vial', 'text' => 'The target is slowed.', 'outcome' => [], 'effects' => [] } }
+          let(:striker) { double('Character') }
+
+          before(:each) do
+            allow(Domains).to receive(:for).and_return([ 'damage' ])
+            allow(Effects).to receive(:options).and_return([])
+            allow(Effects).to receive(:sources).and_return([])
+            allow(Pf2eCombat).to receive(:attack_options).and_return([])
+            allow(Rules).to receive(:notes).and_return([ critical_only, always ])
+          end
+
+          it "should keep a critical hit's notes off an ordinary hit" do
+            expect(Damage.notes(striker, {}, [], Degree::SUCCESS)).to eq [ always ]
+            expect(Damage.notes(striker, {}, [], Degree::CRITICAL_SUCCESS)).to eq [ critical_only, always ]
+          end
+
+          it "should neither tell nor apply a critical hit's note on an ordinary hit" do
+            expect(ActiveEffects).not_to receive(:apply)
+
+            NoteEffects.tell(scene, Damage.notes(striker, {}, [], Degree::SUCCESS), out, :degree => Degree::SUCCESS)
+
+            expect(out['lines'].grep(/critically hit/)).to eq []
+            expect(out['lines'].grep(/act_now_under|act_note_effect/)).to eq []
+            expect(out['lines']).to include('pf2e.act_note The target is slowed.')
+          end
+
+          it "should tell and apply it on a critical hit" do
+            made = put_on do
+              NoteEffects.tell(scene, Damage.notes(striker, {}, [], Degree::CRITICAL_SUCCESS), out, :degree => Degree::CRITICAL_SUCCESS)
+            end
+
+            expect(made['holder']).to be target.holder
+            expect(out['lines']).to include('pf2e.act_note When you critically hit...')
+          end
+        end
+
         it "should leave an effect the roll already put on" do
           expect(ActiveEffects).not_to receive(:apply)
 
