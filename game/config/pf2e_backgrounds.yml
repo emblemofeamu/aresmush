@@ -166,8 +166,13 @@ pf2e_background:
       - Thulite Lore
       - Vardaman Lore
     feat: []
-    special:
-      - Blessed
+    magic_stats:
+      innate_spell:
+        level: cantrip
+        name: Guidance
+        tradition: divine
+        cast_stat: Charisma
+    special: []
     rare: true
     action: []
     reaction: []

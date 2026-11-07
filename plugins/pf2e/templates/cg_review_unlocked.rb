@@ -135,7 +135,8 @@ module AresMUSH
           config_hash(@subclass_features_info, 'magic_stats'),
           config_hash(@subclassopt_features_info, 'magic_stats'),
           class_specific_magic_stats,
-          config_hash(@heritage_info, 'magic_stats')
+          config_hash(@heritage_info, 'magic_stats'),
+          config_hash(@background_info, 'magic_stats')
         ]
       end
 
