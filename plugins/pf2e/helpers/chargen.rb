@@ -678,6 +678,12 @@ module AresMUSH
         end
       end
 
+      # A background's magic is its own pass for the same reason: Blessed's Guidance sits beside
+      # whatever the class and heritage gave, rather than replacing it.
+      background_magic = background_info['magic_stats']
+
+      PF2Magic.update_magic(enactor, charclass, background_magic, client) if background_magic
+
       # Languages
 
       client.emit_ooc "Assessing languages...."

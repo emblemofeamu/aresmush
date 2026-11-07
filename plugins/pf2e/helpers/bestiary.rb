@@ -12,8 +12,20 @@ module AresMUSH
         File.join(AresMUSH.game_path, 'bestiary')
       end
 
+      # Every creature the game lists. Pathfinder's dragons that aren't in Ea's setting keep their files, and
+      # a creature already in a fight can still read its stat block (`entry`), but nothing offers them.
       def self.index
-        @index ||= load_file('index.yml')
+        @index ||= whole_index.reject { |name, _| name.match?(left_out) }
+      end
+
+      def self.whole_index
+        @whole_index ||= load_file('index.yml')
+      end
+
+      def self.left_out
+        kinds = Array(Global.read_config('pf2e_dragons', 'left_out'))
+
+        kinds.empty? ? /\z\A/ : /\A(?:#{kinds.map { |one| Regexp.escape(one) }.join('|')}) (?:Dragon|Archdragon)\b/
       end
 
       def self.pack(name)
@@ -30,11 +42,12 @@ module AresMUSH
       # Drops what has been read, for a spec or an import that has just rewritten the files.
       def self.reset!
         @index = nil
+        @whole_index = nil
         @packs = nil
       end
 
       def self.entry(name)
-        listed = index[name]
+        listed = whole_index[name]
 
         listed ? pack(listed['pack'])[name] : nil
       end

@@ -1,0 +1,35 @@
+---
+# The effects the Dismiss action can end, and who may use it on them: `caster`, whoever put the effect in
+# place, or `holder`, whoever is under it. A name with no `(...)` also covers every entry named `<name> (...)`.
+#
+# Effects that can only be dismissed on a trigger, such as Funeral Flames and Shining Arms, are not here.
+pf2e_dismissible:
+  "Spell Effect: Aerial Form": caster
+  "Spell Effect: Animal Form": caster
+  "Spell Effect: Bullhorn": caster
+  "Spell Effect: Dinosaur Form": caster
+  "Spell Effect: Dragon Form": caster
+  "Spell Effect: Dutiful Challenge": caster
+  "Spell Effect: Elemental Form": caster
+  "Spell Effect: Humanoid Form": caster
+  "Spell Effect: Illusory Disguise": caster
+  "Spell Effect: Insect Form": caster
+  "Spell Effect: Life-Giving Form": caster
+  "Spell Effect: Light": caster
+  "Spell Effect: Monstrosity Form": caster
+  "Spell Effect: Nature Incarnate": caster
+  "Spell Effect: Oaken Resilience": holder
+  "Spell Effect: Pest Form": caster
+  "Spell Effect: Plant Form": caster
+  "Spell Effect: Primal Herd": holder
+  "Spell Effect: Sacred Form": caster
+  "Spell Effect: Shifting Form": caster
+  "Spell Effect: Swarm Form": caster
+  "Spell Effect: Untamed Form": caster
+  "Spell Effect: Vapor Form": holder
+  "Spell Effect: Vital Luminance": caster
+  "Spell Effect: Word of Truth": caster
+  "Effect: Change Shape (Werecreature)": caster
+  "Effect: Energizing Lattice": caster
+  "Effect: Potion of Living Light": caster
+  "Effect: Worm Form": caster

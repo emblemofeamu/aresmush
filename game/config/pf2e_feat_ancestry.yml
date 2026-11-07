@@ -1139,24 +1139,11 @@ pf2e_feats:
         value: 1
         slug: "scavenger-subsist"
         predicate: ["action:subsist"]
-      - key: "FlatModifier"
-        selector: ["society", "survival"]
-        type: "circumstance"
-        value: 1
-        slug: "scavenger-earn"
-        label: "City Scavenger \u2014 Earn Income"
-        predicate: ["action:earn-income", "with-subsist"]
       - key: "AdjustModifier"
         mode: "add"
         selectors: ["society", "survival"]
         value: 1
         slug: "scavenger-subsist"
-        predicate: ["heritage:irongut-goblin"]
-      - key: "AdjustModifier"
-        mode: "add"
-        selectors: ["society", "survival"]
-        value: 1
-        slug: "scavenger-earn"
         predicate: ["heritage:irongut-goblin"]
   Clever Improviser:
     feat_type:
@@ -1303,6 +1290,28 @@ pf2e_feats:
       level: 5
       special:
         - Darkvision
+  Chance Death:
+    feat_type:
+      - Ancestry
+    assoc_ancestry:
+      - Arvek
+      - Bassin
+      - Ciith
+      - Egalrin
+      - Goblin
+      - Gnome
+      - Human
+      - Kailli
+      - Khazad
+      - Oruch
+      - Sildanyar
+    traits:
+      - ashen one
+      - fortune
+    shortdesc: "**Frequency** once per day%r%r**Trigger** You would die as a result of a failed recovery check or saving throw.%r%rYour previous life ended due to sheer poor luck, struck by lightning or choking on a fish bone. You can reroll the triggering recovery check or saving throw, but you must use the new result, even if it's worse.%r%r**Special** You can select this feat only at 1st level, and you can't retrain into or out of this feat."
+    prereq:
+      level: 1
+      heritage: Ashen One
   Deliberate Death:
     feat_type:
       - Ancestry
@@ -2345,7 +2354,7 @@ pf2e_feats:
         option: "halo-active"
         toggleable: true
         value: true
-  Harbinger's Caw:
+  Harbinger's Claw:
     feat_type:
       - Ancestry
     assoc_ancestry:
@@ -4119,6 +4128,30 @@ pf2e_feats:
     shortdesc: "You've studied traditional sildanyari arts, learning about arcane magic and the world around you. You gain the trained proficiency rank in Arcana and Nature. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice.%r%rYou also gain the Additional Lore general feat for Sildanyar Lore."
     prereq:
       level: 1
+  Martial Experience:
+    feat_type:
+      - Ancestry
+    assoc_ancestry:
+      - Sildanyar
+    traits:
+      - sildanyar
+    shortdesc: "You've crossed blades with a wide variety of foes wielding a wide variety of weapons, and you've learned the basics of fighting with nearly any of them. When wielding a weapon you aren't proficient with, treat your level as your proficiency bonus.%r%rAt 11th level, you become trained in all weapons."
+    prereq:
+      level: 5
+    at_level:
+      11:
+        combat_stats:
+          weapon_prof:
+            unarmed: trained
+            simple: trained
+            martial: trained
+            advanced: trained
+    rules:
+      - key: "FlatModifier"
+        selector: "strike-attack-roll"
+        type: "proficiency"
+        value: "@actor.level"
+        predicate: [{"lte": ["self:level", 10]}]
   Sildanyar Step:
     feat_type:
       - Ancestry

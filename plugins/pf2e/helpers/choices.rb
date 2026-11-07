@@ -72,24 +72,49 @@ module AresMUSH
         # Only an actor that carries things has anything a set could choose from.
         return {} unless char && Actors.of(char).carries_items?
 
-        categories = Array(set['owned']).map { |kind| OWNED[kind] }.compact.uniq
-
-        found = Pf2egear.carried_items(char).select { |category, _item| categories.include?(category) }
-                        .to_h { |category, item| [ item.id.to_s, owned_facts(category, item) ] }
+        found = carried_for(set, char).to_h { |category, item| [ item.id.to_s, owned_facts(category, item) ] }
 
         found['unarmed'] = [ 'item:category:unarmed' ] if set['handwraps'] && handwraps?(char)
 
         found
       end
 
-      # What one of the character's things answers to, from the catalogue: a filter over it has to be
-      # tested without assembling an attack, because this is asked while effects are being gathered.
+      # What the character carries of the kinds a set asks for, each with its inventory category.
+      def self.carried_for(set, char)
+        categories = Array(set['owned']).map { |kind| OWNED[kind] }.compact.uniq
+
+        Pf2egear.carried_items(char).select { |category, _item| categories.include?(category) }
+      end
+
+      # What one of the character's things answers to, from the catalogue and the item: a filter over it
+      # has to be tested without assembling an attack, because this is asked while effects are being gathered.
       def self.owned_facts(category, item)
         info = Pf2egear.catalogue_entry(category, item) || {}
         kind = category == 'weapons' ? 'weapon' : category.delete_suffix('s')
 
-        facts_of(item.name, info, kind) +
-          (category == 'weapons' ? Pf2eCombat.weapon_options(item.name, info) : [])
+        facts_of(item.name, info, kind) + (item.equipped ? [ 'item:equipped' ] : []) +
+          (category == 'weapons' ? Pf2eCombat.weapon_options(item.name, info) + weapon_facts(item) : [])
+      end
+
+      def self.weapon_facts(item)
+        [ item.wp_type == 'ranged' ? 'item:ranged' : 'item:melee',
+          "item:reload:#{item.reload.to_i}",
+          "item:hands-held:#{item.equipped ? [ item.hands.to_i, 1 ].max : 0}" ]
+      end
+
+      # The ids of what a set would take that the character has equipped. Handwraps are left out: they lend
+      # their runes to unarmed attacks and are not struck with.
+      def self.in_hand(set, char)
+        offered = offer(set, char)
+
+        carried_for(set, char).map(&:last).select { |item|
+          offered.include?(item.id.to_s) && item.equipped && !Pf2eCombat.rune_lender?(item.name)
+        }.map { |item| item.id.to_s }
+      end
+
+      # The names of the things with these ids, as a player would type them.
+      def self.owned_names(set, char, ids)
+        carried_for(set, char).map(&:last).select { |item| ids.include?(item.id.to_s) }.map(&:name).uniq
       end
 
       def self.handwraps?(char)
@@ -135,7 +160,8 @@ module AresMUSH
       # The value a listed choice records for what someone answered. A number is matched as a number, so
       # `-1` is not `+1`; a word by its slug; and failing both, the choice's own label - Bon Mot's
       # `Critical Success`, whose value is `-3`. Tried in that order, because labels like `+1` and `-1`
-      # slug alike.
+      # slug alike. A value that is a set of figures, as Dragon Form's dragons are, stays one: its rules read
+      # parts of it.
       NUMBER = /\A[+-]?\d+\z/
 
       def self.listed_answer(set, answer)
@@ -149,7 +175,9 @@ module AresMUSH
                 listed.find { |one| one['label'].to_s.casecmp?(typed) } ||
                 (!numeric && listed.find { |one| Domains.slug(one['label']) == Domains.slug(typed) })
 
-        found ? found['value'].to_s : nil
+        return nil unless found
+
+        found['value'].is_a?(Hash) ? found['value'] : found['value'].to_s
       end
 
       # A vocabulary may come with one condition covering every answer in it, written with the answer

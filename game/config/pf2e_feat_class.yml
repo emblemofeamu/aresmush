@@ -637,6 +637,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "On a successful Feint, the target take a -2 circumstance penalty to attack rolls against you instead of any other effects that you would gain when you Feint. Effect: Goading Feint"
         predicate: ["action:feint", "goading-feint"]
+        effects: ["Effect: Goading Feint"]
   Harming Hands:
     assoc_charclass:
       - Cleric
@@ -921,6 +922,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "On a successful Feint, you can have the target take a -2 circumstance penalty to attack rolls against you instead of any other effects that would occur when you Feint. Effect: Overextending Feint"
         predicate: ["action:feint"]
+        effects: ["Effect: Overextending Feint"]
   Plant Empathy:
     assoc_charclass:
       - Druid
@@ -1836,6 +1838,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "You gain panache until the end of your next turn Effect: Panache (Temporary)"
         predicate: ["charmed-life"]
+        effects: ["Effect: Panache (Temporary)"]
   Clever Gambit:
     assoc_charclass:
       - Rogue
@@ -1962,6 +1965,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "While a creature is off-guard by your Feint, it also takes a -2 circumstance penalty to Perception checks and Reflex saves. Effect: Distracting Feint"
         predicate: ["action:feint"]
+        effects: ["Effect: Distracting Feint"]
   Divine Aegis:
     assoc_charclass:
       - Oracle
@@ -3959,6 +3963,16 @@ pf2e_feats:
     shortdesc: You drop your disguise at the right moment and surprise your target. After you Impersonate someone else using a disguise kit, you can remove your disguise with a dramatic gesture. Any creatures that previously failed to see through your disguise are off-guard against the next attack you make before the end of your turn.
     traits:
       - rogue
+  Running Reload:
+    assoc_charclass:
+      - Ranger
+    feat_type:
+      - Charclass
+    prereq:
+      level: 4
+    shortdesc: You can reload your weapon on the move. You Stride, Step, or Sneak, then Interact to reload.
+    traits:
+      - ranger
   Scout's Warning:
     assoc_charclass:
       - Ranger
@@ -4161,6 +4175,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "Until the beginning of your next turn, the target takes a \u20131 circumstance penalty to its saves against your hexes, or a \u20132 penalty if the triggering Strike was a critical hit. Effect: Sympathetic Strike"
         predicate: ["item:tag:witchs-armaments", "sympathetic-strike"]
+        effects: ["Effect: Sympathetic Strike"]
   Tenacious Toxins:
     assoc_charclass:
       - Alchemist
@@ -4772,6 +4787,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "The target must succed at a , or suffer one of the following effects: dazzled, deafened, off-guard, or take a -5 foot status penalty to Speeds. Effect: Debilitating Bomb"
         predicate: ["debilitating-bomb", {"not": "feat:greater-debilitating-bomb"}]
+        effects: ["Effect: Debilitating Bomb"]
   Defensive Coordination:
     assoc_charclass:
       - Bard
@@ -4880,6 +4896,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "If your Strike hits, all your allies gain a +2 circumstance bonus to the triggering saving throw (or a +3 circumstance bonus on a critical hit). Effect: Divine Rebuttal"
         predicate: ["divine-rebuttal", "item:deity-favored"]
+        effects: ["Effect: Divine Rebuttal"]
   Divine Weapon:
     assoc_charclass:
       - Cleric
@@ -5117,23 +5134,6 @@ pf2e_feats:
       tiers:
         - basic
         - greater
-  Green Empathy:
-    assoc_charclass:
-      - Druid
-    feat_type:
-      - Charclass
-    prereq:
-      level: 6
-      specialize: leaf
-    shortdesc: "You can communicate with plants and fungi on a basic level and use Diplomacy to Make an Impression on them and to make very simple Requests of them. Non-creature plants and fungi typically can't fulfill most requests you might ask of them unless you have access to other magic such as *speak with plants*.%r%rBecause of your affiliation with the leaf order, plants and fungi have a sense that you support them, so you gain a +2 circumstance bonus on your check to Make a Request of a plant or fungus using Green Empathy."
-    traits:
-      - druid
-    rules:
-      - key: "FlatModifier"
-        selector: "diplomacy"
-        type: "circumstance"
-        value: 2
-        predicate: ["action:request", "target:trait:plant"]
   Grown of Oak:
     assoc_charclass:
       - Druid
@@ -6984,6 +6984,24 @@ pf2e_feats:
       - exploration
       - oracle
       - prediction
+  Know-It-All:
+    assoc_charclass:
+      - Bard
+    feat_type:
+      - Charclass
+    prereq:
+      level: 8
+      specialize: enigma
+    shortdesc: When you succeed at a check to Recall Knowledge, you gain additional information or context. When you critically succeed at a check to Recall Knowledge, you get additional information or context or can ask an additional follow-up question (the GM chooses which).
+    traits:
+      - bard
+    rules:
+      - key: "Note"
+        selector: "skill-check"
+        outcome: ["criticalSuccess", "success"]
+        title: "{item|name}"
+        text: "When you succeed at a check to Recall Knowledge, you gain additional information or context. When you critically succeed, you get additional information or context or can ask an additional follow-up question (the GM chooses which)."
+        predicate: ["action:recall-knowledge"]
   Reflexive Courage:
     assoc_charclass:
       - Bard
@@ -7409,6 +7427,28 @@ pf2e_feats:
     traits:
       - cleric
 # Level 10 Class Feats
+  Sticky Bomb:
+    assoc_charclass:
+      - Alchemist
+    feat_type:
+      - Charclass
+    prereq:
+      level: 8
+    shortdesc: You can mix in a sticky additive to an alchemical bomb to make its contents adhere and continue to deal damage. A creature hit by a sticky bomb also takes persistent damage equal to and of the same type as the bomb's splash damage. Use the splash damage amount listed in the bomb's stat block, even if you used an ability to change the splash damage dealt. If the bomb already deals persistent damage, combine the two amounts.
+    traits:
+      - additive
+      - alchemist
+    rules:
+      - key: "RollOption"
+        option: "sticky-bomb"
+        domain: "alchemical-bomb-base-type-damage"
+        toggleable: true
+      - key: "FlatModifier"
+        selector: "alchemical-bomb-base-type-damage"
+        value: "@weapon.system.splashDamage.value"
+        damageCategory: "persistent"
+        slug: "sticky-bomb"
+        predicate: ["item:trait:splash", "sticky-bomb"]
   Advanced Efficient Alchemy:
     assoc_charclass:
       - Alchemist
@@ -7488,6 +7528,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "After you deal spirit damage due to Divine Castigation, your weapon or unarmed Strikes gain your holy or unholy trait and deal additional spirit damage until the end of your turn. Effect: Castigating Weapon"
         predicate: ["divine-castigation", {"or": ["item:slug:harm", "item:slug:heal"]}]
+        effects: ["Effect: Castigating Weapon"]
   Certain Strike:
     assoc_charclass:
       - Fighter
@@ -7807,6 +7848,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "The target must succed at a , or suffer one of the following effects: clumsy 1, dazzled, deafened, enfeebled 1, off-guard, stupefied 1, or take a \u201310-foot status penalty to Speeds. Effect: Debilitating Bomb"
         predicate: ["debilitating-bomb", {"not": "feat:true-debilitating-bomb"}]
+        effects: ["Effect: Debilitating Bomb"]
   Healing Transformation:
     assoc_charclass:
       - Druid
@@ -8247,6 +8289,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "When you damage a creature with a Strike using your deity's favored weapon, you gain a number of temporary Hit Points equal to half your level, or equal to your level if the Strike was a critical hit. Effect: Replenishment of War"
         predicate: ["item:deity-favored"]
+        effects: ["Effect: Replenishment of War"]
   Resounding Blow:
     assoc_charclass:
       - Barbarian
@@ -9773,12 +9816,14 @@ pf2e_feats:
         title: "{item|name}"
         text: "On a critical success, if you successfully pass through the target's square, the target gains weakness to your precision damage until the end of your turn. Effect: The Bigger They Are"
         predicate: ["action:tumble-through", "the-bigger-they-are", {"gt": ["target:size", "self:size"]}]
+        effects: ["Effect: The Bigger They Are"]
       - key: "Note"
         selector: "skill-check"
         outcome: ["success"]
         title: "{item|name}"
         text: "On a success, if you successfully pass through the target's square, the target gains weakness to your precision damage for your next attack. Effect: The Bigger They Are"
         predicate: ["action:tumble-through", "the-bigger-they-are", {"gt": ["target:size", "self:size"]}]
+        effects: ["Effect: The Bigger They Are"]
   Titan's Stature:
     assoc_charclass:
       - Barbarian
@@ -10017,6 +10062,17 @@ pf2e_feats:
     shortdesc: When you call upon your deity's power to fulfill the promise of their domain, you gain divine protection. After you cast a domain spell, you gain resistance to all damage until the start of your next turn. The amount of resistance is equal to the rank of the domain spell you cast.
     traits:
       - cleric
+  Paragon's Guard:
+    assoc_charclass:
+      - Fighter
+    feat_type:
+      - Charclass
+    prereq:
+      level: 12
+    shortdesc: "**Requirements** You are wielding a shield.%r%rOnce you've had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you'd used the Raise a Shield action."
+    traits:
+      - fighter
+      - stance
   Desperate Finisher:
     assoc_charclass:
       - Fighter
@@ -10247,6 +10303,17 @@ pf2e_feats:
         toggleable: true
         suboptions: [{"label": "{item|name}", "value": "interweave-dispel"}]
         label: "Spellshape"
+  Form Lock:
+    assoc_charclass:
+      - Monk
+    feat_type:
+      - Charclass
+    prereq:
+      level: 14
+    shortdesc: "**Requirements** You have a creature grabbed or restrained.%r%rYour ability to manipulate your enemy's entire body is potent enough that you can tear and break apart alternate forms. Attempt an Athletics check to counteract a polymorph effect currently affecting the creature you have grabbed or restrained. If the target is somehow under the effect of multiple polymorph effects, you can choose which one to attempt to counteract; the GM chooses randomly if the separate effects aren't obvious. The target is then temporarily immune for 1 day."
+    traits:
+      - attack
+      - monk
   Ironblood Surge:
     assoc_charclass:
       - Monk
@@ -10789,6 +10856,7 @@ pf2e_feats:
         title: "{item|name}"
         text: "The target must succed at a , or suffer one of the following effects: clumsy 1, dazzled, deafened, enfeebled 2, off-guard, stupefied 2, or take a \u201315-foot status penalty to Speeds. Effect: Debilitating Bomb"
         predicate: ["debilitating-bomb"]
+        effects: ["Effect: Debilitating Bomb"]
   True Hypercognition:
     assoc_charclass:
       - Bard
@@ -11392,6 +11460,18 @@ pf2e_feats:
     shortdesc: Your knowledge of monsters is so incredible that it reveals glaring flaws in your prey. Your bonus from Monster Hunter (and the bonus from Monster Warden if you have it) increases from +1 to +2 for you and any allies who benefit.
     traits:
       - ranger
+  Improved Reflexive Shield:
+    assoc_charclass:
+      - Fighter
+    feat_type:
+      - Charclass
+    prereq:
+      level: 16
+      feat:
+        - Reflexive Shield
+    shortdesc: Your shield can help save nearby allies from danger. When you use Shield Block against damage resulting from a Reflex save, adjacent allies who would take damage due to Reflex saves against the same effect also benefit from the damage reduction.
+    traits:
+      - fighter
   Master of Many Styles:
     assoc_charclass:
       - Fighter

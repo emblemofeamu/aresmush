@@ -13,9 +13,9 @@ module AresMUSH
       # own circumstance penalty. They are stacked with the figure's, so a circumstance penalty the
       # action carries does not stack with one the character already has.
       # `shift` moves the outcome once everything else has had its say, as the incapacitation trait does.
-      def self.roll(check, dc: nil, extra: [], shift: 0)
+      def self.roll(check, dc: nil, extra: [], shift: 0, rolled: nil)
         breakdown = restacked(check.breakdown, extra)
-        rolled = d20([ check ])
+        rolled ||= d20([ check ])
         total = rolled['face'] + breakdown['total'].to_i
 
         check.rolled!(total, dc, rolled['die'])

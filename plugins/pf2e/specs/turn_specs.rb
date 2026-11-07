@@ -186,6 +186,57 @@ module AresMUSH
 
         expect(Pf2e::ActiveEffects.on(reread).size).to eq 1
       end
+
+      def goblin_ends(round)
+        Pf2e::Turns.turn_ended(@fight, 'Goblin', round)
+      end
+
+      it "should belong to its caster when it was cast in someone else's turn" do
+        @fight.update(:next_init => 2)
+        Pf2e::ActiveEffects.apply(reread, sustained, :applied_by => @char.name, :encounter => @fight)
+
+        @fight.update(:round => 2)
+        goblin_ends(2)
+        expect(Pf2e::ActiveEffects.on(reread).size).to eq 1
+
+        ends
+        expect(Pf2e::ActiveEffects.on(reread)).to eq []
+      end
+
+      it "should belong to its caster when it was put on someone else before the first turn" do
+        @fight.update(:round => 0)
+        Pf2e::ActiveEffects.apply(reread, sustained, :applied_by => 'Goblin', :encounter => @fight)
+
+        @fight.update(:round => 1)
+        ends
+        expect(Pf2e::ActiveEffects.on(reread).size).to eq 1
+
+        goblin_ends(1)
+        expect(Pf2e::ActiveEffects.on(reread)).to eq []
+      end
+
+      it "should end at the end of the caster's turn still to come this round" do
+        Pf2e::ActiveEffects.apply(reread, sustained, :applied_by => 'Goblin', :encounter => @fight)
+
+        ends
+        expect(Pf2e::ActiveEffects.on(reread).size).to eq 1
+
+        goblin_ends(1)
+        expect(Pf2e::ActiveEffects.on(reread)).to eq []
+      end
+
+      # Whoever applied it is not in the fight, which is a GM's `effect/add`.
+      it "should belong to whoever is under it when no one in the fight applied it" do
+        @fight.update(:next_init => 2)
+        Pf2e::ActiveEffects.apply(reread, sustained, :applied_by => 'Staff', :encounter => @fight)
+
+        @fight.update(:round => 2)
+        goblin_ends(2)
+        expect(Pf2e::ActiveEffects.on(reread).size).to eq 1
+
+        ends
+        expect(Pf2e::ActiveEffects.on(reread)).to eq []
+      end
     end
   end
 end

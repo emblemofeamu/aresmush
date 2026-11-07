@@ -63,6 +63,15 @@ module AresMUSH
         expect(own_sheet).to include 'Fist:'
       end
 
+      it "should show only a form's attacks while they are in it there" do
+        Pf2e::ActiveEffects.apply(hero, 'Spell Effect: Animal Form (Bear)', :options => [ 'rank 5' ], :encounter => encounter)
+
+        sheet = shown
+        expect(sheet).to include 'Jaws: 18', 'Claw: 18', t('pf2e.csheet_strikes_replaced', :source => 'Animal Form (Bear)',
+                                                                                           :attacks => 'Claw, Jaws')
+        expect(sheet).to_not include 'Fist:'
+      end
+
       it "should refuse a creature" do
         add('goblin warrior')
 

@@ -298,6 +298,7 @@ pf2e_class_features:
         selector: "instinct-web-attack-roll"
         title: "Spider"
         text: "The spider's web attack deals no damage, but the target takes a \u201310-foot circumstance penalty to its Speeds for 1 round on a hit.%rtCMVyxQhzYCjBQtK%rIf a target is hit a second time by the same character's web attack while they have this penalty, they're instead Immobilized until they succeed at a check to Escape against your class DC."
+        effects: ["Spell Effect: Web"]
       - key: "Strike"
         category: "unarmed"
         group: "brawling"
@@ -1009,22 +1010,27 @@ pf2e_class_features:
         selector: "strike-damage"
         text: "The target takes a -10-foot status penalty to its Speeds. Effect: Debilitating Strike"
         predicate: ["second-debilitation:speed-penalty", "target:condition:off-guard"]
+        effects: ["Effect: Debilitating Strike"]
       - key: "Note"
         selector: "strike-damage"
         text: "The target becomes Enfeebled 1."
         predicate: ["second-debilitation:enfeebled", "target:condition:off-guard"]
+        effects: ["Effect: Precise Debilitations"]
       - key: "Note"
         selector: "strike-damage"
         text: "The target becomes Frightened 1."
         predicate: ["second-debilitation:frightened", "target:condition:off-guard"]
+        effects: ["Effect: Tactical Debilitations (No Flanking)"]
       - key: "Note"
         selector: "strike-damage"
         text: "The target takes 3d6 bleed damage."
         predicate: ["second-debilitation:bloody", "target:condition:off-guard"]
+        effects: ["Effect: Vicious Debilitations"]
       - key: "Note"
         selector: "strike-damage"
         text: "The target becomes Clumsy 1."
         predicate: ["second-debilitation:clumsy", "target:condition:off-guard"]
+        effects: ["Effect: Heartless Debilitations"]
       - key: "Note"
         selector: "strike-damage"
         text: "The target attempts a Fortitude save against your class DC with the following effects.%rCritical Success The target is unaffected.%rSuccess The target is Slowed 1 until the end of your next turn.%rFailure The target is Slowed 2 until the end of your next turn.%rCritical Failure The target is Paralyzed until the end of your next turn."
@@ -1073,7 +1079,7 @@ pf2e_class_features:
       - key: "ChoiceSet"
         flag: "dragon"
         prompt: "Select a dragon."
-        choices: [{"label": "Adamantine Dragon", "value": {"damageType": "bludgeoning", "dragonType": "adamantine", "tradition": "primal"}}, {"label": "Barrage Dragon", "value": {"damageType": "force", "dragonType": "barrage", "tradition": "arcane"}}, {"label": "Bog Dragon", "value": {"damageType": "acid", "dragonType": "bog", "tradition": "primal"}}, {"label": "Brine Dragon", "value": {"damageType": "bludgeoning", "dragonType": "brine", "tradition": "primal"}}, {"label": "Cinder Dragon", "value": {"damageType": "fire", "dragonType": "cinder", "tradition": "primal"}}, {"label": "Cloud Dragon", "value": {"damageType": "electricity", "dragonType": "cloud", "tradition": "primal"}}, {"label": "Crystal Dragon", "value": {"damageType": "piercing", "dragonType": "crystal", "tradition": "primal"}}, {"label": "Conspirator Dragon", "value": {"damageType": "poison", "dragonType": "conspirator", "tradition": "occult"}}, {"label": "Coral Dragon", "value": {"damageType": "bludgeoning", "dragonType": "coral", "tradition": "primal"}}, {"label": "Delight Dragon", "value": {"damageType": "spirit", "dragonType": "delight", "tradition": "divine"}}, {"label": "Despair Dragon", "value": {"damageType": "sonic", "dragonType": "despair", "tradition": "occult"}}, {"label": "Diabolic Dragon", "value": {"damageType": "fire", "dragonType": "diabolic", "tradition": "divine"}}, {"label": "Empyreal Dragon", "value": {"damageType": "spirit", "dragonType": "empyreal", "tradition": "divine"}}, {"label": "Executor Dragon", "value": {"damageType": "sonic", "dragonType": "executor", "tradition": "divine"}}, {"label": "Forest Dragon", "value": {"damageType": "piercing", "dragonType": "forest", "tradition": "primal"}}, {"label": "Fortune Dragon", "value": {"damageType": "force", "dragonType": "fortune", "tradition": "arcane"}}, {"label": "Horned Dragon", "value": {"damageType": "poison", "dragonType": "horned", "tradition": "primal"}}, {"label": "Magma Dragon", "value": {"damageType": "fire", "dragonType": "magma", "tradition": "primal"}}, {"label": "Mirage Dragon", "value": {"damageType": "mental", "dragonType": "mirage", "tradition": "arcane"}}, {"label": "Mocking Dragon", "value": {"damageType": "bludgeoning", "dragonType": "mocking", "tradition": "occult"}}, {"label": "Oath Dragon", "value": {"damageType": "spirit", "dragonType": "oath", "tradition": "divine"}}, {"label": "Omen Dragon", "value": {"damageType": "mental", "dragonType": "omen", "tradition": "occult"}}, {"label": "Phase Dragon", "value": {"damageType": "force", "dragonType": "phase", "tradition": "arcane"}}, {"label": "Requiem Dragon", "value": {"damageType": "spirit", "dragonType": "requiem", "tradition": "divine"}}, {"label": "Resurrection Dragon", "value": {"damageType": "void", "dragonType": "resurrection", "tradition": "divine"}}, {"label": "Rime Dragon", "value": {"damageType": "cold", "dragonType": "rime", "tradition": "primal"}}, {"label": "Rune Dragon", "value": {"damageType": "fire", "dragonType": "rune", "tradition": "arcane"}}, {"label": "Sage Dragon", "value": {"damageType": "mental", "dragonType": "sage", "tradition": "occult"}}, {"label": "Stormcrown Dragon", "value": {"damageType": "electricity", "dragonType": "stormcrown", "tradition": "primal"}}, {"label": "Time Dragon", "value": {"damageType": "force", "dragonType": "time", "tradition": "arcane"}}, {"label": "Sea Dragon", "value": {"damageType": "bludgeoning", "dragonType": "sea", "tradition": "arcane"}}, {"label": "Sky Dragon", "value": {"damageType": "electricity", "dragonType": "sky", "tradition": "divine"}}, {"label": "Sovereign Dragon", "value": {"damageType": "mental", "dragonType": "sovereign", "tradition": "occult"}}, {"label": "Umbral Dragon", "value": {"damageType": "void", "dragonType": "umbral", "tradition": "occult"}}, {"label": "Underworld Dragon", "value": {"damageType": "fire", "dragonType": "underworld", "tradition": "arcane"}}, {"label": "Vizier Dragon", "value": {"damageType": "fire", "dragonType": "vizier", "tradition": "occult"}}, {"label": "Vorpal Dragon", "value": {"damageType": "void", "dragonType": "vorpal", "tradition": "arcane"}}, {"label": "Wailing Dragon", "value": {"damageType": "sonic", "dragonType": "wailing", "tradition": "arcane"}}, {"label": "Whisper Dragon", "value": {"damageType": "mental", "dragonType": "whisper", "tradition": "occult"}}, {"label": "Wish Dragon", "value": {"damageType": "mental", "dragonType": "wish", "tradition": "arcane"}}, {"label": "Black Dragon", "value": {"damageType": "acid", "dragonType": "black", "tradition": "arcane"}}, {"label": "Blue Dragon", "value": {"damageType": "electricity", "dragonType": "blue", "tradition": "arcane"}}, {"label": "Brass Dragon", "value": {"damageType": "fire", "dragonType": "brass", "tradition": "arcane"}}, {"label": "Bronze Dragon", "value": {"damageType": "electricity", "dragonType": "bronze", "tradition": "arcane"}}, {"label": "Copper Dragon", "value": {"damageType": "acid", "dragonType": "copper", "tradition": "arcane"}}, {"label": "Gold Dragon", "value": {"damageType": "fire", "dragonType": "gold", "tradition": "arcane"}}, {"label": "Green Dragon", "value": {"damageType": "poison", "dragonType": "green", "tradition": "arcane"}}, {"label": "Silver Dragon", "value": {"damageType": "cold", "dragonType": "silver", "tradition": "arcane"}}, {"label": "Red Dragon", "value": {"damageType": "fire", "dragonType": "red", "tradition": "arcane"}}, {"label": "White Dragon", "value": {"damageType": "cold", "dragonType": "white", "tradition": "arcane"}}]
+        choices: [{"label": "Avarice", "value": {"damageType": "poison", "dragonType": "avarice", "tradition": "occult"}}, {"label": "Bestial", "value": {"damageType": "poison", "dragonType": "bestial", "tradition": "primal"}}, {"label": "Brine", "value": {"damageType": "bludgeoning", "dragonType": "brine", "tradition": "primal"}}, {"label": "Cloud", "value": {"damageType": "electricity", "dragonType": "cloud", "tradition": "primal"}}, {"label": "Crystal", "value": {"damageType": "piercing", "dragonType": "crystal", "tradition": "primal"}}, {"label": "Delight", "value": {"damageType": "spirit", "dragonType": "delight", "tradition": "divine"}}, {"label": "Diabolic", "value": {"damageType": "fire", "dragonType": "diabolic", "tradition": "divine"}}, {"label": "Empyreal", "value": {"damageType": "spirit", "dragonType": "empyreal", "tradition": "divine"}}, {"label": "Executor", "value": {"damageType": "sonic", "dragonType": "executor", "tradition": "divine"}}, {"label": "Forest", "value": {"damageType": "piercing", "dragonType": "forest", "tradition": "primal"}}, {"label": "Fortune", "value": {"damageType": "force", "dragonType": "fortune", "tradition": "arcane"}}, {"label": "Madness", "value": {"damageType": "mental", "dragonType": "madness", "tradition": "occult"}}, {"label": "Magma", "value": {"damageType": "fire", "dragonType": "magma", "tradition": "primal"}}, {"label": "Mocking", "value": {"damageType": "bludgeoning", "dragonType": "mocking", "tradition": "occult"}}, {"label": "Ossuary", "value": {"damageType": "void", "dragonType": "ossuary", "tradition": "divine"}}, {"label": "Rune", "value": {"damageType": "fire", "dragonType": "rune", "tradition": "arcane"}}, {"label": "Terra", "value": {"damageType": "bludgeoning", "dragonType": "terra", "tradition": "primal"}}, {"label": "Time", "value": {"damageType": "force", "dragonType": "time", "tradition": "arcane"}}, {"label": "Umbral", "value": {"damageType": "void", "dragonType": "umbral", "tradition": "occult"}}, {"label": "Whisper", "value": {"damageType": "mental", "dragonType": "whisper", "tradition": "occult"}}]
       - key: "ActiveEffectLike"
         path: "flags.system.barbarian.instinct.dragon.tradition"
         mode: "override"
@@ -1675,12 +1681,14 @@ pf2e_class_features:
         title: "Success"
         text: "You gain Panache."
         predicate: [{"or": ["item:trait:bravado", "self:action:trait:bravado"]}, {"or": [{"not": "self:effect:panache"}, "finisher:illimitable"]}]
+        effects: ["Effect: Panache"]
       - key: "Note"
         selector: ["skill-check", "strike-attack-roll"]
         outcome: ["failure"]
         title: "Failure"
         text: "You gain panache until the end of your next turn Effect: Panache (Temporary)"
         predicate: [{"or": ["item:trait:bravado", "self:action:trait:bravado"]}, {"or": [{"not": "self:effect:panache"}, "finisher:illimitable"]}]
+        effects: ["Effect: Panache (Temporary)"]
   "Perception Mastery":
     pack: "class-features"
     rules:
@@ -1778,6 +1786,7 @@ pf2e_class_features:
         title: "Exemplary Finisher"
         text: "The foe takes a -10 circumstance penalty to its speed until the start of your next turn. Effect: Exemplary Finisher (Rascal)"
         predicate: ["finisher", "feature:exemplary-finisher"]
+        effects: ["Effect: Exemplary Finisher (Rascal)"]
       - key: "RollOption"
         option: "item:trait:bravado"
         domain: "skill-check"
@@ -2234,6 +2243,7 @@ pf2e_class_features:
         title: "Exemplary Finisher"
         text: "The foe takes a -2 circumstance penalty to attack rolls against you until the start of your next turn. Effect: Exemplary Finisher (Wit)"
         predicate: ["finisher", "feature:exemplary-finisher"]
+        effects: ["Effect: Exemplary Finisher (Wit)"]
       - key: "RollOption"
         option: "item:trait:bravado"
         domain: "skill-check"

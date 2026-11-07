@@ -34,8 +34,13 @@ import glob
 import json
 import os
 import re
+import sys
 
 import yaml
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import foundry_source  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'game', 'config')
@@ -50,7 +55,7 @@ def pack(checkout):
     out = {}
 
     for path in glob.glob(os.path.join(checkout, 'packs', 'pf2e', 'equipment', '**', '*.json'), recursive=True):
-        doc = json.load(open(path))
+        doc = json.load(open(path, encoding='utf-8'))
 
         if isinstance(doc, dict) and doc.get('name'):
             out[doc['name']] = doc
@@ -116,9 +121,9 @@ def main():
     args = parser.parse_args()
 
     path = os.path.join(CONFIG, OUT)
-    text = open(path).read()
+    text = open(path, encoding='utf-8').read()
     catalogue = yaml.safe_load(text)[SECTION]
-    effects = yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_effects.yml')))['pf2e_effects']
+    effects = yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_effects.yml'), encoding='utf-8'))['pf2e_effects']
     items = pack(args.checkout)
 
     counts = collections.Counter()
@@ -182,7 +187,8 @@ def main():
     if current in found:
         out.extend(rendered(found[current]))
 
-    open(path, 'w').write('\n'.join(out))
+    open(path, 'w', encoding='utf-8', newline='\n').write('\n'.join(out))
+    foundry_source.record(args.checkout, __file__, [path])
 
 
 def rendered(held):

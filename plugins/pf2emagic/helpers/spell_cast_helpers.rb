@@ -525,14 +525,8 @@ module AresMUSH
     end
 
     def self.get_auto_heighten_level(char)
-      # Some spells, such as cantrips, autoheighten to half the character's level.
-
-      # Ruby's rounding functions act wacky when rounding a return that is a float.
-      # So, we do the half calculation first, and then beat the rounding into submission with a crowbar.
-
-      half_level = char.pf2_level / 2
-
-      half_level.round(half: :up).clamp(1,10)
+      # Some spells, such as cantrips, autoheighten to half the character's level, rounded up.
+      (char.pf2_level / 2.0).ceil.clamp(1, 10)
     end
 
   end

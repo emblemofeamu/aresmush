@@ -106,11 +106,12 @@ ul.dropdown-menu {
 @import url('https://fonts.googleapis.com/css?family=Jim+Nightshade');
 @import url('https://fonts.googleapis.com/css?family=Marcellus');
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 /* Default font & background styling */ 
 
 body {    
-    font-family: 'Marcellus', serif;
+    font-family: 'Mulish', sans-serif;
     font-size: 100%;
     background: url("/game/uploads/theme_images/background.png");
     background-size: 100%;
@@ -132,6 +133,23 @@ div.title-wrap {
 
 div.jumbotron {
     background: none;
+}
+
+div.jumbotron p {
+    font-weight: 300;
+}
+
+div.jumbotron-tagline {
+    font-family: "Philosopher", sans-serif;
+    font-variant: small-caps;
+}
+
+div.jumbotron div.splash {
+    text-align: center;
+}
+
+div.jumbotron div.splash p {
+    font-weight: 300;
 }
 
 /* Title text and server address styling */
@@ -223,6 +241,7 @@ div.sidebar-box {
     padding: 0px;
     margin-top: .1em;
     text-transform: revert;
+    font-variant: small-caps;
 }
 
 /* Code text styling */
@@ -245,6 +264,7 @@ h1 {
     border-left-width: 8px;
     border-right-style: none;
     border-image: linear-gradient(to right, #CBC0AD, transparent) 1; /* Dark Vanilla */
+    font-variant: small-caps;
 }
 
 h2 {
@@ -253,6 +273,7 @@ h2 {
     color: #CBC0AD; /* Dark Vanilla */
     border-bottom: 2px solid #CBC0AD; /* Dark Vanilla */
     border-image: linear-gradient(to right, #CBC0AD, transparent) 1; /* Dark Vanilla */
+    font-variant: small-caps;
 }
 
 h1, .h1, h2, .h2 {
@@ -264,6 +285,7 @@ h3, .h3 {
     color: #df8f84; /* New York Pink */
     margin-top: 15px;
     margin-bottom: 5px;
+    font-family: 'Philosopher', serif;
 }
 
 h4, .h4 {
@@ -671,6 +693,8 @@ wiki-header-left {
     margin-bottom: 10px;
     display: inline-block;
     text-align: center;
+    font-family: 'Philosopher', serif;
+    font-size: 2.3em;
 }
 /* Wiki Header Right */
 wiki-header-right {
@@ -690,6 +714,8 @@ wiki-header-right {
     margin-bottom: 10px;
     display: inline-block;
     text-align: center;
+    font-family: 'Philosopher', serif;
+    font-size: 2.3em;
 }
 
 /* Scene component styling */

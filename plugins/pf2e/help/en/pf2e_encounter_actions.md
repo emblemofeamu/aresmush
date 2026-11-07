@@ -7,6 +7,7 @@ aliases:
 - strike
 - cast
 - why
+- how
 ---
 # Pathfinder 2E - Acting in an Encounter
 
@@ -19,6 +20,12 @@ All rolls are public, meaning that everyone in the scene sees each roll and its 
 `encounter/<verb> <what>=<who>/<circumstance>/<circumstance>`
 
 `<who>` is a combatant's ID from `encounter/view` (such as `#3`) or the combatant's name. Each part after a `/` is a circumstance, such as `flanking` or `range 2`. The "Circumstance bonuses and penalties" section lists them.
+
+`encounter/how <name>`: Shows the commands that do what you name, as you'd type them: an action you can use, a Strike, a spell you can cast, an item you carry, or something the game does, such as spending a Hero Point. If more than one thing goes by that name, or there's more than one way to do it, you get every command. In an encounter, it works from what you carried in.
+%t **Examples**:
+%t `encounter/how strike` gives a command for each Strike you can make.
+%t `encounter/how opportune riposte`, `encounter/how fear`, `encounter/how healing potion`
+%t `encounter/how hero point`, or `encounter/how reroll`
 
 ## Actions
 
@@ -36,12 +43,17 @@ All rolls are public, meaning that everyone in the scene sees each roll and its 
 - **Actions made of several Strikes**, such as Flurry of Blows, make all of their Strikes against one target. Each Strike counts toward your multiple attack penalty, and you pay the action's cost once.
 - **Actions that are a Strike plus something else**, such as Deadly Aim, Combat Assessment, or a finisher, make the Strike with the action's rules applied. You roleplay the rest.
 - **Drain Bonded Item** (`encounter/act drain bonded item/<spell>`): Lets a wizard recover a spell they prepared today and have already cast, so they can cast it again with `encounter/cast`.
+- **Sustain** (`encounter/act sustain[/<effect>]`): Keeps a sustained effect you put in place going through the end of your next turn on everyone it affects. You can leave off the effect's name if you only have one effect to sustain. If you don't sustain an effect, it ends at the end of your next turn. If the effect does something more when you sustain it, your GM must manually take care of that part.
+- **Dragon Breath** (`encounter/act dragon breath=<target>,<target>`): While you're in *dragon form*, breathes your dragon's damage on your specified targets, who each roll a basic save against your spell DC. Its shape and save match your chosen dragon type. You need to wait 1d4 rounds before you can use it again.
+- **Dragon's Rage Breath** (`encounter/act dragon's rage breath=<target>,<target>`): While you're raging, breathes your Dragon Instinct's damage in a 30-foot cone, and your targets roll a basic Reflex save against your class DC. You can use it once every 10 minutes.
+- **Dismiss** (`encounter/act dismiss/<effect>`): Ends an effect that says it can be dismissed. An effect you cast earlier ends on everyone you cast it on. You can also dismiss an effect a GM added onto you.
 - **Actions with their own command**, such as Quick Alchemy or Refocus: `encounter/act` refuses them and tells you which command to use instead.
 - **Nimble Dodge** and similar reactions that raise your AC against an attack respond to a hit you just took. The game applies the bonus to the attack roll, and undoes the hit if it becomes a miss. When a reaction like this could turn a hit into a miss, the game tells you.
 - **Shield Block** (`encounter/act shield block`) responds to a hit you just took while your shield is raised. Your shield's Hardness reduces the hit's physical damage, and you and the shield each take the rest. When you can block a hit, the game tells you.
 - **Delay** (`encounter/act delay`): At the start of your turn, lets you wait for a better moment. Your end-of-turn effects happen immediately, and the GM moves on to the next combatant. To come back in, use `encounter/act delay` again after anyone else's turn. You act then, and keep that new place in the initiative order. If a full round passes without you coming back, you lose that turn.
 - **Heal and Harm**: Each spell heals one kind of creature and damages the other. A creature being healed doesn't roll; a creature being damaged rolls a basic Fortitude save. The two-action version's extra 8 only applies to healing.
 - **Retching** (`encounter/act retch[/<DC>]`): If you're Sickened, spends an action on a Fortitude save against the DC of whatever sickened you. A success reduces the condition by one, and a critical success reduces it by two. If the GM set the condition by hand, add the DC: `encounter/act retch/18`.
+- **In a battle form**, the form's attacks are the only ones you can use, and a form that lists no attacks, such as *pest form*, can't make Strikes. If your own attack modifier is higher, the game uses it, along with the potency of any handwraps you've invested. You can't cast spells, use manipulate actions unless the form has hands, or use your gear, including a shield. `encounter/csheet` shows your attacks.
 - **Disarm, Grapple, Reposition, Shove, and Trip** only work on targets up to one size larger than you: two sizes larger with Titan Wrestler, and three sizes larger if you're also legendary in Athletics.
 
 ## Strikes
@@ -67,6 +79,7 @@ Bows, crossbows, and slings always have ordinary ammunition, which the game does
 %t `encounter/cast fireball=#3,#4,#5/rank 4`
 %t `encounter/cast heal=#2/actions 2`
 %t **Note:** For a spell that can be cast more than one way, name the way: `/actions 2` for Heal's two-action version, which heals more at range, or a word from the variant's name, such as `/silver` for silver Needle Darts.
+%t **Note:** For a spell that affects an item or requires you to make a choice, specify the item or your choice with the following syntax: `encounter/cast runic weapon=Bram/longsword` or `encounter/cast resist energy=Bram/fire`. See `help cast` or [read it on the web](/help/cast).
 %t **Note:** Force Barrage fires one shard for each action you spend: `encounter/cast force barrage=#3/actions 3`. Every target you name takes all of the shards, so to split them between targets, name one target and the GM settles the rest.
 %t **Note:** For a save that isn't basic, the damage for each outcome comes from the spell's text. If the text doesn't say, the game shows the room the damage, and the GM settles it.
 
@@ -79,7 +92,7 @@ Bows, crossbows, and slings always have ordinary ammunition, which the game does
 `piercing`, `slashing`, `bludgeoning`: Chooses the damage type a versatile weapon deals this time.
 `nonlethal`, `lethal`: Makes a nonlethal attack with a lethal weapon, or a lethal attack with a nonlethal weapon, at -2 to hit. A nonlethal hit that drops someone to 0 HP knocks them out.
 `volley`: Marks the target as within a volley weapon's short range (-2 to hit).
-`force`: Lets the GM have a creature use an action or cast a spell its stat block doesn't give it. See `help encounter_gm`.
+`force`: Lets the GM have a creature use an action or cast a spell its stat block doesn't give it, or have someone in a battle form do what the form prevents. See `help encounter_gm`.
 `silver`, `cold iron`, `holy`, `magical`, and so on: Tells the game what your weapon is made of or carries, which it can't see on its own. A creature with a weakness to that material takes more damage, and a resistance that makes an exception for it doesn't apply: `encounter/strike #3=longsword/cold iron`.
 
 Any other circumstance is one the rules can check for, such as `unintelligible`, a skill for Aid, or a variant like `stabilize`.
@@ -110,7 +123,7 @@ At the start of your turn, the game tells you what matters: your actions, your e
 
 ## More encounter help
 
-- `help encounter_cover`: Cover and concealment, and the Seek, Hide, Sneak, and Recall Knowledge actions. [Read it on the web](/help/pf2e_encounter_cover).
+- `help encounter_cover`: Cover and concealment, and the Seek, Hide, Sneak, Create a Diversion, and Recall Knowledge actions. [Read it on the web](/help/pf2e_encounter_cover).
 - `help encounter_conditions`: Being grabbed or held, other conditions that limit your actions, and afflictions. [Read it on the web](/help/pf2e_encounter_conditions).
 - `help encounter_gear`: Using items in your encounter inventory. [Read it on the web](/help/pf2e_encounter_gear).
 - `help encounter_gm`: Acting for creatures, and undoing changes, for the GM. [Read it on the web](/help/pf2e_encounter_gm).

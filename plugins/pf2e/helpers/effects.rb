@@ -287,10 +287,18 @@ module AresMUSH
           next nil unless info.is_a?(Hash) && info['rules']
 
           built = source(name, info['rules'], 'id' => Domains.slug(name), 'kind' => DOES,
-                                              'item' => { 'level' => char.pf2_level.to_i })
+                                              'item' => { 'level' => char.pf2_level.to_i },
+                                              'chosen' => subclass_choice(char, name))
 
           with_selections(char, built)
         end.compact
+      end
+
+      # What a subclass's own question was answered with at chargen: which dragon a Dragon Instinct is.
+      def self.subclass_choice(char, name)
+        picked = (char.pf2_base_info || {})['specialize_info']
+
+        name == subclass_named(char) && !picked.to_s.empty? ? [ picked ] + chosen_for(char, name) : nil
       end
 
       def self.subclass_named(char)
@@ -355,7 +363,7 @@ module AresMUSH
 
         # An effect carries the answers it was applied with; a feat's are recorded with the feat.
         chosen = built['chosen'] || chosen_for(char, built['name'])
-        declared = Array(built['options'])
+        declared = Array(built['options']) + cast_from(built['chosen'])
         selections = {}
 
         # A set may ask something of the character - Azarim's choice is from 11th level - and what is
@@ -365,7 +373,7 @@ module AresMUSH
         sets.each do |set|
           next unless Predicate.test(set['when'], known + declared)
 
-          answer = answer_to(set, chosen, char)
+          answer = answer_to(set, chosen, char) || only_fitting(set, known + declared)
 
           next unless answer
 
@@ -376,6 +384,28 @@ module AresMUSH
         built.merge('item' => (built['item'] || {}).merge(
                       'flags' => { 'system' => { 'rulesSelections' => selections } }),
                     'options' => declared)
+      end
+
+      # The tradition an effect was cast from, where it was applied saying so: `tradition primal`. Dragon
+      # Form's resistance depends on the caster's tradition matching the dragon's.
+      def self.cast_from(answers)
+        Array(answers).map { |one| one.to_s[/\Atradition\s+(\w+)\z/i, 1] }.compact
+                      .map { |tradition| "parent:spellcasting:tradition:#{tradition.downcase}" }
+      end
+
+      # The answer nobody had to give: a listed choice whose circumstances name what brought the effect
+      # (`parent:`), when only one of them holds. An antidote's effect asks which antidote, and each
+      # choice says "this one, if it came from a major antidote"; once the effect knows it did, there is
+      # nothing to ask, and Foundry does not ask either when its predicates leave one choice. A set whose
+      # choices are about something else is still asked.
+      def self.only_fitting(set, held)
+        listed = Array(set['choices'])
+
+        return nil unless listed.any? { |one| one['when'].to_json.include?('parent:') }
+
+        fitting = listed.select { |one| Predicate.test(one['when'], held) }
+
+        fitting.size == 1 ? fitting.first['value'] : nil
       end
 
       # An answer counts only if it is one this set could have offered, so a choice recorded against some
@@ -409,6 +439,9 @@ module AresMUSH
       #
       # Its id is its own, because a rule may name it - a rune that adds fire damage to *this* sword
       # says `{item|id}-damage`, and the sword's damage domains include exactly that.
+      #
+      # A bomb is never worn, only carried and thrown. A rule of its own that names its id reaches only
+      # the Strike that throws it, as a Glue Bomb's note on `{item|_id}-attack` does, so it is kept.
       def self.items(char)
         worn = Pf2egear.effective_items(char).map { |_category, item| item.id.to_s }
 
@@ -416,7 +449,9 @@ module AresMUSH
           info = Pf2egear.catalogue_entry(category, item) || {}
           rules = Array(info['rules'])
 
-          rules = rules.reject { |row| Rules.needs_wearing?(row) } unless worn.include?(item.id.to_s)
+          unless worn.include?(item.id.to_s)
+            rules = rules.reject { |row| Rules.needs_wearing?(row) && !(info['bomb'] && own_roll?(row)) }
+          end
 
           next nil if rules.empty?
 
@@ -424,6 +459,13 @@ module AresMUSH
                  'item' => { 'id' => item.id.to_s, '_id' => item.id.to_s, 'level' => item_level(item) },
                  'options' => item_options(item))
         end.compact
+      end
+
+      # Whether a rule names only its own item's rolls, by the item's id.
+      def self.own_roll?(row)
+        selectors = Array(row['selector'])
+
+        !selectors.empty? && selectors.all? { |one| one.to_s.start_with?('{item|_id}-', '{item|id}-') }
       end
 
       # The property runes etched on what a character is carrying, each as a source of its own.

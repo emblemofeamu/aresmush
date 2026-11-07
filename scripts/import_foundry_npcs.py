@@ -34,6 +34,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import ea_dragons  # noqa: E402
+import foundry_source  # noqa: E402
 import import_foundry_rules as rules  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,7 +54,7 @@ def blobs(checkout, packs='packs/pf2e'):
     """Every JSON file in their packs, or in the one pack named, read in one pass through git rather than
     one process per file."""
     listed = subprocess.run(['git', '-C', checkout, 'ls-tree', '-r', 'HEAD', packs],
-                            capture_output=True, text=True).stdout.splitlines()
+                            capture_output=True, text=True, encoding='utf-8').stdout.splitlines()
     wanted = [(line.split()[2], line.split('\t', 1)[1]) for line in listed
               if line.endswith('.json') and not line.endswith('_folders.json')]
 
@@ -434,18 +436,24 @@ def main():
             repeated += 1
             continue
 
-        by_pack[pack][name] = npc_of(doc, pack, refused, words)
+        by_pack[pack][ea_dragons.creature_name(name)] = npc_of(doc, pack, refused, words)
 
     if args.write:
         os.makedirs(BESTIARY, exist_ok=True)
         # The house bestiary is the game's own creatures, which the game writes; it is not Foundry's.
+        removed = []
         for old in os.listdir(BESTIARY):
             if old.endswith('.yml') and old != HOUSE:
-                os.remove(os.path.join(BESTIARY, old))
+                removed.append(os.path.join(BESTIARY, old))
+                os.remove(removed[-1])
+        written = []
         for pack, entries in by_pack.items():
-            open(os.path.join(BESTIARY, f'{pack}.yml'), 'w').write(rendered(entries))
-        commit = subprocess.run(['git', '-C', args.checkout, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
-        open(os.path.join(BESTIARY, INDEX), 'w').write(indexed(by_pack, commit or 'an unknown commit'))
+            written.append(os.path.join(BESTIARY, f'{pack}.yml'))
+            open(written[-1], 'w', encoding='utf-8', newline='\n').write(rendered(entries))
+        commit = subprocess.run(['git', '-C', args.checkout, 'rev-parse', 'HEAD'], capture_output=True, text=True, encoding='utf-8').stdout.strip()
+        written.append(os.path.join(BESTIARY, INDEX))
+        open(written[-1], 'w', encoding='utf-8', newline='\n').write(indexed(by_pack, commit or 'an unknown commit'))
+        foundry_source.record(args.checkout, __file__, sorted(written), removed)
 
     if args.write:
         print('Run `bundle exec rake pf2e:creature_clashes` for saved creatures whose names this import has taken.')

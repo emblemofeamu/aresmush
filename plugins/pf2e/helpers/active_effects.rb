@@ -81,7 +81,7 @@ module AresMUSH
       # asks for them. An effect another brought with it for as long as it lasts is a source too.
       def self.sources(char)
         on(char).flat_map { |effect| source_and_derived(char, effect.name, instance_item(effect),
-                                                        effect.answers, 0, BattleForms.rows(char, effect)) }
+                                                        effect.answers, 0, BattleForms.rows(char, effect), effect) }
       end
 
       def self.instance_item(effect)
@@ -91,18 +91,89 @@ module AresMUSH
 
       # `extra` is what the effect gives through the ordinary rules beyond its own - a battle form's
       # senses, size and resistances.
-      def self.source_and_derived(char, name, item, answers, depth, extra = [])
+      def self.source_and_derived(char, name, item, answers, depth, extra = [], effect = nil)
         rules = Array(info(name)['rules']) + extra
         built = Effects.with_selections(char, Effects.source(name, rules, 'item' => item,
-                                                             'chosen' => answers))
+                                                             'chosen' => answers,
+                                                             'options' => parent_options(name, effect)))
 
         return [ built ] if depth >= DEPTH
 
         derived = effect_grants(name).select { |grant| grant['derived'] && granted?(char, grant) }
 
         [ built ] + derived.flat_map { |grant|
-          source_and_derived(char, grant['name'], item, [], depth + 1)
+          source_and_derived(char, grant['name'], item, [], depth + 1, [], effect)
         }
+      end
+
+      # What an effect's own rules see of the effect, under `parent:` - Foundry tests a rule with its
+      # item's roll options as well as the actor's (`rule-element/base.ts` `test`), and 205 of the
+      # effects we stock ask about them. Ancestral Geometry's save is its badge (`parent:badge:value:2`),
+      # Devouring Dark Form's shark needs the spell at 2nd rank (`parent:level`), an antidote's bonus is
+      # the antidote it came from (`parent:origin:item:slug:antidote-major`), and Aldori Swordlord's
+      # temporary hit points are what the Strike rolled (`parent:context:check:outcome:3`).
+      #
+      # Without an effect - a catalogue entry read for what it is rather than for an instance of it -
+      # there is nothing to say, and a rule asking reads as it always did.
+      def self.parent_options(name, effect)
+        return [] unless effect
+
+        slug = Domains.slug(name)
+        origin = effect.origin || {}
+
+        [ "parent:id:#{effect.id}", "parent:#{slug}", "parent:slug:#{slug}", 'parent:type:effect',
+          "parent:level:#{effect.level.to_i}" ] +
+          (effect.badge.nil? ? [] : [ "parent:badge:value:#{effect.badge.to_i}" ]) +
+          Effects.named('parent:trait', info(name)['traits']) +
+          origin_options(origin)
+      end
+
+      # An origin as `apply` takes it. `item` is what brought the effect, as a hash of its name or slug,
+      # level, type, traits and tags; `by` is whoever used it, a character or a creature; `outcome` is
+      # the degree of success of the check that brought it, 0 to 3.
+      def self.origin(item: nil, by: nil, outcome: nil)
+        out = {}
+
+        thing = (item || {}).reject { |_key, value| value.nil? || value == [] }
+        out['item'] = thing unless thing.empty?
+
+        if by.respond_to?(:pf2_level)
+          out['actor'] = { 'level' => by.pf2_level.to_i,
+                           'traits' => Array(by.respond_to?(:pf2_traits) ? by.pf2_traits : []) }
+        end
+
+        out['outcome'] = outcome.to_i unless outcome.nil?
+
+        out
+      end
+
+      # Foundry's spelling of an effect's origin (`effect/document.ts` `getRollOptions`): the item that
+      # brought it under `origin:item`, the creature that used it under `origin`, and the check that
+      # did under `context:check:outcome`.
+      def self.origin_options(origin)
+        item = origin['item'] || {}
+        actor = origin['actor'] || {}
+        found = []
+
+        unless item.empty?
+          slug = Domains.slug(item['slug'] || item['name'])
+
+          found += [ 'parent:origin:item', "parent:origin:item:#{slug}", "parent:origin:item:slug:#{slug}" ]
+          found << "parent:origin:item:type:#{item['type']}" if item['type']
+          found << "parent:origin:item:level:#{item['level'].to_i}" unless item['level'].nil?
+          found += Effects.named('parent:origin:item:trait', item['traits'])
+          found += Effects.named('parent:origin:item:tag', item['tags'])
+        end
+
+        unless actor.empty?
+          found << "parent:origin:level:#{actor['level'].to_i}" unless actor['level'].nil?
+          found += Effects.named('parent:origin:trait', actor['traits'])
+        end
+
+        outcome = origin['outcome']
+        found << "parent:context:check:outcome:#{outcome.to_i}" if outcome.to_s.match?(/\A[0-3]\z/)
+
+        found
       end
 
       def self.grants_of(name)
@@ -128,12 +199,18 @@ module AresMUSH
       # What an effect declares about itself: the answers it was applied with, as the options its choice
       # sets name, and the options its own `RollOption` rules hold by default.
       def self.own_options(char, effect)
-        built = Effects.with_selections(char, Effects.source(effect.name, Array(info(effect.name)['rules']),
-                                                             'item' => instance_item(effect),
-                                                             'chosen' => effect.answers))
-        declared = Rules.of_kind(built, 'RollOption').map { |row| row['option'] }.compact
+        built = answered(char, effect)
+        declared = Rules.of_kind(built, 'RollOption').map { |row| Rules.resolved(row, built, {}) }
+                        .compact.map { |row| row['option'] }.compact
 
         Array(built['options']) + declared
+      end
+
+      def self.answered(char, effect)
+        Effects.with_selections(char, Effects.source(effect.name, Array(info(effect.name)['rules']),
+                                                     'item' => instance_item(effect),
+                                                     'chosen' => effect.answers,
+                                                     'options' => parent_options(effect.name, effect)))
       end
 
       # The conditions the character's effects bring with them for as long as they last, as
@@ -152,8 +229,11 @@ module AresMUSH
 
       # `options` are what the player said about it after its name: `rank 6` for the rank it was cast
       # at, `value 3` for a counter, and anything else as an answer to what it asks - `fire` for which
-      # energy Resist Energy resists.
-      def self.apply(char, term, options: [], applied_by: nil, encounter: nil, granted_by: nil)
+      # energy Resist Energy resists. `lasts` is a duration other than the catalogue's, where what applies
+      # it decides how long it goes on. `origin` is what brought it, as `Pf2eEffect#origin` holds it:
+      # `ActiveEffects.origin` builds one.
+      def self.apply(char, term, options: [], applied_by: nil, encounter: nil, granted_by: nil, lasts: nil,
+                     origin: nil)
         found = find(term)
 
         return found if found.err?
@@ -162,7 +242,7 @@ module AresMUSH
         entry = info(name)
         said = parse(options)
         said['answers'] = owned_answers(char, name, said['answers'])
-        duration = entry['duration'] || {}
+        duration = (entry['duration'] || {}).merge(lasts || {})
         unit = UNITS.key?(duration['unit']) ? duration['unit'] : 'unlimited'
         max_before = HitPointLoss.takes?(entry['rules']) ? HitPointLoss.max_hp(char) : nil
 
@@ -174,10 +254,10 @@ module AresMUSH
           :encounter => encounter, :started_round => encounter&.round,
           :started_turn => encounter ? current_turn(encounter) : nil,
           :rests_left => unit == 'days' ? duration['value'].to_i : nil,
-          :answers => said['answers'])
+          :answers => said['answers'], :origin => origin || {})
 
         effect.update(:granted_by => granted_by) if granted_by
-        effect.update(:sustained => true, :sustained_round => encounter.round.to_i) if duration['sustained'] && encounter
+        effect.update(:sustained => true, :sustained_round => sustained_through(effect, encounter)) if duration['sustained'] && encounter
 
         grant_stored(char, effect, encounter)
 
@@ -198,6 +278,28 @@ module AresMUSH
         answers.map do |typed|
           sets.map { |set| Choices.owned_answer(set, char, typed) }.compact.first || typed
         end
+      end
+
+      # The questions about one of the character's own things that these answers leave open: those no
+      # answer settles with something the set would take, and whose own condition the answers meet.
+      def self.items_wanted(char, name, answers)
+        return [] unless Actors.of(char).carries_items?
+
+        built = Effects.with_selections(char, Effects.source(name, Array(info(name)['rules']),
+                                                             'chosen' => owned_answers(char, name, answers)))
+        selections = (built['item'] || {}).dig('flags', 'system', 'rulesSelections') || {}
+        known = Effects.character_facts(char) + Array(built['options'])
+
+        Rules.choice_sets(built).select do |set|
+          set['owned'] && set['flag'] && Predicate.test(set['when'], known) &&
+            !Choices.offer(set, char).include?(selections[set['flag'].to_s])
+        end
+      end
+
+      # The answers that go without saying, where the only thing a question could mean is equipped.
+      def self.items_in_hand(char, name, answers)
+        items_wanted(char, name, answers).map { |set| Choices.in_hand(set, char) }
+                                         .select { |held| held.size == 1 }.map(&:first)
       end
 
       def self.parse(options)
@@ -237,7 +339,7 @@ module AresMUSH
           next if !grant['duplicate'] && active?(char, grant['name'])
 
           apply(char, grant['name'], :applied_by => effect.applied_by, :encounter => encounter,
-                                     :granted_by => effect.name)
+                                     :granted_by => effect.name, :origin => effect.origin)
         end
       end
 
@@ -413,20 +515,60 @@ module AresMUSH
       end
 
       # A sustained effect ends at the end of the caster's next turn unless they sustain it, which is the
-      # rule; its duration is only the most it can last. The round it was last sustained in is the one
-      # it began in until someone says otherwise.
+      # rule; its duration is only the most it can last. It ends at the end of their first turn in a round
+      # after `sustained_round`.
       def self.unsustained(encounter, participant, round)
         in_encounter(encounter).select { |effect|
-          effect.holder && effect.sustained && (effect.started_turn || effect.holder.name) == participant &&
+          effect.holder && effect.sustained && caster_of(effect, encounter) == participant &&
             round.to_i > effect.sustained_round.to_i
         }.map { |effect| ended(effect) }
       end
 
+      # Who an effect in an encounter is the doing of, by their name in the order: whoever applied it if
+      # they are in the fight, and otherwise whoever is under it, which is what a GM's `effect/add` leaves.
+      def self.caster_of(effect, encounter)
+        return effect.applied_by if applied_by_combatant?(effect, encounter)
+
+        Combatants.all(encounter).find { |one| one.holder == effect.holder }&.label || effect.holder&.name
+      end
+
+      def self.applied_by_combatant?(effect, encounter)
+        Combatants.rows(encounter).any? { |row| row['name'] == effect.applied_by }
+      end
+
+      # An effect's name as a player says it.
+      def self.bare_name(effect)
+        effect.name.sub(PREFIXES, '')
+      end
+
+      # The names a player's words could mean: the one they spell out, or else any that contain them.
+      def self.matching(names, term)
+        wanted = Domains.slug(term)
+        exact = names.find { |name| Domains.slug(name) == wanted }
+
+        exact ? [ exact ] : names.select { |name| Domains.slug(name).include?(wanted) }
+      end
+
       # Keeps a sustained effect going through the caster's next turn.
       def self.sustain(effect, encounter)
-        effect.update(:sustained_round => encounter.round.to_i)
+        effect.update(:sustained_round => sustained_through(effect, encounter))
 
         Ok.new(:state => effect)
+      end
+
+      # The `sustained_round` that makes the caster's next turn the last: this round, or the one before it
+      # if that turn is still to come this round.
+      def self.sustained_through(effect, encounter)
+        round = encounter.round.to_i
+
+        turn_to_come?(caster_of(effect, encounter), encounter) ? round - 1 : round
+      end
+
+      def self.turn_to_come?(name, encounter)
+        order = Combatants.rows(encounter)
+        at = order.index { |row| row['name'] == name }
+
+        !at.nil? && encounter.round.to_i.positive? && at > (encounter.next_init.to_i - 1) % order.size
       end
 
       def self.ended(effect)

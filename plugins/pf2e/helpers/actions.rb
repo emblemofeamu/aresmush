@@ -72,7 +72,7 @@ module AresMUSH
       def self.usable(char, name)
         entry = info(name)
 
-        return Ok.new(:state => name) if entry['for'] == 'everyone' || owned?(char, name)
+        return Ok.new(:state => name) if entry['for'] == 'everyone' || owned?(char, name) || DragonBreath.grants?(char, name)
 
         Err.new(:not_yours, 'pf2e.action_not_yours', 'action' => name)
       end

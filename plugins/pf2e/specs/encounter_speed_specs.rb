@@ -52,8 +52,14 @@ module AresMUSH
 
       it "should keep each within its budget" do
         priest = Combatants.all(encounter).find { |one| one.label.start_with?('Spirit Priest') }.number
+        ActiveEffects.apply(hero, 'Effect: Alloy Flesh and Steel', :applied_by => @hero.name, :encounter => encounter)
+        ActiveEffects.apply(hero, 'Spell Effect: Light', :applied_by => @hero.name, :encounter => encounter)
+        allow_any_instance_of(PF2EncounterCastCmd).to receive(:spend_the_spell)
+          .and_return('spell name' => 'Untamed Form', 'spell level' => '3', 'tradition' => 'primal')
         typed = [ [ 'e/view', @hero ], [ 'e/sheet', @hero ], [ 'e/turn', @hero ], [ 'e/strike #2=fist', @hero ],
-                  [ 'e/act trip=#3', @hero ], [ 'e/act demoralize=#4', @hero ], [ 'e/use consumables=0', @hero ],
+                  [ 'e/act trip=#3', @hero ], [ 'e/act demoralize=#4', @hero ], [ 'e/act sustain/alloy flesh', @hero ],
+                  [ 'e/act dismiss/light', @hero ], [ 'e/cast untamed form/focus/bear', @hero ],
+                  [ 'e/use consumables=0', @hero ],
                   [ "e/as ##{priest}=cast fear=#{@hero.name}", @gm ], [ "e/as #5=strike #{@hero.name}", @gm ],
                   [ 'condition/set #6=prone', @gm ], [ "condition/set #{@hero.name}=frightened/1", @gm ],
                   [ "heal #{@hero.name}=3", @gm ], [ 'damage #6=2', @gm ], [ 'e/next', @gm ], [ 'e/undo', @gm ],

@@ -250,7 +250,9 @@ module AresMUSH
         # A caster who cannot cast it at all is refused before the spell is spent.
         scene = scene_for(encounter, actor.state, nil)
         return if CharState.emit_error!(client, Acting.unlisted_spell(scene, self.spell, self.words) || Ok.new(:state => nil))
-        return if CharState.emit_error!(client, Acting.casting_refused(scene, self.spell) || Ok.new(:state => nil))
+        return if CharState.emit_error!(client, Acting.casting_refused(scene, self.spell, self.words) || Ok.new(:state => nil))
+        return if CharState.emit_error!(client, UntamedForm.refusal(scene, self.spell, self.words, found) || Ok.new(:state => nil))
+        return if CharState.emit_error!(client, Acting.item_needed(scene, self.spell, found, self.words) || Ok.new(:state => nil))
 
         cast = Actors.of(actor.state.holder).spends_spells? ? spend_the_spell(actor.state.holder) : nil
 

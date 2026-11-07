@@ -31,9 +31,10 @@ module AresMUSH
     attribute :started_round, :type => DataType::Integer
     attribute :started_turn
 
-    # Whether it has to be sustained, and the round it was last sustained in. It ends at the end of the
-    # caster's next turn unless they sustain it again, which is the rule; its duration is only the most
-    # it can last. Held as a flag of its own because an unset round reads as nought.
+    # Whether it has to be sustained, and the round it was last sustained through. It ends at the end of
+    # the caster's first turn in a later round unless they sustain it again, which is the rule; its
+    # duration is only the most it can last. Held as a flag of its own because an unset round reads as
+    # nought.
     attribute :sustained, :type => DataType::Boolean, :default => false
     attribute :sustained_round, :type => DataType::Integer
 
@@ -52,6 +53,13 @@ module AresMUSH
     # The answers to what the effect asked when it was applied: which kind of energy Resist Energy
     # resists. Keyed by the choice set's flag, as Foundry keys them.
     attribute :answers, :type => DataType::Array, :default => []
+
+    # What brought it: the item, spell or action (`item`: its slug, level, traits and tags), the
+    # creature that used it (`actor`: its level and traits), and the degree of success of the check
+    # that did (`outcome`, 0 to 3). Its rules read these as `parent:origin:*` and
+    # `parent:context:check:outcome`, which is how a lesser antidote and a major one are the same
+    # effect with different numbers. Empty when nothing said - an effect a GM added by hand.
+    attribute :origin, :type => DataType::Hash, :default => {}
 
     # Who is under it: a character in an encounter, or a creature in one. `character` is a character
     # outside any encounter, which only an effect from before encounters held their own state can be.

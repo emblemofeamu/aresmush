@@ -21,7 +21,7 @@ pf2e_deities:
     domains:
       - Family
       - Healing
-      - Pain
+      - Star
       - Repose
     cleric_spells:
       - Soothe
@@ -349,7 +349,7 @@ pf2e_deities:
     fav_weapon: guisarme
     domains:
       - Destruction
-      - Death
+      - Dust
       - Indulgence
       - Pain
     cleric_spells:
@@ -505,10 +505,10 @@ pf2e_deities:
     related_lore: Radan Lore
     fav_weapon: trident
     domains:
-      - Air
+      - Lightning
       - Travel
-      - Water
       - Wealth
+      - Water
     cleric_spells:
       - Water Breathing
       - Mariner's Curse

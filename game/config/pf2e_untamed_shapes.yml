@@ -1,0 +1,34 @@
+---
+# The shapes on a druid's Untamed Form list. `spell` is the polymorph spell the shapes come from, `rank` the
+# lowest rank that spell can be cast at, `feat` the druid feat that adds it where one does, and `minutes` how
+# long Untamed Form lasts in that shape, where it isn't the spell's usual 1 minute.
+pf2e_untamed_shapes:
+  - spell: Pest Form
+    rank: 1
+    minutes: 10
+  - spell: Animal Form
+    rank: 2
+  - spell: Humanoid Form
+    rank: 2
+    feat: Anthropomorphic Shape
+  - spell: Insect Form
+    rank: 3
+    feat: Insect Shape
+  - spell: Dinosaur Form
+    rank: 4
+    feat: Ferocious Shape
+  - spell: Aerial Form
+    rank: 4
+    feat: Soaring Shape
+  - spell: Elemental Form
+    rank: 5
+    feat: Elemental Shape
+  - spell: Plant Form
+    rank: 5
+    feat: Plant Shape
+  - spell: Dragon Form
+    rank: 6
+    feat: Dragon Shape
+  - spell: Monstrosity Form
+    rank: 8
+    feat: Monstrosity Shape

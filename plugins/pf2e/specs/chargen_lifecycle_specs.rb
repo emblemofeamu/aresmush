@@ -7,7 +7,7 @@ module AresMUSH
 
         def config
           ConfigView.fixture(
-            'pf2e' => { 'subclass_names' => { 'Wizard' => 'Thesis', 'Champion' => 'Cause', 'Cleric' => 'Doctrine' } },
+            'pf2e' => { 'subclass_names' => { 'Wizard' => 'Arcane School', 'Champion' => 'Cause', 'Cleric' => 'Doctrine' } },
             'pf2e_class' => {
               'Wizard' => {},
               'Fighter' => {},

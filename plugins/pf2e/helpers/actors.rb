@@ -225,8 +225,11 @@ module AresMUSH
       end
 
       # Its attacks by what a player would call them: the weapons equipped, unarmed attacks, and what a
-      # feat or an item granted. A stance whose attack replaces all others leaves only that one.
+      # feat or an item granted. A battle form, or a stance whose attack replaces all others, leaves only
+      # its own.
       def attacks
+        return [] if BattleForms.strikeless?(@holder)
+
         granted = Pf2eCombat.granted_strikes(@holder).map { |one| [ [ one['name'] ], one ] }
         only = granted.select { |_names, one| one['replace_all'] }
 

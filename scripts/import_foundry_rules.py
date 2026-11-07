@@ -29,7 +29,9 @@ import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import ea_dragons  # noqa: E402
 import formula_words  # noqa: E402
+import foundry_source  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'game', 'config')
@@ -81,7 +83,7 @@ def granted_features():
                 walk(one)
 
     for name in ('pf2e_class.yml', 'pf2e_specialty.yml'):
-        walk(yaml.safe_load(open(os.path.join(CONFIG, name))))
+        walk(yaml.safe_load(open(os.path.join(CONFIG, name), encoding='utf-8')))
 
     return found
 
@@ -89,7 +91,7 @@ def granted_features():
 def subclasses(theirs):
     """Every class's subclasses their pack has, as `{ their name: (class, ours) }`."""
     found = {}
-    specialties = yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_specialty.yml')))['pf2e_specialty']
+    specialties = yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_specialty.yml'), encoding='utf-8'))['pf2e_specialty']
 
     for charclass, held in specialties.items():
         for ours in held or {}:
@@ -139,8 +141,10 @@ KINDS = {
                      'damageCategory', 'critical', 'predicate', 'slug', 'label', 'hideIfDisabled', 'priority', 'phase',
                      'requiresEquipped', 'removeAfterRoll'},
     # Text shown with a roll, for an outcome where it says: Revel in Retribution's reminder on a hit.
+    # `effects` is not Foundry's field: it is the effects the note's text links (`linked_effects`),
+    # which Foundry shows for the player to drag onto someone and `Pf2e::NoteEffects` applies.
     'Note': {'key', 'selector', 'text', 'title', 'predicate', 'outcome', 'slug', 'label', 'visibility',
-             'priority'},
+             'priority', 'effects'},
     # Traits an effect gives or takes away: Humanoid Form makes you humanoid, Soul Thief undead.
     'ActorTraits': {'key', 'add', 'remove', 'predicate', 'priority', 'slug', 'label'},
     # The most Dexterity counts towards AC: Mountain Stance, a mutagen.
@@ -384,10 +388,10 @@ def strings(checkout):
     for name in LANG_FILES:
         path = os.path.join(checkout, name)
         if os.path.exists(path):
-            text = open(path).read()
+            text = open(path, encoding='utf-8').read()
         else:
             shown = subprocess.run(['git', '-C', checkout, 'show', f'HEAD:{name}'],
-                                   capture_output=True, text=True)
+                                   capture_output=True, text=True, encoding='utf-8')
             if shown.returncode != 0:
                 continue
             text = shown.stdout
@@ -519,10 +523,54 @@ def translated(value, found):
     return value
 
 
+# A link to an effect in a note's text: `@UUID[Compendium.pf2e.feat-effects.Item.<name or id>]{<label>}`.
+EFFECT_LINK = re.compile(r'@UUID\[Compendium\.pf2e\.([a-z-]*effects)\.Item\.([^\]]+)\]')
+
+# Every effect their effect packs hold, by id, for a link that names its effect by id rather than name.
+EFFECT_IDS = {}
+
+
+def effect_ids(checkout):
+    """Fill `EFFECT_IDS` from the effect packs of a checkout."""
+    for path in glob.glob(os.path.join(checkout, 'packs', 'pf2e', '*effects', '**', '*.json'), recursive=True):
+        try:
+            doc = json.load(open(path, encoding='utf-8'))
+        except Exception:
+            continue
+        for document in documents(doc):
+            if document.get('_id') and document.get('name'):
+                EFFECT_IDS[document['_id']] = document['name']
+
+    return EFFECT_IDS
+
+
+def linked_effects(text, found):
+    """The effects a note's text links, by name, in the order it links them. The text may be a
+    localisation key, whose English is where the link is. A link by id is named from `EFFECT_IDS`."""
+    if isinstance(text, str) and LANG_KEY.match(text):
+        text = found.get(text, '')
+    if not isinstance(text, str):
+        return []
+
+    names = []
+    for found_link in EFFECT_LINK.finditer(text):
+        target = found_link.group(2)
+        name = EFFECT_IDS.get(target, target)
+        if name not in names:
+            names.append(name)
+
+    return names
+
+
 def worded(row, found):
     """A rule with its player-facing words translated: its own label or note, and the labels of the
-    answers a choice set or an option offers."""
+    answers a choice set or an option offers. A note keeps the effects its text links as `effects`."""
     out = {}
+
+    if row.get('key') == 'Note':
+        effects = linked_effects(row.get('text'), found)
+        if effects:
+            row = dict(row, effects=effects)
 
     for field, held in row.items():
         if field in WORDED:
@@ -574,7 +622,7 @@ def foundry(checkout, pack):
 
     for path in glob.glob(os.path.join(base, '**', '*.json'), recursive=True):
         try:
-            doc = json.load(open(path))
+            doc = json.load(open(path, encoding='utf-8'))
         except Exception:
             continue
         for document in documents(doc):
@@ -752,6 +800,8 @@ def main():
     # above are not the whole story: a kind we have not built is a larger gap than a rule we refused.
     unread = collections.Counter()
     words = strings(args.checkout)
+    written = []
+    effect_ids(args.checkout)
 
     for pack, catalogues in SOURCES:
         if args.only and pack != args.only:
@@ -770,13 +820,14 @@ def main():
         # The class features' catalogue is made from the class tables, then filled like any other.
         made = class_feature_catalogue(theirs) if pack == 'class-features' else None
         if made and args.write:
-            open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w').write(made)
+            open(os.path.join(CONFIG, 'pf2e_class_features.yml'), 'w', encoding='utf-8', newline='\n').write(ea_dragons.dragon_instinct(made))
+            written.append(os.path.join(CONFIG, 'pf2e_class_features.yml'))
 
         for name in catalogues:
             path = os.path.join(CONFIG, name)
             if not made and not os.path.exists(path):
                 continue
-            text = made or open(path).read()
+            text = made or open(path, encoding='utf-8').read()
             additions = {}
 
             for item, (rules, declared) in theirs.items():
@@ -798,7 +849,11 @@ def main():
             totals[f'{pack} rows'] += sum(len(rows) for rows, _ in additions.values())
 
             if args.write and additions:
-                open(path, 'w').write(insert(text, additions))
+                open(path, 'w', encoding='utf-8', newline='\n').write(insert(text, additions))
+                written.append(path)
+
+    if written:
+        foundry_source.record(args.checkout, __file__, sorted(set(written)))
 
     print('written' if args.write else 'dry run')
     for pack, _ in SOURCES:

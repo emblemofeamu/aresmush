@@ -113,7 +113,7 @@ module AresMUSH
       # Actions
 
       # `targets` is every combatant it is aimed at, where more than one was named; only a creature's
-      # ability that deals damage against a save takes more than one.
+      # ability that deals damage against a save, or an action in ONE_CHECK_FOR_ALL, takes more than one.
       # Actions done with a command of their own, which using them as an action points at.
       COMMANDS = { 'quick-alchemy' => 'e/alchemy <item>', 'refocus' => 'e/refocus',
                    'cast-a-spell' => 'e/cast <spell>=<target>' }.freeze
@@ -136,7 +136,11 @@ module AresMUSH
         listed = name == ESCAPE ? (Holding.inside(scene.actor.holder) || {})['escape_dc'] : nil
         words = Array(words) + [ listed.to_s ] if listed && Array(words).none? { |word| word.to_s.match?(/\A\d+\z/) }
 
-        stopped = Restraints.refusal(scene.actor, name, traits_of(scene, name), :type => type_of(scene, name)) ||
+        unnamed = traits_unnamed(name, words)
+        return unnamed if unnamed
+
+        stopped = Restraints.refusal(scene.actor, name, traits_of(scene, name, words), :type => type_of(scene, name),
+                                                                                       :forced => forced?(scene, words)) ||
                   SizeLimit.refusal(scene, name)
         return stopped if stopped
 
@@ -161,14 +165,23 @@ module AresMUSH
         return Delay.act(scene, report) if name == Delay::NAME
 
         targets ||= [ scene.target ].compact
+
+        if DragonBreath.action?(name)
+          risked = Restraints.risked(scene.actor, name, traits_of(scene, name), :type => type_of(scene, name))
+          return lost(scene, name, risked) if risked && !risked['kept']
+
+          return dragon_breath(scene, name, targets, words)
+        end
+
         own = Actors.of(scene.actor.holder).own_ability(name)
         ability = own ? MonsterAbilities.row(name, own, scene.actor.holder) : nil
-        if targets.size > 1 && !(ability ? ability['several'] : CreatureAbilities.saves?(own_text(scene, name))) &&
+        if targets.size > 1 &&
+           !(ability ? ability['several'] : ONE_CHECK_FOR_ALL.include?(name) || CreatureAbilities.saves?(own_text(scene, name))) &&
            !Afflictions.read(name, own_text(scene, name))
           return Err.new(:one_target, 'pf2e.act_one_target', 'action' => name)
         end
 
-        risked = Restraints.risked(scene.actor, name, traits_of(scene, name), :type => type_of(scene, name))
+        risked = Restraints.risked(scene.actor, name, traits_of(scene, name, words), :type => type_of(scene, name))
         return lost(scene, name, risked) if risked && !risked['kept']
 
         return MonsterAbilities.use(scene, name, own, targets) if ability
@@ -177,21 +190,28 @@ module AresMUSH
 
         entry = Actions.info(name)
         entry = follow_up_entry(entry, follow, term) if follow
+        gained = chosen_traits(name, words)
+        entry = entry.merge('traits' => Array(entry['traits']) + gained) if gained.any?
 
         return reaction_strike(scene, name, entry, words) if entry['strike']
         return several_strikes(scene, name, entry, words) if entry['strikes']
         return shield_block(scene, name, entry) if name == ShieldBlock::NAME
         return bonded_item(scene, name, entry, words) if name == BondedItem::NAME
+        return sustain_effect(scene, name, entry, words) if name == Sustaining::NAME
+        return dismiss_effect(scene, name, entry, words) if name == Dismissing::NAME
         return attack_answer(scene, name, entry) if entry['type'] == 'reaction' && AttackAnswers.answer(scene.actor.holder, name)
         said = said(words, scene.permitted)
         out = report
         refused(out, said)
         out['lines'].concat(risked['lines']) if risked
+        out['lines'] << told('pf2e.act_traits_gained', :action => name, :traits => gained.join(', ')) if gained.any?
 
         # A creature's own ability: one no catalogue holds, or one the catalogue only lists.
         return announce_ability(scene, name, out, targets, said) if entry.empty? || (own && !run_by_catalogue?(name, entry))
 
-        if entry['check']
+        if entry['check'] && targets.size > 1 && ONE_CHECK_FOR_ALL.include?(name)
+          check_against_each(scene, name, entry, said, out, targets)
+        elsif entry['check']
           check_action(scene, name, entry, said, out)
           push_distance(scene, term, out) if follow && follow['action'] == 'Shove'
         elsif entry['self_effect']
@@ -305,10 +325,27 @@ module AresMUSH
       end
 
       # The traits of what is being done: the catalogue's, or the creature's own ability's.
-      def self.traits_of(scene, name)
+      def self.traits_of(scene, name, words = [])
         own = Actors.of(scene.actor.holder).own_ability(name)
 
-        Array((own || Actions.info(name))['traits'])
+        Array((own || Actions.info(name))['traits']) + chosen_traits(name, words)
+      end
+
+      # Traits an action gains from how it is done, which whoever does it names after a slash.
+      CHOSEN_TRAITS = { 'Create a Diversion' => %w{auditory linguistic manipulate} }.freeze
+
+      def self.chosen_traits(name, words)
+        Array(CHOSEN_TRAITS[name]) & Array(words).flat_map { |word| word.to_s.downcase.split }
+      end
+
+      # The refusal of an action that gains traits from how it is done, where nobody said how.
+      def self.traits_unnamed(name, words)
+        allowed = CHOSEN_TRAITS[name]
+
+        return nil if allowed.nil? || chosen_traits(name, words).any?
+
+        Err.new(:traits_needed, 'pf2e.act_traits_needed', 'action' => name,
+                                                          'traits' => "#{allowed[0..-2].join(', ')}, or #{allowed.last}")
       end
 
       # An action a grabbed creature's flat check lost: it is spent, and nothing comes of it.
@@ -575,7 +612,8 @@ module AresMUSH
         temporary = temp_hp_of(scene.actor.holder)
         applied = ActiveEffects.apply(scene.actor.holder, entry['self_effect'], :options => effect_options(said),
                                                                                 :applied_by => scene.actor.label,
-                                                                                :encounter => scene.encounter)
+                                                                                :encounter => scene.encounter,
+                                                                                :origin => action_origin(scene, name, entry))
 
         if applied.err?
           out['lines'] << told(applied.key, applied.args)
@@ -599,14 +637,57 @@ module AresMUSH
         (fresh.respond_to?(:temp_hp) ? fresh.temp_hp : fresh.hp&.temp_hp).to_i
       end
 
+      # What brought an effect an action leaves: the action, whoever took it, and how their check went.
+      def self.action_origin(scene, name, entry, degree = nil)
+        ActiveEffects.origin(item: { 'name' => name, 'type' => 'action', 'traits' => Array(entry['traits']) },
+                             by: scene.actor.holder, outcome: degree)
+      end
+
+      # What brought an effect a spell leaves: the spell at the rank it was cast, and its caster.
+      def self.spell_origin(scene, spell, rank)
+        traits = (Global.read_config('pf2e_spell_mechanics', spell) || {})['traits']
+
+        ActiveEffects.origin(item: { 'name' => spell, 'type' => 'spell', 'level' => rank, 'traits' => Array(traits) },
+                             by: scene.actor.holder)
+      end
+
       # What was said about an effect, in the words `ActiveEffects.apply` takes: `rank 6`, `value 3`, and
       # an answer to what it asks.
       def self.effect_options(said)
         (said['rank'] ? [ "rank #{said['rank']}" ] : []) + said['words']
       end
 
-      # An action whose check is rolled against something: a target's defence, or a DC.
-      def self.check_action(scene, name, entry, said, out)
+      # Actions that roll one check and compare it to the DC of each creature they are aimed at.
+      ONE_CHECK_FOR_ALL = [ 'Seek', 'Hide', 'Sneak', 'Create a Diversion' ].freeze
+
+      # One die, read against each creature's own DC. What lands on a creature follows its own result. What
+      # lands on the one acting follows the worst, because an encounter holds one state of being seen for
+      # each combatant, and a creature that noticed them gives them away.
+      def self.check_against_each(scene, name, entry, said, out, targets)
+        shared = { 'results' => [] }
+
+        targets.uniq(&:number).each do |target|
+          each = Scene.new(scene.encounter, scene.actor, target, scene.enactor, scene.permitted)
+
+          check_action(each, name, entry, said, out, :shared => shared)
+        end
+
+        worst = shared['results'].min_by { |result| result['degree'] }
+
+        consequences(scene, worst['applied'].select { |one| one['on'] == 'actor' }, out) if worst
+      end
+
+      # An action's words for an outcome, told once however many creatures the check was against.
+      def self.note_once(out, text)
+        note = told('pf2e.act_note', :text => text)
+
+        out['lines'] << note unless out['lines'].include?(note)
+      end
+
+      # An action whose check is rolled against something: a target's defence, or a DC. `shared` holds the
+      # die of a check against several, and collects the result against each, leaving what lands on the
+      # one acting to `check_against_each`.
+      def self.check_action(scene, name, entry, said, out, shared: nil)
         out['about'] = DamageAbout.traits(entry['traits'])
 
         return if immune?(entry['traits'], out, scene.target)
@@ -651,7 +732,8 @@ module AresMUSH
         end
 
         spared = scene.target && Incapacitation.spares?(entry['traits'], scene.target.holder, :source => scene.actor.holder)
-        result = Resolve.roll(rolled_check, :dc => dc, :extra => extra, :shift => Incapacitation.shift(spared, :against))
+        result = Resolve.roll(rolled_check, :dc => dc, :extra => extra, :shift => Incapacitation.shift(spared, :against),
+                                            :rolled => shared && (shared['rolled'] ||= Resolve.d20([ rolled_check ])))
         statistic = stat_name ? stat_name.to_s : kind.capitalize
         statistic = statistic.capitalize if kind == 'save'
 
@@ -667,12 +749,16 @@ module AresMUSH
         # The action's own words for the outcome, where the engine has nothing of its own to do: where it
         # does, what it does is told as it is done.
         note = (check['notes'] || {})[outcome]
-        out['lines'] << told('pf2e.act_note', :text => note) if note && applied.empty?
+        note_once(out, note) if note && applied.empty?
 
-        rolled_check.notes(result['degree']).each { |one| out['lines'] << told('pf2e.act_note', :text => one['text']) if one['text'] }
+        NoteEffects.tell(scene, rolled_check.notes(result['degree']), out, :degree => result['degree'])
+
+        shared['results'] << { 'degree' => result['degree'], 'applied' => applied } if shared
+        applied = applied.reject { |one| one['on'] == 'actor' } if shared
 
         consequences(scene, applied, out, :rank => rank_of(scene.actor.holder, kind, stat_name), :dc => dc,
-                                          :options => Array(check['options']))
+                                          :options => Array(check['options']),
+                                          :origin => action_origin(scene, name, entry, result['degree']))
       end
 
       # What an action with no defence of its own is against, where it is aimed at someone: Seek, against
@@ -813,6 +899,27 @@ module AresMUSH
         drained
       end
 
+      def self.dragon_breath(scene, name, targets, words)
+        breathed = DragonBreath.act(scene, name, targets, said(words, scene.permitted), report)
+
+        spend(scene, name, Actions.info(name), breathed.state) if breathed.ok?
+        breathed
+      end
+
+      def self.sustain_effect(scene, name, entry, words)
+        kept = Sustaining.act(scene, said(words, scene.permitted)['words'].first, report)
+
+        spend(scene, name, entry, kept.state) if kept.ok?
+        kept
+      end
+
+      def self.dismiss_effect(scene, name, entry, words)
+        ended = Dismissing.act(scene, said(words, scene.permitted)['words'].first, report)
+
+        spend(scene, name, entry, ended.state) if ended.ok?
+        ended
+      end
+
       def self.shield_block(scene, name, entry)
         blocked = ShieldBlock.block(scene, report)
 
@@ -901,6 +1008,10 @@ module AresMUSH
 
         return Err.new(:no_target, 'pf2e.act_needs_target') unless scene.target
 
+        if BattleForms.strikeless?(scene.actor.holder)
+          return Err.new(:no_strikes, 'pf2e.form_no_strikes', 'actor' => scene.actor.label)
+        end
+
         attack = attack_for(scene.actor.holder, weapon_term, :melee => melee)
 
         return Err.new(:no_attack, 'pf2e.act_no_attack', 'attack' => weapon_term.to_s) unless attack
@@ -951,6 +1062,12 @@ module AresMUSH
         out['lines'] << rolled['line']
         # Whoever struck from hiding is seen for it.
         conceal(scene, scene.actor, nil, out) if unseen
+
+        # The attack's notes for its outcome, and the effects they link: Sympathetic Strike's on a hit. A
+        # bomb's own effect is left to the hit, which puts it on.
+        degree = rolled.dig('result', 'degree')
+        NoteEffects.tell(scene, check.notes(degree), out, :degree => degree,
+                         :done => [ attack['bomb'] && attack['effect'] ].compact) if degree
 
         # A hit kept to be answered is the last attack's; one that misses leaves nothing to answer.
         unless rolled['hit'] || scene.target.creature?
@@ -1098,6 +1215,10 @@ module AresMUSH
         return if Pf2e.dead?(scene.target.holder)
 
         Consumables.effect(scene.encounter, scene.actor.label, scene.target, attack['effect'], out) if attack['bomb'] && attack['effect']
+
+        # The damage's notes: a Debilitating Strike's choices, a Frost Vial's slowing.
+        NoteEffects.tell(scene, Damage.notes(scene.actor.holder, attack, check.options, result['degree']), out,
+                         :degree => result['degree'], :done => [ attack['bomb'] && attack['effect'] ].compact)
 
         follow_ups(scene, attack, out)
 
@@ -1409,11 +1530,11 @@ module AresMUSH
       end
 
       # What stops a spell before it is spent: a caster restrained cannot cast one that takes their
-      # hands, nor one raging a spell that takes concentration.
-      def self.casting_refused(scene, spell)
+      # hands, nor one raging a spell that takes concentration, nor anyone in a battle form any at all.
+      def self.casting_refused(scene, spell, words = [])
         name, traits = spell_traits(spell)
 
-        Restraints.refusal(scene.actor, name, traits, :spell => true)
+        Restraints.refusal(scene.actor, name, traits, :spell => true, :forced => forced?(scene, words))
       end
 
       # The flat checks a spell is risked on once it is spent - grabbed, deafened, stupefied - rolled:
@@ -1446,6 +1567,7 @@ module AresMUSH
         named = base && variant(base, said)
         mechanics = named
         rank = spell_rank(scene.actor.holder, spell, mechanics, said, cast)
+        rank = UntamedForm.rank_cast(cast, rank) if UntamedForm.spell?(spell)
         casting = Actors.of(scene.actor.holder).casting(spell, cast)
 
         out['lines'] << told('pf2e.act_cast', :actor => scene.actor.label, :spell => spell, :rank => rank,
@@ -1453,6 +1575,13 @@ module AresMUSH
 
         unless mechanics
           out['lines'] << told('pf2e.act_spell_gm')
+          return Ok.new(:state => out)
+        end
+
+        if UntamedForm.spell?(spell)
+          UntamedForm.transform(scene, rank, words, out)
+          spend_casting(scene, spell, named['time'], false, rank, out)
+
           return Ok.new(:state => out)
         end
 
@@ -1465,6 +1594,7 @@ module AresMUSH
           each = Scene.new(scene.encounter, scene.actor, target, scene.enactor, scene.permitted)
           mechanics = (named.equal?(base) ? way_for(base, target) : way_for(base, target, named['time']) || named)
                         .merge('cast_rank' => rank)
+          mechanics = DragonBreath.typed(scene.actor.holder, spell, mechanics)
           attack = mechanics['attack']
           out['about'] = DamageAbout.of_spell(mechanics, spell)
 
@@ -1480,11 +1610,11 @@ module AresMUSH
           elsif mechanics['applies'] && each.target
             consequences(each, Array(mechanics['applies']).map { |one| one.merge('on' => 'target') }, out)
           else
-            spell_effect(each, spell, rank, out)
+            spell_effect(each, spell, rank, out, said['words'])
           end
         end
 
-        spell_effect(scene, spell, rank, out) if targets.empty? && !named['attack'] && !named['save']
+        spell_effect(scene, spell, rank, out, said['words']) if targets.empty? && !named['attack'] && !named['save']
 
         spend_casting(scene, spell, named['time'], named['attack'], rank, out)
 
@@ -1542,6 +1672,40 @@ module AresMUSH
 
         Err.new(:way_needed, 'pf2e.cast_way_needed', 'spell' => name,
                 'ways' => ways.map { |one| one['name'][/\(([^)]+)\)/, 1] || one['name'] }.join(', '))
+      end
+
+      # A spell whose effect goes on one of the target's things has to know which before it is spent: the
+      # caster names it, or it is the one thing the effect could go on that the target has equipped. A
+      # spell settled by its attack, its save, its damage or what it applies never reaches that effect.
+      def self.item_needed(scene, spell, targets, words)
+        name, mechanics = spell_mechanics(spell)
+        effect = effect_of_spell(name)
+
+        return nil unless mechanics && effect
+        return nil if mechanics['attack'] || mechanics['save'] || mechanics['applies'] || Array(mechanics['damage']).any?
+
+        given = said(words, false)['words']
+
+        (targets.empty? ? [ scene.actor ] : targets).each do |whom|
+          set = ActiveEffects.items_wanted(whom.holder, effect, given)
+                             .find { |one| Choices.in_hand(one, whom.holder).size != 1 }
+
+          return item_refusal(name, whom, set) if set
+        end
+
+        nil
+      end
+
+      # What to ask for: what is equipped, or whatever else the target carries that it could go on.
+      def self.item_refusal(spell, whom, set)
+        equipped = Choices.in_hand(set, whom.holder)
+        ids = equipped.empty? ? Choices.offer(set, whom.holder) : equipped
+        items = Choices.owned_names(set, whom.holder, ids)
+
+        return Err.new(:item_none, 'pf2e.cast_item_none', 'spell' => spell, 'target' => whom.label) if items.empty?
+
+        Err.new(:item_needed, 'pf2e.cast_item_needed', 'spell' => spell, 'target' => whom.label,
+                'items' => items.join(', '))
       end
 
       # How much of a spell's damage an outcome deals. A basic save is the basic scale; any other save
@@ -1790,16 +1954,23 @@ module AresMUSH
         heal_or_hurt(scene, mechanics, formulas, nil, out, once)
       end
 
+      def self.effect_of_spell(spell)
+        ActiveEffects.catalogue.key?("Spell Effect: #{spell}") ? "Spell Effect: #{spell}" : nil
+      end
+
       # A spell that puts an effect on whoever it is cast at, where the effect catalogue holds one of its
-      # name: Heroism is Spell Effect: Heroism.
-      def self.spell_effect(scene, spell, rank, out)
-        found = ActiveEffects.catalogue.key?("Spell Effect: #{spell}") ? "Spell Effect: #{spell}" : nil
+      # name: Heroism is Spell Effect: Heroism. `words` are what the caster said after the target, which
+      # answer what the effect asks: `fire` for Resist Energy, `longsword` for Runic Weapon.
+      def self.spell_effect(scene, spell, rank, out, words = [])
+        found = effect_of_spell(spell)
 
         return out['lines'] << told('pf2e.act_spell_gm') unless found
 
         whom = scene.target || scene.actor
-        applied = ActiveEffects.apply(whom.holder, found, :options => [ "rank #{rank}" ], :applied_by => scene.actor.label,
-                                                          :encounter => scene.encounter)
+        options = [ "rank #{rank}" ] + words + ActiveEffects.items_in_hand(whom.holder, found, words)
+        applied = ActiveEffects.apply(whom.holder, found, :options => options, :applied_by => scene.actor.label,
+                                                          :encounter => scene.encounter,
+                                                          :origin => spell_origin(scene, spell, rank))
 
         return if applied.err?
 
@@ -1812,7 +1983,9 @@ module AresMUSH
 
       # What an outcome does, done: each on the target or on the actor. `rank` is the actor's proficiency
       # in what they rolled, which Aid's bonus grows with.
-      def self.consequences(scene, list, out, rank: 'trained', dc: nil, options: [])
+      #
+      # `origin` is what brought them, which an effect they leave keeps (`ActiveEffects.origin`).
+      def self.consequences(scene, list, out, rank: 'trained', dc: nil, options: [], origin: nil)
         list.each do |one|
           whom = one['on'] == 'actor' ? scene.actor : scene.target
 
@@ -1826,7 +1999,7 @@ module AresMUSH
           elsif one['dying'] then dying_consequence(whom, one, out)
           elsif one['recover'] then recovered(whom, one['recover'], one['dc'], out)
           elsif one['suffer'] then suffer_consequence(scene, whom, one, out)
-          elsif one['effect'] then effect_consequence(scene, whom, one, rank, out)
+          elsif one['effect'] then effect_consequence(scene, whom, one, rank, out, origin)
           elsif one['heal']
             thrown = Pf2e.thrown_formula(one['heal'])
             bonus = (one['bonus'] || {})[dc.to_s].to_i
@@ -1855,14 +2028,14 @@ module AresMUSH
         conceal(scene, whom, now == 'undetected' && one['seen'].to_i < 2 ? 'hidden' : nil, out)
       end
 
-      # How well hidden someone now is. Hiding leaves someone undetected as they were.
+      # How well hidden someone now is, unless they already stand as the outcome's `unless` says.
       def self.unseen_consequence(scene, whom, one, out)
         return unless scene.encounter
 
         now = (scene.encounter.concealment || {})[whom.number.to_s]
         wanted = one['unseen'] == 'observed' ? nil : one['unseen']
 
-        return if now == wanted || (wanted == 'hidden' && now == 'undetected')
+        return if now == wanted || (one['unless'] && now == one['unless'])
 
         conceal(scene, whom, wanted, out)
       end
@@ -1982,11 +2155,12 @@ module AresMUSH
         end
       end
 
-      def self.effect_consequence(scene, whom, one, rank, out)
+      def self.effect_consequence(scene, whom, one, rank, out, origin = nil)
         answer = one['answer'].is_a?(Hash) ? (one['answer'][rank] || one['answer']['default']) : one['answer']
         applied = ActiveEffects.apply(whom.holder, one['effect'], :options => [ answer ].compact,
                                                                   :applied_by => scene.actor.label,
-                                                                  :encounter => scene.encounter)
+                                                                  :encounter => scene.encounter,
+                                                                  :origin => origin)
 
         return out['lines'] << told(applied.key, applied.args) if applied.err?
 

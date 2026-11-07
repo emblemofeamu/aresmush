@@ -116,8 +116,8 @@ module AresMUSH
       BY_THE_BOOK = {
         1 => [ [ [ 1, 'Python' ], [ 2, 'Wolf' ] ], [ [ 1, 'Giant Rat' ], [ 1, 'Orc Veteran' ], [ 1, 'Ghoul Stalker' ] ] ],
         6 => [ [ [ 1, 'elite Snapping Flytrap' ], [ 2, 'Giant Wasp' ] ], [ [ 1, 'Dullahan' ], [ 1, 'Forest Troll' ] ] ],
-        11 => [ [ [ 1, 'Adamantine Dragon (Young)' ], [ 1, 'Nuckelavee' ] ], [ [ 1, 'Diabolic Dragon (Young)' ], [ 1, 'Garadasura' ] ] ],
-        16 => [ [ [ 1, 'Adamantine Dragon (Ancient)' ], [ 1, 'Jotund Troll' ] ], [ [ 1, 'Phasmadaemon' ], [ 1, 'Thulgant' ] ] ],
+        11 => [ [ [ 1, 'Terra Dragon (Young)' ], [ 1, 'Nuckelavee' ] ], [ [ 1, 'Diabolic Dragon (Young)' ], [ 1, 'Garadasura' ] ] ],
+        16 => [ [ [ 1, 'Terra Dragon (Ancient)' ], [ 1, 'Jotund Troll' ] ], [ [ 1, 'Phasmadaemon' ], [ 1, 'Thulgant' ] ] ],
         20 => [ [ [ 1, 'Diabolic Dragon (Ancient)' ], [ 1, 'Urveth' ] ], [ [ 1, 'Tor Linnorm' ], [ 1, 'Nessari' ] ] ]
       }.freeze
 

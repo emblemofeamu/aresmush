@@ -73,6 +73,10 @@ pf2e_subclass:
       2: Expeditious Excavation
       5: Wall of Stone
       8: Earthquake
+    Delight:
+      2: Laughing Fit
+      5: Breath of Life
+      8: Moment of Renewal
     Diabolic:
       2: Blood Vendetta
       5: Divine Immolation
@@ -80,6 +84,10 @@ pf2e_subclass:
     Empyreal:
       2: Share Life
       5: Breath of Life
+      8: Divine Inspiration
+    Executor:
+      2: Revealing Light
+      5: Divine Immolation
       8: Divine Inspiration
     Forest:
       2: Animal Messenger
@@ -97,22 +105,34 @@ pf2e_subclass:
       2: Revealing Light
       5: Toxic Cloud
       8: Rainbow Fumarole
-    Mirage:
-      2: See the Unseen
-      5: Hallucination
-      8: Disappearance
+    Mocking:
+      2: Laughing Fit
+      5: Cloak of Colors
+      8: Uncontrollable Dance
     Ossuary:
       2: Spirit Sense
       5: Invoke Spirits
       8: Moment of Renewal
+    Rune:
+      2: Embed Message
+      5: Imaginary Lockbox
+      8: Quandary
     Terra:
       2: Shatter
       5: Impaling Spike
       8: Earthquake
+    Time:
+      2: Loose Time's Arrow
+      5: Banishment
+      8: Quandary
     Umbral:
       2: Reaper's Lantern
       5: Shadow Blast
       8: Disappearance
+    Whisper:
+      2: Humanoid Form
+      5: Scouting Eye
+      8: Dream Council
   Dragon Exemplar:
     Avarice:
       chargen:
@@ -219,6 +239,27 @@ pf2e_subclass:
           magic_stats:
             tradition:
               primal: legendary
+    Delight:
+      chargen:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+        - Intimidation
+        - Religion
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              divine: expert
+        15:
+          magic_stats:
+            tradition:
+              divine: master
+        19:
+          magic_stats:
+            tradition:
+              divine: legendary
     Diabolic:
       chargen:
         magic_stats:
@@ -241,6 +282,27 @@ pf2e_subclass:
             tradition:
               divine: legendary
     Empyreal:
+      chargen:
+        magic_stats:
+          tradition:
+            divine: trained
+        skills:
+        - Intimidation
+        - Religion
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              divine: expert
+        15:
+          magic_stats:
+            tradition:
+              divine: master
+        19:
+          magic_stats:
+            tradition:
+              divine: legendary
+    Executor:
       chargen:
         magic_stats:
           tradition:
@@ -345,27 +407,27 @@ pf2e_subclass:
           magic_stats:
             tradition:
               primal: legendary
-    Mirage:
+    Mocking:
       chargen:
         magic_stats:
           tradition:
-            arcane: trained
+            occult: trained
         skills:
         - Intimidation
-        - Arcana
+        - Occultism
       advance:
         7:
           magic_stats:
             tradition:
-              arcane: expert
+              occult: expert
         15:
           magic_stats:
             tradition:
-              arcane: master
+              occult: master
         19:
           magic_stats:
             tradition:
-              arcane: legendary
+              occult: legendary
     Ossuary:
       chargen:
         magic_stats:
@@ -387,6 +449,27 @@ pf2e_subclass:
           magic_stats:
             tradition:
               divine: legendary
+    Rune:
+      chargen:
+        magic_stats:
+          tradition:
+            arcane: trained
+        skills:
+        - Intimidation
+        - Arcana
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              arcane: expert
+        15:
+          magic_stats:
+            tradition:
+              arcane: master
+        19:
+          magic_stats:
+            tradition:
+              arcane: legendary
     Terra:
       chargen:
         magic_stats:
@@ -408,7 +491,49 @@ pf2e_subclass:
           magic_stats:
             tradition:
               primal: legendary
+    Time:
+      chargen:
+        magic_stats:
+          tradition:
+            arcane: trained
+        skills:
+        - Intimidation
+        - Arcana
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              arcane: expert
+        15:
+          magic_stats:
+            tradition:
+              arcane: master
+        19:
+          magic_stats:
+            tradition:
+              arcane: legendary
     Umbral:
+      chargen:
+        magic_stats:
+          tradition:
+            occult: trained
+        skills:
+        - Intimidation
+        - Occultism
+      advance:
+        7:
+          magic_stats:
+            tradition:
+              occult: expert
+        15:
+          magic_stats:
+            tradition:
+              occult: master
+        19:
+          magic_stats:
+            tradition:
+              occult: legendary
+    Whisper:
       chargen:
         magic_stats:
           tradition:
@@ -435,15 +560,19 @@ pf2e_subclass:
     Bestial:
       element: poison
     Brine:
-      element: acid
+      element: bludgeoning
     Cloud:
       element: electricity
     Crystal:
       element: piercing
+    Delight:
+      element: spirit
     Diabolic:
       element: fire
     Empyreal:
       element: spirit
+    Executor:
+      element: sonic
     Forest:
       element: piercing
     Fortune:
@@ -452,11 +581,17 @@ pf2e_subclass:
       element: mental
     Magma:
       element: fire
-    Mirage:
-      element: mental
+    Mocking:
+      element: bludgeoning
     Ossuary:
-      element: spirit
+      element: void
+    Rune:
+      element: fire
     Terra:
       element: bludgeoning
+    Time:
+      element: force
     Umbral:
       element: void
+    Whisper:
+      element: mental

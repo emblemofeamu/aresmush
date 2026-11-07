@@ -43,6 +43,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import foundry_source  # noqa: E402
 import import_foundry_rules as rules  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -97,12 +98,12 @@ OUTCOMES = ['criticalSuccess', 'success', 'failure', 'criticalFailure']
 
 def macro_sources(checkout):
     listed = subprocess.run(['git', '-C', checkout, 'ls-tree', '-r', '--name-only', 'HEAD', MACROS],
-                            capture_output=True, text=True).stdout.split()
+                            capture_output=True, text=True, encoding='utf-8').stdout.split()
 
     for path in listed:
         if path.endswith('.ts'):
             yield path, subprocess.run(['git', '-C', checkout, 'show', f'HEAD:{path}'],
-                                       capture_output=True, text=True).stdout
+                                       capture_output=True, text=True, encoding='utf-8').stdout
 
 
 def literal(text, start):
@@ -251,7 +252,7 @@ def documents(checkout, pack):
 
     for path in sorted(glob.glob(os.path.join(base, '**', '*.json'), recursive=True)):
         try:
-            doc = json.load(open(path))
+            doc = json.load(open(path, encoding='utf-8'))
         except Exception:
             continue
 
@@ -263,7 +264,7 @@ def documents(checkout, pack):
 def effect_names():
     import yaml
 
-    return set((yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_effects.yml'))) or {}).get('pf2e_effects', {}))
+    return set((yaml.safe_load(open(os.path.join(CONFIG, 'pf2e_effects.yml'), encoding='utf-8')) or {}).get('pf2e_effects', {}))
 
 
 def stocked_feats():
@@ -272,7 +273,7 @@ def stocked_feats():
     names = set()
 
     for path in glob.glob(os.path.join(CONFIG, 'pf2e_feat_*.yml')):
-        for block in (yaml.safe_load(open(path)) or {}).values():
+        for block in (yaml.safe_load(open(path, encoding='utf-8')) or {}).values():
             if isinstance(block, dict):
                 names |= set(block)
 
@@ -433,7 +434,8 @@ def main():
         entries.setdefault(name, entry)
 
     if args.write:
-        open(os.path.join(CONFIG, OUT), 'w').write(rendered(entries))
+        open(os.path.join(CONFIG, OUT), 'w', encoding='utf-8', newline='\n').write(rendered(entries))
+        foundry_source.record(args.checkout, __file__, [os.path.join(CONFIG, OUT)])
 
     selves = sum(1 for entry in entries.values() if entry.get('self_effect'))
 

@@ -1033,6 +1033,20 @@ pf2e_spells:
     duration: 10 minutes
     effect: You unlock the target's inner heroism, granting it a +1 status bonus to attack rolls, Perception checks, saving throws, and skill checks.
     heighten: "**6th:** The status bonus increases to +2.%r**9th:** The status bonus increases to +3."
+  Hidden Mind:
+    base_level: 8
+    traits:
+      - concentrate
+      - manipulate
+      - uncommon
+    tradition:
+      - arcane
+      - occult
+    actions: 2
+    range: 30 feet
+    target: 1 creature
+    duration: until the next time you make your daily preparations
+    effect: "Powerful wards hide a creature from magic that would spy on it or affect its mind. The target gains a +4 status bonus to saves against mental effects. *Hidden mind* attempts to counteract any detection, revelation, and scrying effects as if its spell rank were 1 higher than its actual rank. On a success, the effect functions normally except that it detects nothing about the target and its possessions. For instance, *detect magic* would still detect other magic in the area, but not any magic on the target."
   Holy Cascade:
     base_level: 4
     traits:

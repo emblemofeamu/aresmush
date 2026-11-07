@@ -15,6 +15,11 @@ module AresMUSH
       def check_in_encounter
         holder ? nil : t('pf2e.encounter_gear_not_in')
       end
+
+      # A battle form absorbs what they carry. Named to follow the check above.
+      def check_in_form
+        holder && Pf2e::BattleForms.active?(holder) ? t('pf2e.form_gear_absorbed', :actor => enactor.name) : nil
+      end
     end
 
     # `+e/use <category>=<number>[/<use>]`, and for a consumable `+e/use consumables=<number>[/<who>]`:

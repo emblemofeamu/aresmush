@@ -27,9 +27,15 @@ module AresMUSH
           facts = Effects.character_facts(char)
 
           ActiveEffects.on(char).sort_by { |effect| effect.id.to_i }.each do |effect|
-            row = Array(ActiveEffects.info(effect.name)['rules']).find { |one| one['key'] == 'BattleForm' }
+            rows = Array(ActiveEffects.info(effect.name)['rules']).select { |one| one['key'] == 'BattleForm' }
 
-            next unless row && Predicate.test(row['predicate'], facts)
+            next if rows.empty?
+
+            # An effect with several shapes has a row for each, and the answer it was applied with picks one.
+            known = facts + ActiveEffects.own_options(char, effect)
+            row = rows.find { |one| Predicate.test(one['predicate'], known) }
+
+            next unless row
 
             break { 'effect' => effect, 'form' => bracketed(row, effect.level.to_i) }
           end.then { |found| found.is_a?(Hash) ? found : nil }
@@ -38,6 +44,21 @@ module AresMUSH
 
       def self.active?(char)
         !active(char).nil?
+      end
+
+      # Forms whose spell text gives them hands, where the imported row doesn't say so.
+      WITH_HANDS = [ 'Spell Effect: Elemental Form', 'Spell Effect: Sacred Form' ].freeze
+
+      # Whether the form they're in has hands to use a manipulate action with.
+      def self.hands?(char)
+        found = active(char)
+
+        !found.nil? && (found['form']['hasHands'] == true || WITH_HANDS.include?(found['effect'].name))
+      end
+
+      # In a form that gives no attacks, which leaves them none at all: a pest can't make Strikes.
+      def self.strikeless?(char)
+        active?(char) && strikes(char).empty?
       end
 
       # The form's overrides with the bracket its rank has reached laid over them.
@@ -51,11 +72,13 @@ module AresMUSH
         base.merge(over) { |_key, one, two| one.is_a?(Hash) && two.is_a?(Hash) ? merged(one, two) : two }
       end
 
-      # A number the form gives, which may be a formula over the character or the effect's rank.
+      # A number the form gives, which may be a formula over the character, the effect's rank, or the answer
+      # it was applied with.
       def self.number(char, value, effect)
         return nil if value.nil?
+        return value.to_i if value.is_a?(Numeric)
 
-        Formula.value(value, Effects.context(char).merge('item' => ActiveEffects.instance_item(effect))).to_i
+        Formula.value(value, Effects.context(char).merge('item' => ActiveEffects.answered(char, effect)['item'])).to_i
       end
 
       # ------------------------------------------------------------------------------
@@ -148,11 +171,16 @@ module AresMUSH
                                                          'battle_form' => true)
       end
 
+      # What a predicate asks about when a character in a form uses their own attack modifier: Untamed Form
+      # gives +2 for it.
+      OWN_ATTACK = 'battle-form:own-attack-modifier'.freeze
+
       # The figure `Stat.of` assembled, as the form the character is in leaves it.
-      def self.override(char, kind, name, breakdown)
+      def self.override(char, kind, name, breakdown, options = [], extra = [])
         found = active(char)
 
         return breakdown unless found
+        return breakdown if Array(options).include?(OWN_ATTACK)
 
         form = found['form']
         effect = found['effect']
@@ -172,7 +200,14 @@ module AresMUSH
           strike = name.is_a?(Hash) ? name['form'] : nil
           value = strike && strike['modifier']
 
-          value ? replaced(breakdown, value, 0, strike['own_if_higher'] != false) : breakdown
+          return breakdown unless value
+
+          own_if_higher = strike['own_if_higher'] != false
+          # Their own modifier has what invested handwraps give it, a constant ability of gear they still
+          # have. Only the bonus to hit: the form's damage is the form's, so a striking rune adds no dice.
+          own = own_if_higher ? Stat.of(char, kind, Pf2eCombat.with_unarmed_runes(char, name), Array(options) + [ OWN_ATTACK ], extra) : breakdown
+
+          use_form?(value, own['total'], Array(breakdown['modifiers']), own_if_higher) ? replaced(breakdown, value, 0, false) : own
         when 'speed'
           sped(char, form, name, breakdown, effect)
         else
@@ -196,15 +231,23 @@ module AresMUSH
       # The form's attacks
 
       # The attacks the form gives, as descriptors the attack and damage readers already read. Each
-      # carries the form's fixed modifiers, which is what `override` and `Damage` look for.
+      # carries the form's fixed modifiers, which is what `override` and `Damage` look for, and replaces
+      # every attack the character has of their own. Where one row lists the attacks of several shapes,
+      # each says which it belongs to.
       def self.strikes(char)
         found = active(char)
 
         return [] unless found
 
         effect = found['effect']
+        known = nil
 
-        (found['form']['strikes'] || {}).map do |slug, strike|
+        kept = (found['form']['strikes'] || {}).select do |_slug, strike|
+          strike['predicate'].nil? ||
+            Predicate.test(strike['predicate'], known ||= Effects.character_facts(char) + ActiveEffects.own_options(char, effect))
+        end
+
+        kept.map do |slug, strike|
           damage = strike['damage'] || {}
           traits = (Array(strike['traits']) + [ 'magical' ]).uniq
 
@@ -212,23 +255,29 @@ module AresMUSH
             'source' => effect.name, 'slug' => slug, 'category' => strike['category'],
             'prof' => Pf2eCombat.get_unarmed_prof(char, slug),
             'group' => strike['group'], 'base' => strike['baseType'] || slug,
-            'traits' => traits, 'ranged' => !strike['range'].nil?, 'range' => strike['range'].to_i,
+            'traits' => traits, 'ranged' => !strike['range'].nil?, 'range' => reach_of(strike['range']),
             'unarmed' => strike['category'].to_s == 'unarmed', 'bomb' => false,
             'die' => damage['die'], 'dice' => damage['dice'] || 1,
             'damage_type' => damage['damageType'] || 'bludgeoning', 'striking' => 0, 'rune' => 0,
-            'materials' => [], 'runes' => [],
+            'materials' => [], 'runes' => [], 'replace_all' => true,
             'form' => { 'modifier' => number(char, strike['modifier'], effect),
                         'damage_modifier' => number(char, damage['modifier'], effect).to_i,
                         'own_if_higher' => strike['ownIfHigher'] != false } }
         end
       end
 
+      # How far a form's attack reaches, which it gives as an increment or as a maximum.
+      def self.reach_of(range)
+        (range.is_a?(Hash) ? range['increment'] || range['max'] : range).to_i
+      end
+
       # What a form's attack does to its damage: the form's own damage modifier stands for the attribute,
       # and the character's numeric bonuses and extra dice do not come with them - only status and
       # circumstance bonuses, penalties, and anything written for a battle form do, and a form's own
-      # deadly or fatal die (`applyDamageExclusion`).
-      def self.damage_kept?(row, traits)
-        return true if written_for_form?(row['when'])
+      # deadly or fatal die (`applyDamageExclusion`). What the form's effect itself adds is the form's: a
+      # dragon's jaws deal 2d6 of the dragon's own damage on top.
+      def self.damage_kept?(row, traits, form_effect = nil)
+        return true if written_for_form?(row['when']) || (form_effect && row['source'] == form_effect)
 
         if row.key?('dice')
           return row['slug'].to_s.match?(/\A(?:deadly|fatal)-\d?d\d{1,2}\z/) && Array(traits).include?(row['slug'])

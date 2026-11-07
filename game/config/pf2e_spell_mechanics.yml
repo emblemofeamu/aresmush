@@ -23,7 +23,7 @@ pf2e_spell_mechanics:
     variants: [{"name": null, "time": "1"}, {"name": null, "time": "2", "area": "10-foot None"}, {"name": null, "time": "3", "area": "15-foot None"}]
   "Abyssal Plague":
     rank: 5
-    traits: ["chaotic", "concentrate", "disease", "evil", "manipulate"]
+    traits: ["concentrate", "disease", "manipulate", "unholy"]
     time: "2"
     save: "fortitude"
     basic: false
@@ -1873,7 +1873,7 @@ pf2e_spell_mechanics:
     range: "60 feet"
   "Celestial Accord":
     rank: 1
-    traits: ["concentrate", "emotion", "good", "manipulate", "mental"]
+    traits: ["concentrate", "emotion", "holy", "manipulate", "mental"]
     time: "2"
     save: "will"
     basic: false
@@ -3040,7 +3040,7 @@ pf2e_spell_mechanics:
     time: "2"
   "Dawnflower's Light":
     rank: 4
-    traits: ["concentrate", "good", "light", "manipulate"]
+    traits: ["concentrate", "holy", "light", "manipulate"]
     time: "2"
     target: "1 unattended, non-magical object of 1 Bulk or less"
     range: "touch"
@@ -5310,7 +5310,7 @@ pf2e_spell_mechanics:
     range: "touch"
   "Form of the Sandpoint Devil":
     rank: 6
-    traits: ["evil", "polymorph"]
+    traits: ["polymorph", "unholy"]
     time: "1 day"
   "Fortify Summoning":
     rank: 1
@@ -6049,7 +6049,7 @@ pf2e_spell_mechanics:
     range: "30 feet"
   "Hallowed Ground":
     rank: 1
-    traits: ["concentrate", "focus", "good", "holy", "manipulate", "vitality"]
+    traits: ["concentrate", "focus", "holy", "manipulate", "vitality"]
     time: "2"
     save: "fortitude"
     basic: true
@@ -6672,7 +6672,7 @@ pf2e_spell_mechanics:
     range: "30 feet"
   "Imp Sting":
     rank: 2
-    traits: ["concentrate", "evil", "manipulate", "poison"]
+    traits: ["concentrate", "manipulate", "poison", "unholy"]
     time: "2"
     save: "fortitude"
     basic: false
@@ -8278,7 +8278,7 @@ pf2e_spell_mechanics:
     range: "touch"
   "Movanic Glimmer":
     rank: 4
-    traits: ["concentrate", "good", "manipulate", "mental"]
+    traits: ["concentrate", "holy", "manipulate", "mental"]
     time: "2"
     target: "1 animal"
     range: "touch"
@@ -9485,7 +9485,7 @@ pf2e_spell_mechanics:
     outcomes: {"criticalFailure": [{"condition": "Dazzled", "until": "rounds:1"}, {"condition": "Blinded", "until": "rounds:1"}]}
   "Procyal Philosophy":
     rank: 4
-    traits: ["auditory", "concentrate", "good", "manipulate"]
+    traits: ["auditory", "concentrate", "holy", "manipulate"]
     time: "2"
     target: "1 creature"
     range: "120 feet"
@@ -9783,7 +9783,7 @@ pf2e_spell_mechanics:
     range: "120 feet"
   "Radiant Beam":
     rank: 4
-    traits: ["concentrate", "good", "holy", "light", "manipulate"]
+    traits: ["concentrate", "holy", "light", "manipulate"]
     time: "2"
     save: "reflex"
     basic: true
@@ -9904,7 +9904,7 @@ pf2e_spell_mechanics:
     range: "20 feet"
   "Ravening Maw":
     rank: 5
-    traits: ["concentrate", "evil", "healing", "manipulate"]
+    traits: ["concentrate", "healing", "manipulate", "unholy"]
     time: "2"
     save: "will"
     basic: false
@@ -9926,7 +9926,7 @@ pf2e_spell_mechanics:
     range: "30 feet"
   "Ravenous Reanimation":
     rank: 7
-    traits: ["evil"]
+    traits: ["unholy"]
     time: "1 day"
   "Ray of Corruption":
     rank: 7
@@ -10979,7 +10979,7 @@ pf2e_spell_mechanics:
     time: "1"
   "Shambling Horror":
     rank: 6
-    traits: ["attack", "concentrate", "evil", "focus", "manipulate"]
+    traits: ["attack", "concentrate", "focus", "manipulate", "unholy"]
     time: "3"
     attack: true
     target: "1 corpse of a Gargantuan or smaller creature that has a level no greater than your level -4 and has died since the last sunrise"
@@ -11559,7 +11559,7 @@ pf2e_spell_mechanics:
     damage_scale: {"criticalSuccess": 0, "success": 0.5, "failure": 1, "criticalFailure": 2}
   "Soulshelter Vessel":
     rank: 5
-    traits: ["concentrate", "good", "healing", "manipulate"]
+    traits: ["concentrate", "healing", "holy", "manipulate"]
     time: "2"
     target: "1 willing creature and 1 non-magical stone object of 1 or 2 Bulk"
     range: "30 feet"
@@ -13463,7 +13463,7 @@ pf2e_spell_mechanics:
     outcome_text: {"criticalSuccess": "The target is unaffected.", "success": "The target is quasi-real until the end of its next turn.", "failure": "The target is quasi-real for 1 minute. At the end of each of its turns, it can attempt another Will save, ending the spell on a success.", "criticalFailure": "The target is quasi-real for an unlimited duration."}
   "Undertaker":
     rank: 9
-    traits: ["concentrate", "death", "evil", "manipulate"]
+    traits: ["concentrate", "death", "manipulate", "unholy"]
     time: "2"
     save: "fortitude"
     basic: false

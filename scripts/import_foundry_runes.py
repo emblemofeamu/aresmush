@@ -24,7 +24,13 @@ import json
 import os
 import re
 import subprocess
+import sys
 import tempfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import foundry_source  # noqa: E402
+import import_foundry_rules as wording  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'game', 'config')
@@ -38,10 +44,10 @@ GOLD = 100
 #
 #   damage.additional  -> DamageDice, or FlatModifier where it is a flat amount
 #   attack.dosAdjustments -> AdjustDegreeOfSuccess
+#   attack.notes, damage.notes -> Note, in English, keeping the effects its text links
 #
 # The rest is named in REFUSALS with the reason.
 REFUSALS = {
-    'notes': 'a note shown with the roll, which is a kind we do not read',
     'ignoredResistances': 'ignores a resistance, which is the target\'s and not reachable from here',
     'adjustments': 'adjusts a modifier by way of a function rather than a value',
     'strikeAdjustments': 'changes the weapon itself by way of a function',
@@ -60,10 +66,10 @@ def source_text(checkout):
     path = os.path.join(checkout, SOURCE)
 
     if os.path.exists(path):
-        return open(path).read()
+        return open(path, encoding='utf-8').read()
 
     found = subprocess.run(['git', '-C', checkout, 'show', f'HEAD:{SOURCE}'],
-                           capture_output=True, text=True)
+                           capture_output=True, text=True, encoding='utf-8')
 
     if found.returncode != 0:
         raise SystemExit(f'no {SOURCE} in {checkout}')
@@ -190,7 +196,7 @@ def evaluated(block):
         script = handle.name
 
     try:
-        found = subprocess.run(['node', script], capture_output=True, text=True)
+        found = subprocess.run(['node', script], capture_output=True, text=True, encoding='utf-8')
 
         if found.returncode != 0:
             raise SystemExit(f'node could not read the table: {found.stderr.strip()[:400]}')
@@ -263,7 +269,20 @@ def outcome_row(entry, slug, refused):
     return row
 
 
-def rules_of(rune, slug, refused):
+def note_row(entry, slug, roll, found):
+    """A rune's words for a roll: *crushing*'s clumsy and enfeebled on a critical hit. `roll` is attack or
+    damage, which is the domain the note is shown with. The title and text are their localisation keys,
+    read in English as the rules importer reads a pack's notes."""
+    row = {'key': 'Note', 'selector': f'{{item|id}}-{roll}', 'slug': slug}
+
+    for field in ('outcome', 'predicate', 'title', 'text'):
+        if entry.get(field):
+            row[field] = entry[field]
+
+    return wording.worded(row, found)
+
+
+def rules_of(rune, slug, refused, found=None):
     """Everything this rune does that we can read."""
     rows = []
     damage = rune.get('damage') or {}
@@ -278,16 +297,19 @@ def rules_of(rune, slug, refused):
         if row:
             rows.append(row)
 
-    for holder, field in ((damage, 'notes'), (attack, 'notes'), (damage, 'ignoredResistances'),
-                          (damage, 'adjustments')):
+    for roll, holder in (('attack', attack), ('damage', damage)):
+        for entry in holder.get('notes') or []:
+            rows.append(note_row(entry, slug, roll, found or {}))
+
+    for holder, field in ((damage, 'ignoredResistances'), (damage, 'adjustments')):
         for _ in holder.get(field) or []:
             refused[REFUSALS[field]] += 1
 
     return rows
 
 
-def entry_of(slug, rune, kind, refused):
-    rules = rules_of(rune, slug, refused) if kind == 'weapon' else []
+def entry_of(slug, rune, kind, refused, found=None):
+    rules = rules_of(rune, slug, refused, found) if kind == 'weapon' else []
 
     return {'slug': slug, 'kind': kind, 'level': rune.get('level', 1),
             'price': int(rune.get('price', 0) * GOLD), 'rarity': rune.get('rarity', 'common'),
@@ -338,6 +360,8 @@ def main():
     args = parser.parse_args()
 
     text = source_text(args.checkout)
+    found = wording.strings(args.checkout)
+    wording.effect_ids(args.checkout)
     dropped = collections.Counter()
     refused = collections.Counter()
     entries = {}
@@ -346,13 +370,14 @@ def main():
         table = evaluated(without_functions(literal(text, name), dropped))
 
         for slug, rune in table.items():
-            entries[titled(slug)] = entry_of(slug, rune, kind, refused)
+            entries[titled(slug)] = entry_of(slug, rune, kind, refused, found)
 
     text = rendered(entries)
     path = os.path.join(CONFIG, OUT)
 
     if args.write:
-        open(path, 'w').write(text)
+        open(path, 'w', encoding='utf-8', newline='\n').write(text)
+        foundry_source.record(args.checkout, __file__, [path])
 
     carrying = sum(1 for entry in entries.values() if entry['rules'])
     rows = sum(len(entry['rules']) for entry in entries.values())
@@ -368,4 +393,5 @@ def main():
         print(f'  {count:5d}  {field}, which is a function in their table')
 
 
-main()
+if __name__ == '__main__':
+    main()

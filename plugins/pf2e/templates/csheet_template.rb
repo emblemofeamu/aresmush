@@ -129,12 +129,14 @@ module AresMUSH
         ac + shield_bonus
       end
 
-      # Attacks a stance makes the only ones there are while it lasts: Stumbling Stance's stumbling swing.
+      # Attacks a stance or a battle form makes the only ones there are while it lasts: Stumbling Stance's
+      # stumbling swing, a bear's claw and jaws.
       def replacing
         @replacing ||= Pf2eCombat.granted_strikes(@char).select { |strike| strike['replace_all'] }
       end
 
       def unarmed_attacks
+        return rune_lenders if Pf2e::BattleForms.strikeless?(@char)
         return replacing.map { |strike| format_strike(@char, strike) } + rune_lenders if replacing.any?
 
         list = []
@@ -199,8 +201,14 @@ module AresMUSH
       end
 
       def weapons
+        if Pf2e::BattleForms.strikeless?(@char)
+          source = Pf2e::ActiveEffects.bare_name(Pf2e::BattleForms.active(@char)['effect'])
+
+          return [ t('pf2e.csheet_no_strikes', :source => source) ]
+        end
+
         if replacing.any?
-          return [ t('pf2e.csheet_strikes_replaced', :source => replacing.first['source'].to_s.sub(/\AStance: /, ''),
+          return [ t('pf2e.csheet_strikes_replaced', :source => replacing.first['source'].to_s.sub(/\A(?:Stance|Spell Effect|Effect): /, ''),
                      :attacks => replacing.map { |strike| strike['name'] }.join(', ')) ]
         end
 
